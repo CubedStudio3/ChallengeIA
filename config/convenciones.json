@@ -1,40 +1,60 @@
 {
   "_comentario": "Convenciones del proyecto. TODO bloque con _lock:true debe hacer que el codigo se DETENGA con un mensaje claro en lugar de consumirlo. Ver ADR-009.",
-  "_advertencia": "La convencion de fechas NO esta verificada. El caso $70.74 vs $1.57 nacio de confiar en una convencion que nadie habia probado. No se desbloquea hasta reproducir el $1.57 en la Verificacion 0.",
   "fechas": {
-    "_estado": "NO_VERIFICADO",
-    "_lock": true,
-    "_desbloquea_con": "Verificacion 0 · reproducir el valor conocido de $1.57",
-    "_insumo_faltante": "Periodo exacto y campana donde se observaron $70.74 y $1.57",
-    "zona_horaria": {
-      "valor": null,
-      "_estado": "PENDIENTE_DE_DATO",
-      "_nota": "Debe ser la zona horaria de la cuenta publicitaria 225318458221662, obtenida por ads_get_ad_accounts. NO usar UTC ni la zona local del operador."
+    "_estado": "VERIFICADO",
+    "_lock": false,
+    "_verificado_en": "2026-08-27 · V0 · 12/12 valores identicos entre la interfaz de Meta Ads Manager y ads_get_ad_entities",
+    "_metodo_de_verificacion": "El usuario fijo el rango 1-24 ago 2026 en la interfaz y reporto Resultados, Costo por resultado, Importe gastado e Impresiones de 3 campanas. Se consulto la API con el mismo rango. Coincidencia exacta en los 12 valores.",
+    "_evidencia": "data/historico/2026-08-27_V0_convencion_fechas/",
+    "formato_rango": "time_range con since y until en YYYY-MM-DD",
+    "ejemplo": "{\"since\":\"2026-08-01\",\"until\":\"2026-08-24\"}",
+    "rango_movil_prohibido": {
+      "valor": true,
+      "_nota": "NUNCA usar date_preset ni rangos tipo 'ultimos 30 dias' en un entregable. Son moviles: el mismo reporte da distinto resultado al dia siguiente y las corridas dejan de ser comparables. Solo rangos cerrados y explicitos."
     },
     "definicion_de_semana": {
       "valor": "lunes_a_domingo",
-      "_estado": "NO_VERIFICADO",
-      "_nota": "Candidato. Coherente con la corrida semanal del lunes."
+      "_estado": "CONVENCION_DEL_PROYECTO"
     },
-    "ventana_de_atribucion": {
+    "zona_horaria": {
       "valor": null,
-      "_estado": "PENDIENTE_DE_DATO",
-      "_nota": "Debe fijarse EXPLICITAMENTE en cada consulta, nunca dejarse por defecto. Es una de las causas candidatas del factor ~45x de la discrepancia."
-    }
+      "_estado": "NO_NECESARIA_PARA_LA_CONSULTA",
+      "_nota": "No se pudo obtener por API (ads_get_ad_accounts no la expone). Resulto innecesaria: la API interpreta time_range en la zona de la cuenta igual que la interfaz, y la coincidencia fue exacta sin ajuste alguno. Se mantiene como dato pendiente por si se necesita para programar la corrida del lunes."
+    },
+    "atencion": "El desfase que produjo el caso $70.74 NO se reprodujo. Con rango cerrado y level=campaign los numeros calzan al centavo. El riesgo real identificado es distinto: agregar campanas con indicadores distintos. Ver ADR-013."
   },
   "metricas": {
-    "_estado": "VERIFICADO_EN_TRABAJO_PREVIO",
+    "_estado": "VERIFICADO_Y_CORREGIDO",
     "_lock": false,
-    "evento_de_optimizacion": "QualifiedLead",
+    "_verificado_en": "2026-08-27 · V0",
     "campo_de_resultados": "results",
     "campo_de_costo": "cost_per_result",
-    "campo_prohibido": {
-      "nombre": "lead",
-      "razon": "Cuenta envios de formulario y NO corresponde a la columna de Resultados de la interfaz. Su uso produce cifras que no se pueden reconciliar con lo que ve el equipo."
+    "_confirmado": "results y cost_per_result SI corresponden exactamente a las columnas Resultados y Costo por resultado de la interfaz. Verificado al centavo en 3 campanas.",
+    "indicador_es_por_campana": {
+      "valor": true,
+      "_critico": true,
+      "_nota": "results.indicator cambia por campana. NO se pueden sumar ni promediar resultados de campanas con indicadores distintos. Ver ADR-013.",
+      "indicadores_observados_2026_08_27": {
+        "actions:lead": 5,
+        "actions:link_click": 1,
+        "custom_event...fb_pixel_custom.QualifiedLead": 1,
+        "actions:offsite_conversion.fb_pixel_complete_registration": 1,
+        "mixed": 2
+      }
+    },
+    "correccion_al_documento_maestro": {
+      "afirmacion_original": "El evento de optimizacion correcto es QualifiedLead, no el campo generico lead. El campo lead no corresponde a la columna de Resultados de la interfaz.",
+      "realidad_verificada": "Las campanas que concentran el gasto optimizan por actions:lead, y ese indicador SI corresponde exactamente a la columna Resultados. QualifiedLead existe como evento personalizado del pixel pero solo lo usa 1 campana, con 1 resultado y $3.23 de gasto.",
+      "_estado": "CORREGIDO CON EVIDENCIA",
+      "_nota": "La parte del documento sobre usar results/cost_per_result es correcta. La parte de atarlos a QualifiedLead no refleja el estado actual de la cuenta."
     },
     "desglose_por_red": {
       "campo": "publisher_platform",
-      "nivel": "conjunto_de_anuncios"
+      "nivel": "conjunto_de_anuncios",
+      "_estado": "NO_VERIFICADO"
+    },
+    "valores_faltantes": {
+      "_nota": "La API devuelve 'Not available' en lugar de 0 cuando no hay dato, y 'mixed' cuando la campana agrega tipos de resultado distintos. AMBOS son huecos y deben reportarse como tales, nunca convertirse a 0."
     }
   },
   "cuenta": {

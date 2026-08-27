@@ -11,7 +11,12 @@ Sistema agéntico para el área de Mercadeo. Tres módulos sobre una base compar
 
 ## Estado del proyecto
 
-**Fase actual: 0 (verificaciones) — NO INICIADA.**
+**Fase actual: 0 (verificaciones) — EN CURSO. 2 de 7 completadas.**
+
+- ✅ **V0 · convención de fechas** — VERIFICADA. 12/12 valores idénticos entre
+  la interfaz y la API. Desbloquea el paso 2 del Módulo 1.
+- ✅ **V5 · premisa competitiva** — VERIFICADA y corregida. Ver
+  `config/competidores.json`.
 
 Ninguna verificación se ha ejecutado contra una API real todavía. Lo único
 completado es el **inventario de la superficie de herramientas** (qué conectores
@@ -69,13 +74,15 @@ ejecuta cualquier escritura.** Los agentes de análisis leen y producen archivos
 |---|---|---|
 | Cuenta publicitaria Meta | `225318458221662` | heredado del trabajo previo |
 | Pixel | `249008005669655` | heredado del trabajo previo |
-| Evento de optimización | `QualifiedLead` (NO el campo `lead`) | heredado |
-| Métricas correctas | `results` / `cost_per_result` | heredado |
+| Evento de las campañas con gasto | **`actions:lead`** | ✅ verificado 2026-08-27 (V0) |
+| `QualifiedLead` | evento personalizado del pixel, 1 campaña, 1 resultado | ✅ verificado 2026-08-27 |
+| Métricas correctas | `results` / `cost_per_result` | ✅ verificado al centavo (V0) |
 | Competidor: Paggo | page_id `105294361957860` | pendiente de re-confirmar (V5) |
 | Competidor: Recurrente | — | page_id NO obtenido |
 | Competidor: Square | — | page_id NO obtenido |
 | Mercados | Guatemala (GT), El Salvador (SV) | — |
-| Zona horaria de la cuenta | **DESCONOCIDA** | bloquea la convención de fechas |
+| Zona horaria de la cuenta | desconocida | ya NO bloquea: la API respeta la zona de la cuenta sin ajuste |
+| Convención de fechas | `time_range` con rango **cerrado** | ✅ verificada, 12/12 valores |
 
 ---
 
@@ -108,11 +115,21 @@ para sus dos reportes (sin Mail).
 Heredadas del trabajo previo sobre estas mismas cuentas. Son errores ya
 cometidos; no hay tiempo de repetirlos.
 
-- El campo `lead` cuenta envíos de formulario y **no corresponde** a la columna
-  de Resultados de la interfaz. Usar `results` / `cost_per_result` atados a
-  `QualifiedLead`.
-- Rangos de fecha desalineados producen métricas absurdas. Caso real: costo por
-  lead de **$70.74** cuando el valor real era **$1.57** (factor ≈45x).
+- ~~El campo `lead` no corresponde a la columna de Resultados.~~
+  **CORREGIDO 2026-08-27 con evidencia (V0).** `results` y `cost_per_result` SÍ
+  corresponden exactamente a la interfaz — verificado al centavo. Y las campañas
+  que concentran el gasto optimizan por **`actions:lead`**, no por
+  `QualifiedLead`. Este último existe como evento personalizado del pixel pero
+  solo lo usa 1 campaña, con 1 resultado y $3.23 de gasto.
+- ~~El caso $70.74 vs $1.57 por rangos desalineados.~~ **NO se reprodujo.** Con
+  rango cerrado y `level=campaign` los números calzan al centavo. El usuario no
+  reconoce el caso. Se trata como no verificable y se reemplazó por el test de
+  V0. El riesgo real es otro: agregar campañas con indicadores distintos
+  (ADR-013).
+- **El indicador de `results` cambia por campaña.** 158 leads y 10,771 clics en
+  enlace no se suman. Agrupar por indicador antes de comparar o agregar.
+- **`Not available` y `mixed` son huecos, no ceros.** La API es honesta cuando no
+  hay dato; convertirlo a 0 inventaría información.
 - El objetivo de optimización no se edita en ad sets con historial de entrega.
   Hay que duplicar.
 - La búsqueda por palabra clave en Ad Library no es confiable con términos

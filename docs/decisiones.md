@@ -315,3 +315,44 @@ contingencia como el modo normal de operación, no como plan B.
 
 **Reversible:** sí, pero solo con instrucción explícita del usuario. No se asume
 por conveniencia ni porque una verificación resulte incómoda de otra forma.
+
+---
+
+## ADR-013 · `results` no es una métrica común: agrupar por indicador
+
+**Fecha:** 2026-08-27 · **Estado:** ACEPTADA — impuesta por la evidencia de V0
+
+**Contexto.** V0 reveló que el campo `results` de la API trae un
+`results.indicator` que **cambia por campaña**. En la cuenta hoy conviven al
+menos cinco indicadores distintos: `actions:lead`, `actions:link_click`,
+`custom_event...fb_pixel_custom.QualifiedLead`,
+`actions:offsite_conversion.fb_pixel_complete_registration`, y `mixed`.
+
+**El riesgo concreto.** Sumar `results` entre campañas produce un número sin
+significado. 158 leads más 10,771 clics en enlace no son 10,929 de nada. Y
+promediar sus `cost_per_result` mezcla $2.10 por lead con $0.01 por clic.
+
+Este es un modo de falla **más peligroso** que el del $70.74, porque el
+resultado no se ve absurdo: se ve como un número plausible. Un CPL "promedio"
+de $0.09 pasaría cualquier revisión visual y estaría completamente mal.
+
+**Decisión.** Toda lectura de `results` o `cost_per_result`:
+
+1. **Agrupa por `results.indicator` antes de comparar o agregar.** Nunca se
+   suman ni promedian valores de indicadores distintos.
+2. **Trata `mixed` como hueco declarado, no como dato.** Una campaña con
+   indicador `mixed` agrega tipos de resultado distintos internamente y su
+   número no es interpretable.
+3. **Trata `Not available` como hueco, nunca como 0.** La API es honesta cuando
+   no tiene el dato; convertirlo a cero inventaría información.
+4. **Todo agregado declara su indicador.** Un entregable nunca dice "370 leads":
+   dice "370 resultados con indicador `actions:lead` en 4 campañas".
+
+**Consecuencia sobre el Módulo 1.** El paso 5 (cruzar datos y detectar qué
+formato y ángulo rinde) solo puede comparar dentro de un mismo indicador. Si el
+módulo quiere comparar formato de video contra imagen estática, ambos tienen que
+venir de campañas con el mismo indicador, o la comparación es inválida.
+
+**Consolidado válido observado (1–24 ago 2026, solo `actions:lead`, gasto > 0):**
+370 resultados · $964.78 gastado · $2.61 por resultado · brecha de 2.33x entre
+la campaña más barata ($1.90) y la más cara ($4.43).
