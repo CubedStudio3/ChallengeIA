@@ -18,9 +18,9 @@ entrada debe incluir **fecha, método, llamada exacta y salida obtenida**.
 |---|---|---|---|---|
 | V0 | Convención de fechas | ✅ **APROBADA** | 2026-08-27 | 12/12 valores idénticos interfaz vs API |
 | V1 | ToS de Lead Generation | ⬜ pendiente del usuario | — | Método cambiado: se verifica en Business Manager, sin escritura (ADR-012) |
-| V2 | CRM registra origen de campaña | 🚫 **no ejecutable** | 2026-08-27 | Conector ausente |
+| V2 | CRM registra origen de campaña | ⬜ **ejecutable** al habilitar el conector | — | Corregido: el CRM está instalado, solo apagado en la sesión |
 | V3 | Sprint expone adjuntos | ⬜ no ejecutada | — | preliminar: negativo |
-| V4 | Origen de los leads diarios | ⬜ pendiente del usuario | — | — |
+| V4 | Origen de los leads diarios | ⬜ pendiente | — | Candidatos ahora disponibles: CRM, Analytics, Books |
 | V5 | Premisa competitiva | ✅ **APROBADA** | 2026-08-27 | Corregida: 31 en GT no 51; 0 en SV; 6 competidores catalogados |
 | V6 | Zoho Social y el candado | ⬜ no ejecutada | — | — |
 | V7 | Runtime de la corrida automática | ⬜ no ejecutada | — | — |

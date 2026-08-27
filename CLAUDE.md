@@ -86,27 +86,33 @@ ejecuta cualquier escritura.** Los agentes de análisis leen y producen archivos
 
 ---
 
-## Conectores: estado real verificado (2026-08-27)
+## Conectores: estado real (corregido 2026-08-27)
 
-Verificado por inventario de la superficie de herramientas MCP, no por
-suposición. Método y evidencia en `docs/01-inventario-conectores.md`.
+Fuente: `ListConnectors`. **Distinguir dos cosas distintas:** que un conector
+esté *instalado en la organización* y que esté *habilitado en la sesión*. Un
+conector instalado pero apagado no expone herramientas — y eso NO significa que
+no exista.
 
-| Conector | Documento maestro | Realidad |
-|---|---|---|
-| Meta MCP (incluye Ad Library) | disponible | ✅ conectado |
-| Zoho Sprint | disponible | ✅ conectado |
-| Zoho Social MK | disponible | ✅ conectado |
-| Zoho CRM | disponible | ❌ **NO conectado** |
-| Zoho Mail Gerencia | disponible | ❌ **NO conectado** |
-| Zoho Analytics | disponible | ❌ **NO conectado** |
-| Zoho Books | disponible | ❌ **NO conectado** |
-| Zoho Desk | disponible | ❌ **NO conectado** |
-| Zoho Cliq | por construir | ❌ no existe |
-| Zoho PageSense | por construir | ❌ no existe |
-| Pinterest, Lead Chain | sin MCP | ❌ no existe |
+| Conector | Instalado | Habilitado aquí | Auth |
+|---|---|---|---|
+| Meta MCP (incluye Ad Library) | ✅ | ✅ | ✅ |
+| Zoho Sprint | ✅ | ✅ | ✅ |
+| Zoho Social MK | ✅ | ✅ | ✅ |
+| Zoho CRM | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Mail Gerencia | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Analytics Gerencia | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Books | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Desk | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Desk Artículos | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Cliq, PageSense | ❌ no instalados | — | — |
+| Pinterest, Lead Chain | ❌ sin MCP | — | — |
 
-**Consecuencia:** Módulo 3 bloqueado (sin CRM). Módulo 2 sin canal de entrega
-para sus dos reportes (sin Mail).
+**Se habilitan** en la configuración de conectores de la sesión. No hay que
+construir nada en la consola de Zoho.
+
+**Consecuencia:** Módulo 3 y la entrega del Módulo 2 **no están descartados**
+como se creyó al inicio; dependen de habilitar CRM y Mail. **Módulo 1 nunca
+dependió de ninguno de estos** y sigue siendo la prioridad.
 
 ---
 
@@ -153,7 +159,21 @@ cometidos; no hay tiempo de repetirlos.
   con las palabras textuales del anunciante, `client_conversation_id`) en cada
   llamada. Fricción real contra la corrida automática desatendida.
 - **`ads_create_ad_set` SÍ existe** en el conector, contra lo que afirma el
-  documento maestro. Requiere re-verificación.
+  documento maestro. Queda **sin verificar** por la prohibición de escritura
+  (ADR-012).
+- **`page_ids` + `search_terms` se combinan.** Es la forma de sortear el tope de
+  50 sin paginación: permite preguntar sobre el universo completo de una página.
+  Pero la **ausencia** de un término es evidencia débil — un anuncio de POS puede
+  decir "datáfono". Reportar "sin coincidencias para X", nunca "no anuncia X".
+- **El volumen de anuncios no equivale a presión competitiva.** BI tiene 845
+  activos en GT y solo 2 tocan pagos. Medir solapamiento de mensaje, no contar.
+
+### Lección de método (error propio, 2026-08-27)
+
+**Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
+conectores "no existen" porque sus herramientas no estaban cargadas en la
+sesión. Estaban instalados, solo apagados. Antes de declarar que algo no existe:
+agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 
 ---
 

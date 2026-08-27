@@ -1,7 +1,7 @@
 # Lo que se necesita del usuario
 
 **Fecha:** 27 de agosto de 2026
-**Estado:** 13 puntos abiertos · 5 bloqueantes
+**Estado actualizado 2026-08-27:** 3 resueltos · 1 bloqueante real (runtime)
 
 Sin los puntos bloqueantes no se puede iniciar la Fase 0 de forma completa, ni
 verificar que lo construido dice la verdad.
@@ -10,22 +10,26 @@ verificar que lo construido dice la verdad.
 
 ## Bloqueantes · sin esto no hay módulo
 
-### 1 · Conectar Zoho CRM
-**Desbloquea:** Módulo 3 completo, Verificación 2.
-**Dónde:** consola de Zoho MCP (fuera de esta sesión).
-**Alternativa:** autorización explícita para declarar el Módulo 3 fuera de
-alcance y documentarlo como tal.
+### 1 y 2 · Habilitar los conectores de Zoho apagados
+**Corregido 2026-08-27.** No hay que *conectar* nada: Zoho CRM, Mail, Analytics,
+Books y Desk **ya están instalados** en la organización. Están **apagados en
+esta sesión**, y por eso sus herramientas no aparecen.
 
-Los tres niveles de degradación que definió el documento requieren CRM. Sin él
-el módulo no degrada, queda en cero.
+**Acción:** habilitarlos en la configuración de conectores de la sesión de
+Claude. No requiere trabajo en la consola de Zoho.
 
-### 2 · Conectar Zoho Mail
-**Desbloquea:** la entrega de `reporte-leads` (diario a Ventas y jefatura) y
-`reporte-pauta` (mensual a Finanzas).
-**Alternativa:** definir otro canal de entrega.
+**Desbloquea:**
+- **Zoho CRM** → Verificación 2 y el Módulo 3
+- **Zoho Mail** → la entrega de `reporte-leads` y `reporte-pauta`
+- **Zoho Analytics / Books** → candidatos para la Verificación 4 (origen de los
+  leads diarios)
 
-Se puede construir la lógica de los reportes sin Mail. No se puede cumplir la
-Definición de terminado, porque un reporte que nadie recibe no es el entregable.
+**Nota:** el estado de autenticación de los apagados se reporta como
+*desconocido*. Habilitarlos es también la prueba.
+
+**Prioridad real:** media, no bloqueante. **El Módulo 1 no depende de ninguno de
+estos conectores.** Se puede habilitar cuando convenga, sin detener el
+desarrollo.
 
 ### 3 · Periodo y campaña exactos del caso $70.74 vs $1.57
 **Desbloquea:** la Verificación 0, que es el test de la convención de fechas.
@@ -137,15 +141,15 @@ en Sprint? ¿Un correo a una dirección específica? Hoy es alcance indefinido.
 
 | # | Requerimiento | Tipo | Estado |
 |---|---|---|---|
-| 1 | Conectar Zoho CRM | Bloqueante | ⬜ pendiente |
-| 2 | Conectar Zoho Mail | Bloqueante | ⬜ pendiente |
-| 3 | Periodo del caso $70.74 | Bloqueante | ⬜ pendiente |
-| 4 | Autorización campaña PAUSED | Bloqueante | ⬜ pendiente |
+| 1 | Habilitar Zoho CRM en la sesión | Media · ya instalado | ⬜ pendiente |
+| 2 | Habilitar Zoho Mail en la sesión | Media · ya instalado | ⬜ pendiente |
+| 3 | ~~Periodo del caso $70.74~~ | — | ✅ **resuelto** por V0 con otro método |
+| 4 | ~~Autorización campaña PAUSED~~ | — | ✅ **anulado** por ADR-012 (Meta solo lectura) |
 | 5 | Runtime de la corrida | Bloqueante | ⬜ pendiente |
 | 6 | Materia prima `contexto-marca` | Insumo | ⬜ pendiente |
 | 7 | Destinatarios de reportes | Insumo | ⬜ pendiente |
 | 8 | Proyecto de prueba en Sprint | Insumo | ⬜ pendiente |
-| 9 | `page_id` Recurrente y Square | Insumo | ⬜ pendiente |
+| 9 | `page_id` de competidores | Insumo | ✅ **entregados** y verificados |
 | 10 | Método de la línea base | Insumo · **urgente** | ⬜ pendiente |
 | 11 | Decisión (A)/(B) orgánico | Decisión | ⬜ pendiente |
 | 12 | Cliq y PageSense | Decisión | ⬜ pendiente |

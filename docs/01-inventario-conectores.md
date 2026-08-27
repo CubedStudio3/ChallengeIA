@@ -1,4 +1,80 @@
-# Inventario de conectores · hallazgo bloqueante
+# Inventario de conectores
+
+> # ⚠️ CORRECCIÓN · 2026-08-27
+>
+> **La conclusión original de este documento era incorrecta y se corrige aquí.**
+>
+> Este documento afirmaba que Zoho CRM, Mail, Analytics, Books y Desk **"no
+> existen"** / **"no están conectados"**. Es falso. Los seis **están instalados
+> a nivel de la organización**. Lo que ocurre es que **no están habilitados en
+> esta sesión de trabajo**, y por eso sus herramientas no aparecían en el
+> catálogo.
+>
+> **Dónde falló el método.** La medición fue correcta: se buscó en el catálogo de
+> herramientas cargadas y no había ninguna de CRM. El error fue de
+> **interpretación**: se concluyó "no existe" a partir de "no está cargado". Son
+> dos afirmaciones distintas y la segunda no implica la primera.
+>
+> **Cómo se detectó.** El usuario preguntó cómo conectar el CRM. Al buscar la
+> respuesta se consultó el inventario de conectores de la organización
+> (`ListConnectors`), que devuelve `installedServerId` y `enabledInChat` por
+> separado — precisamente la distinción que faltaba.
+>
+> **Lección de método, aplicable al resto del proyecto.** Ausencia de evidencia
+> no es evidencia de ausencia. Antes de declarar que algo no existe hay que
+> agotar las formas de preguntarlo, y decir con precisión qué se midió: aquí lo
+> medido era *"sus herramientas no están cargadas en esta sesión"*, y eso es lo
+> que se debió reportar.
+>
+> **Estado real actualizado abajo.** Lo que sigue del documento se conserva sin
+> editar, como registro de lo que se concluyó y por qué, pero sus conclusiones
+> sobre módulos bloqueados quedan **superadas**.
+
+---
+
+## Estado real de conectores · corregido 2026-08-27
+
+Fuente: `ListConnectors` sobre la organización.
+
+| Conector | Instalado en la organización | Habilitado en esta sesión | Autenticación |
+|---|---|---|---|
+| Meta MCP | ✅ | ✅ | ✅ confirmada |
+| Zoho Social MK | ✅ | ✅ | ✅ confirmada |
+| Zoho Sprint | ✅ | ✅ | ✅ confirmada |
+| **Zoho CRM** | ✅ | ❌ apagado | ⚠️ desconocida |
+| **Zoho Mail Gerencia** | ✅ | ❌ apagado | ⚠️ desconocida |
+| **Zoho Analytics Gerencia** | ✅ | ❌ apagado | ⚠️ desconocida |
+| **Zoho Books** | ✅ | ❌ apagado | ⚠️ desconocida |
+| **Zoho Desk** | ✅ | ❌ apagado | ⚠️ desconocida |
+| **Zoho Desk Artículos** | ✅ | ❌ apagado | ⚠️ desconocida |
+
+**Sobre la columna de autenticación:** `ListConnectors` reporta el estado como
+*desconocido* para los apagados porque no pudo verificarlo. **No significa que
+estén desautenticados.** Habilitarlos es la prueba.
+
+### Consecuencias de la corrección
+
+| Antes se dijo | Ahora |
+|---|---|
+| Módulo 3 bloqueado, sin ningún nivel de degradación viable | **Posiblemente viable.** Depende de habilitar CRM y de la Verificación 2 |
+| Módulo 2 sin canal de entrega para sus reportes | **Posiblemente resuelto.** Zoho Mail está instalado |
+| Verificación 2 no ejecutable | **Ejecutable** una vez habilitado el CRM |
+| Verificación 4 sin fuente candidata | Hay tres candidatas: CRM, Analytics, Books |
+
+**Lo que NO cambia:** Módulo 1 nunca dependió de estos conectores. Sigue siendo
+el único módulo íntegramente construible y sigue siendo la prioridad. La
+corrección no altera la estrategia de ejecución (ADR-003).
+
+### Cómo habilitarlos
+
+No requiere construir nada en la consola de Zoho: ya están instalados. Se
+habilitan en la configuración de conectores de la sesión de Claude.
+
+---
+
+## Documento original · conservado como registro
+
+### Encabezado original: hallazgo bloqueante
 
 **Fecha:** 27 de agosto de 2026
 **Severidad:** bloqueante — invalida el alcance de un módulo completo
