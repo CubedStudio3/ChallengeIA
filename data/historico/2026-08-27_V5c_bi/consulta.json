@@ -1,0 +1,37 @@
+{
+  "competidor": "Banco Industrial",
+  "page_id": "135136309831436",
+  "page_name_confirmado": "Banco Industrial",
+  "fecha": "2026-08-27",
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "confirmado_por_usuario": true,
+  "llamadas": [
+    {"page_ids": ["135136309831436"], "countries": ["GT"], "ad_active_status": "ACTIVE",
+     "estimated_total_count": 845, "muestra_devuelta": 50,
+     "_nota": "TRUNCADA: 845 supera el tope de 50 y no hay paginacion. Los titulos observados son una muestra del 5.9%, NO el universo."},
+    {"page_ids": ["135136309831436"], "countries": ["SV"], "ad_active_status": "ACTIVE",
+     "estimated_total_count": 11, "muestra_devuelta": 11,
+     "_nota": "Completa. Todos sobre remesas: 'Envia dinero desde Guatemala', 'Tarifa de Q75.00'."},
+    {"page_ids": ["135136309831436"], "countries": ["GT"], "search_terms": "Soluciones de Pago",
+     "estimated_total_count": 2},
+    {"page_ids": ["135136309831436"], "countries": ["GT"], "search_terms": "punto de venta",
+     "estimated_total_count": 0},
+    {"page_ids": ["135136309831436"], "countries": ["GT"], "search_terms": "terminal",
+     "estimated_total_count": 0},
+    {"page_ids": ["135136309831436"], "countries": ["GT"], "search_terms": "negocio",
+     "estimated_total_count": 55,
+     "_nota": "Todos de credito y cuentas empresariales, NO de adquirencia: Credito Express, Cuenta Monetaria Empresarial, Prestamo Empresarial, Credito Productivo, Bi Banking Web."}
+  ],
+  "conclusion": {
+    "solapamiento_con_qpaypro": "MINIMO",
+    "anuncios_de_pagos": 2,
+    "total_activos_gt": 845,
+    "cuota_de_solapamiento": 0.0024,
+    "_lectura": "BI es un anunciante enorme pero practicamente no compite en el espacio de QPayPro. 2 de 845 anuncios mencionan su producto de pagos. Cero mencionan punto de venta o terminal.",
+    "_matiz_importante": "BI NO disputa el mensaje de pagos, pero SI compra la atencion del mismo publico: 55 anuncios de credito y cuentas empresariales dirigidos al dueno de negocio ('Impulsa tu negocio', 'Crece como empresario'). Con 845 anuncios activos, BI presiona el costo de alcanzar al empresario guatemalteco sin decir una palabra de pagos.",
+    "_hipotesis_no_verificada": "Esa presion de subasta podria explicar parte de la diferencia entre el CPL de GT ($2.10) y el de SV ($1.90). Es una hipotesis plausible, NO un hecho: la diferencia tambien puede venir de publico, creativo o producto. Requiere prueba."
+  },
+  "limitacion_metodologica": {
+    "_critico": "La ausencia de un termino es evidencia MAS DEBIL que su presencia. search_terms busca en el texto del creativo; un anuncio sobre terminales POS podria no usar la palabra 'terminal' (podria decir datafono, cobra con tarjeta, acepta pagos). Los ceros de 'punto de venta' y 'terminal' NO prueban ausencia absoluta."
+  }
+}

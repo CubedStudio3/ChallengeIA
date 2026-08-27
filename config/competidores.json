@@ -1,25 +1,37 @@
 {
   "_comentario": "Registro curado de competidores, separado por categoria de producto segun instruccion del usuario (2026-08-27). Un competidor puede pertenecer a mas de una categoria. La busqueda por palabra clave en Ad Library NO es confiable: usar siempre page_ids validados por un humano.",
   "_ultima_medicion": "2026-08-27",
-  "_esquema_estado": ["VERIFICADO", "NO_VERIFICADO", "PENDIENTE_DE_DATO"],
-
+  "_esquema_estado": [
+    "VERIFICADO",
+    "NO_VERIFICADO",
+    "PENDIENTE_DE_DATO"
+  ],
   "categorias": {
     "software": {
       "descripcion": "Pasarela de pagos, tienda en linea, links de pago, QR, APIs, gestion de negocio",
-      "productos_qpaypro_equivalentes": ["POS virtual", "links de pago", "QR", "pasarela", "APIs"]
+      "productos_qpaypro_equivalentes": [
+        "POS virtual",
+        "links de pago",
+        "QR",
+        "pasarela",
+        "APIs"
+      ]
     },
     "hardware": {
       "descripcion": "Punto de venta fisico, terminal POS, lectores de tarjeta",
-      "productos_qpaypro_equivalentes": ["POS fisico"]
+      "productos_qpaypro_equivalentes": [
+        "POS fisico"
+      ]
     }
   },
-
   "competidores": [
     {
       "nombre": "Paggo",
       "page_id": "105294361957860",
       "page_name_confirmado": "Paggo Guatemala",
-      "categorias": ["software"],
+      "categorias": [
+        "software"
+      ],
       "_estado": "VERIFICADO",
       "_verificado_en": "2026-08-27 · V5 · ads_library_search",
       "medicion_2026_08_27": {
@@ -45,7 +57,9 @@
       "nombre": "Recurrente",
       "page_id": "100735292254927",
       "page_name_confirmado": "Recurrente",
-      "categorias": ["software"],
+      "categorias": [
+        "software"
+      ],
       "_estado": "VERIFICADO",
       "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
       "medicion_2026_08_27": {
@@ -64,7 +78,10 @@
       "nombre": "Square",
       "page_id": "1689602518029813",
       "page_name_confirmado": "Square",
-      "categorias": ["hardware", "software"],
+      "categorias": [
+        "hardware",
+        "software"
+      ],
       "_estado": "VERIFICADO",
       "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
       "medicion_2026_08_27": {
@@ -84,56 +101,101 @@
       "nombre": "GuatePOS",
       "page_id": "593092353887127",
       "page_name_confirmado": "Guatepos",
-      "categorias": ["hardware"],
+      "categorias": [
+        "hardware"
+      ],
       "_estado": "VERIFICADO",
       "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
       "medicion_2026_08_27": {
         "activos_gt": 3,
         "activos_sv": 0,
         "moneda": "GTQ",
-        "titulares": {"api.whatsapp.com": 2, "(sin titular)": 1},
+        "titulares": {
+          "api.whatsapp.com": 2,
+          "(sin titular)": 1
+        },
         "_nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14)."
       }
     },
     {
-      "nombre": "Pagalo",
-      "page_id": null,
-      "categorias": ["software"],
-      "_estado": "PENDIENTE_DE_DATO",
-      "_lock": true,
-      "_nota": "Competidor en pasarela de pagos, senalado por el usuario el 2026-08-27. La busqueda por palabra clave 'Pagalo' devolvio 297 resultados y NINGUNO era Pagalo (tiendas de ropa, suplementos, dramas asiaticos). Es la demostracion en vivo de la trampa documentada: la busqueda por termino en espanol no sirve. Se necesita el page_id o el enlace de la Ad Library."
-    },
-    {
       "nombre": "Banco Industrial (BI)",
-      "page_id": null,
-      "categorias": ["software", "hardware"],
-      "_estado": "CANDIDATOS_SIN_VALIDAR",
-      "_lock": true,
-      "candidatos": [
-        {"page_id": "135136309831436", "page_name": "Banco Industrial"},
-        {"page_id": "301258755998", "page_name": "Club Bi"}
+      "page_id": "135136309831436",
+      "page_name_confirmado": "Banco Industrial",
+      "categorias": [
+        "software"
       ],
-      "_nota": "Encontrados por busqueda de 'Banco Industrial' (1130 resultados, mayoria ruido). ADVERTENCIA: los anuncios observados en esas paginas son de banca de consumo (Puntos Bi, experiencias, beneficios de tarjeta), NO de adquirencia ni de terminales POS. Es probable que la pagina relevante para competir en pasarela y POS sea otra. Requiere validacion del usuario antes de usarse."
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-08-27 · page_id confirmado por el usuario · ads_library_search",
+      "_categoria_nota": "Se retira de 'hardware': cero anuncios activos mencionan punto de venta o terminal. Se mantiene en 'software' solo por sus 2 anuncios de Soluciones de Pago.",
+      "medicion_2026_08_27": {
+        "activos_gt": 845,
+        "activos_sv": 11,
+        "moneda": "USD",
+        "_muestra_gt_truncada": "845 supera el tope de 50 sin paginacion. Los titulos observados son muestra del 5.9%.",
+        "solapamiento_con_qpaypro": {
+          "anuncios_de_soluciones_de_pago": 2,
+          "anuncios_punto_de_venta": 0,
+          "anuncios_terminal": 0,
+          "cuota": 0.0024,
+          "_lectura": "MINIMO. 2 de 845 anuncios. BI es un anunciante enorme que practicamente no compite en el espacio de pagos."
+        },
+        "publico_compartido": {
+          "anuncios_dirigidos_al_dueno_de_negocio": 55,
+          "productos": [
+            "Credito Express",
+            "Cuenta Monetaria Empresarial",
+            "Prestamo Empresarial",
+            "Credito Productivo",
+            "Bi Banking Web"
+          ],
+          "_lectura_estrategica": "BI no disputa el MENSAJE de pagos, pero SI compra la atencion del MISMO publico. 55 anuncios de credito y cuentas al dueno de negocio ('Impulsa tu negocio', 'Crece como empresario'). Con 845 activos, presiona el costo de alcanzar al empresario guatemalteco."
+        },
+        "el_salvador": {
+          "activos": 11,
+          "tema": "remesas",
+          "_lectura": "'Envia dinero desde Guatemala', 'Tarifa de Q75.00'. NO compite en pagos ni POS en SV."
+        }
+      }
     }
   ],
-
   "hallazgos_de_mercado_2026_08_27": {
     "guatemala": {
       "total_anuncios_activos_medidos": 40,
-      "reparto": {"Paggo": 31, "Recurrente": 6, "GuatePOS": 3, "Square": 0},
+      "reparto": {
+        "Paggo": 31,
+        "Recurrente": 6,
+        "GuatePOS": 3,
+        "Square": 0
+      },
       "cuota_de_paggo": 0.775
     },
     "el_salvador": {
       "total_anuncios_activos_medidos": 0,
       "_nota": "Ninguno de los cuatro competidores medidos pauta en El Salvador. Verificado individualmente para Paggo, Recurrente y GuatePOS. Square no pauta en la region."
+    },
+    "solapamiento_real": {
+      "_nota": "El volumen de anuncios NO equivale a presion competitiva. Hay que medir el solapamiento de mensaje, no solo el conteo.",
+      "competidores_que_realmente_disputan_pagos_en_GT": {
+        "Paggo": 31,
+        "Recurrente": 6,
+        "GuatePOS": 3,
+        "Banco Industrial": 2,
+        "Square": 0
+      },
+      "total_real": 42,
+      "_vs_conteo_ingenuo": "Un conteo ingenuo sumaria los 845 de BI y daria 885, inflando la presion competitiva 21 veces."
     }
   },
-
   "_limitaciones_de_la_herramienta": {
     "sin_rango_de_fechas": "ads_library_search no expone ningun parametro temporal. Todo lo anterior es una foto del 2026-08-27, no una serie historica. Las corridas retroactivas NO pueden incluir competencia.",
     "tope_de_resultados": 50,
     "sin_paginacion": "No hay cursor ni offset. En esta medicion ningun competidor supero 50 en GT, asi que los conteos de GT son completos y no limites inferiores. El conteo global de Square (130) SI esta truncado en la muestra.",
     "solo_pauta_pagada": "Ad Library expone unicamente publicidad pagada. El contenido organico de competidores NO esta disponible por API y no se simula.",
-    "busqueda_por_palabra_clave": "Confirmado inutilizable en espanol: 'Pagalo' devolvio 297 resultados irrelevantes; 'Banco Industrial' devolvio 1130 con mayoria de ruido. Usar exclusivamente page_ids."
-  }
+    "busqueda_por_palabra_clave": "Confirmado inutilizable en espanol: 'Pagalo' devolvio 297 resultados irrelevantes; 'Banco Industrial' devolvio 1130 con mayoria de ruido. Usar exclusivamente page_ids.",
+    "tecnica_para_sortear_el_tope": {
+      "_hallazgo": "page_ids y search_terms se pueden combinar en la misma llamada. Eso permite hacer preguntas precisas sobre TODO el inventario de una pagina en lugar de muestrear los primeros 50. Ejemplo: BI tiene 845 activos, pero page_ids + search_terms='Soluciones de Pago' devuelve estimated_total_count=2 sobre el universo completo.",
+      "_advertencia_critica": "La AUSENCIA de un termino es evidencia mas debil que su presencia. search_terms busca en el texto del creativo: un anuncio sobre terminales POS podria no usar la palabra 'terminal'. Un cero NO prueba ausencia absoluta; se reporta como 'sin coincidencias para el termino X', nunca como 'no anuncia POS'."
+    }
+  },
+  "_pagalo_descartado": "El usuario indico el 2026-08-27 olvidar a Pagalo. Se retira del registro."
 }
