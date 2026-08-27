@@ -1,0 +1,28 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "ad_account_id": "225318458221662",
+      "level": "campaign",
+      "time_range": {"since": "2026-08-01", "until": "2026-08-24"},
+      "fields": ["id", "name", "results", "cost_per_result", "spend", "impressions"],
+      "sort": "spend_descending",
+      "limit": 10
+    },
+    "_nota": "Respuesta cruda sin editar. Es la evidencia auditable de V0.",
+    "_paginacion": "Existe next_cursor: hay mas campanas. Esta muestra son las 10 de mayor gasto."
+  },
+  "ad_entities": [
+    {"id":"120249292740850783","name":"Campaña Qpaypro Guatemala Nueva","results":{"indicator":"actions:lead","values":[{"attribution_windows":["default"],"value":"95"}]},"cost_per_result":{"value":"$4,01 USD (Leads)"},"amount_spent":"$380,68 USD","impressions":"88240"},
+    {"id":"120249908467400783","name":"Campaña Punto de Venta GT","results":{"indicator":"actions:lead","values":[{"attribution_windows":["default"],"value":"158"}]},"cost_per_result":{"value":"$2,10 USD (Leads)"},"amount_spent":"$331,66 USD","impressions":"57334"},
+    {"id":"120249959697280783","name":"Campaña Punto de Venta SV","results":{"indicator":"actions:lead","values":[{"attribution_windows":["default"],"value":"105"}]},"cost_per_result":{"value":"$1,90 USD (Leads)"},"amount_spent":"$199,29 USD","impressions":"46332"},
+    {"id":"120238382458610783","name":"Plan Free Tráfico 2026","results":{"indicator":"actions:link_click","values":[{"attribution_windows":["default"],"value":"10771"}]},"cost_per_result":{"value":"$0,01 USD (Link clicks)"},"amount_spent":"$104,03 USD","impressions":"476959"},
+    {"id":"120245898463250783","name":"Campaña Qpayshop e Integraciones","results":{"indicator":"actions:lead","values":[{"attribution_windows":["default"],"value":"12"}]},"cost_per_result":{"value":"$4,43 USD (Leads)"},"amount_spent":"$53,15 USD","impressions":"13348"},
+    {"id":"120247696546180783","name":"SV | POS Físico | Leads Directos - Copia","results":{"indicator":"actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead","values":[{"attribution_windows":["default"],"value":"1"}]},"cost_per_result":{"value":"$3,23 USD (actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead)"},"amount_spent":"$3,23 USD","impressions":"1150"},
+    {"id":"120249292520210783","name":"Qpaypro GT 2026 | Leads Consolidado CBO","results":{"indicator":"actions:lead","value":"Not available"},"cost_per_result":{"value":"Not available (Leads)"},"amount_spent":"$0,00 USD","impressions":"0"},
+    {"id":"120246226197040783","name":"Plan Free GT | CompleteRegistration","results":{"indicator":"actions:offsite_conversion.fb_pixel_complete_registration","value":"Not available"},"cost_per_result":{"value":"Not available (Website registrations completed)"},"amount_spent":"$0,00 USD","impressions":"0"},
+    {"id":"120245978928870783","name":"Campaña Qpaypro GT 2026 - Copia","results":{"indicator":"mixed","value":"Not available"},"cost_per_result":{"value":"Not available (mixed)"},"amount_spent":"$0,00 USD","impressions":"0"},
+    {"id":"120245978820570783","name":"Nuevo qpaypro 2026 Jun","results":{"indicator":"mixed","value":"Not available"},"cost_per_result":{"value":"Not available (mixed)"},"amount_spent":"$0,00 USD","impressions":"0"}
+  ]
+}
