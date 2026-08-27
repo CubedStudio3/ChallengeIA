@@ -1,67 +1,18 @@
-/* Tablero semanal de Mesa Creativa.
-   Paleta categórica validada con scripts/validate_palette.js del skill dataviz:
-   #7355E8 #12946B #C4820F #C04A66 pasa los seis chequeos SIN advertencias en
-   modo claro y oscuro. Contrastes de texto y superficie verificados uno por uno. */
-
-:root{
-  --tinta:#1B1834; --tinta-2:#615C82; --tinta-3:#8B85A8;
-  --ground:#F4F4FB; --sup:#FFFFFF; --sup-2:#F8F8FD; --sup-3:#EFEFF8;
-  --borde:#E2E1F0; --borde-2:#CFCDE4;
-  --lateral:#1B1834; --lateral-tex:#FFFFFF; --lateral-tenue:#A9A3C9;
-  --lateral-act:#2E2952;
-  --marca:#7355E8; --marca-2:#5B3FD4; --marca-suave:#EFEBFE;
-  --bien:#12946B; --bien-tex:#0E7A57; --bien-suave:#E4F5EE;
-  --falta:#C4820F; --falta-tex:#9E6708; --falta-suave:#FCF3E2;
-  --alerta:#C04A66; --alerta-tex:#A83B55; --alerta-suave:#FBEBEE;
-  --c1:#7355E8; --c2:#12946B; --c3:#C4820F; --c4:#C04A66;
-  --pista:#EAE8F6;
-  --sombra:0 1px 2px rgba(27,24,52,.04), 0 8px 24px -8px rgba(27,24,52,.10);
-  --sombra-alta:0 2px 4px rgba(27,24,52,.05), 0 18px 40px -12px rgba(27,24,52,.18);
-  --r:18px; --r-s:12px; --r-xs:9px;
-  --lateral-w:236px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --tinta:#EDEBF7; --tinta-2:#A29CC4; --tinta-3:#7D77A0;
-    --ground:#0D0B1A; --sup:#151329; --sup-2:#1B1834; --sup-3:#221E40;
-    --borde:#282348; --borde-2:#372F5E;
-    --lateral:#100E20; --lateral-tex:#FFFFFF; --lateral-tenue:#9B95BE;
-    --lateral-act:#252048;
-    --marca:#9B84F2; --marca-2:#7355E8; --marca-suave:#231C48;
-    --bien:#34C795; --bien-tex:#34C795; --bien-suave:#0E3328;
-    --falta:#E5A93C; --falta-tex:#E5A93C; --falta-suave:#38290D;
-    --alerta:#E5808F; --alerta-tex:#E5808F; --alerta-suave:#3A1922;
-    --pista:#221E40;
-    --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,0,0,.5);
-    --sombra-alta:0 2px 4px rgba(0,0,0,.4), 0 18px 40px -12px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="dark"]{
-  --tinta:#EDEBF7; --tinta-2:#A29CC4; --tinta-3:#7D77A0;
-  --ground:#0D0B1A; --sup:#151329; --sup-2:#1B1834; --sup-3:#221E40;
-  --borde:#282348; --borde-2:#372F5E;
-  --lateral:#100E20; --lateral-tex:#FFFFFF; --lateral-tenue:#9B95BE;
-  --lateral-act:#252048;
-  --marca:#9B84F2; --marca-2:#7355E8; --marca-suave:#231C48;
-  --bien:#34C795; --bien-tex:#34C795; --bien-suave:#0E3328;
-  --falta:#E5A93C; --falta-tex:#E5A93C; --falta-suave:#38290D;
-  --alerta:#E5808F; --alerta-tex:#E5808F; --alerta-suave:#3A1922;
-  --pista:#221E40;
-  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,0,0,.5);
-  --sombra-alta:0 2px 4px rgba(0,0,0,.4), 0 18px 40px -12px rgba(0,0,0,.6);
-}
+/* Componentes del tablero. Los COLORES, FUENTES y RADIOS no están aquí:
+   se generan desde config/tema.json (ver src/modulo1/tema.js). Si buscas
+   cambiar el diseño, ese es el archivo. */
 
 *{box-sizing:border-box}
 body{
   margin:0; background:var(--ground); color:var(--tinta);
-  font-family:"Plus Jakarta Sans",-apple-system,"Segoe UI",system-ui,sans-serif;
+  font-family:var(--fam-cuerpo);
   font-size:14.5px; line-height:1.55; -webkit-font-smoothing:antialiased;
 }
 h1,h2,h3,h4{margin:0; text-wrap:balance; font-weight:800; letter-spacing:-.02em}
 h1{font-size:26px} h2{font-size:19px} h3{font-size:15.5px; font-weight:700}
 h4{font-size:13px; font-weight:700}
 p{margin:0}
-.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+.mono{font-family:var(--fam-datos)}
 .num{font-variant-numeric:tabular-nums}
 .rot{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
   color:var(--tinta-3)}
@@ -81,7 +32,7 @@ p{margin:0}
 }
 .logo{display:flex; align-items:center; gap:11px; flex:0 0 auto}
 .logo .g{width:34px; height:34px; border-radius:10px; flex:0 0 auto;
-  background:linear-gradient(135deg,var(--marca),var(--marca-2));
+  background:linear-gradient(135deg,var(--marca-fondo),var(--marca-fondo-2));
   display:grid; place-items:center; font-weight:800; font-size:15px; color:#fff}
 .logo b{font-size:14.5px; font-weight:800; letter-spacing:-.01em; display:block; line-height:1.2}
 .logo span{font-size:11px; color:var(--lateral-tenue); display:block}
@@ -95,7 +46,7 @@ p{margin:0}
 .nav a:focus-visible{outline:2px solid var(--marca); outline-offset:1px}
 .nav a i{width:7px; height:7px; border-radius:50%; background:currentColor;
   opacity:.5; flex:0 0 auto}
-.nav a .badge{margin-left:auto; background:var(--marca); color:#fff; font-size:10.5px;
+.nav a .badge{margin-left:auto; background:var(--marca-fondo); color:#fff; font-size:10.5px;
   font-weight:800; min-width:19px; height:19px; border-radius:999px; display:grid;
   place-items:center; padding:0 5px; font-variant-numeric:tabular-nums}
 @media (max-width:900px){ .nav a .badge{margin-left:5px} }
@@ -121,7 +72,7 @@ p{margin:0}
 .btn:active{transform:translateY(0)}
 .btn:focus-visible{outline:2px solid var(--marca); outline-offset:2px}
 .btn[disabled]{opacity:.45; cursor:not-allowed; transform:none; box-shadow:none}
-.btn.pri{background:linear-gradient(135deg,var(--marca),var(--marca-2));
+.btn.pri{background:linear-gradient(135deg,var(--marca-fondo),var(--marca-fondo-2));
   border-color:transparent; color:#fff}
 .btn.chico{font-size:12px; padding:7px 13px}
 .btn svg{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.2;
@@ -130,7 +81,7 @@ p{margin:0}
 
 /* ═══ hero ═══ */
 .hero{border-radius:var(--r); padding:26px 28px; margin-bottom:16px;
-  background:linear-gradient(125deg,var(--marca-2) 0%,var(--marca) 55%,#9B84F2 100%);
+  background:linear-gradient(125deg,var(--marca-fondo-2) 0%,var(--marca-fondo) 60%,#8A6DF0 100%);
   color:#fff; box-shadow:var(--sombra-alta); position:relative; overflow:hidden}
 .hero::after{content:""; position:absolute; right:-70px; top:-70px; width:240px;
   height:240px; border-radius:50%; background:rgba(255,255,255,.09)}
@@ -140,7 +91,7 @@ p{margin:0}
   line-height:1; margin:10px 0 4px; font-variant-numeric:tabular-nums}
 .hero .un{font-size:15px; font-weight:700; opacity:.95}
 .hero .exp{font-size:13.5px; opacity:.9; max-width:60ch; margin-top:12px; line-height:1.5}
-.hero .calc{font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+.hero .calc{font-family:var(--fam-datos); font-size:11.5px;
   background:rgba(255,255,255,.14); border-radius:var(--r-xs); padding:9px 12px;
   margin-top:14px; max-width:74ch; line-height:1.55; position:relative}
 .hero .adv{font-size:12px; margin-top:11px; opacity:.9; font-style:italic; max-width:66ch}
@@ -271,7 +222,7 @@ td.n,th.n{text-align:right; font-variant-numeric:tabular-nums}
 .hal.riesgo .tp{color:var(--alerta-tex)} .hal.oportunidad .tp{color:var(--bien-tex)}
 .hal h3{margin-bottom:7px}
 .hal p{font-size:13.5px; margin-bottom:10px}
-.hal .cal{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--tinta-2);
+.hal .cal{font-family:var(--fam-datos); font-size:11.5px; color:var(--tinta-2);
   background:var(--sup); border:1px solid var(--borde); border-radius:var(--r-xs);
   padding:9px 11px; white-space:pre-wrap; word-break:break-word; line-height:1.55}
 .hal .ev{font-size:11.5px; color:var(--tinta-2); margin-top:11px; padding-top:10px;
@@ -281,7 +232,7 @@ td.n,th.n{text-align:right; font-variant-numeric:tabular-nums}
 /* ═══ pie ═══ */
 .pieP{border-top:1px solid var(--borde); padding-top:18px; margin-top:34px;
   font-size:12px; color:var(--tinta-3); line-height:1.6}
-.pieP code{font-family:"IBM Plex Mono",monospace; font-size:11px; background:var(--sup-3);
+.pieP code{font-family:var(--fam-datos); font-size:11px; background:var(--sup-3);
   padding:2px 6px; border-radius:5px; color:var(--tinta-2)}
 
 /* ═══ aviso flotante ═══ */

@@ -27,17 +27,14 @@ if (!entrada || !salida) {
 
 const aqui = __dirname;
 const datos = JSON.parse(fs.readFileSync(entrada, "utf8"));
-const css = fs.readFileSync(path.join(aqui, "tablero_estilos.css"), "utf8");
+const tema = require("./tema.js").construye(path.resolve(aqui, "..", ".."));
+const componentes = fs.readFileSync(path.join(aqui, "tablero_estilos.css"), "utf8");
+const css = tema.css + "\n\n" + componentes;
 const app = fs.readFileSync(path.join(aqui, "tablero_app.js"), "utf8");
 
 const periodo = (datos.corrida && datos.corrida.rango) || "";
 
-const FUENTES =
-  '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
-  '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-  '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?' +
-  "family=Plus+Jakarta+Sans:wght@400;600;700;800&" +
-  'family=IBM+Plex+Mono:wght@400;600&display=swap">';
+const FUENTES = tema.enlaceFuentes;
 
 const ESTILOS = `<style>\n${css}\n</style>`;
 
