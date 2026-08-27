@@ -1,41 +1,139 @@
 {
-  "_comentario": "Registro curado de page_id de competidores. La busqueda por palabra clave en Ad Library NO es confiable con terminos genericos en espanol; usar siempre page_ids. Ningun page_id entra aqui sin validacion humana.",
+  "_comentario": "Registro curado de competidores, separado por categoria de producto segun instruccion del usuario (2026-08-27). Un competidor puede pertenecer a mas de una categoria. La busqueda por palabra clave en Ad Library NO es confiable: usar siempre page_ids validados por un humano.",
+  "_ultima_medicion": "2026-08-27",
   "_esquema_estado": ["VERIFICADO", "NO_VERIFICADO", "PENDIENTE_DE_DATO"],
+
+  "categorias": {
+    "software": {
+      "descripcion": "Pasarela de pagos, tienda en linea, links de pago, QR, APIs, gestion de negocio",
+      "productos_qpaypro_equivalentes": ["POS virtual", "links de pago", "QR", "pasarela", "APIs"]
+    },
+    "hardware": {
+      "descripcion": "Punto de venta fisico, terminal POS, lectores de tarjeta",
+      "productos_qpaypro_equivalentes": ["POS fisico"]
+    }
+  },
+
   "competidores": [
     {
       "nombre": "Paggo",
       "page_id": "105294361957860",
-      "_estado": "NO_VERIFICADO",
-      "_lock": true,
-      "_nota": "Heredado del trabajo previo. Pendiente de re-confirmar en Verificacion 5, junto con el conteo de anuncios activos y el titular dominante. La premisa estrategica del proyecto depende de este dato y no esta fechada en el documento maestro.",
-      "observacion_previa": {
-        "anuncios_activos": 51,
+      "page_name_confirmado": "Paggo Guatemala",
+      "categorias": ["software"],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-08-27 · V5 · ads_library_search",
+      "medicion_2026_08_27": {
+        "activos_gt": 31,
+        "activos_sv": 0,
+        "moneda": "USD",
         "titular_dominante": "Gestiona tu Negocio Facil",
-        "anuncios_con_ese_titular": 35,
-        "territorio": "gestion de negocio y facturacion",
-        "_fecha_de_medicion": null,
-        "_estado": "NO_VERIFICADO"
+        "cuota_titular_dominante": 0.742,
+        "placeholder_sin_renderizar": {
+          "titulo": "{{product.name}}",
+          "cantidad": 8,
+          "_estado": "NO_INTERPRETADO",
+          "_nota": "Sintaxis de anuncios dinamicos de catalogo. Puede ser normal (la Ad Library muestra la plantilla) o un error de configuracion suyo. Requiere revision humana del ad_snapshot_url."
+        },
+        "escalada_detectada": {
+          "ultimos_10_dias": 21,
+          "ultimos_3_dias": 16,
+          "_nota": "21 de 31 anuncios lanzados en los ultimos 10 dias. No es un estado estable."
+        }
       }
     },
     {
       "nombre": "Recurrente",
-      "page_id": null,
-      "_estado": "PENDIENTE_DE_DATO",
-      "_lock": true,
-      "_nota": "page_id no obtenido. Se busca en Verificacion 5 y se presenta al usuario para validacion antes de usarlo. La busqueda por el termino 'Recurrente' devuelve resultados no relacionados porque la palabra es comun en espanol."
+      "page_id": "100735292254927",
+      "page_name_confirmado": "Recurrente",
+      "categorias": ["software"],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
+      "medicion_2026_08_27": {
+        "activos_gt": 6,
+        "activos_sv": 0,
+        "moneda": "USD",
+        "titulares": {
+          "Recibe pagos con oro digital": 3,
+          "Recibe pagos con USDT en Guatemala": 3
+        },
+        "angulo": "cripto y activos digitales",
+        "_nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24)."
+      }
     },
     {
       "nombre": "Square",
+      "page_id": "1689602518029813",
+      "page_name_confirmado": "Square",
+      "categorias": ["hardware", "software"],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
+      "medicion_2026_08_27": {
+        "activos_gt": 0,
+        "activos_global": 130,
+        "moneda": "GBP",
+        "idioma": "ingles",
+        "titulares": {
+          "Make the smarter choice. Choose Square.": 5,
+          "Make the smarter choice. Get Square.": 2,
+          "Manage everything with Square": 2
+        },
+        "_nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio."
+      }
+    },
+    {
+      "nombre": "GuatePOS",
+      "page_id": "593092353887127",
+      "page_name_confirmado": "Guatepos",
+      "categorias": ["hardware"],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-08-27 · ads_library_search · page_id entregado por el usuario",
+      "medicion_2026_08_27": {
+        "activos_gt": 3,
+        "activos_sv": 0,
+        "moneda": "GTQ",
+        "titulares": {"api.whatsapp.com": 2, "(sin titular)": 1},
+        "_nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14)."
+      }
+    },
+    {
+      "nombre": "Pagalo",
       "page_id": null,
+      "categorias": ["software"],
       "_estado": "PENDIENTE_DE_DATO",
       "_lock": true,
-      "_nota": "page_id no obtenido. Mismo procedimiento que Recurrente."
+      "_nota": "Competidor en pasarela de pagos, senalado por el usuario el 2026-08-27. La busqueda por palabra clave 'Pagalo' devolvio 297 resultados y NINGUNO era Pagalo (tiendas de ropa, suplementos, dramas asiaticos). Es la demostracion en vivo de la trampa documentada: la busqueda por termino en espanol no sirve. Se necesita el page_id o el enlace de la Ad Library."
+    },
+    {
+      "nombre": "Banco Industrial (BI)",
+      "page_id": null,
+      "categorias": ["software", "hardware"],
+      "_estado": "CANDIDATOS_SIN_VALIDAR",
+      "_lock": true,
+      "candidatos": [
+        {"page_id": "135136309831436", "page_name": "Banco Industrial"},
+        {"page_id": "301258755998", "page_name": "Club Bi"}
+      ],
+      "_nota": "Encontrados por busqueda de 'Banco Industrial' (1130 resultados, mayoria ruido). ADVERTENCIA: los anuncios observados en esas paginas son de banca de consumo (Puntos Bi, experiencias, beneficios de tarjeta), NO de adquirencia ni de terminales POS. Es probable que la pagina relevante para competir en pasarela y POS sea otra. Requiere validacion del usuario antes de usarse."
     }
   ],
+
+  "hallazgos_de_mercado_2026_08_27": {
+    "guatemala": {
+      "total_anuncios_activos_medidos": 40,
+      "reparto": {"Paggo": 31, "Recurrente": 6, "GuatePOS": 3, "Square": 0},
+      "cuota_de_paggo": 0.775
+    },
+    "el_salvador": {
+      "total_anuncios_activos_medidos": 0,
+      "_nota": "Ninguno de los cuatro competidores medidos pauta en El Salvador. Verificado individualmente para Paggo, Recurrente y GuatePOS. Square no pauta en la region."
+    }
+  },
+
   "_limitaciones_de_la_herramienta": {
-    "sin_rango_de_fechas": "ads_library_search no expone ningun parametro temporal. Solo responde que esta activo AHORA. Las corridas retroactivas NO pueden incluir competencia.",
+    "sin_rango_de_fechas": "ads_library_search no expone ningun parametro temporal. Todo lo anterior es una foto del 2026-08-27, no una serie historica. Las corridas retroactivas NO pueden incluir competencia.",
     "tope_de_resultados": 50,
-    "sin_paginacion": "No hay cursor ni offset. Mitigacion: segmentar por countries (GT y SV por separado). Si la particion no cubre el total, el conteo se reporta como limite inferior, nunca como cifra exacta.",
-    "solo_pauta_pagada": "Ad Library expone unicamente publicidad pagada. El contenido organico de competidores NO esta disponible por API y no se simula."
+    "sin_paginacion": "No hay cursor ni offset. En esta medicion ningun competidor supero 50 en GT, asi que los conteos de GT son completos y no limites inferiores. El conteo global de Square (130) SI esta truncado en la muestra.",
+    "solo_pauta_pagada": "Ad Library expone unicamente publicidad pagada. El contenido organico de competidores NO esta disponible por API y no se simula.",
+    "busqueda_por_palabra_clave": "Confirmado inutilizable en espanol: 'Pagalo' devolvio 297 resultados irrelevantes; 'Banco Industrial' devolvio 1130 con mayoria de ruido. Usar exclusivamente page_ids."
   }
 }

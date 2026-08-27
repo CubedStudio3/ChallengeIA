@@ -1,0 +1,61 @@
+==========================================================================
+COMPETENCIA ACTIVA · Meta Ad Library · foto del 2026-08-27
+==========================================================================
+
+──────────────────────────────────────────────────────────────────────────
+SOFTWARE · pasarela de pagos, tienda en linea, gestion
+──────────────────────────────────────────────────────────────────────────
+
+  Paggo  ·  page_id 105294361957860  ·  moneda USD
+    Activos en GT: 31   |   Activos en SV: 0
+    Antiguedad observada: 2 a 100 dias  (creacion 2026-08-24 a 2026-05-18)
+    Titulares:
+      23   74%  Gestiona tu Negocio Facil
+       8   26%  {{product.name}} (placeholder)
+
+  Recurrente  ·  page_id 100735292254927  ·  moneda USD
+    Activos en GT: 6   |   Activos en SV: 0
+    Antiguedad observada: 33 a 33 dias  (creacion 2026-07-24 a 2026-07-24)
+    Titulares:
+       3   50%  Recibe pagos con oro digital
+       3   50%  Recibe pagos con USDT en Guatemala
+
+  Square  ·  page_id 1689602518029813  ·  moneda GBP
+    Activos en GT: 0  (130 activos a nivel global)   |   Activos en SV: no consultado
+    Antiguedad observada: 1 a 1 dias  (creacion 2026-08-25 a 2026-08-25)
+    Titulares:
+       5     —  Make the smarter choice. Choose Square.
+       2     —  Make the smarter choice. Get Square.
+       2     —  Manage everything with Square
+       1     —  Square | | |
+
+──────────────────────────────────────────────────────────────────────────
+HARDWARE · punto de venta, terminal POS
+──────────────────────────────────────────────────────────────────────────
+
+  GuatePOS  ·  page_id 593092353887127  ·  moneda GTQ
+    Activos en GT: 3   |   Activos en SV: 0
+    Antiguedad observada: 12 a 12 dias  (creacion 2026-08-14 a 2026-08-14)
+    Titulares:
+       2   67%  api.whatsapp.com
+       1   33%  (sin titular)
+
+  Square  ·  page_id 1689602518029813  ·  moneda GBP
+    Activos en GT: 0  (130 activos a nivel global)   |   Activos en SV: no consultado
+    Antiguedad observada: 1 a 1 dias  (creacion 2026-08-25 a 2026-08-25)
+    Titulares:
+       5     —  Make the smarter choice. Choose Square.
+       2     —  Make the smarter choice. Get Square.
+       2     —  Manage everything with Square
+       1     —  Square | | |
+
+==========================================================================
+TOTALES EN NUESTROS MERCADOS
+==========================================================================
+  Guatemala:    40 anuncios activos entre los 4 competidores medidos
+  El Salvador:   0 anuncios activos  ← ninguno de los 4 compite ahi
+
+  Reparto en GT:
+    Paggo        31  ██████████████████████████████████ 78%
+    Recurrente    6  ██████ 15%
+    GuatePOS      3  ███ 8%
