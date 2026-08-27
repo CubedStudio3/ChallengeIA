@@ -378,6 +378,48 @@
       "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
     ]
   },
+  "tareas_propuestas": [
+    {
+      "titulo": "Revisar la campaña con mayor oportunidad de reasignación",
+      "descripcion": "Llevar a la mesa la diferencia de costo entre 'Campaña Qpaypro Guatemala Nueva [GT]' y 'Campaña Punto de Venta SV [SV]' y decidir si se reasigna presupuesto o se investiga la causa.",
+      "tipo": "accion",
+      "justificacion": "'Campaña Qpaypro Guatemala Nueva [GT]' gastó $380.68 a $4.01 = 95 resultados. Al costo de 'Campaña Punto de Venta SV [SV]' ($1.89) ese mismo monto equivale a 201, 106 más. Se eligió esta campaña por mayor oportunidad absoluta, no por peor costo unitario",
+      "origen": "recomendación cuantificada",
+      "idempotencia": "2026-W31::accion::Revisar la campaña con mayor oportunidad de reasignación"
+    },
+    {
+      "titulo": "Obtener el dato que falta: Cantidades de producción por formato",
+      "descripcion": "Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.",
+      "tipo": "obtener_dato",
+      "justificacion": "El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W31::dato::Cantidades de producción por formato"
+    },
+    {
+      "titulo": "Obtener el dato que falta: Decidir posición frente al mensaje dominante del competidor",
+      "descripcion": "Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.",
+      "tipo": "obtener_dato",
+      "justificacion": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W31::dato::Decidir posición frente al mensaje dominante del competidor"
+    },
+    {
+      "titulo": "Obtener el dato que falta: SV sin disputa medida",
+      "descripcion": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
+      "tipo": "obtener_dato",
+      "justificacion": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W31::dato::SV sin disputa medida"
+    },
+    {
+      "titulo": "Quitar HN de la segmentación geográfica",
+      "descripcion": "Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion.",
+      "tipo": "integridad",
+      "justificacion": "HN está excluido de los mercados del proyecto pero registró $0.02 y 7 impresiones en: Campaña Punto de Venta SV.",
+      "origen": "verificación de integridad",
+      "idempotencia": "2026-W31::integridad::HN"
+    }
+  ],
   "huecos_declarados": [
     {
       "fuente": "métricas orgánicas de Página e Instagram",

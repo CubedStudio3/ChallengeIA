@@ -96,10 +96,33 @@ QA obligatorio: `validate.py`, `markitdown` buscando placeholders, y **renderiza
 a imágenes para mirar cada lámina**. El primer render casi siempre tiene un
 defecto real.
 
+## Paso 8b · Tablero de revisión (agente `constructor-deck`)
+
+```bash
+node src/modulo1/tablero.js data/historico/<id>/analisis/resultado.json \
+  salidas/tablero-mesa-creativa.html
+```
+
+Luego se publica como artefacto **con la misma URL** para no crear uno nuevo cada
+semana. El equipo abre ese enlace y ahí aprueba las tareas.
+
+El tablero lleva el orden invertido respecto al deck, a propósito: el deck se
+presenta en la reunión y construye narrativa; el tablero se **opera**, así que la
+decisión va arriba y la evidencia debajo.
+
+Declara `capabilities: {artifact: {}}` — es lo que permite que las aprobaciones
+del equipo persistan y se compartan entre quienes abren la página.
+
 ## Paso 9 · Tareas en Sprint (agente `orquestador`, después de la reunión)
 
-Solo cuando un humano informe qué se acordó. **Con `--dry-run` primero.** Los work
-items llevan el `id` de la corrida para que dos corridas no dupliquen.
+Solo sobre las tareas que el equipo **aprobó en el tablero**. **Con `--dry-run`
+primero.** Cada work item lleva la clave de idempotencia de su tarea
+(`<id_corrida>::<tipo>::<titulo>`) para que dos corridas no dupliquen.
+
+Las tareas propuestas ya vienen derivadas en `resultado.json`, y su traducción no
+es uno a uno: una recomendación **cuantificada** produce una tarea de acción; una
+recomendación **sin dato** produce la tarea de *conseguir el dato*, nunca una
+acción. Convertir un hueco en acción sería el salto que el proyecto prohíbe.
 
 ## Lo que esta skill nunca hace
 

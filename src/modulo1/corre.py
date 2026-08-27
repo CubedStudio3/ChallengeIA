@@ -17,13 +17,13 @@ from dataclasses import asdict, is_dataclass
 from datetime import date, datetime
 from pathlib import Path
 
-from base.convenciones import RangoFechas, cargar
+from base.convenciones import RangoFechas, cargar, id_semana
 from base.errores import FallaRuidosa
 from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
                             normaliza_campanas, valores_de_desglose)
 from . import analiza as A
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
-from .plan import arma_plan
+from .plan import arma_plan, tareas_propuestas
 
 def _mercados():
     """Mercados declarados y excluidos, desde config. Nunca hardcodeados."""
@@ -219,6 +219,10 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         "hallazgos": _serializa(hallazgos),
         "verificacion_semana_anterior": verificacion,
         "plan": _serializa(plan),
+        "tareas_propuestas": _serializa(tareas_propuestas(
+            plan,
+            {"mercados_excluidos_con_gasto": gasto_excluido},
+            id_semana(rango))),
         "huecos_declarados": huecos,
     }
 
@@ -295,6 +299,13 @@ def imprime(r: dict) -> None:
         print(f"    {x['accion']}")
         print(f"    por qué: {x['no_cuantificable']}")
         print(f"    dato que falta: {x['dato_que_falta']}")
+
+    tp = r.get("tareas_propuestas") or []
+    if tp:
+        print(f"\nTAREAS PROPUESTAS PARA SPRINT · {len(tp)} · NINGUNA CREADA\n{L}")
+        for t in tp:
+            print(f"  [{t['tipo']:13}] {t['titulo']}")
+            print(f"      {t['descripcion'][:110]}")
 
     if r["huecos_declarados"]:
         print(f"\nHUECOS DECLARADOS\n{L}")

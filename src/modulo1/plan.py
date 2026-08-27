@@ -245,3 +245,67 @@ def arma_plan(periodo: str, campanas: list[Campana], indicador: str,
         fuentes_usadas=sorted({e.fuente for r in candidatas if r
                                for e in r.evidencia}),
     )
+
+
+@dataclass
+class TareaPropuesta:
+    """Una tarea candidata para Zoho Sprint. NO se crea sin aprobación humana.
+
+    La traducción de recomendación a tarea es deliberada y no es uno a uno:
+
+    - Una recomendación **cuantificada** produce una tarea de acción.
+    - Una recomendación **sin dato** NO produce una tarea de acción: produce una
+      tarea de *obtener el dato*. Convertir un hueco en una acción sería
+      exactamente el salto que el proyecto prohíbe.
+    - Un hallazgo de integridad produce una tarea con la instrucción exacta,
+      porque suele requerir escritura en un sistema donde el agente no escribe.
+    """
+
+    titulo: str
+    descripcion: str
+    tipo: str                  # accion · obtener_dato · integridad
+    justificacion: str
+    origen: str                # de qué recomendación o hallazgo salió
+    idempotencia: str          # clave estable: dos corridas no duplican
+
+
+def tareas_propuestas(plan: "Plan", integridad: dict, id_corrida: str
+                      ) -> list[TareaPropuesta]:
+    """Deriva las tareas candidatas. Ninguna se crea aquí."""
+    tareas = []
+
+    for r in plan.recomendaciones:
+        if r.cuantificada:
+            tareas.append(TareaPropuesta(
+                titulo=r.titulo,
+                descripcion=r.accion,
+                tipo="accion",
+                justificacion=r.cantidad.calculo,
+                origen="recomendación cuantificada",
+                idempotencia=f"{id_corrida}::accion::{r.titulo[:60]}",
+            ))
+        else:
+            # Un hueco NO se convierte en acción. Se convierte en la tarea de
+            # conseguir el dato que falta.
+            tareas.append(TareaPropuesta(
+                titulo=f"Obtener el dato que falta: {r.titulo}",
+                descripcion=r.dato_que_falta,
+                tipo="obtener_dato",
+                justificacion=r.no_cuantificable,
+                origen="recomendación sin dato suficiente",
+                idempotencia=f"{id_corrida}::dato::{r.titulo[:60]}",
+            ))
+
+    for pais, g in (integridad.get("mercados_excluidos_con_gasto") or {}).items():
+        tareas.append(TareaPropuesta(
+            titulo=f"Quitar {pais} de la segmentación geográfica",
+            descripcion=g.get("accion_pendiente", ""),
+            tipo="integridad",
+            justificacion=(f"{pais} está excluido de los mercados del proyecto pero "
+                           f"registró ${g['gasto']:.2f} y {g['impresiones']:,.0f} "
+                           f"impresiones en: {', '.join(g['campanas'])}."),
+            origen="verificación de integridad",
+            idempotencia=f"{id_corrida}::integridad::{pais}",
+        ))
+
+    return tareas

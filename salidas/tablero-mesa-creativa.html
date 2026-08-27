@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mesa Creativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Tablero semanal de Mesa Creativa.
+   Paleta categórica validada con scripts/validate_palette.js del skill dataviz:
+   pasa banda de luminosidad, piso de croma, separación CVD y contraste en
+   modo claro Y oscuro con los mismos pasos. */
+
+:root{
+  --fondo:#EFF4F5; --superficie:#FFFFFF; --superficie-2:#F7FAFA;
+  --tinta:#0B3C49; --tenue:#4F6B76; --borde:#D3E0E4; --borde-fuerte:#B9CDD3;
+  --dato:#00937A; --dato-suave:#E3F5F0;
+  --hueco:#B87514; --hueco-suave:#FBF1DF;
+  --riesgo:#A03F35; --riesgo-suave:#FAEBE8;
+  --serie:#1C7293; --serie-pista:#E7EEF1;
+  --c1:#2064C8; --c2:#0E8A62; --c3:#BE7A10; --c4:#B8495B;
+  --sombra:0 1px 2px rgba(11,60,73,.06), 0 4px 12px rgba(11,60,73,.05);
+  --r:10px;
+}
+:root:not([data-theme="light"]) { }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fondo:#071A20; --superficie:#0E262E; --superficie-2:#122F38;
+    --tinta:#E6EFF2; --tenue:#93AEB8; --borde:#1E3D47; --borde-fuerte:#2C525E;
+    --dato:#3FBF9F; --dato-suave:#0F3A33;
+    --hueco:#E0A343; --hueco-suave:#3A2C12;
+    --riesgo:#D97A72; --riesgo-suave:#3A1E1B;
+    --serie:#4A9EC4; --serie-pista:#17313A;
+    --sombra:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --fondo:#071A20; --superficie:#0E262E; --superficie-2:#122F38;
+  --tinta:#E6EFF2; --tenue:#93AEB8; --borde:#1E3D47; --borde-fuerte:#2C525E;
+  --dato:#3FBF9F; --dato-suave:#0F3A33;
+  --hueco:#E0A343; --hueco-suave:#3A2C12;
+  --riesgo:#D97A72; --riesgo-suave:#3A1E1B;
+  --serie:#4A9EC4; --serie-pista:#17313A;
+  --sombra:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--fondo); color:var(--tinta);
+  font-family:"Public Sans",-apple-system,"Segoe UI",system-ui,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.envoltura{max-width:1080px; margin:0 auto; padding:40px 24px 72px}
+h1,h2,h3{font-family:Fraunces,Georgia,"Times New Roman",serif; text-wrap:balance; margin:0}
+h1{font-size:clamp(30px,4.4vw,42px); font-weight:600; letter-spacing:-.015em; line-height:1.1}
+h2{font-size:21px; font-weight:600; letter-spacing:-.005em}
+h3{font-size:16px; font-weight:600; font-family:"Public Sans",sans-serif}
+.mono{font-family:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace}
+.num{font-variant-numeric:tabular-nums}
+.rotulo{
+  font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--tenue);
+}
+
+/* ── encabezado ───────────────────────────────────────────── */
+.cabecera{display:flex; flex-wrap:wrap; gap:20px; align-items:flex-end;
+  justify-content:space-between; margin-bottom:28px}
+.cabecera p{margin:6px 0 0; color:var(--tenue); font-size:14px}
+.periodo{
+  font-family:"IBM Plex Mono",monospace; font-size:13px; font-variant-numeric:tabular-nums;
+  background:var(--superficie); border:1px solid var(--borde); border-radius:999px;
+  padding:7px 15px; white-space:nowrap;
+}
+
+/* ── banda de estado ──────────────────────────────────────── */
+.banda{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px; margin-bottom:14px}
+.metrica{background:var(--superficie); border:1px solid var(--borde);
+  border-radius:var(--r); padding:15px 17px; box-shadow:var(--sombra)}
+.metrica.alerta{border-color:var(--hueco); background:var(--hueco-suave)}
+.metrica .v{font-family:Fraunces,Georgia,serif; font-size:30px; font-weight:600;
+  line-height:1.1; font-variant-numeric:tabular-nums}
+.metrica.alerta .v{color:var(--hueco)}
+.metrica .e{font-size:12.5px; color:var(--tenue); margin-top:5px}
+
+.aviso{border:1px solid var(--hueco); background:var(--hueco-suave);
+  border-radius:var(--r); padding:16px 18px; margin-bottom:32px}
+.aviso h3{color:var(--hueco); font-size:13px; letter-spacing:.05em;
+  text-transform:uppercase; margin-bottom:9px}
+.aviso ul{margin:0; padding-left:19px}
+.aviso li{margin-bottom:7px; font-size:14px}
+.aviso li:last-child{margin-bottom:0}
+.aviso li b{font-weight:650}
+.aviso .cierre{margin:11px 0 0; font-size:12.5px; font-style:italic; color:var(--hueco)}
+
+/* ── secciones ────────────────────────────────────────────── */
+section{margin-bottom:40px}
+.tituloSeccion{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  margin-bottom:6px}
+.subtitulo{color:var(--tenue); font-size:14px; max-width:68ch; margin:0 0 18px}
+
+/* ── zona de decisión ─────────────────────────────────────── */
+.contador{display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  font-size:13.5px; color:var(--tenue)}
+.contador .n{font-family:Fraunces,Georgia,serif; font-size:19px; font-weight:600;
+  color:var(--tinta); font-variant-numeric:tabular-nums}
+.tareas{display:flex; flex-direction:column; gap:12px}
+.tarea{background:var(--superficie); border:1px solid var(--borde);
+  border-radius:var(--r); padding:16px 18px; box-shadow:var(--sombra);
+  display:grid; grid-template-columns:1fr auto; gap:16px; align-items:start}
+.tarea.aprobada{border-color:var(--dato); background:var(--dato-suave)}
+.tarea .cuerpo{min-width:0}
+.chip{display:inline-flex; align-items:center; gap:6px; font-size:10.5px;
+  font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:3px 9px; border-radius:999px; border:1px solid; margin-bottom:9px}
+.chip.accion{color:var(--dato); border-color:var(--dato); background:transparent}
+.chip.obtener_dato{color:var(--hueco); border-color:var(--hueco); background:transparent}
+.chip.integridad{color:var(--riesgo); border-color:var(--riesgo); background:transparent}
+.tarea h3{margin-bottom:5px}
+.tarea .desc{font-size:14px; margin:0 0 10px}
+.tarea .just{font-size:12px; color:var(--tenue); background:var(--superficie-2);
+  border:1px solid var(--borde); border-radius:7px; padding:9px 11px;
+  overflow-x:auto; white-space:pre-wrap; word-break:break-word}
+.tarea .origen{font-size:11.5px; color:var(--tenue); margin:9px 0 0}
+
+.palanca{display:inline-flex; align-items:center; gap:9px; cursor:pointer;
+  border:1px solid var(--borde-fuerte); background:var(--superficie);
+  border-radius:999px; padding:7px 14px 7px 9px; font:inherit; font-size:13px;
+  font-weight:600; color:var(--tinta); white-space:nowrap}
+.palanca:hover{border-color:var(--dato)}
+.palanca:focus-visible{outline:2px solid var(--serie); outline-offset:2px}
+.palanca .caja{width:17px; height:17px; border-radius:5px; flex:0 0 auto;
+  border:1.5px solid var(--borde-fuerte); display:grid; place-items:center;
+  background:var(--superficie)}
+.palanca[aria-pressed="true"]{border-color:var(--dato); background:var(--dato-suave);
+  color:var(--dato)}
+.palanca[aria-pressed="true"] .caja{background:var(--dato); border-color:var(--dato)}
+.palanca .tic{width:11px; height:11px; opacity:0; stroke:var(--superficie);
+  stroke-width:2.6; fill:none}
+.palanca[aria-pressed="true"] .tic{opacity:1}
+.palanca[disabled]{opacity:.5; cursor:not-allowed}
+
+.nota{font-size:13px; color:var(--tenue); margin:16px 0 0; padding:13px 15px;
+  background:var(--superficie-2); border:1px solid var(--borde); border-radius:var(--r)}
+.nota b{color:var(--tinta); font-weight:650}
+
+/* ── gráficos ─────────────────────────────────────────────── */
+.panel{background:var(--superficie); border:1px solid var(--borde);
+  border-radius:var(--r); padding:20px 22px; box-shadow:var(--sombra)}
+.dos{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+@media (max-width:820px){.dos{grid-template-columns:1fr}}
+.panel h3{margin-bottom:3px}
+.panel .fuente{font-size:11.5px; color:var(--tenue); margin:14px 0 0}
+
+.barras{display:flex; flex-direction:column; gap:11px; margin-top:16px}
+.fila{display:grid; grid-template-columns:minmax(0,1fr); gap:5px}
+.fila .et{font-size:13px; display:flex; justify-content:space-between; gap:10px;
+  align-items:baseline}
+.fila .et .v{font-weight:650; font-variant-numeric:tabular-nums; white-space:nowrap}
+.pista{height:9px; background:var(--serie-pista); border-radius:5px; overflow:hidden}
+.rell{height:100%; background:var(--serie); border-radius:0 5px 5px 0;
+  transition:width .5s cubic-bezier(.2,.7,.3,1)}
+@media (prefers-reduced-motion:reduce){.rell{transition:none}}
+
+.apilada{display:flex; height:34px; border-radius:7px; overflow:hidden;
+  gap:2px; margin-top:16px; background:var(--serie-pista)}
+.seg{position:relative; display:grid; place-items:center; min-width:2px}
+.seg span{font-size:12px; font-weight:700; color:#fff; font-variant-numeric:tabular-nums;
+  text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.leyenda{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:14px; font-size:12.5px}
+.leyenda i{width:11px; height:11px; border-radius:3px; display:inline-block;
+  margin-right:7px; vertical-align:-1px}
+.leyenda span{color:var(--tenue)}
+.leyenda b{font-weight:600; color:var(--tinta); font-variant-numeric:tabular-nums}
+
+details{margin-top:14px}
+details summary{font-size:12px; color:var(--tenue); cursor:pointer;
+  padding:5px 0; font-weight:600}
+details summary:focus-visible{outline:2px solid var(--serie); outline-offset:2px}
+table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:9px}
+th,td{text-align:left; padding:6px 9px; border-bottom:1px solid var(--borde)}
+th{font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--tenue)}
+td.n{text-align:right; font-variant-numeric:tabular-nums}
+.tablaEnv{overflow-x:auto}
+
+/* ── hallazgos ────────────────────────────────────────────── */
+.hallazgos{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:14px}
+.hallazgo{background:var(--superficie); border:1px solid var(--borde);
+  border-left:none; border-radius:var(--r); padding:16px 18px; box-shadow:var(--sombra)}
+.hallazgo.riesgo{background:var(--riesgo-suave); border-color:var(--riesgo)}
+.hallazgo.oportunidad{background:var(--dato-suave); border-color:var(--dato)}
+.hallazgo .tipo{font-size:10.5px; font-weight:700; letter-spacing:.07em;
+  text-transform:uppercase; margin-bottom:8px}
+.hallazgo.riesgo .tipo{color:var(--riesgo)}
+.hallazgo.oportunidad .tipo{color:var(--dato)}
+.hallazgo h3{margin-bottom:6px}
+.hallazgo p{margin:0 0 9px; font-size:13.5px}
+/* El cálculo DEBE poder leerse completo: es la trazabilidad del número.
+   Antes iba en nowrap con overflow y se cortaba a media frase. */
+.hallazgo .calc{font-size:11.5px; color:var(--tenue); font-family:"IBM Plex Mono",monospace;
+  white-space:pre-wrap; word-break:break-word; line-height:1.5;
+  background:var(--superficie); border:1px solid var(--borde); border-radius:6px;
+  padding:8px 10px}
+.hallazgo .ev{font-size:11.5px; color:var(--tenue); margin:9px 0 0;
+  padding-top:9px; border-top:1px solid var(--borde)}
+.hallazgo .adv{font-size:11.5px; font-style:italic; margin:9px 0 0; color:var(--tenue)}
+
+/* ── pie ──────────────────────────────────────────────────── */
+.pie{border-top:1px solid var(--borde); padding-top:20px; margin-top:44px;
+  font-size:12.5px; color:var(--tenue)}
+.pie code{font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  background:var(--superficie-2); padding:1px 5px; border-radius:4px}
+.aviso-lectura{background:var(--superficie-2); border:1px solid var(--borde-fuerte);
+  border-radius:var(--r); padding:12px 15px; margin-bottom:20px; font-size:13px}
+
+</style>
+</head>
+<body>
+<script id="datos" type="application/json">{"corrida":{"rango":"2026-08-01 a 2026-08-24","hoy":"2026-08-27","dry_run":true},"integridad":{"campanas_leidas":8,"paises_con_entrega":["GT","SV"],"paises_fuera_de_mercados_declarados":[],"campanas_incoherentes":[],"mercados_excluidos_con_gasto":{"HN":{"gasto":0.02,"impresiones":7,"campanas":["Campaña Punto de Venta SV"],"motivo_de_exclusion":"Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'.","accion_pendiente":"Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion."}}},"consolidados_por_indicador":{"actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead":"1 resultados con indicador 'actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead' en 1 campañas · $3.23 · $3.23 por resultado","actions:lead":"370 resultados con indicador 'actions:lead' en 4 campañas · $963.46 · $2.60 por resultado","actions:link_click":"10,771 resultados con indicador 'actions:link_click' en 1 campañas · $104.03 · $0.01 por resultado","mixed":"sin datos utilizables: Ninguna campaña tiene datos utilizables."},"consolidados_detalle":{"actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead":{"campanas":1,"resultados":1,"gasto":3.23,"impresiones":1150,"costo_por_resultado":3.23,"excluidas":0},"actions:lead":{"campanas":4,"resultados":370,"gasto":963.46,"impresiones":204908,"costo_por_resultado":2.6039,"excluidas":1},"actions:link_click":{"campanas":1,"resultados":10771,"gasto":104.03,"impresiones":476959,"costo_por_resultado":0.0097,"excluidas":0},"mixed":{"campanas":0,"resultados":0,"gasto":0,"impresiones":0,"costo_por_resultado":null,"excluidas":1}},"campanas_por_indicador_principal":[{"etiqueta":"Campaña Qpayshop e Integraciones [GT]","pais":"GT","resultados":12,"gasto":53.15,"costo_por_resultado":4.43,"impresiones":13348},{"etiqueta":"Campaña Qpaypro Guatemala Nueva [GT]","pais":"GT","resultados":95,"gasto":380.68,"costo_por_resultado":4.01,"impresiones":88240},{"etiqueta":"Campaña Punto de Venta GT [GT]","pais":"GT","resultados":158,"gasto":331.66,"costo_por_resultado":2.1,"impresiones":57334},{"etiqueta":"Campaña Punto de Venta SV [SV]","pais":"SV","resultados":105,"gasto":197.97,"costo_por_resultado":1.89,"impresiones":45986}],"competencia":{"GT":{"presion_total":42,"dominante":"Paggo","detalle":{"Paggo":{"activos_declarados":31,"presion_real":31,"presion_medida":true,"advertencia_muestra":null},"Recurrente":{"activos_declarados":6,"presion_real":6,"presion_medida":true,"advertencia_muestra":null},"Square":{"activos_declarados":0,"presion_real":0,"presion_medida":true,"advertencia_muestra":null},"GuatePOS":{"activos_declarados":3,"presion_real":3,"presion_medida":true,"advertencia_muestra":null},"Banco Industrial (BI)":{"activos_declarados":845,"presion_real":2,"presion_medida":true,"advertencia_muestra":null}}},"SV":{"presion_total":0,"dominante":null,"detalle":{"Paggo":{"activos_declarados":0,"presion_real":0,"presion_medida":true,"advertencia_muestra":null},"Recurrente":{"activos_declarados":0,"presion_real":0,"presion_medida":true,"advertencia_muestra":null},"GuatePOS":{"activos_declarados":0,"presion_real":0,"presion_medida":true,"advertencia_muestra":null}}}},"hallazgos":[{"titulo":"Brecha de eficiencia entre campañas","afirmacion":"Dentro del indicador 'actions:lead', la campaña más costosa paga 2.34x lo que paga la más eficiente.","evidencia":[{"dato":"Más eficiente","valor":"Campaña Punto de Venta SV · $1.89","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"},{"dato":"Menos eficiente","valor":"Campaña Qpayshop e Integraciones · $4.43","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"tipo":"oportunidad","calculo":"$4.43 ÷ $1.89 = 2.34x","advertencia":null},{"titulo":"El mayor presupuesto no está en la campaña más eficiente","afirmacion":"'Campaña Qpaypro Guatemala Nueva' concentra el mayor gasto pero ocupa el puesto 3 de 4 en eficiencia.","evidencia":[{"dato":"Mayor gasto","valor":"Campaña Qpaypro Guatemala Nueva · $380.68 · $4.01 por resultado","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"},{"dato":"Mejor costo","valor":"Campaña Punto de Venta SV · $197.97 · $1.89 por resultado","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"tipo":"oportunidad","calculo":null,"advertencia":null},{"titulo":"Costo de oportunidad del periodo","afirmacion":"Las demás campañas del indicador gastaron $765.49 y obtuvieron 265 resultados. Al costo de 'Campaña Punto de Venta SV' ese mismo dinero equivale a 405.","evidencia":[{"dato":"Costo de referencia","valor":"Campaña Punto de Venta SV · $1.89","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"},{"dato":"Gasto y resultados del resto","valor":"$765.49 · 265 resultados","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"tipo":"oportunidad","calculo":"$765.49 ÷ $1.89 = 405 vs 265 reales = 140 de diferencia","advertencia":"Es aritmética sobre el periodo medido, NO un pronóstico. La diferencia de costo puede venir de público, creativo, producto o etapa del embudo. Sirve para dimensionar la pregunta, no para prometer el resultado."},{"titulo":"Paggo concentra su mensaje","afirmacion":"74% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\".","evidencia":[{"dato":"Titular dominante de Paggo","valor":"\"Gestiona tu Negocio Fácil\" en 23 de 31 anuncios","fuente":"adlibrary_paggo_GT.json"}],"tipo":"riesgo","calculo":null,"advertencia":null},{"titulo":"Paggo está escalando ahora","afirmacion":"68% del inventario activo observado de Paggo se lanzó en los últimos 10 días. No es un estado estable.","evidencia":[{"dato":"Lanzamientos recientes de Paggo","valor":"21 de 31 anuncios en los últimos 10 días","fuente":"adlibrary_paggo_GT.json"},{"dato":"Cohorte más grande","valor":"16 anuncios creados el 2026-08-24 (hace 3 días)","fuente":"adlibrary_paggo_GT.json"}],"tipo":"riesgo","calculo":null,"advertencia":null},{"titulo":"Recurrente concentra su mensaje","afirmacion":"50% de los anuncios observados de Recurrente usan el titular \"Recibe pagos con oro digital\".","evidencia":[{"dato":"Titular dominante de Recurrente","valor":"\"Recibe pagos con oro digital\" en 3 de 6 anuncios","fuente":"adlibrary_recurrente_GT.json"}],"tipo":"riesgo","calculo":null,"advertencia":null},{"titulo":"GuatePOS concentra su mensaje","afirmacion":"67% de los anuncios observados de GuatePOS usan el titular \"api.whatsapp.com\".","evidencia":[{"dato":"Titular dominante de GuatePOS","valor":"\"api.whatsapp.com\" en 2 de 3 anuncios","fuente":"adlibrary_guatepos_GT.json"}],"tipo":"riesgo","calculo":null,"advertencia":null},{"titulo":"SV sin disputa medida","afirmacion":"Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.","evidencia":[{"dato":"Competencia activa en SV","valor":"0 anuncios","fuente":"Ad Library, SV, foto del 2026-08-27"},{"dato":"Inversión propia en SV","valor":"$197.97 · 105 resultados · $1.89 por resultado","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"tipo":"oportunidad","calculo":null,"advertencia":"Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."}],"verificacion_semana_anterior":"No aplicable: no existe corrida de la semana anterior. No es un dato faltante, es la primera corrida.","plan":{"periodo":"2026-08-01 a 2026-08-24","recomendaciones":[{"titulo":"Revisar la campaña con mayor oportunidad de reasignación","accion":"Llevar a la mesa la diferencia de costo entre 'Campaña Qpaypro Guatemala Nueva [GT]' y 'Campaña Punto de Venta SV [SV]' y decidir si se reasigna presupuesto o se investiga la causa.","evidencia":[{"dato":"Campaña menos eficiente","valor":"Campaña Qpaypro Guatemala Nueva · $4.01 · $380.68 gastados","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"},{"dato":"Campaña más eficiente","valor":"Campaña Punto de Venta SV · $1.89","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"cantidad":{"valor":106.41798941798945,"unidad":"resultados de diferencia en el periodo","calculo":"'Campaña Qpaypro Guatemala Nueva [GT]' gastó $380.68 a $4.01 = 95 resultados. Al costo de 'Campaña Punto de Venta SV [SV]' ($1.89) ese mismo monto equivale a 201, 106 más. Se eligió esta campaña por mayor oportunidad absoluta, no por peor costo unitario"},"no_cuantificable":null,"dato_que_falta":null,"advertencia":"El equivalente es aritmética sobre el periodo medido, no un pronóstico. Antes de mover dinero hay que descartar que la diferencia venga de público, producto o etapa del embudo."},{"titulo":"Cantidades de producción por formato","accion":"Pendiente. No se puede repartir la producción entre video y arte estática sin rendimiento por formato.","evidencia":[],"cantidad":null,"no_cuantificable":"El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.","dato_que_falta":"Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.","advertencia":null},{"titulo":"Decidir posición frente al mensaje dominante del competidor","accion":"74% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\". Decidir en la mesa si se disputa ese territorio de frente o se ocupa uno distinto.","evidencia":[{"dato":"Titular dominante de Paggo","valor":"\"Gestiona tu Negocio Fácil\" en 23 de 31 anuncios","fuente":"adlibrary_paggo_GT.json"}],"cantidad":null,"no_cuantificable":"La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.","dato_que_falta":"Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.","advertencia":null},{"titulo":"SV sin disputa medida","accion":"Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.","evidencia":[{"dato":"Competencia activa en SV","valor":"0 anuncios","fuente":"Ad Library, SV, foto del 2026-08-27"},{"dato":"Inversión propia en SV","valor":"$197.97 · 105 resultados · $1.89 por resultado","fuente":"meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"}],"cantidad":null,"no_cuantificable":"Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.","dato_que_falta":"Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.","advertencia":"Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."}],"fuentes_usadas":["Ad Library, SV, foto del 2026-08-27","adlibrary_paggo_GT.json","meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"]},"tareas_propuestas":[{"titulo":"Revisar la campaña con mayor oportunidad de reasignación","descripcion":"Llevar a la mesa la diferencia de costo entre 'Campaña Qpaypro Guatemala Nueva [GT]' y 'Campaña Punto de Venta SV [SV]' y decidir si se reasigna presupuesto o se investiga la causa.","tipo":"accion","justificacion":"'Campaña Qpaypro Guatemala Nueva [GT]' gastó $380.68 a $4.01 = 95 resultados. Al costo de 'Campaña Punto de Venta SV [SV]' ($1.89) ese mismo monto equivale a 201, 106 más. Se eligió esta campaña por mayor oportunidad absoluta, no por peor costo unitario","origen":"recomendación cuantificada","idempotencia":"2026-W31::accion::Revisar la campaña con mayor oportunidad de reasignación"},{"titulo":"Obtener el dato que falta: Cantidades de producción por formato","descripcion":"Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.","tipo":"obtener_dato","justificacion":"El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.","origen":"recomendación sin dato suficiente","idempotencia":"2026-W31::dato::Cantidades de producción por formato"},{"titulo":"Obtener el dato que falta: Decidir posición frente al mensaje dominante del competidor","descripcion":"Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.","tipo":"obtener_dato","justificacion":"La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.","origen":"recomendación sin dato suficiente","idempotencia":"2026-W31::dato::Decidir posición frente al mensaje dominante del competidor"},{"titulo":"Obtener el dato que falta: SV sin disputa medida","descripcion":"Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.","tipo":"obtener_dato","justificacion":"Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.","origen":"recomendación sin dato suficiente","idempotencia":"2026-W31::dato::SV sin disputa medida"},{"titulo":"Quitar HN de la segmentación geográfica","descripcion":"Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion.","tipo":"integridad","justificacion":"HN está excluido de los mercados del proyecto pero registró $0.02 y 7 impresiones en: Campaña Punto de Venta SV.","origen":"verificación de integridad","idempotencia":"2026-W31::integridad::HN"}],"huecos_declarados":[{"fuente":"métricas orgánicas de Página e Instagram","descripcion":"No hay captura manual para este periodo.","impacto":"La corrida procede solo con datos de pauta y competencia. Ninguna recomendación cita orgánico (ADR-002)."}]}</script>
+<script id="estado" type="application/json">{"aprobadas":{},"version":1,"periodo":"2026-08-01 a 2026-08-24"}</script>
+<script id="plantilla" type="application/json">{"head":"<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Mesa Creativa</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap\">\n<style>\n/* Tablero semanal de Mesa Creativa.\n   Paleta categórica validada con scripts/validate_palette.js del skill dataviz:\n   pasa banda de luminosidad, piso de croma, separación CVD y contraste en\n   modo claro Y oscuro con los mismos pasos. */\n\n:root{\n  --fondo:#EFF4F5; --superficie:#FFFFFF; --superficie-2:#F7FAFA;\n  --tinta:#0B3C49; --tenue:#4F6B76; --borde:#D3E0E4; --borde-fuerte:#B9CDD3;\n  --dato:#00937A; --dato-suave:#E3F5F0;\n  --hueco:#B87514; --hueco-suave:#FBF1DF;\n  --riesgo:#A03F35; --riesgo-suave:#FAEBE8;\n  --serie:#1C7293; --serie-pista:#E7EEF1;\n  --c1:#2064C8; --c2:#0E8A62; --c3:#BE7A10; --c4:#B8495B;\n  --sombra:0 1px 2px rgba(11,60,73,.06), 0 4px 12px rgba(11,60,73,.05);\n  --r:10px;\n}\n:root:not([data-theme=\"light\"]) { }\n@media (prefers-color-scheme: dark){\n  :root:not([data-theme=\"light\"]){\n    --fondo:#071A20; --superficie:#0E262E; --superficie-2:#122F38;\n    --tinta:#E6EFF2; --tenue:#93AEB8; --borde:#1E3D47; --borde-fuerte:#2C525E;\n    --dato:#3FBF9F; --dato-suave:#0F3A33;\n    --hueco:#E0A343; --hueco-suave:#3A2C12;\n    --riesgo:#D97A72; --riesgo-suave:#3A1E1B;\n    --serie:#4A9EC4; --serie-pista:#17313A;\n    --sombra:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);\n  }\n}\n:root[data-theme=\"dark\"]{\n  --fondo:#071A20; --superficie:#0E262E; --superficie-2:#122F38;\n  --tinta:#E6EFF2; --tenue:#93AEB8; --borde:#1E3D47; --borde-fuerte:#2C525E;\n  --dato:#3FBF9F; --dato-suave:#0F3A33;\n  --hueco:#E0A343; --hueco-suave:#3A2C12;\n  --riesgo:#D97A72; --riesgo-suave:#3A1E1B;\n  --serie:#4A9EC4; --serie-pista:#17313A;\n  --sombra:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);\n}\n\n*{box-sizing:border-box}\nbody{\n  margin:0; background:var(--fondo); color:var(--tinta);\n  font-family:\"Public Sans\",-apple-system,\"Segoe UI\",system-ui,sans-serif;\n  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;\n}\n.envoltura{max-width:1080px; margin:0 auto; padding:40px 24px 72px}\nh1,h2,h3{font-family:Fraunces,Georgia,\"Times New Roman\",serif; text-wrap:balance; margin:0}\nh1{font-size:clamp(30px,4.4vw,42px); font-weight:600; letter-spacing:-.015em; line-height:1.1}\nh2{font-size:21px; font-weight:600; letter-spacing:-.005em}\nh3{font-size:16px; font-weight:600; font-family:\"Public Sans\",sans-serif}\n.mono{font-family:\"IBM Plex Mono\",ui-monospace,\"SFMono-Regular\",Menlo,monospace}\n.num{font-variant-numeric:tabular-nums}\n.rotulo{\n  font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;\n  color:var(--tenue);\n}\n\n/* ── encabezado ───────────────────────────────────────────── */\n.cabecera{display:flex; flex-wrap:wrap; gap:20px; align-items:flex-end;\n  justify-content:space-between; margin-bottom:28px}\n.cabecera p{margin:6px 0 0; color:var(--tenue); font-size:14px}\n.periodo{\n  font-family:\"IBM Plex Mono\",monospace; font-size:13px; font-variant-numeric:tabular-nums;\n  background:var(--superficie); border:1px solid var(--borde); border-radius:999px;\n  padding:7px 15px; white-space:nowrap;\n}\n\n/* ── banda de estado ──────────────────────────────────────── */\n.banda{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));\n  gap:14px; margin-bottom:14px}\n.metrica{background:var(--superficie); border:1px solid var(--borde);\n  border-radius:var(--r); padding:15px 17px; box-shadow:var(--sombra)}\n.metrica.alerta{border-color:var(--hueco); background:var(--hueco-suave)}\n.metrica .v{font-family:Fraunces,Georgia,serif; font-size:30px; font-weight:600;\n  line-height:1.1; font-variant-numeric:tabular-nums}\n.metrica.alerta .v{color:var(--hueco)}\n.metrica .e{font-size:12.5px; color:var(--tenue); margin-top:5px}\n\n.aviso{border:1px solid var(--hueco); background:var(--hueco-suave);\n  border-radius:var(--r); padding:16px 18px; margin-bottom:32px}\n.aviso h3{color:var(--hueco); font-size:13px; letter-spacing:.05em;\n  text-transform:uppercase; margin-bottom:9px}\n.aviso ul{margin:0; padding-left:19px}\n.aviso li{margin-bottom:7px; font-size:14px}\n.aviso li:last-child{margin-bottom:0}\n.aviso li b{font-weight:650}\n.aviso .cierre{margin:11px 0 0; font-size:12.5px; font-style:italic; color:var(--hueco)}\n\n/* ── secciones ────────────────────────────────────────────── */\nsection{margin-bottom:40px}\n.tituloSeccion{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;\n  margin-bottom:6px}\n.subtitulo{color:var(--tenue); font-size:14px; max-width:68ch; margin:0 0 18px}\n\n/* ── zona de decisión ─────────────────────────────────────── */\n.contador{display:flex; align-items:center; gap:10px; margin-bottom:16px;\n  font-size:13.5px; color:var(--tenue)}\n.contador .n{font-family:Fraunces,Georgia,serif; font-size:19px; font-weight:600;\n  color:var(--tinta); font-variant-numeric:tabular-nums}\n.tareas{display:flex; flex-direction:column; gap:12px}\n.tarea{background:var(--superficie); border:1px solid var(--borde);\n  border-radius:var(--r); padding:16px 18px; box-shadow:var(--sombra);\n  display:grid; grid-template-columns:1fr auto; gap:16px; align-items:start}\n.tarea.aprobada{border-color:var(--dato); background:var(--dato-suave)}\n.tarea .cuerpo{min-width:0}\n.chip{display:inline-flex; align-items:center; gap:6px; font-size:10.5px;\n  font-weight:700; letter-spacing:.06em; text-transform:uppercase;\n  padding:3px 9px; border-radius:999px; border:1px solid; margin-bottom:9px}\n.chip.accion{color:var(--dato); border-color:var(--dato); background:transparent}\n.chip.obtener_dato{color:var(--hueco); border-color:var(--hueco); background:transparent}\n.chip.integridad{color:var(--riesgo); border-color:var(--riesgo); background:transparent}\n.tarea h3{margin-bottom:5px}\n.tarea .desc{font-size:14px; margin:0 0 10px}\n.tarea .just{font-size:12px; color:var(--tenue); background:var(--superficie-2);\n  border:1px solid var(--borde); border-radius:7px; padding:9px 11px;\n  overflow-x:auto; white-space:pre-wrap; word-break:break-word}\n.tarea .origen{font-size:11.5px; color:var(--tenue); margin:9px 0 0}\n\n.palanca{display:inline-flex; align-items:center; gap:9px; cursor:pointer;\n  border:1px solid var(--borde-fuerte); background:var(--superficie);\n  border-radius:999px; padding:7px 14px 7px 9px; font:inherit; font-size:13px;\n  font-weight:600; color:var(--tinta); white-space:nowrap}\n.palanca:hover{border-color:var(--dato)}\n.palanca:focus-visible{outline:2px solid var(--serie); outline-offset:2px}\n.palanca .caja{width:17px; height:17px; border-radius:5px; flex:0 0 auto;\n  border:1.5px solid var(--borde-fuerte); display:grid; place-items:center;\n  background:var(--superficie)}\n.palanca[aria-pressed=\"true\"]{border-color:var(--dato); background:var(--dato-suave);\n  color:var(--dato)}\n.palanca[aria-pressed=\"true\"] .caja{background:var(--dato); border-color:var(--dato)}\n.palanca .tic{width:11px; height:11px; opacity:0; stroke:var(--superficie);\n  stroke-width:2.6; fill:none}\n.palanca[aria-pressed=\"true\"] .tic{opacity:1}\n.palanca[disabled]{opacity:.5; cursor:not-allowed}\n\n.nota{font-size:13px; color:var(--tenue); margin:16px 0 0; padding:13px 15px;\n  background:var(--superficie-2); border:1px solid var(--borde); border-radius:var(--r)}\n.nota b{color:var(--tinta); font-weight:650}\n\n/* ── gráficos ─────────────────────────────────────────────── */\n.panel{background:var(--superficie); border:1px solid var(--borde);\n  border-radius:var(--r); padding:20px 22px; box-shadow:var(--sombra)}\n.dos{display:grid; grid-template-columns:1fr 1fr; gap:16px}\n@media (max-width:820px){.dos{grid-template-columns:1fr}}\n.panel h3{margin-bottom:3px}\n.panel .fuente{font-size:11.5px; color:var(--tenue); margin:14px 0 0}\n\n.barras{display:flex; flex-direction:column; gap:11px; margin-top:16px}\n.fila{display:grid; grid-template-columns:minmax(0,1fr); gap:5px}\n.fila .et{font-size:13px; display:flex; justify-content:space-between; gap:10px;\n  align-items:baseline}\n.fila .et .v{font-weight:650; font-variant-numeric:tabular-nums; white-space:nowrap}\n.pista{height:9px; background:var(--serie-pista); border-radius:5px; overflow:hidden}\n.rell{height:100%; background:var(--serie); border-radius:0 5px 5px 0;\n  transition:width .5s cubic-bezier(.2,.7,.3,1)}\n@media (prefers-reduced-motion:reduce){.rell{transition:none}}\n\n.apilada{display:flex; height:34px; border-radius:7px; overflow:hidden;\n  gap:2px; margin-top:16px; background:var(--serie-pista)}\n.seg{position:relative; display:grid; place-items:center; min-width:2px}\n.seg span{font-size:12px; font-weight:700; color:#fff; font-variant-numeric:tabular-nums;\n  text-shadow:0 1px 2px rgba(0,0,0,.35)}\n.leyenda{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:14px; font-size:12.5px}\n.leyenda i{width:11px; height:11px; border-radius:3px; display:inline-block;\n  margin-right:7px; vertical-align:-1px}\n.leyenda span{color:var(--tenue)}\n.leyenda b{font-weight:600; color:var(--tinta); font-variant-numeric:tabular-nums}\n\ndetails{margin-top:14px}\ndetails summary{font-size:12px; color:var(--tenue); cursor:pointer;\n  padding:5px 0; font-weight:600}\ndetails summary:focus-visible{outline:2px solid var(--serie); outline-offset:2px}\ntable{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:9px}\nth,td{text-align:left; padding:6px 9px; border-bottom:1px solid var(--borde)}\nth{font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--tenue)}\ntd.n{text-align:right; font-variant-numeric:tabular-nums}\n.tablaEnv{overflow-x:auto}\n\n/* ── hallazgos ────────────────────────────────────────────── */\n.hallazgos{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));\n  gap:14px}\n.hallazgo{background:var(--superficie); border:1px solid var(--borde);\n  border-left:none; border-radius:var(--r); padding:16px 18px; box-shadow:var(--sombra)}\n.hallazgo.riesgo{background:var(--riesgo-suave); border-color:var(--riesgo)}\n.hallazgo.oportunidad{background:var(--dato-suave); border-color:var(--dato)}\n.hallazgo .tipo{font-size:10.5px; font-weight:700; letter-spacing:.07em;\n  text-transform:uppercase; margin-bottom:8px}\n.hallazgo.riesgo .tipo{color:var(--riesgo)}\n.hallazgo.oportunidad .tipo{color:var(--dato)}\n.hallazgo h3{margin-bottom:6px}\n.hallazgo p{margin:0 0 9px; font-size:13.5px}\n/* El cálculo DEBE poder leerse completo: es la trazabilidad del número.\n   Antes iba en nowrap con overflow y se cortaba a media frase. */\n.hallazgo .calc{font-size:11.5px; color:var(--tenue); font-family:\"IBM Plex Mono\",monospace;\n  white-space:pre-wrap; word-break:break-word; line-height:1.5;\n  background:var(--superficie); border:1px solid var(--borde); border-radius:6px;\n  padding:8px 10px}\n.hallazgo .ev{font-size:11.5px; color:var(--tenue); margin:9px 0 0;\n  padding-top:9px; border-top:1px solid var(--borde)}\n.hallazgo .adv{font-size:11.5px; font-style:italic; margin:9px 0 0; color:var(--tenue)}\n\n/* ── pie ──────────────────────────────────────────────────── */\n.pie{border-top:1px solid var(--borde); padding-top:20px; margin-top:44px;\n  font-size:12.5px; color:var(--tenue)}\n.pie code{font-family:\"IBM Plex Mono\",monospace; font-size:11.5px;\n  background:var(--superficie-2); padding:1px 5px; border-radius:4px}\n.aviso-lectura{background:var(--superficie-2); border:1px solid var(--borde-fuerte);\n  border-radius:var(--r); padding:12px 15px; margin-bottom:20px; font-size:13px}\n\n</style>","app":"/* Tablero semanal · lógica de cliente.\n   Renderiza desde los datos embebidos y publica las aprobaciones como una\n   versión nueva del propio artefacto, para que el estado se comparta entre\n   quienes abren la página. */\n(function () {\n  \"use strict\";\n\n  var leer = function (id) {\n    var n = document.getElementById(id);\n    try { return n ? JSON.parse(n.textContent) : null; } catch (e) { return null; }\n  };\n  var D = leer(\"datos\") || {};\n  var E = leer(\"estado\") || { aprobadas: {}, version: 1 };\n  var P = leer(\"plantilla\") || { head: \"\", app: \"\" };\n  if (!E.aprobadas) E.aprobadas = {};\n\n  var soloLectura = false;\n  var api = null;\n\n  var esc = function (s) {\n    return String(s == null ? \"\" : s).replace(/[&<>\"']/g, function (c) {\n      return { \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\", '\"': \"&quot;\", \"'\": \"&#39;\" }[c];\n    });\n  };\n  var dinero = function (n) {\n    return \"$\" + Number(n).toLocaleString(\"en-US\",\n      { minimumFractionDigits: 2, maximumFractionDigits: 2 });\n  };\n  var entero = function (n) {\n    return Number(n).toLocaleString(\"en-US\", { maximumFractionDigits: 0 });\n  };\n\n  var CAT = [\"var(--c1)\", \"var(--c2)\", \"var(--c3)\", \"var(--c4)\"];\n  var ETIQUETA_TIPO = {\n    accion: \"Acción\",\n    obtener_dato: \"Falta el dato\",\n    integridad: \"Integridad\"\n  };\n\n  /* ───────────────── render ───────────────── */\n\n  function banda() {\n    var i = D.integridad || {};\n    var exc = i.mercados_excluidos_con_gasto || {};\n    var t = [];\n    t.push(tarjeta(entero(i.campanas_leidas || 0), \"filas campaña×país leídas\", false));\n    t.push(tarjeta((i.paises_con_entrega || []).join(\"  \"), \"países con entrega\", false));\n    t.push(tarjeta(String((i.campanas_incoherentes || []).length),\n      \"costos incoherentes\", (i.campanas_incoherentes || []).length > 0));\n    var nExc = Object.keys(exc).length;\n    if (nExc) {\n      var k = Object.keys(exc)[0];\n      t.push(tarjeta(dinero(exc[k].gasto),\n        \"gasto en \" + k + \", mercado excluido\", true));\n    }\n    return '<div class=\"banda\">' + t.join(\"\") + \"</div>\";\n  }\n  function tarjeta(v, e, alerta) {\n    return '<div class=\"metrica' + (alerta ? \" alerta\" : \"\") + '\">' +\n      '<div class=\"v\">' + esc(v) + \"</div>\" +\n      '<div class=\"e\">' + esc(e) + \"</div></div>\";\n  }\n\n  function avisoHuecos() {\n    var h = D.huecos_declarados || [];\n    var exc = (D.integridad || {}).mercados_excluidos_con_gasto || {};\n    var items = h.map(function (x) {\n      return \"<li><b>\" + esc(x.fuente) + \".</b> \" + esc(x.descripcion) +\n        \" \" + esc(x.impacto) + \"</li>\";\n    });\n    Object.keys(exc).forEach(function (k) {\n      items.push(\"<li><b>\" + esc(k) + \" tuvo gasto y está excluido.</b> \" +\n        esc(exc[k].accion_pendiente) + \"</li>\");\n    });\n    if (!items.length) return \"\";\n    return '<div class=\"aviso\"><h3>Lo que esta corrida no incluye</h3><ul>' +\n      items.join(\"\") + '</ul><p class=\"cierre\">Se declara, no se rellena.</p></div>';\n  }\n\n  function zonaDecision() {\n    var tareas = D.tareas_propuestas || [];\n    if (!tareas.length) return \"\";\n    var aprob = tareas.filter(function (t) { return E.aprobadas[t.idempotencia]; }).length;\n    var filas = tareas.map(function (t) {\n      var si = !!E.aprobadas[t.idempotencia];\n      return '<article class=\"tarea' + (si ? \" aprobada\" : \"\") + '\">' +\n        '<div class=\"cuerpo\">' +\n          '<span class=\"chip ' + esc(t.tipo) + '\">' +\n            esc(ETIQUETA_TIPO[t.tipo] || t.tipo) + \"</span>\" +\n          \"<h3>\" + esc(t.titulo) + \"</h3>\" +\n          '<p class=\"desc\">' + esc(t.descripcion) + \"</p>\" +\n          '<div class=\"just mono\">' + esc(t.justificacion) + \"</div>\" +\n          '<p class=\"origen\">Origen: ' + esc(t.origen) + \"</p>\" +\n        \"</div>\" +\n        '<button class=\"palanca\" type=\"button\" aria-pressed=\"' + si + '\"' +\n          ' data-clave=\"' + esc(t.idempotencia) + '\"' +\n          (soloLectura ? \" disabled\" : \"\") + \">\" +\n          '<span class=\"caja\"><svg class=\"tic\" viewBox=\"0 0 12 12\" aria-hidden=\"true\">' +\n          '<path d=\"M2 6.4 4.6 9 10 3\"/></svg></span>' +\n          \"<span>\" + (si ? \"Aprobada\" : \"Aprobar\") + \"</span></button>\" +\n        \"</article>\";\n    });\n    return '<section><div class=\"tituloSeccion\"><h2>Decisión de la mesa</h2></div>' +\n      '<p class=\"subtitulo\">Marca lo que se acordó. Nada se crea en Zoho Sprint desde ' +\n      'aquí: esta página es el registro de la decisión, y el orquestador crea las ' +\n      'tareas aprobadas en una corrida aparte, con dry-run previo.</p>' +\n      '<div class=\"contador\"><span class=\"n\">' + aprob + \" de \" + tareas.length +\n      \"</span><span>aprobadas</span></div>\" +\n      '<div class=\"tareas\">' + filas.join(\"\") + \"</div>\" +\n      '<p class=\"nota\"><b>Un hueco no se convierte en una acción.</b> Cuando el ' +\n      'análisis no alcanza para justificar una cantidad, la tarea propuesta es ' +\n      'conseguir el dato que falta, no actuar sin él.</p></section>';\n  }\n\n  function graficoCosto() {\n    var c = (D.campanas_por_indicador_principal || []).slice()\n      .sort(function (a, b) { return b.costo_por_resultado - a.costo_por_resultado; });\n    if (!c.length) return \"\";\n    var max = Math.max.apply(null, c.map(function (x) { return x.costo_por_resultado; }));\n    var barras = c.map(function (x) {\n      // Se quita el sufijo [PAIS] cuando el nombre ya termina en ese código:\n      // \"Punto de Venta SV [SV]\" lee como un error, no como información.\n      var nom = String(x.etiqueta).replace(/^Campaña\\s+/, \"\");\n      var m = nom.match(/^(.*?)\\s*\\[([A-Z]{2})\\]$/);\n      if (m) nom = new RegExp(\"\\\\b\" + m[2] + \"$\").test(m[1].trim())\n        ? m[1].trim() : m[1].trim() + \" · \" + m[2];\n      var pct = (x.costo_por_resultado / max) * 100;\n      return '<div class=\"fila\" title=\"' + esc(nom) + \" · \" +\n        dinero(x.costo_por_resultado) + \" por resultado · \" +\n        dinero(x.gasto) + ' gastado\">' +\n        '<div class=\"et\"><span>' + esc(nom) + '</span>' +\n        '<span class=\"v\">' + dinero(x.costo_por_resultado) + \"</span></div>\" +\n        '<div class=\"pista\"><div class=\"rell\" style=\"width:' + pct.toFixed(1) +\n        '%\"></div></div></div>';\n    });\n    var tabla = '<div class=\"tablaEnv\"><table><thead><tr><th>Campaña</th>' +\n      '<th>Costo/result.</th><th>Resultados</th><th>Gasto</th></tr></thead><tbody>' +\n      c.map(function (x) {\n        var n2 = String(x.etiqueta).replace(/^Campaña\\s+/, \"\");\n        var m2 = n2.match(/^(.*?)\\s*\\[([A-Z]{2})\\]$/);\n        if (m2) n2 = new RegExp(\"\\\\b\" + m2[2] + \"$\").test(m2[1].trim())\n          ? m2[1].trim() : m2[1].trim() + \" · \" + m2[2];\n        return \"<tr><td>\" + esc(n2) +\n          '</td><td class=\"n\">' + dinero(x.costo_por_resultado) +\n          '</td><td class=\"n\">' + entero(x.resultados) +\n          '</td><td class=\"n\">' + dinero(x.gasto) + \"</td></tr>\";\n      }).join(\"\") + \"</tbody></table></div>\";\n    return '<div class=\"panel\"><h3>Costo por resultado</h3>' +\n      '<p class=\"subtitulo\" style=\"margin:3px 0 0\">Solo campañas con indicador ' +\n      '<span class=\"mono\">actions:lead</span>. No se comparan indicadores distintos.</p>' +\n      '<div class=\"barras\">' + barras.join(\"\") + \"</div>\" +\n      \"<details><summary>Ver tabla</summary>\" + tabla + \"</details>\" +\n      '<p class=\"fuente\">Rango cerrado ' + esc((D.corrida || {}).rango || \"\") + \"</p></div>\";\n  }\n\n  function graficoPresion() {\n    var comp = D.competencia || {};\n    var mercados = Object.keys(comp);\n    if (!mercados.length) return \"\";\n    var principal = mercados.reduce(function (a, b) {\n      return comp[b].presion_total > comp[a].presion_total ? b : a;\n    }, mercados[0]);\n    var det = comp[principal].detalle || {};\n    var activos = Object.keys(det)\n      .filter(function (n) { return det[n].presion_real > 0; })\n      .sort(function (a, b) { return det[b].presion_real - det[a].presion_real; });\n    if (!activos.length) return \"\";\n    var total = activos.reduce(function (s, n) { return s + det[n].presion_real; }, 0);\n    var declarado = Object.keys(det).reduce(function (s, n) {\n      return s + det[n].activos_declarados;\n    }, 0);\n\n    var segs = activos.map(function (n, k) {\n      var v = det[n].presion_real, pct = (v / total) * 100;\n      return '<div class=\"seg\" style=\"flex:' + v + \";background:\" + CAT[k % 4] +\n        '\" title=\"' + esc(n) + \" · \" + v + \" anuncios · \" + pct.toFixed(0) + '%\">' +\n        (pct >= 9 ? \"<span>\" + v + \"</span>\" : \"\") + \"</div>\";\n    });\n    var leyenda = activos.map(function (n, k) {\n      return '<span><i style=\"background:' + CAT[k % 4] + '\"></i>' + esc(n) +\n        \" <b>\" + det[n].presion_real + \"</b></span>\";\n    });\n    var vacios = mercados.filter(function (m) { return comp[m].presion_total === 0; });\n    var tabla = '<div class=\"tablaEnv\"><table><thead><tr><th>Competidor</th>' +\n      '<th>Activos totales</th><th>Presión real</th></tr></thead><tbody>' +\n      Object.keys(det).sort(function (a, b) {\n        return det[b].presion_real - det[a].presion_real;\n      }).map(function (n) {\n        return \"<tr><td>\" + esc(n) + '</td><td class=\"n\">' +\n          entero(det[n].activos_declarados) + '</td><td class=\"n\">' +\n          entero(det[n].presion_real) + \"</td></tr>\";\n      }).join(\"\") + \"</tbody></table></div>\";\n\n    return '<div class=\"panel\"><h3>Presión competitiva en ' + esc(principal) + \"</h3>\" +\n      '<p class=\"subtitulo\" style=\"margin:3px 0 0\">Sumar los anuncios activos de todos ' +\n      \"daría \" + entero(declarado) + \". Solo \" + entero(total) +\n      \" disputan nuestra categoría.</p>\" +\n      '<div class=\"apilada\">' + segs.join(\"\") + \"</div>\" +\n      '<div class=\"leyenda\">' + leyenda.join(\"\") + \"</div>\" +\n      (vacios.length ? '<p class=\"fuente\"><b>' + esc(vacios.join(\", \")) +\n        \":</b> sin disputa medida — ningún competidor del registro curado pauta ahí.</p>\" : \"\") +\n      \"<details><summary>Ver tabla</summary>\" + tabla + \"</details>\" +\n      '<p class=\"fuente\">La Ad Library no acepta rango de fechas: es una foto del día ' +\n      \"de la corrida, no una serie.</p></div>\";\n  }\n\n  function hallazgos() {\n    var h = D.hallazgos || [];\n    if (!h.length) return \"\";\n    var orden = { oportunidad: 0, riesgo: 1, observacion: 2 };\n    var tarj = h.slice().sort(function (a, b) {\n      return (orden[a.tipo] || 9) - (orden[b.tipo] || 9);\n    }).map(function (x) {\n      var ev = (x.evidencia || []).map(function (e) {\n        return esc(e.dato) + \": \" + esc(e.valor);\n      }).join(\"<br>\");\n      return '<article class=\"hallazgo ' + esc(x.tipo) + '\">' +\n        '<div class=\"tipo\">' + esc(x.tipo) + \"</div>\" +\n        \"<h3>\" + esc(x.titulo) + \"</h3>\" +\n        \"<p>\" + esc(x.afirmacion) + \"</p>\" +\n        (x.calculo ? '<div class=\"calc\">' + esc(x.calculo) + \"</div>\" : \"\") +\n        (ev ? '<div class=\"ev\">' + ev + \"</div>\" : \"\") +\n        (x.advertencia ? '<p class=\"adv\">' + esc(x.advertencia) + \"</p>\" : \"\") +\n        \"</article>\";\n    });\n    return '<section><div class=\"tituloSeccion\"><h2>Evidencia</h2></div>' +\n      '<p class=\"subtitulo\">Lo que sostiene las tareas de arriba. Cada hallazgo cita ' +\n      'su dato de origen.</p><div class=\"hallazgos\">' + tarj.join(\"\") + \"</div></section>\";\n  }\n\n  function cuerpo() {\n    var c = D.corrida || {};\n    var v = D.verificacion_semana_anterior || \"\";\n    return '<div class=\"envoltura\">' +\n      (soloLectura ? '<div class=\"aviso-lectura\">Estás viendo esta página en modo ' +\n        \"lectura. Puedes revisar todo, pero las aprobaciones las registra quien tiene \" +\n        \"permiso de escritura.</div>\" : \"\") +\n      '<header class=\"cabecera\"><div><h1>Mesa Creativa</h1>' +\n      \"<p>Base estratégica de la reunión creativa</p></div>\" +\n      '<div class=\"periodo\">' + esc(c.rango || \"\") + \"</div></header>\" +\n      banda() + avisoHuecos() + zonaDecision() +\n      '<section><div class=\"tituloSeccion\"><h2>Cómo llegamos ahí</h2></div>' +\n      '<p class=\"subtitulo\">' + esc(v) + '</p>' +\n      '<div class=\"dos\">' + graficoCosto() + graficoPresion() + \"</div></section>\" +\n      hallazgos() +\n      '<footer class=\"pie\">Cada cifra de esta página es trazable hasta la consulta ' +\n      \"que la produjo. Las respuestas crudas quedan guardadas sin editar en \" +\n      \"<code>data/historico/</code> junto a la corrida.</footer></div>\";\n  }\n\n  function pintar() {\n    document.body.innerHTML = cuerpo();\n    document.querySelectorAll(\".palanca\").forEach(function (b) {\n      b.addEventListener(\"click\", function () { alternar(b.dataset.clave); });\n    });\n  }\n\n  /* ───────────────── publicar ───────────────── */\n\n  function documento() {\n    var j = function (o) {\n      return JSON.stringify(o).replace(/<\\/script/gi, \"<\\\\/script\");\n    };\n    return \"<!doctype html>\\n<html lang=\\\"es\\\">\\n<head>\\n\" + P.head +\n      \"\\n</head>\\n<body>\\n\" +\n      '<script id=\"datos\" type=\"application/json\">' + j(D) + \"<\\/script>\\n\" +\n      '<script id=\"estado\" type=\"application/json\">' + j(E) + \"<\\/script>\\n\" +\n      '<script id=\"plantilla\" type=\"application/json\">' + j(P) + \"<\\/script>\\n\" +\n      \"<script>\" + P.app + \"<\\/script>\\n</body>\\n</html>\";\n  }\n\n  function alternar(clave) {\n    if (!clave || soloLectura) return;\n    if (E.aprobadas[clave]) delete E.aprobadas[clave];\n    else E.aprobadas[clave] = { en: new Date().toISOString() };\n    E.version = (E.version || 1) + 1;\n    pintar();\n    if (!api) return;\n    api.publish(documento()).catch(function (err) {\n      var c = err && err.code;\n      if (c === \"conflict\") return;                       // la recarga trae la verdad\n      if (c === \"not_writer\" || c === \"not_granted\" ||\n          c === \"not_declared\" || c === \"consent_required\" ||\n          c === \"capability_disabled\" || c === \"capability_removed\") {\n        soloLectura = true; api = null; pintar(); return;\n      }\n      console.warn(\"no se pudo registrar la aprobación:\", c);\n    });\n  }\n\n  pintar();\n\n  // Gancho de diagnóstico: permite verificar en pruebas que la página puede\n  // reconstruirse a sí misma sin romperse. Solo lee, nunca muta.\n  try {\n    Object.defineProperty(window, \"__tablero\", {\n      value: Object.freeze({ documento: documento, tareas: (D.tareas_propuestas || []).length }),\n      writable: false, configurable: false, enumerable: false\n    });\n  } catch (e) { /* entorno que no lo permite: la página funciona igual */ }\n\n  if (window.claude && typeof window.claude.use === \"function\") {\n    window.claude.use(\"artifact\").then(function (a) {\n      if (!a) { soloLectura = true; pintar(); return; }\n      api = a;\n    }).catch(function () { soloLectura = true; pintar(); });\n  } else {\n    soloLectura = true; pintar();\n  }\n})();\n"}</script>
+<script>/* Tablero semanal · lógica de cliente.
+   Renderiza desde los datos embebidos y publica las aprobaciones como una
+   versión nueva del propio artefacto, para que el estado se comparta entre
+   quienes abren la página. */
+(function () {
+  "use strict";
+
+  var leer = function (id) {
+    var n = document.getElementById(id);
+    try { return n ? JSON.parse(n.textContent) : null; } catch (e) { return null; }
+  };
+  var D = leer("datos") || {};
+  var E = leer("estado") || { aprobadas: {}, version: 1 };
+  var P = leer("plantilla") || { head: "", app: "" };
+  if (!E.aprobadas) E.aprobadas = {};
+
+  var soloLectura = false;
+  var api = null;
+
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  var dinero = function (n) {
+    return "$" + Number(n).toLocaleString("en-US",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  var entero = function (n) {
+    return Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
+  };
+
+  var CAT = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)"];
+  var ETIQUETA_TIPO = {
+    accion: "Acción",
+    obtener_dato: "Falta el dato",
+    integridad: "Integridad"
+  };
+
+  /* ───────────────── render ───────────────── */
+
+  function banda() {
+    var i = D.integridad || {};
+    var exc = i.mercados_excluidos_con_gasto || {};
+    var t = [];
+    t.push(tarjeta(entero(i.campanas_leidas || 0), "filas campaña×país leídas", false));
+    t.push(tarjeta((i.paises_con_entrega || []).join("  "), "países con entrega", false));
+    t.push(tarjeta(String((i.campanas_incoherentes || []).length),
+      "costos incoherentes", (i.campanas_incoherentes || []).length > 0));
+    var nExc = Object.keys(exc).length;
+    if (nExc) {
+      var k = Object.keys(exc)[0];
+      t.push(tarjeta(dinero(exc[k].gasto),
+        "gasto en " + k + ", mercado excluido", true));
+    }
+    return '<div class="banda">' + t.join("") + "</div>";
+  }
+  function tarjeta(v, e, alerta) {
+    return '<div class="metrica' + (alerta ? " alerta" : "") + '">' +
+      '<div class="v">' + esc(v) + "</div>" +
+      '<div class="e">' + esc(e) + "</div></div>";
+  }
+
+  function avisoHuecos() {
+    var h = D.huecos_declarados || [];
+    var exc = (D.integridad || {}).mercados_excluidos_con_gasto || {};
+    var items = h.map(function (x) {
+      return "<li><b>" + esc(x.fuente) + ".</b> " + esc(x.descripcion) +
+        " " + esc(x.impacto) + "</li>";
+    });
+    Object.keys(exc).forEach(function (k) {
+      items.push("<li><b>" + esc(k) + " tuvo gasto y está excluido.</b> " +
+        esc(exc[k].accion_pendiente) + "</li>");
+    });
+    if (!items.length) return "";
+    return '<div class="aviso"><h3>Lo que esta corrida no incluye</h3><ul>' +
+      items.join("") + '</ul><p class="cierre">Se declara, no se rellena.</p></div>';
+  }
+
+  function zonaDecision() {
+    var tareas = D.tareas_propuestas || [];
+    if (!tareas.length) return "";
+    var aprob = tareas.filter(function (t) { return E.aprobadas[t.idempotencia]; }).length;
+    var filas = tareas.map(function (t) {
+      var si = !!E.aprobadas[t.idempotencia];
+      return '<article class="tarea' + (si ? " aprobada" : "") + '">' +
+        '<div class="cuerpo">' +
+          '<span class="chip ' + esc(t.tipo) + '">' +
+            esc(ETIQUETA_TIPO[t.tipo] || t.tipo) + "</span>" +
+          "<h3>" + esc(t.titulo) + "</h3>" +
+          '<p class="desc">' + esc(t.descripcion) + "</p>" +
+          '<div class="just mono">' + esc(t.justificacion) + "</div>" +
+          '<p class="origen">Origen: ' + esc(t.origen) + "</p>" +
+        "</div>" +
+        '<button class="palanca" type="button" aria-pressed="' + si + '"' +
+          ' data-clave="' + esc(t.idempotencia) + '"' +
+          (soloLectura ? " disabled" : "") + ">" +
+          '<span class="caja"><svg class="tic" viewBox="0 0 12 12" aria-hidden="true">' +
+          '<path d="M2 6.4 4.6 9 10 3"/></svg></span>' +
+          "<span>" + (si ? "Aprobada" : "Aprobar") + "</span></button>" +
+        "</article>";
+    });
+    return '<section><div class="tituloSeccion"><h2>Decisión de la mesa</h2></div>' +
+      '<p class="subtitulo">Marca lo que se acordó. Nada se crea en Zoho Sprint desde ' +
+      'aquí: esta página es el registro de la decisión, y el orquestador crea las ' +
+      'tareas aprobadas en una corrida aparte, con dry-run previo.</p>' +
+      '<div class="contador"><span class="n">' + aprob + " de " + tareas.length +
+      "</span><span>aprobadas</span></div>" +
+      '<div class="tareas">' + filas.join("") + "</div>" +
+      '<p class="nota"><b>Un hueco no se convierte en una acción.</b> Cuando el ' +
+      'análisis no alcanza para justificar una cantidad, la tarea propuesta es ' +
+      'conseguir el dato que falta, no actuar sin él.</p></section>';
+  }
+
+  function graficoCosto() {
+    var c = (D.campanas_por_indicador_principal || []).slice()
+      .sort(function (a, b) { return b.costo_por_resultado - a.costo_por_resultado; });
+    if (!c.length) return "";
+    var max = Math.max.apply(null, c.map(function (x) { return x.costo_por_resultado; }));
+    var barras = c.map(function (x) {
+      // Se quita el sufijo [PAIS] cuando el nombre ya termina en ese código:
+      // "Punto de Venta SV [SV]" lee como un error, no como información.
+      var nom = String(x.etiqueta).replace(/^Campaña\s+/, "");
+      var m = nom.match(/^(.*?)\s*\[([A-Z]{2})\]$/);
+      if (m) nom = new RegExp("\\b" + m[2] + "$").test(m[1].trim())
+        ? m[1].trim() : m[1].trim() + " · " + m[2];
+      var pct = (x.costo_por_resultado / max) * 100;
+      return '<div class="fila" title="' + esc(nom) + " · " +
+        dinero(x.costo_por_resultado) + " por resultado · " +
+        dinero(x.gasto) + ' gastado">' +
+        '<div class="et"><span>' + esc(nom) + '</span>' +
+        '<span class="v">' + dinero(x.costo_por_resultado) + "</span></div>" +
+        '<div class="pista"><div class="rell" style="width:' + pct.toFixed(1) +
+        '%"></div></div></div>';
+    });
+    var tabla = '<div class="tablaEnv"><table><thead><tr><th>Campaña</th>' +
+      '<th>Costo/result.</th><th>Resultados</th><th>Gasto</th></tr></thead><tbody>' +
+      c.map(function (x) {
+        var n2 = String(x.etiqueta).replace(/^Campaña\s+/, "");
+        var m2 = n2.match(/^(.*?)\s*\[([A-Z]{2})\]$/);
+        if (m2) n2 = new RegExp("\\b" + m2[2] + "$").test(m2[1].trim())
+          ? m2[1].trim() : m2[1].trim() + " · " + m2[2];
+        return "<tr><td>" + esc(n2) +
+          '</td><td class="n">' + dinero(x.costo_por_resultado) +
+          '</td><td class="n">' + entero(x.resultados) +
+          '</td><td class="n">' + dinero(x.gasto) + "</td></tr>";
+      }).join("") + "</tbody></table></div>";
+    return '<div class="panel"><h3>Costo por resultado</h3>' +
+      '<p class="subtitulo" style="margin:3px 0 0">Solo campañas con indicador ' +
+      '<span class="mono">actions:lead</span>. No se comparan indicadores distintos.</p>' +
+      '<div class="barras">' + barras.join("") + "</div>" +
+      "<details><summary>Ver tabla</summary>" + tabla + "</details>" +
+      '<p class="fuente">Rango cerrado ' + esc((D.corrida || {}).rango || "") + "</p></div>";
+  }
+
+  function graficoPresion() {
+    var comp = D.competencia || {};
+    var mercados = Object.keys(comp);
+    if (!mercados.length) return "";
+    var principal = mercados.reduce(function (a, b) {
+      return comp[b].presion_total > comp[a].presion_total ? b : a;
+    }, mercados[0]);
+    var det = comp[principal].detalle || {};
+    var activos = Object.keys(det)
+      .filter(function (n) { return det[n].presion_real > 0; })
+      .sort(function (a, b) { return det[b].presion_real - det[a].presion_real; });
+    if (!activos.length) return "";
+    var total = activos.reduce(function (s, n) { return s + det[n].presion_real; }, 0);
+    var declarado = Object.keys(det).reduce(function (s, n) {
+      return s + det[n].activos_declarados;
+    }, 0);
+
+    var segs = activos.map(function (n, k) {
+      var v = det[n].presion_real, pct = (v / total) * 100;
+      return '<div class="seg" style="flex:' + v + ";background:" + CAT[k % 4] +
+        '" title="' + esc(n) + " · " + v + " anuncios · " + pct.toFixed(0) + '%">' +
+        (pct >= 9 ? "<span>" + v + "</span>" : "") + "</div>";
+    });
+    var leyenda = activos.map(function (n, k) {
+      return '<span><i style="background:' + CAT[k % 4] + '"></i>' + esc(n) +
+        " <b>" + det[n].presion_real + "</b></span>";
+    });
+    var vacios = mercados.filter(function (m) { return comp[m].presion_total === 0; });
+    var tabla = '<div class="tablaEnv"><table><thead><tr><th>Competidor</th>' +
+      '<th>Activos totales</th><th>Presión real</th></tr></thead><tbody>' +
+      Object.keys(det).sort(function (a, b) {
+        return det[b].presion_real - det[a].presion_real;
+      }).map(function (n) {
+        return "<tr><td>" + esc(n) + '</td><td class="n">' +
+          entero(det[n].activos_declarados) + '</td><td class="n">' +
+          entero(det[n].presion_real) + "</td></tr>";
+      }).join("") + "</tbody></table></div>";
+
+    return '<div class="panel"><h3>Presión competitiva en ' + esc(principal) + "</h3>" +
+      '<p class="subtitulo" style="margin:3px 0 0">Sumar los anuncios activos de todos ' +
+      "daría " + entero(declarado) + ". Solo " + entero(total) +
+      " disputan nuestra categoría.</p>" +
+      '<div class="apilada">' + segs.join("") + "</div>" +
+      '<div class="leyenda">' + leyenda.join("") + "</div>" +
+      (vacios.length ? '<p class="fuente"><b>' + esc(vacios.join(", ")) +
+        ":</b> sin disputa medida — ningún competidor del registro curado pauta ahí.</p>" : "") +
+      "<details><summary>Ver tabla</summary>" + tabla + "</details>" +
+      '<p class="fuente">La Ad Library no acepta rango de fechas: es una foto del día ' +
+      "de la corrida, no una serie.</p></div>";
+  }
+
+  function hallazgos() {
+    var h = D.hallazgos || [];
+    if (!h.length) return "";
+    var orden = { oportunidad: 0, riesgo: 1, observacion: 2 };
+    var tarj = h.slice().sort(function (a, b) {
+      return (orden[a.tipo] || 9) - (orden[b.tipo] || 9);
+    }).map(function (x) {
+      var ev = (x.evidencia || []).map(function (e) {
+        return esc(e.dato) + ": " + esc(e.valor);
+      }).join("<br>");
+      return '<article class="hallazgo ' + esc(x.tipo) + '">' +
+        '<div class="tipo">' + esc(x.tipo) + "</div>" +
+        "<h3>" + esc(x.titulo) + "</h3>" +
+        "<p>" + esc(x.afirmacion) + "</p>" +
+        (x.calculo ? '<div class="calc">' + esc(x.calculo) + "</div>" : "") +
+        (ev ? '<div class="ev">' + ev + "</div>" : "") +
+        (x.advertencia ? '<p class="adv">' + esc(x.advertencia) + "</p>" : "") +
+        "</article>";
+    });
+    return '<section><div class="tituloSeccion"><h2>Evidencia</h2></div>' +
+      '<p class="subtitulo">Lo que sostiene las tareas de arriba. Cada hallazgo cita ' +
+      'su dato de origen.</p><div class="hallazgos">' + tarj.join("") + "</div></section>";
+  }
+
+  function cuerpo() {
+    var c = D.corrida || {};
+    var v = D.verificacion_semana_anterior || "";
+    return '<div class="envoltura">' +
+      (soloLectura ? '<div class="aviso-lectura">Estás viendo esta página en modo ' +
+        "lectura. Puedes revisar todo, pero las aprobaciones las registra quien tiene " +
+        "permiso de escritura.</div>" : "") +
+      '<header class="cabecera"><div><h1>Mesa Creativa</h1>' +
+      "<p>Base estratégica de la reunión creativa</p></div>" +
+      '<div class="periodo">' + esc(c.rango || "") + "</div></header>" +
+      banda() + avisoHuecos() + zonaDecision() +
+      '<section><div class="tituloSeccion"><h2>Cómo llegamos ahí</h2></div>' +
+      '<p class="subtitulo">' + esc(v) + '</p>' +
+      '<div class="dos">' + graficoCosto() + graficoPresion() + "</div></section>" +
+      hallazgos() +
+      '<footer class="pie">Cada cifra de esta página es trazable hasta la consulta ' +
+      "que la produjo. Las respuestas crudas quedan guardadas sin editar en " +
+      "<code>data/historico/</code> junto a la corrida.</footer></div>";
+  }
+
+  function pintar() {
+    document.body.innerHTML = cuerpo();
+    document.querySelectorAll(".palanca").forEach(function (b) {
+      b.addEventListener("click", function () { alternar(b.dataset.clave); });
+    });
+  }
+
+  /* ───────────────── publicar ───────────────── */
+
+  function documento() {
+    var j = function (o) {
+      return JSON.stringify(o).replace(/<\/script/gi, "<\\/script");
+    };
+    return "<!doctype html>\n<html lang=\"es\">\n<head>\n" + P.head +
+      "\n</head>\n<body>\n" +
+      '<script id="datos" type="application/json">' + j(D) + "<\/script>\n" +
+      '<script id="estado" type="application/json">' + j(E) + "<\/script>\n" +
+      '<script id="plantilla" type="application/json">' + j(P) + "<\/script>\n" +
+      "<script>" + P.app + "<\/script>\n</body>\n</html>";
+  }
+
+  function alternar(clave) {
+    if (!clave || soloLectura) return;
+    if (E.aprobadas[clave]) delete E.aprobadas[clave];
+    else E.aprobadas[clave] = { en: new Date().toISOString() };
+    E.version = (E.version || 1) + 1;
+    pintar();
+    if (!api) return;
+    api.publish(documento()).catch(function (err) {
+      var c = err && err.code;
+      if (c === "conflict") return;                       // la recarga trae la verdad
+      if (c === "not_writer" || c === "not_granted" ||
+          c === "not_declared" || c === "consent_required" ||
+          c === "capability_disabled" || c === "capability_removed") {
+        soloLectura = true; api = null; pintar(); return;
+      }
+      console.warn("no se pudo registrar la aprobación:", c);
+    });
+  }
+
+  pintar();
+
+  // Gancho de diagnóstico: permite verificar en pruebas que la página puede
+  // reconstruirse a sí misma sin romperse. Solo lee, nunca muta.
+  try {
+    Object.defineProperty(window, "__tablero", {
+      value: Object.freeze({ documento: documento, tareas: (D.tareas_propuestas || []).length }),
+      writable: false, configurable: false, enumerable: false
+    });
+  } catch (e) { /* entorno que no lo permite: la página funciona igual */ }
+
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("artifact").then(function (a) {
+      if (!a) { soloLectura = true; pintar(); return; }
+      api = a;
+    }).catch(function () { soloLectura = true; pintar(); });
+  } else {
+    soloLectura = true; pintar();
+  }
+})();
+</script>
+</body>
+</html>
