@@ -25,7 +25,10 @@ from . import analiza as A
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
 from .plan import arma_plan
 
-MERCADOS_DECLARADOS = ("GT", "SV")
+def _mercados():
+    """Mercados declarados y excluidos, desde config. Nunca hardcodeados."""
+    c = cargar("convenciones", bloque="mercados")
+    return tuple(c["declarados"]), c.get("excluidos", {})
 
 
 def _serializa(obj):
@@ -88,13 +91,33 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     campanas = normaliza_campanas(bruto["ad_entities"], origen=archivo_pauta)
     fuente_pauta = f"{archivo_pauta} · {rango.etiqueta()}"
 
+    declarados, excluidos = _mercados()
     incoherentes = [c.etiqueta() for c in campanas if c.coherente() is False]
+    paises_crudos = valores_de_desglose(campanas, "country")
+
+    # Los mercados excluidos por decision del usuario se retiran del analisis,
+    # pero su gasto se REPORTA. Ignorarlo en silencio esconderia que una
+    # campana sigue segmentando un pais que ya no es objetivo.
+    gasto_excluido = {}
+    for pais, meta in excluidos.items():
+        filas = filtra_desglose(campanas, "country", pais)
+        if not filas:
+            continue
+        gasto_excluido[pais] = {
+            "gasto": round(sum(f.gasto.numero or 0 for f in filas), 2),
+            "impresiones": sum(f.impresiones.numero or 0 for f in filas),
+            "campanas": sorted({f.nombre for f in filas}),
+            "motivo_de_exclusion": meta.get("motivo", ""),
+            "accion_pendiente": meta.get("_accion_pendiente", ""),
+        }
+    campanas = [c for c in campanas
+                if c.desglose_dict.get("country") not in excluidos]
     paises = valores_de_desglose(campanas, "country")
-    fuera_de_mercado = [p for p in paises if p not in MERCADOS_DECLARADOS]
+    fuera_de_mercado = [p for p in paises if p not in declarados]
 
     # --- Paso 3 · competencia ---
     registro = cargar("competidores")
-    panoramas = {m: carga_competencia(crudo, registro, m) for m in MERCADOS_DECLARADOS}
+    panoramas = {m: carga_competencia(crudo, registro, m) for m in declarados}
 
     # --- Paso 4 · orgánico: no viene por API ---
     organico = crudo / "organico.json"
@@ -172,6 +195,7 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             "paises_con_entrega": paises,
             "paises_fuera_de_mercados_declarados": fuera_de_mercado,
             "campanas_incoherentes": incoherentes,
+            "mercados_excluidos_con_gasto": gasto_excluido,
         },
         "consolidados_por_indicador": consolidados,
         "consolidados_detalle": detalle_num,
@@ -215,6 +239,11 @@ def imprime(r: dict) -> None:
               f"{', '.join(i['paises_fuera_de_mercados_declarados'])}")
     print(f"  Campañas con costo incoherente: "
           f"{i['campanas_incoherentes'] or 'ninguna'}")
+    for pais, g in (i.get("mercados_excluidos_con_gasto") or {}).items():
+        print(f"  ⚠ {pais} está EXCLUIDO por decisión del usuario, pero tuvo "
+              f"${g['gasto']:.2f} y {g['impresiones']:,.0f} impresiones")
+        print(f"      en: {', '.join(g['campanas'])}")
+        print(f"      pendiente: {g['accion_pendiente']}")
 
     print(f"\nCONSOLIDADOS POR INDICADOR (ADR-013)\n{L}")
     for ind, desc in r["consolidados_por_indicador"].items():

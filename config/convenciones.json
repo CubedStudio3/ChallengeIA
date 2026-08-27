@@ -108,5 +108,20 @@
     "_estado": "PENDIENTE_DE_DATO",
     "_lock": true,
     "_nota": "Los umbrales que definen 'un creativo se desgasto' o 'un formato rinde mejor' NO se pueden fijar a priori. Se derivan de los datos reales en Fase 2, y cada umbral debe quedar justificado con la metrica que lo sustenta. Fijarlos aqui por adelantado seria criterio disfrazado de dato."
+  },
+  "mercados": {
+    "_estado": "VERIFICADO",
+    "declarados": [
+      "GT",
+      "SV"
+    ],
+    "excluidos": {
+      "HN": {
+        "motivo": "Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'.",
+        "_hallazgo_que_no_se_calla": "La corrida del 1 al 24 de agosto de 2026 SI encontro gasto en HN: $0.02 y 7 impresiones en 'Campana Punto de Venta SV'. No es historico: es de este mes. Significa que un conjunto de anuncios todavia tiene Honduras en su segmentacion geografica y va a seguir goteando.",
+        "_accion_pendiente": "Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion.",
+        "_tratamiento": "Se excluye del analisis y del deck. El gasto excluido se reporta como nota de integridad, no se suma ni se ignora en silencio."
+      }
+    }
   }
 }

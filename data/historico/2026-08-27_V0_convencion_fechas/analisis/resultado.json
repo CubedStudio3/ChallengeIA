@@ -5,16 +5,24 @@
     "dry_run": true
   },
   "integridad": {
-    "campanas_leidas": 9,
+    "campanas_leidas": 8,
     "paises_con_entrega": [
       "GT",
-      "HN",
       "SV"
     ],
-    "paises_fuera_de_mercados_declarados": [
-      "HN"
-    ],
-    "campanas_incoherentes": []
+    "paises_fuera_de_mercados_declarados": [],
+    "campanas_incoherentes": [],
+    "mercados_excluidos_con_gasto": {
+      "HN": {
+        "gasto": 0.02,
+        "impresiones": 7.0,
+        "campanas": [
+          "Campaña Punto de Venta SV"
+        ],
+        "motivo_de_exclusion": "Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'.",
+        "accion_pendiente": "Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion."
+      }
+    }
   },
   "consolidados_por_indicador": {
     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": "1 resultados con indicador 'actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead' en 1 campañas · $3.23 · $3.23 por resultado",
@@ -37,7 +45,7 @@
       "gasto": 963.46,
       "impresiones": 204908.0,
       "costo_por_resultado": 2.6039,
-      "excluidas": 2
+      "excluidas": 1
     },
     "actions:link_click": {
       "campanas": 1,
