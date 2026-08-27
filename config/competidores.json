@@ -1,0 +1,41 @@
+{
+  "_comentario": "Registro curado de page_id de competidores. La busqueda por palabra clave en Ad Library NO es confiable con terminos genericos en espanol; usar siempre page_ids. Ningun page_id entra aqui sin validacion humana.",
+  "_esquema_estado": ["VERIFICADO", "NO_VERIFICADO", "PENDIENTE_DE_DATO"],
+  "competidores": [
+    {
+      "nombre": "Paggo",
+      "page_id": "105294361957860",
+      "_estado": "NO_VERIFICADO",
+      "_lock": true,
+      "_nota": "Heredado del trabajo previo. Pendiente de re-confirmar en Verificacion 5, junto con el conteo de anuncios activos y el titular dominante. La premisa estrategica del proyecto depende de este dato y no esta fechada en el documento maestro.",
+      "observacion_previa": {
+        "anuncios_activos": 51,
+        "titular_dominante": "Gestiona tu Negocio Facil",
+        "anuncios_con_ese_titular": 35,
+        "territorio": "gestion de negocio y facturacion",
+        "_fecha_de_medicion": null,
+        "_estado": "NO_VERIFICADO"
+      }
+    },
+    {
+      "nombre": "Recurrente",
+      "page_id": null,
+      "_estado": "PENDIENTE_DE_DATO",
+      "_lock": true,
+      "_nota": "page_id no obtenido. Se busca en Verificacion 5 y se presenta al usuario para validacion antes de usarlo. La busqueda por el termino 'Recurrente' devuelve resultados no relacionados porque la palabra es comun en espanol."
+    },
+    {
+      "nombre": "Square",
+      "page_id": null,
+      "_estado": "PENDIENTE_DE_DATO",
+      "_lock": true,
+      "_nota": "page_id no obtenido. Mismo procedimiento que Recurrente."
+    }
+  ],
+  "_limitaciones_de_la_herramienta": {
+    "sin_rango_de_fechas": "ads_library_search no expone ningun parametro temporal. Solo responde que esta activo AHORA. Las corridas retroactivas NO pueden incluir competencia.",
+    "tope_de_resultados": 50,
+    "sin_paginacion": "No hay cursor ni offset. Mitigacion: segmentar por countries (GT y SV por separado). Si la particion no cubre el total, el conteo se reporta como limite inferior, nunca como cifra exacta.",
+    "solo_pauta_pagada": "Ad Library expone unicamente publicidad pagada. El contenido organico de competidores NO esta disponible por API y no se simula."
+  }
+}

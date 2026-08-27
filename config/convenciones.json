@@ -1,0 +1,79 @@
+{
+  "_comentario": "Convenciones del proyecto. TODO bloque con _lock:true debe hacer que el codigo se DETENGA con un mensaje claro en lugar de consumirlo. Ver ADR-009.",
+  "_advertencia": "La convencion de fechas NO esta verificada. El caso $70.74 vs $1.57 nacio de confiar en una convencion que nadie habia probado. No se desbloquea hasta reproducir el $1.57 en la Verificacion 0.",
+
+  "fechas": {
+    "_estado": "NO_VERIFICADO",
+    "_lock": true,
+    "_desbloquea_con": "Verificacion 0 · reproducir el valor conocido de $1.57",
+    "_insumo_faltante": "Periodo exacto y campana donde se observaron $70.74 y $1.57",
+    "zona_horaria": {
+      "valor": null,
+      "_estado": "PENDIENTE_DE_DATO",
+      "_nota": "Debe ser la zona horaria de la cuenta publicitaria 225318458221662, obtenida por ads_get_ad_accounts. NO usar UTC ni la zona local del operador."
+    },
+    "definicion_de_semana": {
+      "valor": "lunes_a_domingo",
+      "_estado": "NO_VERIFICADO",
+      "_nota": "Candidato. Coherente con la corrida semanal del lunes."
+    },
+    "ventana_de_atribucion": {
+      "valor": null,
+      "_estado": "PENDIENTE_DE_DATO",
+      "_nota": "Debe fijarse EXPLICITAMENTE en cada consulta, nunca dejarse por defecto. Es una de las causas candidatas del factor ~45x de la discrepancia."
+    }
+  },
+
+  "metricas": {
+    "_estado": "VERIFICADO_EN_TRABAJO_PREVIO",
+    "_lock": false,
+    "evento_de_optimizacion": "QualifiedLead",
+    "campo_de_resultados": "results",
+    "campo_de_costo": "cost_per_result",
+    "campo_prohibido": {
+      "nombre": "lead",
+      "razon": "Cuenta envios de formulario y NO corresponde a la columna de Resultados de la interfaz. Su uso produce cifras que no se pueden reconciliar con lo que ve el equipo."
+    },
+    "desglose_por_red": {
+      "campo": "publisher_platform",
+      "nivel": "conjunto_de_anuncios"
+    }
+  },
+
+  "cuenta": {
+    "_estado": "VERIFICADO_EN_TRABAJO_PREVIO",
+    "ad_account_id": "225318458221662",
+    "pixel_id": "249008005669655",
+    "mercados": ["GT", "SV"]
+  },
+
+  "escritura_de_prueba": {
+    "_estado": "PROPUESTA_PENDIENTE_DE_AUTORIZACION",
+    "_lock": true,
+    "_ver": "ADR-007",
+    "_nota": "No se crea NINGUN objeto de prueba sin autorizacion expresa del usuario.",
+    "estado_obligatorio": "PAUSED",
+    "prefijo_de_nombre": "[TEST-MC]",
+    "presupuesto": "minimo_permitido",
+    "activar": false,
+    "registrar_ids_en": "docs/validaciones.md",
+    "limpiar_al_cerrar_fase_0": true
+  },
+
+  "publicacion": {
+    "_estado": "VERIFICADO_POR_ESQUEMA",
+    "_lock": false,
+    "aprobacion_humana_obligatoria": true,
+    "_nota": "Candado no negociable. Zoho Social lo soporta nativamente: isApprovalNeeded:true, type 6 (draft) y type 8 (approval without time).",
+    "redes_excluidas": {
+      "twitter": "El conector advierte que publicar en X via MCP puede marcar la cuenta como bot y llevar a su terminacion. Ver ADR-008."
+    },
+    "validar_antes_de_crear": "validateSocialPost es obligatorio antes de cualquier creacion"
+  },
+
+  "umbrales": {
+    "_estado": "PENDIENTE_DE_DATO",
+    "_lock": true,
+    "_nota": "Los umbrales que definen 'un creativo se desgasto' o 'un formato rinde mejor' NO se pueden fijar a priori. Se derivan de los datos reales en Fase 2, y cada umbral debe quedar justificado con la metrica que lo sustenta. Fijarlos aqui por adelantado seria criterio disfrazado de dato."
+  }
+}

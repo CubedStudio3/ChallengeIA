@@ -1,0 +1,35 @@
+{
+  "_comentario": "Quien recibe cada reporte. Ver docs/06-requerimientos-usuario.md punto 7.",
+  "_estado": "PENDIENTE_DE_DATO",
+  "_lock": true,
+  "_advertencia": "SIN CANAL DE ENTREGA. Zoho Mail no esta conectado (ver docs/01-inventario-conectores.md). Aunque se llenen estos destinatarios, no hay forma de despachar los reportes hasta que exista Mail u otro canal.",
+
+  "reporte_leads_diario": {
+    "descripcion": "Cierre diario de leads para Ventas y jefatura",
+    "destinatarios": [],
+    "_estado": "PENDIENTE_DE_DATO",
+    "_bloqueado_por": ["Zoho Mail ausente", "Origen de datos de leads sin definir (Verificacion 4)"]
+  },
+
+  "reporte_pauta_mensual": {
+    "descripcion": "Cierre mensual de inversion en pauta para Finanzas",
+    "destinatarios": [],
+    "_estado": "PENDIENTE_DE_DATO",
+    "_bloqueado_por": ["Zoho Mail ausente"]
+  },
+
+  "solicitud_metricas_organicas": {
+    "descripcion": "Recordatorio del viernes para capturar metricas organicas de Pagina e Instagram",
+    "destinatarios": [],
+    "_estado": "PENDIENTE_DE_DATO",
+    "_bloqueado_por": ["Zoho Mail ausente", "Zoho Cliq no construido"],
+    "_nota": "El documento maestro pide que el sistema pida estas metricas ACTIVAMENTE el viernes anterior, no que descubra el hueco el lunes. Sin canal, no puede pedirlas."
+  },
+
+  "notificaciones_solicitud_arte": {
+    "descripcion": "Confirmacion de recepcion y avisos de cambio de estado al solicitante",
+    "destinatarios": [],
+    "_estado": "PENDIENTE_DE_DATO",
+    "_bloqueado_por": ["Zoho Mail ausente", "Zoho Cliq no construido"]
+  }
+}

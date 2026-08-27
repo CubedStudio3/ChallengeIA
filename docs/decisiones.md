@@ -1,0 +1,259 @@
+# Registro de decisiones técnicas (ADR)
+
+Cada decisión técnica no obvia se registra aquí con su porqué, conforme a las
+reglas de proceso del documento maestro.
+
+**Formato:** contexto → decisión → razón → consecuencias → estado.
+
+---
+
+## ADR-001 · La estructura va en la raíz del repositorio
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada
+
+**Contexto.** El documento maestro dibuja la estructura bajo una carpeta
+`mesa-creativa/`. El repositorio real se llama `ChallengeIA`.
+
+**Decisión.** La estructura se coloca en la raíz del repositorio, sin subcarpeta
+intermedia.
+
+**Razón.** Una carpeta `mesa-creativa/` dentro de un repo llamado `ChallengeIA`
+añade un nivel de anidamiento sin aportar información. El nombre del repositorio
+ya cumple esa función.
+
+**Consecuencias.** Todas las rutas del documento maestro se leen relativas a la
+raíz: `config/`, `src/`, `docs/`, `data/`, `salidas/`, `.claude/`.
+
+**Reversible:** sí, con un `git mv`, mientras no haya código que dependa de las
+rutas.
+
+---
+
+## ADR-002 · El orgánico es un insumo opcional con degradación declarada
+
+**Fecha:** 2026-08-27 · **Estado:** ⚠️ PROPUESTA — requiere decisión del usuario
+
+**Contexto.** Contradicción C1. Las métricas orgánicas requieren captura manual.
+La Regla 3 obliga a detenerse ante un dato faltante. Combinadas, un olvido humano
+del viernes aborta la corrida del lunes, que es el entregable principal.
+
+**Decisión propuesta.** El orgánico es un insumo **opcional**. Si no está, la
+corrida procede solo con datos de pauta y **declara el hueco explícitamente** en
+la portada del deck y en el registro de la corrida.
+
+**Razón.** Declarar un hueco no es inventar un dato: cumple la regla de cero
+datos inventados. Y protege el entregable del que depende la evaluación de un
+fallo humano previsible.
+
+La alternativa —abortar— exigiría reescribir la Definición de terminado #1, que
+hoy dice "sin intervención manual".
+
+**Consecuencias.**
+- El deck debe tener un mecanismo de declaración de huecos en portada.
+- El registro de la corrida marca qué fuentes estuvieron disponibles.
+- Las recomendaciones que **dependían** del orgánico no se emiten; no se emiten
+  degradadas. Un plan sin justificación de dato no se publica.
+
+**Pendiente:** confirmación del usuario. Ver `docs/06-requerimientos-usuario.md`
+punto 11.
+
+---
+
+## ADR-003 · Desarrollo secuencial con rebanada vertical primero
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada (a confirmar por el usuario)
+
+**Contexto.** El usuario preguntó si conviene desarrollar los tres módulos en
+paralelo para detectar errores antes.
+
+**Decisión.** Secuencial. Y antes del Módulo 1 completo, una **rebanada vertical
+delgada** que atraviese todas las capas: leer Meta → normalizar → persistir
+artefacto trazable → generar deck de 3 diapositivas.
+
+**Razón.**
+1. El paralelismo no es materialmente posible: los Módulos 2 y 3 tienen bloqueos
+   externos duros (Mail y CRM ausentes).
+2. Sobre una base compartida inexistente, el paralelismo produce convenciones
+   divergentes cuyos errores solo aparecen al integrar — alrededor del 3 o 4 de
+   septiembre, sin margen.
+3. La detección temprana de errores se logra con profundidad, no con ancho. La
+   rebanada prueba los cuatro riesgos mayores en el día 2.
+
+**Consecuencias.** Ver `docs/05-estrategia-ejecucion.md` para el orden completo.
+
+---
+
+## ADR-004 · Las corridas retroactivas se adelantan
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada
+
+**Contexto.** El documento maestro ubica la evidencia retroactiva como Fase 3,
+después del Módulo 1. Pero el paso 6 del Módulo 1 (verificar lo recomendado la
+semana anterior) no tiene historial contra el cual verificar en su primera
+corrida real.
+
+**Decisión.** Las corridas retroactivas se ejecutan **inmediatamente después** de
+que el Módulo 1 pueda producirlas, y antes de la primera corrida semanal real.
+
+**Razón.** Así la primera corrida real sí tiene historial: el loop de
+verificación se demuestra funcionando en lugar de reportando "no aplicable". Y la
+evidencia del Demo Day queda lista antes, no en los últimos días.
+
+**Consecuencias.** El paso 6 debe distinguir explícitamente entre "dato faltante"
+(error → detenerse) y "primera corrida, no aplicable" (estado válido → continuar).
+
+---
+
+## ADR-005 · El Módulo 2 detecta cambios por sondeo, no por eventos
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada (forzada por la plataforma)
+
+**Contexto.** Zoho Sprint no expone webhooks ni suscripciones (hallazgo P5). El
+Módulo 2 requiere reaccionar a cambios de estado y a aprobaciones de artes.
+
+**Decisión.** Sondeo periódico contra Sprint, con estado persistido de la última
+pasada.
+
+**Razón.** No hay alternativa en la plataforma.
+
+**Consecuencias.**
+- Latencia de hasta un ciclo de sondeo entre el cambio real y el aviso.
+- El estado persistido es lo que garantiza la **idempotencia**: sin él, dos
+  pasadas avisarían dos veces del mismo cambio, violando la regla de operaciones
+  idempotentes.
+- Hay que decidir la frecuencia del sondeo (pendiente, depende del runtime).
+
+---
+
+## ADR-006 · Los subagentes aparecen cuando la tubería los necesita
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada
+
+**Contexto.** El documento define siete subagentes. Crearlos todos antes de que
+exista la tubería produce configuración que nunca se ejecuta.
+
+**Decisión.** Los agentes se crean incrementalmente, en el orden en que la
+tubería los requiere. **Con una excepción no negociable: la frontera de permisos
+—solo `orquestador` escribe en sistemas externos— se diseña desde la primera
+línea de código.**
+
+**Razón.** Un agente que no se ejecuta no se puede verificar. Pero la frontera de
+permisos no se puede retro-ajustar sin reescribir, y es la garantía estructural
+de que un error de análisis no publique en producción.
+
+**Consecuencias.** Ver el orden de aparición en
+`docs/05-estrategia-ejecucion.md`, sección 5.
+
+---
+
+## ADR-007 · Convención de escritura de prueba en sistemas reales
+
+**Fecha:** 2026-08-27 · **Estado:** ⚠️ PROPUESTA — requiere autorización del usuario
+
+**Contexto.** Contradicción C7. La Verificación 1 exige una escritura de prueba;
+las reglas prohíben escribir en producción. Meta no ofrece sandbox: la cuenta
+`225318458221662` es producción.
+
+**Decisión propuesta.** Toda escritura de prueba en un sistema real cumple:
+
+| Regla | Detalle |
+|---|---|
+| Estado | `PAUSED` desde la creación, sin excepción |
+| Presupuesto | el mínimo que permita la plataforma |
+| Nombre | prefijo obligatorio `[TEST-MC]` |
+| Activación | **jamás**, bajo ninguna circunstancia |
+| Registro | todo objeto creado se anota en `docs/validaciones.md` con su ID |
+| Limpieza | los objetos de prueba se eliminan al cerrar la Fase 0 |
+
+Lo mismo aplica a Zoho Sprint (proyecto de prueba dedicado) y Zoho Social
+(borradores con `isApprovalNeeded: true`, nunca publicación directa).
+
+**Razón.** Es la única forma de cumplir el espíritu de la regla —no afectar
+producción— cuando la letra ("usa una campaña de prueba") es imposible de
+cumplir literalmente.
+
+**Pendiente:** autorización expresa. No se crea nada sin ella.
+
+---
+
+## ADR-008 · X/Twitter queda excluido de la automatización
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada
+
+**Contexto.** El esquema de Zoho Social advierte que publicar en X vía MCP puede
+hacer que la cuenta sea marcada como bot y **terminada** (hallazgo P9).
+
+**Decisión.** X/Twitter se excluye de toda automatización de publicación. Si el
+área publica ahí, se hace manualmente.
+
+**Razón.** El riesgo es la pérdida de la cuenta. No hay beneficio de
+automatización que lo justifique.
+
+**Consecuencias.** `programar-post` debe rechazar explícitamente la red
+`twitter` en lugar de intentarlo y fallar.
+
+---
+
+## ADR-009 · Los archivos de configuración declaran su estado de verificación
+
+**Fecha:** 2026-08-27 · **Estado:** aceptada
+
+**Contexto.** Al crear la estructura del repositorio surge la tentación de
+poblar `config/convenciones.json` con la convención de fechas propuesta. Pero esa
+convención **no está verificada** (V0 no se ha ejecutado).
+
+**Decisión.** Todo archivo de `config/` incluye un campo `_estado` por valor o
+por bloque, con uno de: `VERIFICADO`, `NO_VERIFICADO`, `PENDIENTE_DE_DATO`. Los
+bloques no verificados llevan además `_lock: true`.
+
+**Razón.** Escribir una convención sin verificar como si fuera un hecho es
+exactamente el modo de falla que el proyecto prohíbe: un dato que genera
+confianza injustificada. El caso $70.74 nació de confiar en una convención que
+nadie había probado.
+
+**Consecuencias.** El código debe **rechazar** consumir un bloque con
+`_lock: true` y detenerse con un mensaje claro. Eso convierte la regla de
+documentación en una barrera ejecutable, no en una nota de buena intención.
+
+---
+
+## ADR-010 · Persistencia de la trazabilidad
+**Fecha:** 2026-08-27 · **Estado:** 🔲 SIN RESOLVER — se decide en Fase 1
+
+**Contexto.** Riesgo E. *"Cada número del plan debe ser trazable hasta su dato de
+origen"* implica guardar la respuesta cruda de cada consulta, no solo el número
+derivado.
+
+**Preguntas abiertas.**
+- ¿Dónde se persiste la respuesta cruda? ¿Con qué esquema de nombres?
+- ¿Cómo se relaciona un número del deck con la consulta que lo produjo? ¿Un ID
+  de consulta citado en la nota al pie?
+- ¿Cuánto crece con 8–10 corridas retroactivas más las semanales?
+- ¿Se versiona en git o queda fuera con `.gitignore`?
+
+**Por qué no se decide ahora.** Depende de los resultados de la Fase 0 (qué
+fuentes existen realmente) y del runtime elegido (dónde puede escribir).
+
+**Cuándo se decide.** Fase 1, como parte de las interfaces de la base compartida.
+**No se improvisa al implementar el Módulo 1.**
+
+---
+
+## ADR-011 · Contexto conversacional en las llamadas al Meta MCP
+**Fecha:** 2026-08-27 · **Estado:** 🔲 SIN RESOLVER — requiere decisión
+
+**Contexto.** Hallazgo P7 / contradicción C8. El Meta MCP exige
+`advertiser_request` con las palabras textuales del anunciante en cada llamada.
+En una corrida automática desatendida no existe tal frase.
+
+**Opciones a evaluar.**
+1. Que la corrida programada arranque desde una instrucción persistida que el
+   usuario escribió una vez, y se cite esa.
+2. Que la corrida automática solo haga lo que no requiera el campo, y lo demás
+   quede para sesiones interactivas.
+3. Otra, según lo que revele la Verificación 7.
+
+**Por qué no se decide ahora.** Depende de si el runtime autentica (V7) y de cómo
+se comporte el conector en ese contexto. Decidirlo antes sería un supuesto.
+
+**Riesgo si se ignora:** afecta directamente el 25% de uso agéntico.

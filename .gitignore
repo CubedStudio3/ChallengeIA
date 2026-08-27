@@ -1,0 +1,21 @@
+# Credenciales · nunca en el repositorio
+.env
+.env.*
+*.pem
+*.key
+credenciales*
+secrets*
+
+# Artefactos de ejecucion
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.DS_Store
+
+# Salidas generadas
+# Nota: las salidas del Demo Day SI se versionan como evidencia.
+# Se ignoran solo los archivos temporales de generacion.
+salidas/**/*.tmp
+salidas/**/~$*
