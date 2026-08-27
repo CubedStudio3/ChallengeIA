@@ -1,0 +1,23 @@
+{
+  "verificacion": "V5 · premisa estrategica competitiva",
+  "fecha_ejecucion": "2026-08-27",
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "llamadas": [
+    {
+      "parametros": {"page_ids": ["105294361957860"], "ad_active_status": "ACTIVE", "countries": ["GT"], "limit": 50},
+      "estimated_total_count": 31,
+      "ads_devueltos": 31,
+      "page_name_confirmado": "Paggo Guatemala"
+    },
+    {
+      "parametros": {"page_ids": ["105294361957860"], "ad_active_status": "ACTIVE", "countries": ["SV"], "limit": 50},
+      "estimated_total_count": 0,
+      "ads_devueltos": 0
+    }
+  ],
+  "limitaciones_aplicadas": {
+    "sin_rango_de_fechas": "La herramienta no acepta parametros temporales. Esto es una foto del 2026-08-27, no una serie historica.",
+    "tope_50": "No se alcanzo el tope: 31 < 50, asi que el conteo de GT es completo y NO un limite inferior.",
+    "cobertura": "Solo GT y SV. No se consultaron otros paises."
+  }
+}

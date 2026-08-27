@@ -1,0 +1,18 @@
+TOTAL GT activos (estimated_total_count): 31  |  devueltos: 31
+TOTAL SV activos: 0
+
+=== TITULARES ===
+  23  (74.2%)  Gestiona tu Negocio Facil
+   8  (25.8%)  {{product.name}}
+
+=== COHORTES DE LANZAMIENTO (por fecha de creacion) ===
+  2026-08-24  hace   3 dias  16 anuncios  acum 16/31  {'Gestiona': 16}
+  2026-08-19  hace   8 dias   5 anuncios  acum 21/31  {'Gestiona': 5}
+  2026-08-14  hace  13 dias   6 anuncios  acum 27/31  {'{{product.name}}': 6}
+  2026-06-17  hace  71 dias   2 anuncios  acum 29/31  {'{{product.name}}': 2}
+  2026-05-18  hace 101 dias   2 anuncios  acum 31/31  {'Gestiona': 2}
+
+=== ANTIGUEDAD ===
+  Mas nuevo: 2 dias  |  Mas viejo: 100 dias
+  Lanzados en los ultimos 10 dias: 21/31
+  Lanzados en los ultimos 30 dias: 27/31
