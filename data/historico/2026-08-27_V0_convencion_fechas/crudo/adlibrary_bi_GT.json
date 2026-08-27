@@ -1,0 +1,22 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_library_search",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "page_ids": [
+        "135136309831436"
+      ],
+      "ad_active_status": "ACTIVE",
+      "countries": [
+        "GT"
+      ],
+      "limit": 50
+    },
+    "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-27.",
+    "_solapamiento_medido": 2,
+    "_metodo": "page_ids + search_terms sobre el universo completo: 'Soluciones de Pago'=2, 'punto de venta'=0, 'terminal'=0, 'negocio'=55 (todos de credito empresarial, no adquirencia).",
+    "_advertencia": "La ausencia de un termino es evidencia mas debil que su presencia."
+  },
+  "estimated_total_count": 845,
+  "ads": []
+}

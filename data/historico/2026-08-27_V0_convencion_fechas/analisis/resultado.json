@@ -1,0 +1,312 @@
+{
+  "corrida": {
+    "rango": "2026-08-01 a 2026-08-24",
+    "hoy": "2026-08-27",
+    "dry_run": true
+  },
+  "integridad": {
+    "campanas_leidas": 9,
+    "paises_con_entrega": [
+      "GT",
+      "HN",
+      "SV"
+    ],
+    "paises_fuera_de_mercados_declarados": [
+      "HN"
+    ],
+    "campanas_incoherentes": []
+  },
+  "consolidados_por_indicador": {
+    "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": "1 resultados con indicador 'actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead' en 1 campañas · $3.23 · $3.23 por resultado",
+    "actions:lead": "370 resultados con indicador 'actions:lead' en 4 campañas · $963.46 · $2.60 por resultado",
+    "actions:link_click": "10,771 resultados con indicador 'actions:link_click' en 1 campañas · $104.03 · $0.01 por resultado",
+    "mixed": "sin datos utilizables: Ninguna campaña tiene datos utilizables."
+  },
+  "competencia": {
+    "GT": {
+      "presion_total": 42,
+      "dominante": "Paggo",
+      "detalle": {
+        "Paggo": {
+          "activos_declarados": 31,
+          "presion_real": 31,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "Recurrente": {
+          "activos_declarados": 6,
+          "presion_real": 6,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "Square": {
+          "activos_declarados": 0,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "GuatePOS": {
+          "activos_declarados": 3,
+          "presion_real": 3,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "Banco Industrial (BI)": {
+          "activos_declarados": 845,
+          "presion_real": 2,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        }
+      }
+    },
+    "SV": {
+      "presion_total": 0,
+      "dominante": null,
+      "detalle": {
+        "Paggo": {
+          "activos_declarados": 0,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "Recurrente": {
+          "activos_declarados": 0,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        },
+        "GuatePOS": {
+          "activos_declarados": 0,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null
+        }
+      }
+    }
+  },
+  "hallazgos": [
+    {
+      "titulo": "Brecha de eficiencia entre campañas",
+      "afirmacion": "Dentro del indicador 'actions:lead', la campaña más costosa paga 2.34x lo que paga la más eficiente.",
+      "evidencia": [
+        {
+          "dato": "Más eficiente",
+          "valor": "Campaña Punto de Venta SV · $1.89",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        },
+        {
+          "dato": "Menos eficiente",
+          "valor": "Campaña Qpayshop e Integraciones · $4.43",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": "$4.43 ÷ $1.89 = 2.34x",
+      "advertencia": null
+    },
+    {
+      "titulo": "El mayor presupuesto no está en la campaña más eficiente",
+      "afirmacion": "'Campaña Qpaypro Guatemala Nueva' concentra el mayor gasto pero ocupa el puesto 3 de 4 en eficiencia.",
+      "evidencia": [
+        {
+          "dato": "Mayor gasto",
+          "valor": "Campaña Qpaypro Guatemala Nueva · $380.68 · $4.01 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        },
+        {
+          "dato": "Mejor costo",
+          "valor": "Campaña Punto de Venta SV · $197.97 · $1.89 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Costo de oportunidad del periodo",
+      "afirmacion": "Las demás campañas del indicador gastaron $765.49 y obtuvieron 265 resultados. Al costo de 'Campaña Punto de Venta SV' ese mismo dinero equivale a 405.",
+      "evidencia": [
+        {
+          "dato": "Costo de referencia",
+          "valor": "Campaña Punto de Venta SV · $1.89",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        },
+        {
+          "dato": "Gasto y resultados del resto",
+          "valor": "$765.49 · 265 resultados",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": "$765.49 ÷ $1.89 = 405 vs 265 reales = 140 de diferencia",
+      "advertencia": "Es aritmética sobre el periodo medido, NO un pronóstico. La diferencia de costo puede venir de público, creativo, producto o etapa del embudo. Sirve para dimensionar la pregunta, no para prometer el resultado."
+    },
+    {
+      "titulo": "Paggo concentra su mensaje",
+      "afirmacion": "74% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de Paggo",
+          "valor": "\"Gestiona tu Negocio Fácil\" en 23 de 31 anuncios",
+          "fuente": "adlibrary_paggo_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Paggo está escalando ahora",
+      "afirmacion": "68% del inventario activo observado de Paggo se lanzó en los últimos 10 días. No es un estado estable.",
+      "evidencia": [
+        {
+          "dato": "Lanzamientos recientes de Paggo",
+          "valor": "21 de 31 anuncios en los últimos 10 días",
+          "fuente": "adlibrary_paggo_GT.json"
+        },
+        {
+          "dato": "Cohorte más grande",
+          "valor": "16 anuncios creados el 2026-08-24 (hace 3 días)",
+          "fuente": "adlibrary_paggo_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Recurrente concentra su mensaje",
+      "afirmacion": "50% de los anuncios observados de Recurrente usan el titular \"Recibe pagos con oro digital\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de Recurrente",
+          "valor": "\"Recibe pagos con oro digital\" en 3 de 6 anuncios",
+          "fuente": "adlibrary_recurrente_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "GuatePOS concentra su mensaje",
+      "afirmacion": "67% de los anuncios observados de GuatePOS usan el titular \"api.whatsapp.com\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de GuatePOS",
+          "valor": "\"api.whatsapp.com\" en 2 de 3 anuncios",
+          "fuente": "adlibrary_guatepos_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "SV sin disputa medida",
+      "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
+      "evidencia": [
+        {
+          "dato": "Competencia activa en SV",
+          "valor": "0 anuncios",
+          "fuente": "Ad Library, SV, foto del 2026-08-27"
+        },
+        {
+          "dato": "Inversión propia en SV",
+          "valor": "$197.97 · 105 resultados · $1.89 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": null,
+      "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
+    }
+  ],
+  "verificacion_semana_anterior": "No aplicable: no existe corrida de la semana anterior. No es un dato faltante, es la primera corrida.",
+  "plan": {
+    "periodo": "2026-08-01 a 2026-08-24",
+    "recomendaciones": [
+      {
+        "titulo": "Revisar la campaña con mayor oportunidad de reasignación",
+        "accion": "Llevar a la mesa la diferencia de costo entre 'Campaña Qpaypro Guatemala Nueva [GT]' y 'Campaña Punto de Venta SV [SV]' y decidir si se reasigna presupuesto o se investiga la causa.",
+        "evidencia": [
+          {
+            "dato": "Campaña menos eficiente",
+            "valor": "Campaña Qpaypro Guatemala Nueva · $4.01 · $380.68 gastados",
+            "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+          },
+          {
+            "dato": "Campaña más eficiente",
+            "valor": "Campaña Punto de Venta SV · $1.89",
+            "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+          }
+        ],
+        "cantidad": {
+          "valor": 106.41798941798945,
+          "unidad": "resultados de diferencia en el periodo",
+          "calculo": "'Campaña Qpaypro Guatemala Nueva [GT]' gastó $380.68 a $4.01 = 95 resultados. Al costo de 'Campaña Punto de Venta SV [SV]' ($1.89) ese mismo monto equivale a 201, 106 más. Se eligió esta campaña por mayor oportunidad absoluta, no por peor costo unitario"
+        },
+        "no_cuantificable": null,
+        "dato_que_falta": null,
+        "advertencia": "El equivalente es aritmética sobre el periodo medido, no un pronóstico. Antes de mover dinero hay que descartar que la diferencia venga de público, producto o etapa del embudo."
+      },
+      {
+        "titulo": "Cantidades de producción por formato",
+        "accion": "Pendiente. No se puede repartir la producción entre video y arte estática sin rendimiento por formato.",
+        "evidencia": [],
+        "cantidad": null,
+        "no_cuantificable": "El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.",
+        "dato_que_falta": "Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.",
+        "advertencia": null
+      },
+      {
+        "titulo": "Decidir posición frente al mensaje dominante del competidor",
+        "accion": "74% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\". Decidir en la mesa si se disputa ese territorio de frente o se ocupa uno distinto.",
+        "evidencia": [
+          {
+            "dato": "Titular dominante de Paggo",
+            "valor": "\"Gestiona tu Negocio Fácil\" en 23 de 31 anuncios",
+            "fuente": "adlibrary_paggo_GT.json"
+          }
+        ],
+        "cantidad": null,
+        "no_cuantificable": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
+        "dato_que_falta": "Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.",
+        "advertencia": null
+      },
+      {
+        "titulo": "SV sin disputa medida",
+        "accion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.",
+        "evidencia": [
+          {
+            "dato": "Competencia activa en SV",
+            "valor": "0 anuncios",
+            "fuente": "Ad Library, SV, foto del 2026-08-27"
+          },
+          {
+            "dato": "Inversión propia en SV",
+            "valor": "$197.97 · 105 resultados · $1.89 por resultado",
+            "fuente": "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+          }
+        ],
+        "cantidad": null,
+        "no_cuantificable": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
+        "dato_que_falta": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
+        "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
+      }
+    ],
+    "fuentes_usadas": [
+      "Ad Library, SV, foto del 2026-08-27",
+      "adlibrary_paggo_GT.json",
+      "meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
+    ]
+  },
+  "huecos_declarados": [
+    {
+      "fuente": "métricas orgánicas de Página e Instagram",
+      "descripcion": "No hay captura manual para este periodo.",
+      "impacto": "La corrida procede solo con datos de pauta y competencia. Ninguna recomendación cita orgánico (ADR-002)."
+    }
+  ]
+}

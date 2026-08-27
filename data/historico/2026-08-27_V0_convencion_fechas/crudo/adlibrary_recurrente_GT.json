@@ -1,0 +1,74 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_library_search",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "page_ids": [
+        "100735292254927"
+      ],
+      "ad_active_status": "ACTIVE",
+      "countries": [
+        "GT"
+      ],
+      "limit": 50
+    },
+    "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-27."
+  },
+  "estimated_total_count": 6,
+  "ads": [
+    {
+      "id": "1743357080341279",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con oro digital | Recibe pagos con oro digital | Recibe pagos con oro digital",
+      "ad_creation_time": 1784922823,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1743357080341279",
+      "currency": "USD"
+    },
+    {
+      "id": "37834302472820619",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con oro digital | Recibe pagos con oro digital | Recibe pagos con oro digital",
+      "ad_creation_time": 1784922821,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=37834302472820619",
+      "currency": "USD"
+    },
+    {
+      "id": "28137499115868209",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala",
+      "ad_creation_time": 1784922814,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28137499115868209",
+      "currency": "USD"
+    },
+    {
+      "id": "1385097710250258",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala",
+      "ad_creation_time": 1784922812,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1385097710250258",
+      "currency": "USD"
+    },
+    {
+      "id": "1037128235730742",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con oro digital | Recibe pagos con oro digital | Recibe pagos con oro digital",
+      "ad_creation_time": 1784922811,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1037128235730742",
+      "currency": "USD"
+    },
+    {
+      "id": "1755819768903559",
+      "page_id": 100735292254927,
+      "page_name": "Recurrente",
+      "ad_creative_link_title": "Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala | Recibe pagos con USDT en Guatemala",
+      "ad_creation_time": 1784922802,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1755819768903559",
+      "currency": "USD"
+    }
+  ]
+}

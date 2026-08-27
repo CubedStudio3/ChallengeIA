@@ -1,0 +1,299 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_library_search",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "page_ids": [
+        "105294361957860"
+      ],
+      "ad_active_status": "ACTIVE",
+      "countries": [
+        "GT"
+      ],
+      "limit": 50
+    },
+    "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-27."
+  },
+  "estimated_total_count": 31,
+  "ads": [
+    {
+      "id": "1072593838598010",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575851,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1072593838598010",
+      "currency": "USD"
+    },
+    {
+      "id": "840771772456130",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575847,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=840771772456130",
+      "currency": "USD"
+    },
+    {
+      "id": "1576308797524199",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575845,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1576308797524199",
+      "currency": "USD"
+    },
+    {
+      "id": "1435069508434629",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575845,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1435069508434629",
+      "currency": "USD"
+    },
+    {
+      "id": "1858160832261072",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575844,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1858160832261072",
+      "currency": "USD"
+    },
+    {
+      "id": "1075774758275110",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575844,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1075774758275110",
+      "currency": "USD"
+    },
+    {
+      "id": "1037694482489726",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575844,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1037694482489726",
+      "currency": "USD"
+    },
+    {
+      "id": "1385128470257515",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575844,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1385128470257515",
+      "currency": "USD"
+    },
+    {
+      "id": "1371547778459181",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575840,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1371547778459181",
+      "currency": "USD"
+    },
+    {
+      "id": "2105443233390306",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575266,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2105443233390306",
+      "currency": "USD"
+    },
+    {
+      "id": "1581834916766209",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575266,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1581834916766209",
+      "currency": "USD"
+    },
+    {
+      "id": "2543011292827132",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575266,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2543011292827132",
+      "currency": "USD"
+    },
+    {
+      "id": "2246610336119550",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575266,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2246610336119550",
+      "currency": "USD"
+    },
+    {
+      "id": "2201400850436380",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575266,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2201400850436380",
+      "currency": "USD"
+    },
+    {
+      "id": "1100897862293856",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575262,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1100897862293856",
+      "currency": "USD"
+    },
+    {
+      "id": "1801997117459775",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787575262,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1801997117459775",
+      "currency": "USD"
+    },
+    {
+      "id": "1554289652858568",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787142980,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1554289652858568",
+      "currency": "USD"
+    },
+    {
+      "id": "1887802498872348",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787142979,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1887802498872348",
+      "currency": "USD"
+    },
+    {
+      "id": "1347303467477998",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787142979,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1347303467477998",
+      "currency": "USD"
+    },
+    {
+      "id": "1378385277588743",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787142979,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1378385277588743",
+      "currency": "USD"
+    },
+    {
+      "id": "935765245534989",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1787142978,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=935765245534989",
+      "currency": "USD"
+    },
+    {
+      "id": "1344039471232438",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733983,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1344039471232438",
+      "currency": "USD"
+    },
+    {
+      "id": "1894860191475897",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733982,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1894860191475897",
+      "currency": "USD"
+    },
+    {
+      "id": "1399649698742047",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733982,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1399649698742047",
+      "currency": "USD"
+    },
+    {
+      "id": "1528374525185114",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733981,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1528374525185114",
+      "currency": "USD"
+    },
+    {
+      "id": "2297360684132369",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733980,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2297360684132369",
+      "currency": "USD"
+    },
+    {
+      "id": "1031637079496581",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1786733979,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1031637079496581",
+      "currency": "USD"
+    },
+    {
+      "id": "1562389372112505",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1781727939,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1562389372112505",
+      "currency": "USD"
+    },
+    {
+      "id": "1357926956250285",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "{{product.name}}",
+      "ad_creation_time": 1781727939,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1357926956250285",
+      "currency": "USD"
+    },
+    {
+      "id": "1293243899679840",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1779106808,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1293243899679840",
+      "currency": "USD"
+    },
+    {
+      "id": "26620958677575099",
+      "page_id": 105294361957860,
+      "page_name": "Paggo Guatemala",
+      "ad_creative_link_title": "Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil",
+      "ad_creation_time": 1779106645,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=26620958677575099",
+      "currency": "USD"
+    }
+  ]
+}

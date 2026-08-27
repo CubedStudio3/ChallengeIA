@@ -51,7 +51,10 @@
           "ultimos_3_dias": 16,
           "_nota": "21 de 31 anuncios lanzados en los ultimos 10 dias. No es un estado estable."
         }
-      }
+      },
+      "_clave_archivo": "paggo",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario disputa nuestra categoria por definicion del anunciante."
     },
     {
       "nombre": "Recurrente",
@@ -72,7 +75,10 @@
         },
         "angulo": "cripto y activos digitales",
         "_nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24)."
-      }
+      },
+      "_clave_archivo": "recurrente",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario esta en categoria."
     },
     {
       "nombre": "Square",
@@ -95,7 +101,10 @@
           "Manage everything with Square": 2
         },
         "_nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio."
-      }
+      },
+      "_clave_archivo": "square",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de pagos y POS."
     },
     {
       "nombre": "GuatePOS",
@@ -115,7 +124,10 @@
           "(sin titular)": 1
         },
         "_nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14)."
-      }
+      },
+      "_clave_archivo": "guatepos",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de punto de venta: todo su inventario esta en categoria."
     },
     {
       "nombre": "Banco Industrial (BI)",
@@ -155,7 +167,10 @@
           "tema": "remesas",
           "_lectura": "'Envia dinero desde Guatemala', 'Tarifa de Q75.00'. NO compite en pagos ni POS en SV."
         }
-      }
+      },
+      "_clave_archivo": "bi",
+      "_politica_solapamiento": "medido",
+      "_politica_motivo": "Anunciante diversificado: sus 845 activos cubren credito, cuentas, remesas, empleo y lealtad. El solapamiento se MIDE con search_terms, no se asume."
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
@@ -197,5 +212,10 @@
       "_advertencia_critica": "La AUSENCIA de un termino es evidencia mas debil que su presencia. search_terms busca en el texto del creativo: un anuncio sobre terminales POS podria no usar la palabra 'terminal'. Un cero NO prueba ausencia absoluta; se reporta como 'sin coincidencias para el termino X', nunca como 'no anuncia POS'."
     }
   },
-  "_pagalo_descartado": "El usuario indico el 2026-08-27 olvidar a Pagalo. Se retira del registro."
+  "_pagalo_descartado": "El usuario indico el 2026-08-27 olvidar a Pagalo. Se retira del registro.",
+  "_politica_de_solapamiento": {
+    "total": "El anunciante es monoproducto en nuestra categoria: total de activos = presion real.",
+    "medido": "El anunciante es diversificado: la presion real se mide con page_ids + search_terms. Asumir el total inflaria la amenaza.",
+    "_ejemplo": "BI tiene 845 activos y solo 2 tocan pagos. Asumir 845 inflaria la presion competitiva de GT 21 veces."
+  }
 }

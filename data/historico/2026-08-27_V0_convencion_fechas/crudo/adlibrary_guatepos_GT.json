@@ -1,0 +1,47 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_library_search",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "page_ids": [
+        "593092353887127"
+      ],
+      "ad_active_status": "ACTIVE",
+      "countries": [
+        "GT"
+      ],
+      "limit": 50
+    },
+    "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-27."
+  },
+  "estimated_total_count": 3,
+  "ads": [
+    {
+      "id": "2096308025102930",
+      "page_id": 593092353887127,
+      "page_name": "Guatepos",
+      "ad_creative_link_title": "api.whatsapp.com",
+      "ad_creation_time": 1786715542,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2096308025102930",
+      "currency": "GTQ"
+    },
+    {
+      "id": "1952340028778354",
+      "page_id": 593092353887127,
+      "page_name": "Guatepos",
+      "ad_creative_link_title": "api.whatsapp.com",
+      "ad_creation_time": 1786715537,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1952340028778354",
+      "currency": "GTQ"
+    },
+    {
+      "id": "3250839388449338",
+      "page_id": 593092353887127,
+      "page_name": "Guatepos",
+      "ad_creative_link_title": "",
+      "ad_creation_time": 1786715527,
+      "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3250839388449338",
+      "currency": "GTQ"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_library_search",
+    "fecha_consulta": "2026-08-27",
+    "parametros": {
+      "page_ids": [
+        "105294361957860"
+      ],
+      "ad_active_status": "ACTIVE",
+      "countries": [
+        "SV"
+      ],
+      "limit": 50
+    },
+    "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-27."
+  },
+  "estimated_total_count": 0,
+  "ads": []
+}

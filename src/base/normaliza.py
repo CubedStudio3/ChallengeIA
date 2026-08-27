@@ -119,6 +119,17 @@ class Campana:
     gasto: Valor
     impresiones: Valor
     origen: str = ""
+    desglose: tuple = ()          # p. ej. (("country","GT"),)
+
+    @property
+    def desglose_dict(self) -> dict:
+        return dict(self.desglose)
+
+    def etiqueta(self) -> str:
+        if not self.desglose:
+            return self.nombre
+        detalle = " · ".join(f"{v}" for _, v in self.desglose)
+        return f"{self.nombre} [{detalle}]"
 
     @property
     def mixto(self) -> bool:
@@ -161,8 +172,19 @@ class Campana:
         return abs(calculado - self.costo_por_resultado.numero) <= tolerancia
 
 
+# Claves de desglose que la API puede devolver junto a las métricas.
+CLAVES_DESGLOSE = ("country", "publisher_platform", "platform_position",
+                   "impression_device", "age", "gender", "region")
+
+
 def normaliza_campanas(crudo: list[dict], *, origen: str = "") -> list[Campana]:
-    """Convierte la respuesta cruda de `ads_get_ad_entities` en Campanas."""
+    """Convierte la respuesta cruda de `ads_get_ad_entities` en Campanas.
+
+    Si la respuesta trae desglose (`country`, `publisher_platform`...), cada
+    fila es una combinación campaña×desglose y se conserva como tal. **No se
+    infiere el desglose del nombre de la campaña**: se comprobó que "Campaña
+    Punto de Venta SV" tiene entrega en GT y HN, así que el nombre no es dato.
+    """
     if not isinstance(crudo, list):
         raise DatoFaltante(
             "Se esperaba una lista de campañas.",
@@ -171,6 +193,7 @@ def normaliza_campanas(crudo: list[dict], *, origen: str = "") -> list[Campana]:
     salida = []
     for fila in crudo:
         nombre = fila.get("name", "(sin nombre)")
+        desglose = tuple((k, fila[k]) for k in CLAVES_DESGLOSE if k in fila)
         salida.append(Campana(
             id=str(fila.get("id", "")),
             nombre=nombre,
@@ -183,8 +206,19 @@ def normaliza_campanas(crudo: list[dict], *, origen: str = "") -> list[Campana]:
                 fila.get("amount_spent", fila.get("spend")), etiqueta=f"{nombre}/gasto"),
             impresiones=parsea_numero(fila.get("impressions"), etiqueta=f"{nombre}/impresiones"),
             origen=origen,
+            desglose=desglose,
         ))
     return salida
+
+
+def filtra_desglose(campanas: list[Campana], clave: str, valor: str) -> list[Campana]:
+    """Las filas que corresponden a un valor de desglose, p. ej. country=SV."""
+    return [c for c in campanas if c.desglose_dict.get(clave) == valor]
+
+
+def valores_de_desglose(campanas: list[Campana], clave: str) -> list[str]:
+    return sorted({v for c in campanas
+                   if (v := c.desglose_dict.get(clave)) is not None})
 
 
 def agrupa_por_indicador(campanas: list[Campana]) -> dict[str, list[Campana]]:
