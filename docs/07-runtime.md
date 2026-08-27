@@ -126,3 +126,154 @@ programa un disparo único a pocos minutos, se revisa que autentique y que
 produzca el deck, y recién entonces se pasa a la programación semanal.
 
 Nunca se confía una corrida programada que no se ha visto correr.
+
+---
+
+# Resultado de V7 y sus consecuencias
+
+**Se ejecutó la prueba. Resultado negativo, confirmado empíricamente.** Detalle
+completo en `data/historico/2026-08-27_V7_runtime/resultado.md`.
+
+La sesión disparada recibió **cero conectores MCP** y ningún acceso al
+repositorio. Corrió 2.5 minutos, no produjo nada, y reportó `SUCCEEDED`.
+
+## La trampa de monitoreo, y la regla que impone
+
+`SUCCEEDED` significa que la sesión no se cayó. **No** significa que hizo el
+trabajo.
+
+**Regla obligatoria:** el monitoreo de la corrida semanal nunca se basa en el
+estado de la Rutina. Verifica el **artefacto**:
+
+| Comprobación | Cómo |
+|---|---|
+| ¿Corrió? | Existe `data/historico/<id_semana>/corrida.json` |
+| ¿Analizó? | `analisis/resultado.json` trae el periodo esperado |
+| ¿Produjo entregable? | Existe `salidas/MesaCreativa_<id_semana>.pptx` |
+
+Si el artefacto no está, la corrida falló, diga lo que diga el estado.
+
+---
+
+# Tres preguntas del usuario, respondidas
+
+## ¿Se puede personalizar cómo se ve la Rutina dentro de Claude?
+
+**No, y es porque una Rutina no es una superficie visual.** Es una entrada de
+calendario: nombre, horario, prompt y preferencias de notificación. Eso es todo
+lo que tiene.
+
+Lo que sí se personaliza es **lo que la Rutina produce**. Y ahí es donde entra
+el artefacto: una página publicada, con diseño propio, que la Rutina puede
+actualizar cada semana.
+
+El usuario **ya usa ese patrón**: tiene un artefacto persistido llamado
+`qpaypro-social-dashboard` que una Rutina de los lunes actualiza. Esa es la
+respuesta a "personalizarlo bien cool" — no se estiliza la Rutina, se estiliza
+su salida.
+
+## ¿Qué es exactamente la Rutina dentro de Claude?
+
+Un disparador programado guardado en la cuenta. Tiene cuatro cosas:
+
+| Campo | Qué hace |
+|---|---|
+| Nombre | Cómo aparece en la lista de Rutinas |
+| Horario | Cron en UTC, o una fecha única |
+| Prompt | El mensaje que recibe la sesión al dispararse |
+| Notificaciones | Push y/o correo al terminar |
+
+Al dispararse abre una **sesión nueva**, le pega el prompt, y esa sesión
+trabaja sola. Aparece en la lista de Rutinas con su próxima ejecución.
+
+## ¿Se puede compartir para que el equipo lo corra desde su usuario?
+
+**La Rutina no. Su resultado sí.** Y conviene que sea así.
+
+La Rutina vive en la cuenta de quien la creó, con los permisos de conectores de
+esa cuenta. No hay evidencia de que el objeto se pueda compartir.
+
+Pero **no se quieren cinco Rutinas.** Cinco personas con la misma Rutina
+significa cinco corridas del mismo periodo cada lunes: cinco lecturas a Meta,
+cinco decks, y cinco intentos de crear las mismas tareas en Sprint. La guardia
+de idempotencia lo aguantaría, pero es desperdicio y ruido.
+
+**El patrón correcto: una Rutina, salida compartida.**
+
+```
+Una sola Rutina  →  corre el lunes  →  publica el artefacto
+                                            │
+                    ┌───────────────────────┼───────────────────────┐
+                 diseño              contenido              gerencia
+                (abre el link)      (abre el link)        (abre el link)
+```
+
+Nadie más necesita una Rutina. Abren el enlace y ven la corrida de la semana.
+
+### Y para cuando el dueño de la Rutina no esté
+
+Dos capas, no una:
+
+1. **El artefacto compartido** cubre la lectura: el equipo ve el resultado sin
+   depender de nadie.
+2. **El repositorio cubre la ejecución manual**: el prompt está en
+   `.claude/rutinas/corrida-semanal.md`. Cualquiera con acceso al repo y a los
+   conectores puede correr la corrida a mano, o crear su propia Rutina en cinco
+   minutos si hace falta un respaldo permanente.
+
+**Recomendación:** que la Rutina viva en una cuenta que no se vaya de
+vacaciones. Si la cuenta del área tiene los conectores, mejor ahí que en una
+cuenta personal.
+
+---
+
+# Coordinación con la Rutina que ya existe
+
+El usuario ya tiene esto corriendo:
+
+```
+"Qpaypro dashboard — recordatorio lunes (fin de semana)"
+cron: 0 14 * * 1   →   lunes 8:00 a.m. Guatemala
+```
+
+Su prompt **pide los exports de Meta Business Suite del fin de semana**:
+alcance, interacciones, seguidores, visitas y visualizaciones, separados por
+Facebook e Instagram, más el detalle por publicación.
+
+**Eso es exactamente el paso 4 del Módulo 1** — las métricas orgánicas que este
+proyecto tenía como captura manual sin resolver.
+
+## Oportunidad, y decisión pendiente
+
+No conviene tener dos Rutinas de lunes pidiendo y produciendo cosas parecidas.
+Hay dos caminos y es decisión del usuario:
+
+**(a) Encadenarlas.** La Rutina existente pide los CSV y los deja en
+`data/capturas/`. La corrida de Mesa Creativa arranca después y ya los
+encuentra. Se respeta lo que ya funciona y se cierra el hueco del orgánico.
+
+**(b) Absorberla.** Mesa Creativa asume también el pedido de los CSV, y la
+Rutina vieja se retira. Menos piezas, pero se rehace algo que ya opera bien.
+
+**Recomendación: (a).** La Rutina existente lleva meses funcionando y produce un
+dashboard que el equipo ya usa. Encadenar es menos riesgoso que reemplazar, y a
+diez días del cierre eso pesa.
+
+Detalle de horarios si se encadena: la existente dispara a las 14:00 UTC. Mesa
+Creativa debería ir **después**, no antes — porque necesita los CSV que la
+primera solicita. Pero los CSV los sube un humano, así que la dependencia no es
+de reloj sino de acción humana. Con ADR-002 eso no bloquea: si los CSV no están,
+Mesa Creativa corre sin orgánico y lo declara.
+
+## Un activo que ya existe y hay que reusar
+
+La Rutina existente menciona una paleta validada para el dashboard:
+
+| Red | Color |
+|---|---|
+| Facebook | `#2a78d6` |
+| Instagram | `#eb6834` |
+
+El deck de Mesa Creativa debería usar esos mismos colores cuando muestre
+orgánico por red. Dos paletas distintas para la misma marca es ruido visual, y
+esta ya está validada por uso.
