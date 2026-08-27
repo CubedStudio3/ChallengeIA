@@ -356,3 +356,55 @@ venir de campañas con el mismo indicador, o la comparación es inválida.
 **Consolidado válido observado (1–24 ago 2026, solo `actions:lead`, gasto > 0):**
 370 resultados · $964.78 gastado · $2.61 por resultado · brecha de 2.33x entre
 la campaña más barata ($1.90) y la más cara ($4.43).
+---
+
+## ADR-014 · El agente adquiere, Python computa
+
+**Fecha:** 2026-08-27 · **Estado:** ACEPTADA — resuelve ADR-010
+
+**Contexto.** Los conectores MCP están disponibles para el agente, no para un
+proceso de Python. Un `.py` no puede invocar `ads_get_ad_entities`. Había que
+decidir dónde vive cada capa.
+
+**Decisión.** Cuatro capas con una frontera explícita:
+
+| Capa | Quién | Qué hace |
+|---|---|---|
+| Adquisición | el agente, vía MCP | Llama a las APIs y vuelca la respuesta **cruda** |
+| Trazabilidad | `data/historico/<corrida>/crudo/` | El JSON sin editar. La evidencia auditable |
+| Cómputo | Python puro | Normaliza, analiza, arma el plan. **Sin red** |
+| Presentación | Node + pptxgenjs | Lee el `resultado.json`. Sin red |
+| Escritura externa | solo `orquestador` | Sprint y Social |
+
+**Razón.** Hace la frontera de permisos **real** en lugar de declarativa: los
+agentes de análisis reciben herramientas de lectura y de archivos, nunca las de
+escritura. Y como el cómputo es puro sobre archivos en disco, la corrida es
+reproducible: se puede ejecutar mil veces sobre los mismos datos y dar lo mismo.
+
+**Consecuencia práctica.** El generador del deck no puede inventar nada: solo
+puede mostrar lo que está en el `resultado.json`, que a su vez solo contiene lo
+derivado del crudo. La trazabilidad es estructural, no una convención.
+
+---
+
+## ADR-015 · El QA visual del deck exige instalar Impress
+
+**Fecha:** 2026-08-27 · **Estado:** ACEPTADA
+
+**Contexto.** El entorno traía `libreoffice-core` y `libreoffice-common` pero
+**ningún filtro de documentos** — ni Impress ni Writer. Cualquier conversión
+fallaba con "source file could not be loaded", incluso de un `.txt`. Sin
+conversión no hay imágenes, y sin imágenes no hay QA visual.
+
+**Diagnóstico que evitó una conclusión falsa.** El primer instinto fue culpar al
+deck generado. Se descartó generando un `.pptx` trivial de una sola caja de
+texto: también falló. Eso movió la causa del archivo al entorno.
+
+**Decisión.** El QA visual del deck requiere `libreoffice-impress` y
+`poppler-utils` instalados. Se documenta como dependencia del proyecto, no como
+accidente de una sesión.
+
+**Consecuencia.** Un entorno nuevo debe instalarlos antes de poder validar
+visualmente un deck. La validación de estructura (`validate.py`) y de contenido
+(`markitdown`) sí funcionan sin ellos, pero no detectan solapamientos ni
+desbordes: eso solo se ve renderizando.

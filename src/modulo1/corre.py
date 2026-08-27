@@ -109,12 +109,23 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
 
     # --- Paso 5 · hallazgos, por indicador ---
     grupos = agrupa_por_indicador(campanas)
-    consolidados, hallazgos = {}, []
+    consolidados, detalle_num, hallazgos = {}, {}, []
     for indicador, grupo in sorted(grupos.items()):
         try:
-            consolidados[indicador] = consolida(grupo).descripcion()
+            c = consolida(grupo)
+            consolidados[indicador] = c.descripcion()
+            detalle_num[indicador] = {
+                "campanas": c.campanas, "resultados": c.resultados,
+                "gasto": round(c.gasto, 2), "impresiones": c.impresiones,
+                "costo_por_resultado": (round(c.costo_por_resultado, 4)
+                                        if c.costo_por_resultado else None),
+                "excluidas": len(c.excluidas),
+            }
         except FallaRuidosa as e:
             consolidados[indicador] = f"sin datos utilizables: {e.args[0]}"
+            detalle_num[indicador] = {"campanas": 0, "resultados": 0, "gasto": 0.0,
+                                      "impresiones": 0, "costo_por_resultado": None,
+                                      "excluidas": len(grupo)}
             continue
         for fn in (A.brecha_de_eficiencia, A.concentracion_vs_eficiencia,
                    A.costo_de_oportunidad):
@@ -163,6 +174,15 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             "campanas_incoherentes": incoherentes,
         },
         "consolidados_por_indicador": consolidados,
+        "consolidados_detalle": detalle_num,
+        "campanas_por_indicador_principal": [
+            {"etiqueta": c.etiqueta(), "pais": c.desglose_dict.get("country"),
+             "resultados": c.resultados.numero, "gasto": c.gasto.numero,
+             "costo_por_resultado": c.costo_por_resultado.numero,
+             "impresiones": c.impresiones.numero}
+            for c in campanas
+            if c.utilizable and c.indicador == "actions:lead"
+            and not c.costo_por_resultado.hueco],
         "competencia": {
             m: {"presion_total": p.presion_total,
                 "dominante": p.dominante().nombre if p.dominante() else None,

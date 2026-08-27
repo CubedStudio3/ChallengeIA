@@ -22,6 +22,74 @@
     "actions:link_click": "10,771 resultados con indicador 'actions:link_click' en 1 campañas · $104.03 · $0.01 por resultado",
     "mixed": "sin datos utilizables: Ninguna campaña tiene datos utilizables."
   },
+  "consolidados_detalle": {
+    "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
+      "campanas": 1,
+      "resultados": 1.0,
+      "gasto": 3.23,
+      "impresiones": 1150.0,
+      "costo_por_resultado": 3.23,
+      "excluidas": 0
+    },
+    "actions:lead": {
+      "campanas": 4,
+      "resultados": 370.0,
+      "gasto": 963.46,
+      "impresiones": 204908.0,
+      "costo_por_resultado": 2.6039,
+      "excluidas": 2
+    },
+    "actions:link_click": {
+      "campanas": 1,
+      "resultados": 10771.0,
+      "gasto": 104.03,
+      "impresiones": 476959.0,
+      "costo_por_resultado": 0.0097,
+      "excluidas": 0
+    },
+    "mixed": {
+      "campanas": 0,
+      "resultados": 0,
+      "gasto": 0.0,
+      "impresiones": 0,
+      "costo_por_resultado": null,
+      "excluidas": 1
+    }
+  },
+  "campanas_por_indicador_principal": [
+    {
+      "etiqueta": "Campaña Qpayshop e Integraciones [GT]",
+      "pais": "GT",
+      "resultados": 12.0,
+      "gasto": 53.15,
+      "costo_por_resultado": 4.43,
+      "impresiones": 13348.0
+    },
+    {
+      "etiqueta": "Campaña Qpaypro Guatemala Nueva [GT]",
+      "pais": "GT",
+      "resultados": 95.0,
+      "gasto": 380.68,
+      "costo_por_resultado": 4.01,
+      "impresiones": 88240.0
+    },
+    {
+      "etiqueta": "Campaña Punto de Venta GT [GT]",
+      "pais": "GT",
+      "resultados": 158.0,
+      "gasto": 331.66,
+      "costo_por_resultado": 2.1,
+      "impresiones": 57334.0
+    },
+    {
+      "etiqueta": "Campaña Punto de Venta SV [SV]",
+      "pais": "SV",
+      "resultados": 105.0,
+      "gasto": 197.97,
+      "costo_por_resultado": 1.89,
+      "impresiones": 45986.0
+    }
+  ],
   "competencia": {
     "GT": {
       "presion_total": 42,
