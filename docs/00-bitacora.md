@@ -197,3 +197,55 @@ fuera un hecho habría violado la regla central del proyecto. Ver ADR-009.
 
 **Siguiente acción esperada:** el usuario resuelve los 5 bloqueantes y aprueba
 la ejecución de la Fase 0.
+
+---
+
+### Paso 8 · Restricción de permisos sobre Meta Ads
+
+**Origen:** instrucción explícita del usuario, 2026-08-27.
+
+> *"Solo quiero saber algo, ya van 2 veces que me dices como que tú activarás
+> campañas de marketing. Yo no quiero que hagas eso, solo que me des la info,
+> no publicar nada en ads de Meta, solo en Social de Zoho."*
+
+**Qué se había propuesto.** En ADR-007 y en la Verificación 1 se propuso crear
+una campaña en estado `PAUSED` en la cuenta de producción, como prueba de
+escritura para verificar los Términos de Servicio de Lead Generation. La
+propuesta incluía "jamás activar" y estaba condicionada a autorización expresa
+en ambas menciones. No se creó ni activó nada.
+
+**Por qué el usuario tenía razón en cortarlo.** Aunque la propuesta era
+conservadora, el beneficio era una sola verificación y el riesgo era crear
+objetos en una cuenta publicitaria de producción. Ese mismo dato se obtiene
+revisando Meta Business Manager en dos minutos, con cero riesgo.
+
+**Decisión adoptada.** Meta Ads pasa a **solo lectura**, sin excepciones,
+incluido el estado pausado. Registrado en ADR-012, que supera la parte de
+ADR-007 relativa a Meta.
+
+**Archivos modificados en este paso:**
+
+| Archivo | Cambio |
+|---|---|
+| `CLAUDE.md` | Nueva regla 8 no negociable + matriz de permisos por sistema |
+| `docs/decisiones.md` | ADR-012 agregado; ADR-007 marcado como superado |
+| `config/convenciones.json` | Bloque `escritura_de_prueba` reescrito con permisos por sistema |
+| `docs/03-plan-fase-0.md` | V1 reescrita sin escritura; orden de ejecución actualizado |
+| `docs/validaciones.md` | Tablero y nota de permisos |
+
+**Observación relevante.** Esto no es una desviación del documento maestro. Su
+contingencia para la Verificación 1 ya decía *"el agente no ejecuta: crea la
+tarea en Sprint con la instrucción exacta y un humano la aplica"*. La decisión
+adopta esa contingencia como **modo normal de operación** en lugar de plan B.
+
+**Consecuencias de alcance:**
+
+1. La Fase 0 completa queda de **solo lectura**. Ninguna verificación escribe.
+2. C4 (¿funciona `ads_create_ad_set`?) queda **sin resolver a propósito**. El
+   conocimiento heredado se mantiene como supuesto declarado y marcado como no
+   verificado. Documentar la incertidumbre es preferible a resolverla con una
+   acción prohibida.
+3. El **Módulo 3** cambia de forma: su función central (devolver a Meta cuáles
+   leads cerraron) es una escritura. Podrá calcular qué cargar y dejarlo como
+   instrucción para un humano, pero no cerrar el circuito solo. Ya estaba
+   bloqueado por la ausencia de Zoho CRM, así que no altera el plan inmediato.

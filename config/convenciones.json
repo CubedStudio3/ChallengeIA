@@ -1,7 +1,6 @@
 {
   "_comentario": "Convenciones del proyecto. TODO bloque con _lock:true debe hacer que el codigo se DETENGA con un mensaje claro en lugar de consumirlo. Ver ADR-009.",
   "_advertencia": "La convencion de fechas NO esta verificada. El caso $70.74 vs $1.57 nacio de confiar en una convencion que nadie habia probado. No se desbloquea hasta reproducir el $1.57 en la Verificacion 0.",
-
   "fechas": {
     "_estado": "NO_VERIFICADO",
     "_lock": true,
@@ -23,7 +22,6 @@
       "_nota": "Debe fijarse EXPLICITAMENTE en cada consulta, nunca dejarse por defecto. Es una de las causas candidatas del factor ~45x de la discrepancia."
     }
   },
-
   "metricas": {
     "_estado": "VERIFICADO_EN_TRABAJO_PREVIO",
     "_lock": false,
@@ -39,27 +37,43 @@
       "nivel": "conjunto_de_anuncios"
     }
   },
-
   "cuenta": {
     "_estado": "VERIFICADO_EN_TRABAJO_PREVIO",
     "ad_account_id": "225318458221662",
     "pixel_id": "249008005669655",
-    "mercados": ["GT", "SV"]
+    "mercados": [
+      "GT",
+      "SV"
+    ]
   },
-
   "escritura_de_prueba": {
-    "_estado": "PROPUESTA_PENDIENTE_DE_AUTORIZACION",
+    "_estado": "PROHIBIDA_EN_META",
     "_lock": true,
-    "_ver": "ADR-007",
-    "_nota": "No se crea NINGUN objeto de prueba sin autorizacion expresa del usuario.",
-    "estado_obligatorio": "PAUSED",
-    "prefijo_de_nombre": "[TEST-MC]",
-    "presupuesto": "minimo_permitido",
-    "activar": false,
-    "registrar_ids_en": "docs/validaciones.md",
-    "limpiar_al_cerrar_fase_0": true
+    "_ver": "ADR-012",
+    "_nota": "Meta Ads es SOLO LECTURA por instruccion explicita del usuario (2026-08-27). Ninguna escritura, ni pausada.",
+    "meta_ads": {
+      "permiso": "solo_lectura",
+      "crear_campanas": false,
+      "crear_ad_sets": false,
+      "crear_anuncios": false,
+      "modificar_presupuestos": false,
+      "modificar_estados": false,
+      "subir_conversiones": false,
+      "_incluye_estado_pausado": "SI. Un objeto pausado sigue siendo un objeto creado en produccion.",
+      "_patron_alternativo": "Si una accion requiere escritura en Meta, el agente redacta la instruccion exacta y la registra como work item en Zoho Sprint. Un humano la aplica. El agente nunca ejecuta."
+    },
+    "zoho_sprint": {
+      "permiso": "escritura",
+      "_nota": "En proyecto de prueba dedicado durante el desarrollo. Nunca en el proyecto real."
+    },
+    "zoho_social": {
+      "permiso": "escritura_restringida",
+      "solo_borradores": true,
+      "isApprovalNeeded": true,
+      "publicacion_directa": false,
+      "_nota": "Nunca publicacion directa. El candado de aprobacion humana no se elimina."
+    }
   },
-
   "publicacion": {
     "_estado": "VERIFICADO_POR_ESQUEMA",
     "_lock": false,
@@ -70,7 +84,6 @@
     },
     "validar_antes_de_crear": "validateSocialPost es obligatorio antes de cualquier creacion"
   },
-
   "umbrales": {
     "_estado": "PENDIENTE_DE_DATO",
     "_lock": true,

@@ -148,7 +148,12 @@ de que un error de análisis no publique en producción.
 
 ## ADR-007 · Convención de escritura de prueba en sistemas reales
 
-**Fecha:** 2026-08-27 · **Estado:** ⚠️ PROPUESTA — requiere autorización del usuario
+**Fecha:** 2026-08-27 · **Estado:** ❌ RECHAZADA en su parte de Meta — **superada por ADR-012**
+
+> **Nota:** la parte de esta propuesta que contemplaba crear una campaña de
+> prueba en Meta Ads fue rechazada por el usuario el 2026-08-27. Meta Ads pasa a
+> solo lectura. Lo que sigue vale únicamente para Zoho Sprint y Zoho Social.
+> Ver ADR-012.
 
 **Contexto.** Contradicción C7. La Verificación 1 exige una escritura de prueba;
 las reglas prohíben escribir en producción. Meta no ofrece sandbox: la cuenta
@@ -257,3 +262,56 @@ En una corrida automática desatendida no existe tal frase.
 se comporte el conector en ese contexto. Decidirlo antes sería un supuesto.
 
 **Riesgo si se ignora:** afecta directamente el 25% de uso agéntico.
+
+---
+
+## ADR-012 · Meta Ads es solo lectura
+
+**Fecha:** 2026-08-27 · **Estado:** ACEPTADA — instrucción directa del usuario
+**Supera:** la parte de ADR-007 relativa a Meta
+
+**Contexto.** ADR-007 proponía crear una campaña de prueba en estado `PAUSED`
+en la cuenta `225318458221662` para verificar los Términos de Servicio de Lead
+Generation (V1), con autorización previa y sin activarla nunca.
+
+El usuario instruyó explícitamente que **no se publique ni se cree nada en Meta
+Ads**, y que el conector se use únicamente para obtener información.
+
+**Decisión.** Meta Ads es **solo lectura**, sin excepciones:
+
+- No crear campañas, conjuntos de anuncios ni anuncios.
+- No modificar presupuestos, objetivos, segmentaciones ni estados.
+- No subir conversiones ni eventos offline.
+- **La prohibición incluye el estado pausado.** Un objeto pausado sigue siendo un
+  objeto creado en una cuenta de producción.
+
+**Razón.** El beneficio de la escritura de prueba era verificar los ToS. Ese
+mismo dato se obtiene en dos minutos revisando Meta Business Manager, con cero
+riesgo y sin crear nada. El riesgo no se justificaba.
+
+Además, esto **no es una desviación del documento maestro**: su contingencia
+para la Verificación 1 ya decía *"el agente no ejecuta: crea la tarea en Sprint
+con la instrucción exacta y un humano la aplica"*. La decisión adopta esa
+contingencia como el modo normal de operación, no como plan B.
+
+**Consecuencias.**
+
+1. **V1 cambia de método.** Ya no se sondea ni se escribe. El usuario verifica en
+   Business Manager y reporta el resultado, que se registra en
+   `docs/validaciones.md` citando la fuente.
+2. **C4 queda sin resolver, y así se queda.** No se puede probar si
+   `ads_create_ad_set` funciona sin llamarla. El conocimiento heredado del
+   documento maestro ("los ad sets no se crean por la API del MCP") se mantiene
+   como supuesto declarado, marcado como no verificado. Se documenta la
+   incertidumbre en lugar de resolverla con una escritura.
+3. **El Módulo 3 cambia de forma.** Su función central —devolver a Meta cuáles
+   leads cerraron— es una escritura. Con este límite el módulo puede *calcular*
+   qué habría que cargar y dejarlo como instrucción para un humano, pero no
+   cerrar el circuito por sí mismo. Ya estaba bloqueado por la ausencia de Zoho
+   CRM, así que en la práctica no altera el plan inmediato.
+4. **Patrón general para toda acción que requiera escritura en Meta:** el agente
+   redacta la instrucción exacta, la registra como work item en Sprint, y un
+   humano la aplica. El agente nunca ejecuta.
+
+**Reversible:** sí, pero solo con instrucción explícita del usuario. No se asume
+por conveniencia ni porque una verificación resulte incómoda de otra forma.

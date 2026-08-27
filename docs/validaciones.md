@@ -17,7 +17,7 @@ entrada debe incluir **fecha, método, llamada exacta y salida obtenida**.
 | # | Verificación | Estado | Fecha | Resultado |
 |---|---|---|---|---|
 | V0 | Convención de fechas (test del $1.57) | ⬜ no ejecutada | — | — |
-| V1 | ToS de Lead Generation + escritura en Meta | ⬜ no ejecutada | — | — |
+| V1 | ToS de Lead Generation | ⬜ pendiente del usuario | — | Método cambiado: se verifica en Business Manager, sin escritura (ADR-012) |
 | V2 | CRM registra origen de campaña | 🚫 **no ejecutable** | 2026-08-27 | Conector ausente |
 | V3 | Sprint expone adjuntos | ⬜ no ejecutada | — | preliminar: negativo |
 | V4 | Origen de los leads diarios | ⬜ pendiente del usuario | — | — |
@@ -26,6 +26,9 @@ entrada debe incluir **fecha, método, llamada exacta y salida obtenida**.
 | V7 | Runtime de la corrida automática | ⬜ no ejecutada | — | — |
 
 **Alcance confirmado por módulo:** pendiente. Se determina al cerrar la Fase 0.
+
+> **Nota de permisos (ADR-012):** ninguna verificación de la Fase 0 escribe en un
+> sistema externo. Meta Ads es solo lectura por instrucción del usuario.
 
 ---
 

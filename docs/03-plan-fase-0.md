@@ -15,9 +15,14 @@ llamada exacta y salida obtenida. Sin excepción.
 ## Orden de ejecución
 
 ```
-V0 → V5 → V6 → V3 → V1 → V7
-              (V2 no ejecutable · V4 es pregunta al usuario)
+V0 → V5 → V6 → V3 → V7          ← ejecuta el agente (todo lectura)
+V1 → en Business Manager        ← ejecuta el usuario
+V4 → es una pregunta al usuario
+V2 → no ejecutable (sin conector de CRM)
 ```
+
+**Ninguna verificación escribe en ningún sistema externo.** Tras ADR-012, la
+Fase 0 completa es de solo lectura.
 
 **Racional del orden:**
 
@@ -29,8 +34,8 @@ V0 → V5 → V6 → V3 → V1 → V7
   candado de aprobación tiene soporte nativo.
 - **V3 después** porque su respuesta preliminar ya se conoce y solo falta
   formalizarla.
-- **V1 tarde** porque es la única que escribe en un sistema real y requiere
-  autorización previa.
+- **V1 ya no la ejecuta el agente.** Tras ADR-012 la verifica el usuario en la
+  interfaz de Business Manager: más rápido, sin riesgo y sin crear nada.
 - **V7 al final** pero antes de cualquier código, porque si falla hay que
   replantear la arquitectura completa de ejecución.
 
@@ -89,33 +94,53 @@ de fe. Ver `docs/06-requerimientos-usuario.md`, punto 3.
 
 ---
 
-## V1 · Términos de Servicio de Lead Generation y escritura en Meta
+## V1 · Términos de Servicio de Lead Generation
+### ⚠️ MÉTODO CAMBIADO — sin escritura. Ver ADR-012.
 
-**Pregunta original del documento:** ¿están aceptados los ToS de Lead
-Generation? Probar una acción de escritura sobre una campaña de prueba.
+**Pregunta original del documento:** ¿están aceptados los ToS de Lead Generation?
+Probar una acción de escritura sobre una campaña de prueba.
 
-**Contingencia definida:** si falla, el agente no ejecuta — crea la tarea en
-Sprint con la instrucción exacta y un humano la aplica.
+**El método original queda anulado.** Meta Ads es solo lectura por instrucción
+explícita del usuario (2026-08-27). No se crea ninguna campaña de prueba, ni en
+estado pausado.
 
-### Pasos, de menor a mayor invasividad
+### Método nuevo
 
-1. `ads_get_ad_accounts` → estado de la cuenta y capacidades declaradas.
-2. `ads_get_errors` → revisar si hay bloqueos de ToS ya registrados.
-   **Es lectura y puede responder la pregunta sin escribir nada.** Se intenta
-   esto antes de cualquier escritura.
-3. Solo si (2) no concluye, **y con autorización expresa del usuario**:
-   `ads_create_campaign` en estado `PAUSED`, prefijo `[TEST-MC]`, presupuesto
-   mínimo. Convención completa en ADR-007.
-4. **Sub-paso añadido (C4):** intentar `ads_create_ad_set` sobre esa campaña,
-   para determinar si el límite documentado sigue vigente. Barato, y si funciona
-   amplía lo automatizable.
-5. Registrar el ID de todo objeto creado, para poder limpiarlo.
+**Ejecuta el usuario, en la interfaz de Meta Business Manager.** Dos minutos,
+cero riesgo, sin crear nada. Es estrictamente mejor que la vía por API.
 
-### Salida esperada
+1. El usuario revisa en Business Manager si los ToS de Lead Generation están
+   aceptados para la cuenta `225318458221662`.
+2. Reporta el resultado.
+3. Se registra en `docs/validaciones.md` citando la fuente (captura o ruta de
+   la interfaz), no como afirmación sin respaldo.
 
-Una de tres: (a) ToS aceptados y escritura funcional → el agente puede ejecutar;
-(b) ToS no aceptados → contingencia documentada; (c) inconcluso → escalar al
-usuario en lugar de asumir.
+### Vía complementaria por API, solo lectura
+
+`ads_get_errors` puede revelar bloqueos de ToS ya registrados. Es lectura y no
+crea nada, así que se puede ejecutar sin problema. Sirve como corroboración, no
+como método principal.
+
+### Contingencia — que ahora es el modo normal de operación
+
+El documento maestro ya la había definido:
+
+> *El agente no ejecuta: crea la tarea en Sprint con la instrucción exacta y un
+> humano la aplica.*
+
+Con ADR-012 esto deja de ser plan B y se convierte en el patrón permanente para
+cualquier acción que requiera escritura en Meta.
+
+### Consecuencia sobre C4, y por qué se acepta
+
+El sub-paso que iba a probar si `ads_create_ad_set` funciona **no se ejecuta**:
+requeriría una escritura. El conocimiento heredado del documento maestro ("los
+ad sets no se crean de forma independiente por la API del MCP") se mantiene como
+**supuesto declarado y no verificado**.
+
+Esto es coherente con la regla del proyecto: se documenta la incertidumbre en
+lugar de resolverla con una acción que el usuario prohibió. Un supuesto marcado
+como supuesto no es un dato inventado.
 
 ---
 

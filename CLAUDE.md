@@ -41,8 +41,25 @@ alcance confirmado.
    Debe mostrar exactamente qué haría, sin hacerlo.
 7. **Operaciones idempotentes.** Dos corridas del mismo periodo no duplican
    tareas ni posts.
-8. **Nunca escribir en producción durante desarrollo.** Ver la convención de
-   pruebas en `docs/decisiones.md` (ADR-007).
+8. **Meta Ads es SOLO LECTURA.** Ninguna escritura de ningún tipo: no crear
+   campañas, conjuntos de anuncios ni anuncios; no modificar presupuestos,
+   objetivos ni estados; no subir conversiones. **Ni siquiera en estado
+   pausado.** Instrucción explícita del usuario, 2026-08-27. Ver ADR-012.
+9. **Nunca escribir en producción durante desarrollo.** Ver la convención de
+   pruebas en `docs/decisiones.md` (ADR-012).
+
+### Matriz de permisos por sistema
+
+| Sistema | Permiso | Nota |
+|---|---|---|
+| Meta Ads | 🔒 **solo lectura** | Prohibición explícita del usuario. Si una acción requiere escritura, se redacta la instrucción exacta y se crea la tarea en Sprint para que un humano la aplique |
+| Meta Ad Library | 🔒 solo lectura | Es una API pública de consulta |
+| Zoho Social | ✍️ escritura | Únicamente borradores con `isApprovalNeeded: true`. Nunca publicación directa. X/Twitter excluido (ADR-008) |
+| Zoho Sprint | ✍️ escritura | Work items y tareas, en proyecto de prueba durante desarrollo |
+| Sistema de archivos | ✍️ escritura | Artefactos, decks, registros |
+
+Y sobre esa matriz sigue vigente la regla 4: **solo el agente `orquestador`
+ejecuta cualquier escritura.** Los agentes de análisis leen y producen archivos.
 
 ---
 
