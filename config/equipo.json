@@ -1,16 +1,13 @@
 {
   "_para_quien": "Este archivo lo llena Mercadeo. Sirve para que el tablero pueda ofrecer a quien asignar una tarea creativa cuando la mesa la aprueba. Mientras esté con _lock en true, el tablero muestra el hueco en lugar de una lista inventada de nombres.",
-  "_estado": "PENDIENTE_DE_DATO",
+  "_estado": "PARCIAL",
   "_lock": true,
   "_como_desbloquear": [
-    "Abrir Zoho Sprints en el navegador y copiar el numero que aparece en la direccion despues de /team/. Si la URL tiene otra forma, copiar la URL completa: el numero largo esta ahi.",
-    "Pegarlo en proyecto_sprint.team_id.",
-    "Correr: python -m modulo1.sprint --descubrir. Lee por API el proyecto, el sprint activo y las prioridades, y llena los otros cuatro IDs.",
+    "Los tres IDs que faltan: pegar .claude/rutinas/completar-sprint.md en una conversacion con el conector de Sprint arriba. Los lee y los escribe aqui.",
     "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",
-    "Elegir un proyecto de PRUEBA y marcar _es_de_prueba en true. ADR-012: durante desarrollo no se escribe en produccion.",
-    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable."
+    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable. Mientras siga en true, el tablero muestra el hueco en lugar de una lista de nombres inventada."
   ],
-  "_por_que_esta_bloqueado": "Falta el ID del espacio de trabajo (teamId) de Zoho Sprints. NO se puede obtener por API: las ~78 operaciones del conector lo exigen como variable de ruta y ninguna lista los espacios de trabajo. Se probaron dos hipotesis y las dos fallaron con codigo 7404: el portal de Zoho Social (683127178) y la organizacion de Zoho Analytics (683128256). Es un ID propio de Sprints. Inventarlo romperia la regla 1 del proyecto.",
+  "_por_que_esta_bloqueado": "NO escribir aqui una explicacion a mano. Este campo ya quedo obsoleto una vez: decia que el teamId no se podia obtener, y siguio diciendolo despues de que se obtuvo, contradiciendo al valor que tenia al lado. El estado real lo calcula `python -m modulo1.sprint --descubrir`, que lo deriva de los campos de este archivo y por lo tanto no puede desincronizarse.",
   "proyecto_sprint": {
     "team_id": "667151262",
     "project_id": "21897000000139001",
@@ -76,5 +73,20 @@
     "_duda_resuelta": "Quedaba abierto si el 7404 lo causaba un teamId malo (H1) o una plantilla de URL equivocada en el conector (H2). RESUELTO A FAVOR DE H1: la aplicacion llama a /zsapi/team/<id>/..., que es la misma forma que arma el conector. Los cuatro intentos fallaron porque los cuatro IDs eran incorrectos.",
     "_correccion_propia": "Se habia etiquetado 667151262 como 'ID del servicio ZohoSprints' y se dijo al usuario que no se esperaba que funcionara. Era el correcto: en Zoho One el ID del servicio y el del espacio de trabajo son el mismo numero. Descartar un candidato por como se llama el parametro donde aparece fue el error.",
     "_falta_para_escribir": "Con el team_id ya se pueden leer por API los otros cuatro IDs (project_id, sprint_id, item_type_id, priority_id). Tambien se pueden sacar del mismo truco de consola estando en el tablero del proyecto: las llamadas incluyen /projects/<projectId>/sprints/<sprintId>/. El conector de Sprints esta caido en este momento, asi que la lectura por API queda pendiente."
+  },
+  "_falta_hoy": {
+    "_actualizado": "2026-08-28",
+    "_resuelto": [
+      "team_id",
+      "project_id",
+      "autorizacion de escritura"
+    ],
+    "_pendiente": [
+      "sprint_id",
+      "item_type_id",
+      "priority_id",
+      "personas"
+    ],
+    "_quien_lo_resuelve": "Los tres IDs los lee la API en una pasada; ver .claude/rutinas/completar-sprint.md. La lista de personas la llena Mercadeo: no existe por API."
   }
 }

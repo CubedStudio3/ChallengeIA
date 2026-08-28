@@ -1264,23 +1264,39 @@
       "habilitada": false,
       "personas": [],
       "proyecto_sprint": {
-        "team_id": null,
-        "project_id": null,
+        "team_id": "667151262",
+        "project_id": "21897000000139001",
         "sprint_id": null,
         "item_type_id": null,
         "priority_id": null,
-        "nombre": null,
-        "_es_de_prueba": null,
-        "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona."
+        "nombre": "Diseño y MK",
+        "_es_de_prueba": false,
+        "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
+        "_workspace_slug": "qpaypro",
+        "_url_observada": "https://sprints.zoho.com/workspace/qpaypro#P8/board/SP49",
+        "_claves_visibles": {
+          "proyecto": "P8",
+          "sprint": "SP49",
+          "_nombre_proyecto": "Diseño y MK",
+          "_nota": "Son las claves de PRESENTACION que muestra la interfaz, no los IDs internos que pide la API (numericos y largos). Se guardan porque identifican sin ambiguedad el proyecto y el sprint destino en cuanto se pueda leer GetProjects/GetSprints."
+        },
+        "_team_id_verificado": "2026-08-28. Confirmado con las llamadas que hace la propia aplicacion, leidas desde la consola del navegador: https://sprints.zoho.com/zsapi/team/667151262/tabs/?action=data (y dos mas). No es una hipotesis: es el ID que Sprints usa contra su propia API.",
+        "_project_id_verificado": "2026-08-28. Leido de las llamadas de la propia aplicacion: /zsapi/team/667151262/projects/21897000000139001/uipreference/. La misma pantalla llama a /projects/no-8/?action=details, que confirma que este ID numerico corresponde a la clave visible P8.",
+        "_autorizacion_produccion": {
+          "otorgada": true,
+          "por": "mercadeo@qpaypro.com",
+          "fecha": "2026-08-28",
+          "texto_del_usuario": "luego en la desicion dale a la 2, tienes mi autorizacion",
+          "_contexto": "Se le ofrecieron dos opciones: (1) crear un proyecto de prueba --recomendada-- o (2) autorizar escritura en el proyecto real 'Diseno y MK' (P8). Eligio la 2 de forma explicita.",
+          "_alcance": "SOLO el proyecto 21897000000139001 de este espacio de trabajo. No es una autorizacion general de escritura y no se extiende a Meta Ads, que sigue siendo de solo lectura por instruccion aparte (regla 8, ADR-012).",
+          "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
+        }
       },
-      "motivo_bloqueo": "Falta el ID del espacio de trabajo (teamId) de Zoho Sprints. NO se puede obtener por API: las ~78 operaciones del conector lo exigen como variable de ruta y ninguna lista los espacios de trabajo. Se probaron dos hipotesis y las dos fallaron con codigo 7404: el portal de Zoho Social (683127178) y la organizacion de Zoho Analytics (683128256). Es un ID propio de Sprints. Inventarlo romperia la regla 1 del proyecto.",
+      "motivo_bloqueo": "No hay lista de personas en config/equipo.json, y no existe forma de obtenerla por API: el parámetro `users` de CreateItem espera User IDs de Sprints, no correos. Inventar nombres para llenar el selector rompería la regla 1 del proyecto. Faltan 3 de los 5 identificadores que exige CreateItem (sprint_id, item_type_id, priority_id). Se leen por API en una pasada con el team_id; ver .claude/rutinas/completar-sprint.md.",
       "_como_desbloquear": [
-        "Abrir Zoho Sprints en el navegador y copiar el numero que aparece en la direccion despues de /team/. Si la URL tiene otra forma, copiar la URL completa: el numero largo esta ahi.",
-        "Pegarlo en proyecto_sprint.team_id.",
-        "Correr: python -m modulo1.sprint --descubrir. Lee por API el proyecto, el sprint activo y las prioridades, y llena los otros cuatro IDs.",
+        "Los tres IDs que faltan: pegar .claude/rutinas/completar-sprint.md en una conversacion con el conector de Sprint arriba. Los lee y los escribe aqui.",
         "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",
-        "Elegir un proyecto de PRUEBA y marcar _es_de_prueba en true. ADR-012: durante desarrollo no se escribe en produccion.",
-        "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable."
+        "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable. Mientras siga en true, el tablero muestra el hueco en lugar de una lista de nombres inventada."
       ],
       "_flujo": "Aceptar una tarea NO la crea en Sprint. El tablero registra la decisión; el botón «Copiar decisiones» las entrega como JSON, y ese JSON lo consume `python -m modulo1.sprint --dry-run`, que imprime la llamada exacta antes de hacer nada. La escritura la ejecuta el agente orquestador, único con permiso (regla 4)."
     },

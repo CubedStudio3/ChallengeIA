@@ -474,6 +474,35 @@ def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
             e.pop("_fuerza", None)
     return out
 
+def motivo_de_bloqueo(equipo: dict) -> str:
+    """Por qué está apagada la asignación, calculado de los campos.
+
+    Antes esto se leía de un texto escrito a mano en `config/equipo.json`. Ese
+    texto decía que el ID del espacio de trabajo no se podía obtener, y siguió
+    diciéndolo después de que se obtuvo — el tablero mostraba una explicación
+    falsa junto al dato que la desmentía. Derivarlo es lo que impide que vuelva
+    a pasar: si el archivo cambia, este mensaje cambia con él.
+    """
+    proy = equipo.get("proyecto_sprint") or {}
+    faltan_ids = [k for k in ("team_id", "project_id", "sprint_id",
+                              "item_type_id", "priority_id") if not proy.get(k)]
+    partes = []
+    if not equipo.get("personas"):
+        partes.append(
+            "No hay lista de personas en config/equipo.json, y no existe forma de "
+            "obtenerla por API: el parámetro `users` de CreateItem espera User IDs "
+            "de Sprints, no correos. Inventar nombres para llenar el selector "
+            "rompería la regla 1 del proyecto.")
+    if faltan_ids:
+        partes.append(
+            f"Faltan {len(faltan_ids)} de los 5 identificadores que exige "
+            f"CreateItem ({', '.join(faltan_ids)}). Se leen por API en una pasada "
+            f"con el team_id; ver .claude/rutinas/completar-sprint.md.")
+    if not partes:
+        partes.append("El archivo sigue con _lock en true.")
+    return " ".join(partes)
+
+
 def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
          refs: dict, equipo: dict, hallazgos: list[dict], integridad: dict) -> dict:
     creativas = tareas(periodo, redes, panoramas, por_mercado, refs, equipo)
@@ -492,8 +521,7 @@ def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             "habilitada": not bloqueado,
             "personas": equipo.get("personas", []),
             "proyecto_sprint": equipo.get("proyecto_sprint", {}),
-            "motivo_bloqueo": (equipo.get("_por_que_esta_bloqueado")
-                               if bloqueado else None),
+            "motivo_bloqueo": motivo_de_bloqueo(equipo) if bloqueado else None,
             "_como_desbloquear": equipo.get("_como_desbloquear") if bloqueado else None,
             "_flujo": ("Aceptar una tarea NO la crea en Sprint. El tablero registra "
                        "la decisión; el botón «Copiar decisiones» las entrega como "
