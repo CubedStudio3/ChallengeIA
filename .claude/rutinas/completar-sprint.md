@@ -1,5 +1,30 @@
 # Completar la configuración de Zoho Sprint
 
+> **Antes de leer esto: hay un camino que ya funciona y no necesita nada de aquí.**
+> El botón «Copiar para Sprint» del tablero da un CSV que se importa en
+> *Configuración → Imports → Ítems de trabajo*. Verificado en vivo el
+> 2026-08-28: el asistente **mapea las seis columnas solo**, sin intervención.
+>
+> | Campo de Zoho | Columna del CSV |
+> |---|---|
+> | Nombre de elemento | `Item Name` |
+> | Descripción | `Description` |
+> | Tipo de artículo | `Item Type` |
+> | Prioridad | `Priority` |
+> | Item assignee | `Assignee` |
+> | Estado | `Status` |
+>
+> El asistente avisa que «no ha asignado los campos» porque quedan en `None` los
+> opcionales (horas, Epic, Versión, fechas). Se continúa sin problema.
+>
+> Pendiente de comprobar: si el proyecto usa nombres de estado y prioridad en
+> español, los valores `Open` y `Medium` no coincidirán y Zoho pondrá el
+> predeterminado. No falla la importación; solo hay que revisarlo después. Si se
+> confirma, se cambian los valores en `a_csv()` de `src/modulo1/sprint.py`.
+>
+> Lo de abajo sirve para la creación AUTOMÁTICA por API, que es lo que corre
+> solo cada semana. No es urgente.
+
 **Para qué sirve:** faltan tres IDs para que el paso 9 pueda crear work items.
 Los tres se leen por API en una sola pasada. Esta rutina existe porque el
 conector de Sprint se cae y se levanta cada pocos minutos, y no hay que esperar
