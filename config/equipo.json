@@ -13,12 +13,12 @@
   "_por_que_esta_bloqueado": "Falta el ID del espacio de trabajo (teamId) de Zoho Sprints. NO se puede obtener por API: las ~78 operaciones del conector lo exigen como variable de ruta y ninguna lista los espacios de trabajo. Se probaron dos hipotesis y las dos fallaron con codigo 7404: el portal de Zoho Social (683127178) y la organizacion de Zoho Analytics (683128256). Es un ID propio de Sprints. Inventarlo romperia la regla 1 del proyecto.",
   "proyecto_sprint": {
     "team_id": "667151262",
-    "project_id": null,
+    "project_id": "21897000000139001",
     "sprint_id": null,
     "item_type_id": null,
     "priority_id": null,
-    "nombre": null,
-    "_es_de_prueba": null,
+    "nombre": "Diseño y MK",
+    "_es_de_prueba": false,
     "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
     "_workspace_slug": "qpaypro",
     "_url_observada": "https://sprints.zoho.com/workspace/qpaypro#P8/board/SP49",
@@ -28,7 +28,17 @@
       "_nombre_proyecto": "Diseño y MK",
       "_nota": "Son las claves de PRESENTACION que muestra la interfaz, no los IDs internos que pide la API (numericos y largos). Se guardan porque identifican sin ambiguedad el proyecto y el sprint destino en cuanto se pueda leer GetProjects/GetSprints."
     },
-    "_team_id_verificado": "2026-08-28. Confirmado con las llamadas que hace la propia aplicacion, leidas desde la consola del navegador: https://sprints.zoho.com/zsapi/team/667151262/tabs/?action=data (y dos mas). No es una hipotesis: es el ID que Sprints usa contra su propia API."
+    "_team_id_verificado": "2026-08-28. Confirmado con las llamadas que hace la propia aplicacion, leidas desde la consola del navegador: https://sprints.zoho.com/zsapi/team/667151262/tabs/?action=data (y dos mas). No es una hipotesis: es el ID que Sprints usa contra su propia API.",
+    "_project_id_verificado": "2026-08-28. Leido de las llamadas de la propia aplicacion: /zsapi/team/667151262/projects/21897000000139001/uipreference/. La misma pantalla llama a /projects/no-8/?action=details, que confirma que este ID numerico corresponde a la clave visible P8.",
+    "_autorizacion_produccion": {
+      "otorgada": true,
+      "por": "mercadeo@qpaypro.com",
+      "fecha": "2026-08-28",
+      "texto_del_usuario": "luego en la desicion dale a la 2, tienes mi autorizacion",
+      "_contexto": "Se le ofrecieron dos opciones: (1) crear un proyecto de prueba --recomendada-- o (2) autorizar escritura en el proyecto real 'Diseno y MK' (P8). Eligio la 2 de forma explicita.",
+      "_alcance": "SOLO el proyecto 21897000000139001 de este espacio de trabajo. No es una autorizacion general de escritura y no se extiende a Meta Ads, que sigue siendo de solo lectura por instruccion aparte (regla 8, ADR-012).",
+      "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
+    }
   },
   "personas": [],
   "_esquema_persona": {

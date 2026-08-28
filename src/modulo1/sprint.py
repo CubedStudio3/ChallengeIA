@@ -101,13 +101,15 @@ def revisa_configuracion(equipo: dict) -> list[dict]:
                                           "de tipos de item"),
                      }[k]),
         })
-    if proy.get("_es_de_prueba") is not True:
+    if not _puede_escribir(proy):
         faltan.append({
-            "campo": "proyecto_sprint._es_de_prueba",
+            "campo": "proyecto_sprint._es_de_prueba  o  _autorizacion_produccion",
             "lo_da": "una persona",
-            "como": ("Marcarlo en true confirmando que es un proyecto de PRUEBA. "
-                     "ADR-012: durante desarrollo no se escribe en producción. "
-                     "Sin esta confirmación explícita el módulo no escribe."),
+            "como": ("Una de dos: marcar _es_de_prueba en true (proyecto de "
+                     "prueba), o registrar _autorizacion_produccion.otorgada en "
+                     "true con quién la dio y con qué texto. ADR-012 prohíbe "
+                     "escribir en producción durante desarrollo; la excepción "
+                     "existe pero tiene que quedar firmada, no supuesta."),
         })
     if not equipo.get("personas"):
         faltan.append({
@@ -118,6 +120,49 @@ def revisa_configuracion(equipo: dict) -> list[dict]:
                      "IDs de Sprints, no correos."),
         })
     return faltan
+
+
+def _puede_escribir(proy: dict) -> bool:
+    """Si el destino admite escritura real, y por qué motivo.
+
+    Dos caminos, y ninguno es marcar la casilla a la ligera:
+
+    - `_es_de_prueba: true` — el proyecto es de prueba (el camino de ADR-012).
+    - `_autorizacion_produccion.otorgada: true` — una persona autorizó escribir
+      en un proyecto real, y quedó registrado quién, cuándo y con qué palabras.
+
+    Se separan a propósito. Marcar un proyecto de producción como «de prueba»
+    para que pase la validación dejaría el archivo mintiendo sobre qué es ese
+    proyecto, y la próxima persona que lo lea tomaría una decisión sobre una
+    premisa falsa.
+    """
+    if proy.get("_es_de_prueba") is True:
+        return True
+    return bool((proy.get("_autorizacion_produccion") or {}).get("otorgada"))
+
+
+def _motivo_de_escritura(proy: dict) -> str:
+    if proy.get("_es_de_prueba") is True:
+        return "el proyecto está marcado como de PRUEBA"
+    a = proy.get("_autorizacion_produccion") or {}
+    return (f"escritura en PRODUCCIÓN autorizada por {a.get('por', 'alguien')} "
+            f"el {a.get('fecha', 'sin fecha')} · alcance: "
+            f"{a.get('_alcance', 'no declarado')}")
+
+
+def _destino(equipo: dict) -> str:
+    """Una línea que diga a dónde iría esto y con qué permiso.
+
+    Va en la cabecera del reporte porque es lo primero que alguien tiene que
+    poder verificar de un vistazo: si el proyecto es el correcto y si el permiso
+    para escribir ahí existe de verdad.
+    """
+    proy = equipo.get("proyecto_sprint") or {}
+    nombre = proy.get("nombre") or "(sin nombre)"
+    pid = proy.get("project_id") or "?"
+    permiso = (_motivo_de_escritura(proy) if _puede_escribir(proy)
+               else "SIN PERMISO de escritura")
+    return f"DESTINO · «{nombre}» ({pid})\nPERMISO · {permiso}"
 
 
 def _acepta(dec: dict, id_tarea: str) -> dict | None:
@@ -215,11 +260,13 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
 
 
 def imprime(escrituras: list[Escritura], faltan: list[dict], avisos: list[str],
-            dry_run: bool) -> None:
+            dry_run: bool, destino: str = "") -> None:
     L = "─" * 74
     print(f"\n{'═' * 74}\nPASO 9 · ESCRITURA EN ZOHO SPRINT")
     print("MODO --dry-run · NO se escribe nada" if dry_run
           else "MODO REAL · el orquestador ejecutaría estas llamadas")
+    if destino:
+        print(destino)
     print("═" * 74)
 
     for a in avisos:
@@ -273,7 +320,7 @@ def main() -> int:
 
     if a.descubrir:
         imprime([], faltan, ["Modo --descubrir: solo se revisa la configuración."],
-                True)
+                True, _destino(equipo))
         return 1 if faltan else 0
 
     if not a.corrida:
@@ -291,13 +338,17 @@ def main() -> int:
                 "Se pidió escritura real y falta configuración.",
                 contexto={"faltantes": [f["campo"] for f in faltan]},
                 remedio="Llenar config/equipo.json. Ver --descubrir.")
-        if (equipo.get("proyecto_sprint") or {}).get("_es_de_prueba") is not True:
+        proy = equipo.get("proyecto_sprint") or {}
+        if not _puede_escribir(proy):
             raise ConfiguracionBloqueada(
-                "El proyecto no está marcado como de prueba.",
-                remedio="ADR-012: durante desarrollo no se escribe en producción.")
+                "El destino no admite escritura real.",
+                contexto={"proyecto": proy.get("nombre")},
+                remedio=("ADR-012: durante desarrollo no se escribe en producción. "
+                         "Marcar _es_de_prueba, o registrar "
+                         "_autorizacion_produccion con quién la otorgó."))
 
     escrituras, avisos = plan(r, dec, equipo)
-    imprime(escrituras, faltan, avisos, a.dry_run)
+    imprime(escrituras, faltan, avisos, a.dry_run, _destino(equipo))
     return 0
 
 
