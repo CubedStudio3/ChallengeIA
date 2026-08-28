@@ -408,3 +408,177 @@ accidente de una sesión.
 visualmente un deck. La validación de estructura (`validate.py`) y de contenido
 (`markitdown`) sí funcionan sin ellos, pero no detectan solapamientos ni
 desbordes: eso solo se ve renderizando.
+
+---
+
+## ADR-016 · Las métricas orgánicas SÍ vienen por API, salvo el alcance
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA · **Corrige:** una trampa heredada
+
+**Contexto.** El documento maestro y las trampas heredadas afirmaban que «las
+métricas orgánicas de Página e Instagram no vienen por API en esta configuración»
+y que había que capturarlas a mano. El código incluso declaraba el hueco y pedía
+un `crudo/organico.json` inexistente.
+
+**Qué se midió.** `ZohoSocial_getSocialPublishedPosts` sobre el portal 683127178,
+marca 719804000000018021, en las cinco redes conectadas.
+
+**Resultado.** Devuelve las publicaciones con sus métricas nativas:
+
+| Red | Qué devuelve |
+|---|---|
+| Facebook | `reactions.summary.total_count`, `comment_count` |
+| Instagram | `like_count`, `comment_count` |
+| LinkedIn | `like_count`, `comment_count` — **cero en los 25 posts** |
+| TikTok | `view_count`, `like_count`, `comment_count`, `share_count` |
+| YouTube | `view_count`, `like_count`, `comment_count`, `dislike_count` |
+
+**Decisión.** La adquisición de orgánico pasa a ser automática. Se retira el
+requisito de captura manual **para interacciones**, y se mantiene **solo para
+alcance**.
+
+**Los tres límites que quedan, declarados y no rellenados.**
+
+1. **No hay alcance ni impresiones orgánicas** en ninguna de las cinco redes.
+   Sin alcance no hay tasa de engagement, así que el sistema **no la calcula**.
+   Interacciones absolutas sí; porcentajes no.
+2. **No hay desglose por mercado.** El portal tiene UNA marca y una cuenta por
+   red: GT y SV comparten audiencia orgánica. El corte GT/SV que sí existe en
+   pauta aquí **es imposible**, no es un dato faltante. Repartirlo a ojo lo
+   inventaría.
+3. **LinkedIn devuelve 0 en todo.** Es indistinguible entre cero real y campo no
+   soportado por el conector. Se aplica la regla que ya gobierna `Not available`
+   y `mixed`: un hueco no es un cero. LinkedIn queda **fuera del total** de
+   interacciones en lugar de sumar ceros con apariencia de medición.
+
+**Lección que se repite.** Es la segunda vez en este proyecto que un «no se
+puede» heredado resulta falso al ir a preguntarlo — la primera fueron los cinco
+conectores «inexistentes» que solo estaban apagados. Ausencia de evidencia no es
+evidencia de ausencia.
+
+---
+
+## ADR-017 · Un referente no es un competidor, y se cuentan aparte
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió separar la sección de competencia en *referentes*
+(Square, Shopify) y *competencia* (Paggo, Recurrente, GuatePOS). No es solo
+organización visual: al medirlo, Square tiene **0 anuncios activos en GT y SV**.
+
+**Decisión.** `config/competidores.json` declara un `_rol` por marca, y
+`PanoramaCompetitivo.presion_total` **suma únicamente competidores**.
+
+**Razón.** Meter a Square en el conteo de presión competitiva inventaría una
+amenaza que la medición dice que no existe. Es la misma clase de error que sumar
+los 845 anuncios de Banco Industrial: un número que parece medido y no lo es.
+
+**Consecuencia.** La presión real de GT sigue siendo 42. Square aparece en su
+propia pestaña, con la lectura correcta: no disputa territorio, sirve como
+referencia creativa.
+
+---
+
+## ADR-018 · La Ad Library no mide efectividad, y el tablero no finge que sí
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió ver, por marca, el «top de anuncios efectivos» de
+la competencia. Ese dato **no es público**: la Ad Library no publica rendimiento
+de anunciantes comerciales — no hay impresiones, ni gasto, ni conversiones.
+
+**Decisión.** No se entrega un ranking de efectividad. Se entrega un proxy con
+las señales que sí son observables, rotulado como lo que es:
+
+- **repeticiones** — cuántas veces duplicó el mismo mensaje. Duplicar cuesta
+  dinero, así que repetir es una apuesta declarada.
+- **días vivo** — cuánto lleva activo el más viejo con ese mensaje. Un mensaje
+  que sigue arriba es un mensaje que no mataron.
+- **días desde el último** — cuándo lo relanzaron por última vez.
+
+Cada tarjeta lleva la advertencia explícita de que no es efectividad, y un
+enlace a la Ad Library para que una persona vea los creativos reales.
+
+**Defecto encontrado y corregido en el camino.** La cuota del titular dominante
+se calculaba sobre los anuncios con título legible (23/23 = **100%**) mientras el
+resto del reporte usaba el total de anuncios (23/31 = **74%**). Dos cifras del
+mismo hecho en el mismo reporte, y el lector sin forma de saber cuál creer. Ahora
+ambas usan el total de anuncios observados.
+
+**Y una distinción que faltaba.** «Sin titulares legibles» y «no se guardó
+muestra» no son lo mismo. Banco Industrial tiene 845 activos y su crudo guarda
+`ads: []`, porque de él solo se midió el solapamiento sobre el universo completo.
+Decir «sin titulares legibles» sugeriría que miramos y no había. El tablero ahora
+dice que no se leyeron titulares, y con qué método se midió.
+
+---
+
+## ADR-019 · La asignación a Sprint se apaga en vez de inventar nombres
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió que una tarea aceptada se pueda asignar en Sprint
+a la persona responsable. `ZohoSprints_CreateItem` sí acepta un parámetro `users`
+(«User IDs of the users who will work on the item»), así que la asignación es
+posible. Lo que **no** se puede es obtener la lista de personas: `GetProjects`
+exige un `teamId` y no existe ninguna operación que liste los espacios de trabajo
+entre las ~75 del conector.
+
+**Decisión.** `config/equipo.json` nace bloqueado (`_lock: true`). Mientras lo
+esté, el tablero muestra el selector de responsable **apagado, con el motivo y
+los pasos para desbloquearlo**, en lugar de una lista de nombres inventados.
+
+**Puerta de salida a ADR-009.** Para poder *reportar* el bloqueo hay que leer el
+archivo bloqueado, y ADR-009 lo prohíbe. Se añadió `cargar(...,
+permitir_bloqueado=True)`, con una regla escrita en su docstring: sirve para
+mostrar el hueco, nunca para consumir valores de adentro como si estuvieran
+verificados.
+
+**Y una frontera que no se movió.** Aceptar una tarea en el tablero **no la crea
+en Sprint**. La crea el agente `orquestador` en el paso 9, que sigue siendo el
+único que escribe en sistemas externos (regla 4), y con `--dry-run` antes. El
+tablero registra la decisión; no ejecuta la escritura.
+
+---
+
+## ADR-020 · Referencias visuales: búsquedas, nunca pines inventados
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió «links de pinterest de videos y posts y artes».
+No hay conector de Pinterest en la sesión, y Pinterest tampoco figura entre los
+canales conectados del portal de Zoho Social (verificado: facebookpage,
+linkedinpage, instagram, youtube, tiktok).
+
+**Decisión.** La sección entrega **URLs de búsqueda**, no referencias curadas.
+Una URL de búsqueda es determinista y cualquiera la puede abrir y juzgar; una URL
+de pin inventada devuelve 404 y quema la confianza en todo lo demás de la página.
+Cada búsqueda va etiquetada «búsqueda sin curar» y lleva el dato del que sale.
+
+**Consecuencia.** La curaduría del pin concreto la hace una persona. El sistema
+le deja el terreno preparado y le dice por qué ese terreno.
+
+---
+
+## ADR-021 · El copy no se escribe; el ángulo sí
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** Las tareas creativas piden «sugerencias de diseño y copies». La
+skill `contexto-marca` está deliberadamente incompleta: faltan tono, claims
+permitidos en fintech regulada, nombres oficiales de producto, diferenciadores
+verificables y quién aprueba.
+
+**Decisión.** Cada tarea entrega el **ángulo** (qué territorio atacar) y el **no
+decir** (qué mensaje ya paga la competencia), porque ambos se deducen de la
+medición. El campo de copy queda marcado `BLOQUEADO` con la lista exacta de los
+cinco insumos que faltan y el archivo donde se llenan.
+
+**Razón.** El ángulo sale del dato; el copy sale del tono de marca. Escribir el
+segundo sin el insumo sería inventarlo, y en fintech regulada un claim inventado
+no es un error de estilo.
+
+**Lo mismo aplica a la cantidad de piezas.** Cuántos artes caben en una semana es
+capacidad del equipo, no un dato de Meta ni de Ad Library. Si
+`config/equipo.json` declara `capacidad_semanal`, se reparte; si no, la tarea
+**pide el número a la mesa** en lugar de proponer uno.

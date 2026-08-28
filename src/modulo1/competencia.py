@@ -71,6 +71,10 @@ class Competidor:
     # inventaria una amenaza. Viene de config/competidores.json, no se deduce.
     rol: str = "competidor"
     nota_estrategica: str = ""
+    # Como se midio el solapamiento. Importa: cuando el crudo no guarda muestra
+    # de anuncios, "sin titulares" no significa que miramos y no habia, sino que
+    # no miramos titulares. Son cosas distintas y el tablero las separa.
+    metodo: str = ""
 
     @property
     def muestra_truncada(self) -> bool:
@@ -188,7 +192,7 @@ def normaliza_adlibrary(crudo: dict, *, nombre: str, page_id: str,
                         categorias: list[str], mercado: str,
                         solapamiento: int | None = None,
                         origen: str = "", rol: str = "competidor",
-                        nota_estrategica: str = "") -> Competidor:
+                        nota_estrategica: str = "", metodo: str = "") -> Competidor:
     """Convierte una respuesta de `ads_library_search` en un Competidor."""
     total = crudo.get("estimated_total_count", 0)
     anuncios = []
@@ -205,7 +209,8 @@ def normaliza_adlibrary(crudo: dict, *, nombre: str, page_id: str,
     return Competidor(nombre=nombre, page_id=page_id, categorias=categorias,
                       total_activos=total, anuncios=anuncios, mercado=mercado,
                       solapamiento=solapamiento, origen=origen, rol=rol,
-                      nota_estrategica=nota_estrategica)
+                      nota_estrategica=nota_estrategica,
+                      metodo=metodo or crudo.get("_metadatos", {}).get("_metodo", ""))
 
 
 @dataclass

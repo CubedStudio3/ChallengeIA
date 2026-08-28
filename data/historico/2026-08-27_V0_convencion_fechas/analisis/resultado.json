@@ -425,6 +425,8 @@
           ],
           "page_id": "105294361957860",
           "activos_declarados": 31,
+          "anuncios_en_muestra": 31,
+          "metodo": null,
           "presion_real": 31,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -476,6 +478,8 @@
           ],
           "page_id": "100735292254927",
           "activos_declarados": 6,
+          "anuncios_en_muestra": 6,
+          "metodo": null,
           "presion_real": 6,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -522,6 +526,8 @@
           ],
           "page_id": "1689602518029813",
           "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
           "presion_real": 0,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -541,6 +547,8 @@
           ],
           "page_id": "593092353887127",
           "activos_declarados": 3,
+          "anuncios_en_muestra": 3,
+          "metodo": null,
           "presion_real": 3,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -576,6 +584,8 @@
           ],
           "page_id": "135136309831436",
           "activos_declarados": 845,
+          "anuncios_en_muestra": 0,
+          "metodo": "page_ids + search_terms sobre el universo completo: 'Soluciones de Pago'=2, 'punto de venta'=0, 'terminal'=0, 'negocio'=55 (todos de credito empresarial, no adquirencia).",
           "presion_real": 2,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -613,6 +623,8 @@
           ],
           "page_id": "105294361957860",
           "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
           "presion_real": 0,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -632,6 +644,8 @@
           ],
           "page_id": "100735292254927",
           "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
           "presion_real": 0,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -651,6 +665,8 @@
           ],
           "page_id": "593092353887127",
           "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
           "presion_real": 0,
           "presion_medida": true,
           "advertencia_muestra": null,
@@ -676,8 +692,10 @@
           "como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI."
         }
       ]
-    },
-    "_categorias": {
+    }
+  },
+  "competencia_registro": {
+    "categorias": {
       "software": {
         "descripcion": "Pasarela de pagos, tienda en linea, links de pago, QR, APIs, gestion de negocio",
         "productos_qpaypro_equivalentes": [
@@ -695,7 +713,7 @@
         ]
       }
     },
-    "_roles": {
+    "roles": {
       "_nota": "Rol frente a QPayPro. Son cosas distintas y el tablero las separa: un referente se mira para aprender, un competidor se mide porque disputa el mismo espacio. Square tiene 0 anuncios en GT: tratarlo como competidor seria inventar una amenaza que no existe.",
       "competidor": "Pauta en nuestros mercados y disputa nuestro espacio de mensaje o de publico.",
       "referente": "No disputa nuestros mercados. Se observa como referencia creativa."
@@ -719,28 +737,14 @@
       },
       {
         "dimension": "Anuncios activos disputando pagos · GT",
-        "qpaypro": "3 campañas con entrega, 265.0 leads",
+        "qpaypro": "3 campañas con entrega, 265 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
         "competencia": "Paggo: 31, Recurrente: 6, GuatePOS: 3, Banco Industrial (BI): 2",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
       },
       {
         "dimension": "Anuncios activos disputando pagos · SV",
-        "qpaypro": "1 campañas con entrega, 105.0 leads",
-        "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "0 anuncios medidos",
-        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
-      },
-      {
-        "dimension": "Anuncios activos disputando pagos · _categorias",
-        "qpaypro": "sin datos utilizables en este mercado",
-        "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "0 anuncios medidos",
-        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
-      },
-      {
-        "dimension": "Anuncios activos disputando pagos · _roles",
-        "qpaypro": "sin datos utilizables en este mercado",
+        "qpaypro": "1 campañas con entrega, 105 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
         "competencia": "0 anuncios medidos",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
@@ -770,14 +774,6 @@
       "libres": [
         {
           "mercado": "SV",
-          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
-        },
-        {
-          "mercado": "_categorias",
-          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
-        },
-        {
-          "mercado": "_roles",
           "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
         }
       ]
@@ -820,22 +816,6 @@
         "consulta": "local market payments campaign key visual",
         "formato": "arte",
         "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
-        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
-        "_estado": "BUSQUEDA_NO_CURADA"
-      },
-      {
-        "tema": "Creativo propio para _categorias",
-        "consulta": "local market payments campaign key visual",
-        "formato": "arte",
-        "motivo": "_categorias no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
-        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
-        "_estado": "BUSQUEDA_NO_CURADA"
-      },
-      {
-        "tema": "Creativo propio para _roles",
-        "consulta": "local market payments campaign key visual",
-        "formato": "arte",
-        "motivo": "_roles no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
         "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
         "_estado": "BUSQUEDA_NO_CURADA"
       }

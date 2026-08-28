@@ -47,7 +47,7 @@ const head = [
   ESTILOS,
 ].join("\n");
 
-const estado = { aprobadas: {}, version: 1, periodo };
+const estado = { aprobadas: {}, decisiones: {}, version: 1, periodo };
 const plantilla = { head, app };
 
 const j = (o) => JSON.stringify(o).replace(/<\/script/gi, "<\\/script");
@@ -65,6 +65,7 @@ fs.writeFileSync(salida, fragmento, "utf8");
 
 const kb = (Buffer.byteLength(fragmento, "utf8") / 1024).toFixed(0);
 console.log(`Tablero generado: ${salida}`);
-console.log(`  periodo ${periodo} · ${(datos.tareas_propuestas || []).length} tareas · ${kb} KB`);
+const nTareas = ((datos.estrategia || {}).tareas || []).length;
+console.log(`  periodo ${periodo} · ${nTareas} tareas · ${kb} KB`);
 if (/^\s*<!doctype/i.test(fragmento))
   console.error("  ERROR: el archivo empieza con doctype. Debe ser un fragmento.");

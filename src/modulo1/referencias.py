@@ -68,13 +68,15 @@ def contraste(redes: dict, panoramas: dict, por_mercado: dict) -> list[dict]:
         })
 
     for mercado, pan in sorted(panoramas.items()):
+        if mercado.startswith("_"):
+            continue
         comp = pan.get("detalle", {})
         activos = {n: v for n, v in comp.items() if v.get("presion_real", 0) > 0}
         nuestro = por_mercado.get(mercado, {}).get("principal") or {}
         filas.append({
             "dimension": f"Anuncios activos disputando pagos · {mercado}",
             "qpaypro": (f"{nuestro.get('campanas', 0)} campañas con entrega, "
-                        f"{nuestro.get('resultados', 0)} leads"
+                        f"{nuestro.get('resultados', 0):,.0f} leads"
                         if nuestro else "sin datos utilizables en este mercado"),
             "referentes": "0 (ninguno pauta en este mercado)",
             "competencia": (", ".join(f"{n}: {v['presion_real']}"
@@ -99,6 +101,8 @@ def territorios(panoramas: dict) -> dict:
     """
     saturados, libres = [], []
     for mercado, pan in sorted(panoramas.items()):
+        if mercado.startswith("_"):
+            continue
         for nombre, c in (pan.get("detalle") or {}).items():
             if c.get("rol") != "competidor":
                 continue

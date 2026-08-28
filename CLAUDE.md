@@ -100,7 +100,7 @@ no exista.
 | Zoho Social MK | ✅ | ✅ | ✅ |
 | Zoho CRM | ✅ | ❌ | ⚠️ desconocida |
 | Zoho Mail Gerencia | ✅ | ❌ | ⚠️ desconocida |
-| Zoho Analytics Gerencia | ✅ | ❌ | ⚠️ desconocida |
+| Zoho Analytics Gerencia | ✅ | ✅ habilitado 2026-08-28 | ⚠️ sin probar |
 | Zoho Books | ✅ | ❌ | ⚠️ desconocida |
 | Zoho Desk | ✅ | ❌ | ⚠️ desconocida |
 | Zoho Desk Artículos | ✅ | ❌ | ⚠️ desconocida |
@@ -140,10 +140,30 @@ cometidos; no hay tiempo de repetirlos.
   Hay que duplicar.
 - La búsqueda por palabra clave en Ad Library no es confiable con términos
   genéricos en español. Usar `page_ids`.
-- Las métricas orgánicas de Página e Instagram no vienen por API en esta
-  configuración. Captura manual.
+- ~~Las métricas orgánicas de Página e Instagram no vienen por API.~~
+  **CORREGIDO 2026-08-28 (ADR-016).** Zoho Social SÍ devuelve las publicaciones
+  con sus interacciones nativas en las cinco redes conectadas. Lo que NO viene
+  es el **alcance** — y sin alcance no hay tasa de engagement, así que no se
+  calcula. La captura manual queda solo para alcance.
 
 ### Trampas descubiertas en este análisis (nuevas)
+
+- **LinkedIn devuelve 0 en todos sus posts.** 25 de 25 con `like_count` y
+  `comment_count` en cero. Indistinguible entre cero real y campo no soportado.
+  Queda FUERA del total de interacciones en vez de sumar ceros que parecerían
+  medidos.
+- **El orgánico no se puede partir por mercado.** El portal tiene UNA marca y una
+  cuenta por red: GT y SV comparten audiencia. No es un dato faltante, es
+  imposible en esta configuración.
+- **La API de pauta no devolvió `effective_status`.** Por eso «campañas» significa
+  campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo.
+- **Un referente no suma a la presión competitiva.** Square tiene 0 anuncios en
+  GT y SV. Contarlo como competidor inventaría una amenaza (ADR-017).
+- **La Ad Library no publica efectividad de anunciantes comerciales.** Lo
+  medible es qué repiten y qué no matan, y así se rotula (ADR-018).
+- **Cuidado con el denominador.** La cuota de un titular se calcula sobre TODOS
+  los anuncios observados, no sobre los que tienen título legible: 23/23 daba
+  100% donde el resto del reporte decía 74%.
 
 - **Ad Library no acepta rango de fechas.** El esquema de `ads_library_search`
   no expone ningún parámetro temporal. Solo responde qué está activo *ahora*.
@@ -191,6 +211,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `docs/validaciones.md` | Resultado de la Fase 0 (se llena al ejecutar) |
 | `docs/decisiones.md` | Registro de decisiones técnicas (ADR) con su porqué |
 | `docs/linea-base.md` | Mediciones antes/después (pendiente de datos) |
+| `config/tema.json` | **El diseño.** Lo edita el equipo de diseño; no hay que tocar código |
+| `config/equipo.json` | Personas y proyecto de Sprint. **Bloqueado** hasta que Mercadeo lo llene |
 
 ---
 

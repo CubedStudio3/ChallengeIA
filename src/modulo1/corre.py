@@ -273,6 +273,8 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                 "categorias": c.categorias,
                 "page_id": c.page_id,
                 "activos_declarados": c.total_activos,
+                "anuncios_en_muestra": len(c.anuncios),
+                "metodo": c.metodo or None,
                 "presion_real": c.presion_real,
                 "presion_medida": c.presion_es_medida,
                 "advertencia_muestra": c.advertencia_de_muestra,
@@ -299,8 +301,6 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                  for e in registro["competidores"] if not e.get("page_id")]
     for m in competencia:
         competencia[m]["sin_medir"] = sin_medir
-    competencia["_categorias"] = registro.get("categorias", {})
-    competencia["_roles"] = registro.get("_roles", {})
 
     redes_para_secciones = redes_resumen or {"detalle": {}, "totales": {}}
     refs = REF.arma(redes_para_secciones, competencia, por_mercado,
@@ -334,6 +334,8 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         "por_mercado": por_mercado,
         "redes_sociales": redes_resumen,
         "competencia": competencia,
+        "competencia_registro": {"categorias": registro.get("categorias", {}),
+                                 "roles": registro.get("_roles", {})},
         "referencias": refs,
         "estrategia": estrat,
         "hallazgos": _serializa(hallazgos),
