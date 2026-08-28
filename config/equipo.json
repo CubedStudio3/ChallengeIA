@@ -54,6 +54,13 @@
       "'qpaypro' (slug del workspace, tomado de la URL real) → 7404",
       "'1' (ID trivial, como prueba de ruta) → 7404"
     ],
-    "_dos_lecturas_posibles": "TRES formas distintas de teamId --numerico tipo organizacion, el slug del workspace, y un '1' trivial-- devuelven el MISMO error 'Given URL is wrong'. El test no distingue las hipotesis, pero el patron inclina hacia (H2): con una ruta valida y un ID sin permiso, Zoho normalmente responde un error de permiso, no que la URL este mal. Sigue sin poder probarse. Un teamId real es lo unico que lo settlea: si con el correcto sigue fallando, el problema es la plantilla de URL del conector y no el dato, y entonces el paso 9 no depende de Mercadeo sino de que se arregle el conector."
+    "_dos_lecturas_posibles": "TRES formas distintas de teamId --numerico tipo organizacion, el slug del workspace, y un '1' trivial-- devuelven el MISMO error 'Given URL is wrong'. El test no distingue las hipotesis, pero el patron inclina hacia (H2): con una ruta valida y un ID sin permiso, Zoho normalmente responde un error de permiso, no que la URL este mal. Sigue sin poder probarse. Un teamId real es lo unico que lo settlea: si con el correcto sigue fallando, el problema es la plantilla de URL del conector y no el dato, y entonces el paso 9 no depende de Mercadeo sino de que se arregle el conector.",
+    "_ids_observados_en_el_dom": {
+      "_de_donde": "Capturas del inspector del navegador enviadas por el usuario, 2026-08-28. Son IDs reales de la cuenta, no inventados, pero NINGUNO esta confirmado como el teamId de Sprints.",
+      "895503553": "Parametro 'uname' del iframe /_wms/pconnect.sas. En el servicio de mensajeria de Zoho ese campo lleva el ZUID del usuario conectado, no el del espacio de trabajo.",
+      "667151262": "Parametro 'serviceID' del iframe de phonebridge, para ZohoSprints.",
+      "709817046": "Parametro 'bundleOrgId' del mismo iframe: la organizacion de Zoho One.",
+      "_pendiente": "Los tres se probaran como teamId en cuanto el conector vuelva. Probarlos es legitimo porque son IDs observados de esta cuenta; seguir con numeros al azar no lo seria."
+    }
   }
 }
