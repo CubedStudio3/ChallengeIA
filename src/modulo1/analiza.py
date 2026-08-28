@@ -218,7 +218,7 @@ def mercado_sin_disputa(panorama: PanoramaCompetitivo, campanas_del_mercado: lis
     gasto = sum(c.gasto.numero for c in utiles)
     resultados = sum(c.resultados.numero for c in utiles)
     cpr = gasto / resultados if resultados else None
-    medidos = ", ".join(c.nombre for c in panorama.competidores)
+    medidos = ", ".join(c.nombre for c in panorama.competencia)
     return Hallazgo(
         titulo=f"{panorama.mercado} sin disputa medida",
         afirmacion=(f"Ninguno de los competidores medidos ({medidos}) tiene "

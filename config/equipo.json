@@ -1,0 +1,32 @@
+{
+  "_para_quien": "Este archivo lo llena Mercadeo. Sirve para que el tablero pueda ofrecer a quien asignar una tarea creativa cuando la mesa la aprueba. Mientras esté con _lock en true, el tablero muestra el hueco en lugar de una lista inventada de nombres.",
+  "_estado": "PENDIENTE_DE_DATO",
+  "_lock": true,
+  "_como_desbloquear": [
+    "1. Llenar 'personas' con los integrantes reales del equipo.",
+    "2. El campo 'id_sprint' es el User ID de Zoho Sprints, NO el correo. El conector expone el parámetro 'users' de CreateItem, que espera IDs.",
+    "3. Llenar 'proyecto_sprint' con el proyecto de PRUEBA (ADR-012: durante desarrollo no se escribe en producción).",
+    "4. Poner _lock en false. Recién entonces el tablero habilita el selector de responsable."
+  ],
+  "_por_que_esta_bloqueado": "No hay forma de obtener la lista de personas por API con los conectores habilitados. ZohoSprints_GetProjects exige un teamId y no existe ninguna operación que liste los espacios de trabajo entre las ~75 del conector. Inventar nombres para llenar el selector rompería la regla 1 del proyecto.",
+  "proyecto_sprint": {
+    "team_id": null,
+    "project_id": null,
+    "nombre": null,
+    "_es_de_prueba": null,
+    "_nota": "team_id y project_id son obligatorios para crear un work item. Sin ellos el paso 9 no puede correr ni en --dry-run real."
+  },
+  "personas": [],
+  "_esquema_persona": {
+    "nombre": "Nombre y apellido, como aparece en Sprint",
+    "id_sprint": "User ID de Zoho Sprints (string numérico)",
+    "rol": "diseño | video | copy | pauta | coordinación",
+    "_nota": "El rol se usa para sugerir a quién va cada tipo de tarea. Es una sugerencia, la mesa decide."
+  },
+  "capacidad_semanal": {
+    "_estado": "PENDIENTE_DE_DATO",
+    "_para_que": "Es lo único que permitiría convertir una tarea creativa en una cantidad concreta de piezas. Sin este dato el tablero pregunta la cantidad a la mesa en lugar de proponerla, porque cuántos artes caben en una semana no es un dato que exista en Meta ni en Ad Library: es capacidad del equipo.",
+    "artes": null,
+    "videos": null
+  }
+}

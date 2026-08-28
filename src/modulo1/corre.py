@@ -22,6 +22,9 @@ from base.errores import FallaRuidosa
 from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
                             normaliza_campanas, valores_de_desglose)
 from . import analiza as A
+from . import estrategia as E
+from . import redes as R
+from . import referencias as REF
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
 from .plan import arma_plan, tareas_propuestas
 
@@ -73,11 +76,62 @@ def carga_competencia(crudo: Path, registro: dict, mercado: str) -> PanoramaComp
                     remedio="Medirlo con page_ids + search_terms y guardarlo como "
                             "_solapamiento_medido en el crudo. Asumir el total "
                             "inflaria la presion competitiva.")
+        medicion = entrada.get(f"medicion_{registro['_ultima_medicion'].replace('-', '_')}", {})
         comps.append(normaliza_adlibrary(
             datos, nombre=entrada["nombre"], page_id=entrada["page_id"],
             categorias=entrada.get("categorias", []), mercado=mercado,
-            solapamiento=solap, origen=archivo.name))
+            solapamiento=solap, origen=archivo.name,
+            rol=entrada.get("_rol", "competidor"),
+            nota_estrategica=medicion.get("_nota_estrategica", "")))
     return PanoramaCompetitivo(mercado=mercado, competidores=comps)
+
+
+def rendimiento_por_mercado(campanas, mercados, indicador_principal):
+    """Consolida por mercado SIN mezclar indicadores.
+
+    El botón GT/SV del tablero se apoya en esto. Consolidar por país en el
+    cliente sería fácil y estaría mal: dentro de un mismo país conviven
+    campañas con indicadores distintos, y `consolida()` es lo único que se
+    niega a sumarlas (ADR-013). Por eso el corte se hace aquí, donde esa
+    protección existe, y no en JavaScript.
+    """
+    salida = {}
+    for m in mercados:
+        filas = filtra_desglose(campanas, "country", m)
+        indicadores = {}
+        for ind, grupo in sorted(agrupa_por_indicador(filas).items()):
+            try:
+                c = consolida(grupo)
+            except FallaRuidosa as e:
+                indicadores[ind] = {"utilizable": False, "motivo": e.args[0],
+                                    "campanas": len(grupo)}
+                continue
+            indicadores[ind] = {
+                "utilizable": True,
+                "campanas": c.campanas, "resultados": c.resultados,
+                "gasto": round(c.gasto, 2), "impresiones": c.impresiones,
+                "costo_por_resultado": (round(c.costo_por_resultado, 4)
+                                        if c.costo_por_resultado else None),
+                "excluidas": len(c.excluidas),
+            }
+        principal = indicadores.get(indicador_principal)
+        salida[m] = {
+            "indicadores": indicadores,
+            "principal": principal if (principal or {}).get("utilizable") else None,
+            "indicador_principal": indicador_principal,
+            "campanas": sorted(
+                ({"etiqueta": c.etiqueta(), "indicador": c.indicador,
+                  "resultados": c.resultados.numero, "gasto": c.gasto.numero,
+                  "costo_por_resultado": c.costo_por_resultado.numero,
+                  "impresiones": c.impresiones.numero}
+                 for c in filas if c.utilizable),
+                key=lambda f: -(f["gasto"] or 0)),
+            "_nota_activas": ("La API no devolvió `effective_status` en esta corrida, "
+                              "así que 'campañas' significa campañas CON ENTREGA en el "
+                              "periodo, no campañas activas hoy. No es lo mismo y no "
+                              "se rotula como tal."),
+        }
+    return salida
 
 
 def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> dict:
@@ -119,16 +173,37 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     registro = cargar("competidores")
     panoramas = {m: carga_competencia(crudo, registro, m) for m in declarados}
 
-    # --- Paso 4 · orgánico: no viene por API ---
-    organico = crudo / "organico.json"
+    # --- Paso 4 · orgánico, vía Zoho Social ---
+    # Corrección de un supuesto del documento maestro: SÍ viene por API. Lo que
+    # no viene es el alcance. Ver src/modulo1/redes.py.
     huecos = []
-    if not organico.exists():
+    crudos_social = {}
+    for red in ("facebook", "instagram"):
+        f = crudo / f"social_{red}.json"
+        if f.exists():
+            crudos_social[red] = json.loads(f.read_text(encoding="utf-8"))
+    f_norm = crudo / "social_normalizado.json"
+    normalizado = (json.loads(f_norm.read_text(encoding="utf-8"))
+                   if f_norm.exists() else {})
+
+    if not crudos_social and not normalizado:
+        redes_resumen = None
         huecos.append({
-            "fuente": "métricas orgánicas de Página e Instagram",
-            "descripcion": "No hay captura manual para este periodo.",
-            "impacto": ("La corrida procede solo con datos de pauta y competencia. "
-                        "Ninguna recomendación cita orgánico (ADR-002)."),
+            "fuente": "redes sociales orgánicas (Zoho Social)",
+            "descripcion": ("No hay captura de publicaciones para este periodo en "
+                            "crudo/. Faltan social_facebook.json, "
+                            "social_instagram.json y social_normalizado.json."),
+            "impacto": ("La corrida procede solo con pauta y competencia. Las "
+                        "secciones de Referencias y Estrategia pierden la mitad de "
+                        "su evidencia y lo declaran."),
         })
+    else:
+        redes_obj = R.normaliza(crudos_social, normalizado,
+                                desde=rango.desde, hasta=rango.hasta)
+        redes_resumen = R.resumen(redes_obj, hoy)
+        for lim in redes_resumen["limites"]:
+            huecos.append({"fuente": lim["que"], "descripcion": lim["estado"],
+                           "impacto": lim["detalle"]})
 
     # --- Paso 5 · hallazgos, por indicador ---
     grupos = agrupa_por_indicador(campanas)
@@ -187,6 +262,55 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     plan = arma_plan(rango.etiqueta(), campanas, indicador_principal,
                      hallazgos, fuente_pauta, datos_por_formato=None)
 
+    # --- Paso 8 · las secciones del tablero ---
+    por_mercado = rendimiento_por_mercado(campanas, declarados, indicador_principal)
+
+    competencia = {
+        m: {"presion_total": p.presion_total,
+            "dominante": p.dominante().nombre if p.dominante() else None,
+            "detalle": {c.nombre: {
+                "rol": c.rol,
+                "categorias": c.categorias,
+                "page_id": c.page_id,
+                "activos_declarados": c.total_activos,
+                "presion_real": c.presion_real,
+                "presion_medida": c.presion_es_medida,
+                "advertencia_muestra": c.advertencia_de_muestra,
+                "nota_estrategica": c.nota_estrategica or None,
+                "moneda": next((a.moneda for a in c.anuncios if a.moneda), None),
+                "plantillas_sin_renderizar": c.plantillas_sin_renderizar(),
+                "lanzados_10d": c.lanzados_en(hoy, 10),
+                "lanzados_3d": c.lanzados_en(hoy, 3),
+                "cohortes": [{"fecha": f.isoformat(), "anuncios": n}
+                             for f, n in c.cohortes(hoy)[:6] if f != date.min],
+                "mensajes": c.mensajes_con_senales(hoy)[:5],
+                "url_biblioteca": c.url_biblioteca(),
+            } for c in p.competidores}}
+        for m, p in panoramas.items()}
+
+    # Competidores del registro que no se pudieron medir. Un competidor sin
+    # page_id no es un competidor sin anuncios: es uno que no se midió, y el
+    # tablero tiene que mostrar la diferencia.
+    sin_medir = [{"nombre": e["nombre"], "rol": e.get("_rol", "competidor"),
+                  "categorias": e.get("categorias", []),
+                  "estado": e.get("_estado"),
+                  "por_que_falta": e.get("_por_que_falta"),
+                  "como_obtenerlo": e.get("_como_obtenerlo")}
+                 for e in registro["competidores"] if not e.get("page_id")]
+    for m in competencia:
+        competencia[m]["sin_medir"] = sin_medir
+    competencia["_categorias"] = registro.get("categorias", {})
+    competencia["_roles"] = registro.get("_roles", {})
+
+    redes_para_secciones = redes_resumen or {"detalle": {}, "totales": {}}
+    refs = REF.arma(redes_para_secciones, competencia, por_mercado,
+                    registro.get("categorias", {}))
+
+    equipo = cargar("equipo", permitir_bloqueado=True)
+    estrat = E.arma(id_semana(rango), redes_para_secciones, competencia,
+                    por_mercado, refs, equipo, _serializa(hallazgos),
+                    {"mercados_excluidos_con_gasto": gasto_excluido})
+
     return {
         "corrida": {"rango": rango.etiqueta(), "hoy": hoy.isoformat(),
                     "dry_run": dry_run},
@@ -207,15 +331,11 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             for c in campanas
             if c.utilizable and c.indicador == "actions:lead"
             and not c.costo_por_resultado.hueco],
-        "competencia": {
-            m: {"presion_total": p.presion_total,
-                "dominante": p.dominante().nombre if p.dominante() else None,
-                "detalle": {c.nombre: {
-                    "activos_declarados": c.total_activos,
-                    "presion_real": c.presion_real,
-                    "presion_medida": c.presion_es_medida,
-                    "advertencia_muestra": c.advertencia_de_muestra} for c in p.competidores}}
-            for m, p in panoramas.items()},
+        "por_mercado": por_mercado,
+        "redes_sociales": redes_resumen,
+        "competencia": competencia,
+        "referencias": refs,
+        "estrategia": estrat,
         "hallazgos": _serializa(hallazgos),
         "verificacion_semana_anterior": verificacion,
         "plan": _serializa(plan),
@@ -253,17 +373,59 @@ def imprime(r: dict) -> None:
     for ind, desc in r["consolidados_por_indicador"].items():
         print(f"  {desc}" if "sin datos" not in desc else f"  [{ind}] {desc}")
 
+    pm = r.get("por_mercado") or {}
+    if pm:
+        print(f"\nRENDIMIENTO POR MERCADO\n{L}")
+        for m, d in sorted(pm.items()):
+            pr = d.get("principal")
+            if not pr:
+                print(f"  {m}: sin datos utilizables para "
+                      f"{d['indicador_principal']}")
+                continue
+            cpr = pr.get("costo_por_resultado")
+            print(f"  {m}: {pr['resultados']:.0f} resultados · ${pr['gasto']:,.2f} · "
+                  f"${cpr:.2f} por resultado · {pr['campanas']} campañas con entrega")
+
+    rs = r.get("redes_sociales")
+    print(f"\nREDES SOCIALES (orgánico)\n{L}")
+    if not rs:
+        print("  sin captura para este periodo")
+    else:
+        t = rs["totales"]
+        vistas = f" · {t['vistas']:,} vistas" if t.get("vistas") is not None else ""
+        print(f"  {t['interacciones']} interacciones en {t['publicaciones']} "
+              f"publicaciones{vistas}")
+        print(f"  contadas: {', '.join(t['redes_contadas']) or 'ninguna'}")
+        if t["redes_excluidas_del_total"]:
+            print(f"  ⚠ excluidas del total (dato no verificable): "
+                  f"{', '.join(t['redes_excluidas_del_total'])}")
+        for nombre, d in sorted(rs["detalle"].items()):
+            if d["silenciosa"]:
+                print(f"      {nombre:12} ⚠ 0 publicaciones · "
+                      f"{d['dias_de_silencio']} días de silencio "
+                      f"(última {d['ultima_publicacion']})")
+
     print(f"\nCOMPETENCIA\n{L}")
     for m, d in r["competencia"].items():
+        if m.startswith("_"):
+            continue
         dom = d["dominante"]
         cola = f" · dominante {dom}" if dom else " · sin presencia medida"
         print(f"  {m}: presión real {d['presion_total']} anuncios{cola}")
         for nombre, det in d["detalle"].items():
+            if det["rol"] == "referente":
+                continue
             medida = "medida" if det["presion_medida"] else "sin medir solapamiento"
             print(f"      {nombre:24} declarados {det['activos_declarados']:>4} → "
                   f"presión {det['presion_real']:>3} ({medida})")
             if det["advertencia_muestra"]:
                 print(f"          ⚠ {det['advertencia_muestra']}")
+        refs_m = [n for n, det in d["detalle"].items() if det["rol"] == "referente"]
+        if refs_m:
+            print(f"      referentes (no disputan territorio): {', '.join(refs_m)}")
+        for sm in d.get("sin_medir", []):
+            print(f"      ⚠ {sm['nombre']} ({sm['rol']}) NO SE MIDIÓ: "
+                  f"{sm['estado']}")
 
     print(f"\nHALLAZGOS ({len(r['hallazgos'])})\n{L}")
     for h in r["hallazgos"]:
@@ -276,6 +438,27 @@ def imprime(r: dict) -> None:
             print(f"        ← {e['fuente']}")
         if h.get("advertencia"):
             print(f"    ⚠ {h['advertencia']}")
+
+    est = r.get("estrategia") or {}
+    if est:
+        c = est["conteo"]
+        print(f"\nESTRATEGIA · {c['total']} tareas "
+              f"({c['creativas']} creativas, {c['de_pauta']} de pauta)\n{L}")
+        for t in est["tareas"]:
+            marca = " [LA APLICA UNA PERSONA]" if t["requiere_humano"] else ""
+            print(f"\n  [{t['tipo'].upper()}]{marca} {t['titulo']}")
+            print(f"    {t['porque']}")
+            if t["no_decir"]:
+                print(f"    NO decir: «{t['no_decir']}» (ocupado por competencia)")
+            if t["tipo"] == "pauta":
+                print(f"    instrucción: {t['instruccion_exacta'][:150]}…")
+            elif t["piezas"] is None:
+                print(f"    piezas: las decide la mesa — {t['piezas_motivo']}")
+            else:
+                print(f"    piezas: {t['piezas']} · {t['piezas_motivo']}")
+        a = est["asignacion"]
+        if not a["habilitada"]:
+            print(f"\n  ⚠ ASIGNACIÓN A SPRINT APAGADA: {a['motivo_bloqueo']}")
 
     print(f"\nVERIFICACIÓN DE LA SEMANA ANTERIOR (paso 6)\n{L}")
     print(f"  {r['verificacion_semana_anterior']}")

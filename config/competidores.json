@@ -54,7 +54,9 @@
       },
       "_clave_archivo": "paggo",
       "_politica_solapamiento": "total",
-      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario disputa nuestra categoria por definicion del anunciante."
+      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario disputa nuestra categoria por definicion del anunciante.",
+      "_rol": "competidor",
+      "_rol_motivo": "Disputa el mismo territorio de mensaje en el mismo mercado."
     },
     {
       "nombre": "Recurrente",
@@ -78,7 +80,9 @@
       },
       "_clave_archivo": "recurrente",
       "_politica_solapamiento": "total",
-      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario esta en categoria."
+      "_politica_motivo": "Empresa monoproducto de pagos: todo su inventario esta en categoria.",
+      "_rol": "competidor",
+      "_rol_motivo": "Compite en pagos en GT, aunque por un angulo distinto (cripto)."
     },
     {
       "nombre": "Square",
@@ -104,7 +108,9 @@
       },
       "_clave_archivo": "square",
       "_politica_solapamiento": "total",
-      "_politica_motivo": "Empresa monoproducto de pagos y POS."
+      "_politica_motivo": "Empresa monoproducto de pagos y POS.",
+      "_rol": "referente",
+      "_rol_motivo": "Cero anuncios en GT/SV: no disputa territorio. Su valor es como referencia creativa."
     },
     {
       "nombre": "GuatePOS",
@@ -127,7 +133,9 @@
       },
       "_clave_archivo": "guatepos",
       "_politica_solapamiento": "total",
-      "_politica_motivo": "Empresa monoproducto de punto de venta: todo su inventario esta en categoria."
+      "_politica_motivo": "Empresa monoproducto de punto de venta: todo su inventario esta en categoria.",
+      "_rol": "competidor",
+      "_rol_motivo": "Compite en punto de venta en GT."
     },
     {
       "nombre": "Banco Industrial (BI)",
@@ -170,7 +178,25 @@
       },
       "_clave_archivo": "bi",
       "_politica_solapamiento": "medido",
-      "_politica_motivo": "Anunciante diversificado: sus 845 activos cubren credito, cuentas, remesas, empleo y lealtad. El solapamiento se MIDE con search_terms, no se asume."
+      "_politica_motivo": "Anunciante diversificado: sus 845 activos cubren credito, cuentas, remesas, empleo y lealtad. El solapamiento se MIDE con search_terms, no se asume.",
+      "_rol": "competidor",
+      "_rol_motivo": "No disputa el mensaje de pagos, pero si compra la atencion del mismo publico."
+    },
+    {
+      "nombre": "Shopify",
+      "page_id": null,
+      "page_name_confirmado": null,
+      "categorias": [
+        "software"
+      ],
+      "_estado": "PENDIENTE_DE_DATO",
+      "_rol": "referente",
+      "_rol_motivo": "Solicitado por el usuario como referente de comercio en linea.",
+      "_por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
+      "_como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI.",
+      "_clave_archivo": "shopify",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Plataforma monoproducto de comercio en linea."
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
@@ -217,5 +243,10 @@
     "total": "El anunciante es monoproducto en nuestra categoria: total de activos = presion real.",
     "medido": "El anunciante es diversificado: la presion real se mide con page_ids + search_terms. Asumir el total inflaria la amenaza.",
     "_ejemplo": "BI tiene 845 activos y solo 2 tocan pagos. Asumir 845 inflaria la presion competitiva de GT 21 veces."
+  },
+  "_roles": {
+    "_nota": "Rol frente a QPayPro. Son cosas distintas y el tablero las separa: un referente se mira para aprender, un competidor se mide porque disputa el mismo espacio. Square tiene 0 anuncios en GT: tratarlo como competidor seria inventar una amenaza que no existe.",
+    "competidor": "Pauta en nuestros mercados y disputa nuestro espacio de mensaje o de publico.",
+    "referente": "No disputa nuestros mercados. Se observa como referencia creativa."
   }
 }

@@ -28,11 +28,19 @@ PRESETS_PROHIBIDOS = {
 }
 
 
-def cargar(nombre: str, *, bloque: str | None = None) -> dict:
+def cargar(nombre: str, *, bloque: str | None = None,
+           permitir_bloqueado: bool = False) -> dict:
     """Carga un archivo de `config/`, rechazando bloques con `_lock: true`.
 
     ADR-009: un bloque bloqueado significa "este valor no está verificado".
     Consumirlo silenciosamente sería inventar un dato con apariencia de hecho.
+
+    `permitir_bloqueado=True` es la única puerta de salida, y sirve para un caso
+    concreto: **reportar el hueco**, no consumirlo. El tablero necesita leer
+    `equipo.json` bloqueado para poder decir «no hay lista de personas y por eso
+    el selector está apagado». Eso es lo contrario de inventar el dato. Quien
+    use esta puerta tiene que mostrar el bloqueo, nunca leer valores de adentro
+    como si estuvieran verificados.
     """
     ruta = CONFIG / f"{nombre}.json"
     if not ruta.exists():
@@ -50,7 +58,9 @@ def cargar(nombre: str, *, bloque: str | None = None) -> dict:
                     k for k in datos if not k.startswith("_"))},
             )
         datos = datos[bloque]
-    _verifica_desbloqueado(datos, f"{nombre}.json" + (f":{bloque}" if bloque else ""))
+    if not permitir_bloqueado:
+        _verifica_desbloqueado(
+            datos, f"{nombre}.json" + (f":{bloque}" if bloque else ""))
     return datos
 
 

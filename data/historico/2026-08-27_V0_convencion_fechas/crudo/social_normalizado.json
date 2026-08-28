@@ -1,0 +1,620 @@
+{
+  "_fuente": "ZohoSocial_getSocialPublishedPosts",
+  "_portal_id": "683127178",
+  "_brand_id": "719804000000018021",
+  "_capturado": "2026-08-27",
+  "_origen": "Normalizado en sesion desde las respuestas de la API. El crudo completo de facebook e instagram SI se persistio (social_facebook.json, social_instagram.json). El de linkedinpage, tiktok y youtube NO se persistio en esta corrida: la adquisicion debe guardarlo. Los valores de abajo son los que devolvio la API, no una estimacion.",
+  "_una_sola_marca": "El portal QPayPro tiene UNA sola marca ('Qpaypro') y una sola pagina por red. El desglose por mercado GT/SV NO es posible en organico: no existen cuentas separadas. Es un limite de la configuracion, no un dato faltante.",
+  "_metricas_disponibles": {
+    "facebook": [
+      "reactions.summary.total_count",
+      "comment_count"
+    ],
+    "instagram": [
+      "like_count",
+      "comment_count"
+    ],
+    "linkedinpage": [
+      "like_count",
+      "comment_count"
+    ],
+    "tiktok": [
+      "view_count",
+      "like_count",
+      "comment_count",
+      "share_count"
+    ],
+    "youtube": [
+      "view_count",
+      "like_count",
+      "comment_count",
+      "dislike_count"
+    ],
+    "_sin_alcance": "NINGUNA red devuelve alcance ni impresiones organicas por este conector. Solo interacciones, y vistas en tiktok/youtube. El alcance organico sigue requiriendo captura manual en Business Suite."
+  },
+  "_linkedin_advertencia": "Los 25 posts de LinkedIn devuelven like_count=0 y comment_count=0 sin excepcion. Eso es indistinguible entre cero real y campo no soportado por el conector. NO se reporta como 'LinkedIn tiene cero engagement'. Requiere verificacion manual en LinkedIn Page Analytics.",
+  "redes": {
+    "linkedinpage": {
+      "_metricas": [
+        "like_count",
+        "comment_count"
+      ],
+      "posts": [
+        {
+          "fecha": "2026-08-24",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-08-21",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-08-19",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-08-17",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-31",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-28",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-22",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-19",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-17",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-16",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-16",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-14",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-14",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-11",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-09",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-08",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-07",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-04",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-03",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-02",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-07-01",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-06-30",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-06-27",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-06-26",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        },
+        {
+          "fecha": "2026-06-24",
+          "interacciones": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "vistas": null
+        }
+      ]
+    },
+    "tiktok": {
+      "_metricas": [
+        "view_count",
+        "like_count",
+        "comment_count",
+        "share_count"
+      ],
+      "posts": [
+        {
+          "fecha": "2026-07-16",
+          "vistas": 129,
+          "reacciones": 1,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 1,
+          "titulo": "Conecta, vende y cobra. Integraciones eCommerce GT y SV"
+        },
+        {
+          "fecha": "2026-07-14",
+          "vistas": 179,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 0,
+          "titulo": "Tu tienda abierta mientras duermes"
+        },
+        {
+          "fecha": "2026-07-09",
+          "vistas": 307,
+          "reacciones": 1,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 1,
+          "titulo": "Cobra por Instagram, WhatsApp, correo o donde quieras"
+        },
+        {
+          "fecha": "2026-07-07",
+          "vistas": 241,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 1,
+          "interacciones": 1,
+          "titulo": "Olvidate de los 'te hago la transferencia ahorita'"
+        },
+        {
+          "fecha": "2026-07-03",
+          "vistas": 200,
+          "reacciones": 2,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 2,
+          "titulo": "Ponlo en tu mostrador, en tu menu o en tu stand de feria (QR)"
+        },
+        {
+          "fecha": "2026-07-01",
+          "vistas": 424,
+          "reacciones": 1,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 1,
+          "titulo": "Conectar Qpaypro a tu tienda sin saber programar"
+        },
+        {
+          "fecha": "2026-06-27",
+          "vistas": 213,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 0,
+          "titulo": "Cobra con tarjeta en Shopify en 3 simples pasos"
+        },
+        {
+          "fecha": "2026-06-24",
+          "vistas": 214,
+          "reacciones": 3,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 3,
+          "titulo": "Como Netflix cobra solo cada mes (suscripciones)"
+        },
+        {
+          "fecha": "2026-06-22",
+          "vistas": 184,
+          "reacciones": 2,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 2,
+          "titulo": "Conectaron su propio dominio y vendieron el mismo dia"
+        },
+        {
+          "fecha": "2026-06-21",
+          "vistas": 138,
+          "reacciones": 2,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 2,
+          "titulo": "Shopify, WooCommerce, VTEX, Prestashop, Ecwid"
+        },
+        {
+          "fecha": "2026-06-18",
+          "vistas": 212,
+          "reacciones": 1,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 1,
+          "titulo": "Links de Pago, Tienda en Linea y POS en El Salvador"
+        },
+        {
+          "fecha": "2026-06-15",
+          "vistas": 132,
+          "reacciones": 1,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 1,
+          "titulo": "Abrieron su tienda en linea sin saber de tecnologia"
+        },
+        {
+          "fecha": "2026-06-12",
+          "vistas": 175,
+          "reacciones": 2,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 2,
+          "titulo": "Conoce nuestro nuevo POS en El Salvador"
+        },
+        {
+          "fecha": "2026-06-10",
+          "vistas": 169,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 0,
+          "titulo": "Miles de tiendas en linea activas en Guatemala y El Salvador"
+        },
+        {
+          "fecha": "2026-06-05",
+          "vistas": 568,
+          "reacciones": 3,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 3,
+          "titulo": "Nuestros clientes ya no persiguen transferencias"
+        },
+        {
+          "fecha": "2026-06-03",
+          "vistas": 385,
+          "reacciones": 2,
+          "comentarios": 1,
+          "compartidos": 0,
+          "interacciones": 3,
+          "titulo": "Tienes un servicio mensual? Cobros automatizados"
+        },
+        {
+          "fecha": "2026-05-31",
+          "vistas": 1092,
+          "reacciones": 18,
+          "comentarios": 2,
+          "compartidos": 2,
+          "interacciones": 22,
+          "titulo": "Tienes tienda en Shopify? Cientos de tiendas integradas"
+        },
+        {
+          "fecha": "2026-05-28",
+          "vistas": 123,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 0,
+          "titulo": "Cobrar con tarjeta en bazares, ferias y eventos con QR"
+        },
+        {
+          "fecha": "2026-05-10",
+          "vistas": 177,
+          "reacciones": 0,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 0,
+          "titulo": "Feliz Dia a las mamas"
+        },
+        {
+          "fecha": "2026-05-07",
+          "vistas": 570,
+          "reacciones": 4,
+          "comentarios": 0,
+          "compartidos": 0,
+          "interacciones": 4,
+          "titulo": "(sin texto, solo emoji)"
+        }
+      ]
+    },
+    "youtube": {
+      "_metricas": [
+        "view_count",
+        "like_count",
+        "comment_count"
+      ],
+      "posts": [
+        {
+          "fecha": "2026-08-19",
+          "vistas": 11,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "The new era, vende mas controla mejor."
+        },
+        {
+          "fecha": "2026-08-12",
+          "vistas": 92,
+          "reacciones": 7,
+          "comentarios": 0,
+          "interacciones": 7,
+          "titulo": "Historias que Venden - Episodio 1"
+        },
+        {
+          "fecha": "2026-07-27",
+          "vistas": 12,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "The new evolution era"
+        },
+        {
+          "fecha": "2026-07-16",
+          "vistas": 95,
+          "reacciones": 1,
+          "comentarios": 0,
+          "interacciones": 1,
+          "titulo": "Integraciones 1"
+        },
+        {
+          "fecha": "2026-07-14",
+          "vistas": 58,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Tienda en Linea 1"
+        },
+        {
+          "fecha": "2026-07-09",
+          "vistas": 0,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Links de pago Testimonio"
+        },
+        {
+          "fecha": "2026-07-07",
+          "vistas": 144,
+          "reacciones": 2,
+          "comentarios": 0,
+          "interacciones": 2,
+          "titulo": "Links de Pago 1"
+        },
+        {
+          "fecha": "2026-07-03",
+          "vistas": 21,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "QR1"
+        },
+        {
+          "fecha": "2026-07-01",
+          "vistas": 9,
+          "reacciones": 1,
+          "comentarios": 0,
+          "interacciones": 1,
+          "titulo": "Integraciones 2"
+        },
+        {
+          "fecha": "2026-06-27",
+          "vistas": 9,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Integraciones 1"
+        },
+        {
+          "fecha": "2026-06-24",
+          "vistas": 50,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Suscripciones 2"
+        },
+        {
+          "fecha": "2026-06-22",
+          "vistas": 23,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Tienda en Linea 2"
+        },
+        {
+          "fecha": "2026-06-21",
+          "vistas": 30,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Integraciones 3"
+        },
+        {
+          "fecha": "2026-06-18",
+          "vistas": 4,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "POS 1"
+        },
+        {
+          "fecha": "2026-06-15",
+          "vistas": 50,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Tienda en Linea 1"
+        },
+        {
+          "fecha": "2026-06-12",
+          "vistas": 180,
+          "reacciones": 3,
+          "comentarios": 0,
+          "interacciones": 3,
+          "titulo": "POS 2"
+        },
+        {
+          "fecha": "2026-06-10",
+          "vistas": 4,
+          "reacciones": 1,
+          "comentarios": 0,
+          "interacciones": 1,
+          "titulo": "Tienda en Linea 3"
+        },
+        {
+          "fecha": "2026-06-05",
+          "vistas": 27,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Links de Pago 1"
+        },
+        {
+          "fecha": "2026-06-03",
+          "vistas": 51,
+          "reacciones": 1,
+          "comentarios": 0,
+          "interacciones": 1,
+          "titulo": "Suscripciones 1"
+        },
+        {
+          "fecha": "2026-05-31",
+          "vistas": 72,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Integraciones 4"
+        },
+        {
+          "fecha": "2026-05-28",
+          "vistas": 33,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Codigo QR 2"
+        },
+        {
+          "fecha": "2026-05-10",
+          "vistas": 55,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Dia de la madre"
+        },
+        {
+          "fecha": "2026-05-07",
+          "vistas": 73,
+          "reacciones": 1,
+          "comentarios": 0,
+          "interacciones": 1,
+          "titulo": "POS Arbusto"
+        },
+        {
+          "fecha": "2026-05-02",
+          "vistas": 109,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "(titulo generado por la plataforma, ilegible)"
+        },
+        {
+          "fecha": "2026-05-02",
+          "vistas": 40,
+          "reacciones": 0,
+          "comentarios": 0,
+          "interacciones": 0,
+          "titulo": "Laluh Video"
+        }
+      ]
+    }
+  }
+}

@@ -98,67 +98,1091 @@
       "impresiones": 45986.0
     }
   ],
+  "por_mercado": {
+    "GT": {
+      "indicadores": {
+        "actions:lead": {
+          "utilizable": true,
+          "campanas": 3,
+          "resultados": 265.0,
+          "gasto": 765.49,
+          "impresiones": 158922.0,
+          "costo_por_resultado": 2.8886,
+          "excluidas": 1
+        },
+        "actions:link_click": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 10771.0,
+          "gasto": 104.03,
+          "impresiones": 476959.0,
+          "costo_por_resultado": 0.0097,
+          "excluidas": 0
+        },
+        "mixed": {
+          "utilizable": false,
+          "motivo": "Ninguna campaña tiene datos utilizables.",
+          "campanas": 1
+        }
+      },
+      "principal": {
+        "utilizable": true,
+        "campanas": 3,
+        "resultados": 265.0,
+        "gasto": 765.49,
+        "impresiones": 158922.0,
+        "costo_por_resultado": 2.8886,
+        "excluidas": 1
+      },
+      "indicador_principal": "actions:lead",
+      "campanas": [
+        {
+          "etiqueta": "Campaña Qpaypro Guatemala Nueva [GT]",
+          "indicador": "actions:lead",
+          "resultados": 95.0,
+          "gasto": 380.68,
+          "costo_por_resultado": 4.01,
+          "impresiones": 88240.0
+        },
+        {
+          "etiqueta": "Campaña Punto de Venta GT [GT]",
+          "indicador": "actions:lead",
+          "resultados": 158.0,
+          "gasto": 331.66,
+          "costo_por_resultado": 2.1,
+          "impresiones": 57334.0
+        },
+        {
+          "etiqueta": "Plan Free Tráfico 2026 [GT]",
+          "indicador": "actions:link_click",
+          "resultados": 10771.0,
+          "gasto": 104.03,
+          "costo_por_resultado": 0.01,
+          "impresiones": 476959.0
+        },
+        {
+          "etiqueta": "Campaña Qpayshop e Integraciones [GT]",
+          "indicador": "actions:lead",
+          "resultados": 12.0,
+          "gasto": 53.15,
+          "costo_por_resultado": 4.43,
+          "impresiones": 13348.0
+        }
+      ],
+      "_nota_activas": "La API no devolvió `effective_status` en esta corrida, así que 'campañas' significa campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo y no se rotula como tal."
+    },
+    "SV": {
+      "indicadores": {
+        "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 1.0,
+          "gasto": 3.23,
+          "impresiones": 1150.0,
+          "costo_por_resultado": 3.23,
+          "excluidas": 0
+        },
+        "actions:lead": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 105.0,
+          "gasto": 197.97,
+          "impresiones": 45986.0,
+          "costo_por_resultado": 1.8854,
+          "excluidas": 0
+        }
+      },
+      "principal": {
+        "utilizable": true,
+        "campanas": 1,
+        "resultados": 105.0,
+        "gasto": 197.97,
+        "impresiones": 45986.0,
+        "costo_por_resultado": 1.8854,
+        "excluidas": 0
+      },
+      "indicador_principal": "actions:lead",
+      "campanas": [
+        {
+          "etiqueta": "Campaña Punto de Venta SV [SV]",
+          "indicador": "actions:lead",
+          "resultados": 105.0,
+          "gasto": 197.97,
+          "costo_por_resultado": 1.89,
+          "impresiones": 45986.0
+        },
+        {
+          "etiqueta": "SV | POS Físico | Leads Directos - Copia [SV]",
+          "indicador": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+          "resultados": 1.0,
+          "gasto": 3.23,
+          "costo_por_resultado": 3.23,
+          "impresiones": 1150.0
+        }
+      ],
+      "_nota_activas": "La API no devolvió `effective_status` en esta corrida, así que 'campañas' significa campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo y no se rotula como tal."
+    }
+  },
+  "redes_sociales": {
+    "detalle": {
+      "facebook": {
+        "publicaciones": 8,
+        "interacciones": 12,
+        "vistas": null,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-08-25",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-08-14",
+            "titulo": "tu negocio en la palma de tu mano",
+            "interacciones": 3,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-18",
+            "titulo": "Un ecosistema creado para tu negocio",
+            "interacciones": 2,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-17",
+            "titulo": "",
+            "interacciones": 2,
+            "vistas": null
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-07-29",
+          "titulo": "the new evolution era",
+          "interacciones": 9,
+          "vistas": null
+        },
+        "publicaciones_leidas": 25
+      },
+      "instagram": {
+        "publicaciones": 7,
+        "interacciones": 30,
+        "vistas": null,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-08-25",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-08-12",
+            "titulo": "Nada vuelve a ser igual junto a Qpaypro",
+            "interacciones": 9,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-14",
+            "titulo": "tu negocio en la palma de tu mano",
+            "interacciones": 5,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-17",
+            "titulo": "",
+            "interacciones": 4,
+            "vistas": null
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-07-21",
+          "titulo": "La llamada que hará mas PRO tu negocio",
+          "interacciones": 32,
+          "vistas": null
+        },
+        "publicaciones_leidas": 20
+      },
+      "linkedin": {
+        "publicaciones": 4,
+        "interacciones": null,
+        "vistas": null,
+        "confiable": false,
+        "motivo_no_confiable": "Los 25 posts de LinkedIn devuelven like_count=0 y comment_count=0 sin excepcion. Eso es indistinguible entre cero real y campo no soportado por el conector. NO se reporta como 'LinkedIn tiene cero engagement'. Requiere verificacion manual en LinkedIn Page Analytics.",
+        "silenciosa": false,
+        "ultima_publicacion": "2026-08-24",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-08-24",
+            "titulo": "",
+            "interacciones": 0,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-21",
+            "titulo": "",
+            "interacciones": 0,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-19",
+            "titulo": "",
+            "interacciones": 0,
+            "vistas": null
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-08-24",
+          "titulo": "",
+          "interacciones": 0,
+          "vistas": null
+        },
+        "publicaciones_leidas": 25
+      },
+      "tiktok": {
+        "publicaciones": 0,
+        "interacciones": 0,
+        "vistas": 0,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": true,
+        "ultima_publicacion": "2026-07-16",
+        "dias_de_silencio": 42,
+        "mejores": [],
+        "mejor_historico": {
+          "fecha": "2026-05-31",
+          "titulo": "Tienes tienda en Shopify? Cientos de tiendas integradas",
+          "interacciones": 22,
+          "vistas": 1092
+        },
+        "publicaciones_leidas": 20
+      },
+      "youtube": {
+        "publicaciones": 2,
+        "interacciones": 7,
+        "vistas": 103,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-08-19",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-08-12",
+            "titulo": "Historias que Venden - Episodio 1",
+            "interacciones": 7,
+            "vistas": 92
+          },
+          {
+            "fecha": "2026-08-19",
+            "titulo": "The new era, vende mas controla mejor.",
+            "interacciones": 0,
+            "vistas": 11
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-06-12",
+          "titulo": "POS 2",
+          "interacciones": 3,
+          "vistas": 180
+        },
+        "publicaciones_leidas": 25
+      }
+    },
+    "totales": {
+      "interacciones": 49,
+      "publicaciones": 17,
+      "vistas": 103,
+      "redes_contadas": [
+        "facebook",
+        "instagram",
+        "tiktok",
+        "youtube"
+      ],
+      "redes_excluidas_del_total": [
+        "linkedin"
+      ]
+    },
+    "limites": [
+      {
+        "que": "alcance e impresiones orgánicas",
+        "estado": "NO DISPONIBLE",
+        "detalle": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+      },
+      {
+        "que": "desglose por mercado (GT / SV)",
+        "estado": "IMPOSIBLE EN ESTA CONFIGURACIÓN",
+        "detalle": "El portal tiene una sola marca y una sola cuenta por red. GT y SV comparten audiencia orgánica. Repartir las interacciones entre los dos mercados sería inventarlo."
+      }
+    ]
+  },
   "competencia": {
     "GT": {
       "presion_total": 42,
       "dominante": "Paggo",
       "detalle": {
         "Paggo": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "105294361957860",
           "activos_declarados": 31,
           "presion_real": 31,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 8,
+          "lanzados_10d": 21,
+          "lanzados_3d": 16,
+          "cohortes": [
+            {
+              "fecha": "2026-08-24",
+              "anuncios": 16
+            },
+            {
+              "fecha": "2026-08-19",
+              "anuncios": 5
+            },
+            {
+              "fecha": "2026-08-14",
+              "anuncios": 6
+            },
+            {
+              "fecha": "2026-06-17",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-05-18",
+              "anuncios": 2
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Gestiona tu Negocio Fácil",
+              "repeticiones": 23,
+              "cuota": 0.7419354838709677,
+              "sobre_anuncios": 31,
+              "con_titular_legible": 23,
+              "dias_vivo": 101,
+              "dias_desde_el_ultimo": 3,
+              "primer_lanzamiento": "2026-05-18"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860"
         },
         "Recurrente": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "100735292254927",
           "activos_declarados": 6,
           "presion_real": 6,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24).",
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-07-24",
+              "anuncios": 6
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Recibe pagos con oro digital",
+              "repeticiones": 3,
+              "cuota": 0.5,
+              "sobre_anuncios": 6,
+              "con_titular_legible": 6,
+              "dias_vivo": 34,
+              "dias_desde_el_ultimo": 34,
+              "primer_lanzamiento": "2026-07-24"
+            },
+            {
+              "titular": "Recibe pagos con USDT en Guatemala",
+              "repeticiones": 3,
+              "cuota": 0.5,
+              "sobre_anuncios": 6,
+              "con_titular_legible": 6,
+              "dias_vivo": 34,
+              "dias_desde_el_ultimo": 34,
+              "primer_lanzamiento": "2026-07-24"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=100735292254927"
         },
         "Square": {
+          "rol": "referente",
+          "categorias": [
+            "hardware",
+            "software"
+          ],
+          "page_id": "1689602518029813",
           "activos_declarados": 0,
           "presion_real": 0,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=1689602518029813"
         },
         "GuatePOS": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "593092353887127",
           "activos_declarados": 3,
           "presion_real": 3,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14).",
+          "moneda": "GTQ",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-14",
+              "anuncios": 3
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "api.whatsapp.com",
+              "repeticiones": 2,
+              "cuota": 0.6666666666666666,
+              "sobre_anuncios": 3,
+              "con_titular_legible": 2,
+              "dias_vivo": 13,
+              "dias_desde_el_ultimo": 13,
+              "primer_lanzamiento": "2026-08-14"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=593092353887127"
         },
         "Banco Industrial (BI)": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "135136309831436",
           "activos_declarados": 845,
           "presion_real": 2,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=135136309831436"
         }
-      }
+      },
+      "sin_medir": [
+        {
+          "nombre": "Shopify",
+          "rol": "referente",
+          "categorias": [
+            "software"
+          ],
+          "estado": "PENDIENTE_DE_DATO",
+          "por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
+          "como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI."
+        }
+      ]
     },
     "SV": {
       "presion_total": 0,
       "dominante": null,
       "detalle": {
         "Paggo": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "105294361957860",
           "activos_declarados": 0,
           "presion_real": 0,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=105294361957860"
         },
         "Recurrente": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "100735292254927",
           "activos_declarados": 0,
           "presion_real": 0,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24).",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=100735292254927"
         },
         "GuatePOS": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "593092353887127",
           "activos_declarados": 0,
           "presion_real": 0,
           "presion_medida": true,
-          "advertencia_muestra": null
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14).",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=593092353887127"
         }
+      },
+      "sin_medir": [
+        {
+          "nombre": "Shopify",
+          "rol": "referente",
+          "categorias": [
+            "software"
+          ],
+          "estado": "PENDIENTE_DE_DATO",
+          "por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
+          "como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI."
+        }
+      ]
+    },
+    "_categorias": {
+      "software": {
+        "descripcion": "Pasarela de pagos, tienda en linea, links de pago, QR, APIs, gestion de negocio",
+        "productos_qpaypro_equivalentes": [
+          "POS virtual",
+          "links de pago",
+          "QR",
+          "pasarela",
+          "APIs"
+        ]
+      },
+      "hardware": {
+        "descripcion": "Punto de venta fisico, terminal POS, lectores de tarjeta",
+        "productos_qpaypro_equivalentes": [
+          "POS fisico"
+        ]
       }
+    },
+    "_roles": {
+      "_nota": "Rol frente a QPayPro. Son cosas distintas y el tablero las separa: un referente se mira para aprender, un competidor se mide porque disputa el mismo espacio. Square tiene 0 anuncios en GT: tratarlo como competidor seria inventar una amenaza que no existe.",
+      "competidor": "Pauta en nuestros mercados y disputa nuestro espacio de mensaje o de publico.",
+      "referente": "No disputa nuestros mercados. Se observa como referencia creativa."
     }
+  },
+  "referencias": {
+    "contraste": [
+      {
+        "dimension": "Interacciones orgánicas en el periodo",
+        "qpaypro": "49 interacciones en 17 publicaciones",
+        "referentes": "no disponible",
+        "competencia": "no disponible",
+        "lectura": "La Ad Library solo expone pauta pagada. El orgánico de competidores y referentes no está disponible por API y no se simula: la comparación de orgánico contra ellos no se puede hacer."
+      },
+      {
+        "dimension": "Vistas de video orgánico",
+        "qpaypro": "103 vistas (TikTok y YouTube)",
+        "referentes": "no disponible",
+        "competencia": "no disponible",
+        "lectura": "Solo TikTok y YouTube devuelven vistas. Facebook, Instagram y LinkedIn no las dan por este conector, así que el total NO es 'todas las vistas': es el de dos redes."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · GT",
+        "qpaypro": "3 campañas con entrega, 265.0 leads",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "Paggo: 31, Recurrente: 6, GuatePOS: 3, Banco Industrial (BI): 2",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · SV",
+        "qpaypro": "1 campañas con entrega, 105.0 leads",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "0 anuncios medidos",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · _categorias",
+        "qpaypro": "sin datos utilizables en este mercado",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "0 anuncios medidos",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · _roles",
+        "qpaypro": "sin datos utilizables en este mercado",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "0 anuncios medidos",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      }
+    ],
+    "territorios": {
+      "saturados": [
+        {
+          "mercado": "GT",
+          "de": "Paggo",
+          "mensaje": "Gestiona tu Negocio Fácil",
+          "cuota": 0.742,
+          "repeticiones": 23,
+          "dias_vivo": 101,
+          "lectura": "Paggo concentra 74% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
+        },
+        {
+          "mercado": "GT",
+          "de": "Recurrente",
+          "mensaje": "Recibe pagos con oro digital",
+          "cuota": 0.5,
+          "repeticiones": 3,
+          "dias_vivo": 34,
+          "lectura": "Recurrente concentra 50% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
+        }
+      ],
+      "libres": [
+        {
+          "mercado": "SV",
+          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
+        },
+        {
+          "mercado": "_categorias",
+          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
+        },
+        {
+          "mercado": "_roles",
+          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
+        }
+      ]
+    },
+    "busquedas": [
+      {
+        "tema": "Video vertical para tiktok",
+        "consulta": "fintech short vertical video ad layout",
+        "formato": "video",
+        "motivo": "tiktok acumuló vistas reales y lleva 42 días sin publicar. El formato que ya funcionaba está detenido.",
+        "url": "https://www.pinterest.com/search/pins/?q=fintech+short+vertical+video+ad+layout",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Lo que mejor rindió en facebook",
+        "consulta": "ecommerce integration announcement social post design",
+        "formato": "arte",
+        "motivo": "«tu negocio en la palma de tu mano» fue el mejor de facebook con 3 interacciones. Buscar referencia visual para repetir el tema, no el arte.",
+        "url": "https://www.pinterest.com/search/pins/?q=ecommerce+integration+announcement+social+post+design",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Contra-ángulo frente a Paggo",
+        "consulta": "payments brand differentiation poster minimal",
+        "formato": "arte",
+        "motivo": "Paggo ocupa «Gestiona tu Negocio Fácil» en 74% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+        "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Contra-ángulo frente a Recurrente",
+        "consulta": "payments brand differentiation poster minimal",
+        "formato": "arte",
+        "motivo": "Recurrente ocupa «Recibe pagos con oro digital» en 50% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+        "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Creativo propio para SV",
+        "consulta": "local market payments campaign key visual",
+        "formato": "arte",
+        "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Creativo propio para _categorias",
+        "consulta": "local market payments campaign key visual",
+        "formato": "arte",
+        "motivo": "_categorias no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Creativo propio para _roles",
+        "consulta": "local market payments campaign key visual",
+        "formato": "arte",
+        "motivo": "_roles no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      }
+    ],
+    "limites": [
+      {
+        "que": "referencias concretas de Pinterest",
+        "estado": "NO DISPONIBLE",
+        "detalle": "No hay conector de Pinterest en la sesión, y Pinterest tampoco figura entre los canales conectados del portal de Zoho Social (verificado 2026-08-27: facebookpage, linkedinpage, instagram, youtube, tiktok). Lo que entrega esta sección son BÚSQUEDAS, no pines curados. Ningún pin fue visto ni verificado por el sistema.",
+        "remedio": "Una persona abre la búsqueda, elige los pines que sirven y los pega en la tarea. O se habilita un conector de Pinterest y entonces sí se puede curar automáticamente."
+      },
+      {
+        "que": "orgánico de competidores y referentes",
+        "estado": "NO DISPONIBLE",
+        "detalle": "La Ad Library expone únicamente publicidad pagada. El contenido orgánico de otras marcas no viene por API. El contraste de orgánico contra ellos no se puede hacer y no se estima."
+      }
+    ]
+  },
+  "estrategia": {
+    "tareas": [
+      {
+        "id": "video-reactivar-tiktok",
+        "tipo": "video",
+        "titulo": "Reactivar tiktok: el canal con vistas reales lleva 42 días sin publicar",
+        "porque": "tiktok es de las dos únicas redes que devuelven vistas. Su mejor pieza de todo lo leído (20 publicaciones) llegó a 1,092 vistas, y no se ha publicado nada ahí desde 2026-07-16.",
+        "evidencia": [
+          "social_normalizado.json · tiktok · última publicación 2026-07-16",
+          "social_normalizado.json · tiktok · máximo histórico 1,092 vistas · «Tienes tienda en Shopify? Cientos de tiendas integ» (2026-05-31)"
+        ],
+        "angulo": "Retomar el tema que ya midió mejor en este canal, no estrenar uno nuevo: el canal está frío y un tema probado arranca antes.",
+        "no_decir": null,
+        "formato": "video vertical corto",
+        "rol_sugerido": "video",
+        "piezas": null,
+        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "referencias": [
+          {
+            "tema": "Video vertical para tiktok",
+            "consulta": "fintech short vertical video ad layout",
+            "formato": "video",
+            "motivo": "tiktok acumuló vistas reales y lleva 42 días sin publicar. El formato que ya funcionaba está detenido.",
+            "url": "https://www.pinterest.com/search/pins/?q=fintech+short+vertical+video+ad+layout",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::video::reactivar-tiktok",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-contra-paggo-GT",
+        "tipo": "arte",
+        "titulo": "Contra-ángulo frente a Paggo en GT",
+        "porque": "Paggo concentra 74% de sus anuncios activos en un solo mensaje (23 repeticiones, 101 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "evidencia": [
+          "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 74% de sus activos en GT",
+          "Ad Library · foto del periodo, 23 anuncios con ese titular"
+        ],
+        "angulo": "Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.",
+        "no_decir": "Gestiona tu Negocio Fácil",
+        "formato": "arte estático + variante para historia",
+        "rol_sugerido": "diseño",
+        "piezas": null,
+        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "referencias": [
+          {
+            "tema": "Contra-ángulo frente a Paggo",
+            "consulta": "payments brand differentiation poster minimal",
+            "formato": "arte",
+            "motivo": "Paggo ocupa «Gestiona tu Negocio Fácil» en 74% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+            "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::arte::contra-Paggo-GT",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-contra-recurrente-GT",
+        "tipo": "arte",
+        "titulo": "Contra-ángulo frente a Recurrente en GT",
+        "porque": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 34 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "evidencia": [
+          "Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT",
+          "Ad Library · foto del periodo, 3 anuncios con ese titular"
+        ],
+        "angulo": "Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.",
+        "no_decir": "Recibe pagos con oro digital",
+        "formato": "arte estático + variante para historia",
+        "rol_sugerido": "diseño",
+        "piezas": null,
+        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "referencias": [
+          {
+            "tema": "Contra-ángulo frente a Recurrente",
+            "consulta": "payments brand differentiation poster minimal",
+            "formato": "arte",
+            "motivo": "Recurrente ocupa «Recibe pagos con oro digital» en 50% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+            "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::arte::contra-Recurrente-GT",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-mercado-libre-SV",
+        "tipo": "arte",
+        "titulo": "Creativo propio para SV: nadie más está pautando ahí",
+        "porque": "En SV el costo por resultado es $1.89 y es el más barato de los mercados medidos (GT $2.89), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.",
+        "evidencia": [
+          "meta_campanas_por_pais.json · SV · costo por resultado $1.89",
+          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
+        ],
+        "angulo": "Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.",
+        "no_decir": null,
+        "formato": "arte estático + video corto",
+        "rol_sugerido": "diseño",
+        "piezas": null,
+        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "referencias": [
+          {
+            "tema": "Creativo propio para SV",
+            "consulta": "local market payments campaign key visual",
+            "formato": "arte",
+            "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+            "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::arte::mercado-libre-SV",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-repetir-lo-que-rinde",
+        "tipo": "arte",
+        "titulo": "Repetir el tema que mejor rindió: «Historias que Venden - Episodio 1»",
+        "porque": "Es la pieza orgánica con más vistas del periodo medido (92 en youtube, 2026-08-12). El tema está validado con audiencia propia; lo que se repite es el tema, no el arte.",
+        "evidencia": [
+          "social_normalizado.json · youtube · 92 vistas · 2026-08-12"
+        ],
+        "angulo": "Tomar el tema que ya funcionó y llevarlo a otro formato y otra red, en lugar de estrenar un tema sin validar.",
+        "no_decir": null,
+        "formato": "arte estático + adaptación vertical",
+        "rol_sugerido": "diseño",
+        "piezas": null,
+        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "referencias": [
+          {
+            "tema": "Lo que mejor rindió en facebook",
+            "consulta": "ecommerce integration announcement social post design",
+            "formato": "arte",
+            "motivo": "«tu negocio en la palma de tu mano» fue el mejor de facebook con 3 interacciones. Buscar referencia visual para repetir el tema, no el arte.",
+            "url": "https://www.pinterest.com/search/pins/?q=ecommerce+integration+announcement+social+post+design",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::arte::repetir-youtube",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "pauta-excluir-HN",
+        "tipo": "pauta",
+        "titulo": "Quitar HN de la segmentación: sigue gastando en un mercado que ya no es objetivo",
+        "porque": "HN está excluido de los mercados declarados y aun así registró $0.02 y 7 impresiones en el periodo.",
+        "evidencia": [
+          "meta_campanas_por_pais.json · HN · $0.02 de gasto",
+          "config/convenciones.json · HN excluido: Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con hon"
+        ],
+        "angulo": "No es creativo: es higiene de segmentación.",
+        "no_decir": null,
+        "formato": "",
+        "rol_sugerido": "pauta",
+        "piezas": null,
+        "piezas_motivo": "No aplica: es un cambio de configuración, no producción.",
+        "referencias": [],
+        "requiere_humano": true,
+        "instruccion_exacta": "En Meta Ads Manager, abrir el conjunto de anuncios de: Campaña Punto de Venta SV. En Audiencia → Ubicaciones, quitar HN de la lista de países. Guardar. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. El sistema no lo hace porque Meta Ads es solo lectura (ADR-012).",
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::pauta::excluir-HN",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "pauta-revisar-brecha",
+        "tipo": "pauta",
+        "titulo": "Brecha de eficiencia entre campañas",
+        "porque": "Dentro del indicador 'actions:lead', la campaña más costosa paga 2.34x lo que paga la más eficiente.",
+        "evidencia": [
+          "{'dato': 'Más eficiente', 'valor': 'Campaña Punto de Venta SV · $1.89', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}",
+          "{'dato': 'Menos eficiente', 'valor': 'Campaña Qpayshop e Integraciones · $4.43', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}"
+        ],
+        "angulo": "Reasignación de presupuesto entre campañas del mismo indicador.",
+        "no_decir": null,
+        "formato": "",
+        "rol_sugerido": "pauta",
+        "piezas": null,
+        "piezas_motivo": "No aplica: es una decisión de presupuesto, no producción.",
+        "referencias": [],
+        "requiere_humano": true,
+        "instruccion_exacta": "Llevar la brecha a la mesa y decidir ahí el monto a mover. El sistema NO propone la cifra: hacerlo sería un pronóstico, y el cálculo de oportunidad es aritmética sobre lo ya gastado, no una predicción de lo que pasaría al mover el presupuesto. El cambio lo aplica una persona en Ads Manager (ADR-012).",
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W31::pauta::brecha-eficiencia",
+        "_estado_inicial": "propuesta"
+      }
+    ],
+    "conteo": {
+      "creativas": 5,
+      "de_pauta": 2,
+      "total": 7
+    },
+    "asignacion": {
+      "habilitada": false,
+      "personas": [],
+      "proyecto_sprint": {
+        "team_id": null,
+        "project_id": null,
+        "nombre": null,
+        "_es_de_prueba": null,
+        "_nota": "team_id y project_id son obligatorios para crear un work item. Sin ellos el paso 9 no puede correr ni en --dry-run real."
+      },
+      "motivo_bloqueo": "No hay forma de obtener la lista de personas por API con los conectores habilitados. ZohoSprints_GetProjects exige un teamId y no existe ninguna operación que liste los espacios de trabajo entre las ~75 del conector. Inventar nombres para llenar el selector rompería la regla 1 del proyecto.",
+      "_como_desbloquear": [
+        "1. Llenar 'personas' con los integrantes reales del equipo.",
+        "2. El campo 'id_sprint' es el User ID de Zoho Sprints, NO el correo. El conector expone el parámetro 'users' de CreateItem, que espera IDs.",
+        "3. Llenar 'proyecto_sprint' con el proyecto de PRUEBA (ADR-012: durante desarrollo no se escribe en producción).",
+        "4. Poner _lock en false. Recién entonces el tablero habilita el selector de responsable."
+      ],
+      "_flujo": "Aceptar una tarea NO la crea en Sprint. La crea el agente orquestador en el paso 9, y solo él: es el único que escribe en sistemas externos (regla 4). El tablero registra la decisión y a quién va; la escritura pasa por --dry-run antes."
+    },
+    "limites": [
+      {
+        "que": "copy publicable",
+        "estado": "BLOQUEADO",
+        "detalle": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+        "remedio": "Llenar .claude/skills/contexto-marca/SKILL.md con los 5 insumos que lista."
+      },
+      {
+        "que": "cantidad de piezas por tarea",
+        "estado": "LA DECIDE LA MESA",
+        "detalle": "Cuántos artes o videos caben en una semana es capacidad del equipo. No existe en Meta ni en Ad Library, así que no se estima.",
+        "remedio": "Declarar capacidad_semanal en config/equipo.json."
+      },
+      {
+        "que": "ejecución de cambios en Meta Ads",
+        "estado": "PROHIBIDA",
+        "detalle": "Meta Ads es solo lectura por instrucción explícita del usuario (ADR-012). Ni siquiera en estado pausado.",
+        "remedio": "Las tareas de pauta salen con la instrucción exacta para que una persona la aplique a mano."
+      }
+    ]
   },
   "hallazgos": [
     {
@@ -422,9 +1446,14 @@
   ],
   "huecos_declarados": [
     {
-      "fuente": "métricas orgánicas de Página e Instagram",
-      "descripcion": "No hay captura manual para este periodo.",
-      "impacto": "La corrida procede solo con datos de pauta y competencia. Ninguna recomendación cita orgánico (ADR-002)."
+      "fuente": "alcance e impresiones orgánicas",
+      "descripcion": "NO DISPONIBLE",
+      "impacto": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+    },
+    {
+      "fuente": "desglose por mercado (GT / SV)",
+      "descripcion": "IMPOSIBLE EN ESTA CONFIGURACIÓN",
+      "impacto": "El portal tiene una sola marca y una sola cuenta por red. GT y SV comparten audiencia orgánica. Repartir las interacciones entre los dos mercados sería inventarlo."
     }
   ]
 }
