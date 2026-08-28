@@ -77,11 +77,22 @@ def _marca(idem: str) -> str:
     return f"[MC:{idem}]"
 
 
-def revisa_configuracion(equipo: dict) -> list[dict]:
-    """Qué falta para poder escribir, y cómo se consigue cada cosa.
+def revisa_configuracion(equipo: dict) -> tuple[list[dict], list[dict]]:
+    """Qué falta, separado en dos cosas que NO son lo mismo.
 
-    Devuelve una lista de faltantes en lugar de abortar en el primero: quien
-    lee esto quiere la lista completa, no descubrirla de uno en uno.
+    - **Bloqueos**: sin esto no se puede crear el work item. Son los cinco
+      identificadores de `CreateItem` y el permiso de escritura.
+    - **Limitaciones**: se puede crear igual, pero algo queda a medias.
+
+    La distinción existe porque estaban mezcladas y eso fue un error real: la
+    falta de lista de personas figuraba como bloqueo, cuando el propio texto que
+    la acompañaba decía «se puede crear el item, pero no asignarlo». El
+    parámetro `users` es opcional; un item sin responsable se crea perfectamente
+    y alguien lo asigna después en Sprint. Tratar eso como bloqueo dejaba el paso
+    9 apagado por un motivo que no lo justificaba.
+
+    Devuelve las listas completas en lugar de abortar en el primer faltante:
+    quien lee esto quiere saber todo lo que falta, no descubrirlo de uno en uno.
     """
     faltan = []
     proy = equipo.get("proyecto_sprint") or {}
@@ -111,15 +122,23 @@ def revisa_configuracion(equipo: dict) -> list[dict]:
                      "escribir en producción durante desarrollo; la excepción "
                      "existe pero tiene que quedar firmada, no supuesta."),
         })
+    limita = []
     if not equipo.get("personas"):
-        faltan.append({
+        limita.append({
             "campo": "personas",
-            "lo_da": "una persona",
-            "como": ("Sin lista de personas se puede crear el item, pero no "
-                     "asignarlo. El parámetro `users` de CreateItem espera User "
-                     "IDs de Sprints, no correos."),
+            "que_pasa": ("Los work items se crean SIN responsable. Alguien los "
+                         "asigna después a mano en Sprint."),
+            "como": ("Llenar 'personas' con nombre y User ID de Sprints. El "
+                     "parámetro `users` de CreateItem espera IDs, no correos."),
         })
-    return faltan
+    if not (equipo.get("capacidad_semanal") or {}).get("artes"):
+        limita.append({
+            "campo": "capacidad_semanal",
+            "que_pasa": ("Las tareas creativas salen sin cantidad de piezas: la "
+                         "decide la mesa."),
+            "como": "Declarar capacidad_semanal en config/equipo.json.",
+        })
+    return faltan, limita
 
 
 def _puede_escribir(proy: dict) -> bool:
@@ -260,7 +279,7 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
 
 
 def imprime(escrituras: list[Escritura], faltan: list[dict], avisos: list[str],
-            dry_run: bool, destino: str = "") -> None:
+            dry_run: bool, destino: str = "", limita: list[dict] | None = None) -> None:
     L = "─" * 74
     print(f"\n{'═' * 74}\nPASO 9 · ESCRITURA EN ZOHO SPRINT")
     print("MODO --dry-run · NO se escribe nada" if dry_run
@@ -281,6 +300,14 @@ def imprime(escrituras: list[Escritura], faltan: list[dict], avisos: list[str],
         print(f"\n  → Con estos campos vacíos NO se puede escribir. El plan de "
               f"abajo se imprime igual\n    para que se pueda revisar el "
               f"contenido, pero sus IDs saldrían en blanco.")
+
+    if limita:
+        n = len(limita)
+        print(f"\nSE PUEDE ESCRIBIR IGUAL · {n} "
+              f"{'limitación' if n == 1 else 'limitaciones'}\n{L}")
+        for l in limita:
+            print(f"\n  {l['campo']}: {l['que_pasa']}")
+            print(f"    cómo levantarla: {l['como']}")
 
     print(f"\nPLAN · {len(escrituras)} work items\n{L}")
     if not escrituras:
@@ -316,11 +343,11 @@ def main() -> int:
     a = ap.parse_args()
 
     equipo = cargar("equipo", permitir_bloqueado=True)
-    faltan = revisa_configuracion(equipo)
+    faltan, limita = revisa_configuracion(equipo)
 
     if a.descubrir:
         imprime([], faltan, ["Modo --descubrir: solo se revisa la configuración."],
-                True, _destino(equipo))
+                True, _destino(equipo), limita)
         return 1 if faltan else 0
 
     if not a.corrida:
@@ -348,7 +375,7 @@ def main() -> int:
                          "_autorizacion_produccion con quién la otorgó."))
 
     escrituras, avisos = plan(r, dec, equipo)
-    imprime(escrituras, faltan, avisos, a.dry_run, _destino(equipo))
+    imprime(escrituras, faltan, avisos, a.dry_run, _destino(equipo), limita)
     return 0
 
 

@@ -435,3 +435,9 @@ details .mini{margin-top:12px}
 .tarea.propia{box-shadow:var(--sombra), inset 0 0 0 1px var(--borde-fuerte)}
 .tarea.propia.aceptada{box-shadow:var(--sombra), inset 0 0 0 1px var(--bien)}
 .campo.sin-ev{background:transparent; box-shadow:inset 0 0 0 1px var(--borde)}
+
+/* Lo que el botón hace y lo que no, dicho donde se aprieta. */
+.nota-flujo{background:var(--falta-suave); color:var(--falta-tex);
+  border-radius:var(--r-xs); padding:14px 17px; font-size:12.5px;
+  line-height:1.6; margin-bottom:18px}
+.nota-flujo b{font-weight:700}

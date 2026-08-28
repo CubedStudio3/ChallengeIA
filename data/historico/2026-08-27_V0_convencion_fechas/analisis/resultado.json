@@ -1292,7 +1292,7 @@
           "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
         }
       },
-      "motivo_bloqueo": "No hay lista de personas en config/equipo.json, y no existe forma de obtenerla por API: el parámetro `users` de CreateItem espera User IDs de Sprints, no correos. Inventar nombres para llenar el selector rompería la regla 1 del proyecto. Faltan 3 de los 5 identificadores que exige CreateItem (sprint_id, item_type_id, priority_id). Se leen por API en una pasada con el team_id; ver .claude/rutinas/completar-sprint.md.",
+      "motivo_bloqueo": "Faltan 3 de los 5 identificadores que exige Sprint para crear un work item (sprint_id, item_type_id, priority_id). Se leen por API en una sola pasada; ver .claude/rutinas/completar-sprint.md.",
       "_como_desbloquear": [
         "Los tres IDs que faltan: pegar .claude/rutinas/completar-sprint.md en una conversacion con el conector de Sprint arriba. Los lee y los escribe aqui.",
         "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",

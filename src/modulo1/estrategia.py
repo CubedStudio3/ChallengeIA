@@ -486,21 +486,19 @@ def motivo_de_bloqueo(equipo: dict) -> str:
     proy = equipo.get("proyecto_sprint") or {}
     faltan_ids = [k for k in ("team_id", "project_id", "sprint_id",
                               "item_type_id", "priority_id") if not proy.get(k)]
-    partes = []
-    if not equipo.get("personas"):
-        partes.append(
-            "No hay lista de personas en config/equipo.json, y no existe forma de "
-            "obtenerla por API: el parámetro `users` de CreateItem espera User IDs "
-            "de Sprints, no correos. Inventar nombres para llenar el selector "
-            "rompería la regla 1 del proyecto.")
     if faltan_ids:
-        partes.append(
-            f"Faltan {len(faltan_ids)} de los 5 identificadores que exige "
-            f"CreateItem ({', '.join(faltan_ids)}). Se leen por API en una pasada "
-            f"con el team_id; ver .claude/rutinas/completar-sprint.md.")
-    if not partes:
-        partes.append("El archivo sigue con _lock en true.")
-    return " ".join(partes)
+        return (f"Faltan {len(faltan_ids)} de los 5 identificadores que exige "
+                f"Sprint para crear un work item ({', '.join(faltan_ids)}). Se "
+                f"leen por API en una sola pasada; ver "
+                f".claude/rutinas/completar-sprint.md.")
+    if not equipo.get("personas"):
+        # Ojo: esto NO impide crear la tarea. Solo apaga el selector.
+        return ("Las tareas SÍ se pueden crear en Sprint; lo que no se puede es "
+                "elegir responsable desde aquí, porque no hay lista de personas "
+                "en config/equipo.json y no existe forma de obtenerla por API. "
+                "Los work items saldrán sin asignar y alguien los reparte en "
+                "Sprint.")
+    return "El archivo config/equipo.json sigue con _lock en true."
 
 
 def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,

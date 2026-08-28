@@ -1067,6 +1067,12 @@
       '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +
       "sostiene." + (act ? " Estas son las que activa <b>" + esc(act.nombre) +
       "</b>." : "") + "</p>" +
+      '<div class="nota-flujo"><b>Aceptar registra la decisión; no crea nada en ' +
+      "Sprint.</b> Esta página vive en un navegador y no tiene conexión con Zoho " +
+      "— y si la tuviera, necesitaría credenciales que no pueden viajar en una " +
+      "página que se comparte. Cuando terminen de decidir, el botón " +
+      "<b>Copiar decisiones</b> de arriba entrega el JSON que crea los work " +
+      "items desde una sesión con el conector.</div>" +
       (creativas.length
         ? '<div class="grid2 tareas">' + creativas.map(function (t) {
             return tarjetaTarea(t, asig); }).join("") + "</div>"
