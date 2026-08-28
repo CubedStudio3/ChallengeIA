@@ -495,10 +495,12 @@ def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             "motivo_bloqueo": (equipo.get("_por_que_esta_bloqueado")
                                if bloqueado else None),
             "_como_desbloquear": equipo.get("_como_desbloquear") if bloqueado else None,
-            "_flujo": ("Aceptar una tarea NO la crea en Sprint. La crea el agente "
-                       "orquestador en el paso 9, y solo él: es el único que escribe "
-                       "en sistemas externos (regla 4). El tablero registra la "
-                       "decisión y a quién va; la escritura pasa por --dry-run antes."),
+            "_flujo": ("Aceptar una tarea NO la crea en Sprint. El tablero registra "
+                       "la decisión; el botón «Copiar decisiones» las entrega como "
+                       "JSON, y ese JSON lo consume "
+                       "`python -m modulo1.sprint --dry-run`, que imprime la llamada "
+                       "exacta antes de hacer nada. La escritura la ejecuta el agente "
+                       "orquestador, único con permiso (regla 4)."),
         },
         "limites": [
             {"que": "copy publicable",

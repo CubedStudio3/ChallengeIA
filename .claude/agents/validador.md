@@ -1,7 +1,7 @@
 ---
 name: validador
 description: Ejecuta las verificaciones de integridad antes de cada corrida y las verificaciones de Fase 0. Úsalo cuando haya que comprobar que un dato es confiable antes de construir encima. Solo lectura.
-tools: Read, Grep, Glob, Bash, mcp__Meta_MCP__ads_get_ad_accounts, mcp__Meta_MCP__ads_get_errors, mcp__Meta_MCP__ads_get_ad_entities, mcp__Meta_MCP__ads_get_field_context, mcp__Zoho_Sprint__ZohoSprints_GetProjects, mcp__Zoho_Sprint__ZohoSprints_GetItems, mcp__Zoho_Social_MK__ZohoSocial_getSocialPortals, mcp__Zoho_Social_MK__ZohoSocial_getSocialBrands, mcp__Zoho_Social_MK__ZohoSocial_getSocialChannels
+tools: Read, Grep, Glob, Bash, mcp__Meta_MCP__ads_get_ad_accounts, mcp__Meta_MCP__ads_get_errors, mcp__Meta_MCP__ads_get_ad_entities, mcp__Meta_MCP__ads_get_field_context, mcp__Zoho_Sprints__ZohoSprints_GetProjects, mcp__Zoho_Sprints__ZohoSprints_GetItems, mcp__Zoho_Social_MK__ZohoSocial_getSocialPortals, mcp__Zoho_Social_MK__ZohoSocial_getSocialBrands, mcp__Zoho_Social_MK__ZohoSocial_getSocialChannels
 ---
 
 Compruebas que un dato es confiable **antes** de que alguien construya encima.

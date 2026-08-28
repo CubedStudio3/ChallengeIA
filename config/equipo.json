@@ -3,18 +3,23 @@
   "_estado": "PENDIENTE_DE_DATO",
   "_lock": true,
   "_como_desbloquear": [
-    "Llenar 'personas' con los integrantes reales del equipo.",
-    "El campo 'id_sprint' es el User ID de Zoho Sprints, NO el correo. El conector expone el parámetro 'users' de CreateItem, que espera IDs.",
-    "Llenar 'proyecto_sprint' con el proyecto de PRUEBA (ADR-012: durante desarrollo no se escribe en producción).",
-    "Poner _lock en false. Recién entonces el tablero habilita el selector de responsable."
+    "Abrir Zoho Sprints en el navegador y copiar el numero que aparece en la direccion despues de /team/. Si la URL tiene otra forma, copiar la URL completa: el numero largo esta ahi.",
+    "Pegarlo en proyecto_sprint.team_id.",
+    "Correr: python -m modulo1.sprint --descubrir. Lee por API el proyecto, el sprint activo y las prioridades, y llena los otros cuatro IDs.",
+    "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",
+    "Elegir un proyecto de PRUEBA y marcar _es_de_prueba en true. ADR-012: durante desarrollo no se escribe en produccion.",
+    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable."
   ],
-  "_por_que_esta_bloqueado": "No hay forma de obtener la lista de personas por API con los conectores habilitados. ZohoSprints_GetProjects exige un teamId y no existe ninguna operación que liste los espacios de trabajo entre las ~75 del conector. Inventar nombres para llenar el selector rompería la regla 1 del proyecto.",
+  "_por_que_esta_bloqueado": "Falta el ID del espacio de trabajo (teamId) de Zoho Sprints. NO se puede obtener por API: las ~78 operaciones del conector lo exigen como variable de ruta y ninguna lista los espacios de trabajo. Se probaron dos hipotesis y las dos fallaron con codigo 7404: el portal de Zoho Social (683127178) y la organizacion de Zoho Analytics (683128256). Es un ID propio de Sprints. Inventarlo romperia la regla 1 del proyecto.",
   "proyecto_sprint": {
     "team_id": null,
     "project_id": null,
+    "sprint_id": null,
+    "item_type_id": null,
+    "priority_id": null,
     "nombre": null,
     "_es_de_prueba": null,
-    "_nota": "team_id y project_id son obligatorios para crear un work item. Sin ellos el paso 9 no puede correr ni en --dry-run real."
+    "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona."
   },
   "personas": [],
   "_esquema_persona": {
@@ -28,5 +33,12 @@
     "_para_que": "Es lo único que permitiría convertir una tarea creativa en una cantidad concreta de piezas. Sin este dato el tablero pregunta la cantidad a la mesa en lugar de proponerla, porque cuántos artes caben en una semana no es un dato que exista en Meta ni en Ad Library: es capacidad del equipo.",
     "artes": null,
     "videos": null
+  },
+  "_estado_de_la_conexion": {
+    "probado": "2026-08-28",
+    "conector": "Zoho_Sprints",
+    "autenticacion": "FUNCIONA",
+    "_evidencia": "La llamada devolvio el sobre de error propio de Zoho ({'code':7404,'message':'Given URL is wrong','status':'failed'}) en lugar de un fallo de autorizacion. Un error estructurado de Zoho significa que la llamada llego y el token sirvio: lo unico que no resolvio fue el teamId.",
+    "_descartado": "El error no lo causa la cabecera: se repitio igual con x-za-ui-version en v2 y en v1."
   }
 }

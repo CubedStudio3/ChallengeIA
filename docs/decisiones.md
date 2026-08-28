@@ -708,3 +708,69 @@ la serie**: la identidad la da el punto de color al lado. Se rotula **una sola
 línea** al final — tres etiquetas al borde derecho se pisan cuando las series
 convergen — y la leyenda más el tooltip cargan el resto. Existe vista de tabla,
 así que ningún valor queda detrás del color.
+
+---
+
+## ADR-026 · Zoho Sprint conecta y autentica; falta un solo dato humano
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA · **Corrige:** ADR-019 en un punto
+
+**Contexto.** El conector volvió a la sesión, ahora con el nombre `Zoho_Sprints`
+(en plural). Se probó de verdad, no por lectura de esquemas.
+
+**Lo que quedó verificado.**
+
+1. **La autenticación funciona.** Zoho devolvió su propio sobre de error
+   —`{"code":7404,"message":"Given URL is wrong","status":"failed"}`— en lugar de
+   un fallo de autorización. Un error estructurado del servicio significa que la
+   llamada llegó y el token sirvió.
+2. **El error no lo causa la cabecera.** Se repitió idéntico con
+   `x-za-ui-version` en `v2` y en `v1`, así que no es la construcción de la URL.
+3. **`CreateItem` exige CINCO identificadores, no dos.** `teamId`, `projectId` y
+   `sprintId` en la ruta, más `projitemtypeid` y `projpriorityid` como
+   parámetros obligatorios. El documento maestro suponía que bastaba el proyecto.
+4. **Cuatro de los cinco se pueden leer por API** en cuanto se tenga el primero:
+   `GetProjects`, `GetSprints`, `GetProjectPriorities`.
+5. **El `teamId` no se puede obtener por API.** Las ~78 operaciones del conector
+   lo exigen como variable de ruta y ninguna lista los espacios de trabajo.
+
+**Dos hipótesis probadas y descartadas**, para que nadie las repita: el ID del
+portal de Zoho Social (`683127178`) y el de la organización de Zoho Analytics
+(`683128256`). Ambos devolvieron 7404. El `teamId` de Sprints es un ID propio.
+
+**Decisión.** No se adivinan IDs. Se detuvo la exploración después de dos
+hipótesis con fundamento en lugar de seguir probando números contra una API de
+producción, que no es descubrimiento sino fuerza bruta.
+
+**Lo que sí se construyó mientras falta ese dato.** `src/modulo1/sprint.py`
+arma el plan de escritura completo y lo imprime sin tocar la red. Verificado de
+extremo a extremo con IDs simulados: filtra por la estrategia elegida, incluye
+solo lo aceptado, arrastra las ideas del equipo con su marca de origen, y produce
+la llamada exacta a `CreateItem`. En cuanto llegue el `teamId`, el paso 9
+funciona sin escribir una línea más.
+
+**Tres cosas que el módulo se niega a hacer.**
+
+- **Asumir que todo está aceptado.** Sin decisiones el plan sale vacío, no
+  completo. La compuerta humana existe para eso (ADR-002).
+- **Escribir sin confirmación de proyecto de prueba.** `--real` aborta si
+  `_es_de_prueba` no es `true` (ADR-012).
+- **Fallar a mitad de camino.** Comprueba los cinco IDs antes de armar nada: un
+  plan que revienta en la llamada 3 de 7 deja medio Sprint escrito y rompe la
+  idempotencia.
+
+**Idempotencia, resuelta con lo que hay.** Sprint no expone webhooks ni un campo
+de clave externa, así que el item lleva su marca `[MC:<clave>]` **dentro del
+nombre**. El orquestador la busca con `GetItems(searchvalue=...)` antes de crear;
+si la encuentra, actualiza. Dos corridas del mismo periodo no duplican (regla 7).
+
+**El puente tablero → escritura.** El visor del artefacto bloquea cualquier
+descarga que la página inicie, así que un botón de «bajar archivo» sería inerte.
+El botón **Copiar decisiones** copia el JSON al portapapeles y ese JSON es lo que
+consume `--decisiones`. Se copia solo la decisión, nunca el análisis: el análisis
+ya vive en el `resultado.json` de la corrida, y duplicarlo abriría la puerta a
+que las dos copias se desincronicen.
+
+**Nota de mantenimiento.** El conector pasó de `Zoho_Sprint` a `Zoho_Sprints`.
+Los agentes `orquestador` y `validador` apuntaban a herramientas que ya no
+existen; se corrigieron y `verifica_permisos` vuelve a pasar sin violaciones.

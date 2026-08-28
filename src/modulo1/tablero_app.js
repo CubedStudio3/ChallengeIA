@@ -175,6 +175,8 @@
       '<div class="der">' +
       '<button class="btn chico" type="button" id="bCopiar">' + ico.copiar +
         "Copiar resumen</button>" +
+      '<button class="btn chico" type="button" id="bDecisiones">' + ico.copiar +
+        "Copiar decisiones</button>" +
       '<button class="btn chico" type="button" id="bTema" aria-label="Cambiar tema">' +
         ico.tema + "Tema</button>" +
       "</div></div>";
@@ -1305,6 +1307,8 @@
     });
     var cop = document.getElementById("bCopiar");
     if (cop) cop.addEventListener("click", copiar);
+    var dec = document.getElementById("bDecisiones");
+    if (dec) dec.addEventListener("click", copiarDecisiones);
 
     var secs = SECCIONES.map(function (s) { return document.getElementById(s.id); })
       .filter(Boolean);
@@ -1396,6 +1400,39 @@
       ? "Idea agregada · " + (crudas - refs.length) +
         " línea(s) de referencia no eran un enlace y no se guardaron"
       : "Idea agregada a aceptadas");
+  }
+
+  /* El puente entre el tablero y el paso 9.
+
+     El visor del artefacto bloquea cualquier descarga que la propia página
+     inicie, así que un botón de "bajar archivo" sería inerte. El portapapeles sí
+     funciona: se copia el JSON y quien corre la escritura lo pega en un archivo.
+
+     Lo que se copia es SOLO la decisión: qué se aceptó, quién es responsable y
+     con qué estrategia. No se copia el análisis, porque el análisis ya vive en
+     el resultado.json de la corrida y duplicarlo abriría la puerta a que las
+     dos copias se desincronicen. */
+  function copiarDecisiones() {
+    var act = estrategiaActiva();
+    var payload = {
+      _para: "python -m modulo1.sprint --corrida <carpeta> --decisiones <este archivo>",
+      _corrida: (D.corrida || {}).rango || null,
+      _copiado: new Date().toISOString(),
+      estrategia: act ? act.id : null,
+      decisiones: E.decisiones,
+      propias: E.propias,
+    };
+    var txt = JSON.stringify(payload, null, 2);
+    var n = Object.keys(E.decisiones).length + Object.keys(E.propias).length;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(
+        function () {
+          avisar(n
+            ? "Decisiones copiadas · " + n + " en total. Pégalas en un .json"
+            : "No hay ninguna decisión todavía; se copió la plantilla vacía");
+        },
+        function () { avisar("No se pudo copiar"); });
+    } else { avisar("No se pudo copiar"); }
   }
 
   function copiar() {
