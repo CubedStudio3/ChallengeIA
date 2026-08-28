@@ -24,17 +24,25 @@ const MAPA = {
   falta: "falta", falta_texto: "falta-tex", falta_suave: "falta-suave",
   alerta: "alerta", alerta_texto: "alerta-tex", alerta_suave: "alerta-suave",
   pista: "pista",
+  panel_oscuro: "oscuro", panel_oscuro_texto: "oscuro-tex",
 };
 
+// Sombras deliberadamente tenues: en este diseno la separacion entre bloques
+// la hace el espacio en blanco, no la linea ni la sombra. Una sombra que se
+// nota es una sombra que ensucia.
 const SOMBRA_CLARA =
-  "0 1px 2px rgba(27,24,52,.04), 0 8px 24px -8px rgba(27,24,52,.10)";
+  "0 1px 2px rgba(20,19,31,.03), 0 6px 20px -10px rgba(20,19,31,.08)";
 const SOMBRA_CLARA_ALTA =
-  "0 2px 4px rgba(27,24,52,.05), 0 18px 40px -12px rgba(27,24,52,.18)";
-const SOMBRA_OSCURA = "0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,0,0,.5)";
+  "0 2px 4px rgba(20,19,31,.04), 0 16px 36px -14px rgba(20,19,31,.16)";
+const SOMBRA_OSCURA = "0 1px 2px rgba(0,0,0,.3), 0 6px 20px -10px rgba(0,0,0,.45)";
 const SOMBRA_OSCURA_ALTA = "0 2px 4px rgba(0,0,0,.4), 0 18px 40px -12px rgba(0,0,0,.6)";
 
-function vars(cols, paleta, oscuro) {
+function vars(cols, paleta, oscuro, acentos) {
   const l = [];
+  for (const [k, v] of Object.entries(acentos || {})) {
+    if (k.startsWith("_") || !Array.isArray(v)) continue;
+    l.push(`  --ac-${k}:${v[oscuro ? 1 : 0]};`);
+  }
   for (const [k, v] of Object.entries(MAPA)) {
     if (cols[k]) l.push(`  --${v}:${cols[k]};`);
   }
@@ -65,8 +73,9 @@ function construye(raiz) {
     `  --lateral-w:${forma.ancho_lateral}px;`,
   ].join("\n");
 
-  const claro = vars(t.colores_claro, pal, false);
-  const oscuro = vars(t.colores_oscuro, pal, true);
+  const ac = t.acentos_suaves || {};
+  const claro = vars(t.colores_claro, pal, false, ac);
+  const oscuro = vars(t.colores_oscuro, pal, true, ac);
 
   const css = `/* GENERADO desde config/tema.json — no editar aquí.
    Para cambiar el diseño: editar config/tema.json y correr

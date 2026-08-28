@@ -349,12 +349,12 @@
     var d = (D.por_mercado || {})[m] || {};
     var p = d.principal;
     var kpis = p
-      ? '<div class="kpis">' +
+      ? '<div class="panel kpis-panel"><div class="kpis">' +
         kpi("Leads", ent(p.resultados), enClaro(d.indicador_principal)) +
         kpi("Inversión", dinero(p.gasto), "") +
         kpi("Costo por lead", dinero(p.costo_por_resultado), "") +
         kpi("Campañas con entrega", ent(p.campanas), "no es lo mismo que activas hoy") +
-        kpi("Impresiones", ent(p.impresiones), "") + "</div>"
+        kpi("Impresiones", ent(p.impresiones), "") + "</div></div>"
       : '<div class="hueco">Sin datos utilizables de ' +
         esc(enClaro(d.indicador_principal)) + " en " + esc(m) + ".</div>";
 
@@ -681,7 +681,7 @@
 
     return '<section id="estrategia"><div class="cab"><h2>Estrategia</h2>' +
       '<div class="acciones-masa">' +
-      '<button type="button" class="btn chico" id="bTodas">Aceptar todas</button>' +
+      '<button type="button" class="btn chico pri" id="bTodas">Aceptar todas</button>' +
       '<button type="button" class="btn chico" id="bNada">Limpiar decisiones</button>' +
       "</div></div>" +
       '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +

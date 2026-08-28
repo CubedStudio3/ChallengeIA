@@ -94,6 +94,61 @@ que parece correcto, vale preguntarse si ese token está haciendo dos cosas.
 
 ---
 
+## Los bloques de `config/tema.json`, uno por uno
+
+| Bloque | Qué controla |
+|---|---|
+| `tipografia` | Familias (solo Google Fonts: es el único host que el visor permite), pilas de respaldo y pesos a cargar |
+| `forma` | Radios de esquina y ancho del panel lateral |
+| `colores_claro` / `colores_oscuro` | La paleta completa de cada modo. **El oscuro no es un invertido automático**: son pasos elegidos y validados aparte |
+| `paleta_graficos` | Los colores de las series, en orden. Nunca en ciclo |
+| `acentos_suaves` | Los tres tintes decorativos de las tarjetas del resumen. Cada valor es `[claro, oscuro]` |
+
+### Tres tokens que existen porque hacen trabajos distintos
+
+Es la parte que más fácil se rompe si se simplifica:
+
+- **`marca`** es acento de *texto* y de series de gráfico.
+- **`marca_fondo`** es un *fondo* que lleva texto blanco encima (botón, badge).
+  Un violeta claro sirve de acento y NO sirve de fondo con texto blanco. Estaban
+  juntos y por eso el badge del lateral quedó a 3.01:1.
+- **`panel_oscuro`** es el negro del botón principal y del aviso flotante. Antes
+  se reusaba el color del panel lateral; cuando el lateral pasó a blanco, el
+  aviso quedó **blanco sobre blanco**. Tiene su propio token para que eso no
+  pueda volver a pasar.
+
+### Los acentos suaves son adorno, no semántica
+
+`acentos_suaves` da tres tintes — verde, crema y lavanda — para las tres
+tarjetas del resumen. **No significan bien, atención ni mal.** Para eso están
+`bien_suave`, `falta_suave` y `alerta_suave`, y ésos **no** se deben usar de
+adorno: quien lee la página interpreta el rosa como una alerta, y una alerta
+falsa es peor que una tarjeta sin color.
+
+El validador comprueba dos cosas de cada tinte: que el texto se lea encima
+(4.5:1) y que el tinte se distinga de la superficie blanca. Un tinte que no se
+distingue no adorna nada y sobra.
+
+---
+
+## El principio del CSS: la separación la hace el aire
+
+`src/modulo1/tablero_estilos.css` tiene casi ningún borde a propósito. Los
+bloques se distinguen porque son blancos sobre un fondo gris muy claro y porque
+hay espacio entre ellos, no porque los rodee una línea.
+
+Quedan solo dos clases de borde, y las dos se pueden justificar:
+
+1. Los *hairlines* que separan filas de una tabla o de una lista.
+2. Los que marcan un bloque de advertencia, donde el borde es información.
+
+Si van a agregar un borde, la pregunta es cuál de esos dos casos es. Un recuadro
+por dato convierte una tarjeta en una reja — ya pasó con los campos de las
+tareas, y por eso ahora se agrupan con un fondo apenas más claro en lugar de un
+marco.
+
+---
+
 ## Cambiar la estructura · reordenar, agregar, quitar
 
 Vive en `src/modulo1/tablero_app.js`. Cada bloque es una función que devuelve

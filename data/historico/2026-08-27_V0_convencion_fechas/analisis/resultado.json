@@ -1136,10 +1136,10 @@
       },
       "motivo_bloqueo": "No hay forma de obtener la lista de personas por API con los conectores habilitados. ZohoSprints_GetProjects exige un teamId y no existe ninguna operación que liste los espacios de trabajo entre las ~75 del conector. Inventar nombres para llenar el selector rompería la regla 1 del proyecto.",
       "_como_desbloquear": [
-        "1. Llenar 'personas' con los integrantes reales del equipo.",
-        "2. El campo 'id_sprint' es el User ID de Zoho Sprints, NO el correo. El conector expone el parámetro 'users' de CreateItem, que espera IDs.",
-        "3. Llenar 'proyecto_sprint' con el proyecto de PRUEBA (ADR-012: durante desarrollo no se escribe en producción).",
-        "4. Poner _lock en false. Recién entonces el tablero habilita el selector de responsable."
+        "Llenar 'personas' con los integrantes reales del equipo.",
+        "El campo 'id_sprint' es el User ID de Zoho Sprints, NO el correo. El conector expone el parámetro 'users' de CreateItem, que espera IDs.",
+        "Llenar 'proyecto_sprint' con el proyecto de PRUEBA (ADR-012: durante desarrollo no se escribe en producción).",
+        "Poner _lock en false. Recién entonces el tablero habilita el selector de responsable."
       ],
       "_flujo": "Aceptar una tarea NO la crea en Sprint. La crea el agente orquestador en el paso 9, y solo él: es el único que escribe en sistemas externos (regla 4). El tablero registra la decisión y a quién va; la escritura pasa por --dry-run antes."
     },

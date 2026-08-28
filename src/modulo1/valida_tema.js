@@ -65,7 +65,19 @@ function chequeaTexto(modo, cols) {
     ["falta_texto sobre falta_suave", cols.falta_texto, cols.falta_suave, U.textoNormal],
     ["alerta_texto sobre alerta_suave", cols.alerta_texto, cols.alerta_suave, U.textoNormal],
     ["borde sobre superficie", cols.borde, cols.superficie, 1.2],
+    ["panel_oscuro_texto sobre panel_oscuro", cols.panel_oscuro_texto,
+      cols.panel_oscuro, U.textoNormal],
   ];
+  // Los acentos suaves son decorativos, pero llevan texto encima. Si no
+  // contrastan con el texto, el adorno vuelve la tarjeta ilegible; y si no
+  // contrastan con la superficie, el adorno no se ve y sobra.
+  const ac = tema.acentos_suaves || {};
+  for (const k of Object.keys(ac).filter(x => !x.startsWith("_"))) {
+    pares.push([`texto sobre acento ${k}`, cols.texto, ac[k][modo === "claro" ? 0 : 1],
+      U.textoNormal]);
+    pares.push([`acento ${k} contra superficie`, ac[k][modo === "claro" ? 0 : 1],
+      cols.superficie, 1.06]);
+  }
   for (const [n, a, b, min] of pares) {
     const r = C.contraste(a, b);
     console.log(`  ${estado(r >= min)}  ${n.padEnd(32)} ${r.toFixed(2).padStart(6)}:1` +

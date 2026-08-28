@@ -1,10 +1,10 @@
 {
   "_para_quien": "Este archivo es para el equipo de diseño. Cambia lo que quieras aquí; NO hace falta tocar código. Después corre: node src/modulo1/valida_tema.js — te dice si algún color rompe el contraste o si la paleta de gráficos deja de ser distinguible para alguien con daltonismo. Si pasa, corre el generador y el tablero sale con tu diseño.",
   "_como_probar": [
-    "1. Editar los valores de abajo.",
-    "2. node src/modulo1/valida_tema.js       ← avisa si algo rompe accesibilidad",
-    "3. node src/modulo1/tablero.js data/historico/<corrida>/analisis/resultado.json salidas/tablero-mesa-creativa.html",
-    "4. Abrir el HTML en el navegador para verlo."
+    "Editar los valores de abajo.",
+    "node src/modulo1/valida_tema.js       ← avisa si algo rompe accesibilidad",
+    "node src/modulo1/tablero.js data/historico/<corrida>/analisis/resultado.json salidas/tablero-mesa-creativa.html",
+    "Abrir el HTML en el navegador para verlo."
   ],
   "tipografia": {
     "_nota": "Solo se pueden usar fuentes de Google Fonts: es el único host que el visor permite. Siempre dejar una pila de respaldo real.",
@@ -22,62 +22,65 @@
     ]
   },
   "forma": {
-    "_nota": "Radios de esquina y ancho del panel lateral, en píxeles.",
-    "radio_grande": 18,
-    "radio_medio": 12,
-    "radio_chico": 9,
-    "ancho_lateral": 236
+    "_nota": "Radios de esquina y ancho del panel lateral, en pixeles. Radios grandes y bordes casi invisibles son lo que da la sensacion de limpio: la separacion la hace el aire, no la linea.",
+    "radio_grande": 20,
+    "radio_medio": 16,
+    "radio_chico": 11,
+    "ancho_lateral": 244
   },
   "colores_claro": {
     "_nota": "Modo claro. Todos se validan contra la superficie blanca.",
-    "texto": "#1B1834",
-    "texto_suave": "#615C82",
-    "texto_tenue": "#8B85A8",
-    "fondo": "#F4F4FB",
+    "texto": "#14131F",
+    "texto_suave": "#65627A",
+    "texto_tenue": "#8F8CA3",
+    "fondo": "#F6F6F9",
     "superficie": "#FFFFFF",
-    "superficie_2": "#F8F8FD",
-    "superficie_3": "#EFEFF8",
-    "borde": "#E2E1F0",
-    "borde_fuerte": "#CFCDE4",
-    "lateral": "#1B1834",
-    "lateral_texto": "#FFFFFF",
-    "lateral_tenue": "#A9A3C9",
-    "lateral_activo": "#2E2952",
-    "marca": "#7355E8",
-    "marca_oscura": "#5B3FD4",
-    "marca_suave": "#EFEBFE",
+    "superficie_2": "#FAFAFC",
+    "superficie_3": "#F2F2F7",
+    "borde": "#E9E8F1",
+    "borde_fuerte": "#DBD9E7",
+    "lateral": "#FFFFFF",
+    "lateral_texto": "#14131F",
+    "lateral_tenue": "#65627A",
+    "lateral_activo": "#F1EEFD",
+    "marca": "#6244DE",
+    "marca_oscura": "#4F33C4",
+    "marca_suave": "#F0ECFE",
     "bien": "#12946B",
     "bien_texto": "#0E7A57",
-    "bien_suave": "#E4F5EE",
+    "bien_suave": "#E6F5EF",
     "falta": "#C4820F",
-    "falta_texto": "#8F5C06",
-    "falta_suave": "#FCF3E2",
+    "falta_texto": "#8B5905",
+    "falta_suave": "#FDF6E7",
     "alerta": "#C04A66",
     "alerta_texto": "#A83B55",
-    "alerta_suave": "#FBEBEE",
-    "pista": "#EAE8F6",
-    "marca_fondo": "#7355E8",
-    "marca_fondo_2": "#5B3FD4",
-    "_nota_marca": "marca = acento de texto y series de gráfico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco. Separarlos es lo que arregló esa falla."
+    "alerta_suave": "#FCEDF0",
+    "pista": "#EFEDF8",
+    "marca_fondo": "#6244DE",
+    "marca_fondo_2": "#4F33C4",
+    "panel_oscuro": "#16151F",
+    "panel_oscuro_texto": "#FFFFFF",
+    "_nota_marca": "marca = acento de texto y series de grafico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco.",
+    "_nota_oscuro": "panel_oscuro es el negro del boton principal y del aviso flotante. Antes se reusaba el color del panel lateral, y al volverlo blanco el aviso quedaba blanco sobre blanco. Es un trabajo propio y ahora tiene su propio token."
   },
   "colores_oscuro": {
-    "_nota": "Modo oscuro. NO es un invertido automático del claro: son pasos elegidos y validados contra la superficie oscura.",
+    "_nota": "Modo oscuro. NO es un invertido automatico del claro: son pasos elegidos y validados contra la superficie oscura.",
     "texto": "#EDEBF7",
-    "texto_suave": "#A29CC4",
-    "texto_tenue": "#7D77A0",
-    "fondo": "#0D0B1A",
-    "superficie": "#151329",
-    "superficie_2": "#1B1834",
-    "superficie_3": "#221E40",
-    "borde": "#282348",
-    "borde_fuerte": "#372F5E",
-    "lateral": "#100E20",
+    "texto_suave": "#A6A1C6",
+    "texto_tenue": "#807BA2",
+    "fondo": "#0C0B15",
+    "superficie": "#14131F",
+    "superficie_2": "#1A1826",
+    "superficie_3": "#211E30",
+    "borde": "#272338",
+    "borde_fuerte": "#37314E",
+    "lateral": "#14131F",
     "lateral_texto": "#FFFFFF",
-    "lateral_tenue": "#9B95BE",
-    "lateral_activo": "#252048",
+    "lateral_tenue": "#A6A1C6",
+    "lateral_activo": "#241F3C",
     "marca": "#9B84F2",
     "marca_oscura": "#7355E8",
-    "marca_suave": "#231C48",
+    "marca_suave": "#221B40",
     "bien": "#34C795",
     "bien_texto": "#34C795",
     "bien_suave": "#0E3328",
@@ -87,10 +90,12 @@
     "alerta": "#E5808F",
     "alerta_texto": "#E5808F",
     "alerta_suave": "#3A1922",
-    "pista": "#221E40",
+    "pista": "#211E30",
     "marca_fondo": "#7355E8",
     "marca_fondo_2": "#5B3FD4",
-    "_nota_marca": "marca = acento de texto y series de gráfico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco. Separarlos es lo que arregló esa falla."
+    "panel_oscuro": "#2C2743",
+    "panel_oscuro_texto": "#FFFFFF",
+    "_nota_marca": "marca = acento de texto y series de grafico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco."
   },
   "paleta_graficos": {
     "_nota": "Los colores de las series en los gráficos. Se usan en ESTE orden, nunca en ciclo. Si agregas o cambias uno, el validador comprueba que sigan distinguiéndose entre sí para alguien con daltonismo y que contrasten contra el fondo. Un fallo aquí no es estético: es que alguien no va a poder leer el gráfico.",
@@ -98,5 +103,20 @@
     "serie_2": "#12946B",
     "serie_3": "#C4820F",
     "serie_4": "#C04A66"
+  },
+  "acentos_suaves": {
+    "_nota": "Tintes DECORATIVOS para las tres tarjetas del resumen. Son adorno, no semantica: no significan bien/mal. Para eso estan bien_suave, falta_suave y alerta_suave, y no se deben usar de adorno porque el lector los lee como una alerta. Cada valor es [claro, oscuro]. El validador comprueba que el texto se lea encima y que el tinte se distinga de la superficie.",
+    "uno": [
+      "#EFF6F1",
+      "#15241C"
+    ],
+    "dos": [
+      "#FDF7EA",
+      "#26200F"
+    ],
+    "tres": [
+      "#F1EDFE",
+      "#1E1836"
+    ]
   }
 }
