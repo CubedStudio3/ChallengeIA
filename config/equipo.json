@@ -19,7 +19,15 @@
     "priority_id": null,
     "nombre": null,
     "_es_de_prueba": null,
-    "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona."
+    "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
+    "_workspace_slug": "qpaypro",
+    "_url_observada": "https://sprints.zoho.com/workspace/qpaypro#P8/board/SP49",
+    "_claves_visibles": {
+      "proyecto": "P8",
+      "sprint": "SP49",
+      "_nombre_proyecto": "Diseño y MK",
+      "_nota": "Son las claves de PRESENTACION que muestra la interfaz, no los IDs internos que pide la API (numericos y largos). Se guardan porque identifican sin ambiguedad el proyecto y el sprint destino en cuanto se pueda leer GetProjects/GetSprints."
+    }
   },
   "personas": [],
   "_esquema_persona": {
@@ -39,6 +47,13 @@
     "conector": "Zoho_Sprints",
     "autenticacion": "FUNCIONA",
     "_evidencia": "La llamada devolvio el sobre de error propio de Zoho ({'code':7404,'message':'Given URL is wrong','status':'failed'}) en lugar de un fallo de autorizacion. Un error estructurado de Zoho significa que la llamada llego y el token sirvio: lo unico que no resolvio fue el teamId.",
-    "_descartado": "El error no lo causa la cabecera: se repitio igual con x-za-ui-version en v2 y en v1."
+    "_descartado": "El error no lo causa la cabecera: se repitio igual con x-za-ui-version en v2 y en v1.",
+    "_hipotesis_descartadas": [
+      "683127178 (portal de Zoho Social) → 7404",
+      "683128256 (organizacion de Zoho Analytics) → 7404",
+      "'qpaypro' (slug del workspace, tomado de la URL real) → 7404",
+      "'1' (ID trivial, como prueba de ruta) → 7404"
+    ],
+    "_dos_lecturas_posibles": "TRES formas distintas de teamId --numerico tipo organizacion, el slug del workspace, y un '1' trivial-- devuelven el MISMO error 'Given URL is wrong'. El test no distingue las hipotesis, pero el patron inclina hacia (H2): con una ruta valida y un ID sin permiso, Zoho normalmente responde un error de permiso, no que la URL este mal. Sigue sin poder probarse. Un teamId real es lo unico que lo settlea: si con el correcto sigue fallando, el problema es la plantilla de URL del conector y no el dato, y entonces el paso 9 no depende de Mercadeo sino de que se arregle el conector."
   }
 }
