@@ -299,61 +299,6 @@
         },
         "publicaciones_leidas": 20
       },
-      "linkedin": {
-        "publicaciones": 4,
-        "interacciones": null,
-        "vistas": null,
-        "confiable": false,
-        "motivo_no_confiable": "Los 25 posts de LinkedIn devuelven like_count=0 y comment_count=0 sin excepcion. Eso es indistinguible entre cero real y campo no soportado por el conector. NO se reporta como 'LinkedIn tiene cero engagement'. Requiere verificacion manual en LinkedIn Page Analytics.",
-        "silenciosa": false,
-        "ultima_publicacion": "2026-08-24",
-        "dias_de_silencio": null,
-        "mejores": [
-          {
-            "fecha": "2026-08-24",
-            "titulo": "",
-            "interacciones": 0,
-            "vistas": null
-          },
-          {
-            "fecha": "2026-08-21",
-            "titulo": "",
-            "interacciones": 0,
-            "vistas": null
-          },
-          {
-            "fecha": "2026-08-19",
-            "titulo": "",
-            "interacciones": 0,
-            "vistas": null
-          }
-        ],
-        "mejor_historico": {
-          "fecha": "2026-08-24",
-          "titulo": "",
-          "interacciones": 0,
-          "vistas": null
-        },
-        "publicaciones_leidas": 25
-      },
-      "tiktok": {
-        "publicaciones": 0,
-        "interacciones": 0,
-        "vistas": 0,
-        "confiable": true,
-        "motivo_no_confiable": null,
-        "silenciosa": true,
-        "ultima_publicacion": "2026-07-16",
-        "dias_de_silencio": 42,
-        "mejores": [],
-        "mejor_historico": {
-          "fecha": "2026-05-31",
-          "titulo": "Tienes tienda en Shopify? Cientos de tiendas integradas",
-          "interacciones": 22,
-          "vistas": 1092
-        },
-        "publicaciones_leidas": 20
-      },
       "youtube": {
         "publicaciones": 2,
         "interacciones": 7,
@@ -386,6 +331,180 @@
         "publicaciones_leidas": 25
       }
     },
+    "serie_semanal": {
+      "semanas": [
+        {
+          "inicio": "2026-06-08",
+          "etiqueta": "8 jun"
+        },
+        {
+          "inicio": "2026-06-15",
+          "etiqueta": "15 jun"
+        },
+        {
+          "inicio": "2026-06-22",
+          "etiqueta": "22 jun"
+        },
+        {
+          "inicio": "2026-06-29",
+          "etiqueta": "29 jun"
+        },
+        {
+          "inicio": "2026-07-06",
+          "etiqueta": "6 jul"
+        },
+        {
+          "inicio": "2026-07-13",
+          "etiqueta": "13 jul"
+        },
+        {
+          "inicio": "2026-07-20",
+          "etiqueta": "20 jul"
+        },
+        {
+          "inicio": "2026-07-27",
+          "etiqueta": "27 jul"
+        },
+        {
+          "inicio": "2026-08-03",
+          "etiqueta": "3 ago"
+        },
+        {
+          "inicio": "2026-08-10",
+          "etiqueta": "10 ago"
+        },
+        {
+          "inicio": "2026-08-17",
+          "etiqueta": "17 ago"
+        },
+        {
+          "inicio": "2026-08-24",
+          "etiqueta": "24 ago"
+        }
+      ],
+      "interacciones": {
+        "facebook": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          18,
+          23,
+          16,
+          1,
+          5,
+          5,
+          3
+        ],
+        "instagram": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          3,
+          66,
+          29,
+          0,
+          14,
+          13,
+          34
+        ],
+        "youtube": [
+          4,
+          0,
+          0,
+          1,
+          2,
+          1,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0
+        ]
+      },
+      "vistas": {
+        "youtube": [
+          184,
+          84,
+          82,
+          30,
+          144,
+          153,
+          0,
+          12,
+          0,
+          92,
+          11,
+          0
+        ]
+      },
+      "_que_mide": "Cada punto son las interacciones que HOY acumulan las publicaciones de esa semana. La API no devuelve serie histórica: devuelve el acumulado de cada pieza al día de la consulta. Sirve para comparar qué semana produjo contenido que enganchó, no para decir en qué semana hubo más actividad.",
+      "_vistas_de": [
+        "youtube"
+      ],
+      "_sin_vistas": [
+        "facebook",
+        "instagram"
+      ],
+      "arranques": {
+        "facebook": {
+          "semana": "2026-07-13",
+          "indice": 5,
+          "publicaciones_leidas": 25
+        },
+        "instagram": {
+          "semana": "2026-07-13",
+          "indice": 5,
+          "publicaciones_leidas": 20
+        },
+        "youtube": {
+          "semana": "2026-06-08",
+          "indice": 0,
+          "publicaciones_leidas": 25
+        }
+      },
+      "_por_que_arrancan_distinto": "Cada red arranca donde arranca su muestra. La lectura viene topada en unas 25 publicaciones por red, así que las semanas anteriores a la publicación más antigua leída quedan como hueco, no como cero: un cero ahí diría que no engancharon, cuando lo que pasa es que no se leyeron."
+    },
+    "excluidas": {
+      "linkedin": {
+        "publicaciones_leidas": 25,
+        "publicaciones_en_periodo": 4,
+        "interacciones_en_periodo": null,
+        "vistas_en_periodo": null,
+        "confiable": false,
+        "ultima_publicacion": "2026-08-24",
+        "mejor_historico": {
+          "fecha": "2026-08-24",
+          "titulo": "",
+          "interacciones": 0,
+          "vistas": null
+        },
+        "motivo": "Instruccion explicita del usuario, 2026-08-28. Coincide con lo que ya recomendaba el analisis por otra razon.",
+        "dato_que_se_pierde": "Nada medible. Sus 25 publicaciones devuelven like_count=0 y comment_count=0 sin excepcion, indistinguible entre cero real y campo no soportado por el conector. Ya estaba fuera del total de interacciones por no ser verificable (ADR-016).",
+        "reversible": "Volver a agregar 'linkedin' a 'reportadas'."
+      },
+      "tiktok": {
+        "publicaciones_leidas": 20,
+        "publicaciones_en_periodo": 0,
+        "interacciones_en_periodo": 0,
+        "vistas_en_periodo": 0,
+        "confiable": true,
+        "ultima_publicacion": "2026-07-16",
+        "mejor_historico": {
+          "fecha": "2026-05-31",
+          "titulo": "Tienes tienda en Shopify? Cientos de tiendas integradas",
+          "interacciones": 22,
+          "vistas": 1092
+        },
+        "motivo": "Instruccion explicita del usuario, 2026-08-28: el reporte de redes se limita a Instagram, Facebook y YouTube.",
+        "dato_que_se_pierde": "Era el canal con mas vistas de todo lo leido: su mejor pieza llego a 1,092 vistas y el promedio de sus 20 publicaciones ronda las 270. Tambien era el unico hallazgo de canal detenido: no publica desde 2026-07-16. Al excluirlo, la tarea de reactivarlo deja de generarse.",
+        "reversible": "Volver a agregar 'tiktok' a 'reportadas'."
+      }
+    },
     "totales": {
       "interacciones": 49,
       "publicaciones": 17,
@@ -393,12 +512,9 @@
       "redes_contadas": [
         "facebook",
         "instagram",
-        "tiktok",
         "youtube"
       ],
-      "redes_excluidas_del_total": [
-        "linkedin"
-      ]
+      "redes_excluidas_del_total": []
     },
     "limites": [
       {
@@ -780,14 +896,6 @@
     },
     "busquedas": [
       {
-        "tema": "Video vertical para tiktok",
-        "consulta": "fintech short vertical video ad layout",
-        "formato": "video",
-        "motivo": "tiktok acumuló vistas reales y lleva 42 días sin publicar. El formato que ya funcionaba está detenido.",
-        "url": "https://www.pinterest.com/search/pins/?q=fintech+short+vertical+video+ad+layout",
-        "_estado": "BUSQUEDA_NO_CURADA"
-      },
-      {
         "tema": "Lo que mejor rindió en facebook",
         "consulta": "ecommerce integration announcement social post design",
         "formato": "arte",
@@ -835,50 +943,58 @@
     ]
   },
   "estrategia": {
-    "tareas": [
+    "estrategias": [
       {
-        "id": "video-reactivar-tiktok",
-        "tipo": "video",
-        "titulo": "Reactivar tiktok: el canal con vistas reales lleva 42 días sin publicar",
-        "porque": "tiktok es de las dos únicas redes que devuelven vistas. Su mejor pieza de todo lo leído (20 publicaciones) llegó a 1,092 vistas, y no se ha publicado nada ahí desde 2026-07-16.",
+        "id": "mercado-sin-disputa",
+        "nombre": "Empujar SV, que hoy no se le disputa a nadie",
+        "en_pocas_palabras": "Concentrar la producción de la semana en SV en lugar de repartirla entre los dos mercados. Creativo hecho para SV, no reciclado del otro.",
+        "por_que": "Es el único mercado donde se juntan las dos cosas: el costo por resultado más bajo ($1.89 contra GT $2.89) y cero anuncios activos entre los competidores medidos. Cuando nadie más compra esa atención, el creativo no compite por ella.",
         "evidencia": [
-          "social_normalizado.json · tiktok · última publicación 2026-07-16",
-          "social_normalizado.json · tiktok · máximo histórico 1,092 vistas · «Tienes tienda en Shopify? Cientos de tiendas integ» (2026-05-31)"
+          "meta_campanas_por_pais.json · SV · $1.89 por resultado",
+          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
         ],
-        "angulo": "Retomar el tema que ya midió mejor en este canal, no estrenar uno nuevo: el canal está frío y un tema probado arranca antes.",
-        "no_decir": null,
-        "formato": "video vertical corto",
-        "rol_sugerido": "video",
-        "piezas": null,
-        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
-        "referencias": [
-          {
-            "tema": "Video vertical para tiktok",
-            "consulta": "fintech short vertical video ad layout",
-            "formato": "video",
-            "motivo": "tiktok acumuló vistas reales y lleva 42 días sin publicar. El formato que ya funcionaba está detenido.",
-            "url": "https://www.pinterest.com/search/pins/?q=fintech+short+vertical+video+ad+layout",
-            "_estado": "BUSQUEDA_NO_CURADA"
-          }
+        "cuando_no_conviene": "Si el equipo comercial de SV no puede atender más leads. Y hay un techo que no se puede medir desde aquí: SV concentra solo el 21% de la inversión del periodo ($197.97), así que duplicar ahí mueve menos dinero en términos absolutos que un punto de mejora en el mercado grande.",
+        "tareas": [
+          "arte-mercado-libre-SV"
         ],
-        "requiere_humano": false,
-        "instruccion_exacta": null,
-        "copy": {
-          "estado": "BLOQUEADO",
-          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
-          "falta": [
-            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
-            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
-            "Nombres oficiales de producto y cómo se escriben",
-            "Diferenciadores verificables frente a competencia",
-            "Quién aprueba un copy antes de publicarse"
-          ],
-          "donde": ".claude/skills/contexto-marca/SKILL.md",
-          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
-        },
-        "idempotencia": "2026-W31::video::reactivar-tiktok",
-        "_estado_inicial": "propuesta"
+        "recomendada": true,
+        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto."
       },
+      {
+        "id": "disputar-el-flanco",
+        "nombre": "Ocupar el flanco que Paggo deja libre",
+        "en_pocas_palabras": "No repetir la promesa que la competencia ya paga. Producir el mismo público con otra promesa, la que ellos no están cubriendo.",
+        "por_que": "Paggo concentra 74% de sus anuncios activos en un solo mensaje (23 anuncios, 101 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
+        "evidencia": [
+          "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 74% de sus activos en GT",
+          "Registro de competencia · mensajes saturados detectados: Paggo, Recurrente"
+        ],
+        "cuando_no_conviene": "Si el mensaje que ellos repiten es el que de verdad describe nuestro producto. Ceder el territorio correcto por no chocar sería peor que chocar. Eso no lo dice el dato: lo decide la mesa.",
+        "tareas": [
+          "arte-contra-paggo-GT",
+          "arte-contra-recurrente-GT"
+        ],
+        "recomendada": false,
+        "_por_que_recomendada": null
+      },
+      {
+        "id": "repetir-lo-propio",
+        "nombre": "Repetir el tema que ya enganchó con la audiencia propia",
+        "en_pocas_palabras": "Tomar el contenido que mejor rindió en orgánico y llevarlo a otro formato y otra red, en lugar de estrenar temas sin validar.",
+        "por_que": "«Historias que Venden - Episodio 1» hizo 92 vistas en youtube el 2026-08-12: es el techo de lo medido en el periodo. El tema ya está probado con nuestra propia audiencia, así que lo que se repite es el tema, no el arte.",
+        "evidencia": [
+          "social_normalizado.json · youtube · «Historias que Venden - Episodio 1» · 92 vistas · 2026-08-12"
+        ],
+        "cuando_no_conviene": "Si lo que hizo funcionar esa pieza fue algo que no se puede repetir — una colaboración, una fecha, un anuncio de producto. El dato dice que rindió, no por qué rindió.",
+        "tareas": [
+          "arte-repetir-lo-que-rinde"
+        ],
+        "recomendada": false,
+        "_por_que_recomendada": null
+      }
+    ],
+    "recomendada": "mercado-sin-disputa",
+    "tareas": [
       {
         "id": "arte-contra-paggo-GT",
         "tipo": "arte",
@@ -906,6 +1022,10 @@
         ],
         "requiere_humano": false,
         "instruccion_exacta": null,
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -949,6 +1069,10 @@
         ],
         "requiere_humano": false,
         "instruccion_exacta": null,
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -992,6 +1116,10 @@
         ],
         "requiere_humano": false,
         "instruccion_exacta": null,
+        "estrategias": [
+          "mercado-sin-disputa"
+        ],
+        "siempre": false,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -1034,6 +1162,10 @@
         ],
         "requiere_humano": false,
         "instruccion_exacta": null,
+        "estrategias": [
+          "repetir-lo-propio"
+        ],
+        "siempre": false,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -1068,6 +1200,8 @@
         "referencias": [],
         "requiere_humano": true,
         "instruccion_exacta": "En Meta Ads Manager, abrir el conjunto de anuncios de: Campaña Punto de Venta SV. En Audiencia → Ubicaciones, quitar HN de la lista de países. Guardar. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. El sistema no lo hace porque Meta Ads es solo lectura (ADR-012).",
+        "estrategias": [],
+        "siempre": true,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -1102,6 +1236,8 @@
         "referencias": [],
         "requiere_humano": true,
         "instruccion_exacta": "Llevar la brecha a la mesa y decidir ahí el monto a mover. El sistema NO propone la cifra: hacerlo sería un pronóstico, y el cálculo de oportunidad es aritmética sobre lo ya gastado, no una predicción de lo que pasaría al mover el presupuesto. El cambio lo aplica una persona en Ads Manager (ADR-012).",
+        "estrategias": [],
+        "siempre": true,
         "copy": {
           "estado": "BLOQUEADO",
           "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
@@ -1120,9 +1256,9 @@
       }
     ],
     "conteo": {
-      "creativas": 5,
+      "creativas": 4,
       "de_pauta": 2,
-      "total": 7
+      "total": 6
     },
     "asignacion": {
       "habilitada": false,
@@ -1425,6 +1561,16 @@
     }
   ],
   "huecos_declarados": [
+    {
+      "fuente": "red social excluida del reporte: linkedin",
+      "descripcion": "Instruccion explicita del usuario, 2026-08-28. Coincide con lo que ya recomendaba el analisis por otra razon.",
+      "impacto": "Nada medible. Sus 25 publicaciones devuelven like_count=0 y comment_count=0 sin excepcion, indistinguible entre cero real y campo no soportado por el conector. Ya estaba fuera del total de interacciones por no ser verificable (ADR-016)."
+    },
+    {
+      "fuente": "red social excluida del reporte: tiktok",
+      "descripcion": "Instruccion explicita del usuario, 2026-08-28: el reporte de redes se limita a Instagram, Facebook y YouTube.",
+      "impacto": "Era el canal con mas vistas de todo lo leido: su mejor pieza llego a 1,092 vistas y el promedio de sus 20 publicaciones ronda las 270. Tambien era el unico hallazgo de canal detenido: no publica desde 2026-07-16. Al excluirlo, la tarea de reactivarlo deja de generarse."
+    },
     {
       "fuente": "alcance e impresiones orgánicas",
       "descripcion": "NO DISPONIBLE",

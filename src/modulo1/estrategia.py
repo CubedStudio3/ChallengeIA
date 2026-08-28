@@ -64,6 +64,10 @@ class Tarea:
     requiere_humano: bool = False
     instruccion_exacta: str | None = None
     idempotencia: str = ""
+    # A qué estrategias pertenece. Vacío + siempre=True significa que la tarea
+    # no depende de la estrategia elegida (higiene, integridad).
+    estrategias: list[str] = field(default_factory=list)
+    siempre: bool = False
 
     def __post_init__(self):
         if self.tipo not in TIPOS:
@@ -92,6 +96,8 @@ class Tarea:
             "referencias": self.referencias,
             "requiere_humano": self.requiere_humano,
             "instruccion_exacta": self.instruccion_exacta,
+            "estrategias": self.estrategias,
+            "siempre": self.siempre,
             "copy": COPY_BLOQUEADO,
             "idempotencia": self.idempotencia,
             "_estado_inicial": "propuesta",
@@ -151,6 +157,7 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             rol_sugerido="video",
             piezas=n, piezas_motivo=motivo,
             referencias=refs_de(nombre),
+            estrategias=["repetir-lo-propio"],
             idempotencia=f"{periodo}::video::reactivar-{nombre}",
         ))
 
@@ -176,6 +183,7 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             rol_sugerido="diseño",
             piezas=n, piezas_motivo=motivo,
             referencias=refs_de(s["de"]),
+            estrategias=["disputar-el-flanco"],
             idempotencia=f"{periodo}::arte::contra-{s['de']}-{s['mercado']}",
         ))
 
@@ -211,6 +219,7 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             rol_sugerido="diseño",
             piezas=n, piezas_motivo=motivo,
             referencias=refs_de(m),
+            estrategias=["mercado-sin-disputa"],
             idempotencia=f"{periodo}::arte::mercado-libre-{m}",
         ))
 
@@ -241,6 +250,7 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             rol_sugerido="diseño",
             piezas=n, piezas_motivo=motivo,
             referencias=refs_de("mejor rindió"),
+            estrategias=["repetir-lo-propio"],
             idempotencia=f"{periodo}::arte::repetir-{red}",
         ))
 
@@ -271,6 +281,7 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
             angulo="No es creativo: es higiene de segmentación.",
             rol_sugerido="pauta",
             piezas_motivo="No aplica: es un cambio de configuración, no producción.",
+            siempre=True,
             requiere_humano=True,
             instruccion_exacta=(
                 f"En Meta Ads Manager, abrir el conjunto de anuncios de: {camps}. "
@@ -293,6 +304,7 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
             angulo="Reasignación de presupuesto entre campañas del mismo indicador.",
             rol_sugerido="pauta",
             piezas_motivo="No aplica: es una decisión de presupuesto, no producción.",
+            siempre=True,
             requiere_humano=True,
             instruccion_exacta=(
                 "Llevar la brecha a la mesa y decidir ahí el monto a mover. El "
@@ -306,14 +318,173 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
     return out
 
 
+
+def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
+                refs: dict, tareas_list: list[Tarea]) -> list[dict]:
+    """Las estrategias candidatas, cada una con su premisa medida.
+
+    El sistema **no elige** por la mesa. Propone las que su premisa sostiene,
+    marca una como recomendada con la regla escrita a la vista, y dice de cada
+    una cuándo NO conviene. Cambiar de estrategia cambia el conjunto de tareas,
+    porque una tarea sin una estrategia detrás es una ocurrencia.
+
+    Una estrategia solo aparece si su premisa se cumple en los datos. Si nadie
+    tiene un mensaje saturado, no hay «disputar el flanco» que proponer.
+    """
+    det = redes.get("detalle", {})
+    terr = refs.get("territorios", {})
+    ids = {t.id for t in tareas_list}
+    out = []
+
+    # --- 1. Un mercado sin competencia medida y con mejor costo ---
+    for l in terr.get("libres", []):
+        m = l["mercado"]
+        pr = (por_mercado.get(m) or {}).get("principal") or {}
+        cpr = pr.get("costo_por_resultado")
+        if not cpr:
+            continue
+        otros = {k: ((v.get("principal") or {}).get("costo_por_resultado"))
+                 for k, v in por_mercado.items() if k != m}
+        comparables = {k: v for k, v in otros.items() if v}
+        mejor = all(cpr <= v for v in comparables.values()) if comparables else False
+        gasto = pr.get("gasto") or 0
+        gasto_total = sum((v.get("principal") or {}).get("gasto") or 0
+                          for v in por_mercado.values())
+        cuota = gasto / gasto_total if gasto_total else 0
+        out.append({
+            "id": "mercado-sin-disputa",
+            "nombre": f"Empujar {m}, que hoy no se le disputa a nadie",
+            "en_pocas_palabras": (
+                f"Concentrar la producción de la semana en {m} en lugar de "
+                f"repartirla entre los dos mercados. Creativo hecho para {m}, no "
+                f"reciclado del otro."),
+            "por_que": (
+                f"Es el único mercado donde se juntan las dos cosas: el costo por "
+                f"resultado más bajo (${cpr:.2f}"
+                + (f" contra " + ", ".join(f"{k} ${v:.2f}"
+                                           for k, v in sorted(comparables.items()))
+                   if comparables else "")
+                + f") y cero anuncios activos entre los competidores medidos. "
+                f"Cuando nadie más compra esa atención, el creativo no compite por "
+                f"ella." if mejor else
+                f"En {m} no hay anuncios activos entre los competidores medidos, "
+                f"así que la atención no está disputada."),
+            "evidencia": [
+                f"meta_campanas_por_pais.json · {m} · ${cpr:.2f} por resultado",
+                f"Ad Library · {m} · 0 anuncios activos entre los competidores medidos",
+            ],
+            "cuando_no_conviene": (
+                f"Si el equipo comercial de {m} no puede atender más leads. Y hay "
+                f"un techo que no se puede medir desde aquí: {m} concentra solo el "
+                f"{cuota:.0%} de la inversión del periodo (${gasto:,.2f}), así que "
+                f"duplicar ahí mueve menos dinero en términos absolutos que un "
+                f"punto de mejora en el mercado grande."),
+            "tareas": [t for t in (f"arte-mercado-libre-{m}",) if t in ids],
+            "_fuerza": 2,  # dos señales independientes: costo y competencia
+        })
+
+    # --- 2. El mensaje del competidor está saturado ---
+    sat = terr.get("saturados", [])
+    if sat:
+        top = max(sat, key=lambda x: x.get("cuota", 0))
+        quienes = ", ".join(sorted({x["de"] for x in sat}))
+        out.append({
+            "id": "disputar-el-flanco",
+            "nombre": f"Ocupar el flanco que {top['de']} deja libre",
+            "en_pocas_palabras": (
+                f"No repetir la promesa que la competencia ya paga. Producir el "
+                f"mismo público con otra promesa, la que ellos no están cubriendo."),
+            "por_que": (
+                f"{top['de']} concentra {top['cuota']:.0%} de sus anuncios activos "
+                f"en un solo mensaje ({top['repeticiones']} anuncios, "
+                f"{top['dias_vivo']} días vivo). Un mensaje tan repetido y tan "
+                f"longevo es una apuesta que no han querido matar. Entrar con la "
+                f"misma promesa es pelear de frente contra un presupuesto que ya "
+                f"ocupó ese terreno; entrar por al lado cuesta menos atención."),
+            "evidencia": [
+                f"Ad Library · {top['de']} · «{top['mensaje']}» en "
+                f"{top['cuota']:.0%} de sus activos en {top['mercado']}",
+                f"Registro de competencia · mensajes saturados detectados: {quienes}",
+            ],
+            "cuando_no_conviene": (
+                "Si el mensaje que ellos repiten es el que de verdad describe "
+                "nuestro producto. Ceder el territorio correcto por no chocar "
+                "sería peor que chocar. Eso no lo dice el dato: lo decide la mesa."),
+            "tareas": [t.id for t in tareas_list
+                       if "disputar-el-flanco" in t.estrategias],
+            "_fuerza": 1,
+        })
+
+    # --- 3. Repetir lo que ya funcionó en casa ---
+    mejor, silenciosa = None, None
+    for nombre, r in det.items():
+        if not r.get("confiable", True):
+            continue
+        if r.get("silenciosa") and r.get("vistas") is not None:
+            silenciosa = (nombre, r)
+        for m in (r.get("mejores") or []):
+            marca = m.get("vistas") if m.get("vistas") is not None else m.get("interacciones")
+            if m.get("titulo") and (mejor is None or marca > mejor[1]):
+                mejor = (nombre, marca, m)
+    tareas_3 = [t.id for t in tareas_list if "repetir-lo-propio" in t.estrategias]
+    if mejor and tareas_3:
+        red, marca, m = mejor
+        unidad = "vistas" if m.get("vistas") is not None else "interacciones"
+        ev = [f"social_normalizado.json · {red} · «{m['titulo'][:60]}» · "
+              f"{marca} {unidad} · {m['fecha']}"]
+        extra = ""
+        if silenciosa:
+            n, r = silenciosa
+            ev.append(f"social_normalizado.json · {n} · {r['dias_de_silencio']} días "
+                      f"sin publicar (última {r['ultima_publicacion']})")
+            extra = (f" Y {n}, que sí devuelve vistas, lleva "
+                     f"{r['dias_de_silencio']} días sin publicar.")
+        out.append({
+            "id": "repetir-lo-propio",
+            "nombre": "Repetir el tema que ya enganchó con la audiencia propia",
+            "en_pocas_palabras": (
+                "Tomar el contenido que mejor rindió en orgánico y llevarlo a otro "
+                "formato y otra red, en lugar de estrenar temas sin validar."),
+            "por_que": (
+                f"«{m['titulo'][:70]}» hizo {marca} {unidad} en {red} el "
+                f"{m['fecha']}: es el techo de lo medido en el periodo. El tema ya "
+                f"está probado con nuestra propia audiencia, así que lo que se "
+                f"repite es el tema, no el arte.{extra}"),
+            "evidencia": ev,
+            "cuando_no_conviene": (
+                "Si lo que hizo funcionar esa pieza fue algo que no se puede "
+                "repetir — una colaboración, una fecha, un anuncio de producto. "
+                "El dato dice que rindió, no por qué rindió."),
+            "tareas": tareas_3,
+            "_fuerza": 1,
+        })
+
+    out = [e for e in out if e["tareas"]]
+    if out:
+        # Regla escrita, no criterio oculto: gana la premisa que se apoya en mas
+        # de una senal independiente. Con empate, la primera del orden de arriba.
+        rec = max(out, key=lambda e: e["_fuerza"])
+        for e in out:
+            e["recomendada"] = e is rec
+            e["_por_que_recomendada"] = (
+                "El análisis la propone porque su premisa se apoya en dos señales "
+                "independientes (costo por resultado y competencia medida), no en "
+                "una. Es una lectura del dato, NO un pronóstico: nadie midió qué "
+                "pasa si se mueve el presupuesto." if e is rec else None)
+            e.pop("_fuerza", None)
+    return out
+
 def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
          refs: dict, equipo: dict, hallazgos: list[dict], integridad: dict) -> dict:
     creativas = tareas(periodo, redes, panoramas, por_mercado, refs, equipo)
     de_pauta = cambios_en_pauta(hallazgos, integridad, periodo)
     todas = creativas + de_pauta
+    ests = estrategias(redes, panoramas, por_mercado, refs, todas)
 
     bloqueado = bool(equipo.get("_lock"))
     return {
+        "estrategias": ests,
+        "recomendada": next((e["id"] for e in ests if e.get("recomendada")), None),
         "tareas": [t.a_dict() for t in todas],
         "conteo": {"creativas": len(creativas), "de_pauta": len(de_pauta),
                    "total": len(todas)},

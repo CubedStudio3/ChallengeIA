@@ -24,7 +24,7 @@ Tres límites reales, y ninguno se rellena:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 
 # Redes cuyo conteo de interacciones es utilizable. LinkedIn queda fuera hasta
 # que alguien confirme a mano si el cero es real.
@@ -180,7 +180,104 @@ def normaliza(crudos: dict[str, dict], normalizado: dict, *,
     return redes
 
 
-def resumen(redes: dict[str, Red], hoy: date) -> dict:
+def _lunes(d: date) -> date:
+    return d - timedelta(days=d.weekday())
+
+
+def _etiqueta_semana(d: date) -> str:
+    MES = ("ene", "feb", "mar", "abr", "may", "jun",
+           "jul", "ago", "sep", "oct", "nov", "dic")
+    return f"{d.day} {MES[d.month - 1]}"
+
+
+def serie_semanal(redes: dict[str, Red], hasta: date, semanas: int = 12) -> dict:
+    """Interacciones y vistas por semana, para las redes reportadas.
+
+    **Qué mide exactamente, porque no es obvio.** La API devuelve el conteo
+    ACUMULADO de cada publicación al día de la consulta, no una serie histórica.
+    Así que cada punto es «las interacciones que hoy acumulan las publicaciones
+    de esa semana», no «las interacciones ocurridas esa semana». Una publicación
+    vieja sigue sumando likes y eso se le atribuye a su semana de origen.
+
+    Es una diferencia real y el gráfico la tiene que declarar. Sirve para
+    comparar qué semana produjo contenido que enganchó; no sirve para decir en
+    qué semana hubo más actividad de la audiencia.
+
+    Una semana sin publicaciones vale 0, y ese 0 sí es un cero medido: no hubo
+    piezas, así que no hubo interacciones de piezas de esa semana.
+    """
+    fin = _lunes(hasta)
+    inicios = [fin - timedelta(weeks=semanas - 1 - i) for i in range(semanas)]
+    ejes = [{"inicio": d.isoformat(), "etiqueta": _etiqueta_semana(d)} for d in inicios]
+
+    inter, vistas, arranques = {}, {}, {}
+    for nombre, r in redes.items():
+        if not r.confiable or not r._todas:
+            continue
+        acum_i = [0] * semanas
+        acum_v = [0] * semanas
+        for p in r._todas:
+            L = _lunes(p.fecha)
+            if L < inicios[0] or L > fin:
+                continue
+            i = (L - inicios[0]).days // 7
+            acum_i[i] += p.interacciones
+            acum_v[i] += p.vistas or 0
+
+        # Las semanas anteriores a la publicacion mas antigua LEIDA no son ceros
+        # medidos: estan fuera de la muestra. La lectura viene topada (~25 posts
+        # por red), asi que el inicio de cada serie es donde empieza su muestra,
+        # no donde empieza su historia. Un cero ahi diria "no engancharon", y lo
+        # que pasa es que no los leimos. Van como hueco, y la linea arranca ahi.
+        primera = _lunes(min(p.fecha for p in r._todas))
+        corte = max(0, (primera - inicios[0]).days // 7) if primera > inicios[0] else 0
+        arranques[nombre] = {
+            "semana": max(primera, inicios[0]).isoformat(),
+            "indice": corte,
+            "publicaciones_leidas": len(r._todas),
+        }
+        inter[nombre] = [None] * corte + acum_i[corte:]
+        if nombre in REDES_CON_VISTAS:
+            vistas[nombre] = [None] * corte + acum_v[corte:]
+
+    return {
+        "semanas": ejes,
+        "interacciones": inter,
+        "vistas": vistas,
+        "_que_mide": ("Cada punto son las interacciones que HOY acumulan las "
+                      "publicaciones de esa semana. La API no devuelve serie "
+                      "histórica: devuelve el acumulado de cada pieza al día de "
+                      "la consulta. Sirve para comparar qué semana produjo "
+                      "contenido que enganchó, no para decir en qué semana hubo "
+                      "más actividad."),
+        "_vistas_de": sorted(vistas.keys()),
+        "_sin_vistas": sorted(n for n in inter if n not in vistas),
+        "arranques": arranques,
+        "_por_que_arrancan_distinto": (
+            "Cada red arranca donde arranca su muestra. La lectura viene topada "
+            "en unas 25 publicaciones por red, así que las semanas anteriores a "
+            "la publicación más antigua leída quedan como hueco, no como cero: "
+            "un cero ahí diría que no engancharon, cuando lo que pasa es que no "
+            "se leyeron."),
+    }
+
+
+def parte(redes: dict[str, Red], reportadas: tuple[str, ...]) -> tuple[dict, dict]:
+    """Separa las redes que entran al reporte de las excluidas por decisión.
+
+    Las excluidas no se borran: se devuelven aparte para poder reportar qué se
+    dejó fuera y cuánto era. Borrarlas en silencio haría que el total pareciera
+    completo cuando no lo es.
+    """
+    dentro = {n: r for n, r in redes.items() if n in reportadas}
+    fuera = {n: r for n, r in redes.items() if n not in reportadas}
+    return dentro, fuera
+
+
+def resumen(redes: dict[str, Red], hoy: date, *,
+            excluidas: dict[str, Red] | None = None,
+            motivos: dict | None = None,
+            serie: dict | None = None) -> dict:
     """Agrega lo que se puede agregar, y declara lo que no.
 
     No suma interacciones de redes confiables con las de LinkedIn: mezclar un
@@ -215,8 +312,30 @@ def resumen(redes: dict[str, Red], hoy: date) -> dict:
     con_vistas = [r for r in confiables if r.nombre in REDES_CON_VISTAS]
     total_vistas = sum(r.vistas or 0 for r in con_vistas)
 
+    fuera = {}
+    for nombre, r in sorted((excluidas or {}).items()):
+        meta = (motivos or {}).get(nombre, {})
+        fuera[nombre] = {
+            "publicaciones_leidas": len(r._todas),
+            "publicaciones_en_periodo": r.posts,
+            "interacciones_en_periodo": r.interacciones if r.confiable else None,
+            "vistas_en_periodo": r.vistas,
+            "confiable": r.confiable,
+            "ultima_publicacion": (r.ultima_publicacion().isoformat()
+                                   if r.ultima_publicacion() else None),
+            "mejor_historico": (
+                {"fecha": mh.fecha.isoformat(), "titulo": mh.titulo,
+                 "interacciones": mh.interacciones, "vistas": mh.vistas}
+                if (mh := r.mejor_historico()) else None),
+            "motivo": meta.get("motivo", ""),
+            "dato_que_se_pierde": meta.get("_dato_que_se_pierde", ""),
+            "reversible": meta.get("_reversible", ""),
+        }
+
     return {
         "detalle": detalle,
+        "serie_semanal": serie,
+        "excluidas": fuera,
         "totales": {
             "interacciones": total_int,
             "publicaciones": total_posts,

@@ -198,9 +198,21 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                         "su evidencia y lo declaran."),
         })
     else:
+        cfg_redes = cargar("convenciones", bloque="redes_sociales")
+        reportadas = tuple(cfg_redes["reportadas"])
         redes_obj = R.normaliza(crudos_social, normalizado,
                                 desde=rango.desde, hasta=rango.hasta)
-        redes_resumen = R.resumen(redes_obj, hoy)
+        dentro, fuera_redes = R.parte(redes_obj, reportadas)
+        serie = R.serie_semanal(dentro, rango.hasta)
+        redes_resumen = R.resumen(dentro, hoy, excluidas=fuera_redes,
+                                  motivos=cfg_redes.get("excluidas", {}),
+                                  serie=serie)
+        for nombre, blq in redes_resumen["excluidas"].items():
+            huecos.append({
+                "fuente": f"red social excluida del reporte: {nombre}",
+                "descripcion": blq["motivo"],
+                "impacto": blq["dato_que_se_pierde"] or "Sin dato medible perdido.",
+            })
         for lim in redes_resumen["limites"]:
             huecos.append({"fuente": lim["que"], "descripcion": lim["estado"],
                            "impacto": lim["detalle"]})
@@ -406,6 +418,16 @@ def imprime(r: dict) -> None:
                 print(f"      {nombre:12} ⚠ 0 publicaciones · "
                       f"{d['dias_de_silencio']} días de silencio "
                       f"(última {d['ultima_publicacion']})")
+        for nombre, d in sorted((rs.get("excluidas") or {}).items()):
+            print(f"      {nombre:12} EXCLUIDA del reporte · "
+                  f"{d['publicaciones_leidas']} publicaciones leídas")
+            if d["dato_que_se_pierde"]:
+                print(f"          se pierde: {d['dato_que_se_pierde'][:110]}…")
+        se = rs.get("serie_semanal") or {}
+        if se:
+            print(f"      serie semanal: {len(se['semanas'])} semanas · "
+                  f"interacciones de {', '.join(sorted(se['interacciones']))} · "
+                  f"vistas de {', '.join(se['_vistas_de']) or 'ninguna'}")
 
     print(f"\nCOMPETENCIA\n{L}")
     for m, d in r["competencia"].items():
@@ -442,6 +464,15 @@ def imprime(r: dict) -> None:
             print(f"    ⚠ {h['advertencia']}")
 
     est = r.get("estrategia") or {}
+    if est and est.get("estrategias"):
+        print(f"\nESTRATEGIAS CANDIDATAS ({len(est['estrategias'])})\n{L}")
+        for e in est["estrategias"]:
+            marca = "  ★ RECOMENDADA" if e.get("recomendada") else ""
+            print(f"\n  [{e['id']}]{marca}\n  {e['nombre']}")
+            print(f"    qué es: {e['en_pocas_palabras']}")
+            print(f"    por qué: {e['por_que']}")
+            print(f"    cuándo NO: {e['cuando_no_conviene']}")
+            print(f"    tareas que activa: {', '.join(e['tareas'])}")
     if est:
         c = est["conteo"]
         print(f"\nESTRATEGIA · {c['total']} tareas "

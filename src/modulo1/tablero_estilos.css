@@ -348,3 +348,90 @@ details .mini{margin-top:12px}
   transition:opacity .2s ease; max-width:90vw; text-align:center}
 .toast.ver{opacity:1}
 @media (prefers-reduced-motion:reduce){ .toast{transition:none} }
+
+/* ═══ gráficas ═══ */
+.grafs .panel{padding:20px 22px}
+.graf-cab h4{font-size:14px; font-weight:700; letter-spacing:-.015em; margin:0}
+.graf-cab p{font-size:11.5px; color:var(--tinta-3); margin-top:3px; line-height:1.45}
+.g-ley{display:flex; flex-wrap:wrap; gap:6px 16px; margin:12px 0 2px;
+  font-size:11.5px; color:var(--tinta-2)}
+.g-ley span{display:inline-flex; align-items:center; gap:6px}
+.g-ley i{width:9px; height:9px; border-radius:50%; flex:0 0 auto}
+.graf-lienzo{position:relative; margin-top:6px}
+.graf-lienzo svg{display:block; width:100%; height:auto; overflow:visible}
+.g-rej{stroke:var(--borde); stroke-width:1; shape-rendering:crispEdges}
+.g-tick{fill:var(--tinta-3); font-size:9.5px; font-family:var(--fam-cuerpo)}
+.g-linea{fill:none; stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+/* Un anillo del color de la superficie mantiene el punto legible donde cruza
+   una línea. No es adorno: es lo que separa dos marcas que se pisan. */
+.g-pto{stroke:var(--sup); stroke-width:2}
+.g-area{opacity:.1; stroke:none}
+.g-fin{fill:var(--tinta); font-size:11px; font-weight:700;
+  font-family:var(--fam-cuerpo)}
+.g-cruz{stroke:var(--borde-fuerte); stroke-width:1; pointer-events:none;
+  transition:opacity .12s}
+.g-tip{position:absolute; top:0;
+  background:var(--oscuro); color:var(--oscuro-tex); border-radius:var(--r-xs);
+  padding:8px 11px; font-size:11px; line-height:1.45; pointer-events:none;
+  opacity:0; transition:opacity .12s; white-space:nowrap; z-index:4;
+  box-shadow:var(--sombra-alta)}
+.g-tip.izq{left:0} .g-tip.der{right:0}
+.g-tip.ver{opacity:1}
+.g-tip b{font-weight:700}
+.g-tip span{display:flex; align-items:center; gap:7px; margin-top:4px}
+.g-tip span i{width:8px; height:8px; border-radius:50%; flex:0 0 auto}
+.g-tip span b{margin-left:auto; font-variant-numeric:tabular-nums}
+.g-tabla{margin-top:14px}
+.g-tabla .tabla-wrap{box-shadow:none; background:var(--sup-2); margin:12px 0 0}
+.g-tabla .tabla{min-width:340px; font-size:12px}
+.g-tabla .tabla th,.g-tabla .tabla td{padding:8px 14px}
+@media (prefers-reduced-motion:reduce){
+  .g-cruz,.g-tip{transition:none}
+}
+
+/* ═══ selector de estrategia ═══ */
+.ests{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:16px; align-items:start; margin-bottom:14px}
+.est{background:var(--sup); border-radius:var(--r); padding:22px 24px;
+  box-shadow:var(--sombra); display:flex; flex-direction:column; gap:12px}
+.est.on{box-shadow:var(--sombra), inset 0 0 0 2px var(--marca)}
+.est-cab{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.chip.rec{background:var(--marca-suave); color:var(--marca-2)}
+.est-marca{margin-left:auto; display:inline-flex; align-items:center; gap:5px;
+  font-size:10.5px; font-weight:700; letter-spacing:.05em; color:var(--marca-2)}
+.est-marca svg{width:12px; height:12px; fill:none; stroke:currentColor;
+  stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.est h3{font-size:16px; line-height:1.35}
+.est-que{font-size:13.5px; color:var(--tinta)}
+.est .campo.est-no{background:var(--falta-suave)}
+.est .campo.est-no p{color:var(--falta-tex)}
+.est .campo.est-no .mini-et{color:var(--falta-tex); opacity:.85}
+.est-pie{margin-top:auto; padding-top:14px; border-top:1px solid var(--borde);
+  display:flex; gap:12px; align-items:center; justify-content:space-between;
+  flex-wrap:wrap}
+.aviso-linea{background:var(--sup-2); border-radius:var(--r-xs);
+  padding:13px 16px; margin-bottom:6px}
+
+/* ═══ formulario de nueva idea ═══ */
+.nueva-tarea{margin-bottom:16px}
+.nt-cab{display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  margin-bottom:8px}
+.nt-cab h3{margin:0}
+.np-rejilla{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px; margin-top:16px}
+.np-campo{display:block; min-width:0}
+.np-ancho{grid-column:1 / -1}
+.np-campo input,.np-campo textarea,.np-campo select{width:100%; font:inherit;
+  font-size:13px; padding:11px 13px; border-radius:var(--r-xs);
+  border:1px solid var(--borde); background:var(--sup-2); color:var(--tinta);
+  resize:vertical}
+.np-campo input::placeholder,.np-campo textarea::placeholder{color:var(--tinta-3)}
+.np-campo input:focus-visible,.np-campo textarea:focus-visible,
+.np-campo select:focus-visible{outline:2px solid var(--marca); outline-offset:1px;
+  background:var(--sup)}
+.np-pie{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:16px}
+
+/* ═══ tareas del equipo ═══ */
+.tarea.propia{box-shadow:var(--sombra), inset 0 0 0 1px var(--borde-fuerte)}
+.tarea.propia.aceptada{box-shadow:var(--sombra), inset 0 0 0 1px var(--bien)}
+.campo.sin-ev{background:transparent; box-shadow:inset 0 0 0 1px var(--borde)}

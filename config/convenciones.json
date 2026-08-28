@@ -123,5 +123,25 @@
         "_tratamiento": "Se excluye del analisis y del deck. El gasto excluido se reporta como nota de integridad, no se suma ni se ignora en silencio."
       }
     }
+  },
+  "redes_sociales": {
+    "_nota": "Que redes entran al reporte. Se declara aqui y no en el codigo por la misma razon que los mercados: es una decision, no una constante. Las excluidas NO se borran en silencio — su dato se sigue leyendo y se reporta en el bloque de exclusiones, igual que se hace con Honduras en pauta.",
+    "reportadas": [
+      "facebook",
+      "instagram",
+      "youtube"
+    ],
+    "excluidas": {
+      "tiktok": {
+        "motivo": "Instruccion explicita del usuario, 2026-08-28: el reporte de redes se limita a Instagram, Facebook y YouTube.",
+        "_dato_que_se_pierde": "Era el canal con mas vistas de todo lo leido: su mejor pieza llego a 1,092 vistas y el promedio de sus 20 publicaciones ronda las 270. Tambien era el unico hallazgo de canal detenido: no publica desde 2026-07-16. Al excluirlo, la tarea de reactivarlo deja de generarse.",
+        "_reversible": "Volver a agregar 'tiktok' a 'reportadas'."
+      },
+      "linkedin": {
+        "motivo": "Instruccion explicita del usuario, 2026-08-28. Coincide con lo que ya recomendaba el analisis por otra razon.",
+        "_dato_que_se_pierde": "Nada medible. Sus 25 publicaciones devuelven like_count=0 y comment_count=0 sin excepcion, indistinguible entre cero real y campo no soportado por el conector. Ya estaba fuera del total de interacciones por no ser verificable (ADR-016).",
+        "_reversible": "Volver a agregar 'linkedin' a 'reportadas'."
+      }
+    }
   }
 }

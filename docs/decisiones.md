@@ -582,3 +582,129 @@ no es un error de estilo.
 capacidad del equipo, no un dato de Meta ni de Ad Library. Si
 `config/equipo.json` declara `capacidad_semanal`, se reparte; si no, la tarea
 **pide el número a la mesa** en lugar de proponer uno.
+
+---
+
+## ADR-022 · El reporte de redes se limita a tres, y las excluidas se declaran
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió limitar el rendimiento de redes a Instagram,
+Facebook y YouTube, quitando LinkedIn y TikTok.
+
+**Decisión.** `config/convenciones.json` declara `redes_sociales.reportadas`. Las
+excluidas **no se borran**: se siguen leyendo y su dato se reporta en un bloque
+de exclusiones, igual que se hace con Honduras en pauta. Borrarlas en silencio
+haría que el total pareciera completo cuando no lo es.
+
+**Lo que se pierde, dicho para que sea una decisión y no un accidente.**
+
+- **LinkedIn: nada medible.** Sus 25 publicaciones devuelven `like_count=0` y
+  `comment_count=0` sin excepción. Ya estaba fuera del total por no ser
+  verificable (ADR-016). La instrucción coincide con lo que el análisis
+  recomendaba por otra razón.
+- **TikTok: el hallazgo más fuerte del orgánico.** Era el canal con más vistas de
+  todo lo leído — su mejor pieza llegó a 1,092 vistas — y el único caso de canal
+  detenido: no publica desde 2026-07-16. **Al excluirlo, la tarea de reactivarlo
+  deja de generarse**, y con ella desaparece la estrategia que se apoyaba en un
+  canal callado que sí rendía.
+
+**Consecuencia.** Es reversible en una línea: agregar `"tiktok"` a `reportadas`.
+El motivo, el dato que se pierde y el remedio quedan escritos en el propio
+archivo de configuración.
+
+---
+
+## ADR-023 · Primero la estrategia, después las tareas
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** La sección de Estrategia entregaba una lista de tareas sin decir
+cuál era la apuesta detrás. El usuario pidió un espacio que explique en pocas
+palabras en qué consiste la estrategia y por qué es buena idea, con opción de
+cambiarla — y que cambiar la estrategia cambie las tareas propuestas.
+
+**Decisión.** El sistema deriva **estrategias candidatas**, cada una con su
+premisa medida, y cada tarea declara a qué estrategias pertenece. Cambiar la
+estrategia cambia el conjunto de tareas visibles.
+
+Una estrategia **solo aparece si su premisa se cumple en los datos**. Si ningún
+competidor tiene un mensaje saturado, no hay «disputar el flanco» que proponer.
+
+**Lo que el sistema NO hace.** No elige por la mesa. Marca una como recomendada
+**con la regla escrita a la vista** — gana la premisa que se apoya en más de una
+señal independiente — y de cada una dice **cuándo NO conviene**. Esa última
+parte es la que hace que la elección sea real: una recomendación sin su
+contraparte es una orden disfrazada.
+
+**Tres cosas que no dependen de la estrategia** y por eso se marcan `siempre`:
+los cambios de configuración de pauta y las correcciones de integridad. Son
+higiene; no se negocian con la apuesta creativa de la semana.
+
+**Y una advertencia que viaja con la recomendación.** «SV tiene el mejor costo y
+cero competencia medida» es una lectura del dato, **no un pronóstico**: nadie
+midió qué pasa al mover el presupuesto. Además se declara el techo que no se
+puede medir desde aquí — SV concentra solo el 21% de la inversión, así que
+duplicar ahí mueve menos dinero absoluto que un punto de mejora en el mercado
+grande.
+
+---
+
+## ADR-024 · Las ideas del equipo se guardan aparte de los hallazgos
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió un espacio de «nueva tarea» para que la mesa
+agregue una idea propia si le parece mejor que lo que propone el análisis, y que
+entre directo a aceptadas.
+
+**Decisión.** Existe el formulario, y la tarea creada **se guarda y se muestra en
+un grupo propio**, con la etiqueta «idea del equipo» y un campo de evidencia que
+dice, textualmente, que no tiene ninguna.
+
+**Razón.** Es la regla 1 del proyecto aplicada a la interfaz. Si una idea del
+equipo se mezclara con las tareas derivadas de datos, la semana siguiente nadie
+podría distinguir qué propuso el análisis y qué propuso una persona en una
+reunión. La idea vale exactamente lo mismo como decisión; lo que no puede es
+heredar una autoridad de evidencia que no tiene.
+
+**Detalle que evita un enlace roto.** Del campo de referencias solo se guardan
+las líneas que de verdad son una URL. Un texto pegado que no lo es se descarta y
+el aviso dice cuántas líneas se ignoraron. Esta página existe para no poner
+delante del equipo cosas que no se pueden verificar.
+
+---
+
+## ADR-025 · Dos medidas, dos gráficas — y un hueco no es un cero
+
+**Fecha:** 2026-08-28 · **Estado:** ACEPTADA
+
+**Contexto.** El usuario pidió ver la evolución semanal del engagement y de las
+visualizaciones.
+
+**Decisión.** Dos gráficas de líneas en SVG, sin librería. **Nunca un eje doble.**
+Interacciones y vistas tienen escalas distintas (34 contra 184); un eje doble
+haría que el lector compare alturas que no son comparables.
+
+**Qué mide cada punto, dicho en la página.** La API devuelve el conteo
+**acumulado** de cada publicación al día de la consulta, no una serie histórica.
+Así que un punto es «las interacciones que hoy acumulan las publicaciones de esa
+semana», no «las interacciones ocurridas esa semana». Sirve para comparar qué
+semana produjo contenido que enganchó; **no** sirve para decir en qué semana hubo
+más actividad de la audiencia.
+
+**El defecto que se corrigió antes de publicar.** La primera versión mostraba
+Facebook e Instagram con **ceros en junio**. No eran ceros: la lectura viene
+topada en ~25 publicaciones por red, así que junio está fuera de la muestra. Un
+cero ahí decía «no engancharon» cuando lo que pasaba era que no se leyeron. Ahora
+cada serie arranca donde arranca su muestra y las semanas anteriores van como
+hueco, con la línea cortada.
+
+**Detalles de forma que no son de gusto.** Paleta validada con el validador de
+`dataviz` en claro y en oscuro (las tres series pasan las seis pruebas). Líneas
+de 2px, puntos con anillo del color de la superficie para que sigan legibles
+donde se cruzan, rejilla hairline recesiva, y **el texto nunca lleva el color de
+la serie**: la identidad la da el punto de color al lado. Se rotula **una sola
+línea** al final — tres etiquetas al borde derecho se pisan cuando las series
+convergen — y la leyenda más el tooltip cargan el resto. Existe vista de tabla,
+así que ningún valor queda detrás del color.

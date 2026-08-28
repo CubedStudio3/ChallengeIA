@@ -155,6 +155,12 @@ cometidos; no hay tiempo de repetirlos.
 - **El orgánico no se puede partir por mercado.** El portal tiene UNA marca y una
   cuenta por red: GT y SV comparten audiencia. No es un dato faltante, es
   imposible en esta configuración.
+- **La serie semanal de orgánico es acumulada, no histórica.** La API devuelve el
+  conteo de cada publicación al día de la consulta. Un punto es «lo que hoy
+  acumulan las piezas de esa semana», no «lo que pasó esa semana» (ADR-025).
+- **Antes de la muestra no hay ceros, hay hueco.** La lectura viene topada en ~25
+  publicaciones por red. Un cero en una semana anterior a la primera publicación
+  leída diría «no engancharon» cuando lo que pasa es que no se leyó.
 - **La API de pauta no devolvió `effective_status`.** Por eso «campañas» significa
   campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo.
 - **Un referente no suma a la presión competitiva.** Square tiene 0 anuncios en
@@ -213,6 +219,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `docs/linea-base.md` | Mediciones antes/después (pendiente de datos) |
 | `config/tema.json` | **El diseño.** Lo edita el equipo de diseño; no hay que tocar código |
 | `config/equipo.json` | Personas y proyecto de Sprint. **Bloqueado** hasta que Mercadeo lo llene |
+| `config/convenciones.json` | Fechas, métricas, mercados y **qué redes entran al reporte** |
 
 ---
 

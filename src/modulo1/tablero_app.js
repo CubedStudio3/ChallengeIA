@@ -24,6 +24,13 @@
   var P = leer("plantilla") || { head: "", app: "", estilos: "" };
   if (!E.aprobadas) E.aprobadas = {};
   if (!E.decisiones) E.decisiones = {};
+  /* Las ideas que agrega el equipo. Van aparte de las tareas del análisis a
+     propósito: una no trae evidencia del sistema y la otra sí, y mezclarlas
+     haría parecer que el análisis propuso algo que propuso una persona. */
+  if (!E.propias) E.propias = {};
+  /* La estrategia elegida es decisión de la mesa, así que es estado COMPARTIDO
+     y se publica — al contrario que los filtros de vista. */
+  if (E.estrategia === undefined) E.estrategia = null;
 
   var soloLectura = false, api = null, temaManual = null;
 
@@ -42,6 +49,7 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   };
+  var esc2 = esc;
   var dinero = function (n) {
     if (n == null) return "—";
     return "$" + Number(n).toLocaleString("en-US",
@@ -139,7 +147,9 @@
 
   function lateral() {
     var c = D.corrida || {};
+    var act = estrategiaActiva();
     var pend = (((D.estrategia || {}).tareas) || []).filter(function (t) {
+      if (!t.siempre && act && (t.estrategias || []).indexOf(act.id) < 0) return false;
       return !E.decisiones[t.id];
     }).length;
     return '<aside class="lateral">' +
@@ -155,7 +165,10 @@
   }
 
   function barra() {
-    var n = (((D.estrategia || {}).tareas) || []).length;
+    var act = estrategiaActiva();
+    var n = (((D.estrategia || {}).tareas) || []).filter(function (t) {
+      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
+    }).length;
     return '<div class="barra"><div class="izq"><h1>Reunión creativa</h1>' +
       "<p>Lo que la semana dice, y las " + n +
       " tareas que quedan para decidir en la mesa.</p></div>" +
@@ -248,14 +261,25 @@
       "<li>Sin patrones de competencia en esta corrida.</li>") + "</ul>";
 
     var est = D.estrategia || {}, ts = est.tareas || [];
-    var cre = ts.filter(function (t) { return t.tipo !== "pauta"; }).length;
-    var pau = ts.length - cre;
-    var dec = Object.keys(E.decisiones).length;
-    var c3 = "<p>El análisis propone <b>" + ts.length + " tareas</b>: " + cre +
-      " de producción creativa y " + pau + " de configuración de pauta.</p>" +
+    var act = estrategiaActiva();
+    var vis = ts.filter(function (t) {
+      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
+    });
+    var cre = vis.filter(function (t) { return t.tipo !== "pauta"; }).length;
+    var pau = vis.length - cre;
+    var dec = vis.filter(function (t) { return E.decisiones[t.id]; }).length;
+    var propias = Object.keys(E.propias).length;
+    var c3 = (act
+        ? "<p><b>" + esc(act.nombre) + ".</b> " + esc(act.en_pocas_palabras) + "</p>"
+        : "<p>El análisis no encontró una estrategia sostenida por los datos de " +
+          "esta corrida.</p>") +
+      "<p>Activa <b>" + vis.length + (vis.length === 1 ? " tarea" : " tareas") +
+      "</b>: " + cre + " de producción y " + pau + " de pauta" +
+      (propias ? ", más " + propias + " idea" + (propias === 1 ? "" : "s") +
+        " del equipo" : "") + ".</p>" +
       '<div class="prog"><div class="prog-b" style="width:' +
-      (ts.length ? Math.round(dec / ts.length * 100) : 0) + '%"></div></div>' +
-      '<p class="aclara">' + dec + " de " + ts.length +
+      (vis.length ? Math.round(dec / vis.length * 100) : 0) + '%"></div></div>' +
+      '<p class="aclara">' + dec + " de " + vis.length +
       " ya tienen decisión de la mesa.</p>";
 
     return '<section id="resumen">' + tiras() +
@@ -367,10 +391,210 @@
       kpis + tablaCampanas(m) +
       '<p class="aclara">' + esc(d._nota_activas || "") + "</p>" +
       '<div class="cab sub-cab"><h2>Redes sociales</h2></div>' +
-      '<p class="sub">Orgánico de las cinco cuentas conectadas. <b>No hay corte por ' +
+      '<p class="sub">Orgánico de las cuentas reportadas. <b>No hay corte por ' +
       "país</b>: el portal tiene una sola marca y GT y SV comparten cuenta, así que " +
       "repartir estas interacciones entre los dos mercados sería inventarlo.</p>" +
-      bloqueRedes() + "</section>";
+      bloqueGraficas() + bloqueRedes() + "</section>";
+  }
+
+
+  /* ═════════════ gráficas ═════════════ */
+
+  /* Un gráfico de líneas en SVG, sin librería. Decisiones que no son de gusto:
+
+     - **Dos medidas, dos gráficos.** Interacciones y vistas tienen escalas
+       distintas (34 contra 184). Meterlas en un eje doble haría que el lector
+       compare alturas que no son comparables, y es el error más común de este
+       tipo de gráfico. Van separadas.
+     - **Un hueco no es un cero.** Donde la serie vale null la línea se corta.
+       Las semanas anteriores a la muestra de cada red no son semanas sin
+       interacción: son semanas que no leímos.
+     - **El texto nunca lleva el color de la serie.** La identidad la da el punto
+       de color al lado, no el color de la letra: un verde o un ámbar claro no se
+       leen como texto.
+     - **Se etiqueta una sola línea al final.** Tres etiquetas al borde derecho
+       se pisan cuando las series convergen, y separarlas a mano las despega de
+       su línea. Se rotula la más alta; la leyenda y el tooltip cargan el resto. */
+
+  var GEO = { w: 520, h: 236, iz: 44, de: 58, ar: 16, ab: 34 };
+
+  function escalaLinda(max) {
+    if (!(max > 0)) return { max: 1, pasos: [0, 1] };
+    var mag = Math.pow(10, Math.floor(Math.log10(max)));
+    var paso = mag / 2;
+    while (max / paso > 5) paso *= 2;
+    var tope = Math.ceil(max / paso) * paso;
+    var pasos = [];
+    for (var v = 0; v <= tope + 1e-9; v += paso) pasos.push(v);
+    return { max: tope, pasos: pasos };
+  }
+
+  function grafico(id, cfg) {
+    var S = cfg.series.filter(function (s) {
+      return s.valores.some(function (v) { return v != null; });
+    });
+    if (!S.length || !cfg.semanas.length) {
+      return '<div class="hueco chico">Sin serie para graficar en este periodo.</div>';
+    }
+    var G = GEO;
+    var n = cfg.semanas.length;
+    var pico = 0;
+    S.forEach(function (s) {
+      s.valores.forEach(function (v) { if (v != null && v > pico) pico = v; });
+    });
+    var esc = escalaLinda(pico);
+    var px = function (i) {
+      return G.iz + (n === 1 ? 0 : i * (G.w - G.iz - G.de) / (n - 1));
+    };
+    var py = function (v) {
+      return G.ar + (1 - v / esc.max) * (G.h - G.ar - G.ab);
+    };
+
+    var partes = [];
+
+    // Rejilla: hairline sólida, recesiva, con su tick redondo a la izquierda.
+    esc.pasos.forEach(function (v) {
+      var y = py(v);
+      partes.push('<line class="g-rej" x1="' + G.iz + '" y1="' + y.toFixed(1) +
+        '" x2="' + (G.w - G.de) + '" y2="' + y.toFixed(1) + '"/>');
+      partes.push('<text class="g-tick" x="' + (G.iz - 9) + '" y="' +
+        (y + 3.5).toFixed(1) + '" text-anchor="end">' + ent(v) + "</text>");
+    });
+
+    // Eje de semanas: una etiqueta cada dos para que no se amontonen.
+    cfg.semanas.forEach(function (w, i) {
+      if (i % 2 !== (n - 1) % 2) return;
+      partes.push('<text class="g-tick" x="' + px(i).toFixed(1) + '" y="' +
+        (G.h - 14) + '" text-anchor="middle">' + esc2(w.etiqueta) + "</text>");
+    });
+
+    // Cada serie: tramos continuos, relleno opcional, y un punto por dato.
+    S.forEach(function (s, si) {
+      var tramos = [], actual = [];
+      s.valores.forEach(function (v, i) {
+        if (v == null) { if (actual.length) { tramos.push(actual); actual = []; } return; }
+        actual.push([px(i), py(v)]);
+      });
+      if (actual.length) tramos.push(actual);
+
+      tramos.forEach(function (t) {
+        var d = t.map(function (p, k) {
+          return (k ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+        }).join(" ");
+        if (cfg.area && t.length > 1) {
+          var base = py(0).toFixed(1);
+          partes.push('<path class="g-area" d="' + d + " L" +
+            t[t.length - 1][0].toFixed(1) + " " + base + " L" +
+            t[0][0].toFixed(1) + " " + base + ' Z" fill="' + s.color + '"/>');
+        }
+        partes.push('<path class="g-linea" d="' + d + '" stroke="' + s.color + '"/>');
+        if (t.length === 1) {
+          partes.push('<circle class="g-pto" cx="' + t[0][0].toFixed(1) + '" cy="' +
+            t[0][1].toFixed(1) + '" r="4" fill="' + s.color + '"/>');
+        }
+      });
+      s.valores.forEach(function (v, i) {
+        if (v == null) return;
+        partes.push('<circle class="g-pto" data-s="' + si + '" data-i="' + i +
+          '" cx="' + px(i).toFixed(1) + '" cy="' + py(v).toFixed(1) +
+          '" r="4" fill="' + s.color + '"/>');
+      });
+    });
+
+    // Una sola etiqueta directa: la serie que termina más arriba.
+    var alta = null;
+    S.forEach(function (s) {
+      for (var i = s.valores.length - 1; i >= 0; i--) {
+        if (s.valores[i] == null) continue;
+        if (!alta || s.valores[i] > alta.v) alta = { s: s, v: s.valores[i], i: i };
+        break;
+      }
+    });
+    if (alta) {
+      partes.push('<text class="g-fin" x="' + (px(alta.i) + 9).toFixed(1) +
+        '" y="' + (py(alta.v) + 4).toFixed(1) + '">' + ent(alta.v) + "</text>");
+    }
+
+    // Cruz y zona de captura del puntero.
+    partes.push('<line class="g-cruz" id="' + id + '-cruz" x1="0" y1="' + G.ar +
+      '" x2="0" y2="' + (G.h - G.ab) + '" style="opacity:0"/>');
+    partes.push('<rect id="' + id + '-caza" x="' + G.iz + '" y="' + G.ar +
+      '" width="' + (G.w - G.iz - G.de) + '" height="' + (G.h - G.ar - G.ab) +
+      '" fill="transparent" style="cursor:crosshair"/>');
+
+    var leyenda = S.length > 1
+      ? '<div class="g-ley">' + S.map(function (s) {
+          return '<span><i style="background:' + s.color + '"></i>' +
+            esc2(s.nombre) + "</span>";
+        }).join("") + "</div>"
+      : "";
+
+    var tabla = '<details class="g-tabla"><summary>Ver la tabla</summary>' +
+      '<div class="tabla-wrap"><table class="tabla"><thead><tr><th>Semana</th>' +
+      S.map(function (s) { return '<th class="n">' + esc2(s.nombre) + "</th>"; }).join("") +
+      "</tr></thead><tbody>" +
+      cfg.semanas.map(function (w, i) {
+        return "<tr><td>" + esc2(w.etiqueta) + "</td>" + S.map(function (s) {
+          var v = s.valores[i];
+          return '<td class="n">' + (v == null ? "—" : ent(v)) + "</td>";
+        }).join("") + "</tr>";
+      }).join("") + "</tbody></table></div></details>";
+
+    return '<div class="graf" id="' + id + '" data-graf=\'' +
+      esc2(JSON.stringify({
+        semanas: cfg.semanas.map(function (w) { return w.etiqueta; }),
+        series: S.map(function (s) {
+          return { n: s.nombre, v: s.valores, c: s.color };
+        }),
+        unidad: cfg.unidad, geo: G, max: esc.max
+      })) + "'>" +
+      '<div class="graf-cab"><h4>' + esc2(cfg.titulo) + "</h4>" +
+        (cfg.subtitulo ? "<p>" + esc2(cfg.subtitulo) + "</p>" : "") + "</div>" +
+      leyenda +
+      '<div class="graf-lienzo"><svg viewBox="0 0 ' + G.w + " " + G.h +
+        '" role="img" aria-label="' + esc2(cfg.titulo) + '">' + partes.join("") +
+        "</svg><div class=\"g-tip\" id=\"" + id + "-tip\"></div></div>" +
+      tabla + "</div>";
+  }
+
+  function bloqueGraficas() {
+    var rs = D.redes_sociales, se = (rs && rs.serie_semanal) || null;
+    if (!se || !se.semanas || !se.semanas.length) return "";
+    var COL = ["var(--c1)", "var(--c2)", "var(--c3)"];
+    var orden = ["facebook", "instagram", "youtube"];
+    var serInt = orden.filter(function (r) { return se.interacciones[r]; })
+      .map(function (r, i) {
+        return { nombre: RED[r] || r, valores: se.interacciones[r], color: COL[i] };
+      });
+    var serVis = orden.filter(function (r) { return se.vistas[r]; })
+      .map(function (r, i) {
+        return { nombre: RED[r] || r, valores: se.vistas[r], color: COL[orden.indexOf(r)] };
+      });
+
+    var g1 = grafico("gInt", {
+      titulo: "Interacciones por semana",
+      subtitulo: "Reacciones más comentarios de las publicaciones de cada semana",
+      semanas: se.semanas, series: serInt, unidad: "interacciones",
+    });
+    var g2 = serVis.length ? grafico("gVis", {
+      titulo: "Vistas de video por semana",
+      subtitulo: "Solo " + serVis.map(function (s) { return s.nombre; }).join(" y ") +
+        ": las demás redes no devuelven vistas",
+      semanas: se.semanas, series: serVis, unidad: "vistas", area: true,
+    }) : '<div class="hueco chico">Ninguna de las redes reportadas devuelve ' +
+      "vistas de video.</div>";
+
+    return '<div class="grid2 grafs">' +
+      '<article class="panel">' + g1 + "</article>" +
+      '<article class="panel">' + g2 + "</article>" + "</div>" +
+      '<div class="panel aviso"><h3>Cómo leer estas dos gráficas</h3><ul class="mini">' +
+      "<li><b>Qué mide cada punto.</b> " + esc2(se._que_mide || "") + "</li>" +
+      "<li><b>Por qué las líneas arrancan en semanas distintas.</b> " +
+      esc2(se._por_que_arrancan_distinto || "") + "</li>" +
+      "<li><b>Dos gráficas, no una.</b> Interacciones y vistas tienen escalas " +
+      "muy distintas. Ponerlas en un mismo eje doble haría comparar alturas que " +
+      "no son comparables.</li>" +
+      "</ul></div>";
   }
 
   /* ═════════════ 3 · Competencia ═════════════ */
@@ -654,14 +878,162 @@
       "</div></article>";
   }
 
+
+  function estrategiaActiva() {
+    var est = D.estrategia || {}, es = est.estrategias || [];
+    if (!es.length) return null;
+    var hay = es.filter(function (e) { return e.id === E.estrategia; })[0];
+    return hay || es.filter(function (e) { return e.recomendada; })[0] || es[0];
+  }
+
+  function selectorEstrategia() {
+    var est = D.estrategia || {}, es = est.estrategias || [];
+    if (!es.length) return "";
+    var act = estrategiaActiva();
+    return '<div class="ests">' + es.map(function (e) {
+      var on = e.id === act.id;
+      return '<article class="est' + (on ? " on" : "") + '">' +
+        '<div class="est-cab">' +
+          (e.recomendada ? '<span class="chip rec">Recomendada por el análisis</span>'
+                         : '<span class="chip gris">Alternativa</span>') +
+          (on ? '<span class="est-marca">' + ico.tic + "Elegida</span>" : "") +
+        "</div>" +
+        "<h3>" + esc(e.nombre) + "</h3>" +
+        '<p class="est-que">' + esc(e.en_pocas_palabras) + "</p>" +
+        '<div class="campo"><span class="mini-et">Por qué es buena idea</span><p>' +
+          esc(e.por_que) + "</p></div>" +
+        '<div class="campo est-no"><span class="mini-et">Cuándo NO conviene</span>' +
+          "<p>" + esc(e.cuando_no_conviene) + "</p></div>" +
+        (e._por_que_recomendada
+          ? '<p class="aclara">' + esc(e._por_que_recomendada) + "</p>" : "") +
+        '<details><summary>Evidencia (' + (e.evidencia || []).length +
+          ')</summary><ul class="mini">' +
+          (e.evidencia || []).map(function (x) { return "<li>" + esc(x) + "</li>"; })
+            .join("") + "</ul></details>" +
+        '<div class="est-pie">' +
+          '<span class="aclara">Activa ' + e.tareas.length +
+            (e.tareas.length === 1 ? " tarea" : " tareas") + " de producción</span>" +
+          (on ? "" : '<button type="button" class="btn chico" data-estrategia="' +
+            esc(e.id) + '"' + (soloLectura ? " disabled" : "") +
+            ">Usar esta</button>") +
+        "</div></article>";
+    }).join("") + "</div>" +
+    '<p class="aclara aviso-linea">Cambiar de estrategia cambia las tareas de ' +
+    "producción que se proponen: una tarea sin una estrategia detrás es una " +
+    "ocurrencia. Las decisiones que ya tomaron sobre una tarea se conservan, y " +
+    "las tareas de configuración de pauta no dependen de la estrategia porque " +
+    "son higiene.</p>";
+  }
+
+  function formNuevaTarea(asig) {
+    var ops = asig.habilitada
+      ? '<label class="np-campo"><span class="mini-et">Responsable</span>' +
+        '<select id="npResp"><option value="">Sin asignar</option>' +
+        (asig.personas || []).map(function (p) {
+          return '<option value="' + esc(p.id_sprint) + '">' + esc(p.nombre) +
+            (p.rol ? " · " + esc(p.rol) : "") + "</option>";
+        }).join("") + "</select></label>"
+      : "";
+    return '<article class="panel nueva-tarea">' +
+      '<div class="nt-cab"><h3>Agregar una idea del equipo</h3>' +
+      '<span class="chip gris">entra directo a aceptadas</span></div>' +
+      '<p class="aclara">Si a la mesa se le ocurre algo mejor que lo que propone ' +
+      "el análisis, va aquí. Queda marcada como idea del equipo: no trae " +
+      "evidencia del sistema, y esa diferencia se conserva para que nadie la lea " +
+      "después como un hallazgo.</p>" +
+      '<div class="np-rejilla">' +
+        '<label class="np-campo np-ancho"><span class="mini-et">Qué hay que hacer</span>' +
+        '<input type="text" id="npTitulo" maxlength="140" ' +
+        'placeholder="Ej. Video del POS en un negocio real de San Salvador"></label>' +
+        '<label class="np-campo np-ancho"><span class="mini-et">En qué consiste y por qué</span>' +
+        '<textarea id="npDetalle" rows="3" maxlength="900" ' +
+        'placeholder="El ángulo, el público, qué debería mostrar…"></textarea></label>' +
+        '<div class="np-campo"><span class="mini-et">Tipo de pieza</span>' +
+          '<div class="seg" id="npTipo">' +
+          '<button type="button" class="seg-b on" data-nptipo="arte">Arte</button>' +
+          '<button type="button" class="seg-b" data-nptipo="video">Video</button>' +
+          "</div></div>" +
+        ops +
+        '<label class="np-campo np-ancho"><span class="mini-et">Links o referencias ' +
+        '(uno por línea)</span><textarea id="npRefs" rows="2" maxlength="900" ' +
+        'placeholder="https://…"></textarea></label>' +
+      "</div>" +
+      '<div class="np-pie">' +
+        '<button type="button" class="btn chico pri" id="npAgregar"' +
+        (soloLectura ? " disabled" : "") + ">Agregar a aceptadas</button>" +
+        (soloLectura ? '<span class="aclara">Esta vista es de solo lectura.</span>'
+                     : "") +
+      "</div></article>";
+  }
+
+  function tarjetaPropia(t, asig) {
+    var refs = (t.referencias || []).map(function (u) {
+      return '<a class="ref-mini" href="' + esc(u) + '" target="_blank" ' +
+        'rel="noopener noreferrer">' + esc(u.replace(/^https?:\/\//, "").slice(0, 42)) +
+        "</a>";
+    }).join("");
+    var estado = t.estado || "aceptada";
+    var sel = "";
+    if (estado === "aceptada") {
+      if (!asig.habilitada) {
+        sel = '<div class="asig bloq"><span class="mini-et">Responsable</span>' +
+          '<select disabled><option>Sin lista de personas</option></select></div>';
+      } else {
+        sel = '<div class="asig"><span class="mini-et">Responsable</span>' +
+          '<select data-asignar-propia="' + esc(t.id) + '"' +
+          (soloLectura ? " disabled" : "") + '><option value="">Sin asignar</option>' +
+          (asig.personas || []).map(function (p) {
+            return '<option value="' + esc(p.id_sprint) + '"' +
+              (t.responsable === p.id_sprint ? " selected" : "") + ">" +
+              esc(p.nombre) + "</option>";
+          }).join("") + "</select></div>";
+      }
+    }
+    return '<article class="tarea propia ' + esc(estado) + '">' +
+      '<div class="tarea-cab"><span class="chip ' + esc(t.tipo) + '">' +
+        esc(t.tipo) + '</span><span class="chip gris">idea del equipo</span>' +
+        '<span class="sello ' + esc(estado) + '">' +
+        (estado === "aceptada" ? "Aceptada" : "Rechazada") + "</span></div>" +
+      "<h3>" + esc(t.titulo) + "</h3>" +
+      (t.detalle ? '<p class="porque">' + esc(t.detalle) + "</p>" : "") +
+      '<div class="campo sin-ev"><span class="mini-et">Evidencia</span>' +
+      "<p>Ninguna. La propuso el equipo, no el análisis. Se distingue a propósito " +
+      "de las tareas de arriba, que sí traen el dato que las sostiene.</p></div>" +
+      (refs ? '<div class="campo"><span class="mini-et">Referencias</span>' +
+        '<div class="refs">' + refs + "</div></div>" : "") +
+      '<div class="tarea-pie"><div class="acciones">' +
+        '<button type="button" class="btn chico ok' +
+          (estado === "aceptada" ? " on" : "") + '" data-propia="' + esc(t.id) +
+          '" data-estado="aceptada"' + (soloLectura ? " disabled" : "") + ">" +
+          ico.tic + "Aceptada</button>" +
+        '<button type="button" class="btn chico no' +
+          (estado === "rechazada" ? " on" : "") + '" data-propia="' + esc(t.id) +
+          '" data-estado="rechazada"' + (soloLectura ? " disabled" : "") + ">" +
+          ico.x + "Rechazar</button>" +
+        '<button type="button" class="btn chico" data-borrar="' + esc(t.id) + '"' +
+          (soloLectura ? " disabled" : "") + ">Quitar</button>" +
+      "</div>" + sel + "</div>" +
+      '<p class="aclara">Agregada el ' + esc((t.en || "").slice(0, 10)) + "</p>" +
+      "</article>";
+  }
+
   function estrategia() {
     var est = D.estrategia;
     if (!est) return '<section id="estrategia"><div class="cab"><h2>Estrategia</h2>' +
       "</div><div class=\"hueco\">Sin propuesta de estrategia en esta corrida.</div></section>";
     var asig = est.asignacion || {};
     var ts = est.tareas || [];
-    var creativas = ts.filter(function (t) { return t.tipo !== "pauta"; });
-    var pauta = ts.filter(function (t) { return t.tipo === "pauta"; });
+    var act = estrategiaActiva();
+
+    var visibles = ts.filter(function (t) {
+      if (t.siempre) return true;
+      if (!act) return true;
+      return (t.estrategias || []).indexOf(act.id) >= 0;
+    });
+    var creativas = visibles.filter(function (t) { return t.tipo !== "pauta"; });
+    var pauta = visibles.filter(function (t) { return t.tipo === "pauta"; });
+    var propias = Object.keys(E.propias).map(function (k) { return E.propias[k]; })
+      .sort(function (a, b) { return (a.en || "") < (b.en || "") ? 1 : -1; });
 
     var lims = (est.limites || []).map(function (l) {
       return "<li><b>" + esc(l.que) + " · " + esc(l.estado) + ".</b> " +
@@ -684,22 +1056,37 @@
       '<button type="button" class="btn chico pri" id="bTodas">Aceptar todas</button>' +
       '<button type="button" class="btn chico" id="bNada">Limpiar decisiones</button>' +
       "</div></div>" +
-      '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +
-      "sostiene. Aceptar o rechazar es decisión de la mesa; el sistema no la toma.</p>" +
-      flujo +
+      '<p class="sub">Primero la estrategia, después las tareas. El sistema propone ' +
+      "la que su premisa sostiene mejor y dice de cada una cuándo no conviene; " +
+      "elegir es de la mesa.</p>" +
+      selectorEstrategia() +
       '<div class="cab sub-cab"><h2>Producción creativa · ' + creativas.length +
       "</h2></div>" +
-      '<div class="grid2 tareas">' + creativas.map(function (t) {
-        return tarjetaTarea(t, asig); }).join("") + "</div>" +
+      '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +
+      "sostiene." + (act ? " Estas son las que activa <b>" + esc(act.nombre) +
+      "</b>." : "") + "</p>" +
+      (creativas.length
+        ? '<div class="grid2 tareas">' + creativas.map(function (t) {
+            return tarjetaTarea(t, asig); }).join("") + "</div>"
+        : '<div class="hueco">Esta estrategia no activa tareas de producción en ' +
+          "esta corrida.</div>") +
+      '<div class="cab sub-cab"><h2>Ideas del equipo · ' + propias.length +
+      "</h2></div>" +
+      formNuevaTarea(asig) +
+      (propias.length
+        ? '<div class="grid2 tareas">' + propias.map(function (t) {
+            return tarjetaPropia(t, asig); }).join("") + "</div>"
+        : "") +
       (pauta.length
         ? '<div class="cab sub-cab"><h2>Cambios en Meta Ads · ' + pauta.length +
           "</h2></div>" +
           '<p class="sub"><b>El sistema no ejecuta ninguno.</b> Meta Ads es de solo ' +
           "lectura por decisión explícita, así que cada cambio sale escrito para que " +
-          "una persona lo aplique a mano.</p>" +
+          "una persona lo aplique a mano. No dependen de la estrategia elegida.</p>" +
           '<div class="grid2 tareas">' + pauta.map(function (t) {
             return tarjetaTarea(t, asig); }).join("") + "</div>"
         : "") +
+      flujo +
       '<div class="panel aviso"><h3>Los límites de esta sección</h3>' +
       '<ul class="mini">' + lims + "</ul></div></section>";
   }
@@ -763,8 +1150,61 @@
     if (y != null) window.scrollTo(0, y);
   }
 
+  function conectarGraficos() {
+    raiz().querySelectorAll("[data-graf]").forEach(function (nodo) {
+      var cfg;
+      try { cfg = JSON.parse(nodo.dataset.graf); } catch (e) { return; }
+      var G = cfg.geo, n = cfg.semanas.length;
+      var svg = nodo.querySelector("svg");
+      var caza = nodo.querySelector('[id$="-caza"]');
+      var cruz = nodo.querySelector('[id$="-cruz"]');
+      var tip = nodo.querySelector(".g-tip");
+      if (!svg || !caza || !cruz || !tip) return;
+
+      var px = function (i) {
+        return G.iz + (n === 1 ? 0 : i * (G.w - G.iz - G.de) / (n - 1));
+      };
+      var indice = function (ev) {
+        var r = svg.getBoundingClientRect();
+        var x = (ev.clientX - r.left) / r.width * G.w;
+        var mejor = 0, dmin = Infinity;
+        for (var i = 0; i < n; i++) {
+          var d = Math.abs(px(i) - x);
+          if (d < dmin) { dmin = d; mejor = i; }
+        }
+        return mejor;
+      };
+      var mostrar = function (ev) {
+        var i = indice(ev);
+        var x = px(i);
+        cruz.setAttribute("x1", x); cruz.setAttribute("x2", x);
+        cruz.style.opacity = "1";
+        tip.innerHTML = '<b>Semana del ' + esc(cfg.semanas[i]) + "</b>" +
+          cfg.series.map(function (s) {
+            var v = s.v[i];
+            return '<span><i style="background:' + s.c + '"></i>' + esc(s.n) +
+              "<b>" + (v == null ? "sin muestra" : ent(v)) + "</b></span>";
+          }).join("");
+        /* El tooltip se ancla en la esquina OPUESTA al cursor. Centrado sobre
+           el punto tapaba justamente la curva que se está leyendo. */
+        var derecha = i > (n - 1) / 2;
+        tip.classList.toggle("izq", derecha);
+        tip.classList.toggle("der", !derecha);
+        tip.classList.add("ver");
+      };
+      var ocultar = function () {
+        cruz.style.opacity = "0"; tip.classList.remove("ver");
+      };
+      caza.addEventListener("pointermove", mostrar);
+      caza.addEventListener("pointerdown", mostrar);
+      caza.addEventListener("pointerleave", ocultar);
+      nodo.addEventListener("pointerleave", ocultar);
+    });
+  }
+
   function conectar() {
     var R = raiz();
+    conectarGraficos();
 
     R.querySelectorAll("[data-decidir]").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -776,6 +1216,54 @@
         asignar(s.dataset.asignar, s.value || null);
       });
     });
+    /* La estrategia elegida SÍ se publica: es decisión de la mesa, no un filtro
+       personal. Un filtro repintaría la página de los demás; esto tiene que
+       repintarla, porque cambia qué tareas se están discutiendo. */
+    R.querySelectorAll("[data-estrategia]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (soloLectura) return;
+        E.estrategia = b.dataset.estrategia;
+        persistir("Estrategia cambiada");
+      });
+    });
+    R.querySelectorAll("[data-propia]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (soloLectura) return;
+        var t = E.propias[b.dataset.propia];
+        if (!t) return;
+        t.estado = b.dataset.estado;
+        persistir();
+      });
+    });
+    R.querySelectorAll("[data-borrar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (soloLectura) return;
+        delete E.propias[b.dataset.borrar];
+        persistir("Idea quitada");
+      });
+    });
+    R.querySelectorAll("[data-asignar-propia]").forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        if (soloLectura) return;
+        var t = E.propias[sel.dataset.asignarPropia];
+        if (!t) return;
+        t.responsable = sel.value || null;
+        persistir(sel.value ? "Responsable asignado" : "Sin asignar");
+      });
+    });
+    /* El tipo de pieza del formulario es estado LOCAL del formulario, no de la
+       mesa: se guarda en el nodo, no en E, para no publicar cada clic. */
+    R.querySelectorAll("[data-nptipo]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var caja = b.parentNode;
+        caja.querySelectorAll(".seg-b").forEach(function (o) {
+          o.classList.toggle("on", o === b);
+          o.setAttribute("aria-selected", o === b);
+        });
+      });
+    });
+    var agregar = document.getElementById("npAgregar");
+    if (agregar) agregar.addEventListener("click", nuevaTarea);
     /* Los filtros no publican: solo repintan para quien mira. */
     ["mercado", "grupo", "categoria"].forEach(function (campo) {
       R.querySelectorAll("[data-" + campo + "]").forEach(function (b) {
@@ -789,7 +1277,10 @@
 
     var todas = document.getElementById("bTodas");
     if (todas) todas.addEventListener("click", function () {
-      var ts = ((D.estrategia || {}).tareas) || [];
+      var a = estrategiaActiva();
+      var ts = (((D.estrategia || {}).tareas) || []).filter(function (t) {
+        return t.siempre || !a || (t.estrategias || []).indexOf(a.id) >= 0;
+      });
       ts.forEach(function (t) {
         if (!E.decisiones[t.id]) {
           E.decisiones[t.id] = { estado: "aceptada", responsable: null,
@@ -871,6 +1362,42 @@
     });
   }
 
+  function nuevaTarea() {
+    if (soloLectura) return;
+    var tit = (document.getElementById("npTitulo") || {}).value || "";
+    tit = tit.trim();
+    if (!tit) {
+      avisar("Falta escribir qué hay que hacer");
+      var n = document.getElementById("npTitulo");
+      if (n) n.focus();
+      return;
+    }
+    var det = ((document.getElementById("npDetalle") || {}).value || "").trim();
+    var elegido = document.querySelector("#npTipo .seg-b.on");
+    var tipo = elegido ? elegido.dataset.nptipo : "arte";
+    var resp = (document.getElementById("npResp") || {}).value || null;
+    /* Solo se guardan enlaces que de verdad lo son. Un texto pegado que no es
+       una URL se convertiría en un enlace roto, y esta página existe para no
+       poner delante del equipo cosas que no se pueden verificar. */
+    var refs = ((document.getElementById("npRefs") || {}).value || "")
+      .split(/\r?\n/).map(function (x) { return x.trim(); })
+      .filter(function (x) { return /^https?:\/\/\S+$/i.test(x); });
+    var crudas = ((document.getElementById("npRefs") || {}).value || "")
+      .split(/\r?\n/).filter(function (x) { return x.trim(); }).length;
+
+    var id = "propia-" + Date.now().toString(36) +
+      Math.random().toString(36).slice(2, 6);
+    E.propias[id] = {
+      id: id, titulo: tit, detalle: det, tipo: tipo,
+      referencias: refs, responsable: resp,
+      estado: "aceptada", en: new Date().toISOString(),
+    };
+    persistir(crudas > refs.length
+      ? "Idea agregada · " + (crudas - refs.length) +
+        " línea(s) de referencia no eran un enlace y no se guardaron"
+      : "Idea agregada a aceptadas");
+  }
+
   function copiar() {
     var c = D.corrida || {}, est = D.estrategia || {};
     var l = ["Mesa Creativa · " + (c.rango || ""), ""];
@@ -884,6 +1411,11 @@
       l.push("Orgánico: " + ent(rs.totales.interacciones) + " interacciones en " +
         ent(rs.totales.publicaciones) + " publicaciones");
     }
+    var act = estrategiaActiva();
+    if (act) {
+      l.push("", "Estrategia elegida: " + act.nombre);
+      l.push("  " + act.en_pocas_palabras);
+    }
     l.push("");
     (est.tareas || []).forEach(function (t) {
       var d = E.decisiones[t.id];
@@ -892,6 +1424,16 @@
       l.push("    " + t.porque);
       if (d && d.responsable) l.push("    responsable: " + d.responsable);
     });
+    var propias = Object.keys(E.propias);
+    if (propias.length) {
+      l.push("", "Ideas del equipo (sin evidencia del sistema):");
+      propias.forEach(function (k) {
+        var t = E.propias[k];
+        l.push((t.estado === "aceptada" ? "[x] " : "[—] ") + "[" + t.tipo + "] " +
+          t.titulo);
+        if (t.detalle) l.push("    " + t.detalle);
+      });
+    }
     var h = D.huecos_declarados || [];
     if (h.length) {
       l.push("", "No incluye:");
