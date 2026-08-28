@@ -278,6 +278,48 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
     return escrituras, avisos
 
 
+# Columnas del importador de work items de Zoho Sprints. El asistente de
+# importacion deja mapear columna por columna, asi que estos nombres son un
+# punto de partida razonable y no una promesa: no se pudo verificar el listado
+# exacto desde aqui, y el paso de mapeo del asistente es donde se corrige
+# cualquier diferencia.
+COLUMNAS_CSV = ("Item Name", "Description", "Item Type", "Priority", "Assignee",
+                "Status", "Tags")
+
+
+def a_csv(escrituras: list[Escritura], tipos: dict | None = None) -> str:
+    """Las mismas tareas, como archivo para el importador de Zoho Sprints.
+
+    Existe porque el camino por API resultó frágil: el conector se cayó seis
+    veces en una sesión y exige cinco identificadores que solo se leen estando
+    conectado. El importador no necesita ninguno de los cinco — el proyecto y el
+    sprint se eligen en el asistente— así que este camino funciona hoy, sin
+    conector y sin que nadie tenga que buscar IDs en la consola del navegador.
+
+    No reemplaza al camino por API: ése sigue siendo el que corre solo cada
+    semana. Éste es el que desbloquea a la mesa mientras tanto.
+    """
+    import csv
+    import io
+
+    tipos = tipos or {"arte": "Task", "video": "Task", "pauta": "Task",
+                      "dato": "Task"}
+    buf = io.StringIO()
+    w = csv.writer(buf, lineterminator="\r\n")
+    w.writerow(COLUMNAS_CSV)
+    for e in escrituras:
+        w.writerow([
+            e.nombre,
+            e.descripcion,
+            tipos.get(e.tipo, "Task"),
+            "Medium",
+            e.responsable or "",
+            "Open",
+            f"mesa-creativa,{e.tipo}",
+        ])
+    return buf.getvalue()
+
+
 def imprime(escrituras: list[Escritura], faltan: list[dict], avisos: list[str],
             dry_run: bool, destino: str = "", limita: list[dict] | None = None) -> None:
     L = "─" * 74
@@ -337,6 +379,9 @@ def main() -> int:
                     help="JSON de decisiones copiado del tablero")
     ap.add_argument("--descubrir", action="store_true",
                     help="Solo reporta qué falta para poder escribir")
+    ap.add_argument("--csv", type=Path,
+                    help="Escribe un CSV para el importador de Zoho Sprints. "
+                         "No necesita conector ni los cinco identificadores.")
     ap.add_argument("--dry-run", action="store_true", default=True)
     ap.add_argument("--real", dest="dry_run", action="store_false",
                     help="Desactiva --dry-run. Requiere _es_de_prueba en true.")
@@ -375,6 +420,18 @@ def main() -> int:
                          "_autorizacion_produccion con quién la otorgó."))
 
     escrituras, avisos = plan(r, dec, equipo)
+
+    if a.csv:
+        a.csv.parent.mkdir(parents=True, exist_ok=True)
+        a.csv.write_text(a_csv(escrituras), encoding="utf-8-sig")
+        print(f"\nCSV para importar: {a.csv}")
+        print(f"  {len(escrituras)} work items")
+        print("  En Zoho Sprints: el proyecto → Backlog → menú (···) → Importar.")
+        print("  El asistente deja mapear las columnas, así que si algún nombre")
+        print("  no coincide se corrige ahí mismo, sin tocar el archivo.")
+        print("  Se guarda con BOM para que Excel respete los acentos.")
+        return 0
+
     imprime(escrituras, faltan, avisos, a.dry_run, _destino(equipo), limita)
     return 0
 

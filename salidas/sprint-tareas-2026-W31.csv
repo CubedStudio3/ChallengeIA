@@ -1,0 +1,33 @@
+﻿Item Name,Description,Item Type,Priority,Assignee,Status,Tags
+Contra-ángulo frente a Recurrente en GT,"Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 34 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.
+
+ÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.
+
+NO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.
+
+EVIDENCIA:
+  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT
+  · Ad Library · foto del periodo, 3 anuncios con ese titular
+
+Copy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.
+
+Generado por Mesa Creativa · corrida 2026-08-01 a 2026-08-24",Task,Medium,,Open,"mesa-creativa,arte"
+Brecha de eficiencia entre campañas,"Dentro del indicador 'actions:lead', la campaña más costosa paga 2.34x lo que paga la más eficiente.
+
+ÁNGULO: Reasignación de presupuesto entre campañas del mismo indicador.
+
+INSTRUCCIÓN EXACTA: Llevar la brecha a la mesa y decidir ahí el monto a mover. El sistema NO propone la cifra: hacerlo sería un pronóstico, y el cálculo de oportunidad es aritmética sobre lo ya gastado, no una predicción de lo que pasaría al mover el presupuesto. El cambio lo aplica una persona en Ads Manager (ADR-012).
+
+EVIDENCIA:
+  · {'dato': 'Más eficiente', 'valor': 'Campaña Punto de Venta SV · $1.89', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}
+  · {'dato': 'Menos eficiente', 'valor': 'Campaña Qpayshop e Integraciones · $4.43', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}
+
+Copy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.
+
+Generado por Mesa Creativa · corrida 2026-08-01 a 2026-08-24",Task,Medium,,Open,"mesa-creativa,pauta"
+Punto de venta,"Jeremy baila con su punto punto de venta y grita siii
+
+ORIGEN: idea del equipo. NO tiene evidencia del sistema; la propuso una persona en la mesa.
+
+REFERENCIAS:
+  · https://pin.it/j5ThryIqr",Task,Medium,,Open,"mesa-creativa,video"

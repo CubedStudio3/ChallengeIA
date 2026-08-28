@@ -177,6 +177,8 @@
         "Copiar resumen</button>" +
       '<button class="btn chico" type="button" id="bDecisiones">' + ico.copiar +
         "Copiar decisiones</button>" +
+      '<button class="btn chico pri" type="button" id="bCsv">' + ico.copiar +
+        "Copiar para Sprint</button>" +
       '<button class="btn chico" type="button" id="bTema" aria-label="Cambiar tema">' +
         ico.tema + "Tema</button>" +
       "</div></div>";
@@ -1067,12 +1069,15 @@
       '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +
       "sostiene." + (act ? " Estas son las que activa <b>" + esc(act.nombre) +
       "</b>." : "") + "</p>" +
-      '<div class="nota-flujo"><b>Aceptar registra la decisión; no crea nada en ' +
-      "Sprint.</b> Esta página vive en un navegador y no tiene conexión con Zoho " +
-      "— y si la tuviera, necesitaría credenciales que no pueden viajar en una " +
-      "página que se comparte. Cuando terminen de decidir, el botón " +
-      "<b>Copiar decisiones</b> de arriba entrega el JSON que crea los work " +
-      "items desde una sesión con el conector.</div>" +
+      '<div class="nota-flujo"><b>Aceptar registra la decisión aquí; las tareas ' +
+      "se crean en Sprint en un segundo paso.</b> Esta página vive en un " +
+      "navegador y no puede llamar a Zoho — y si pudiera, necesitaría " +
+      "credenciales que no deben viajar en una página que se comparte. " +
+      "Cuando terminen de decidir, arriba hay dos botones: " +
+      "<b>Copiar para Sprint</b> da un CSV que se pega en un archivo y se sube " +
+      "en <i>Backlog → Importar</i> (no necesita nada más), y " +
+      "<b>Copiar decisiones</b> da el JSON para la creación automática por " +
+      "API.</div>" +
       (creativas.length
         ? '<div class="grid2 tareas">' + creativas.map(function (t) {
             return tarjetaTarea(t, asig); }).join("") + "</div>"
@@ -1315,6 +1320,8 @@
     if (cop) cop.addEventListener("click", copiar);
     var dec = document.getElementById("bDecisiones");
     if (dec) dec.addEventListener("click", copiarDecisiones);
+    var csv = document.getElementById("bCsv");
+    if (csv) csv.addEventListener("click", copiarCsv);
 
     var secs = SECCIONES.map(function (s) { return document.getElementById(s.id); })
       .filter(Boolean);
@@ -1436,6 +1443,79 @@
           avisar(n
             ? "Decisiones copiadas · " + n + " en total. Pégalas en un .json"
             : "No hay ninguna decisión todavía; se copió la plantilla vacía");
+        },
+        function () { avisar("No se pudo copiar"); });
+    } else { avisar("No se pudo copiar"); }
+  }
+
+  /* El camino que NO depende del conector.
+
+     Zoho Sprints importa work items desde un archivo, y el asistente de
+     importación pregunta el proyecto y el sprint — así que este camino no
+     necesita ninguno de los cinco identificadores que tuvieron trabado el paso
+     por API, ni que el conector esté arriba.
+
+     Se copia al portapapeles en vez de descargar porque el visor del artefacto
+     bloquea cualquier descarga que la página inicie. Se pega en un archivo
+     .csv y se sube. */
+  function csvEscapa(v) {
+    v = String(v == null ? "" : v);
+    return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+
+  function filasParaSprint() {
+    var est = D.estrategia || {}, act = estrategiaActiva();
+    var filas = [];
+    (est.tareas || []).forEach(function (t) {
+      if (!t.siempre && act && (t.estrategias || []).indexOf(act.id) < 0) return;
+      var d = E.decisiones[t.id];
+      if (!d || d.estado !== "aceptada") return;
+      var cuerpo = [t.porque];
+      if (t.angulo) cuerpo.push("\nANGULO: " + t.angulo);
+      if (t.no_decir) cuerpo.push("\nNO DECIR: «" + t.no_decir +
+        "» — ese terreno ya lo paga la competencia.");
+      if (t.instruccion_exacta) cuerpo.push("\nINSTRUCCION: " + t.instruccion_exacta);
+      if ((t.evidencia || []).length) {
+        cuerpo.push("\nEVIDENCIA:\n" + t.evidencia.map(function (e) {
+          return "  - " + e; }).join("\n"));
+      }
+      if (t.copy) cuerpo.push("\nCopy: " + t.copy.estado + " — " + t.copy.motivo);
+      cuerpo.push("\nMesa Creativa · corrida " + ((D.corrida || {}).rango || ""));
+      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
+                  d.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+    });
+    Object.keys(E.propias).forEach(function (k) {
+      var t = E.propias[k];
+      if (t.estado !== "aceptada") return;
+      var cuerpo = [t.detalle || ""];
+      cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
+        "la propuso una persona en la mesa.");
+      if ((t.referencias || []).length) {
+        cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
+          return "  - " + u; }).join("\n"));
+      }
+      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
+                  t.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+    });
+    return filas;
+  }
+
+  function copiarCsv() {
+    var filas = filasParaSprint();
+    if (!filas.length) {
+      avisar("No hay ninguna tarea aceptada todavía");
+      return;
+    }
+    var cab = ["Item Name", "Description", "Item Type", "Priority", "Assignee",
+               "Status", "Tags"];
+    var txt = [cab].concat(filas).map(function (f) {
+      return f.map(csvEscapa).join(",");
+    }).join("\r\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(
+        function () {
+          avisar(filas.length + " tarea(s) copiadas · pégalas en un archivo .csv " +
+                 "y súbelo en Sprint → Backlog → Importar");
         },
         function () { avisar("No se pudo copiar"); });
     } else { avisar("No se pudo copiar"); }
