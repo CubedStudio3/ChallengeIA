@@ -286,7 +286,9 @@
       '<p class="aclara">' + dec + " de " + vis.length +
       " ya tienen decisión de la mesa.</p>";
 
-    return '<section id="resumen">' + tiras() +
+    return '<section id="resumen">' +
+      cabecera("La semana", "Resumen",
+        "Lo que dicen los datos, en tres frentes.") + tiras() +
       '<div class="grid3 rcards">' +
       tarjetaResumen("Rendimiento propio", "Meta Ads y leads", c1, "rendimiento") +
       tarjetaResumen("Qué hace la competencia", "Ad Library", c2, "competencia") +
@@ -295,6 +297,43 @@
   }
 
   /* ═════════════ 2 · Rendimiento ═════════════ */
+
+  /* Encabezado de sección: rótulo, título grande, una línea de contexto y el
+     control a la derecha. Antes el título de sección medía casi lo mismo que el
+     de una tarjeta, así que la página se leía como una sola masa de bloques del
+     mismo peso. La jerarquía es lo que hace que se vea ordenada. */
+  function cabecera(rotulo, titulo, sub, control) {
+    return '<header class="sec-cab"><div class="sec-cab-txt">' +
+      '<span class="sec-rotulo">' + esc(rotulo) + "</span>" +
+      "<h2>" + esc(titulo) + "</h2>" +
+      (sub ? '<p class="sec-sub">' + sub + "</p>" : "") +
+      "</div>" + (control ? '<div class="sec-cab-ctl">' + control + "</div>" : "") +
+      "</header>";
+  }
+
+  /* Un subtítulo dentro de una sección. Más chico que el de sección, para que
+     se lea como lo que es: un nivel abajo. */
+  function subcab(titulo, sub) {
+    return '<div class="sub-cab"><h3 class="sub-titulo">' + esc(titulo) + "</h3>" +
+      (sub ? '<p class="sec-sub">' + sub + "</p>" : "") + "</div>";
+  }
+
+  /* Las advertencias iban como bloques amarillos abiertos al final de cada
+     sección: cinco paneles gritando lo mismo en una página. Ahora van plegadas
+     y en gris. El contenido no se pierde; deja de competir con los datos. */
+  function limites(titulo, items) {
+    if (!items || !items.length) return "";
+    return '<details class="limites"><summary>' + esc(titulo) +
+      " · " + items.length + "</summary><ul class=\"mini\">" +
+      items.map(function (l) {
+        if (typeof l === "string") return "<li>" + l + "</li>";
+        return "<li><b>" + esc(l.que || l.fuente || "") +
+          (l.estado ? " · " + esc(l.estado) : "") + ".</b> " +
+          esc(l.detalle || l.descripcion || "") +
+          (l.remedio ? " <i>" + esc(l.remedio) + "</i>" : "") +
+          (l.impacto ? " " + esc(l.impacto) : "") + "</li>";
+      }).join("") + "</ul></details>";
+  }
 
   function segmentado(id, opciones, activo) {
     return '<div class="seg" role="tablist">' + opciones.map(function (o) {
@@ -320,10 +359,7 @@
           '<td class="n">' + dinero(c.gasto) + "</td>" +
           '<td class="n"><b>' + dinero(c.costo_por_resultado) + "</b></td>" +
           '<td class="n">' + ent(c.impresiones) + "</td></tr>";
-      }).join("") + "</tbody></table></div>" +
-      '<p class="aclara">Las campañas se muestran juntas pero <b>no se suman entre ' +
-      "indicadores distintos</b>: 105 leads y 10,771 clics no son la misma cosa. " +
-      "El total de arriba es solo del indicador principal.</p>";
+      }).join("") + "</tbody></table></div>";
   }
 
   function bloqueRedes() {
@@ -359,14 +395,8 @@
         "<h3>" + esc(RED[n] || n) + "</h3>" + cuerpo + "</article>";
     }).join("");
 
-    var lims = (rs.limites || []).map(function (l) {
-      return "<li><b>" + esc(l.que) + " · " + esc(l.estado) + ".</b> " +
-        esc(l.detalle) + "</li>";
-    }).join("");
-
     return '<div class="grid3">' + tarjetas + "</div>" +
-      '<div class="panel aviso"><h3>Lo que este bloque no puede decir</h3>' +
-      '<ul class="mini">' + lims + "</ul></div>";
+      limites("Lo que este bloque no puede decir", rs.limites || []);
   }
 
   function rendimiento() {
@@ -386,18 +416,23 @@
       : '<div class="hueco">Sin datos utilizables de ' +
         esc(enClaro(d.indicador_principal)) + " en " + esc(m) + ".</div>";
 
-    return '<section id="rendimiento"><div class="cab"><h2>Rendimiento</h2>' +
-      segmentado("mercado", ms.map(function (x) {
-        return { v: x, n: x === "GT" ? "Guatemala" : x === "SV" ? "El Salvador" : x };
-      }), m) + "</div>" +
-      '<p class="sub">Pauta de Meta Ads en <b>' + esc(m) + "</b>, del periodo " +
-      esc((D.corrida || {}).rango || "") + ".</p>" +
+    return '<section id="rendimiento">' +
+      cabecera("Pauta y orgánico", "Rendimiento",
+        "Meta Ads en <b>" + esc(m) + "</b>, del periodo " +
+        esc((D.corrida || {}).rango || "") + ".",
+        segmentado("mercado", ms.map(function (x) {
+          return { v: x, n: x === "GT" ? "Guatemala" : x === "SV" ? "El Salvador" : x };
+        }), m)) +
       kpis + tablaCampanas(m) +
-      '<p class="aclara">' + esc(d._nota_activas || "") + "</p>" +
-      '<div class="cab sub-cab"><h2>Redes sociales</h2></div>' +
-      '<p class="sub">Orgánico de las cuentas reportadas. <b>No hay corte por ' +
-      "país</b>: el portal tiene una sola marca y GT y SV comparten cuenta, así que " +
-      "repartir estas interacciones entre los dos mercados sería inventarlo.</p>" +
+      limites("Cómo leer esta tabla", [
+        "Las campañas se muestran juntas pero <b>no se suman entre indicadores " +
+        "distintos</b>: 105 leads y 10,771 clics no son la misma cosa. El total " +
+        "de arriba es solo del indicador principal.",
+        esc(d._nota_activas || ""),
+      ]) +
+      subcab("Redes sociales",
+        "Orgánico de las cuentas reportadas. <b>No hay corte por país</b>: el " +
+        "portal tiene una sola marca, así que GT y SV comparten cuenta.") +
       bloqueGraficas() + bloqueRedes() + "</section>";
   }
 
@@ -591,14 +626,13 @@
     return '<div class="grid2 grafs">' +
       '<article class="panel">' + g1 + "</article>" +
       '<article class="panel">' + g2 + "</article>" + "</div>" +
-      '<div class="panel aviso"><h3>Cómo leer estas dos gráficas</h3><ul class="mini">' +
-      "<li><b>Qué mide cada punto.</b> " + esc2(se._que_mide || "") + "</li>" +
-      "<li><b>Por qué las líneas arrancan en semanas distintas.</b> " +
-      esc2(se._por_que_arrancan_distinto || "") + "</li>" +
-      "<li><b>Dos gráficas, no una.</b> Interacciones y vistas tienen escalas " +
-      "muy distintas. Ponerlas en un mismo eje doble haría comparar alturas que " +
-      "no son comparables.</li>" +
-      "</ul></div>";
+      limites("Cómo leer estas dos gráficas", [
+        "<b>Qué mide cada punto.</b> " + esc2(se._que_mide || ""),
+        "<b>Por qué las líneas arrancan en semanas distintas.</b> " +
+        esc2(se._por_que_arrancan_distinto || ""),
+        "<b>Dos gráficas, no una.</b> Interacciones y vistas tienen escalas muy " +
+        "distintas. Un eje doble haría comparar alturas que no son comparables.",
+      ]);
   }
 
   /* ═════════════ 3 · Competencia ═════════════ */
@@ -614,20 +648,18 @@
             ent(c.activos_declarados) + " activos</u>" : "") + "</div>";
     }).join("");
 
+    /* El «no es un ranking de efectividad» estaba repetido en CADA tarjeta:
+       cuatro párrafos idénticos en una pantalla. Se dice UNA vez, arriba de la
+       sección, donde aplica a todas. */
     var mensajes = (b.mensajes || []).length
       ? '<div class="mensajes"><span class="mini-et">Sus mensajes, por lo que ' +
         'repite y por lo que no mata</span>' +
-        b.mensajes.map(function (m) {
+        b.mensajes.slice(0, 3).map(function (m) {
           return '<div class="msg"><div class="msg-t">' + esc(m.titular) + "</div>" +
             '<div class="msg-d"><span><b>' + m.repeticiones +
             "</b> anuncios · " + pct(m.cuota) + " de su inventario</span>" +
-            "<span><b>" + m.dias_vivo + "</b> días vivo · último hace " +
-            m.dias_desde_el_ultimo + " d</span></div></div>";
-        }).join("") +
-        '<p class="aclara"><b>No es un ranking de efectividad.</b> La Ad Library no ' +
-        "publica rendimiento de anunciantes comerciales: no hay impresiones, ni " +
-        "gasto, ni conversiones. Lo que sí se ve es en qué apuestan — cuánto " +
-        "repiten un mensaje y cuánto tiempo lo dejan vivo.</p></div>"
+            "<span><b>" + m.dias_vivo + "</b> días vivo</span></div></div>";
+        }).join("") + "</div>"
       : (!b.activos
         ? '<div class="hueco chico"><b>No tiene anuncios activos</b> en los mercados ' +
           "que medimos, así que no hay mensaje que leer. Eso no dice nada de lo que " +
@@ -659,6 +691,11 @@
       }
     });
 
+    var plegado = [];
+    if (b.nota) plegado.push("<li>" + esc(b.nota) + "</li>");
+    extra.forEach(function (e) { plegado.push(e); });
+    if (b.advertencia) plegado.push("<li>⚠ " + esc(b.advertencia) + "</li>");
+
     return '<article class="panel marca">' +
       '<div class="marca-cab"><h3>' + esc(b.nombre) + "</h3>" +
       '<div class="tags">' + (b.categorias || []).map(function (c) {
@@ -667,10 +704,11 @@
       }).join("") + (b.moneda ? '<span class="chip">' + esc(b.moneda) + "</span>" : "") +
       "</div></div>" +
       '<div class="presiones">' + presion + "</div>" +
-      (b.nota ? '<p class="nota">' + esc(b.nota) + "</p>" : "") +
       mensajes +
-      (extra.length ? '<ul class="mini">' + extra.join("") + "</ul>" : "") +
-      (b.advertencia ? '<p class="adv">⚠ ' + esc(b.advertencia) + "</p>" : "") +
+      (plegado.length
+        ? '<details class="detalle"><summary>Cómo lee el análisis a esta marca' +
+          '</summary><ul class="mini">' + plegado.join("") + "</ul></details>"
+        : "") +
       (b.url ? '<a class="ext" href="' + esc(b.url) + '" target="_blank" ' +
         'rel="noopener noreferrer">' + ico.link +
         "Ver sus anuncios reales en la Ad Library</a>" : "") +
@@ -720,24 +758,28 @@
       ? '<div class="grid2">' + lista.map(tarjetaMarca).join("") + avisosFalt + "</div>"
       : '<div class="hueco">Ninguna marca medida en esta categoría.</div>';
 
-    return '<section id="competencia"><div class="cab"><h2>Competencia</h2>' +
-      segmentado("grupo", [
-        { v: "competencia", n: "Competencia" },
-        { v: "referentes", n: "Referentes" }
-      ], V.grupo) + "</div>" +
-      '<p class="sub">' + explica + "</p>" +
+    return '<section id="competencia">' +
+      cabecera("Ad Library", "Competencia", explica,
+        segmentado("grupo", [
+          { v: "competencia", n: "Competencia" },
+          { v: "referentes", n: "Referentes" }
+        ], V.grupo)) +
       (sub ? '<div class="sub-seg">' + sub + "</div>" : "") +
+      '<p class="nota-seccion"><b>Lo de abajo no es un ranking de efectividad.</b> ' +
+      "La Ad Library no publica rendimiento de anunciantes comerciales: no hay " +
+      "impresiones, ni gasto, ni conversiones. Lo que sí se ve es en qué apuestan " +
+      "— cuánto repiten un mensaje y cuánto tiempo lo dejan vivo.</p>" +
       cuerpoL +
-      '<div class="panel aviso"><h3>Cómo leer estos números</h3><ul class="mini">' +
-      "<li><b>Es una foto, no una serie.</b> La Ad Library no acepta rango de " +
-      "fechas: solo responde qué está activo ahora. Por eso una corrida " +
-      "retroactiva no puede incluir competencia.</li>" +
-      "<li><b>Volumen no es presión.</b> Banco Industrial tiene 845 anuncios " +
-      "activos en GT y solo 2 tocan pagos. Sumar los 845 inflaría la presión " +
-      "competitiva 21 veces.</li>" +
-      "<li><b>Solo se midieron las marcas del registro.</b> Un competidor que " +
-      "nadie agregó no aparece, y su ausencia aquí no es evidencia de nada.</li>" +
-      "</ul></div></section>";
+      limites("Cómo leer estos números", [
+        "<b>Es una foto, no una serie.</b> La Ad Library no acepta rango de " +
+        "fechas: solo responde qué está activo ahora. Por eso una corrida " +
+        "retroactiva no puede incluir competencia.",
+        "<b>Volumen no es presión.</b> Banco Industrial tiene 845 anuncios " +
+        "activos en GT y solo 2 tocan pagos. Sumar los 845 inflaría la presión " +
+        "competitiva 21 veces.",
+        "<b>Solo se midieron las marcas del registro.</b> Un competidor que " +
+        "nadie agregó no aparece, y su ausencia aquí no es evidencia de nada.",
+      ]) + "</section>";
   }
 
   /* ═════════════ 4 · Referencias ═════════════ */
@@ -784,26 +826,20 @@
         "</article>";
     }).join("");
 
-    var lims = (R.limites || []).map(function (l) {
-      return "<li><b>" + esc(l.que) + " · " + esc(l.estado) + ".</b> " +
-        esc(l.detalle) + (l.remedio ? " <i>" + esc(l.remedio) + "</i>" : "") + "</li>";
-    }).join("");
-
-    return '<section id="referencias"><div class="cab"><h2>Referencias</h2></div>' +
-      '<p class="sub">Lo nuestro contra lo de ellos, y de ahí adónde ir a buscar ' +
-      "cómo se ve.</p>" +
+    return '<section id="referencias">' +
+      cabecera("Contraste", "Referencias",
+        "Lo nuestro contra lo de ellos, y de ahí adónde ir a buscar cómo se ve.") +
       '<div class="tabla-wrap"><table class="tabla contraste"><thead><tr>' +
       "<th>Dimensión</th><th>QPayPro</th><th>Competencia</th><th>Referentes</th>" +
       "</tr></thead><tbody>" + filas + "</tbody></table></div>" +
-      (terr ? '<div class="cab sub-cab"><h2>Territorios de mensaje</h2></div>' + terr : "") +
-      '<div class="cab sub-cab"><h2>Dónde buscar referencia visual</h2></div>' +
-      '<p class="sub">Cada búsqueda sale de un dato de arriba. <b>Ningún pin fue ' +
-      "visto ni verificado por el sistema</b>: son búsquedas, no referencias " +
-      "curadas. Quien las abre elige.</p>" +
+      (terr ? subcab("Territorios de mensaje",
+        "Qué promesa está ocupada y cuál no.") + terr : "") +
+      subcab("Dónde buscar referencia visual",
+        "Cada búsqueda sale de un dato de arriba. <b>Ningún pin fue visto ni " +
+        "verificado por el sistema</b>: son búsquedas, no referencias curadas.") +
       (bus ? '<div class="grid3">' + bus + "</div>"
            : '<div class="hueco">Sin búsquedas que proponer en esta corrida.</div>') +
-      '<div class="panel aviso"><h3>Lo que esta sección no puede dar</h3>' +
-      '<ul class="mini">' + lims + "</ul></div></section>";
+      limites("Lo que esta sección no puede dar", R.limites || []) + "</section>";
   }
 
   /* ═════════════ 5 · Estrategia ═════════════ */
@@ -834,6 +870,42 @@
         'rel="noopener noreferrer">' + esc(r.tema) + "</a>";
     }).join("");
 
+    /* Visible: qué es, qué hay que hacer, por qué, y el único aviso que cambia
+       una decisión (el mensaje que la competencia ya paga). Todo lo demás vive
+       detrás de un clic. Seis recuadros por tarjeta convertían tres tarjetas en
+       dieciocho bloques, y eso es lo que se veía amontonado. */
+    var detalle = [];
+    if (t.angulo) {
+      detalle.push('<div class="dato"><span class="mini-et">Ángulo</span><p>' +
+        esc(t.angulo) + "</p></div>");
+    }
+    if (t.instruccion_exacta) {
+      detalle.push('<div class="dato"><span class="mini-et">Instrucción exacta ' +
+        'para quien la aplique</span><p>' + esc(t.instruccion_exacta) + "</p></div>");
+    }
+    if (t.tipo !== "pauta") {
+      detalle.push('<div class="dato"><span class="mini-et">Cuántas piezas</span><p>' +
+        (t.piezas != null ? "<b>" + t.piezas + "</b> · " + esc(t.piezas_motivo)
+          : "<b>Lo decide la mesa.</b> " + esc(t.piezas_motivo)) + "</p></div>");
+    }
+    if (t.copy) {
+      detalle.push('<div class="dato"><span class="mini-et">Copy</span><p><b>' +
+        esc(t.copy.estado) + ".</b> " + esc(t.copy.motivo) + "</p>" +
+        '<ul class="mini">' + (t.copy.falta || []).map(function (f) {
+          return "<li>" + esc(f) + "</li>"; }).join("") + "</ul>" +
+        '<p class="aclara">Se llena en <code>' + esc(t.copy.donde) +
+        "</code></p></div>");
+    }
+    if (refs) {
+      detalle.push('<div class="dato"><span class="mini-et">Referencia visual' +
+        '</span><div class="refs">' + refs + "</div></div>");
+    }
+    if ((t.evidencia || []).length) {
+      detalle.push('<div class="dato"><span class="mini-et">Evidencia</span>' +
+        '<ul class="mini">' + t.evidencia.map(function (e) {
+          return "<li>" + esc(e) + "</li>"; }).join("") + "</ul></div>");
+    }
+
     return '<article class="tarea' + (estado ? " " + estado : "") + '">' +
       '<div class="tarea-cab"><span class="chip ' + esc(t.tipo) + '">' +
         esc(t.tipo === "pauta" ? "cambio en pauta" : t.tipo) + "</span>" +
@@ -843,32 +915,12 @@
       "</div>" +
       "<h3>" + esc(t.titulo) + "</h3>" +
       '<p class="porque">' + esc(t.porque) + "</p>" +
-      (t.angulo ? '<div class="campo"><span class="mini-et">Ángulo</span><p>' +
-        esc(t.angulo) + "</p></div>" : "") +
-      (t.no_decir ? '<div class="campo no-decir"><span class="mini-et">No decir</span>' +
-        "<p>«" + esc(t.no_decir) + "» — ese terreno ya lo paga la competencia.</p>" +
-        "</div>" : "") +
-      (t.instruccion_exacta
-        ? '<div class="campo instruccion"><span class="mini-et">Instrucción exacta ' +
-          'para quien la aplique</span><p>' + esc(t.instruccion_exacta) + "</p></div>"
+      (t.no_decir ? '<p class="no-decir-linea"><b>No decir:</b> «' +
+        esc(t.no_decir) + "» — ese terreno ya lo paga la competencia.</p>" : "") +
+      (detalle.length
+        ? '<details class="detalle"><summary>Ver el detalle</summary>' +
+          '<div class="datos">' + detalle.join("") + "</div></details>"
         : "") +
-      (t.tipo !== "pauta"
-        ? '<div class="campo"><span class="mini-et">Cuántas piezas</span><p>' +
-          (t.piezas != null ? "<b>" + t.piezas + "</b> · " + esc(t.piezas_motivo)
-            : "<b>Lo decide la mesa.</b> " + esc(t.piezas_motivo)) + "</p></div>"
-        : "") +
-      (t.copy ? '<div class="campo copy-bloq"><span class="mini-et">Copy</span>' +
-        "<p><b>" + esc(t.copy.estado) + ".</b> " + esc(t.copy.motivo) + "</p>" +
-        '<details><summary>Qué falta para desbloquearlo</summary><ul class="mini">' +
-        (t.copy.falta || []).map(function (f) { return "<li>" + esc(f) + "</li>"; })
-          .join("") + "</ul><p class=\"aclara\">Se llena en <code>" +
-        esc(t.copy.donde) + "</code></p></details></div>" : "") +
-      (refs ? '<div class="campo"><span class="mini-et">Referencia visual</span>' +
-        '<div class="refs">' + refs + "</div></div>" : "") +
-      '<details class="ev"><summary>Evidencia (' + (t.evidencia || []).length +
-        ")</summary><ul class=\"mini\">" +
-        (t.evidencia || []).map(function (e) { return "<li>" + esc(e) + "</li>"; })
-          .join("") + "</ul></details>" +
       '<div class="tarea-pie">' +
         '<div class="acciones">' +
         '<button type="button" class="btn ok' + (estado === "aceptada" ? " on" : "") +
@@ -881,7 +933,6 @@
         (estado === "aceptada" ? selectorResponsable(t, asig) : "") +
       "</div></article>";
   }
-
 
   function estrategiaActiva() {
     var est = D.estrategia || {}, es = est.estrategias || [];
@@ -1039,11 +1090,6 @@
     var propias = Object.keys(E.propias).map(function (k) { return E.propias[k]; })
       .sort(function (a, b) { return (a.en || "") < (b.en || "") ? 1 : -1; });
 
-    var lims = (est.limites || []).map(function (l) {
-      return "<li><b>" + esc(l.que) + " · " + esc(l.estado) + ".</b> " +
-        esc(l.detalle) + (l.remedio ? " <i>" + esc(l.remedio) + "</i>" : "") + "</li>";
-    }).join("");
-
     var flujo = '<div class="panel flujo"><h3>Qué pasa cuando aceptas una tarea</h3>' +
       "<p>" + esc(asig._flujo || "") + "</p>" +
       (!asig.habilitada
@@ -1055,20 +1101,18 @@
           "</div>"
         : "") + "</div>";
 
-    return '<section id="estrategia"><div class="cab"><h2>Estrategia</h2>' +
-      '<div class="acciones-masa">' +
-      '<button type="button" class="btn chico pri" id="bTodas">Aceptar todas</button>' +
-      '<button type="button" class="btn chico" id="bNada">Limpiar decisiones</button>' +
-      "</div></div>" +
-      '<p class="sub">Primero la estrategia, después las tareas. El sistema propone ' +
-      "la que su premisa sostiene mejor y dice de cada una cuándo no conviene; " +
-      "elegir es de la mesa.</p>" +
+    return '<section id="estrategia">' +
+      cabecera("Para decidir", "Estrategia",
+        "Primero la apuesta, después las tareas. El sistema propone la que su " +
+        "premisa sostiene mejor y dice cuándo no conviene; elegir es de la mesa.",
+        '<div class="acciones-masa">' +
+        '<button type="button" class="btn chico pri" id="bTodas">Aceptar todas</button>' +
+        '<button type="button" class="btn chico" id="bNada">Limpiar</button>' +
+        "</div>") +
       selectorEstrategia() +
-      '<div class="cab sub-cab"><h2>Producción creativa · ' + creativas.length +
-      "</h2></div>" +
-      '<p class="sub">Cada tarea sale de un dato medido y trae la evidencia que la ' +
-      "sostiene." + (act ? " Estas son las que activa <b>" + esc(act.nombre) +
-      "</b>." : "") + "</p>" +
+      subcab("Producción creativa · " + creativas.length,
+        "Cada tarea sale de un dato medido y trae su evidencia." +
+        (act ? " Estas son las que activa <b>" + esc(act.nombre) + "</b>." : "")) +
       '<div class="nota-flujo"><b>Aceptar registra la decisión aquí; las tareas ' +
       "se crean en Sprint en un segundo paso.</b> Esta página vive en un " +
       "navegador y no puede llamar a Zoho — y si pudiera, necesitaría " +
@@ -1083,25 +1127,23 @@
             return tarjetaTarea(t, asig); }).join("") + "</div>"
         : '<div class="hueco">Esta estrategia no activa tareas de producción en ' +
           "esta corrida.</div>") +
-      '<div class="cab sub-cab"><h2>Ideas del equipo · ' + propias.length +
-      "</h2></div>" +
+      subcab("Ideas del equipo · " + propias.length,
+        "Lo que propone la mesa. Se guarda aparte porque no trae evidencia del " +
+        "sistema, y esa diferencia importa la semana que viene.") +
       formNuevaTarea(asig) +
       (propias.length
         ? '<div class="grid2 tareas">' + propias.map(function (t) {
             return tarjetaPropia(t, asig); }).join("") + "</div>"
         : "") +
       (pauta.length
-        ? '<div class="cab sub-cab"><h2>Cambios en Meta Ads · ' + pauta.length +
-          "</h2></div>" +
-          '<p class="sub"><b>El sistema no ejecuta ninguno.</b> Meta Ads es de solo ' +
-          "lectura por decisión explícita, así que cada cambio sale escrito para que " +
-          "una persona lo aplique a mano. No dependen de la estrategia elegida.</p>" +
+        ? subcab("Cambios en Meta Ads · " + pauta.length,
+            "<b>El sistema no ejecuta ninguno.</b> Meta Ads es de solo lectura, " +
+            "así que cada cambio sale escrito para que una persona lo aplique.") +
           '<div class="grid2 tareas">' + pauta.map(function (t) {
             return tarjetaTarea(t, asig); }).join("") + "</div>"
         : "") +
       flujo +
-      '<div class="panel aviso"><h3>Los límites de esta sección</h3>' +
-      '<ul class="mini">' + lims + "</ul></div></section>";
+      limites("Los límites de esta sección", est.limites || []) + "</section>";
   }
 
   /* ═════════════ armado ═════════════ */
@@ -1109,11 +1151,7 @@
   function huecos() {
     var h = D.huecos_declarados || [];
     if (!h.length) return "";
-    return '<div class="panel aviso"><h3>Lo que esta corrida no incluye</h3>' +
-      '<ul class="mini">' + h.map(function (x) {
-        return "<li><b>" + esc(x.fuente) + ":</b> " + esc(x.descripcion) + " " +
-          esc(x.impacto) + "</li>";
-      }).join("") + "</ul></div>";
+    return limites("Lo que esta corrida no incluye", h);
   }
 
   function cuerpo() {
