@@ -1,0 +1,111 @@
+{
+  "_que_es_esto": "La lectura estratégica de cada marca. NO es un dato medido: es interpretación, y cada afirmación cita el número del que sale. Va en archivo aparte del análisis a propósito, para que se vea qué es medición y qué es lectura.",
+  "_autor": "Mesa Creativa · corrida 2026-08-31",
+  "comparacion": {
+    "titulo": "Dos estrategias opuestas, y QPayPro está más cerca de la equivocada",
+    "cuerpo": [
+      "La concentración del mensaje principal separa a este grupo en dos mundos. **Paggo pone el 84% de su inventario detrás de una sola frase** («Gestiona tu Negocio Fácil», 36 de 43 creativos, viva 105 días). **Shopify pone el 12%** y reparte el resto en una cartera de mensajes distintos.",
+      "No son dos niveles de la misma estrategia: son dos apuestas. Paggo decidió una promesa y la martilla. Shopify prueba territorios y deja vivir lo que funciona — su anuncio más longevo lleva **159 días** corriendo.",
+      "Square está en el medio con una tercera vía que ninguno de los dos usa: **no concentra en un mensaje, concentra en una vertical**. Mismo producto, un anuncio por industria."
+    ],
+    "implicacion": "Para QPayPro la pregunta no es «cuánto repito» sino «repito el mensaje de quién». Hoy el orgánico propio dice «gestiona tu negocio» y «controla todo en un mismo lugar» — que es, literalmente, el territorio que Paggo paga con 36 creativos."
+  },
+  "marcas": {
+    "paggo": {
+      "titulo": "Una sola frase, martillada",
+      "que_hace_bien": [
+        "**Convicción medible.** 36 de 43 creativos cargan «Gestiona tu Negocio Fácil», y el mensaje lleva 105 días vivo. Nadie sostiene un mensaje 105 días si no está convirtiendo: es la señal más fuerte de todo el reporte.",
+        "**Producción en lote.** El 65% de sus creativos se subieron en ráfagas — varios en el mismo segundo. No están escribiendo pieza por pieza: despliegan variaciones de un concepto ya decidido. Eso es rápido y es barato."
+      ],
+      "huecos": [
+        "**Un solo territorio.** 36 de 43 hablan de gestión del negocio. De punto de venta físico: **1 anuncio**. De facturación: 2. Si QPayPro quiere terreno propio, ahí hay dos puertas abiertas.",
+        "**Cadencia baja en días.** 4 días de actividad en 101 días de ventana. Cuando publican, publican mucho; entre tanto, silencio. Un competidor que reacciona en días, no en horas."
+      ],
+      "oportunidad": "No repetir «gestiona tu negocio fácil». Ese terreno ya está pagado con 36 creativos y 105 días de historial: entrar ahí es competir contra su presupuesto en su propia frase. El flanco abierto es el POS físico y la facturación."
+    },
+    "recurrente": {
+      "titulo": "Una campaña lanzada y dejada correr",
+      "que_hace_bien": [
+        "**Ángulo propio, sin competencia.** El 100% de sus 12 anuncios habla de cobrar en cripto: oro digital y USDT. Nadie más en el grupo toca ese territorio.",
+        "**Foco absoluto.** Dos mensajes, doce creativos, cero dispersión."
+      ],
+      "huecos": [
+        "**Está congelada.** Los 12 anuncios se crearon el **mismo día**, y no hay nada nuevo desde hace 38 días. No es un programa de pauta: es una campaña que se lanzó y se dejó encendida.",
+        "**Nada fuera de cripto.** Ni gestión, ni POS, ni facturación."
+      ],
+      "oportunidad": "No es un competidor por el que preocuparse en el territorio de QPayPro — su promesa no se cruza con la nuestra. Y su silencio de 38 días dice que no hay un equipo empujando esto semana a semana."
+    },
+    "guatepos": {
+      "titulo": "Sin mensaje: compran conversaciones",
+      "que_hace_bien": [
+        "**Costo mínimo por contacto.** Dos de sus tres anuncios llevan como titular literalmente `api.whatsapp.com`: son botones a WhatsApp. Se saltan la marca y van directo a la conversación."
+      ],
+      "huecos": [
+        "**Cero construcción de marca.** No hay una propuesta de valor que leer, porque no la escribieron. El titular es la URL del enlace.",
+        "**Tres anuncios.** No hay volumen ni cadencia: un día de actividad, hace 17 días."
+      ],
+      "oportunidad": "En hardware, el único competidor medido no está diciendo nada. Un mensaje claro sobre punto de venta físico no compite contra nada en este momento."
+    },
+    "bi": {
+      "titulo": "Escala industrial, apuntada a otro lado",
+      "que_hace_bien": [
+        "**Cadencia diaria.** Publicó hoy, y tiene actividad en 7 de los 10 días de la ventana observada. Es el único del grupo que opera como una máquina continua.",
+        "**Cartera repartida.** Ningún mensaje pasa del 22%. Crédito, motos, puntos, ahorro, seguridad, reclutamiento: cada línea de negocio tiene su pauta."
+      ],
+      "huecos": [
+        "**Sus 844 anuncios NO son presión competitiva.** El solapamiento medido con nuestra categoría es de 2 sobre 844, y en la muestra de 50 solo **uno** menciona «Soluciones de Pago». Su pauta es de crédito al consumidor: «Moto en Línea» es su mensaje número uno con 11 creativos.",
+        "**17 de 50 anuncios sin titular.** No se puede leer qué dicen. Formato sin enlace o creativo incompleto: desde la API es indistinguible."
+      ],
+      "oportunidad": "Contarlo como competidor por volumen sería inflar la amenaza 400 veces. Lo que sí sirve de BI es su cadencia como referencia: si un banco publica todos los días, la pregunta interna es por qué nosotros no."
+    },
+    "shopify": {
+      "titulo": "Paciencia: pocos creativos, muy longevos",
+      "que_hace_bien": [
+        "**Creativos que duran.** Su anuncio más longevo lleva **159 días** activo, y la mediana del inventario es de 24 días. Con 0.7 creativos nuevos por semana, no están quemando producción: están dejando trabajar lo que funciona.",
+        "**Cartera de mensajes.** Concentración de solo 12%: «crea tu tienda», «impulsa tu idea», «pon en marcha tu negocio», «vende en todas partes». Cada uno es una entrada distinta al mismo producto.",
+        "**Carrusel como formato dominante.** 9 de 13 anuncios con titular legible son de varias tarjetas. Cuentan un producto por pasos, no en un golpe."
+      ],
+      "huecos": [
+        "**No habla de cobrar.** Ninguno de los 16 anuncios menciona pagos, tarjeta ni cobros. Su territorio es EMPEZAR el negocio, no operarlo.",
+        "**Los mismos 16 anuncios en GT y en SV.** Son campañas regionales, no una estrategia por país: no adaptan el mensaje al mercado."
+      ],
+      "oportunidad": "Shopify ocupa «monta tu tienda» y Paggo ocupa «gestiona tu negocio fácil». **Ninguno de los dos dice «cobra mejor».** Ese es el hueco más limpio que aparece en todo el reporte, y es exactamente el producto de QPayPro."
+    },
+    "square_us": {
+      "titulo": "El manual de la verticalización",
+      "que_hace_bien": [
+        "**Un anuncio por industria, mismo producto.** «Run your whole beauty business on Square». «One system. Counter to kitchen.» «Try Square for Retail—Now Free». «Appointments that work with everything else.» No cambian el producto: cambian a quién se lo cuentan. En la muestra, belleza y citas se lleva 11 anuncios y gestión 16.",
+        "**Mensaje de dolor, no de característica.** «Stop juggling tools to run your business» nombra el problema del dueño antes de nombrar el producto.",
+        "**Catálogo como creativo.** Un anuncio lista sus seis piezas de hardware en un carrusel de 12 tarjetas: quien busca un lector lo encuentra sin salir del anuncio."
+      ],
+      "huecos": [
+        "**Concentración baja con muchísimo volumen.** 112 activos y ningún mensaje pasa del 16%. Es una operación grande y dispersa; requiere un equipo que QPayPro no tiene.",
+        "**Muestra recortada.** Se leyeron 50 de 112, y son los más recientes: no se puede decir qué anuncio lleva más tiempo corriendo."
+      ],
+      "oportunidad": "Es la lección más transferible del reporte y no cuesta presupuesto, cuesta criterio: QPayPro tiene un mensaje para todos. Square tiene el mismo producto y un mensaje por vertical. Con 5 artes por semana caben 5 verticales en un mes."
+    },
+    "square_uk": {
+      "titulo": "Cambiate, y mirá a quién ya se cambió",
+      "que_hace_bien": [
+        "**Mensaje de cambio, no de novedad.** El 28% de la muestra dice «Make the smarter choice. Choose Square.» — le habla a alguien que YA tiene un proveedor. Es la única marca del grupo que compite por sustitución en lugar de por adopción.",
+        "**Clientes con nombre y apellido.** El 10% de sus anuncios nombra un negocio real: «Gordon's Wine Bar + Square», «Tender Cow's rapid rise». No dice «cientos de clientes»: dice cuál.",
+        "**Carruseles largos.** Hasta 20 tarjetas en una sola pieza, y 20 de 50 anuncios son de varias tarjetas: el doble de carrusel que su operación de Estados Unidos."
+      ],
+      "huecos": [
+        "**Todo en una ráfaga.** El 64% de los creativos leídos se subieron en el mismo lote, y las creaciones observadas caben en un solo día. Con la muestra recortada a los 50 más recientes no se puede ver su ritmo real.",
+        "**Muestra recortada.** 50 de 102, los más nuevos. La pregunta por los longevos no se puede responder."
+      ],
+      "oportunidad": "Dos jugadas copiables mañana. Una: el ángulo de sustitución — nadie en GT ni SV le habla al negocio que ya tiene datáfono. Dos: nombrar clientes. El propio Instagram de QPayPro dice «cientos de tiendas activas» y no nombra ni una; Square nombra un bar de vinos."
+    }
+  },
+  "cierre": {
+    "titulo": "Qué hacer con esto",
+    "puntos": [
+      "**El hueco existe y está medido.** Paggo ocupa «gestiona tu negocio fácil» con 36 creativos y 105 días. Shopify ocupa «monta tu tienda». Nadie ocupa «cobra mejor», que es el producto. Es el territorio a tomar.",
+      "**Verticalizar es gratis.** Square demuestra que el mismo producto rinde más contado por industria. Con 5 artes semanales de capacidad, un mes son 5 verticales: restaurante, belleza, retail, servicios, comercio en línea.",
+      "**Nombrar un cliente.** QPayPro dice «cientos de tiendas activas» y no nombra ninguna. Square nombra a Gordon's Wine Bar. Un caso con nombre es más creíble que un número sin cara, y no requiere presupuesto de medios.",
+      "**En El Salvador no hay nadie.** Ninguna de las seis marcas medidas tiene pauta activa en SV — verificado en los dos mercados. La presión competitiva ahí es 0, y eso ya no es ignorancia: está comprobado.",
+      "**El ángulo de sustitución está libre.** Todos los competidores medidos le hablan a quien no tiene solución. Nadie le habla a quien ya tiene una y está mal atendido."
+    ]
+  }
+}

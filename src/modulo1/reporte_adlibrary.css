@@ -1,0 +1,879 @@
+/* CSS plano, sin Tailwind: el reporte no usa ninguna utilidad, y
+   compilarlo le inyectaria las clases del tablero sin necesidad.
+   El reset minimo esta en el bloque de abajo. */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Reporte profundo de la Ad Library.
+
+   Hereda el sistema del tablero — mismo fondo, mismas tarjetas blancas, misma
+   Inter, mismo violeta de marca, misma paleta de gráficos ya validada — porque
+   lo lee el mismo equipo y a veces lado a lado. La consistencia es una función,
+   no pereza.
+
+   Pero es un DOCUMENTO, no un tablero, y el tratamiento cambia donde tiene que
+   cambiar: la prosa va en una columna de ~68 caracteres, los dossiers se apilan
+   en vez de repartirse en una rejilla, y el rótulo de cada sección lleva el color
+   de la marca a la que pertenece para que el lector sepa en qué dossier está sin
+   volver arriba.
+
+   Tema único y claro, igual que el tablero, por la petición de Mercadeo del
+   2026-08-28. Cada color se pinta explícitamente para que la página se vea igual
+   sin importar el tema del visor.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --tinta-1: #0f172a;
+  --tinta-2: #475569;
+  --tinta-3: #94a3b8;
+  --tinta-4: #cbd5e1;
+  --papel: #f3f6f8;
+  --tarjeta: #ffffff;
+  --hueso: #f8fafc;
+  --raya: #eef2f6;
+  --sombra: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --sombra-alta: 0 8px 30px rgba(0, 0, 0, 0.09);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta-1);
+  font-family: var(--fam-cuerpo);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: var(--fam-titulo);
+  text-wrap: balance;
+  margin: 0;
+}
+a {
+  color: var(--marca);
+}
+:focus-visible {
+  outline: 2px solid var(--marca);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+code, .num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Estructura ───────────────────────────────────────────────────────── */
+
+.lienzo {
+  padding-bottom: 80px;
+}
+.ancho {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+@media (min-width: 900px) {
+  .lienzo {
+    margin-left: 232px;
+  }
+  .ancho {
+    padding: 0 40px;
+  }
+}
+
+/* La prosa se lee, no se escanea: columna corta y renglón alto. */
+.prosa {
+  max-width: 68ch;
+}
+.prosa p {
+  margin: 0 0 14px;
+  color: var(--tinta-2);
+  line-height: 1.72;
+}
+.fuerte {
+  color: var(--tinta-1);
+  font-weight: 700;
+}
+.cod {
+  background: var(--hueso);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: var(--fam-datos);
+  font-size: 0.88em;
+  color: var(--tinta-2);
+}
+
+/* ── Rail de marcas ───────────────────────────────────────────────────── */
+
+.rail {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 12px 16px;
+  background: var(--tarjeta);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.rail-marca {
+  display: none;
+}
+.rail-b {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: var(--hueso);
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.rail-b:hover {
+  background: var(--raya);
+  color: var(--tinta-1);
+}
+.rail-b i {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+}
+.rail-b.activo {
+  background: var(--tinta-1);
+  color: #fff;
+}
+@media (min-width: 900px) {
+  .rail {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 232px;
+    flex-direction: column;
+    gap: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 28px 18px;
+    box-shadow: 1px 0 0 rgba(15, 23, 42, 0.06);
+  }
+  .rail-marca {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+    background: var(--marca);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+  .rail-b {
+    justify-content: space-between;
+    border-radius: 11px;
+    background: transparent;
+    padding: 9px 12px;
+  }
+}
+
+/* ── Portada ──────────────────────────────────────────────────────────── */
+
+.portada {
+  padding: 44px 0 34px;
+}
+.portada-et {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marca);
+  margin-bottom: 14px;
+}
+.portada h1 {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+.portada-baja {
+  max-width: 62ch;
+  margin: 18px 0 0;
+  font-size: 16.5px;
+  color: var(--tinta-2);
+}
+.portada-aviso {
+  margin-top: 24px;
+  padding: 15px 18px;
+  background: var(--tarjeta);
+  border-radius: 15px;
+  box-shadow: var(--sombra);
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  max-width: 78ch;
+}
+
+/* ── Bloques y tarjetas ───────────────────────────────────────────────── */
+
+.bloque {
+  background: var(--tarjeta);
+  border-radius: 20px;
+  padding: 26px 28px;
+  box-shadow: var(--sombra);
+  margin-bottom: 18px;
+}
+.bloque-t {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.bloque-s {
+  margin: 8px 0 20px;
+  font-size: 13px;
+  color: var(--tinta-3);
+  max-width: 76ch;
+  line-height: 1.62;
+}
+.bloque-s .fuerte {
+  color: var(--tinta-2);
+}
+.vacio {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tinta-3);
+}
+
+/* ── Límites: lo que la fuente no puede responder ─────────────────────── */
+
+.limites {
+  margin-top: 8px;
+}
+.limites-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+.limite {
+  background: var(--hueso);
+  border-radius: 16px;
+  padding: 18px 19px;
+}
+.limite-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 3px 9px;
+  border-radius: 7px;
+  margin-bottom: 11px;
+}
+.limite-parcial .limite-badge {
+  background: var(--falta-suave);
+  color: var(--falta-tex);
+}
+.limite-imposible .limite-badge {
+  background: var(--alerta-suave);
+  color: var(--alerta-tex);
+}
+.limite-p {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 13px;
+}
+.limite-fila {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.limite-fila span {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 20px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+}
+.limite-fila .si {
+  background: var(--bien-suave);
+  color: var(--bien-tex);
+}
+.limite-fila .no {
+  background: var(--alerta-suave);
+  color: var(--alerta-tex);
+}
+.limite-fila p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.55;
+}
+.limite-rem {
+  margin: 13px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--raya);
+  font-size: 12px;
+  color: var(--tinta-3);
+  font-style: italic;
+}
+
+/* ── Panorama ─────────────────────────────────────────────────────────── */
+
+.panorama, .cierre {
+  padding: 42px 0 18px;
+}
+.panorama h2, .cierre h2 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
+  max-width: 34ch;
+  margin-bottom: 20px;
+}
+.dos-graficos {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
+  margin-top: 26px;
+}
+.implicacion, .oportunidad {
+  background: var(--marca-suave);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-top: 18px;
+}
+.implicacion-et, .oportunidad-et, .lectura-et {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--marca-2);
+  margin-bottom: 9px;
+}
+.implicacion p, .oportunidad p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.66;
+  color: var(--tinta-1);
+  max-width: 70ch;
+}
+
+/* ── Dossier ──────────────────────────────────────────────────────────── */
+
+.dossier {
+  padding: 46px 0 10px;
+  border-top: 1px solid var(--tinta-4);
+  margin-top: 34px;
+}
+.dossier-cab {
+  margin-bottom: 20px;
+}
+.dossier-eyebrow {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.dossier-cab h2 {
+  font-size: clamp(26px, 4.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+.dossier-lema {
+  margin: 10px 0 0;
+  font-size: 17px;
+  color: var(--tinta-2);
+  max-width: 56ch;
+  line-height: 1.5;
+}
+
+/* La banda de calidad de muestra: es información, no adorno. */
+.banda {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.banda-ok {
+  background: var(--bien-suave);
+}
+.banda-parcial {
+  background: var(--falta-suave);
+}
+.banda-icono {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+.banda-ok .banda-icono {
+  background: var(--bien);
+  color: #fff;
+}
+.banda-parcial .banda-icono {
+  background: var(--falta);
+  color: #fff;
+}
+.banda-t {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.banda-ok .banda-t {
+  color: var(--bien-tex);
+}
+.banda-parcial .banda-t {
+  color: var(--falta-tex);
+}
+.banda-c {
+  margin-top: 5px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--tinta-2);
+  max-width: 80ch;
+}
+
+/* ── Cifras ───────────────────────────────────────────────────────────── */
+
+.cifras {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  margin-bottom: 18px;
+}
+.cifras-3 {
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
+  margin: 0;
+}
+.cifras-2 {
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  margin: 0 0 16px;
+}
+.cifra {
+  background: var(--tarjeta);
+  border-radius: 17px;
+  padding: 19px 20px;
+  box-shadow: var(--sombra);
+}
+.cifras-3 .cifra, .cifras-2 .cifra {
+  background: var(--hueso);
+  box-shadow: none;
+}
+.cifra-n {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cifra-rot {
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tinta-2);
+  line-height: 1.35;
+}
+.cifra-nota {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--tinta-3);
+  line-height: 1.4;
+}
+
+/* ── Barras horizontales ──────────────────────────────────────────────── */
+
+.barras {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.fila-barra {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  grid-template-areas: "et val" "pista val" "nota nota";
+  gap: 3px 14px;
+  padding: 9px 0;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+@media (min-width: 720px) {
+  .fila-barra {
+    grid-template-columns: minmax(140px, 0.9fr) minmax(0, 1.5fr) 104px;
+    grid-template-areas: "et pista val" "nota nota nota";
+    align-items: center;
+    gap: 2px 16px;
+  }
+}
+.fila-barra:hover, .fila-barra:focus-visible {
+  background: var(--hueso);
+}
+.barra-et {
+  grid-area: et;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta-1);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.barra-pista {
+  grid-area: pista;
+  height: 10px;
+  background: var(--raya);
+  border-radius: 999px;
+  overflow: hidden;
+}
+/* Extremo redondeado de 4px anclado a la línea base, según la guía. */
+.barra-marca {
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  min-width: 4px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.barra-val {
+  grid-area: val;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta-1);
+}
+.barra-nota {
+  grid-area: nota;
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  line-height: 1.4;
+}
+
+/* ── Columnas por día ─────────────────────────────────────────────────── */
+
+.cols-marco {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.cols-eje-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--tinta-3);
+  font-variant-numeric: tabular-nums;
+  padding-bottom: 2px;
+}
+.cols {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 132px;
+  flex: 1;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--raya);
+  padding-bottom: 1px;
+}
+.col-envoltura {
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 2px;
+}
+.col-marca {
+  width: 100%;
+  background: var(--marca);
+  border-radius: 4px 4px 0 0;
+  min-height: 3px;
+}
+.col-cero {
+  width: 100%;
+  height: 2px;
+  background: var(--tinta-4);
+  border-radius: 2px;
+}
+.col-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16151f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 9px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  z-index: 10;
+}
+.col-envoltura:hover .col-tip,
+.col-envoltura:focus-visible .col-tip {
+  opacity: 1;
+}
+.cols-eje-x {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--tinta-3);
+  margin-top: 7px;
+  font-variant-numeric: tabular-nums;
+}
+.pie-grafico {
+  margin: 13px 0 0;
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+/* ── Notas, huecos, listas ────────────────────────────────────────────── */
+
+.nota-dato {
+  margin-top: 15px;
+  padding: 14px 16px;
+  background: var(--hueso);
+  border-radius: 13px;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.58;
+  max-width: 84ch;
+}
+.hueco {
+  background: var(--falta-suave);
+  border-radius: 15px;
+  padding: 17px 19px;
+}
+.hueco-t {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--falta-tex);
+  margin-bottom: 7px;
+}
+.hueco p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.6;
+  max-width: 82ch;
+}
+.lista {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.lista li {
+  font-size: 14px;
+  color: var(--tinta-2);
+  line-height: 1.62;
+  max-width: 74ch;
+}
+.lista li::marker {
+  color: var(--tinta-4);
+}
+.lista-hueco li::marker {
+  color: var(--falta);
+}
+
+/* ── Lectura estratégica ──────────────────────────────────────────────── */
+
+.lectura {
+  background: var(--tarjeta);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--sombra);
+  margin-top: 22px;
+}
+.lectura h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tinta-1);
+  margin: 20px 0 11px;
+}
+.lectura h4:first-of-type {
+  margin-top: 4px;
+}
+
+/* ── Tablas ───────────────────────────────────────────────────────────── */
+
+.tabla-plegada {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--raya);
+}
+.tabla-plegada > summary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tinta-3);
+  cursor: pointer;
+  list-style: none;
+}
+.tabla-plegada > summary::-webkit-details-marker {
+  display: none;
+}
+.tabla-plegada > summary::before {
+  content: "+ ";
+  font-weight: 800;
+}
+.tabla-plegada[open] > summary::before {
+  content: "– ";
+}
+.tabla-plegada > summary:hover {
+  color: var(--tinta-1);
+}
+.tabla-scroll {
+  overflow-x: auto;
+  margin-top: 14px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  padding: 0 14px 9px 0;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 9px 14px 9px 0;
+  border-top: 1px solid var(--raya);
+  color: var(--tinta-2);
+  vertical-align: top;
+}
+tbody td.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+tbody td.fuerte {
+  color: var(--tinta-1);
+  font-weight: 700;
+}
+.tabla-longev tbody td:first-child {
+  color: var(--tinta-1);
+  font-weight: 600;
+}
+.enl {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.enl:hover {
+  text-decoration: underline;
+}
+
+/* ── Cierre y pie ─────────────────────────────────────────────────────── */
+
+.cierre-lista {
+  counter-reset: c;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.cierre-lista li {
+  counter-increment: c;
+  position: relative;
+  background: var(--tarjeta);
+  border-radius: 17px;
+  padding: 20px 24px 20px 62px;
+  box-shadow: var(--sombra);
+  font-size: 14.5px;
+  color: var(--tinta-2);
+  line-height: 1.62;
+}
+.cierre-lista li::before {
+  content: counter(c);
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  background: var(--marca-suave);
+  color: var(--marca-2);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.pie {
+  margin-top: 42px;
+  padding: 26px 28px;
+  background: var(--tarjeta);
+  border-radius: 20px;
+  box-shadow: var(--sombra);
+}
+.pie p {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: var(--tinta-3);
+  line-height: 1.62;
+  max-width: 84ch;
+}
+.pie p:last-child {
+  margin-bottom: 0;
+}
+.pie b {
+  color: var(--tinta-2);
+}
+
+/* ── Impresión ────────────────────────────────────────────────────────── */
+
+@media print {
+  .rail {
+    display: none;
+  }
+  .lienzo {
+    margin-left: 0;
+  }
+  body {
+    background: #fff;
+  }
+  .bloque, .cifra, .lectura, .cierre-lista li, .pie, .portada-aviso {
+    box-shadow: none;
+    border: 1px solid var(--raya);
+    break-inside: avoid;
+  }
+  .dossier {
+    break-before: page;
+  }
+  .tabla-plegada > *:not(summary) {
+    display: revert !important;
+  }
+}

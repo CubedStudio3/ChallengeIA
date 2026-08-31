@@ -1,0 +1,1044 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700;800&display=swap">
+<style>
+/* GENERADO desde config/tema.json — no editar aquí.
+   Para cambiar el diseño: editar config/tema.json y correr
+   node src/modulo1/valida_tema.js antes de generar. */
+:root{
+  color-scheme:light;
+  --fam-titulo:"Inter",-apple-system, 'Segoe UI', system-ui, sans-serif;
+  --fam-cuerpo:"Inter",-apple-system, 'Segoe UI', system-ui, sans-serif;
+  --fam-datos:"IBM Plex Mono",ui-monospace, Menlo, monospace;
+  --r:20px;
+  --r-s:16px;
+  --r-xs:11px;
+  --lateral-w:244px;
+  --ac-uno:#EFF6F1;
+  --ac-dos:#FDF7EA;
+  --ac-tres:#F1EDFE;
+  --tinta:#14131F;
+  --tinta-2:#65627A;
+  --tinta-3:#8F8CA3;
+  --ground:#F6F6F9;
+  --sup:#FFFFFF;
+  --sup-2:#FAFAFC;
+  --sup-3:#F2F2F7;
+  --borde:#E9E8F1;
+  --borde-2:#DBD9E7;
+  --lateral:#FFFFFF;
+  --lateral-tex:#14131F;
+  --lateral-tenue:#65627A;
+  --lateral-act:#F1EEFD;
+  --marca:#6244DE;
+  --marca-2:#4F33C4;
+  --marca-suave:#F0ECFE;
+  --marca-fondo:#6244DE;
+  --marca-fondo-2:#4F33C4;
+  --bien:#12946B;
+  --bien-tex:#0E7A57;
+  --bien-suave:#E6F5EF;
+  --falta:#C4820F;
+  --falta-tex:#8B5905;
+  --falta-suave:#FDF6E7;
+  --alerta:#C04A66;
+  --alerta-tex:#A83B55;
+  --alerta-suave:#FCEDF0;
+  --pista:#EFEDF8;
+  --oscuro:#16151F;
+  --oscuro-tex:#FFFFFF;
+  --c1:#7355E8;
+  --c2:#12946B;
+  --c3:#C4820F;
+  --c4:#C04A66;
+  --sombra:0 1px 2px rgba(20,19,31,.03), 0 6px 20px -10px rgba(20,19,31,.08);
+  --sombra-alta:0 2px 4px rgba(20,19,31,.04), 0 16px 36px -14px rgba(20,19,31,.16);
+}
+/* CSS plano, sin Tailwind: el reporte no usa ninguna utilidad, y
+   compilarlo le inyectaria las clases del tablero sin necesidad.
+   El reset minimo esta en el bloque de abajo. */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Reporte profundo de la Ad Library.
+
+   Hereda el sistema del tablero — mismo fondo, mismas tarjetas blancas, misma
+   Inter, mismo violeta de marca, misma paleta de gráficos ya validada — porque
+   lo lee el mismo equipo y a veces lado a lado. La consistencia es una función,
+   no pereza.
+
+   Pero es un DOCUMENTO, no un tablero, y el tratamiento cambia donde tiene que
+   cambiar: la prosa va en una columna de ~68 caracteres, los dossiers se apilan
+   en vez de repartirse en una rejilla, y el rótulo de cada sección lleva el color
+   de la marca a la que pertenece para que el lector sepa en qué dossier está sin
+   volver arriba.
+
+   Tema único y claro, igual que el tablero, por la petición de Mercadeo del
+   2026-08-28. Cada color se pinta explícitamente para que la página se vea igual
+   sin importar el tema del visor.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --tinta-1: #0f172a;
+  --tinta-2: #475569;
+  --tinta-3: #94a3b8;
+  --tinta-4: #cbd5e1;
+  --papel: #f3f6f8;
+  --tarjeta: #ffffff;
+  --hueso: #f8fafc;
+  --raya: #eef2f6;
+  --sombra: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --sombra-alta: 0 8px 30px rgba(0, 0, 0, 0.09);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta-1);
+  font-family: var(--fam-cuerpo);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: var(--fam-titulo);
+  text-wrap: balance;
+  margin: 0;
+}
+a {
+  color: var(--marca);
+}
+:focus-visible {
+  outline: 2px solid var(--marca);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+code, .num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Estructura ───────────────────────────────────────────────────────── */
+
+.lienzo {
+  padding-bottom: 80px;
+}
+.ancho {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+@media (min-width: 900px) {
+  .lienzo {
+    margin-left: 232px;
+  }
+  .ancho {
+    padding: 0 40px;
+  }
+}
+
+/* La prosa se lee, no se escanea: columna corta y renglón alto. */
+.prosa {
+  max-width: 68ch;
+}
+.prosa p {
+  margin: 0 0 14px;
+  color: var(--tinta-2);
+  line-height: 1.72;
+}
+.fuerte {
+  color: var(--tinta-1);
+  font-weight: 700;
+}
+.cod {
+  background: var(--hueso);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: var(--fam-datos);
+  font-size: 0.88em;
+  color: var(--tinta-2);
+}
+
+/* ── Rail de marcas ───────────────────────────────────────────────────── */
+
+.rail {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 12px 16px;
+  background: var(--tarjeta);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.rail-marca {
+  display: none;
+}
+.rail-b {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: var(--hueso);
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.rail-b:hover {
+  background: var(--raya);
+  color: var(--tinta-1);
+}
+.rail-b i {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+}
+.rail-b.activo {
+  background: var(--tinta-1);
+  color: #fff;
+}
+@media (min-width: 900px) {
+  .rail {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 232px;
+    flex-direction: column;
+    gap: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 28px 18px;
+    box-shadow: 1px 0 0 rgba(15, 23, 42, 0.06);
+  }
+  .rail-marca {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+    background: var(--marca);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+  .rail-b {
+    justify-content: space-between;
+    border-radius: 11px;
+    background: transparent;
+    padding: 9px 12px;
+  }
+}
+
+/* ── Portada ──────────────────────────────────────────────────────────── */
+
+.portada {
+  padding: 44px 0 34px;
+}
+.portada-et {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marca);
+  margin-bottom: 14px;
+}
+.portada h1 {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+.portada-baja {
+  max-width: 62ch;
+  margin: 18px 0 0;
+  font-size: 16.5px;
+  color: var(--tinta-2);
+}
+.portada-aviso {
+  margin-top: 24px;
+  padding: 15px 18px;
+  background: var(--tarjeta);
+  border-radius: 15px;
+  box-shadow: var(--sombra);
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  max-width: 78ch;
+}
+
+/* ── Bloques y tarjetas ───────────────────────────────────────────────── */
+
+.bloque {
+  background: var(--tarjeta);
+  border-radius: 20px;
+  padding: 26px 28px;
+  box-shadow: var(--sombra);
+  margin-bottom: 18px;
+}
+.bloque-t {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.bloque-s {
+  margin: 8px 0 20px;
+  font-size: 13px;
+  color: var(--tinta-3);
+  max-width: 76ch;
+  line-height: 1.62;
+}
+.bloque-s .fuerte {
+  color: var(--tinta-2);
+}
+.vacio {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tinta-3);
+}
+
+/* ── Límites: lo que la fuente no puede responder ─────────────────────── */
+
+.limites {
+  margin-top: 8px;
+}
+.limites-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+.limite {
+  background: var(--hueso);
+  border-radius: 16px;
+  padding: 18px 19px;
+}
+.limite-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 3px 9px;
+  border-radius: 7px;
+  margin-bottom: 11px;
+}
+.limite-parcial .limite-badge {
+  background: var(--falta-suave);
+  color: var(--falta-tex);
+}
+.limite-imposible .limite-badge {
+  background: var(--alerta-suave);
+  color: var(--alerta-tex);
+}
+.limite-p {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 13px;
+}
+.limite-fila {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.limite-fila span {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 20px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+}
+.limite-fila .si {
+  background: var(--bien-suave);
+  color: var(--bien-tex);
+}
+.limite-fila .no {
+  background: var(--alerta-suave);
+  color: var(--alerta-tex);
+}
+.limite-fila p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.55;
+}
+.limite-rem {
+  margin: 13px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--raya);
+  font-size: 12px;
+  color: var(--tinta-3);
+  font-style: italic;
+}
+
+/* ── Panorama ─────────────────────────────────────────────────────────── */
+
+.panorama, .cierre {
+  padding: 42px 0 18px;
+}
+.panorama h2, .cierre h2 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
+  max-width: 34ch;
+  margin-bottom: 20px;
+}
+.dos-graficos {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
+  margin-top: 26px;
+}
+.implicacion, .oportunidad {
+  background: var(--marca-suave);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-top: 18px;
+}
+.implicacion-et, .oportunidad-et, .lectura-et {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--marca-2);
+  margin-bottom: 9px;
+}
+.implicacion p, .oportunidad p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.66;
+  color: var(--tinta-1);
+  max-width: 70ch;
+}
+
+/* ── Dossier ──────────────────────────────────────────────────────────── */
+
+.dossier {
+  padding: 46px 0 10px;
+  border-top: 1px solid var(--tinta-4);
+  margin-top: 34px;
+}
+.dossier-cab {
+  margin-bottom: 20px;
+}
+.dossier-eyebrow {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.dossier-cab h2 {
+  font-size: clamp(26px, 4.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+.dossier-lema {
+  margin: 10px 0 0;
+  font-size: 17px;
+  color: var(--tinta-2);
+  max-width: 56ch;
+  line-height: 1.5;
+}
+
+/* La banda de calidad de muestra: es información, no adorno. */
+.banda {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.banda-ok {
+  background: var(--bien-suave);
+}
+.banda-parcial {
+  background: var(--falta-suave);
+}
+.banda-icono {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+.banda-ok .banda-icono {
+  background: var(--bien);
+  color: #fff;
+}
+.banda-parcial .banda-icono {
+  background: var(--falta);
+  color: #fff;
+}
+.banda-t {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.banda-ok .banda-t {
+  color: var(--bien-tex);
+}
+.banda-parcial .banda-t {
+  color: var(--falta-tex);
+}
+.banda-c {
+  margin-top: 5px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--tinta-2);
+  max-width: 80ch;
+}
+
+/* ── Cifras ───────────────────────────────────────────────────────────── */
+
+.cifras {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  margin-bottom: 18px;
+}
+.cifras-3 {
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
+  margin: 0;
+}
+.cifras-2 {
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  margin: 0 0 16px;
+}
+.cifra {
+  background: var(--tarjeta);
+  border-radius: 17px;
+  padding: 19px 20px;
+  box-shadow: var(--sombra);
+}
+.cifras-3 .cifra, .cifras-2 .cifra {
+  background: var(--hueso);
+  box-shadow: none;
+}
+.cifra-n {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cifra-rot {
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tinta-2);
+  line-height: 1.35;
+}
+.cifra-nota {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--tinta-3);
+  line-height: 1.4;
+}
+
+/* ── Barras horizontales ──────────────────────────────────────────────── */
+
+.barras {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.fila-barra {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  grid-template-areas: "et val" "pista val" "nota nota";
+  gap: 3px 14px;
+  padding: 9px 0;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+@media (min-width: 720px) {
+  .fila-barra {
+    grid-template-columns: minmax(140px, 0.9fr) minmax(0, 1.5fr) 104px;
+    grid-template-areas: "et pista val" "nota nota nota";
+    align-items: center;
+    gap: 2px 16px;
+  }
+}
+.fila-barra:hover, .fila-barra:focus-visible {
+  background: var(--hueso);
+}
+.barra-et {
+  grid-area: et;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta-1);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.barra-pista {
+  grid-area: pista;
+  height: 10px;
+  background: var(--raya);
+  border-radius: 999px;
+  overflow: hidden;
+}
+/* Extremo redondeado de 4px anclado a la línea base, según la guía. */
+.barra-marca {
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  min-width: 4px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.barra-val {
+  grid-area: val;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta-1);
+}
+.barra-nota {
+  grid-area: nota;
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  line-height: 1.4;
+}
+
+/* ── Columnas por día ─────────────────────────────────────────────────── */
+
+.cols-marco {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.cols-eje-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--tinta-3);
+  font-variant-numeric: tabular-nums;
+  padding-bottom: 2px;
+}
+.cols {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 132px;
+  flex: 1;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--raya);
+  padding-bottom: 1px;
+}
+.col-envoltura {
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 2px;
+}
+.col-marca {
+  width: 100%;
+  background: var(--marca);
+  border-radius: 4px 4px 0 0;
+  min-height: 3px;
+}
+.col-cero {
+  width: 100%;
+  height: 2px;
+  background: var(--tinta-4);
+  border-radius: 2px;
+}
+.col-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16151f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 9px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  z-index: 10;
+}
+.col-envoltura:hover .col-tip,
+.col-envoltura:focus-visible .col-tip {
+  opacity: 1;
+}
+.cols-eje-x {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--tinta-3);
+  margin-top: 7px;
+  font-variant-numeric: tabular-nums;
+}
+.pie-grafico {
+  margin: 13px 0 0;
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+/* ── Notas, huecos, listas ────────────────────────────────────────────── */
+
+.nota-dato {
+  margin-top: 15px;
+  padding: 14px 16px;
+  background: var(--hueso);
+  border-radius: 13px;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.58;
+  max-width: 84ch;
+}
+.hueco {
+  background: var(--falta-suave);
+  border-radius: 15px;
+  padding: 17px 19px;
+}
+.hueco-t {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--falta-tex);
+  margin-bottom: 7px;
+}
+.hueco p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+  line-height: 1.6;
+  max-width: 82ch;
+}
+.lista {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.lista li {
+  font-size: 14px;
+  color: var(--tinta-2);
+  line-height: 1.62;
+  max-width: 74ch;
+}
+.lista li::marker {
+  color: var(--tinta-4);
+}
+.lista-hueco li::marker {
+  color: var(--falta);
+}
+
+/* ── Lectura estratégica ──────────────────────────────────────────────── */
+
+.lectura {
+  background: var(--tarjeta);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--sombra);
+  margin-top: 22px;
+}
+.lectura h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tinta-1);
+  margin: 20px 0 11px;
+}
+.lectura h4:first-of-type {
+  margin-top: 4px;
+}
+
+/* ── Tablas ───────────────────────────────────────────────────────────── */
+
+.tabla-plegada {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--raya);
+}
+.tabla-plegada > summary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tinta-3);
+  cursor: pointer;
+  list-style: none;
+}
+.tabla-plegada > summary::-webkit-details-marker {
+  display: none;
+}
+.tabla-plegada > summary::before {
+  content: "+ ";
+  font-weight: 800;
+}
+.tabla-plegada[open] > summary::before {
+  content: "– ";
+}
+.tabla-plegada > summary:hover {
+  color: var(--tinta-1);
+}
+.tabla-scroll {
+  overflow-x: auto;
+  margin-top: 14px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  padding: 0 14px 9px 0;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 9px 14px 9px 0;
+  border-top: 1px solid var(--raya);
+  color: var(--tinta-2);
+  vertical-align: top;
+}
+tbody td.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+tbody td.fuerte {
+  color: var(--tinta-1);
+  font-weight: 700;
+}
+.tabla-longev tbody td:first-child {
+  color: var(--tinta-1);
+  font-weight: 600;
+}
+.enl {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.enl:hover {
+  text-decoration: underline;
+}
+
+/* ── Cierre y pie ─────────────────────────────────────────────────────── */
+
+.cierre-lista {
+  counter-reset: c;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.cierre-lista li {
+  counter-increment: c;
+  position: relative;
+  background: var(--tarjeta);
+  border-radius: 17px;
+  padding: 20px 24px 20px 62px;
+  box-shadow: var(--sombra);
+  font-size: 14.5px;
+  color: var(--tinta-2);
+  line-height: 1.62;
+}
+.cierre-lista li::before {
+  content: counter(c);
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  background: var(--marca-suave);
+  color: var(--marca-2);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.pie {
+  margin-top: 42px;
+  padding: 26px 28px;
+  background: var(--tarjeta);
+  border-radius: 20px;
+  box-shadow: var(--sombra);
+}
+.pie p {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: var(--tinta-3);
+  line-height: 1.62;
+  max-width: 84ch;
+}
+.pie p:last-child {
+  margin-bottom: 0;
+}
+.pie b {
+  color: var(--tinta-2);
+}
+
+/* ── Impresión ────────────────────────────────────────────────────────── */
+
+@media print {
+  .rail {
+    display: none;
+  }
+  .lienzo {
+    margin-left: 0;
+  }
+  body {
+    background: #fff;
+  }
+  .bloque, .cifra, .lectura, .cierre-lista li, .pie, .portada-aviso {
+    box-shadow: none;
+    border: 1px solid var(--raya);
+    break-inside: avoid;
+  }
+  .dossier {
+    break-before: page;
+  }
+  .tabla-plegada > *:not(summary) {
+    display: revert !important;
+  }
+}
+
+</style>
+<nav class="rail" aria-label="Marcas"><div class="rail-marca">AD</div><a href="#limites" class="rail-b"><span>Qué se puede medir</span></a><a href="#panorama" class="rail-b"><span>Panorama</span></a><a href="#paggo" class="rail-b"><span>Paggo Guatemala</span><i style="background:var(--c1)"></i></a><a href="#recurrente" class="rail-b"><span>Recurrente</span><i style="background:var(--c2)"></i></a><a href="#guatepos" class="rail-b"><span>Guatepos</span><i style="background:var(--c3)"></i></a><a href="#bi" class="rail-b"><span>Banco Industrial</span><i style="background:var(--c4)"></i></a><a href="#shopify" class="rail-b"><span>Shopify</span><i style="background:var(--c1)"></i></a><a href="#square_us" class="rail-b"><span>Square (US)</span><i style="background:var(--c2)"></i></a><a href="#square_uk" class="rail-b"><span>Square (UK)</span><i style="background:var(--c3)"></i></a><a href="#cierre" class="rail-b"><span>Qué hacer</span></a></nav><main class="lienzo"><div class="ancho"><header class="portada"><div class="portada-et">Mesa Creativa · QPayPro</div><h1>Qué anuncia la competencia</h1><p class="portada-baja">Seis marcas del registro, leídas en la Meta Ad Library el 2026-08-31. 224 anuncios analizados, 4 de 7 marcas con inventario completo.</p><div class="portada-aviso">La Ad Library NO acepta rango de fechas. Todo esto es una foto del 2026-08-31. Un anuncio que se apagó ayer no aparece, y uno que se prendió hoy sí.</div></header><section class="bloque limites" id="limites"><h3 class="bloque-t">Qué preguntó Mercadeo y qué puede contestar la fuente</h3><p class="bloque-s">De las ocho preguntas del encargo, la Ad Library sostiene cinco completas y tres a medias. Van arriba y no al final: quien lee el reporte tiene que saber de entrada dónde termina el dato y dónde empezaría la invención.</p><div class="limites-grid"><div class="limite limite-parcial"><div class="limite-badge">PARCIAL</div><div class="limite-p">Formatos: video, imagen estática, carrusel y su distribución</div><div class="limite-fila"><span class="si">Sí</span><p>Se distingue tarjeta única de carrusel contando los separadores del titular, y se reporta el promedio y el máximo de tarjetas.</p></div><div class="limite-fila"><span class="no">No</span><p>Video vs. imagen estática. La API no devuelve ningún campo de tipo de medio para los anuncios de la Ad Library.</p></div><p class="limite-rem">Habría que abrir el <code class="cod">ad_snapshot_url</code> de cada anuncio y mirarlo. Se intentó: facebook.com está bloqueado por la política de red del entorno, así que desde aquí no hay vía.</p></div><div class="limite limite-parcial"><div class="limite-badge">PARCIAL</div><div class="limite-p">Partnerships vs. brand ads: los que llevan «with» + handle</div><div class="limite-fila"><span class="si">Sí</span><p>Se detecta co-branding en el titular: el patrón «Negocio + Marca» y las historias de un negocio con nombre propio.</p></div><div class="limite-fila"><span class="no">No</span><p>El rótulo «with @handle» que identifica a un creador pagado. Vive en el anuncio renderizado, no en los campos de la API. Desde aquí, un caso de cliente y una colaboración pagada son indistinguibles.</p></div><p class="limite-rem">Mismo camino que los formatos: ver el anuncio renderizado.</p></div><div class="limite limite-imposible"><div class="limite-badge">IMPOSIBLE</div><div class="limite-p">Top 10 anuncios con más impresiones</div><div class="limite-fila"><span class="si">Sí</span><p>Un sustituto declarado: el ranking por CANTIDAD DE CREATIVOS que cargan el mismo mensaje, y el ranking por días vivo. Los dos dicen dónde apuesta el anunciante. Ninguno es impresiones.</p></div><div class="limite-fila"><span class="no">No</span><p>Impresiones. Meta NO publica métricas de entrega de anunciantes comerciales en la Ad Library — solo los anuncios políticos y de asuntos sociales traen rangos. Es una decisión de Meta, no una limitación del conector, y no hay manera de sortearla.</p></div><p class="limite-rem">No se desbloquea. Ningún permiso ni herramienta lo expone para un anunciante comercial ajeno.</p></div></div></section><section class="panorama" id="panorama"><div class="dossier-eyebrow" style="color:var(--marca)">Comparación cruzada</div><h2>Dos estrategias opuestas, y QPayPro está más cerca de la equivocada</h2><div class="prosa"><p>La concentración del mensaje principal separa a este grupo en dos mundos. <b class="fuerte">Paggo pone el 84% de su inventario detrás de una sola frase</b> («Gestiona tu Negocio Fácil», 36 de 43 creativos, viva 105 días). <b class="fuerte">Shopify pone el 12%</b> y reparte el resto en una cartera de mensajes distintos.</p><p>No son dos niveles de la misma estrategia: son dos apuestas. Paggo decidió una promesa y la martilla. Shopify prueba territorios y deja vivir lo que funciona — su anuncio más longevo lleva <b class="fuerte">159 días</b> corriendo.</p><p>Square está en el medio con una tercera vía que ninguno de los dos usa: <b class="fuerte">no concentra en un mensaje, concentra en una vertical</b>. Mismo producto, un anuncio por industria.</p></div><div class="dos-graficos"><section class="bloque "><h3 class="bloque-t">Concentración del mensaje principal</h3><p class="bloque-s">Cuota del inventario leído que carga la frase más repetida de cada marca. Alta concentración es una sola apuesta; baja es una cartera repartida.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Paggo Guatemala: 84%, «Gestiona tu Negocio Fácil»"><div class="barra-et">Paggo Guatemala</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">84%</div><div class="barra-nota">«Gestiona tu Negocio Fácil»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Guatepos: 67%, «api.whatsapp.com»"><div class="barra-et">Guatepos</div><div class="barra-pista"><div class="barra-marca" style="width:79.8%;background:var(--c3)"></div></div><div class="barra-val">67%</div><div class="barra-nota">«api.whatsapp.com»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Recurrente: 58%, «Recibe pagos con oro digital»"><div class="barra-et">Recurrente</div><div class="barra-pista"><div class="barra-marca" style="width:69.0%;background:var(--c2)"></div></div><div class="barra-val">58%</div><div class="barra-nota">«Recibe pagos con oro digital»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square (UK): 28%, «Make the smarter choice. Choose Square.»"><div class="barra-et">Square (UK)</div><div class="barra-pista"><div class="barra-marca" style="width:33.3%;background:var(--c3)"></div></div><div class="barra-val">28%</div><div class="barra-nota">«Make the smarter choice. Choose Square.»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Banco Industrial: 22%, «Moto en Línea»"><div class="barra-et">Banco Industrial</div><div class="barra-pista"><div class="barra-marca" style="width:26.2%;background:var(--c4)"></div></div><div class="barra-val">22%</div><div class="barra-nota">«Moto en Línea»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square (US): 16%, «Square»"><div class="barra-et">Square (US)</div><div class="barra-pista"><div class="barra-marca" style="width:19.0%;background:var(--c2)"></div></div><div class="barra-val">16%</div><div class="barra-nota">«Square»</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Shopify: 13%, «Comienza a vender más rápido»"><div class="barra-et">Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:15.5%;background:var(--c1)"></div></div><div class="barra-val">13%</div><div class="barra-nota">«Comienza a vender más rápido»</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Marca</th><th>Concentración</th><th>Detalle</th></tr></thead><tbody><tr><td>Paggo Guatemala</td><td class="num">84%</td><td>«Gestiona tu Negocio Fácil»</td></tr><tr><td>Guatepos</td><td class="num">67%</td><td>«api.whatsapp.com»</td></tr><tr><td>Recurrente</td><td class="num">58%</td><td>«Recibe pagos con oro digital»</td></tr><tr><td>Square (UK)</td><td class="num">28%</td><td>«Make the smarter choice. Choose Square.»</td></tr><tr><td>Banco Industrial</td><td class="num">22%</td><td>«Moto en Línea»</td></tr><tr><td>Square (US)</td><td class="num">16%</td><td>«Square»</td></tr><tr><td>Shopify</td><td class="num">13%</td><td>«Comienza a vender más rápido»</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">Volumen de anuncios activos</h3><p class="bloque-s"><b class="fuerte">El volumen no es presión competitiva.</b> Banco Industrial tiene 844 activos y solo 2 tocan nuestra categoría.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Banco Industrial: 844, leídos 50"><div class="barra-et">Banco Industrial</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c4)"></div></div><div class="barra-val">844</div><div class="barra-nota">leídos 50</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square (US): 112, leídos 50"><div class="barra-et">Square (US)</div><div class="barra-pista"><div class="barra-marca" style="width:13.3%;background:var(--c2)"></div></div><div class="barra-val">112</div><div class="barra-nota">leídos 50</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square (UK): 102, leídos 50"><div class="barra-et">Square (UK)</div><div class="barra-pista"><div class="barra-marca" style="width:12.1%;background:var(--c3)"></div></div><div class="barra-val">102</div><div class="barra-nota">leídos 50</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Paggo Guatemala: 43, leídos todos"><div class="barra-et">Paggo Guatemala</div><div class="barra-pista"><div class="barra-marca" style="width:5.1%;background:var(--c1)"></div></div><div class="barra-val">43</div><div class="barra-nota">leídos todos</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Shopify: 16, leídos todos"><div class="barra-et">Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:1.9%;background:var(--c1)"></div></div><div class="barra-val">16</div><div class="barra-nota">leídos todos</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Recurrente: 12, leídos todos"><div class="barra-et">Recurrente</div><div class="barra-pista"><div class="barra-marca" style="width:1.4%;background:var(--c2)"></div></div><div class="barra-val">12</div><div class="barra-nota">leídos todos</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Guatepos: 3, leídos todos"><div class="barra-et">Guatepos</div><div class="barra-pista"><div class="barra-marca" style="width:0.4%;background:var(--c3)"></div></div><div class="barra-val">3</div><div class="barra-nota">leídos todos</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Marca</th><th>Activos</th><th>Detalle</th></tr></thead><tbody><tr><td>Banco Industrial</td><td class="num">844</td><td>leídos 50</td></tr><tr><td>Square (US)</td><td class="num">112</td><td>leídos 50</td></tr><tr><td>Square (UK)</td><td class="num">102</td><td>leídos 50</td></tr><tr><td>Paggo Guatemala</td><td class="num">43</td><td>leídos todos</td></tr><tr><td>Shopify</td><td class="num">16</td><td>leídos todos</td></tr><tr><td>Recurrente</td><td class="num">12</td><td>leídos todos</td></tr><tr><td>Guatepos</td><td class="num">3</td><td>leídos todos</td></tr></tbody></table></div></details></section></div><div class="implicacion"><div class="implicacion-et">Lo que implica para QPayPro</div><p>Para QPayPro la pregunta no es «cuánto repito» sino «repito el mensaje de quién». Hoy el orgánico propio dice «gestiona tu negocio» y «controla todo en un mismo lugar» — que es, literalmente, el territorio que Paggo paga con 36 creativos.</p></div></section><article class="dossier" id="paggo"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c1)">Competidor · consulta global · USD</div><h2>Paggo Guatemala</h2><p class="dossier-lema">Una sola frase, martillada</p></header><div class="banda banda-ok"><div class="banda-icono" aria-hidden="true">✓</div><div><div class="banda-t">Muestra completa: los 43 anuncios activos</div><div class="banda-c">Todos los porcentajes de este dossier son sobre el inventario completo, y la pregunta por los anuncios más longevos sí se puede responder.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">43</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">inventario completo</div></div><div class="cifra"><div class="cifra-n">84%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">4d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-27</div></div><div class="cifra"><div class="cifra-n">65%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">8 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 36 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Gestiona tu Negocio Fácil: 36 · 84%, 105 días vivo · desde 2026-05-18"><div class="barra-et">Gestiona tu Negocio Fácil</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">36 · 84%</div><div class="barra-nota">105 días vivo · desde 2026-05-18</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Acepta Pagos: 4 · 9%, 7 días vivo · desde 2026-08-19"><div class="barra-et">Acepta Pagos</div><div class="barra-pista"><div class="barra-marca" style="width:11.1%;background:var(--c1)"></div></div><div class="barra-val">4 · 9%</div><div class="barra-nota">7 días vivo · desde 2026-08-19</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Cobra y Factura con Paggo: 2 · 5%, 98 días vivo · desde 2026-05-18"><div class="barra-et">Cobra y Factura con Paggo</div><div class="barra-pista"><div class="barra-marca" style="width:5.6%;background:var(--c1)"></div></div><div class="barra-val">2 · 5%</div><div class="barra-nota">98 días vivo · desde 2026-05-18</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Acepta Pagos con Tarjeta: 1 · 2%, 61 días vivo · desde 2026-05-18"><div class="barra-et">Acepta Pagos con Tarjeta</div><div class="barra-pista"><div class="barra-marca" style="width:2.8%;background:var(--c1)"></div></div><div class="barra-val">1 · 2%</div><div class="barra-nota">61 días vivo · desde 2026-05-18</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Gestiona tu Negocio Fácil</td><td class="num">36 · 84%</td><td>105 días vivo · desde 2026-05-18</td></tr><tr><td>Acepta Pagos</td><td class="num">4 · 9%</td><td>7 días vivo · desde 2026-08-19</td></tr><tr><td>Cobra y Factura con Paggo</td><td class="num">2 · 5%</td><td>98 días vivo · desde 2026-05-18</td></tr><tr><td>Acepta Pagos con Tarjeta</td><td class="num">1 · 2%</td><td>61 días vivo · desde 2026-05-18</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="gestión del negocio: 36 anuncios"><div class="barra-et">gestión del negocio</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">36 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="cobros y pagos: 7 anuncios"><div class="barra-et">cobros y pagos</div><div class="barra-pista"><div class="barra-marca" style="width:19.4%;background:var(--c1)"></div></div><div class="barra-val">7 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="punto de venta / hardware: 1 anuncios"><div class="barra-et">punto de venta / hardware</div><div class="barra-pista"><div class="barra-marca" style="width:2.8%;background:var(--c1)"></div></div><div class="barra-val">1 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>gestión del negocio</td><td class="num">36 anuncios</td></tr><tr><td>cobros y pagos</td><td class="num">7 anuncios</td></tr><tr><td>punto de venta / hardware</td><td class="num">1 anuncios</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. <b class="fuerte">3 creativos por semana</b> sobre 101 días de ventana observada.</p><div class="cols-marco"><div class="cols-eje-y"><span>16</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-18: 5 creativos"><div class="col-marca" style="height:31.3%"></div><span class="col-tip">2026-05-18 · 5 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-19 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-20 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-21 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-22 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-23 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-24 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-25 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-26 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-27 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-28 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-29 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-30 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-05-31: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-31 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-01 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-02 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-03 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-04 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-05 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-06 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-07 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-08 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-09 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-10 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-11 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-12 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-13 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-14 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-15 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-16 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-17 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-18 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-19 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-20 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-21 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-22 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-23 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-24 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-25 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-26 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-27 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-28 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-29 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-06-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-30 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-01 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-02 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-03 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-04 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-05 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-06 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-07 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-08 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-09 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-10 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-11 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-12 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-13 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-14 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-15 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-16 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-17 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-18 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-19 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-20 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-21 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-22 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-23 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-24 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-25 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-26 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-27 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-28 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-29 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-30 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-07-31: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-31 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-01 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-02 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-03 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-04 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-05 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-06 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-07 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-08 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-09 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-10 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-11 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-12 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-13 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-14 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-15 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-16 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-17 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-18 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-19: 7 creativos"><div class="col-marca" style="height:43.8%"></div><span class="col-tip">2026-08-19 · 7 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-20 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-21 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-22 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-23 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-24: 16 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-24 · 16 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-25 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-26 · 0 creativos</span></div><div class="col-envoltura" style="width:7px" tabindex="0" role="img" aria-label="2026-08-27: 15 creativos"><div class="col-marca" style="height:93.8%"></div><span class="col-tip">2026-08-27 · 15 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-05-18</span><span>2026-08-27</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>28 creativos (65%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">41</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">2</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 4 tarjetas</div></div><div class="cifra"><div class="cifra-n">0</div><div class="cifra-rot">Sin titular legible</div></div></div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="tabla-scroll"><table class="tabla-longev"><thead><tr><th>Mensaje</th><th>Días vivo</th><th>Entrega desde</th><th></th></tr></thead><tbody><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">105</td><td class="num">2026-05-18</td><td><a href="https://www.facebook.com/ads/library/?id=26620958677575099" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">105</td><td class="num">2026-05-18</td><td><a href="https://www.facebook.com/ads/library/?id=1293243899679840" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Cobra y Factura con Paggo</td><td class="num fuerte">98</td><td class="num">2026-05-25</td><td><a href="https://www.facebook.com/ads/library/?id=2929068427288049" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Cobra y Factura con Paggo</td><td class="num fuerte">96</td><td class="num">2026-05-27</td><td><a href="https://www.facebook.com/ads/library/?id=1695752641567492" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Acepta Pagos con Tarjeta</td><td class="num fuerte">61</td><td class="num">2026-07-01</td><td><a href="https://www.facebook.com/ads/library/?id=1091107136823721" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">12</td><td class="num">2026-08-19</td><td><a href="https://www.facebook.com/ads/library/?id=1887802498872348" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">12</td><td class="num">2026-08-19</td><td><a href="https://www.facebook.com/ads/library/?id=1554289652858568" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">12</td><td class="num">2026-08-19</td><td><a href="https://www.facebook.com/ads/library/?id=1347303467477998" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">12</td><td class="num">2026-08-19</td><td><a href="https://www.facebook.com/ads/library/?id=1378385277588743" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Gestiona tu Negocio Fácil</td><td class="num fuerte">11</td><td class="num">2026-08-20</td><td><a href="https://www.facebook.com/ads/library/?id=935765245534989" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr></tbody></table></div><p class="pie-grafico">Mediana del inventario: <b>7 días</b> activo.</p></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Convicción medible.</b> 36 de 43 creativos cargan «Gestiona tu Negocio Fácil», y el mensaje lleva 105 días vivo. Nadie sostiene un mensaje 105 días si no está convirtiendo: es la señal más fuerte de todo el reporte.</li><li><b class="fuerte">Producción en lote.</b> El 65% de sus creativos se subieron en ráfagas — varios en el mismo segundo. No están escribiendo pieza por pieza: despliegan variaciones de un concepto ya decidido. Eso es rápido y es barato.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Un solo territorio.</b> 36 de 43 hablan de gestión del negocio. De punto de venta físico: <b class="fuerte">1 anuncio</b>. De facturación: 2. Si QPayPro quiere terreno propio, ahí hay dos puertas abiertas.</li><li><b class="fuerte">Cadencia baja en días.</b> 4 días de actividad en 101 días de ventana. Cuando publican, publican mucho; entre tanto, silencio. Un competidor que reacciona en días, no en horas.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>No repetir «gestiona tu negocio fácil». Ese terreno ya está pagado con 36 creativos y 105 días de historial: entrar ahí es competir contra su presupuesto en su propia frase. El flanco abierto es el POS físico y la facturación.</p></div></section></article><article class="dossier" id="recurrente"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c2)">Competidor · consulta global · USD</div><h2>Recurrente</h2><p class="dossier-lema">Una campaña lanzada y dejada correr</p></header><div class="banda banda-ok"><div class="banda-icono" aria-hidden="true">✓</div><div><div class="banda-t">Muestra completa: los 12 anuncios activos</div><div class="banda-c">Todos los porcentajes de este dossier son sobre el inventario completo, y la pregunta por los anuncios más longevos sí se puede responder.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">12</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">inventario completo</div></div><div class="cifra"><div class="cifra-n">58%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">38d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-07-24</div></div><div class="cifra"><div class="cifra-n">33%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">2 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 7 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Recibe pagos con oro digital: 7 · 58%, 38 días vivo · desde 2026-07-24"><div class="barra-et">Recibe pagos con oro digital</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c2)"></div></div><div class="barra-val">7 · 58%</div><div class="barra-nota">38 días vivo · desde 2026-07-24</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Recibe pagos con USDT en Guatemala: 5 · 42%, 38 días vivo · desde 2026-07-24"><div class="barra-et">Recibe pagos con USDT en Guatemala</div><div class="barra-pista"><div class="barra-marca" style="width:71.4%;background:var(--c2)"></div></div><div class="barra-val">5 · 42%</div><div class="barra-nota">38 días vivo · desde 2026-07-24</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Recibe pagos con oro digital</td><td class="num">7 · 58%</td><td>38 días vivo · desde 2026-07-24</td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num">5 · 42%</td><td>38 días vivo · desde 2026-07-24</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="cobros y pagos: 12 anuncios"><div class="barra-et">cobros y pagos</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c2)"></div></div><div class="barra-val">12 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>cobros y pagos</td><td class="num">12 anuncios</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. La cadencia semanal <b class="fuerte">no se calcula</b>: NO se calcula. Las creaciones observadas caben en 0 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 12 creativos leidos se crearon en 1 dia(s) distintos.</p><div class="cols-marco"><div class="cols-eje-y"><span>12</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-07-24: 12 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-07-24 · 12 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-07-24</span><span>2026-07-24</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>4 creativos (33%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">6</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">6</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 3 tarjetas</div></div><div class="cifra"><div class="cifra-n">0</div><div class="cifra-rot">Sin titular legible</div></div></div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="tabla-scroll"><table class="tabla-longev"><thead><tr><th>Mensaje</th><th>Días vivo</th><th>Entrega desde</th><th></th></tr></thead><tbody><tr><td>Recibe pagos con oro digital</td><td class="num fuerte">38</td><td class="num">2026-07-24</td><td><a href="https://www.facebook.com/ads/library/?id=37834302472820619" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num fuerte">38</td><td class="num">2026-07-24</td><td><a href="https://www.facebook.com/ads/library/?id=1385097710250258" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con oro digital</td><td class="num fuerte">37</td><td class="num">2026-07-25</td><td><a href="https://www.facebook.com/ads/library/?id=1743357080341279" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num fuerte">37</td><td class="num">2026-07-25</td><td><a href="https://www.facebook.com/ads/library/?id=28137499115868209" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con oro digital</td><td class="num fuerte">37</td><td class="num">2026-07-25</td><td><a href="https://www.facebook.com/ads/library/?id=1037128235730742" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num fuerte">37</td><td class="num">2026-07-25</td><td><a href="https://www.facebook.com/ads/library/?id=1755819768903559" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num fuerte">37</td><td class="num">2026-07-25</td><td><a href="https://www.facebook.com/ads/library/?id=28165107449759621" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con USDT en Guatemala</td><td class="num fuerte">35</td><td class="num">2026-07-27</td><td><a href="https://www.facebook.com/ads/library/?id=1698548684585928" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con oro digital</td><td class="num fuerte">35</td><td class="num">2026-07-27</td><td><a href="https://www.facebook.com/ads/library/?id=1010481958652273" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Recibe pagos con oro digital</td><td class="num fuerte">35</td><td class="num">2026-07-27</td><td><a href="https://www.facebook.com/ads/library/?id=914669437672861" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr></tbody></table></div><p class="pie-grafico">Mediana del inventario: <b>37 días</b> activo.</p></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Ángulo propio, sin competencia.</b> El 100% de sus 12 anuncios habla de cobrar en cripto: oro digital y USDT. Nadie más en el grupo toca ese territorio.</li><li><b class="fuerte">Foco absoluto.</b> Dos mensajes, doce creativos, cero dispersión.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Está congelada.</b> Los 12 anuncios se crearon el <b class="fuerte">mismo día</b>, y no hay nada nuevo desde hace 38 días. No es un programa de pauta: es una campaña que se lanzó y se dejó encendida.</li><li><b class="fuerte">Nada fuera de cripto.</b> Ni gestión, ni POS, ni facturación.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>No es un competidor por el que preocuparse en el territorio de QPayPro — su promesa no se cruza con la nuestra. Y su silencio de 38 días dice que no hay un equipo empujando esto semana a semana.</p></div></section></article><article class="dossier" id="guatepos"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c3)">Competidor · consulta global · GTQ</div><h2>Guatepos</h2><p class="dossier-lema">Sin mensaje: compran conversaciones</p></header><div class="banda banda-ok"><div class="banda-icono" aria-hidden="true">✓</div><div><div class="banda-t">Muestra completa: los 3 anuncios activos</div><div class="banda-c">Todos los porcentajes de este dossier son sobre el inventario completo, y la pregunta por los anuncios más longevos sí se puede responder.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">3</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">inventario completo</div></div><div class="cifra"><div class="cifra-n">67%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">17d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-14</div></div><div class="cifra"><div class="cifra-n">0%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">0 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 2 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="api.whatsapp.com: 2 · 67%, 17 días vivo · desde 2026-08-14"><div class="barra-et">api.whatsapp.com</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c3)"></div></div><div class="barra-val">2 · 67%</div><div class="barra-nota">17 días vivo · desde 2026-08-14</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>api.whatsapp.com</td><td class="num">2 · 67%</td><td>17 días vivo · desde 2026-08-14</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><p class="vacio">Sin vocabulario clasificable.</p><p class="pie-grafico"><b>2</b> anuncio(s) sin vocabulario de ninguna vertical. El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia.</p></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. La cadencia semanal <b class="fuerte">no se calcula</b>: NO se calcula. Las creaciones observadas caben en 0 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 3 creativos leidos se crearon en 1 dia(s) distintos.</p><div class="cols-marco"><div class="cols-eje-y"><span>3</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-14: 3 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-14 · 3 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-08-14</span><span>2026-08-14</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato">Sin ráfagas: cada creativo tiene su propio instante de creación. Producción pieza por pieza.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">2</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">0</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 1 tarjetas</div></div><div class="cifra"><div class="cifra-n">1</div><div class="cifra-rot">Sin titular legible</div></div></div><div class="nota-dato">El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.</div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="tabla-scroll"><table class="tabla-longev"><thead><tr><th>Mensaje</th><th>Días vivo</th><th>Entrega desde</th><th></th></tr></thead><tbody><tr><td>api.whatsapp.com</td><td class="num fuerte">17</td><td class="num">2026-08-14</td><td><a href="https://www.facebook.com/ads/library/?id=2096308025102930" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>api.whatsapp.com</td><td class="num fuerte">17</td><td class="num">2026-08-14</td><td><a href="https://www.facebook.com/ads/library/?id=1952340028778354" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>(sin titular)</td><td class="num fuerte">17</td><td class="num">2026-08-14</td><td><a href="https://www.facebook.com/ads/library/?id=3250839388449338" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr></tbody></table></div><p class="pie-grafico">Mediana del inventario: <b>17 días</b> activo.</p></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Costo mínimo por contacto.</b> Dos de sus tres anuncios llevan como titular literalmente <code class="cod">api.whatsapp.com</code>: son botones a WhatsApp. Se saltan la marca y van directo a la conversación.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Cero construcción de marca.</b> No hay una propuesta de valor que leer, porque no la escribieron. El titular es la URL del enlace.</li><li><b class="fuerte">Tres anuncios.</b> No hay volumen ni cadencia: un día de actividad, hace 17 días.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>En hardware, el único competidor medido no está diciendo nada. Un mensaje claro sobre punto de venta físico no compite contra nada en este momento.</p></div></section></article><article class="dossier" id="bi"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c4)">Competidor · GT · USD</div><h2>Banco Industrial</h2><p class="dossier-lema">Escala industrial, apuntada a otro lado</p></header><div class="banda banda-parcial"><div class="banda-icono" aria-hidden="true">!</div><div><div class="banda-t">Muestra parcial: 50 de 844 anuncios activos</div><div class="banda-c">Se leyeron 50 de 844 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo. La pregunta por los anuncios MÁS LONGEVOS no se responde aquí: los antiguos quedan fuera de la muestra por construcción.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">844</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">leídos 50</div></div><div class="cifra"><div class="cifra-n">22%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">0d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-31</div></div><div class="cifra"><div class="cifra-n">28%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">5 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 11 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Moto en Línea: 11 · 22%, 4 días vivo · desde 2026-08-27"><div class="barra-et">Moto en Línea</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c4)"></div></div><div class="barra-val">11 · 22%</div><div class="barra-nota">4 días vivo · desde 2026-08-27</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Banco Industrial S.A. - Banco Industrial: 7 · 14%, 9 días vivo · desde 2026-08-21"><div class="barra-et">Banco Industrial S.A. - Banco Industrial</div><div class="barra-pista"><div class="barra-marca" style="width:63.6%;background:var(--c4)"></div></div><div class="barra-val">7 · 14%</div><div class="barra-nota">9 días vivo · desde 2026-08-21</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Crediauto: 3 · 6%, 6 días vivo · desde 2026-08-24"><div class="barra-et">Crediauto</div><div class="barra-pista"><div class="barra-marca" style="width:27.3%;background:var(--c4)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-24</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Crédito Bi: 2 · 4%, 4 días vivo · desde 2026-08-27"><div class="barra-et">Crédito Bi</div><div class="barra-pista"><div class="barra-marca" style="width:18.2%;background:var(--c4)"></div></div><div class="barra-val">2 · 4%</div><div class="barra-nota">4 días vivo · desde 2026-08-27</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Banco Industrial · ¡Empieza a ahorrar sin pensarlo! · Rápido, fácil y seguro: 1 · 2%, 7 días vivo · desde 2026-08-24"><div class="barra-et">Banco Industrial · ¡Empieza a ahorrar sin pensarlo! · Rápido, fácil y seguro</div><div class="barra-pista"><div class="barra-marca" style="width:9.1%;background:var(--c4)"></div></div><div class="barra-val">1 · 2%</div><div class="barra-nota">7 días vivo · desde 2026-08-24</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Forma Parte Del Talento BI: 1 · 2%, 7 días vivo · desde 2026-08-24"><div class="barra-et">Forma Parte Del Talento BI</div><div class="barra-pista"><div class="barra-marca" style="width:9.1%;background:var(--c4)"></div></div><div class="barra-val">1 · 2%</div><div class="barra-nota">7 días vivo · desde 2026-08-24</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Banco Industrial · ¡Actívalas hoy!: 1 · 2%, 7 días vivo · desde 2026-08-24"><div class="barra-et">Banco Industrial · ¡Actívalas hoy!</div><div class="barra-pista"><div class="barra-marca" style="width:9.1%;background:var(--c4)"></div></div><div class="barra-val">1 · 2%</div><div class="barra-nota">7 días vivo · desde 2026-08-24</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Facilita tus días con Bi en Línea: 1 · 2%, 7 días vivo · desde 2026-08-24"><div class="barra-et">Facilita tus días con Bi en Línea</div><div class="barra-pista"><div class="barra-marca" style="width:9.1%;background:var(--c4)"></div></div><div class="barra-val">1 · 2%</div><div class="barra-nota">7 días vivo · desde 2026-08-24</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Moto en Línea</td><td class="num">11 · 22%</td><td>4 días vivo · desde 2026-08-27</td></tr><tr><td>Banco Industrial S.A. - Banco Industrial</td><td class="num">7 · 14%</td><td>9 días vivo · desde 2026-08-21</td></tr><tr><td>Crediauto</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-24</td></tr><tr><td>Crédito Bi</td><td class="num">2 · 4%</td><td>4 días vivo · desde 2026-08-27</td></tr><tr><td>Banco Industrial · ¡Empieza a ahorrar sin pensarlo! · Rápido, fácil y seguro</td><td class="num">1 · 2%</td><td>7 días vivo · desde 2026-08-24</td></tr><tr><td>Forma Parte Del Talento BI</td><td class="num">1 · 2%</td><td>7 días vivo · desde 2026-08-24</td></tr><tr><td>Banco Industrial · ¡Actívalas hoy!</td><td class="num">1 · 2%</td><td>7 días vivo · desde 2026-08-24</td></tr><tr><td>Facilita tus días con Bi en Línea</td><td class="num">1 · 2%</td><td>7 días vivo · desde 2026-08-24</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="crédito y financiamiento: 18 anuncios"><div class="barra-et">crédito y financiamiento</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c4)"></div></div><div class="barra-val">18 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="retail y tienda: 14 anuncios"><div class="barra-et">retail y tienda</div><div class="barra-pista"><div class="barra-marca" style="width:77.8%;background:var(--c4)"></div></div><div class="barra-val">14 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="promoción y precio: 2 anuncios"><div class="barra-et">promoción y precio</div><div class="barra-pista"><div class="barra-marca" style="width:11.1%;background:var(--c4)"></div></div><div class="barra-val">2 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="seguridad: 2 anuncios"><div class="barra-et">seguridad</div><div class="barra-pista"><div class="barra-marca" style="width:11.1%;background:var(--c4)"></div></div><div class="barra-val">2 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="cobros y pagos: 1 anuncios"><div class="barra-et">cobros y pagos</div><div class="barra-pista"><div class="barra-marca" style="width:5.6%;background:var(--c4)"></div></div><div class="barra-val">1 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>crédito y financiamiento</td><td class="num">18 anuncios</td></tr><tr><td>retail y tienda</td><td class="num">14 anuncios</td></tr><tr><td>promoción y precio</td><td class="num">2 anuncios</td></tr><tr><td>seguridad</td><td class="num">2 anuncios</td></tr><tr><td>cobros y pagos</td><td class="num">1 anuncios</td></tr></tbody></table></div></details><p class="pie-grafico"><b>10</b> anuncio(s) sin vocabulario de ninguna vertical. El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia.</p></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. La cadencia semanal <b class="fuerte">no se calcula</b>: NO se calcula. Las creaciones observadas caben en 10 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 50 creativos leidos se crearon en 7 dia(s) distintos.</p><div class="cols-marco"><div class="cols-eje-y"><span>13</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-21: 2 creativos"><div class="col-marca" style="height:15.4%"></div><span class="col-tip">2026-08-21 · 2 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-22 · 0 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-23 · 0 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-24: 13 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-24 · 13 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-25: 10 creativos"><div class="col-marca" style="height:76.9%"></div><span class="col-tip">2026-08-25 · 10 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-26: 5 creativos"><div class="col-marca" style="height:38.5%"></div><span class="col-tip">2026-08-26 · 5 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-27: 12 creativos"><div class="col-marca" style="height:92.3%"></div><span class="col-tip">2026-08-27 · 12 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-28: 6 creativos"><div class="col-marca" style="height:46.2%"></div><span class="col-tip">2026-08-28 · 6 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-29 · 0 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-30 · 0 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-31: 2 creativos"><div class="col-marca" style="height:15.4%"></div><span class="col-tip">2026-08-31 · 2 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-08-21</span><span>2026-08-31</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>14 creativos (28%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">20</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">13</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 6 tarjetas</div></div><div class="cifra"><div class="cifra-n">17</div><div class="cifra-rot">Sin titular legible</div></div></div><div class="nota-dato">El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.</div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="hueco"><div class="hueco-t">No se puede responder para esta marca</div><p>La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.</p></div></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Cadencia diaria.</b> Publicó hoy, y tiene actividad en 7 de los 10 días de la ventana observada. Es el único del grupo que opera como una máquina continua.</li><li><b class="fuerte">Cartera repartida.</b> Ningún mensaje pasa del 22%. Crédito, motos, puntos, ahorro, seguridad, reclutamiento: cada línea de negocio tiene su pauta.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Sus 844 anuncios NO son presión competitiva.</b> El solapamiento medido con nuestra categoría es de 2 sobre 844, y en la muestra de 50 solo <b class="fuerte">uno</b> menciona «Soluciones de Pago». Su pauta es de crédito al consumidor: «Moto en Línea» es su mensaje número uno con 11 creativos.</li><li><b class="fuerte">17 de 50 anuncios sin titular.</b> No se puede leer qué dicen. Formato sin enlace o creativo incompleto: desde la API es indistinguible.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>Contarlo como competidor por volumen sería inflar la amenaza 400 veces. Lo que sí sirve de BI es su cadencia como referencia: si un banco publica todos los días, la pregunta interna es por qué nosotros no.</p></div></section></article><article class="dossier" id="shopify"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c1)">Referente · consulta global · USD</div><h2>Shopify</h2><p class="dossier-lema">Paciencia: pocos creativos, muy longevos</p></header><div class="banda banda-ok"><div class="banda-icono" aria-hidden="true">✓</div><div><div class="banda-t">Muestra completa: los 16 anuncios activos</div><div class="banda-c">Todos los porcentajes de este dossier son sobre el inventario completo, y la pregunta por los anuncios más longevos sí se puede responder.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">16</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">inventario completo</div></div><div class="cifra"><div class="cifra-n">13%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">5d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-26</div></div><div class="cifra"><div class="cifra-n">25%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">2 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 2 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Comienza a vender más rápido: 2 · 13%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Comienza a vender más rápido</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">2 · 13%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Pon en marcha tu negocio con Shopify: 2 · 13%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Pon en marcha tu negocio con Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">2 · 13%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Vende más con Shopify: 1 · 6%, 159 días vivo · desde 2026-03-25"><div class="barra-et">Vende más con Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">159 días vivo · desde 2026-03-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Haz lo que amas con Shopify: 1 · 6%, 77 días vivo · desde 2026-06-15"><div class="barra-et">Haz lo que amas con Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">77 días vivo · desde 2026-06-15</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Impulsa tu idea con Shopify.: 1 · 6%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Impulsa tu idea con Shopify.</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Dale vida a tu idea con Shopify: 1 · 6%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Dale vida a tu idea con Shopify</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Tu idea de negocio, lista para crecer: 1 · 6%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Tu idea de negocio, lista para crecer</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Todo lo que necesitas para empezar: 1 · 6%, 24 días vivo · desde 2026-08-07"><div class="barra-et">Todo lo que necesitas para empezar</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c1)"></div></div><div class="barra-val">1 · 6%</div><div class="barra-nota">24 días vivo · desde 2026-08-07</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Comienza a vender más rápido</td><td class="num">2 · 13%</td><td>24 días vivo · desde 2026-08-07</td></tr><tr><td>Pon en marcha tu negocio con Shopify</td><td class="num">2 · 13%</td><td>24 días vivo · desde 2026-08-07</td></tr><tr><td>Vende más con Shopify</td><td class="num">1 · 6%</td><td>159 días vivo · desde 2026-03-25</td></tr><tr><td>Haz lo que amas con Shopify</td><td class="num">1 · 6%</td><td>77 días vivo · desde 2026-06-15</td></tr><tr><td>Impulsa tu idea con Shopify.</td><td class="num">1 · 6%</td><td>24 días vivo · desde 2026-08-07</td></tr><tr><td>Dale vida a tu idea con Shopify</td><td class="num">1 · 6%</td><td>24 días vivo · desde 2026-08-07</td></tr><tr><td>Tu idea de negocio, lista para crecer</td><td class="num">1 · 6%</td><td>24 días vivo · desde 2026-08-07</td></tr><tr><td>Todo lo que necesitas para empezar</td><td class="num">1 · 6%</td><td>24 días vivo · desde 2026-08-07</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="retail y tienda: 10 anuncios"><div class="barra-et">retail y tienda</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c1)"></div></div><div class="barra-val">10 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="gestión del negocio: 3 anuncios"><div class="barra-et">gestión del negocio</div><div class="barra-pista"><div class="barra-marca" style="width:30.0%;background:var(--c1)"></div></div><div class="barra-val">3 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="promoción y precio: 1 anuncios"><div class="barra-et">promoción y precio</div><div class="barra-pista"><div class="barra-marca" style="width:10.0%;background:var(--c1)"></div></div><div class="barra-val">1 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>retail y tienda</td><td class="num">10 anuncios</td></tr><tr><td>gestión del negocio</td><td class="num">3 anuncios</td></tr><tr><td>promoción y precio</td><td class="num">1 anuncios</td></tr></tbody></table></div></details><p class="pie-grafico"><b>2</b> anuncio(s) sin vocabulario de ninguna vertical. El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia.</p></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. <b class="fuerte">0.7 creativos por semana</b> sobre 154 días de ventana observada.</p><div class="cols-marco"><div class="cols-eje-y"><span>9</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-25: 1 creativos"><div class="col-marca" style="height:11.1%"></div><span class="col-tip">2026-03-25 · 1 creativo</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-26 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-27 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-28 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-29 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-30 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-03-31: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-03-31 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-01 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-02 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-03 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-04 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-05 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-06 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-07 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-08 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-09 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-10 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-11 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-12 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-13 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-14 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-15 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-16 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-17 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-18 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-19 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-20 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-21 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-22 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-23 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-24 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-25 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-26 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-27 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-28 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-29 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-04-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-04-30 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-01 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-02 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-03 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-04 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-05 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-06 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-07 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-08 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-09 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-10 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-11 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-12 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-13 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-14 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-15 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-16 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-17 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-18 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-19 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-20 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-21 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-22 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-23 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-24 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-25 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-26 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-27 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-28 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-29 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-30 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-05-31: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-05-31 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-01 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-02 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-03 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-04 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-05 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-06 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-07 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-08 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-09 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-10 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-11 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-12 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-13 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-14 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-15: 1 creativos"><div class="col-marca" style="height:11.1%"></div><span class="col-tip">2026-06-15 · 1 creativo</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-16 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-17 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-18 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-19 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-20 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-21 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-22 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-23 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-24 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-25 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-26 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-27 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-28 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-29 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-06-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-06-30 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-01 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-02 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-03 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-04 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-05 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-06 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-07: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-07 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-08 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-09 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-10 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-11 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-12 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-13 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-14 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-15 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-16: 3 creativos"><div class="col-marca" style="height:33.3%"></div><span class="col-tip">2026-07-16 · 3 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-17 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-18 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-19 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-20 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-21 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-22 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-23 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-24 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-25 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-26: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-26 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-27: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-27 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-28: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-28 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-29: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-29 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-30: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-30 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-07-31: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-07-31 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-01: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-01 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-02: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-02 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-03: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-03 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-04: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-04 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-05: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-05 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-06: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-06 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-07: 9 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-07 · 9 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-08: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-08 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-09: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-09 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-10: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-10 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-11: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-11 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-12: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-12 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-13: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-13 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-14: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-14 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-15: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-15 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-16: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-16 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-17: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-17 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-18: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-18 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-19: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-19 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-20: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-20 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-21: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-21 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-22: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-22 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-23: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-23 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-24: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-24 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-25: 0 creativos"><div class="col-cero"></div><span class="col-tip">2026-08-25 · 0 creativos</span></div><div class="col-envoltura" style="width:4px" tabindex="0" role="img" aria-label="2026-08-26: 2 creativos"><div class="col-marca" style="height:22.2%"></div><span class="col-tip">2026-08-26 · 2 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-03-25</span><span>2026-08-26</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>4 creativos (25%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">4</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">9</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 4 tarjetas</div></div><div class="cifra"><div class="cifra-n">3</div><div class="cifra-rot">Sin titular legible</div></div></div><div class="nota-dato">El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.</div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="tabla-scroll"><table class="tabla-longev"><thead><tr><th>Mensaje</th><th>Días vivo</th><th>Entrega desde</th><th></th></tr></thead><tbody><tr><td>Vende más con Shopify</td><td class="num fuerte">159</td><td class="num">2026-03-25</td><td><a href="https://www.facebook.com/ads/library/?id=889599310806471" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Haz lo que amas con Shopify</td><td class="num fuerte">77</td><td class="num">2026-06-15</td><td><a href="https://www.facebook.com/ads/library/?id=2679318102468690" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>(sin titular)</td><td class="num fuerte">46</td><td class="num">2026-07-16</td><td><a href="https://www.facebook.com/ads/library/?id=1358998209538323" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>(sin titular)</td><td class="num fuerte">46</td><td class="num">2026-07-16</td><td><a href="https://www.facebook.com/ads/library/?id=2217143392369589" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>(sin titular)</td><td class="num fuerte">46</td><td class="num">2026-07-16</td><td><a href="https://www.facebook.com/ads/library/?id=1337669978536648" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Pon en marcha tu negocio con Shopify</td><td class="num fuerte">24</td><td class="num">2026-08-07</td><td><a href="https://www.facebook.com/ads/library/?id=1066441425835107" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Comienza a vender más rápido</td><td class="num fuerte">24</td><td class="num">2026-08-07</td><td><a href="https://www.facebook.com/ads/library/?id=2121980418413329" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Pon en marcha tu negocio con Shopify</td><td class="num fuerte">24</td><td class="num">2026-08-07</td><td><a href="https://www.facebook.com/ads/library/?id=1047885671291107" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Dale vida a tu idea con Shopify</td><td class="num fuerte">24</td><td class="num">2026-08-07</td><td><a href="https://www.facebook.com/ads/library/?id=1749243509418880" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr><tr><td>Impulsa tu idea con Shopify.</td><td class="num fuerte">24</td><td class="num">2026-08-07</td><td><a href="https://www.facebook.com/ads/library/?id=2316269725444335" target="_blank" rel="noopener noreferrer" class="enl">ver</a></td></tr></tbody></table></div><p class="pie-grafico">Mediana del inventario: <b>24 días</b> activo.</p></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Creativos que duran.</b> Su anuncio más longevo lleva <b class="fuerte">159 días</b> activo, y la mediana del inventario es de 24 días. Con 0.7 creativos nuevos por semana, no están quemando producción: están dejando trabajar lo que funciona.</li><li><b class="fuerte">Cartera de mensajes.</b> Concentración de solo 12%: «crea tu tienda», «impulsa tu idea», «pon en marcha tu negocio», «vende en todas partes». Cada uno es una entrada distinta al mismo producto.</li><li><b class="fuerte">Carrusel como formato dominante.</b> 9 de 13 anuncios con titular legible son de varias tarjetas. Cuentan un producto por pasos, no en un golpe.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">No habla de cobrar.</b> Ninguno de los 16 anuncios menciona pagos, tarjeta ni cobros. Su territorio es EMPEZAR el negocio, no operarlo.</li><li><b class="fuerte">Los mismos 16 anuncios en GT y en SV.</b> Son campañas regionales, no una estrategia por país: no adaptan el mensaje al mercado.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>Shopify ocupa «monta tu tienda» y Paggo ocupa «gestiona tu negocio fácil». <b class="fuerte">Ninguno de los dos dice «cobra mejor».</b> Ese es el hueco más limpio que aparece en todo el reporte, y es exactamente el producto de QPayPro.</p></div></section></article><article class="dossier" id="square_us"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c2)">Referente · consulta global · USD</div><h2>Square (US)</h2><p class="dossier-lema">El manual de la verticalización</p></header><div class="banda banda-parcial"><div class="banda-icono" aria-hidden="true">!</div><div><div class="banda-t">Muestra parcial: 50 de 112 anuncios activos</div><div class="banda-c">Se leyeron 50 de 112 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo. La pregunta por los anuncios MÁS LONGEVOS no se responde aquí: los antiguos quedan fuera de la muestra por construcción.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">112</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">leídos 50</div></div><div class="cifra"><div class="cifra-n">16%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">4d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-27</div></div><div class="cifra"><div class="cifra-n">30%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">6 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 8 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Square: 8 · 16%, 5 días vivo · desde 2026-08-25"><div class="barra-et">Square</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c2)"></div></div><div class="barra-val">8 · 16%</div><div class="barra-nota">5 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Get started with Square: 4 · 8%, 5 días vivo · desde 2026-08-26"><div class="barra-et">Get started with Square</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c2)"></div></div><div class="barra-val">4 · 8%</div><div class="barra-nota">5 días vivo · desde 2026-08-26</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Up to $200 Off Hardware: 4 · 8%, 4 días vivo · desde 2026-08-27"><div class="barra-et">Up to $200 Off Hardware</div><div class="barra-pista"><div class="barra-marca" style="width:50.0%;background:var(--c2)"></div></div><div class="barra-val">4 · 8%</div><div class="barra-nota">4 días vivo · desde 2026-08-27</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="See the client picture most booking apps miss.: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">See the client picture most booking apps miss.</div><div class="barra-pista"><div class="barra-marca" style="width:37.5%;background:var(--c2)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Stop juggling tools to run your business: 3 · 6%, 5 días vivo · desde 2026-08-26"><div class="barra-et">Stop juggling tools to run your business</div><div class="barra-pista"><div class="barra-marca" style="width:37.5%;background:var(--c2)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">5 días vivo · desde 2026-08-26</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Run your whole beauty business on Square: 3 · 6%, 5 días vivo · desde 2026-08-25"><div class="barra-et">Run your whole beauty business on Square</div><div class="barra-pista"><div class="barra-marca" style="width:37.5%;background:var(--c2)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">5 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Payment security — built in.: 2 · 4%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Payment security — built in.</div><div class="barra-pista"><div class="barra-marca" style="width:25.0%;background:var(--c2)"></div></div><div class="barra-val">2 · 4%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Smart tools. Smart choices.: 2 · 4%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Smart tools. Smart choices.</div><div class="barra-pista"><div class="barra-marca" style="width:25.0%;background:var(--c2)"></div></div><div class="barra-val">2 · 4%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Square</td><td class="num">8 · 16%</td><td>5 días vivo · desde 2026-08-25</td></tr><tr><td>Get started with Square</td><td class="num">4 · 8%</td><td>5 días vivo · desde 2026-08-26</td></tr><tr><td>Up to $200 Off Hardware</td><td class="num">4 · 8%</td><td>4 días vivo · desde 2026-08-27</td></tr><tr><td>See the client picture most booking apps miss.</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Stop juggling tools to run your business</td><td class="num">3 · 6%</td><td>5 días vivo · desde 2026-08-26</td></tr><tr><td>Run your whole beauty business on Square</td><td class="num">3 · 6%</td><td>5 días vivo · desde 2026-08-25</td></tr><tr><td>Payment security — built in.</td><td class="num">2 · 4%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Smart tools. Smart choices.</td><td class="num">2 · 4%</td><td>6 días vivo · desde 2026-08-25</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="gestión del negocio: 16 anuncios"><div class="barra-et">gestión del negocio</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c2)"></div></div><div class="barra-val">16 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="belleza y citas: 11 anuncios"><div class="barra-et">belleza y citas</div><div class="barra-pista"><div class="barra-marca" style="width:68.8%;background:var(--c2)"></div></div><div class="barra-val">11 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="promoción y precio: 6 anuncios"><div class="barra-et">promoción y precio</div><div class="barra-pista"><div class="barra-marca" style="width:37.5%;background:var(--c2)"></div></div><div class="barra-val">6 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="cobros y pagos: 6 anuncios"><div class="barra-et">cobros y pagos</div><div class="barra-pista"><div class="barra-marca" style="width:37.5%;background:var(--c2)"></div></div><div class="barra-val">6 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="punto de venta / hardware: 5 anuncios"><div class="barra-et">punto de venta / hardware</div><div class="barra-pista"><div class="barra-marca" style="width:31.3%;background:var(--c2)"></div></div><div class="barra-val">5 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="retail y tienda: 5 anuncios"><div class="barra-et">retail y tienda</div><div class="barra-pista"><div class="barra-marca" style="width:31.3%;background:var(--c2)"></div></div><div class="barra-val">5 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="seguridad: 3 anuncios"><div class="barra-et">seguridad</div><div class="barra-pista"><div class="barra-marca" style="width:18.8%;background:var(--c2)"></div></div><div class="barra-val">3 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="restaurante: 1 anuncios"><div class="barra-et">restaurante</div><div class="barra-pista"><div class="barra-marca" style="width:6.3%;background:var(--c2)"></div></div><div class="barra-val">1 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>gestión del negocio</td><td class="num">16 anuncios</td></tr><tr><td>belleza y citas</td><td class="num">11 anuncios</td></tr><tr><td>promoción y precio</td><td class="num">6 anuncios</td></tr><tr><td>cobros y pagos</td><td class="num">6 anuncios</td></tr><tr><td>punto de venta / hardware</td><td class="num">5 anuncios</td></tr><tr><td>retail y tienda</td><td class="num">5 anuncios</td></tr><tr><td>seguridad</td><td class="num">3 anuncios</td></tr><tr><td>restaurante</td><td class="num">1 anuncios</td></tr></tbody></table></div></details><p class="pie-grafico"><b>12</b> anuncio(s) sin vocabulario de ninguna vertical. El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia.</p></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. La cadencia semanal <b class="fuerte">no se calcula</b>: NO se calcula. Las creaciones observadas caben en 2 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 50 creativos leidos se crearon en 3 dia(s) distintos.</p><div class="cols-marco"><div class="cols-eje-y"><span>26</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-25: 26 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-25 · 26 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-26: 20 creativos"><div class="col-marca" style="height:76.9%"></div><span class="col-tip">2026-08-26 · 20 creativos</span></div><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-27: 4 creativos"><div class="col-marca" style="height:15.4%"></div><span class="col-tip">2026-08-27 · 4 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-08-25</span><span>2026-08-27</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>15 creativos (30%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">39</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">11</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 12 tarjetas</div></div><div class="cifra"><div class="cifra-n">0</div><div class="cifra-rot">Sin titular legible</div></div></div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="nota-dato">Ningún anuncio de la muestra nombra a un tercero. Toda la pauta leída es de marca propia.</div></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="hueco"><div class="hueco-t">No se puede responder para esta marca</div><p>La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.</p></div></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Un anuncio por industria, mismo producto.</b> «Run your whole beauty business on Square». «One system. Counter to kitchen.» «Try Square for Retail—Now Free». «Appointments that work with everything else.» No cambian el producto: cambian a quién se lo cuentan. En la muestra, belleza y citas se lleva 11 anuncios y gestión 16.</li><li><b class="fuerte">Mensaje de dolor, no de característica.</b> «Stop juggling tools to run your business» nombra el problema del dueño antes de nombrar el producto.</li><li><b class="fuerte">Catálogo como creativo.</b> Un anuncio lista sus seis piezas de hardware en un carrusel de 12 tarjetas: quien busca un lector lo encuentra sin salir del anuncio.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Concentración baja con muchísimo volumen.</b> 112 activos y ningún mensaje pasa del 16%. Es una operación grande y dispersa; requiere un equipo que QPayPro no tiene.</li><li><b class="fuerte">Muestra recortada.</b> Se leyeron 50 de 112, y son los más recientes: no se puede decir qué anuncio lleva más tiempo corriendo.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>Es la lección más transferible del reporte y no cuesta presupuesto, cuesta criterio: QPayPro tiene un mensaje para todos. Square tiene el mismo producto y un mensaje por vertical. Con 5 artes por semana caben 5 verticales en un mes.</p></div></section></article><article class="dossier" id="square_uk"><header class="dossier-cab"><div class="dossier-eyebrow" style="color:var(--c3)">Referente · consulta global · GBP</div><h2>Square (UK)</h2><p class="dossier-lema">Cambiate, y mirá a quién ya se cambió</p></header><div class="banda banda-parcial"><div class="banda-icono" aria-hidden="true">!</div><div><div class="banda-t">Muestra parcial: 50 de 102 anuncios activos</div><div class="banda-c">Se leyeron 50 de 102 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo. La pregunta por los anuncios MÁS LONGEVOS no se responde aquí: los antiguos quedan fuera de la muestra por construcción.</div></div></div><div class="cifras"><div class="cifra"><div class="cifra-n">102</div><div class="cifra-rot">Anuncios activos</div><div class="cifra-nota">leídos 50</div></div><div class="cifra"><div class="cifra-n">28%</div><div class="cifra-rot">Concentración del mensaje top</div><div class="cifra-nota">cuota del inventario leído</div></div><div class="cifra"><div class="cifra-n">6d</div><div class="cifra-rot">Desde la última publicación</div><div class="cifra-nota">creación más reciente: 2026-08-25</div></div><div class="cifra"><div class="cifra-n">64%</div><div class="cifra-rot">Creativos subidos en lote</div><div class="cifra-nota">8 ráfagas detectadas</div></div></div><section class="bloque "><h3 class="bloque-t">Mensajes que repiten</h3><p class="bloque-s">Cuántos creativos cargan cada mensaje, y cuánto tiempo lleva vivo el más antiguo de ellos. <b class="fuerte">El número de creativos no es presupuesto ni impresiones</b> — es el mejor sustituto disponible: un anunciante que sube 14 piezas de la misma frase está diciendo algo.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="Make the smarter choice. Choose Square.: 14 · 28%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Make the smarter choice. Choose Square.</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c3)"></div></div><div class="barra-val">14 · 28%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square serves you better.: 5 · 10%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Square serves you better.</div><div class="barra-pista"><div class="barra-marca" style="width:35.7%;background:var(--c3)"></div></div><div class="barra-val">5 · 10%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Make the smarter choice. Get Square.: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Make the smarter choice. Get Square.</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square helps you grow.: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Square helps you grow.</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Tender Cow’s rapid rise: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Tender Cow’s rapid rise</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Square® Card Reader (2nd Generation) · Square® Terminal · Square® Register: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Square® Card Reader (2nd Generation) · Square® Terminal · Square® Register</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Sell on the go, anytime.: 3 · 6%, 6 días vivo · desde 2026-08-25"><div class="barra-et">Sell on the go, anytime.</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">6 días vivo · desde 2026-08-25</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="Manage everything with Square: 3 · 6%, 5 días vivo · desde 2026-08-25"><div class="barra-et">Manage everything with Square</div><div class="barra-pista"><div class="barra-marca" style="width:21.4%;background:var(--c3)"></div></div><div class="barra-val">3 · 6%</div><div class="barra-nota">5 días vivo · desde 2026-08-25</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Mensaje</th><th>Creativos</th><th>Detalle</th></tr></thead><tbody><tr><td>Make the smarter choice. Choose Square.</td><td class="num">14 · 28%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Square serves you better.</td><td class="num">5 · 10%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Make the smarter choice. Get Square.</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Square helps you grow.</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Tender Cow’s rapid rise</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Square® Card Reader (2nd Generation) · Square® Terminal · Square® Register</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Sell on the go, anytime.</td><td class="num">3 · 6%</td><td>6 días vivo · desde 2026-08-25</td></tr><tr><td>Manage everything with Square</td><td class="num">3 · 6%</td><td>5 días vivo · desde 2026-08-25</td></tr></tbody></table></div></details></section><section class="bloque "><h3 class="bloque-t">A quién le habla</h3><p class="bloque-s"><b class="fuerte">Inferido del vocabulario de los titulares</b>, no declarado por el anunciante. Un anuncio que toca dos verticales se cuenta en las dos.</p><div class="barras"><div class="fila-barra" tabindex="0" role="img" aria-label="gestión del negocio: 9 anuncios"><div class="barra-et">gestión del negocio</div><div class="barra-pista"><div class="barra-marca" style="width:100.0%;background:var(--c3)"></div></div><div class="barra-val">9 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="restaurante: 4 anuncios"><div class="barra-et">restaurante</div><div class="barra-pista"><div class="barra-marca" style="width:44.4%;background:var(--c3)"></div></div><div class="barra-val">4 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="punto de venta / hardware: 4 anuncios"><div class="barra-et">punto de venta / hardware</div><div class="barra-pista"><div class="barra-marca" style="width:44.4%;background:var(--c3)"></div></div><div class="barra-val">4 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="retail y tienda: 3 anuncios"><div class="barra-et">retail y tienda</div><div class="barra-pista"><div class="barra-marca" style="width:33.3%;background:var(--c3)"></div></div><div class="barra-val">3 anuncios</div></div><div class="fila-barra" tabindex="0" role="img" aria-label="cobros y pagos: 1 anuncios"><div class="barra-et">cobros y pagos</div><div class="barra-pista"><div class="barra-marca" style="width:11.1%;background:var(--c3)"></div></div><div class="barra-val">1 anuncios</div></div></div><details class="tabla-plegada"><summary>Ver la tabla</summary><div class="tabla-scroll"><table><thead><tr><th>Vertical</th><th>Anuncios</th></tr></thead><tbody><tr><td>gestión del negocio</td><td class="num">9 anuncios</td></tr><tr><td>restaurante</td><td class="num">4 anuncios</td></tr><tr><td>punto de venta / hardware</td><td class="num">4 anuncios</td></tr><tr><td>retail y tienda</td><td class="num">3 anuncios</td></tr><tr><td>cobros y pagos</td><td class="num">1 anuncios</td></tr></tbody></table></div></details><p class="pie-grafico"><b>29</b> anuncio(s) sin vocabulario de ninguna vertical. El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia.</p></section><section class="bloque "><h3 class="bloque-t">Velocidad creativa</h3><p class="bloque-s">Cuándo publican y en qué ritmo. La cadencia semanal <b class="fuerte">no se calcula</b>: NO se calcula. Las creaciones observadas caben en 0 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 50 creativos leidos se crearon en 1 dia(s) distintos.</p><div class="cols-marco"><div class="cols-eje-y"><span>50</span><span>0</span></div><div class="cols"><div class="col-envoltura" style="width:14px" tabindex="0" role="img" aria-label="2026-08-25: 50 creativos"><div class="col-marca" style="height:100.0%"></div><span class="col-tip">2026-08-25 · 50 creativos</span></div></div></div><div class="cols-eje-x"><span>2026-08-25</span><span>2026-08-25</span></div><p class="pie-grafico">Se dibujan todos los días del rango, incluidos los que no tuvieron publicaciones: saltarlos haría parecer continuo a quien publica en ráfagas.</p><div class="nota-dato"><b>32 creativos (64%) se subieron en lote.</b> Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una.</div></section><section class="bloque "><h3 class="bloque-t">Estructura del creativo</h3><p class="bloque-s"><b class="fuerte">No es video contra imagen</b> — la API no devuelve el tipo de medio. Lo que sí se deriva es cuántas tarjetas tiene cada pieza, contando los separadores del titular.</p><div class="cifras cifras-3"><div class="cifra"><div class="cifra-n">30</div><div class="cifra-rot">Pieza de una tarjeta</div></div><div class="cifra"><div class="cifra-n">20</div><div class="cifra-rot">Carrusel</div><div class="cifra-nota">hasta 20 tarjetas</div></div><div class="cifra"><div class="cifra-n">0</div><div class="cifra-rot">Sin titular legible</div></div></div></section><section class="bloque "><h3 class="bloque-t">Co-branding con terceros</h3><p class="bloque-s">Anuncios que nombran a otro negocio en el titular. <b class="fuerte">No es el conteo de partnerships con creadores</b> — ese rótulo vive en el anuncio renderizado, no en la API.</p><div class="cifras cifras-2"><div class="cifra"><div class="cifra-n">5</div><div class="cifra-rot">Anuncios con un tercero nombrado</div><div class="cifra-nota">10% de la muestra</div></div><div class="cifra"><div class="cifra-n">2</div><div class="cifra-rot">Negocios nombrados</div><div class="cifra-nota">Gordon&#39;s Wine Bar · Tender Cow</div></div></div><ul class="lista"><li><b class="fuerte">Gordon&#39;s Wine Bar</b> — «Square»</li><li><b class="fuerte">Tender Cow</b> — «Tender Cow’s rapid rise»</li><li><b class="fuerte">Tender Cow</b> — «Tender Cow’s rapid rise»</li><li><b class="fuerte">Tender Cow</b> — «Tender Cow’s rapid rise»</li><li><b class="fuerte">Gordon&#39;s Wine Bar</b> — «Gordon&#39;s Wine Bar + Square»</li></ul></section><section class="bloque "><h3 class="bloque-t">Anuncios más longevos</h3><p class="bloque-s">Si algo lleva mucho tiempo corriendo, probablemente está convirtiendo.</p><div class="hueco"><div class="hueco-t">No se puede responder para esta marca</div><p>La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.</p></div></section><section class="lectura"><div class="lectura-et">Lectura estratégica</div><h4>Qué hace bien</h4><ul class="lista "><li><b class="fuerte">Mensaje de cambio, no de novedad.</b> El 28% de la muestra dice «Make the smarter choice. Choose Square.» — le habla a alguien que YA tiene un proveedor. Es la única marca del grupo que compite por sustitución en lugar de por adopción.</li><li><b class="fuerte">Clientes con nombre y apellido.</b> El 10% de sus anuncios nombra un negocio real: «Gordon&#39;s Wine Bar + Square», «Tender Cow&#39;s rapid rise». No dice «cientos de clientes»: dice cuál.</li><li><b class="fuerte">Carruseles largos.</b> Hasta 20 tarjetas en una sola pieza, y 20 de 50 anuncios son de varias tarjetas: el doble de carrusel que su operación de Estados Unidos.</li></ul><h4>Dónde tiene huecos</h4><ul class="lista lista-hueco"><li><b class="fuerte">Todo en una ráfaga.</b> El 64% de los creativos leídos se subieron en el mismo lote, y las creaciones observadas caben en un solo día. Con la muestra recortada a los 50 más recientes no se puede ver su ritmo real.</li><li><b class="fuerte">Muestra recortada.</b> 50 de 102, los más nuevos. La pregunta por los longevos no se puede responder.</li></ul><div class="oportunidad"><div class="oportunidad-et">La oportunidad</div><p>Dos jugadas copiables mañana. Una: el ángulo de sustitución — nadie en GT ni SV le habla al negocio que ya tiene datáfono. Dos: nombrar clientes. El propio Instagram de QPayPro dice «cientos de tiendas activas» y no nombra ni una; Square nombra un bar de vinos.</p></div></section></article><section class="cierre" id="cierre"><div class="dossier-eyebrow" style="color:var(--marca)">Conclusión estratégica</div><h2>Qué hacer con esto</h2><ol class="cierre-lista"><li><b class="fuerte">El hueco existe y está medido.</b> Paggo ocupa «gestiona tu negocio fácil» con 36 creativos y 105 días. Shopify ocupa «monta tu tienda». Nadie ocupa «cobra mejor», que es el producto. Es el territorio a tomar.</li><li><b class="fuerte">Verticalizar es gratis.</b> Square demuestra que el mismo producto rinde más contado por industria. Con 5 artes semanales de capacidad, un mes son 5 verticales: restaurante, belleza, retail, servicios, comercio en línea.</li><li><b class="fuerte">Nombrar un cliente.</b> QPayPro dice «cientos de tiendas activas» y no nombra ninguna. Square nombra a Gordon&#39;s Wine Bar. Un caso con nombre es más creíble que un número sin cara, y no requiere presupuesto de medios.</li><li><b class="fuerte">En El Salvador no hay nadie.</b> Ninguna de las seis marcas medidas tiene pauta activa en SV — verificado en los dos mercados. La presión competitiva ahí es 0, y eso ya no es ignorancia: está comprobado.</li><li><b class="fuerte">El ángulo de sustitución está libre.</b> Todos los competidores medidos le hablan a quien no tiene solución. Nadie le habla a quien ya tiene una y está mal atendido.</li></ol></section><footer class="pie"><p><b>Cómo se hizo.</b> Una consulta a <code class="cod">mcp__Meta_MCP__ads_library_search</code> por marca, con <code class="cod">ad_active_status: ACTIVE</code> y el tope de 50 del conector. Cada número de este reporte se recalcula desde el crudo guardado en la corrida; ninguno se escribió a mano.</p><p><b>Lo que es medición y lo que es lectura.</b> Los gráficos, los conteos y las fechas salen del dato. Los bloques rotulados <i>Lectura estratégica</i>, <i>La oportunidad</i> y la conclusión son interpretación, y cada afirmación cita el número del que sale. Están en un archivo aparte del análisis justamente para que la diferencia se vea.</p></footer></div></main>
+<script>
+/* Reporte de la Ad Library · comportamiento.
+ *
+ * El reporte se lee, no se opera, así que aquí hay muy poco a propósito: solo
+ * lo que un documento largo necesita para no perder al lector.
+ *
+ * 1. El rail marca en qué dossier va el scroll.
+ * 2. Las barras crecen desde cero al entrar en pantalla, una vez. No es adorno:
+ *    con quince barras estáticas la vista no sabe dónde empezar a leer, y el
+ *    crecimiento ordena la entrada. Se respeta `prefers-reduced-motion`.
+ *
+ * Todo el contenido ya viene renderizado en el HTML: si este script no corre,
+ * el reporte se lee completo. Eso es deliberado — es un documento, no una app.
+ */
+(function () {
+  "use strict";
+
+  var quieto = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ── 1 · El rail sigue al scroll ──────────────────────────────────────── */
+
+  var enlaces = Array.prototype.slice.call(
+    document.querySelectorAll(".rail-b[href^='#']"));
+  var secciones = enlaces
+    .map(function (a) {
+      return { a: a, n: document.getElementById(a.getAttribute("href").slice(1)) };
+    })
+    .filter(function (x) { return x.n; });
+
+  function marca(id) {
+    secciones.forEach(function (s) {
+      s.a.classList.toggle("activo", s.n.id === id);
+    });
+  }
+
+  if (typeof IntersectionObserver === "function" && secciones.length) {
+    var obs = new IntersectionObserver(function (entradas) {
+      var mejor = null;
+      entradas.forEach(function (e) {
+        if (e.isIntersecting &&
+            (!mejor || e.intersectionRatio > mejor.intersectionRatio)) mejor = e;
+      });
+      if (mejor) marca(mejor.target.id);
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.01, 0.3] });
+    secciones.forEach(function (s) { obs.observe(s.n); });
+  }
+
+  /* En móvil el rail es horizontal: cuando el dossier activo queda fuera de
+     vista, se lo trae. Sin esto el indicador existe pero no se ve. */
+  var rail = document.querySelector(".rail");
+  if (rail) {
+    var traer = function () {
+      var act = rail.querySelector(".rail-b.activo");
+      if (!act || rail.scrollWidth <= rail.clientWidth) return;
+      var r = act.getBoundingClientRect(), rr = rail.getBoundingClientRect();
+      if (r.left < rr.left || r.right > rr.right) {
+        rail.scrollTo({ left: act.offsetLeft - rail.clientWidth / 2 + r.width / 2,
+                        behavior: quieto ? "auto" : "smooth" });
+      }
+    };
+    var reloj = null;
+    document.addEventListener("scroll", function () {
+      clearTimeout(reloj);
+      reloj = setTimeout(traer, 140);
+    }, { passive: true });
+  }
+
+  /* ── 2 · Las barras crecen al entrar ──────────────────────────────────── */
+
+  var barras = Array.prototype.slice.call(document.querySelectorAll(".barra-marca"));
+  if (!barras.length) return;
+
+  if (quieto || typeof IntersectionObserver !== "function") {
+    return; /* ya están en su ancho final: el HTML lo trae puesto */
+  }
+
+  /* Se guarda el ancho final y se parte de cero. Si algo falla a partir de
+     aquí, la barra queda en su ancho real, no en cero: el ancho se restituye
+     en el mismo cuadro en que se observa. */
+  var finales = barras.map(function (b) { return b.style.width; });
+  barras.forEach(function (b) { b.style.width = "0%"; });
+
+  var ob = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var i = barras.indexOf(e.target);
+      if (i < 0) return;
+      e.target.style.width = finales[i];
+      ob.unobserve(e.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+
+  barras.forEach(function (b) { ob.observe(b); });
+
+  /* Red de seguridad: si el observador no dispara en dos segundos —pestaña en
+     segundo plano, por ejemplo— se restituyen todos los anchos. Un reporte con
+     las barras en cero sería peor que un reporte sin animación. */
+  setTimeout(function () {
+    barras.forEach(function (b, i) {
+      if (b.style.width === "0%") b.style.width = finales[i];
+    });
+  }, 2000);
+})();
+
+</script>

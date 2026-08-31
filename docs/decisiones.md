@@ -1078,3 +1078,88 @@ apagados, repetida en otra forma: entonces se dijo «no existe» de algo que est
 instalado; aquí se dijo «imposible» de algo que estaba sin conectar. Y **una
 segunda fuente del mismo dato no es redundancia**: buscando alcance apareció el
 corte por formato, que con una sola fuente no se veía.
+
+---
+
+## ADR-032 · El análisis profundo de la Ad Library, y las tres preguntas que no tienen respuesta
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+
+### Contexto
+
+Mercadeo pidió, literalmente, el mismo análisis que había visto hecho de Square,
+aplicado a todas las marcas del registro: formatos, partnerships con creadores,
+mensajes que repiten, a quién le hablan, top 10 por impresiones, anuncios más
+longevos, velocidad creativa y conclusión estratégica. Con reporte HTML, gráficos
+y buena presentación.
+
+Ocho preguntas. La fuente sostiene cinco.
+
+### Lo que se comprobó antes de construir
+
+`ads_library_search` devuelve **ocho campos** por anuncio: `id`, `page_id`,
+`page_name`, `ad_creative_link_title`, `ad_creation_time`,
+`ad_delivery_start_time`, `ad_snapshot_url` y `currency`. No hay cuerpo del copy,
+ni tipo de medio, ni impresiones, ni creador etiquetado.
+
+Se intentó la vía obvia: abrir el `ad_snapshot_url` de cada anuncio, que sí
+muestra todo eso. `www.facebook.com` está bloqueado por la política de red del
+entorno (`EGRESS_BLOCKED`), igual que `business.facebook.com`. No hay vía.
+
+### Decisión
+
+Se responden **cinco preguntas completas y tres a medias**, y las tres a medias
+se declaran arriba del reporte, no en una nota al pie:
+
+| Pregunta | Estado | Qué sí, qué no |
+|---|---|---|
+| Formatos | **PARCIAL** | Sí: tarjeta única vs. carrusel, contando los separadores del titular. No: video vs. imagen — no existe el campo |
+| Partnerships | **PARCIAL** | Sí: co-branding en el titular («Negocio + Marca», historias con nombre propio). No: el rótulo «with @handle» de un creador pagado |
+| Top 10 por impresiones | **IMPOSIBLE** | Meta no publica métricas de entrega de anunciantes comerciales. Sustituto declarado: ranking por cantidad de creativos y por días vivo |
+
+Y una regla que gobierna cada dossier: **la longevidad solo se responde si la
+muestra está completa.** El conector topa en 50 sin cursor de paginación, así que
+para una marca con más activos lo que se lee son los 50 **más recientes** — y los
+antiguos, que son justo los que esa pregunta busca, quedan fuera por
+construcción. Contestar con esa muestra daría «el más viejo de los nuevos».
+Aplica a Square (112 y 102) y a Banco Industrial (844).
+
+### Consecuencias, incluido lo que apareció por el camino
+
+- **Consultar sin `countries` da el inventario global.** Square pasó de 0
+  anuncios (la lectura GT/SV que teníamos) a **112 activos** en su página de
+  EE.UU. y 102 en la de Reino Unido. Para un referente, el inventario global es
+  justamente lo que interesa: se mira para aprender, no para medir presión.
+- **La página de Square que faltaba.** Mercadeo mandó un `page_id` que no estaba
+  en el registro (`200925806590732`, la operación de EE.UU.). Quedó agregado.
+- El módulo `adlibrary_profundo.py` calcula todo desde el crudo, así que la
+  corrida semanal lo reproduce. Las **lecturas estratégicas viven en un archivo
+  aparte** (`adlibrary_lecturas.json`) a propósito: así se ve de un golpe qué es
+  medición y qué es interpretación.
+
+### Tres bugs propios que salieron al construirlo
+
+1. **Colisión de separadores.** `_normaliza()` unía las tarjetas de un carrusel
+   con `" + "`, que es exactamente el patrón que busca la detección de
+   co-branding. Leía su propio join y reportaba «Square + Gordon's Wine Bar»
+   como el nombre de una marca aliada. Ahora une con `" · "`, y la detección
+   examina cada tarjeta por separado en vez del texto concatenado.
+2. **Una tasa sobre una ventana diminuta.** «Creativos por semana» daba **350**
+   para Square UK: con la muestra topada en los 50 más recientes, todas las
+   creaciones caen en un día y dividir por ese span es un artefacto de la
+   aritmética, no un ritmo de trabajo. Ahora la cadencia solo se publica si el
+   span llega a 14 días; si no, se dice por qué no se calcula.
+3. **El detector de desborde de la prueba daba falsos positivos.** Marcaba los
+   hijos del rail, que es un contenedor con scroll horizontal propio: pasarse del
+   viewport es lo que hace un scroller. Ahora excluye lo que vive dentro de un
+   ancestro con `overflow-x: auto`.
+
+### La lección
+
+**Cuando el pedido excede al dato, la respuesta no es recortar el pedido en
+silencio ni rellenarlo.** Es entregar lo que el dato sostiene, con la misma
+calidad que si fueran las ocho preguntas, y poner arriba —donde no se pueda no
+leer— qué falta y por qué. Un reporte que contesta ocho preguntas cuando la
+fuente sostiene cinco está inventando tres, y quien lo lea tomará decisiones con
+esas tres.

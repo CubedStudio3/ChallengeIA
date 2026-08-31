@@ -261,6 +261,31 @@ cometidos; no hay tiempo de repetirlos.
 - **Una segunda fuente del mismo dato no es redundancia.** Buscando alcance
   apareció el corte por formato, que era invisible con una sola fuente.
 
+- **La Ad Library devuelve OCHO campos, no más:** `id`, `page_id`, `page_name`,
+  `ad_creative_link_title`, `ad_creation_time`, `ad_delivery_start_time`,
+  `ad_snapshot_url`, `currency`. Sin cuerpo del copy, sin tipo de medio, sin
+  impresiones, sin el creador etiquetado (ADR-032).
+- **Meta no publica impresiones de anunciantes comerciales.** Solo los anuncios
+  políticos y de asuntos sociales traen rangos. Un «top 10 por impresiones» de un
+  competidor comercial es imposible, no difícil.
+- **`facebook.com` y `business.facebook.com` están bloqueados por el proxy.** No
+  se puede renderizar el `ad_snapshot_url`, que es donde viven el formato y el
+  «with @handle».
+- **El titular sí dice cuántas TARJETAS tiene el creativo.** Un carrusel llega con
+  los títulos pegados por `" | "`. Distingue carrusel de pieza única — nunca video
+  de imagen.
+- **Consultar sin `countries` da el inventario GLOBAL.** Es lo que interesa de un
+  referente: Square pasó de 0 anuncios (GT/SV) a 112 activos en su página de EE.UU.
+- **Cuidado con el separador propio.** `_normaliza()` unía las tarjetas con `" + "`,
+  que es justo el patrón que busca la detección de co-branding: leía su propio
+  join y reportaba «Square + Gordon's Wine Bar» como marca aliada.
+- **Una tasa sobre una ventana diminuta es un número inventado.** Con la muestra
+  topada en los 50 más recientes, el span colapsa a 1 día y «creativos por semana»
+  daba 350 para Square UK. Si el span no la sostiene, no se publica.
+- **Varios anuncios con el MISMO segundo de creación son una carga en lote**, no
+  piezas pensadas una por una. Distinguir ráfaga de goteo dice si el competidor
+  testea o despliega: Paggo sube el 65% de sus creativos en ráfagas.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -289,7 +314,10 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `config/convenciones.json` | Fechas, métricas, mercados y **qué redes entran al reporte** |
 | `src/modulo1/tablero_tailwind.css` | Las clases propias del tablero. El CSS se **compila** con Tailwind; no hay CDN |
 | `tailwind.config.js` | Qué archivos escanea Tailwind. Ver la trampa del corte en un espacio |
-| `.prueba-tablero.js` | Prueba del tablero en Chromium a 1440, 834 y 390 px. `node .prueba-tablero.js` |
+| `pruebas/tablero.js` | Prueba del tablero en Chromium a 1440, 834 y 390 px. `npm run prueba:tablero` |
+| `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
+| `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
+| `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |
 
 ---

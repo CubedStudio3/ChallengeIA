@@ -1,0 +1,389 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "1689602518029813"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_alcance": "GLOBAL: sin filtro de pais, que es lo que interesa de un referente",
+  "_nota": "La Ad Library NO acepta rango de fechas: foto del 2026-08-31.",
+  "_muestra_completa": false,
+  "_advertencia_muestra": "Se leyeron 50 de 102 activos. El tope del conector es 50 y no expone cursor de paginacion, asi que la muestra son los 50 MAS RECIENTES. Consecuencia: la pregunta por los anuncios mas LONGEVOS no se puede responder para esta marca.",
+  "_campos_que_devuelve_la_api": [
+   "id",
+   "page_id",
+   "page_name",
+   "ad_creative_link_title",
+   "ad_creation_time",
+   "ad_delivery_start_time",
+   "ad_snapshot_url",
+   "currency"
+  ],
+  "_campos_que_NO_devuelve": [
+   "cuerpo del copy",
+   "tipo de medio (video/imagen)",
+   "impresiones",
+   "creador etiquetado (with @handle)"
+  ]
+ },
+ "pagina": "Square (UK)",
+ "page_id": "1689602518029813",
+ "moneda": "GBP",
+ "estimated_total_count": 102,
+ "ads": [
+  {
+   "id": "1780096759821415",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690617,
+   "ad_delivery_start_time": 1787765592,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1780096759821415"
+  },
+  {
+   "id": "1475408257972762",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690612,
+   "ad_delivery_start_time": 1787829404,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1475408257972762"
+  },
+  {
+   "id": "1364186122551372",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690611,
+   "ad_delivery_start_time": 1788169415,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1364186122551372"
+  },
+  {
+   "id": "2079018632733064",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690610,
+   "ad_delivery_start_time": 1787859686,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2079018632733064"
+  },
+  {
+   "id": "1017955334578203",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690610,
+   "ad_delivery_start_time": 1787838339,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1017955334578203"
+  },
+  {
+   "id": "1698086271272907",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690609,
+   "ad_delivery_start_time": 1788024046,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1698086271272907"
+  },
+  {
+   "id": "1596685495285160",
+   "ad_creative_link_title": "Make the smarter choice. Get Square.",
+   "ad_creation_time": 1787690608,
+   "ad_delivery_start_time": 1787752387,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1596685495285160"
+  },
+  {
+   "id": "1739458254008644",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690607,
+   "ad_delivery_start_time": 1787760054,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1739458254008644"
+  },
+  {
+   "id": "1404294061777232",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690607,
+   "ad_delivery_start_time": 1787739467,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1404294061777232"
+  },
+  {
+   "id": "1537805950946723",
+   "ad_creative_link_title": "Make the smarter choice. Get Square.",
+   "ad_creation_time": 1787690606,
+   "ad_delivery_start_time": 1787837184,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1537805950946723"
+  },
+  {
+   "id": "1607791510758828",
+   "ad_creative_link_title": "Square |   |   |  ",
+   "ad_creation_time": 1787690588,
+   "ad_delivery_start_time": 1787792661,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1607791510758828"
+  },
+  {
+   "id": "1039139355786340",
+   "ad_creative_link_title": "Square | Gordon's Wine Bar + Square | Gordon's Wine Bar + Square | Gordon's Wine Bar + Square",
+   "ad_creation_time": 1787690587,
+   "ad_delivery_start_time": 1787846182,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1039139355786340"
+  },
+  {
+   "id": "1067022815968687",
+   "ad_creative_link_title": "Manage everything with Square",
+   "ad_creation_time": 1787690570,
+   "ad_delivery_start_time": 1787704902,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1067022815968687"
+  },
+  {
+   "id": "2320564702106169",
+   "ad_creative_link_title": "Manage everything with Square",
+   "ad_creation_time": 1787690569,
+   "ad_delivery_start_time": 1787751746,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2320564702106169"
+  },
+  {
+   "id": "1033840066125992",
+   "ad_creative_link_title": "Manage everything with Square",
+   "ad_creation_time": 1787690569,
+   "ad_delivery_start_time": 1787959794,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1033840066125992"
+  },
+  {
+   "id": "4315592925346460",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690556,
+   "ad_delivery_start_time": 1787757961,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4315592925346460"
+  },
+  {
+   "id": "1399928422094590",
+   "ad_creative_link_title": "Square helps you grow.",
+   "ad_creation_time": 1787690556,
+   "ad_delivery_start_time": 1787765558,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1399928422094590"
+  },
+  {
+   "id": "2152214429060834",
+   "ad_creative_link_title": "Square helps you grow.",
+   "ad_creation_time": 1787690556,
+   "ad_delivery_start_time": 1787885323,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2152214429060834"
+  },
+  {
+   "id": "2476530639497436",
+   "ad_creative_link_title": "Square serves you better.",
+   "ad_creation_time": 1787690555,
+   "ad_delivery_start_time": 1787775043,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2476530639497436"
+  },
+  {
+   "id": "1957795164891371",
+   "ad_creative_link_title": "Square serves you better.",
+   "ad_creation_time": 1787690554,
+   "ad_delivery_start_time": 1787830616,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1957795164891371"
+  },
+  {
+   "id": "1043942791951245",
+   "ad_creative_link_title": "Tender Cow’s rapid rise",
+   "ad_creation_time": 1787690552,
+   "ad_delivery_start_time": 1787947913,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1043942791951245"
+  },
+  {
+   "id": "959960033798506",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690551,
+   "ad_delivery_start_time": 1787766990,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=959960033798506"
+  },
+  {
+   "id": "1322325333080568",
+   "ad_creative_link_title": "Tender Cow’s rapid rise",
+   "ad_creation_time": 1787690549,
+   "ad_delivery_start_time": 1787725881,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1322325333080568"
+  },
+  {
+   "id": "1061223733118876",
+   "ad_creative_link_title": "default_collection_headline",
+   "ad_creation_time": 1787690527,
+   "ad_delivery_start_time": 1787835667,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1061223733118876"
+  },
+  {
+   "id": "1826782898682902",
+   "ad_creative_link_title": "Square® Card Reader (2nd Generation) | Square® Terminal | Square® Register | Square® Kiosk | Square® Handheld | Square® Stand 2nd Generation",
+   "ad_creation_time": 1787690519,
+   "ad_delivery_start_time": 1788123384,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1826782898682902"
+  },
+  {
+   "id": "1103050615713672",
+   "ad_creative_link_title": "Easy to get started. | Easy to get started. | Easy to get started. | Easy to get started.",
+   "ad_creation_time": 1787690484,
+   "ad_delivery_start_time": 1787695054,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1103050615713672"
+  },
+  {
+   "id": "1073283648571928",
+   "ad_creative_link_title": "Make the smarter choice. Get Square. | Make the smarter choice. Get Square.",
+   "ad_creation_time": 1787690483,
+   "ad_delivery_start_time": 1787695042,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1073283648571928"
+  },
+  {
+   "id": "1446857403943510",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690483,
+   "ad_delivery_start_time": 1787694746,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1446857403943510"
+  },
+  {
+   "id": "37933565966289965",
+   "ad_creative_link_title": "Sell on the go, anytime.",
+   "ad_creation_time": 1787690483,
+   "ad_delivery_start_time": 1787695630,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=37933565966289965"
+  },
+  {
+   "id": "1409297094453552",
+   "ad_creative_link_title": "Square serves you better.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695632,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1409297094453552"
+  },
+  {
+   "id": "1781551796523972",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695949,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1781551796523972"
+  },
+  {
+   "id": "2096727984281047",
+   "ad_creative_link_title": "Sell on the go, anytime.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695815,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2096727984281047"
+  },
+  {
+   "id": "2304657110289574",
+   "ad_creative_link_title": "Square® Card Reader (2nd Generation) | Square® Terminal | Square® Register | Square® Kiosk | Square® Handheld | Square® Stand 2nd Generation",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695241,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2304657110289574"
+  },
+  {
+   "id": "2203205760253492",
+   "ad_creative_link_title": "Square® Card Reader (2nd Generation) | Square® Terminal | Square® Register | Square® Kiosk | Square® Handheld | Square® Stand 2nd Generation",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695925,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2203205760253492"
+  },
+  {
+   "id": "2471900189976212",
+   "ad_creative_link_title": "Square Reader for magstripe (headset jack) | Square Reader for magstripe (USB-C) | Square Reader for magstripe (Lightning) | Square Kiosk, la borne de commande Square | Square® Stand 2nd Generation | Square® Kiosk",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787695247,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2471900189976212"
+  },
+  {
+   "id": "1391564709601376",
+   "ad_creative_link_title": "Take payments right away.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787696345,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1391564709601376"
+  },
+  {
+   "id": "1087992287037077",
+   "ad_creative_link_title": "Square | Upgrade your business today. | Upgrade your business today.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787700257,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1087992287037077"
+  },
+  {
+   "id": "1074029681678403",
+   "ad_creative_link_title": "Sell on the go, anytime.",
+   "ad_creation_time": 1787690482,
+   "ad_delivery_start_time": 1787700376,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1074029681678403"
+  },
+  {
+   "id": "27883924001303494",
+   "ad_creative_link_title": "Get Square today | Get Square today",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787695308,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=27883924001303494"
+  },
+  {
+   "id": "1780841589574932",
+   "ad_creative_link_title": "Square serves you better.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787695731,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1780841589574932"
+  },
+  {
+   "id": "1774738436997452",
+   "ad_creative_link_title": "Square serves you better.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787695784,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1774738436997452"
+  },
+  {
+   "id": "1094837619736568",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787699232,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1094837619736568"
+  },
+  {
+   "id": "1570875734529135",
+   "ad_creative_link_title": "Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square. | Make the smarter choice. Choose Square.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787699568,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1570875734529135"
+  },
+  {
+   "id": "1076275805091843",
+   "ad_creative_link_title": "Square helps you grow. | Square helps you grow. | Square helps you grow.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787694996,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1076275805091843"
+  },
+  {
+   "id": "1072387888631592",
+   "ad_creative_link_title": "Tender Cow’s rapid rise | Tender Cow’s rapid rise",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787694924,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1072387888631592"
+  },
+  {
+   "id": "903603495774464",
+   "ad_creative_link_title": "Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square | Why restaurants pick Square",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787698909,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=903603495774464"
+  },
+  {
+   "id": "1097018466324614",
+   "ad_creative_link_title": "Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square. | Increase orders with Square.",
+   "ad_creation_time": 1787690481,
+   "ad_delivery_start_time": 1787700253,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1097018466324614"
+  },
+  {
+   "id": "1072013315186579",
+   "ad_creative_link_title": "Get tools that keep up. | Get tools that keep up.",
+   "ad_creation_time": 1787690480,
+   "ad_delivery_start_time": 1787697555,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1072013315186579"
+  },
+  {
+   "id": "1110278858347317",
+   "ad_creative_link_title": "Gordon's Wine Bar + Square | Gordon's Wine Bar + Square | Gordon's Wine Bar + Square",
+   "ad_creation_time": 1787690479,
+   "ad_delivery_start_time": 1787696078,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1110278858347317"
+  },
+  {
+   "id": "1371607284514508",
+   "ad_creative_link_title": "Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses | Loved by British businesses",
+   "ad_creation_time": 1787690479,
+   "ad_delivery_start_time": 1787701143,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1371607284514508"
+  }
+ ]
+}

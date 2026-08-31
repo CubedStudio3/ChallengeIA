@@ -1,0 +1,392 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "135136309831436"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50,
+   "countries": [
+    "GT"
+   ]
+  },
+  "_alcance": "solo GT",
+  "_nota": "La Ad Library NO acepta rango de fechas: foto del 2026-08-31.",
+  "_muestra_completa": false,
+  "_advertencia_muestra": "Se leyeron 50 de 844 activos. El tope del conector es 50 y no expone cursor de paginacion, asi que la muestra son los 50 MAS RECIENTES. Consecuencia: la pregunta por los anuncios mas LONGEVOS no se puede responder para esta marca.",
+  "_campos_que_devuelve_la_api": [
+   "id",
+   "page_id",
+   "page_name",
+   "ad_creative_link_title",
+   "ad_creation_time",
+   "ad_delivery_start_time",
+   "ad_snapshot_url",
+   "currency"
+  ],
+  "_campos_que_NO_devuelve": [
+   "cuerpo del copy",
+   "tipo de medio (video/imagen)",
+   "impresiones",
+   "creador etiquetado (with @handle)"
+  ]
+ },
+ "pagina": "Banco Industrial",
+ "page_id": "135136309831436",
+ "moneda": "USD",
+ "estimated_total_count": 844,
+ "ads": [
+  {
+   "id": "1613418796960106",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1788196823,
+   "ad_delivery_start_time": 1788201935,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1613418796960106"
+  },
+  {
+   "id": "1786755792338297",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1788188286,
+   "ad_delivery_start_time": 1788193826,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1786755792338297"
+  },
+  {
+   "id": "1105781109176620",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787958405,
+   "ad_delivery_start_time": 1787963213,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1105781109176620"
+  },
+  {
+   "id": "1357131016575762",
+   "ad_creative_link_title": "Crédito Bi",
+   "ad_creation_time": 1787939388,
+   "ad_delivery_start_time": 1787944496,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1357131016575762"
+  },
+  {
+   "id": "944202295428915",
+   "ad_creative_link_title": "Moto en Línea",
+   "ad_creation_time": 1787939237,
+   "ad_delivery_start_time": 1787945826,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=944202295428915"
+  },
+  {
+   "id": "2184988242069739",
+   "ad_creative_link_title": "Moto en Línea Bi | Moto en Línea Bi | Moto en Línea Bi",
+   "ad_creation_time": 1787939237,
+   "ad_delivery_start_time": 1788034581,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2184988242069739"
+  },
+  {
+   "id": "1098105312796530",
+   "ad_creative_link_title": "Moto en Línea",
+   "ad_creation_time": 1787939236,
+   "ad_delivery_start_time": 1787945397,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1098105312796530"
+  },
+  {
+   "id": "1586590276148793",
+   "ad_creative_link_title": "Moto en Línea",
+   "ad_creation_time": 1787939236,
+   "ad_delivery_start_time": 1787970843,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1586590276148793"
+  },
+  {
+   "id": "2227516288025958",
+   "ad_creative_link_title": "Crédito Bi",
+   "ad_creation_time": 1787869134,
+   "ad_delivery_start_time": 1787874727,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2227516288025958"
+  },
+  {
+   "id": "1078941664713781",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787876960,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1078941664713781"
+  },
+  {
+   "id": "1076230598140457",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea | Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787872981,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1076230598140457"
+  },
+  {
+   "id": "1038772025440615",
+   "ad_creative_link_title": "Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787873971,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1038772025440615"
+  },
+  {
+   "id": "1422616089843124",
+   "ad_creative_link_title": "Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787873693,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1422616089843124"
+  },
+  {
+   "id": "28174288725523749",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea | Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787919319,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28174288725523749"
+  },
+  {
+   "id": "2331516650999414",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868505,
+   "ad_delivery_start_time": 1787947886,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2331516650999414"
+  },
+  {
+   "id": "1580337840294721",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea | Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868504,
+   "ad_delivery_start_time": 1787873248,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1580337840294721"
+  },
+  {
+   "id": "28001053252887616",
+   "ad_creative_link_title": "Moto en Línea | Moto en Línea | Moto en Línea",
+   "ad_creation_time": 1787868504,
+   "ad_delivery_start_time": 1787875206,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28001053252887616"
+  },
+  {
+   "id": "1479763247541398",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787849026,
+   "ad_delivery_start_time": 1787854446,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1479763247541398"
+  },
+  {
+   "id": "1395921035816287",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787848353,
+   "ad_delivery_start_time": 1787853603,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1395921035816287"
+  },
+  {
+   "id": "885171911136804",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787844392,
+   "ad_delivery_start_time": 1787850374,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=885171911136804"
+  },
+  {
+   "id": "1392315586197429",
+   "ad_creative_link_title": "Banco Industrial | Compra y disfruta | Suma Puntos Bi | Canjéalos y disfrútalos | Tus compras valen más",
+   "ad_creation_time": 1787786440,
+   "ad_delivery_start_time": 1787791275,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1392315586197429"
+  },
+  {
+   "id": "920794747242021",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787783697,
+   "ad_delivery_start_time": 1787788626,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=920794747242021"
+  },
+  {
+   "id": "1297892645639652",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787773120,
+   "ad_delivery_start_time": 1787783652,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1297892645639652"
+  },
+  {
+   "id": "962237066893847",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787773119,
+   "ad_delivery_start_time": 1787779805,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=962237066893847"
+  },
+  {
+   "id": "1085052531123596",
+   "ad_creative_link_title": "Banco Industrial | Cuida tus datos en línea | Cuida tus datos en línea | Cuida tus datos en línea | Cuida tus datos en línea | Cuida tus datos en línea",
+   "ad_creation_time": 1787762311,
+   "ad_delivery_start_time": 1787769583,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1085052531123596"
+  },
+  {
+   "id": "2010528702918341",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787681309,
+   "ad_delivery_start_time": 1787688430,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2010528702918341"
+  },
+  {
+   "id": "1768735134439034",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787681293,
+   "ad_delivery_start_time": 1787718706,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1768735134439034"
+  },
+  {
+   "id": "2905768569775434",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787681290,
+   "ad_delivery_start_time": 1787683480,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2905768569775434"
+  },
+  {
+   "id": "1107518355289752",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787681285,
+   "ad_delivery_start_time": 1787686894,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1107518355289752"
+  },
+  {
+   "id": "1809382230490908",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787675661,
+   "ad_delivery_start_time": 1787680788,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1809382230490908"
+  },
+  {
+   "id": "1040399271941214",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787675655,
+   "ad_delivery_start_time": 1787681162,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1040399271941214"
+  },
+  {
+   "id": "1063827062683497",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787675654,
+   "ad_delivery_start_time": 1787681645,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1063827062683497"
+  },
+  {
+   "id": "1047977187838592",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787669781,
+   "ad_delivery_start_time": 1787675360,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1047977187838592"
+  },
+  {
+   "id": "2176679069564553",
+   "ad_creative_link_title": "Crediauto",
+   "ad_creation_time": 1787616188,
+   "ad_delivery_start_time": 1787974459,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2176679069564553"
+  },
+  {
+   "id": "1363092222475650",
+   "ad_creative_link_title": "Crediauto",
+   "ad_creation_time": 1787616169,
+   "ad_delivery_start_time": 1787630117,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1363092222475650"
+  },
+  {
+   "id": "1086004387730468",
+   "ad_creative_link_title": "Soluciones de Pago | Soluciones de Pago",
+   "ad_creation_time": 1787613264,
+   "ad_delivery_start_time": 1787617789,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1086004387730468"
+  },
+  {
+   "id": "1826113491705681",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787610321,
+   "ad_delivery_start_time": 1787615716,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1826113491705681"
+  },
+  {
+   "id": "1721125565845970",
+   "ad_creative_link_title": "Banco Industrial | ¡Empieza a ahorrar sin pensarlo! | Rápido, fácil y seguro | Programa tu ahorro automático",
+   "ad_creation_time": 1787610321,
+   "ad_delivery_start_time": 1787615531,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1721125565845970"
+  },
+  {
+   "id": "1553081723498033",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787610320,
+   "ad_delivery_start_time": 1787624053,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1553081723498033"
+  },
+  {
+   "id": "4506271666312670",
+   "ad_creative_link_title": "Crediauto",
+   "ad_creation_time": 1787609267,
+   "ad_delivery_start_time": 1787616734,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4506271666312670"
+  },
+  {
+   "id": "1030968803033122",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787597830,
+   "ad_delivery_start_time": 1787602708,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1030968803033122"
+  },
+  {
+   "id": "1051456820807055",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787594405,
+   "ad_delivery_start_time": 1787600167,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1051456820807055"
+  },
+  {
+   "id": "3596854770472274",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1787591783,
+   "ad_delivery_start_time": 1787602201,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3596854770472274"
+  },
+  {
+   "id": "920867377764276",
+   "ad_creative_link_title": "Forma Parte Del Talento BI",
+   "ad_creation_time": 1787591679,
+   "ad_delivery_start_time": 1787596917,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=920867377764276"
+  },
+  {
+   "id": "37729764366668290",
+   "ad_creative_link_title": "Banco Industrial | ¡Actívalas hoy! | ¡Actívalas hoy! | ¡Actívalas hoy! | ¡Actívalas hoy! | ¡Actívalas hoy!",
+   "ad_creation_time": 1787588352,
+   "ad_delivery_start_time": 1787595872,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=37729764366668290"
+  },
+  {
+   "id": "1577604170397622",
+   "ad_creative_link_title": "Facilita tus días con Bi en Línea",
+   "ad_creation_time": 1787587624,
+   "ad_delivery_start_time": 1787595240,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1577604170397622"
+  },
+  {
+   "id": "3203487303178427",
+   "ad_creative_link_title": "Banco Industrial | Beneficios exclusivos | Mirada perfecta con #CuotasBi | Acumula Dobles Puntos | Promociones especiales para ti",
+   "ad_creation_time": 1787586252,
+   "ad_delivery_start_time": 1787591803,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3203487303178427"
+  },
+  {
+   "id": "1427042902650100",
+   "ad_creative_link_title": "Paga desde #BiEnLinea App",
+   "ad_creation_time": 1787584836,
+   "ad_delivery_start_time": 1787590364,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1427042902650100"
+  },
+  {
+   "id": "1089273033526918",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787355662,
+   "ad_delivery_start_time": 1787360599,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1089273033526918"
+  },
+  {
+   "id": "2970172663343362",
+   "ad_creative_link_title": "Banco Industrial S.A. - Banco Industrial",
+   "ad_creation_time": 1787355493,
+   "ad_delivery_start_time": 1787357323,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2970172663343362"
+  }
+ ]
+}

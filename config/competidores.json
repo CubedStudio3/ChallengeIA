@@ -110,7 +110,24 @@
       "_politica_solapamiento": "total",
       "_politica_motivo": "Empresa monoproducto de pagos y POS.",
       "_rol": "referente",
-      "_rol_motivo": "Cero anuncios en GT/SV: no disputa territorio. Su valor es como referencia creativa."
+      "_rol_motivo": "Cero anuncios en GT/SV: no disputa territorio. Su valor es como referencia creativa.",
+      "page_ids_adicionales": {
+        "_por_que": "Square opera varias paginas por region y cada una tiene su propio inventario. La del registro (1689602518029813) es la de Reino Unido, en GBP. Mercadeo mando la de Estados Unidos el 2026-08-31.",
+        "200925806590732": {
+          "nombre": "Square (US)",
+          "moneda": "USD",
+          "activos_2026_08_31": 112,
+          "_verificado": "2026-08-31 · ads_library_search sin filtro de pais"
+        },
+        "1689602518029813": {
+          "nombre": "Square (UK)",
+          "moneda": "GBP",
+          "activos_2026_08_31": 102,
+          "_nota": "0 anuncios en GT y 0 en SV: no pauta en la region. Los 102 son su inventario global, y es lo que interesa de un referente.",
+          "_verificado": "2026-08-31"
+        }
+      },
+      "_leccion": "Consultar sin el parametro `countries` devuelve el inventario GLOBAL. Square figuraba con 0 anuncios porque solo se habia preguntado por GT y SV. Para un referente el corte global es el correcto: se mira para aprender, no para medir presion competitiva."
     },
     {
       "nombre": "GuatePOS",

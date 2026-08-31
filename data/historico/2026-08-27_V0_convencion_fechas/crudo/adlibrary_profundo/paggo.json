@@ -1,0 +1,340 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "105294361957860"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_alcance": "GLOBAL: sin filtro de pais, que es lo que interesa de un referente",
+  "_nota": "La Ad Library NO acepta rango de fechas: foto del 2026-08-31.",
+  "_muestra_completa": true,
+  "_advertencia_muestra": null,
+  "_campos_que_devuelve_la_api": [
+   "id",
+   "page_id",
+   "page_name",
+   "ad_creative_link_title",
+   "ad_creation_time",
+   "ad_delivery_start_time",
+   "ad_snapshot_url",
+   "currency"
+  ],
+  "_campos_que_NO_devuelve": [
+   "cuerpo del copy",
+   "tipo de medio (video/imagen)",
+   "impresiones",
+   "creador etiquetado (with @handle)"
+  ]
+ },
+ "pagina": "Paggo Guatemala",
+ "page_id": "105294361957860",
+ "moneda": "USD",
+ "estimated_total_count": 43,
+ "ads": [
+  {
+   "id": "948741197515016",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787849341,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=948741197515016"
+  },
+  {
+   "id": "1378915160446528",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840267,
+   "ad_delivery_start_time": 1787858192,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1378915160446528"
+  },
+  {
+   "id": "943678688042340",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787849074,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=943678688042340"
+  },
+  {
+   "id": "1786082389298992",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787849510,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1786082389298992"
+  },
+  {
+   "id": "1456212393008438",
+   "ad_creative_link_title": "Acepta Pagos",
+   "ad_creation_time": 1787840345,
+   "ad_delivery_start_time": 1788035503,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1456212393008438"
+  },
+  {
+   "id": "1828138794867543",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840264,
+   "ad_delivery_start_time": 1787849958,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1828138794867543"
+  },
+  {
+   "id": "2049671612324357",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840265,
+   "ad_delivery_start_time": 1787849411,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2049671612324357"
+  },
+  {
+   "id": "2006598326655170",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787851943,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2006598326655170"
+  },
+  {
+   "id": "1941710426517399",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787848959,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1941710426517399"
+  },
+  {
+   "id": "2216108119787273",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840264,
+   "ad_delivery_start_time": 1787850499,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2216108119787273"
+  },
+  {
+   "id": "1738621017411556",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840265,
+   "ad_delivery_start_time": 1787859165,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1738621017411556"
+  },
+  {
+   "id": "2485348268600224",
+   "ad_creative_link_title": "Acepta Pagos",
+   "ad_creation_time": 1787840343,
+   "ad_delivery_start_time": 1787878826,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2485348268600224"
+  },
+  {
+   "id": "1085403377772805",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840265,
+   "ad_delivery_start_time": 1787862712,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1085403377772805"
+  },
+  {
+   "id": "1054325644055492",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840263,
+   "ad_delivery_start_time": 1787849740,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1054325644055492"
+  },
+  {
+   "id": "1110835091277237",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787840265,
+   "ad_delivery_start_time": 1787853475,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1110835091277237"
+  },
+  {
+   "id": "1072593838598010",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575851,
+   "ad_delivery_start_time": 1787586979,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1072593838598010"
+  },
+  {
+   "id": "840771772456130",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575847,
+   "ad_delivery_start_time": 1787609369,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=840771772456130"
+  },
+  {
+   "id": "1576308797524199",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575845,
+   "ad_delivery_start_time": 1787587501,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1576308797524199"
+  },
+  {
+   "id": "1435069508434629",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575845,
+   "ad_delivery_start_time": 1787603012,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1435069508434629"
+  },
+  {
+   "id": "1858160832261072",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575844,
+   "ad_delivery_start_time": 1787581628,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1858160832261072"
+  },
+  {
+   "id": "1075774758275110",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575844,
+   "ad_delivery_start_time": 1787585855,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1075774758275110"
+  },
+  {
+   "id": "1037694482489726",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575844,
+   "ad_delivery_start_time": 1787601170,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1037694482489726"
+  },
+  {
+   "id": "1385128470257515",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575844,
+   "ad_delivery_start_time": 1787629564,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1385128470257515"
+  },
+  {
+   "id": "1371547778459181",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575840,
+   "ad_delivery_start_time": 1787580409,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1371547778459181"
+  },
+  {
+   "id": "1581834916766209",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575266,
+   "ad_delivery_start_time": 1787581167,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1581834916766209"
+  },
+  {
+   "id": "2105443233390306",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575266,
+   "ad_delivery_start_time": 1787603434,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2105443233390306"
+  },
+  {
+   "id": "2246610336119550",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575266,
+   "ad_delivery_start_time": 1787685430,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2246610336119550"
+  },
+  {
+   "id": "2543011292827132",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575266,
+   "ad_delivery_start_time": 1787609863,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2543011292827132"
+  },
+  {
+   "id": "2201400850436380",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575266,
+   "ad_delivery_start_time": 1787646316,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2201400850436380"
+  },
+  {
+   "id": "1100897862293856",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575262,
+   "ad_delivery_start_time": 1787701268,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1100897862293856"
+  },
+  {
+   "id": "1801997117459775",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787575262,
+   "ad_delivery_start_time": 1787705609,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1801997117459775"
+  },
+  {
+   "id": "1638203661034538",
+   "ad_creative_link_title": "Acepta Pagos",
+   "ad_creation_time": 1787143080,
+   "ad_delivery_start_time": 1787600701,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1638203661034538"
+  },
+  {
+   "id": "939964125110441",
+   "ad_creative_link_title": "Acepta Pagos",
+   "ad_creation_time": 1787143062,
+   "ad_delivery_start_time": 1787675526,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=939964125110441"
+  },
+  {
+   "id": "1554289652858568",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787142980,
+   "ad_delivery_start_time": 1787147702,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1554289652858568"
+  },
+  {
+   "id": "1887802498872348",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787142979,
+   "ad_delivery_start_time": 1787147390,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1887802498872348"
+  },
+  {
+   "id": "1347303467477998",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787142979,
+   "ad_delivery_start_time": 1787156341,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1347303467477998"
+  },
+  {
+   "id": "1378385277588743",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787142979,
+   "ad_delivery_start_time": 1787167928,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1378385277588743"
+  },
+  {
+   "id": "935765245534989",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1787142978,
+   "ad_delivery_start_time": 1787269090,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=935765245534989"
+  },
+  {
+   "id": "1293243899679840",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1779106808,
+   "ad_delivery_start_time": 1779115213,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1293243899679840"
+  },
+  {
+   "id": "2929068427288049",
+   "ad_creative_link_title": "Cobra y Factura con Paggo",
+   "ad_creation_time": 1779106727,
+   "ad_delivery_start_time": 1779729118,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2929068427288049"
+  },
+  {
+   "id": "1091107136823721",
+   "ad_creative_link_title": "Acepta Pagos con Tarjeta",
+   "ad_creation_time": 1779106692,
+   "ad_delivery_start_time": 1782921035,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1091107136823721"
+  },
+  {
+   "id": "1695752641567492",
+   "ad_creative_link_title": "Cobra y Factura con Paggo",
+   "ad_creation_time": 1779106690,
+   "ad_delivery_start_time": 1779858656,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1695752641567492"
+  },
+  {
+   "id": "26620958677575099",
+   "ad_creative_link_title": "Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil | Gestiona tu Negocio Fácil",
+   "ad_creation_time": 1779106645,
+   "ad_delivery_start_time": 1779111325,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=26620958677575099"
+  }
+ ]
+}

@@ -1,0 +1,151 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "20409006880"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_alcance": "GLOBAL: sin filtro de pais, que es lo que interesa de un referente",
+  "_nota": "La Ad Library NO acepta rango de fechas: foto del 2026-08-31.",
+  "_muestra_completa": true,
+  "_advertencia_muestra": null,
+  "_campos_que_devuelve_la_api": [
+   "id",
+   "page_id",
+   "page_name",
+   "ad_creative_link_title",
+   "ad_creation_time",
+   "ad_delivery_start_time",
+   "ad_snapshot_url",
+   "currency"
+  ],
+  "_campos_que_NO_devuelve": [
+   "cuerpo del copy",
+   "tipo de medio (video/imagen)",
+   "impresiones",
+   "creador etiquetado (with @handle)"
+  ]
+ },
+ "pagina": "Shopify",
+ "page_id": "20409006880",
+ "moneda": "USD",
+ "estimated_total_count": 16,
+ "ads": [
+  {
+   "id": "1682824302808297",
+   "ad_creative_link_title": "Comienza a vender más rápido",
+   "ad_creation_time": 1787707402,
+   "ad_delivery_start_time": 1787769797,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1682824302808297"
+  },
+  {
+   "id": "1781305012999600",
+   "ad_creative_link_title": "Crea tu tienda gratis",
+   "ad_creation_time": 1787707379,
+   "ad_delivery_start_time": 1787773175,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1781305012999600"
+  },
+  {
+   "id": "2316269725444335",
+   "ad_creative_link_title": "Impulsa tu idea con Shopify. | Impulsa tu idea con Shopify. | Impulsa tu idea con Shopify.",
+   "ad_creation_time": 1786137303,
+   "ad_delivery_start_time": 1786141417,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2316269725444335"
+  },
+  {
+   "id": "1749243509418880",
+   "ad_creative_link_title": "Dale vida a tu idea con Shopify | Dale vida a tu idea con Shopify | Dale vida a tu idea con Shopify",
+   "ad_creation_time": 1786137297,
+   "ad_delivery_start_time": 1786139473,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1749243509418880"
+  },
+  {
+   "id": "2666567863788796",
+   "ad_creative_link_title": "Tu idea de negocio, lista para crecer | Tu idea de negocio, lista para crecer",
+   "ad_creation_time": 1786137266,
+   "ad_delivery_start_time": 1786142069,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2666567863788796"
+  },
+  {
+   "id": "3265429456975893",
+   "ad_creative_link_title": "Todo lo que necesitas para empezar | Todo lo que necesitas para empezar",
+   "ad_creation_time": 1786137234,
+   "ad_delivery_start_time": 1786146585,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3265429456975893"
+  },
+  {
+   "id": "2121980418413329",
+   "ad_creative_link_title": "Comienza a vender más rápido | Comienza a vender más rápido | Comienza a vender más rápido | Comienza a vender más rápido",
+   "ad_creation_time": 1786137233,
+   "ad_delivery_start_time": 1786139219,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2121980418413329"
+  },
+  {
+   "id": "1066441425835107",
+   "ad_creative_link_title": "Pon en marcha tu negocio con Shopify | Pon en marcha tu negocio con Shopify",
+   "ad_creation_time": 1786137233,
+   "ad_delivery_start_time": 1786139147,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1066441425835107"
+  },
+  {
+   "id": "1047885671291107",
+   "ad_creative_link_title": "Pon en marcha tu negocio con Shopify | Pon en marcha tu negocio con Shopify",
+   "ad_creation_time": 1786137230,
+   "ad_delivery_start_time": 1786139372,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1047885671291107"
+  },
+  {
+   "id": "1548747316183693",
+   "ad_creative_link_title": "Crea tu tienda rápido con IA | Crea tu tienda rápido con IA",
+   "ad_creation_time": 1786137230,
+   "ad_delivery_start_time": 1786141914,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1548747316183693"
+  },
+  {
+   "id": "1524903975575954",
+   "ad_creative_link_title": "Vende en todas partes. | Vende en todas partes. | Vende en todas partes.",
+   "ad_creation_time": 1786137228,
+   "ad_delivery_start_time": 1786141629,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1524903975575954"
+  },
+  {
+   "id": "1337669978536648",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1784216712,
+   "ad_delivery_start_time": 1784221808,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1337669978536648"
+  },
+  {
+   "id": "1358998209538323",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1784215388,
+   "ad_delivery_start_time": 1784220754,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1358998209538323"
+  },
+  {
+   "id": "2217143392369589",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1784215263,
+   "ad_delivery_start_time": 1784220814,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2217143392369589"
+  },
+  {
+   "id": "2679318102468690",
+   "ad_creative_link_title": "Haz lo que amas con Shopify",
+   "ad_creation_time": 1781557643,
+   "ad_delivery_start_time": 1781559016,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2679318102468690"
+  },
+  {
+   "id": "889599310806471",
+   "ad_creative_link_title": "Vende más con Shopify",
+   "ad_creation_time": 1774455367,
+   "ad_delivery_start_time": 1774460231,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=889599310806471"
+  }
+ ]
+}

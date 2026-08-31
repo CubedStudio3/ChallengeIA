@@ -1,0 +1,389 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "200925806590732"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_alcance": "GLOBAL: sin filtro de pais, que es lo que interesa de un referente",
+  "_nota": "La Ad Library NO acepta rango de fechas: foto del 2026-08-31.",
+  "_muestra_completa": false,
+  "_advertencia_muestra": "Se leyeron 50 de 112 activos. El tope del conector es 50 y no expone cursor de paginacion, asi que la muestra son los 50 MAS RECIENTES. Consecuencia: la pregunta por los anuncios mas LONGEVOS no se puede responder para esta marca.",
+  "_campos_que_devuelve_la_api": [
+   "id",
+   "page_id",
+   "page_name",
+   "ad_creative_link_title",
+   "ad_creation_time",
+   "ad_delivery_start_time",
+   "ad_snapshot_url",
+   "currency"
+  ],
+  "_campos_que_NO_devuelve": [
+   "cuerpo del copy",
+   "tipo de medio (video/imagen)",
+   "impresiones",
+   "creador etiquetado (with @handle)"
+  ]
+ },
+ "pagina": "Square (US)",
+ "page_id": "200925806590732",
+ "moneda": "USD",
+ "estimated_total_count": 112,
+ "ads": [
+  {
+   "id": "1485748456907405",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863581,
+   "ad_delivery_start_time": 1787875041,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1485748456907405"
+  },
+  {
+   "id": "1102147435581094",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863574,
+   "ad_delivery_start_time": 1787869029,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1102147435581094"
+  },
+  {
+   "id": "1369999695266593",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863574,
+   "ad_delivery_start_time": 1787875408,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1369999695266593"
+  },
+  {
+   "id": "1365939751887545",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863570,
+   "ad_delivery_start_time": 1787868715,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1365939751887545"
+  },
+  {
+   "id": "1626012805755897",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774667,
+   "ad_delivery_start_time": 1787876117,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1626012805755897"
+  },
+  {
+   "id": "1783170776355390",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774657,
+   "ad_delivery_start_time": 1787999033,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1783170776355390"
+  },
+  {
+   "id": "2517262758697589",
+   "ad_creative_link_title": "Start selling today",
+   "ad_creation_time": 1787774653,
+   "ad_delivery_start_time": 1787843052,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2517262758697589"
+  },
+  {
+   "id": "1830129241667173",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774650,
+   "ad_delivery_start_time": 1787882691,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1830129241667173"
+  },
+  {
+   "id": "1049815487654857",
+   "ad_creative_link_title": "Grow with Square",
+   "ad_creation_time": 1787774650,
+   "ad_delivery_start_time": 1787850927,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1049815487654857"
+  },
+  {
+   "id": "1970821323601887",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774648,
+   "ad_delivery_start_time": 1788142635,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1970821323601887"
+  },
+  {
+   "id": "1709046927059430",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774637,
+   "ad_delivery_start_time": 1787828040,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1709046927059430"
+  },
+  {
+   "id": "1054142223880373",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774625,
+   "ad_delivery_start_time": 1787836324,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1054142223880373"
+  },
+  {
+   "id": "2102202597044107",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774576,
+   "ad_delivery_start_time": 1787784167,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2102202597044107"
+  },
+  {
+   "id": "1742098170432374",
+   "ad_creative_link_title": "Grow with Square",
+   "ad_creation_time": 1787774575,
+   "ad_delivery_start_time": 1787783561,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1742098170432374"
+  },
+  {
+   "id": "1079890981226463",
+   "ad_creative_link_title": "Start selling today",
+   "ad_creation_time": 1787774572,
+   "ad_delivery_start_time": 1787784257,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1079890981226463"
+  },
+  {
+   "id": "1435408974682460",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787773847,
+   "ad_delivery_start_time": 1787778601,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1435408974682460"
+  },
+  {
+   "id": "4036744539962381",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773828,
+   "ad_delivery_start_time": 1788008635,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4036744539962381"
+  },
+  {
+   "id": "1029363119937688",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773823,
+   "ad_delivery_start_time": 1787849063,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1029363119937688"
+  },
+  {
+   "id": "1657608909264141",
+   "ad_creative_link_title": "Save time and get paid faster.",
+   "ad_creation_time": 1787773761,
+   "ad_delivery_start_time": 1787775691,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1657608909264141"
+  },
+  {
+   "id": "1646346353943920",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773736,
+   "ad_delivery_start_time": 1787775548,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1646346353943920"
+  },
+  {
+   "id": "1779259926743826",
+   "ad_creative_link_title": "Built to grow with you",
+   "ad_creation_time": 1787773465,
+   "ad_delivery_start_time": 1788014693,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1779259926743826"
+  },
+  {
+   "id": "2145679486327237",
+   "ad_creative_link_title": "Square Register | Complete POS System | Square Reader | Tap & Chip Card Machine | Square Stand POS For iPad | 2nd Generation, USB-C | Square Handheld | Portable POS & Barcode Scanner | Square Kiosk for iPad | Self Service USB-C Kiosk | Square Terminal | All-In-One Credit Card Machine",
+   "ad_creation_time": 1787773459,
+   "ad_delivery_start_time": 1787782213,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2145679486327237"
+  },
+  {
+   "id": "1626098755785996",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787773321,
+   "ad_delivery_start_time": 1787778120,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1626098755785996"
+  },
+  {
+   "id": "2070962046853478",
+   "ad_creative_link_title": "Built to grow with you",
+   "ad_creation_time": 1787772802,
+   "ad_delivery_start_time": 1787777727,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2070962046853478"
+  },
+  {
+   "id": "1730761828220815",
+   "ad_creative_link_title": "Square | For do-it-all businesses | For do-it-all businesses | For do-it-all businesses",
+   "ad_creation_time": 1787690724,
+   "ad_delivery_start_time": 1787727200,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1730761828220815"
+  },
+  {
+   "id": "1774963396847594",
+   "ad_creative_link_title": "Square | For do-it-all businesses | For do-it-all businesses | For do-it-all businesses",
+   "ad_creation_time": 1787690716,
+   "ad_delivery_start_time": 1787707998,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1774963396847594"
+  },
+  {
+   "id": "28007285875603105",
+   "ad_creative_link_title": "Appointments that work with everything else.",
+   "ad_creation_time": 1787690705,
+   "ad_delivery_start_time": 1787810574,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28007285875603105"
+  },
+  {
+   "id": "2177060106205845",
+   "ad_creative_link_title": "Appointments that work with everything else.",
+   "ad_creation_time": 1787690705,
+   "ad_delivery_start_time": 1788039205,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2177060106205845"
+  },
+  {
+   "id": "1703244104697273",
+   "ad_creative_link_title": "Your bookings, your payments, your sales — one dashboard.",
+   "ad_creation_time": 1787690701,
+   "ad_delivery_start_time": 1787735872,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1703244104697273"
+  },
+  {
+   "id": "3989416261363471",
+   "ad_creative_link_title": "Payment security — built in.",
+   "ad_creation_time": 1787690699,
+   "ad_delivery_start_time": 1787696041,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3989416261363471"
+  },
+  {
+   "id": "1092147796792134",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787774365,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1092147796792134"
+  },
+  {
+   "id": "1047372824554802",
+   "ad_creative_link_title": "Why sellers choose Square.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1788035853,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1047372824554802"
+  },
+  {
+   "id": "28011132625214725",
+   "ad_creative_link_title": "Payment security — built in.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787857309,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28011132625214725"
+  },
+  {
+   "id": "1177481321269009",
+   "ad_creative_link_title": "Your bookings, your payments, your sales — one dashboard.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787709435,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1177481321269009"
+  },
+  {
+   "id": "2143173286616155",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690697,
+   "ad_delivery_start_time": 1787695469,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2143173286616155"
+  },
+  {
+   "id": "1749050759702845",
+   "ad_creative_link_title": "Smart tools. Smart choices.",
+   "ad_creation_time": 1787690695,
+   "ad_delivery_start_time": 1787697287,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1749050759702845"
+  },
+  {
+   "id": "944617551259878",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690693,
+   "ad_delivery_start_time": 1787695706,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=944617551259878"
+  },
+  {
+   "id": "1797227854609917",
+   "ad_creative_link_title": "All-in-One Payments and Receipts",
+   "ad_creation_time": 1787690692,
+   "ad_delivery_start_time": 1787957090,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1797227854609917"
+  },
+  {
+   "id": "1684894115941107",
+   "ad_creative_link_title": "Smart tools. Smart choices.",
+   "ad_creation_time": 1787690689,
+   "ad_delivery_start_time": 1787704876,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1684894115941107"
+  },
+  {
+   "id": "1702405630979714",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690682,
+   "ad_delivery_start_time": 1787768571,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1702405630979714"
+  },
+  {
+   "id": "2403962683460117",
+   "ad_creative_link_title": "One system. Counter to kitchen.",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1787771492,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2403962683460117"
+  },
+  {
+   "id": "2000364003945455",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1788037424,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2000364003945455"
+  },
+  {
+   "id": "1711229276658796",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690680,
+   "ad_delivery_start_time": 1787881230,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1711229276658796"
+  },
+  {
+   "id": "1445970737372884",
+   "ad_creative_link_title": "Try Square for Retail—Now Free",
+   "ad_creation_time": 1787690677,
+   "ad_delivery_start_time": 1787794243,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1445970737372884"
+  },
+  {
+   "id": "1584278243365009",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787690674,
+   "ad_delivery_start_time": 1787776672,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1584278243365009"
+  },
+  {
+   "id": "1520395396507293",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787690672,
+   "ad_delivery_start_time": 1787776835,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1520395396507293"
+  },
+  {
+   "id": "1767151527762318",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787690672,
+   "ad_delivery_start_time": 1787709881,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1767151527762318"
+  },
+  {
+   "id": "1301594316351096",
+   "ad_creative_link_title": "Try Square for Retail—Now Free",
+   "ad_creation_time": 1787690672,
+   "ad_delivery_start_time": 1787720157,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1301594316351096"
+  },
+  {
+   "id": "3211149682607405",
+   "ad_creative_link_title": "More than appointments.",
+   "ad_creation_time": 1787690667,
+   "ad_delivery_start_time": 1787780702,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3211149682607405"
+  },
+  {
+   "id": "1315777220467268",
+   "ad_creative_link_title": "Protect what you've built.",
+   "ad_creation_time": 1787690652,
+   "ad_delivery_start_time": 1787722607,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1315777220467268"
+  }
+ ]
+}
