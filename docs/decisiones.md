@@ -1163,3 +1163,81 @@ calidad que si fueran las ocho preguntas, y poner arriba —donde no se pueda no
 leer— qué falta y por qué. Un reporte que contesta ocho preguntas cuando la
 fuente sostiene cinco está inventando tres, y quien lo lea tomará decisiones con
 esas tres.
+
+---
+
+## ADR-033 · La paleta nueva entra como relleno, nunca como tinta ni como serie
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+**Pedido:** Mercadeo · «coloca a cada apartado un color de esta paleta: `000000
+a1caed f3d7e9 d0e4bb dcd6c9`, no cambies la estructura, que el blanco siga
+predominando».
+
+### La decisión
+
+Cada sección del tablero recibe un color, y ese color aparece en tres lugares y
+en ninguno más: la **pastilla** del encabezado de sección, el **azulejo** de esa
+sección en el rail lateral, y el **relleno** de las tarjetas de síntesis. El
+resto del tablero —las tarjetas de dato, las gráficas, el fondo— sigue blanco
+sobre `#F3F6F8`. El blanco predomina porque el color entra en la jerarquía de
+navegación, no en la de contenido.
+
+| Sección | Relleno | Tinta encima | Contraste medido |
+|---|---|---|---|
+| Resumen | `#000000` | `#FFFFFF` | 21.0:1 |
+| Rendimiento | `#a1caed` | `#000000` | 12.19:1 |
+| Competencia | `#f3d7e9` | `#000000` | 15.71:1 |
+| Referencias | `#d0e4bb` | `#000000` | 15.50:1 |
+| Estrategia | `#dcd6c9` | `#000000` | 14.51:1 |
+
+### Por qué el pastel no puede ser color de letra
+
+Se midió antes de usarlo. Los cuatro pasteles **sobre blanco** dan entre
+**1.30:1 y 1.72:1**, cuando el mínimo para texto es 4.5:1. Como color de letra
+son ilegibles — no «poco elegantes», ilegibles. Invertidos sí funcionan: el
+negro encima de cualquiera de los cuatro pasa los 12:1. De ahí la regla, escrita
+en `config/tema.json` para que sobreviva a quien edite el tema:
+**el pastel es relleno, nunca tinta.**
+
+Consecuencia de diseño: una tarjeta con relleno pastel necesita su propia escala
+de tinta, porque el gris de texto secundario (`slate-700`) baja a 6.0-7.75:1
+encima del pastel y los grises más claros no llegan. Se resolvió con una bandera
+explícita `tinte` que se pasa a `cardCab()` y `fila()`, no con `!important`
+encima de la cascada: un override global habría teñido también las tarjetas
+blancas de la misma sección.
+
+### Por qué NO son colores de gráfico
+
+Se pasaron por el validador de paletas antes de considerarlo. **Fallan los cinco
+checks.** Los dos peores: arena contra verde da **3.0 de ΔE** donde se pide 8, y
+el piso de discriminación en visión normal queda en **4.9 donde se pide 15**. En
+una serie de cuatro líneas serían cuatro líneas del mismo color pálido.
+`paleta_graficos` queda intacta. La paleta de marca y la paleta de datos son dos
+cosas distintas y confundirlas es lo que produce gráficas bonitas e ilegibles.
+
+### El lavado, y por qué se calcula en vez de elegirse a ojo
+
+Cada sección también expone un tono muy claro de su color, para fondos de nota y
+estados sutiles. No es un valor escrito a mano por sección: se deriva de la
+luminancia del color, `mezcla = 6 + luminancia * 34` por ciento contra blanco.
+Así el negro produce un gris de 6% y los pasteles llegan a ~38%, y los cinco
+lavados terminan con el mismo peso visual. Escribirlos a mano habría dado un
+lavado de negro cinco veces más oscuro que el de arena.
+
+### El logo
+
+El pedido incluía usar un archivo como logo del usuario principal. **El adjunto
+no llegó a la sesión**, así que no hay archivo que incrustar. Queda el hueco
+declarado y listo: `config/tema.json → marca_logo.archivo`, que apunta a una
+ruta relativa; el generador lee el archivo y lo incrusta como **data URI**,
+porque el visor de artefactos bloquea cualquier imagen externa y un enlace no
+cargaría nunca. Sin archivo, el tablero dibuja su monograma y lo dice en la
+consola de la corrida. No se inventó un logo ni se dejó un `<img>` roto.
+
+### La lección
+
+**Medir el color antes de aplicarlo cuesta cinco minutos y cambia el diseño.**
+La misma paleta, sin medir, habría terminado como texto de KPI a 1.4:1 y como
+cuatro series indistinguibles en las gráficas — ambas cosas invisibles en la
+pantalla del que las escribe y evidentes en la reunión.

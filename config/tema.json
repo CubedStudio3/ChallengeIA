@@ -44,10 +44,10 @@
     "lateral": "#FFFFFF",
     "lateral_texto": "#14131F",
     "lateral_tenue": "#65627A",
-    "lateral_activo": "#F1EEFD",
-    "marca": "#6244DE",
-    "marca_oscura": "#4F33C4",
-    "marca_suave": "#F0ECFE",
+    "lateral_activo": "#F2F2F0",
+    "marca": "#000000",
+    "marca_oscura": "#000000",
+    "marca_suave": "#dcd6c9",
     "bien": "#12946B",
     "bien_texto": "#0E7A57",
     "bien_suave": "#E6F5EF",
@@ -57,13 +57,14 @@
     "alerta": "#C04A66",
     "alerta_texto": "#A83B55",
     "alerta_suave": "#FCEDF0",
-    "pista": "#EFEDF8",
-    "marca_fondo": "#6244DE",
-    "marca_fondo_2": "#4F33C4",
-    "panel_oscuro": "#16151F",
+    "pista": "#EFEEEA",
+    "marca_fondo": "#000000",
+    "marca_fondo_2": "#000000",
+    "panel_oscuro": "#000000",
     "panel_oscuro_texto": "#FFFFFF",
     "_nota_marca": "marca = acento de texto y series de grafico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco.",
-    "_nota_oscuro": "panel_oscuro es el negro del boton principal y del aviso flotante. Antes se reusaba el color del panel lateral, y al volverlo blanco el aviso quedaba blanco sobre blanco. Es un trabajo propio y ahora tiene su propio token."
+    "_nota_oscuro": "panel_oscuro es el negro del boton principal y del aviso flotante. Antes se reusaba el color del panel lateral, y al volverlo blanco el aviso quedaba blanco sobre blanco. Es un trabajo propio y ahora tiene su propio token.",
+    "_nota_negro": "El acento de la interfaz es el negro de la paleta que entrego Mercadeo (2026-08-31). Antes era un violeta; la paleta nueva no trae violeta, y la imagen de referencia no usa texto de color en ninguna parte: usa rellenos pastel con tinta oscura. El color de marca cambia aqui y se propaga solo."
   },
   "colores_oscuro": {
     "_nota": "Modo oscuro. NO es un invertido automatico del claro: son pasos elegidos y validados contra la superficie oscura.",
@@ -122,5 +123,48 @@
     ]
   },
   "_modo_del_tablero": "claro",
-  "_nota_modo": "El tablero se pinta SOLO en modo claro por peticion explicita del usuario (2026-08-28). colores_oscuro se conserva porque el generador puede volver a emitirlo con una linea, pero el tablero no lo usa."
+  "_nota_modo": "El tablero se pinta SOLO en modo claro por peticion explicita del usuario (2026-08-28). colores_oscuro se conserva porque el generador puede volver a emitirlo con una linea, pero el tablero no lo usa.",
+  "paleta_secciones": {
+    "_para_quien": "La paleta que entrego Mercadeo el 2026-08-31. Cada seccion del tablero lleva uno de estos colores como IDENTIDAD.",
+    "_la_regla_de_uso": "EL PASTEL ES RELLENO, NUNCA TINTA. Medido: un pastel sobre blanco da entre 1.30:1 y 1.72:1 de contraste, cuando el minimo para texto es 4.5:1 — como color de letra son ilegibles. Encima del pastel, el negro da entre 12.19:1 y 15.71:1. Asi que la identidad de cada seccion se ve en una pastilla rellena con texto negro, no en texto de color.",
+    "_por_que_no_son_colores_de_grafico": "Se paso la paleta por el validador de graficos y FALLA los cinco checks: banda de luminosidad, piso de croma, separacion para daltonismo (arena vs verde da 3.0 de ΔE donde se pide 8), piso de vision normal (4.9 donde se pide 15) y contraste contra la superficie (1.3 a 1.7 donde se pide 3). Dos series pintadas con arena y verde serian indistinguibles incluso para quien ve todos los colores. Las series de los graficos siguen usando `paleta_graficos`, que si esta validada.",
+    "blanco_predomina": "Peticion explicita del usuario: el blanco sigue siendo el fondo de las tarjetas de dato. El pastel aparece en la pastilla de la seccion, en el icono del rail y en los bloques secundarios (notas y plegados) — no en las tarjetas donde se leen numeros.",
+    "negro": "#000000",
+    "secciones": {
+      "resumen": {
+        "relleno": "#000000",
+        "tinta": "#FFFFFF",
+        "_nota": "El negro de la paleta. Va en Resumen porque es la seccion de portada, como la tarjeta oscura de la imagen de referencia.",
+        "_contraste": "21.0:1"
+      },
+      "rendimiento": {
+        "relleno": "#a1caed",
+        "tinta": "#000000",
+        "_contraste": "12.19:1"
+      },
+      "competencia": {
+        "relleno": "#f3d7e9",
+        "tinta": "#000000",
+        "_contraste": "15.71:1"
+      },
+      "referencias": {
+        "relleno": "#d0e4bb",
+        "tinta": "#000000",
+        "_contraste": "15.50:1"
+      },
+      "estrategia": {
+        "relleno": "#dcd6c9",
+        "tinta": "#000000",
+        "_contraste": "14.51:1"
+      }
+    },
+    "_lavado": "Los bloques secundarios usan el pastel a baja opacidad sobre blanco, no el pastel puro: asi el color se nota sin competir con las tarjetas de dato. Se hace con color-mix() y hay respaldo en rgba para navegadores viejos."
+  },
+  "marca_logo": {
+    "_para_quien": "El logo del usuario principal, arriba del rail. Mientras este en null, el tablero dibuja el monograma «MC» y no se rompe nada.",
+    "_como_ponerlo": "Guardar el archivo en `config/logo.png` (o .svg / .jpg / .webp) y poner aqui su ruta relativa a la raiz del proyecto: \"config/logo.png\". El generador lo incrusta como data URI, porque el visor de artefactos bloquea cualquier imagen que venga de fuera.",
+    "archivo": null,
+    "texto_alternativo": "QPayPro",
+    "_pendiente": "2026-08-31: Mercadeo pidio usar un archivo como logo pero el adjunto no llego a la sesion. El hueco queda listo: al poner la ruta aqui, el logo aparece sin tocar codigo."
+  }
 }

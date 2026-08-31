@@ -68,6 +68,12 @@ function compilaTailwind() {
 const css = tema.css + "\n" + compilaTailwind();
 const app = fs.readFileSync(path.join(aqui, "tablero_app.js"), "utf8");
 
+/* El logo viaja DENTRO de los datos, ya incrustado como data URI: el visor de
+   artefactos bloquea las imagenes externas, asi que un enlace no cargaria nunca.
+   Si tema.json no declara archivo, esto es null y el tablero dibuja su
+   monograma. */
+datos.logo = tema.logo;
+
 const periodo = (datos.corrida && datos.corrida.rango) || "";
 
 const FUENTES = tema.enlaceFuentes;
@@ -105,5 +111,8 @@ console.log(`Tablero generado: ${salida}`);
 const nTareas = ((datos.estrategia || {}).tareas || []).length;
 console.log(`  periodo ${periodo} · ${nTareas} tareas · ${kb} KB`);
 console.log(`  CSS compilado: ${(css.length / 1024).toFixed(0)} KB`);
+console.log(tema.logo
+  ? `  Logo incrustado: ${tema.logo.kb} KB`
+  : "  Logo: sin archivo en config/tema.json, se dibuja el monograma MC");
 if (/^\s*<!doctype/i.test(fragmento))
   console.error("  ERROR: el archivo empieza con doctype. Debe ser un fragmento.");

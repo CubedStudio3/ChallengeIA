@@ -58,6 +58,76 @@ function pila(fuente, respaldo) {
 }
 
 /**
+ * Las variables de la paleta de secciones.
+ *
+ * Cada seccion del tablero tiene su color de identidad. Se emiten TRES
+ * variables por seccion y no una, porque el pastel solo sirve de relleno:
+ *
+ *   --sec-<id>          el relleno
+ *   --sec-<id>-tinta    la tinta que va ENCIMA de ese relleno
+ *   --sec-<id>-lavado   el mismo color a baja opacidad sobre blanco
+ *
+ * El lavado existe para los bloques secundarios: el pastel puro compite con las
+ * tarjetas de dato, y bajado sobre blanco se nota sin gritar. Se calcula con
+ * color-mix() y lleva respaldo en rgba, porque un navegador sin color-mix()
+ * dejaria el bloque transparente en lugar de teñido.
+ */
+function seccionesVars(bloque) {
+  const secs = (bloque && bloque.secciones) || {};
+  const l = [];
+  if (bloque && bloque.negro) l.push(`  --negro:${bloque.negro};`);
+  for (const [id, v] of Object.entries(secs)) {
+    if (id.startsWith("_") || !v || !v.relleno) continue;
+    l.push(`  --sec-${id}:${v.relleno};`);
+    l.push(`  --sec-${id}-tinta:${v.tinta || "#000000"};`);
+    const r = parseInt(v.relleno.slice(1, 3), 16);
+    const g = parseInt(v.relleno.slice(3, 5), 16);
+    const b = parseInt(v.relleno.slice(5, 7), 16);
+    // La proporcion del lavado NO puede ser fija. Un pastel al 38% sobre blanco
+    // da un tinte suave; el negro al 38% da un gris oscuro que se traga el
+    // texto. Se escala con la luminosidad del relleno: cuanto mas oscuro, menos
+    // proporcion. El negro termina en 6%, que es el gris de una tarjeta.
+    const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    const mezcla = Math.round(6 + lum * 34);   // negro -> 6%, pastel -> ~38%
+    const alfa = (mezcla / 100).toFixed(2);
+    // Respaldo primero, color-mix despues: quien entienda las dos usa la segunda.
+    l.push(`  --sec-${id}-lavado:rgba(${r},${g},${b},${alfa});`);
+    l.push(`  --sec-${id}-lavado:color-mix(in srgb, ${v.relleno} ${mezcla}%, #fff);`);
+  }
+  return l.join("\n");
+}
+
+/**
+ * El logo del usuario principal, incrustado como data URI.
+ *
+ * Se incrusta y no se enlaza porque el visor de artefactos bloquea las imagenes
+ * externas: un `<img src="config/logo.png">` no cargaria nunca. Si el archivo no
+ * existe se devuelve null y el tablero dibuja su monograma — un logo faltante no
+ * puede romper la pagina.
+ */
+function logo(raiz, bloque) {
+  if (!bloque || !bloque.archivo) return null;
+  const ruta = path.join(raiz, bloque.archivo);
+  if (!fs.existsSync(ruta)) {
+    console.error(`  AVISO: tema.json apunta a ${bloque.archivo} y ese archivo no ` +
+                  `existe. Se dibuja el monograma en su lugar.`);
+    return null;
+  }
+  const tipos = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+                  ".svg": "image/svg+xml", ".webp": "image/webp" };
+  const tipo = tipos[path.extname(ruta).toLowerCase()];
+  if (!tipo) {
+    console.error(`  AVISO: ${bloque.archivo} no es un formato de imagen que el ` +
+                  `visor acepte (png, jpg, svg, webp). Se dibuja el monograma.`);
+    return null;
+  }
+  const datos = fs.readFileSync(ruta).toString("base64");
+  return { uri: `data:${tipo};base64,${datos}`,
+           alt: bloque.texto_alternativo || "Logo",
+           kb: Math.round(datos.length / 1024) };
+}
+
+/**
  * Devuelve { css, enlaceFuentes } listos para inyectar.
  *
  * `opciones.soloClaro` emite UNICAMENTE el bloque de modo claro y fija
@@ -83,8 +153,9 @@ function construye(raiz, opciones) {
   ].join("\n");
 
   const ac = t.acentos_suaves || {};
-  const claro = vars(t.colores_claro, pal, false, ac);
-  const oscuro = vars(t.colores_oscuro, pal, true, ac);
+  const secs = seccionesVars(t.paleta_secciones);
+  const claro = vars(t.colores_claro, pal, false, ac) + (secs ? "\n" + secs : "");
+  const oscuro = vars(t.colores_oscuro, pal, true, ac) + (secs ? "\n" + secs : "");
 
   const cabecera = `/* GENERADO desde config/tema.json — no editar aquí.
    Para cambiar el diseño: editar config/tema.json y correr
@@ -121,7 +192,7 @@ ${oscuro}
     familias.map((n) => "family=" + n.replace(/\s+/g, "+") +
       ":wght@" + pesos).join("&") + '&display=swap">';
 
-  return { css, enlaceFuentes };
+  return { css, enlaceFuentes, logo: logo(raiz, t.marca_logo) };
 }
 
 module.exports = { construye };

@@ -88,6 +88,57 @@
                 inset 0 0 0 2px var(--bien);
   }
 
+  /* ── Paleta de secciones ────────────────────────────────────────────────── */
+
+  /* La regla que gobierna todo este bloque: EL PASTEL ES RELLENO, NUNCA TINTA.
+     Medido antes de escribir una linea: un pastel sobre blanco da entre 1.30:1 y
+     1.72:1 de contraste, y el minimo para texto es 4.5:1. Encima del pastel, el
+     negro da entre 12.19:1 y 15.71:1.
+
+     Por eso la identidad de cada seccion no se ve en texto de color —como estaba
+     antes con el violeta— sino en una pastilla rellena con tinta negra, que es
+     ademas como usa el color la imagen de referencia que mando Mercadeo.
+
+     El blanco sigue predominando por peticion explicita: las tarjetas donde se
+     leen numeros siguen siendo blancas. El pastel aparece en la pastilla, en el
+     icono del rail y en los bloques secundarios. */
+
+  .sec-pastilla {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 13px 5px 11px;
+    border-radius: 999px;
+    background: var(--sec);
+    color: var(--sec-tinta);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .sec-pastilla svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Bloques secundarios: el pastel lavado. El pastel puro a este tamano compite
+     con las tarjetas de dato; bajado sobre blanco se nota sin gritar. */
+  .sec-lavado {
+    background: var(--sec-lavado);
+  }
+
+  /* El icono del rail lleva el color de su seccion como azulejo. Cuando la
+     seccion esta activa, el azulejo se rellena y el icono va en su tinta. */
+  .rail-azulejo {
+    background: var(--sec-lavado);
+    color: #000;
+  }
+  .rail-azulejo-on {
+    background: var(--sec);
+    color: var(--sec-tinta);
+  }
+
   /* ── Rail de iconos ─────────────────────────────────────────────────────── */
 
   /* En movil el rail va abajo y necesita despegarse del contenido que pasa por
@@ -153,8 +204,8 @@
     white-space: nowrap;
   }
   .btn-oscuro {
-    background: var(--oscuro);
-    color: var(--oscuro-tex);
+    background: var(--negro, var(--oscuro));
+    color: #fff;
   }
   .btn-oscuro:hover:not(:disabled) {
     opacity: 0.85;

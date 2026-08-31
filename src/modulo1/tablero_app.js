@@ -221,22 +221,35 @@
       'md:right-auto md:top-0 md:bottom-auto md:h-full md:w-[76px] ' +
       'md:flex-col md:justify-start md:py-7 md:gap-2 md:px-0 ' +
       'flex items-center">' +
-      '<div class="w-10 h-10 rounded-2xl grid place-items-center text-white ' +
-      'font-bold text-[13px] mb-6 hidden md:grid" ' +
-      'style="background:var(--marca)">MC</div>' +
+      marcaDelRail() +
       SECCIONES.map(function (s) {
         var on = s.id === act;
         return '<a href="#' + s.id + '" data-rail="' + s.id + '" title="' + esc(s.n) +
           '" aria-label="' + esc(s.n) + '"' +
           (on ? ' aria-current="true"' : "") +
+          ' style="--sec:var(--sec-' + s.id + ');--sec-tinta:var(--sec-' + s.id +
+          '-tinta);--sec-lavado:var(--sec-' + s.id + '-lavado)"' +
           ' class="rail-b group relative w-11 h-11 shrink-0 ' +
           'rounded-2xl grid place-items-center transition-colors ' +
-          (on ? "text-white" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50") +
-          '"' + (on ? ' style="background:var(--marca)"' : "") + ">" +
+          (on ? "rail-azulejo-on" : "rail-azulejo hover:opacity-80") + '">' +
           svg(ico[s.i], "w-[21px] h-[21px]") +
           '<span class="rail-tip">' + esc(s.n) + "</span></a>";
       }).join("") +
       "</nav>";
+  }
+
+  /* El logo del usuario principal. Si config/tema.json trae un archivo, el
+     generador lo incrusta como data URI y llega aqui en D.logo; si no, se dibuja
+     el monograma. Un logo que falta no puede romper la pagina. */
+  function marcaDelRail() {
+    var lg = D.logo;
+    if (lg && lg.uri) {
+      return '<img src="' + esc(lg.uri) + '" alt="' + esc(lg.alt || "") + '" ' +
+        'class="w-10 h-10 rounded-2xl object-contain mb-6 hidden md:block">';
+    }
+    return '<div class="w-10 h-10 rounded-2xl grid place-items-center ' +
+      'font-bold text-[13px] mb-6 hidden md:grid" ' +
+      'style="background:var(--negro);color:#fff">MC</div>';
   }
 
   function encabezado() {
@@ -303,18 +316,26 @@
   /* Encabezado de tarjeta con «Ver todo» opcional. El enlace no es decorativo:
      expande la lista en su lugar. Un «Ver todo» que no lleva a ninguna parte
      sería peor que no tenerlo. */
-  function cardCab(titulo, sub, clave, total, mostrados) {
+  /* `tinte` avisa que esta tarjeta va sobre un pastel de la paleta.
+     NO es un detalle estetico: medido, el gris claro de las tarjetas blancas
+     (slate-400) da 1.9:1 sobre el pastel mas oscuro, cuando el minimo es 4.5:1.
+     Sobre pastel la escala sube a slate-700, que da entre 6.0:1 y 7.8:1 en los
+     cuatro colores. Se pasa como parametro en lugar de sobrescribir la cascada
+     con !important, que es como se rompen los estilos sin darse cuenta. */
+  function cardCab(titulo, sub, clave, total, mostrados, tinte) {
     var ver = "";
     if (clave && total > mostrados) {
       ver = '<button type="button" data-vertodo="' + esc(clave) + '" ' +
-        'class="text-[12.5px] font-semibold shrink-0 hover:underline" ' +
-        'style="color:var(--marca)">' +
+        'class="text-[12.5px] font-semibold shrink-0 hover:underline ' +
+        (tinte ? "text-slate-900" : "") + '"' +
+        (tinte ? "" : ' style="color:var(--marca)"') + ">" +
         (V.verTodo[clave] ? "Ver menos" : "Ver todo (" + total + ")") + "</button>";
     }
     return '<div class="flex items-start justify-between gap-4 mb-6">' +
-      "<div><h3 class=\"text-[16px] font-bold text-slate-800 tracking-[-0.01em]\">" +
+      "<div><h3 class=\"text-[16px] font-bold text-slate-900 tracking-[-0.01em]\">" +
       esc(titulo) + "</h3>" +
-      (sub ? '<p class="text-[12.5px] text-slate-400 mt-1">' + sub + "</p>" : "") +
+      (sub ? '<p class="text-[12.5px] mt-1 ' +
+        (tinte ? "text-slate-700" : "text-slate-400") + '">' + sub + "</p>" : "") +
       "</div>" + ver + "</div>";
   }
 
@@ -324,23 +345,24 @@
 
   /* Una fila de lista: avatar circular, nombre en negrita, descripción sutil,
      valor a la derecha. */
-  function fila(inicial, nombre, desc, valor, sub, tono) {
-    var col = { verde: "bg-emerald-50 text-emerald-600",
-                rojo: "bg-rose-50 text-rose-600",
-                ambar: "bg-amber-50 text-amber-600" }[tono] ||
-              "bg-slate-100 text-slate-500";
+  function fila(inicial, nombre, desc, valor, sub, tono, tinte) {
+    var col = { verde: "bg-emerald-50 text-emerald-700",
+                rojo: "bg-rose-50 text-rose-700",
+                ambar: "bg-amber-50 text-amber-700" }[tono] ||
+              (tinte ? "bg-white text-slate-600" : "bg-slate-100 text-slate-500");
+    var suave = tinte ? "text-slate-700" : "text-slate-400";
     return '<div class="flex items-center gap-4 py-3.5">' +
       '<div class="w-10 h-10 rounded-full grid place-items-center shrink-0 ' +
       'text-[13px] font-bold ' + col + '">' + esc(inicial) + "</div>" +
       '<div class="min-w-0 flex-1">' +
-      '<div class="text-[13.5px] font-semibold text-slate-700 truncate">' +
+      '<div class="text-[13.5px] font-semibold text-slate-900 truncate">' +
       esc(nombre) + "</div>" +
-      (desc ? '<div class="text-[12px] text-slate-400 truncate mt-0.5">' +
+      (desc ? '<div class="text-[12px] ' + suave + ' truncate mt-0.5">' +
         esc(desc) + "</div>" : "") + "</div>" +
       '<div class="text-right shrink-0">' +
-      '<div class="text-[14px] font-bold text-slate-800 tabular-nums">' + valor +
+      '<div class="text-[14px] font-bold text-slate-900 tabular-nums">' + valor +
       "</div>" +
-      (sub ? '<div class="text-[11px] text-slate-400 mt-0.5">' + esc(sub) +
+      (sub ? '<div class="text-[11px] ' + suave + ' mt-0.5">' + esc(sub) +
         "</div>" : "") + "</div></div>";
   }
 
@@ -543,11 +565,18 @@
 
   /* ═════════════ secciones ═════════════ */
 
+  /* Cada seccion declara su color una sola vez, en una variable local de CSS.
+     Todo lo que lleva color dentro de la seccion lo hereda de ahi, asi que
+     cambiar la paleta de una seccion es cambiar una linea de tema.json. */
   function seccion(id, rotulo, titulo, sub, ctl, cuerpo) {
-    return '<section id="' + id + '" class="mb-16">' +
+    var vars = "--sec:var(--sec-" + id + ");--sec-tinta:var(--sec-" + id +
+      "-tinta);--sec-lavado:var(--sec-" + id + "-lavado)";
+    var icono = (SECCIONES.filter(function (s) { return s.id === id; })[0] || {}).i;
+    return '<section id="' + id + '" class="mb-16" style="' + vars + '">' +
       '<div class="flex flex-wrap items-end justify-between gap-5 mb-7">' +
-      "<div><div class=\"text-[10.5px] font-bold tracking-[0.14em] uppercase mb-2\" " +
-      'style="color:var(--marca)">' + esc(rotulo) + "</div>" +
+      '<div><div class="sec-pastilla mb-3">' +
+      (icono ? svg(ico[icono], "w-[13px] h-[13px]") : "") +
+      esc(rotulo) + "</div>" +
       '<h2 class="text-[26px] font-bold text-slate-800 tracking-[-0.025em] ' +
       'leading-tight">' + esc(titulo) + "</h2>" +
       (sub ? '<p class="text-[13.5px] text-slate-400 mt-2 max-w-[62ch] ' +
@@ -566,16 +595,19 @@
       }).join("") + "</div>";
   }
 
+  /* Los bloques secundarios llevan el lavado de su seccion. Son los que
+     explican y advierten, no los que muestran numeros: ahi el color ayuda a
+     separarlos de la lectura principal sin quitarle el blanco a los datos. */
   function nota(texto) {
-    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra text-[12.5px] ' +
-      'text-slate-500 leading-relaxed">' + texto + "</div>";
+    return '<div class="sec-lavado rounded-3xl p-6 text-[12.5px] ' +
+      'text-slate-600 leading-relaxed">' + texto + "</div>";
   }
 
   function plegado(titulo, items) {
     if (!items || !items.length) return "";
-    return '<details class="bg-white rounded-3xl px-7 py-5 tarjeta-sombra mt-5">' +
-      '<summary class="text-[12.5px] font-semibold text-slate-400 cursor-pointer ' +
-      'hover:text-slate-600">' + esc(titulo) + " · " + items.length + "</summary>" +
+    return '<details class="sec-lavado rounded-3xl px-7 py-5 mt-5">' +
+      '<summary class="text-[12.5px] font-semibold text-slate-600 cursor-pointer ' +
+      'hover:text-slate-900">' + esc(titulo) + " · " + items.length + "</summary>" +
       '<ul class="mt-5 space-y-3 text-[12.5px] text-slate-500 leading-relaxed ' +
       'list-disc pl-5">' + items.map(function (l) {
         if (typeof l === "string") return "<li>" + l + "</li>";
@@ -615,57 +647,68 @@
     (terr.saturados || []).forEach(function (s) {
       comp.push(fila(s.de.slice(0, 2).toUpperCase(), s.de,
         "«" + s.mensaje + "» en " + s.mercado, pct(s.cuota),
-        "de su inventario", "rojo"));
+        "de su inventario", null, true));
     });
     (terr.libres || []).forEach(function (l) {
       comp.push(fila(l.mercado, l.mercado + " sin disputa",
-        "Ningún competidor medido pauta aquí", "0", "anuncios", "verde"));
+        "Ningún competidor medido pauta aquí", "0", "anuncios", null, true));
     });
     sinMedir().forEach(function (x) {
       comp.push(fila(x.nombre.slice(0, 2).toUpperCase(), x.nombre,
-        "No se midió: falta su page_id", "—", "sin dato", "ambar"));
+        "No se midió: falta su page_id", "—", "sin dato", null, true));
     });
 
     var pm = mercados().map(function (m) {
       var p = (D.por_mercado[m] || {}).principal;
       return p ? fila(m, m === "GT" ? "Guatemala" : m === "SV" ? "El Salvador" : m,
         ent(p.resultados) + " leads · " + ent(p.campanas) + " campañas",
-        dinero(p.costo_por_resultado), "por lead",
-        p.costo_por_resultado <= 2 ? "verde" : null) : "";
+        dinero(p.costo_por_resultado), "por lead", null, true) : "";
     }).join("");
+
+    /* Cada tarjeta de síntesis lleva el color de la sección que previsualiza.
+       Los KPI de arriba siguen blancos: ahí se leen números, y el blanco es lo
+       que pidió Mercadeo que siguiera predominando. */
+    var tarjeta = function (secId, cuerpo) {
+      return '<div class="rounded-3xl p-7 flex flex-col" ' +
+        'style="background:var(--sec-' + secId + ')">' + cuerpo + "</div>";
+    };
 
     return seccion("resumen", "La semana", "Resumen",
       "Lo que dicen los datos, en tres frentes.", "",
       '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
       kpis + "</div>" +
       '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))]">' +
-      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
-      cardCab("Rendimiento por mercado", "Meta Ads, costo por lead") +
-      '<div class="divide-y divide-slate-50">' + pm + "</div></div>" +
-      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
-      cardCab("Qué hace la competencia", "Ad Library, foto de hoy",
-        "comp", comp.length, 3) +
-      '<div class="divide-y divide-slate-50">' + recorta(comp, "comp").join("") +
-      "</div></div>" +
-      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra flex flex-col">' +
-      cardCab("La estrategia propuesta", "Para decidir en la mesa") +
-      (act
-        ? '<div class="text-[15px] font-bold text-slate-800 leading-snug mb-2">' +
-          esc(act.nombre) + "</div>" +
-          '<p class="text-[12.5px] text-slate-400 leading-relaxed mb-5">' +
-          esc(act.en_pocas_palabras) + "</p>"
-        : '<p class="text-[13px] text-slate-400 mb-5">Ninguna estrategia sostenida ' +
-          "por los datos de esta corrida.</p>") +
-      '<div class="mt-auto"><div class="flex items-baseline justify-between mb-2">' +
-      '<span class="text-[12px] text-slate-400">Decisiones tomadas</span>' +
-      '<span class="text-[13px] font-bold text-slate-700 tabular-nums">' + decid +
-      " / " + vis.length + "</span></div>" +
-      '<div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">' +
-      '<div class="h-full rounded-full transition-all duration-500" ' +
-      'style="width:' + (vis.length ? Math.round(decid / vis.length * 100) : 0) +
-      '%;background:var(--marca)"></div></div>' +
-      '<a href="#estrategia" class="inline-block mt-5 text-[12.5px] font-semibold" ' +
-      'style="color:var(--marca)">Ir a decidir →</a></div></div></div>');
+      tarjeta("rendimiento",
+        cardCab("Rendimiento por mercado", "Meta Ads, costo por lead",
+                null, 0, 0, true) +
+        '<div class="divide-y divide-black/10">' + pm + "</div>") +
+      tarjeta("competencia",
+        cardCab("Qué hace la competencia", "Ad Library, foto de hoy",
+                "comp", comp.length, 3, true) +
+        '<div class="divide-y divide-black/10">' + recorta(comp, "comp").join("") +
+        "</div>") +
+      tarjeta("estrategia",
+        cardCab("La estrategia propuesta", "Para decidir en la mesa",
+                null, 0, 0, true) +
+        (act
+          ? '<div class="text-[15px] font-bold text-slate-900 leading-snug mb-2">' +
+            esc(act.nombre) + "</div>" +
+            '<p class="text-[12.5px] text-slate-700 leading-relaxed mb-5">' +
+            esc(act.en_pocas_palabras) + "</p>"
+          : '<p class="text-[13px] text-slate-700 mb-5">Ninguna estrategia ' +
+            "sostenida por los datos de esta corrida.</p>") +
+        '<div class="mt-auto"><div class="flex items-baseline justify-between mb-2">' +
+        '<span class="text-[12px] text-slate-700">Decisiones tomadas</span>' +
+        '<span class="text-[13px] font-bold text-slate-900 tabular-nums">' + decid +
+        " / " + vis.length + "</span></div>" +
+        '<div class="h-1.5 rounded-full bg-black/10 overflow-hidden">' +
+        '<div class="h-full rounded-full bg-black transition-all duration-500" ' +
+        'style="width:' + (vis.length ? Math.round(decid / vis.length * 100) : 0) +
+        '%"></div></div>' +
+        '<a href="#estrategia" class="inline-block mt-5 text-[12.5px] ' +
+        'font-semibold text-slate-900 underline decoration-black/30 ' +
+        'underline-offset-4 hover:decoration-black">Ir a decidir →</a></div>') +
+      "</div>");
   }
 
   /* La advertencia de que los indicadores no se suman, con los numeros del
