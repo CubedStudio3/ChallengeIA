@@ -885,3 +885,115 @@ una a costa de la otra.
   (ADR-025), y eso no lo cambia ninguna interpolación.
 - No se toca la regla de dos gráficas separadas: interacciones y vistas siguen
   en ejes propios. Un eje doble seguiría siendo una comparación falsa.
+
+---
+
+## ADR-029 · Escritura por API verificada, y la forma exacta de `users`
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+
+### Contexto
+
+`CreateItem` nunca se había ejecutado. Todo el paso 9 estaba escrito contra un
+contrato que solo se conocía por la documentación del conector. Mercadeo autorizó
+una escritura de prueba en el proyecto real.
+
+### Decisión
+
+Se ejecutó el ciclo completo contra producción: crear → verificar → borrar →
+confirmar el borrado. El item fue `I1149`, y quedó eliminado.
+
+Tres cosas que solo se supieron escribiendo:
+
+1. **`users` NO es el ID suelto.** Es un **arreglo JSON serializado como texto**:
+   `["21897000001144001"]`. Pasar `"21897000001144001"` devuelve
+   `{"code":7600,"message":"Given JSON is invalid"}` — un error que no menciona
+   `users` y manda a buscar el problema a otra parte. El código construía el ID
+   suelto: la primera corrida real habría fallado con un mensaje que no señala
+   la causa. Ahora lo arma `_usuarios()`.
+2. **El destino es el backlog, y Zoho lo confirma.** La respuesta trae
+   `sprintInfo: {name: "Backlog", type: 5}`. El sprint activo «AGOSTO 2026»
+   termina el 2026-08-31, así que escribir ahí metía las tareas en un sprint que
+   cerraba el mismo día.
+3. **La asignación funciona.** El item volvió con `ownerId` correcto, así que la
+   lista de personas sí habilita el responsable de punta a punta.
+
+### Consecuencias
+
+- El paso 9 pasa de «escrito contra la documentación» a «verificado contra la
+  API». La definición de terminado exige haber corrido al menos una vez contra
+  datos reales, y ahora eso incluye la escritura.
+- La compuerta `--dry-run` demostró su valor dos veces en la misma sesión: antes
+  de esta escritura mostró un dict de Python crudo dentro de la descripción de un
+  work item (ADR-030). Se corrigió antes de que llegara a producción.
+- La autorización sigue siendo **solo** para el proyecto 21897000000139001. No se
+  extiende a Meta Ads, que continúa en solo lectura (regla 8).
+
+---
+
+## ADR-030 · Tres fallos que salieron de completar los datos, no de buscarlos
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+
+### Contexto
+
+Al llenar por fin `personas`, `capacidad_semanal` y el `page_id` de Shopify,
+tres caminos que nunca se habían ejercitado se ejecutaron por primera vez. Los
+tres estaban mal. Ninguno se habría visto sin los datos reales: el `_lock` los
+mantenía apagados.
+
+### Los tres
+
+**1 · La capacidad no se repartía, se duplicaba.** `_cap()` devolvía la capacidad
+**completa** a cada tarea. Con 4 tareas de arte sobre una capacidad de 5, el plan
+pedía **20 artes**: cuatro veces lo que el equipo dijo que puede hacer. El
+docstring del módulo decía «se reparte» y el código no repartía nada.
+
+Ahora `reparte_capacidad()` divide por resto mayor después de construir la lista
+— 2+1+1+1 sobre 5, nunca 2+2+2+2 que sumaría 8 — y el motivo dice que el reparto
+es sobre todas las tareas de ese tipo, así que descartar una libera capacidad
+para las demás. El número es una propuesta que respeta el techo, no una
+asignación cerrada. Y se dice que la capacidad es un **promedio** declarado por
+el equipo, porque así la declaró: presentarla como tope exacto le daría una
+precisión que su fuente no tiene.
+
+**2 · Una marca con `page_id` pero sin archivo crudo desaparecía.**
+`carga_competencia()` la saltaba con un `continue` mudo. Shopify pasó de
+aparecer correctamente como «no se midió, falta su page_id» a **no aparecer en
+absoluto** en el momento en que se consiguió el page_id. De decir «no lo
+medimos» a no decir nada, que es peor.
+
+Arreglarlo destapó dos huecos que llevaban ahí desde el principio: **Square y
+Banco Industrial nunca se habían consultado en SV**, y el reporte no lo decía. El
+tablero mostraba las dos marcas como si la foto de SV estuviera completa.
+
+`sin_medir` pasa además a calcularse **por mercado**: una marca puede estar leída
+en GT y no en SV, y repetir una sola lista en los dos diría que falta donde no
+falta.
+
+**3 · La evidencia estructurada se imprimía como repr de Python.** Un `str(e)`
+sobre un dict metía `{'dato': 'Más eficiente', 'valor': ...}` literal, comillas
+simples incluidas, dentro de la descripción de un work item real.
+
+### Consecuencias
+
+- Con las seis marcas medidas en los dos mercados, **la presión competitiva en SV
+  es 0 y eso ya no es ignorancia**: está comprobado. Refuerza la estrategia
+  recomendada, que antes se apoyaba en cuatro marcas de seis.
+- Shopify resultó ser un referente **observable**, no teórico: 16 anuncios
+  activos en español. Ocupa el territorio de «empieza tu negocio»; Paggo el de
+  «gestiónalo fácil». Ninguno de los dos habla de cobrar mejor — el hueco más
+  claro que ha aparecido, y salió de leer dos inventarios, no de una hipótesis.
+- Las consultas de GT y SV de Shopify devuelven **los mismos 16 anuncios**: son
+  campañas regionales. Queda anotado en el crudo que no se suman, porque 16+16
+  serían 32 anuncios que no existen.
+
+### La lección
+
+**Un camino que nunca se ejecutó no está probado, está apagado.** El `_lock` de
+`config/equipo.json` protegía de mostrar nombres inventados, y eso estuvo bien.
+Pero también escondía tres errores de aritmética y de reporte que solo aparecen
+cuando el dato existe. Llenar la configuración fue, de hecho, la prueba de
+integración que faltaba.

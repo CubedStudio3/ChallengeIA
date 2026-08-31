@@ -77,6 +77,48 @@ def _marca(idem: str) -> str:
     return f"[MC:{idem}]"
 
 
+def _evidencia(e) -> str:
+    """Una línea de evidencia, venga como texto o como estructura.
+
+    Las tareas traen evidencia de dos formas: unas veces una frase ya escrita,
+    otras un dict con `dato`, `valor` y `fuente`. Interpolar el dict con f-string
+    metía `{'dato': 'Más eficiente', 'valor': ...}` literal dentro de la
+    descripción del work item — comillas de Python incluidas. Se vio en el
+    --dry-run de la tarea de brecha de eficiencia, antes de escribir nada.
+
+    La fuente NO se resume ni se recorta: es lo que hace auditable el número.
+    """
+    if isinstance(e, str):
+        return e
+    if isinstance(e, dict):
+        dato = e.get("dato") or e.get("que") or ""
+        valor = e.get("valor") or ""
+        fuente = e.get("fuente") or ""
+        partes = [x for x in (f"{dato}: {valor}".strip(": "), fuente) if x]
+        return " · ".join(partes) if partes else str(e)
+    return str(e)
+
+
+def _usuarios(responsable) -> str:
+    """El parámetro `users` de CreateItem, con la forma exacta que exige Zoho.
+
+    NO es el ID suelto. Zoho espera un **arreglo JSON serializado como texto**:
+    `["21897000001144001"]`. Pasar `"21897000001144001"` a secas devuelve
+
+        {"code":7600,"message":"Given JSON is invalid","status":"failed"}
+
+    que no dice nada sobre users y manda a buscar el problema a otra parte.
+    Verificado el 2026-08-31 con una escritura real: el ID suelto falló, el
+    arreglo creó el item I1149 asignado a la persona correcta.
+
+    Acepta uno o varios responsables: el campo es plural del lado de Zoho.
+    """
+    if responsable is None:
+        return "[]"
+    ids = responsable if isinstance(responsable, (list, tuple)) else [responsable]
+    return json.dumps([str(x) for x in ids if x])
+
+
 def revisa_configuracion(equipo: dict) -> tuple[list[dict], list[dict]]:
     """Qué falta, separado en dos cosas que NO son lo mismo.
 
@@ -226,7 +268,7 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             cuerpo.append(f"\nINSTRUCCIÓN EXACTA: {t['instruccion_exacta']}")
         if t.get("evidencia"):
             cuerpo.append("\nEVIDENCIA:\n" +
-                          "\n".join(f"  · {e}" for e in t["evidencia"]))
+                          "\n".join(f"  · {_evidencia(e)}" for e in t["evidencia"]))
         cuerpo.append(f"\nCopy: {(t.get('copy') or {}).get('estado', '')} — "
                       f"{(t.get('copy') or {}).get('motivo', '')}")
         cuerpo.append(f"\nGenerado por Mesa Creativa · corrida "
@@ -239,7 +281,7 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             "projpriorityid": str(proy.get("priority_id") or ""),
         }
         if d.get("responsable"):
-            params["users"] = str(d["responsable"])
+            params["users"] = _usuarios(d["responsable"])
 
         escrituras.append(Escritura(
             id_tarea=t["id"], nombre=t["titulo"],
@@ -263,7 +305,7 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             "projpriorityid": str(proy.get("priority_id") or ""),
         }
         if pt.get("responsable"):
-            params["users"] = str(pt["responsable"])
+            params["users"] = _usuarios(pt["responsable"])
         escrituras.append(Escritura(
             id_tarea=pid, nombre=pt["titulo"], descripcion=params["description"],
             tipo=pt.get("tipo", "arte"), responsable=pt.get("responsable"),

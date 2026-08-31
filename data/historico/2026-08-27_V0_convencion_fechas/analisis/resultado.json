@@ -713,20 +713,102 @@
           "cohortes": [],
           "mensajes": [],
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=135136309831436"
-        }
-      },
-      "sin_medir": [
-        {
-          "nombre": "Shopify",
+        },
+        "Shopify": {
           "rol": "referente",
           "categorias": [
             "software"
           ],
-          "estado": "PENDIENTE_DE_DATO",
-          "por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
-          "como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI."
+          "page_id": "20409006880",
+          "activos_declarados": 16,
+          "anuncios_en_muestra": 16,
+          "metodo": null,
+          "presion_real": 16,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 2,
+          "lanzados_3d": 2,
+          "cohortes": [
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-08-07",
+              "anuncios": 9
+            },
+            {
+              "fecha": "2026-07-16",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-06-15",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-03-25",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Comienza a vender más rápido",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 1,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Pon en marcha tu negocio con Shopify",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 20,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Vende más con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 155,
+              "dias_desde_el_ultimo": 155,
+              "primer_lanzamiento": "2026-03-25"
+            },
+            {
+              "titular": "Haz lo que amas con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 73,
+              "dias_desde_el_ultimo": 73,
+              "primer_lanzamiento": "2026-06-15"
+            },
+            {
+              "titular": "Impulsa tu idea con Shopify.",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 20,
+              "primer_lanzamiento": "2026-08-07"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880"
         }
-      ]
+      },
+      "sin_medir": []
     },
     "SV": {
       "presion_total": 0,
@@ -774,6 +856,28 @@
           "mensajes": [],
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=100735292254927"
         },
+        "Square": {
+          "rol": "referente",
+          "categorias": [
+            "hardware",
+            "software"
+          ],
+          "page_id": "1689602518029813",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=1689602518029813"
+        },
         "GuatePOS": {
           "rol": "competidor",
           "categorias": [
@@ -794,20 +898,173 @@
           "cohortes": [],
           "mensajes": [],
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=593092353887127"
-        }
-      },
-      "sin_medir": [
-        {
-          "nombre": "Shopify",
+        },
+        "Banco Industrial (BI)": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "135136309831436",
+          "activos_declarados": 11,
+          "anuncios_en_muestra": 11,
+          "metodo": "page_ids + search_terms sobre el universo completo, mismo metodo que en GT: 'Soluciones de Pago'=0, 'punto de venta'=0, 'terminal'=0. Los 11 activos son de REMESAS al consumidor ('Envia dinero desde Guatemala', 'Tarifa de Q75.00'), no de adquirencia. Ninguno disputa nuestra categoria.",
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 2,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-13",
+              "anuncios": 6
+            },
+            {
+              "fecha": "2026-07-09",
+              "anuncios": 5
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00",
+              "repeticiones": 3,
+              "cuota": 0.2727272727272727,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 14,
+              "dias_desde_el_ultimo": 14,
+              "primer_lanzamiento": "2026-08-13"
+            },
+            {
+              "titular": "Consulta aquí para más información",
+              "repeticiones": 3,
+              "cuota": 0.2727272727272727,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 14,
+              "dias_desde_el_ultimo": 14,
+              "primer_lanzamiento": "2026-08-13"
+            },
+            {
+              "titular": "Banco Industrial",
+              "repeticiones": 2,
+              "cuota": 0.18181818181818182,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 49,
+              "dias_desde_el_ultimo": 49,
+              "primer_lanzamiento": "2026-07-09"
+            },
+            {
+              "titular": "Banco Industrial | Realiza tu envío de manera segura y rápida. | Realiza tu envío de manera segura y rápida.",
+              "repeticiones": 1,
+              "cuota": 0.09090909090909091,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 49,
+              "dias_desde_el_ultimo": 49,
+              "primer_lanzamiento": "2026-07-09"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=135136309831436"
+        },
+        "Shopify": {
           "rol": "referente",
           "categorias": [
             "software"
           ],
-          "estado": "PENDIENTE_DE_DATO",
-          "por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
-          "como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI."
+          "page_id": "20409006880",
+          "activos_declarados": 16,
+          "anuncios_en_muestra": 16,
+          "metodo": null,
+          "presion_real": 16,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 2,
+          "lanzados_3d": 2,
+          "cohortes": [
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-08-07",
+              "anuncios": 9
+            },
+            {
+              "fecha": "2026-07-16",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-06-15",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-03-25",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Comienza a vender más rápido",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 1,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Pon en marcha tu negocio con Shopify",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 20,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Vende más con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 155,
+              "dias_desde_el_ultimo": 155,
+              "primer_lanzamiento": "2026-03-25"
+            },
+            {
+              "titular": "Haz lo que amas con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 73,
+              "dias_desde_el_ultimo": 73,
+              "primer_lanzamiento": "2026-06-15"
+            },
+            {
+              "titular": "Impulsa tu idea con Shopify.",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 20,
+              "dias_desde_el_ultimo": 20,
+              "primer_lanzamiento": "2026-08-07"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=20409006880"
         }
-      ]
+      },
+      "sin_medir": []
     }
   },
   "competencia_registro": {
@@ -855,14 +1112,14 @@
         "dimension": "Anuncios activos disputando pagos · GT",
         "qpaypro": "3 campañas con entrega, 265 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "Paggo: 31, Recurrente: 6, GuatePOS: 3, Banco Industrial (BI): 2",
+        "competencia": "Paggo: 31, Shopify: 16, Recurrente: 6, GuatePOS: 3, Banco Industrial (BI): 2",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
       },
       {
         "dimension": "Anuncios activos disputando pagos · SV",
         "qpaypro": "1 campañas con entrega, 105 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "0 anuncios medidos",
+        "competencia": "Shopify: 16",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
       }
     ],
@@ -1008,8 +1265,8 @@
         "no_decir": "Gestiona tu Negocio Fácil",
         "formato": "arte estático + variante para historia",
         "rol_sugerido": "diseño",
-        "piezas": null,
-        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "piezas": 2,
+        "piezas_motivo": "2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
         "referencias": [
           {
             "tema": "Contra-ángulo frente a Paggo",
@@ -1055,8 +1312,8 @@
         "no_decir": "Recibe pagos con oro digital",
         "formato": "arte estático + variante para historia",
         "rol_sugerido": "diseño",
-        "piezas": null,
-        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
         "referencias": [
           {
             "tema": "Contra-ángulo frente a Recurrente",
@@ -1102,8 +1359,8 @@
         "no_decir": null,
         "formato": "arte estático + video corto",
         "rol_sugerido": "diseño",
-        "piezas": null,
-        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
         "referencias": [
           {
             "tema": "Creativo propio para SV",
@@ -1148,8 +1405,8 @@
         "no_decir": null,
         "formato": "arte estático + adaptación vertical",
         "rol_sugerido": "diseño",
-        "piezas": null,
-        "piezas_motivo": "config/equipo.json está bloqueado: nadie ha declarado la capacidad semanal. La mesa pone el número.",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
         "referencias": [
           {
             "tema": "Lo que mejor rindió en facebook",
@@ -1224,8 +1481,8 @@
         "titulo": "Brecha de eficiencia entre campañas",
         "porque": "Dentro del indicador 'actions:lead', la campaña más costosa paga 2.34x lo que paga la más eficiente.",
         "evidencia": [
-          "{'dato': 'Más eficiente', 'valor': 'Campaña Punto de Venta SV · $1.89', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}",
-          "{'dato': 'Menos eficiente', 'valor': 'Campaña Qpayshop e Integraciones · $4.43', 'fuente': 'meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24'}"
+          "Más eficiente: Campaña Punto de Venta SV · $1.89 · meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24",
+          "Menos eficiente: Campaña Qpayshop e Integraciones · $4.43 · meta_campanas_por_pais.json · 2026-08-01 a 2026-08-24"
         ],
         "angulo": "Reasignación de presupuesto entre campañas del mismo indicador.",
         "no_decir": null,
@@ -1261,14 +1518,33 @@
       "total": 6
     },
     "asignacion": {
-      "habilitada": false,
-      "personas": [],
+      "habilitada": true,
+      "personas": [
+        {
+          "nombre": "Dulce Anaí Galindo Escobar",
+          "id_sprint": "21897000001319001",
+          "rol": "diseño",
+          "_zuid": "911930552"
+        },
+        {
+          "nombre": "Jeremy Sterlin Manuel Hernández",
+          "id_sprint": "21897000001317019",
+          "rol": "video",
+          "_zuid": "911929838"
+        },
+        {
+          "nombre": "Elizabeth Sierra",
+          "id_sprint": "21897000001144001",
+          "rol": "coordinación",
+          "_zuid": "895503553"
+        }
+      ],
       "proyecto_sprint": {
         "team_id": "667151262",
         "project_id": "21897000000139001",
-        "sprint_id": null,
-        "item_type_id": null,
-        "priority_id": null,
+        "sprint_id": "21897000000139025",
+        "item_type_id": "21897000000139035",
+        "priority_id": "21897000000139007",
         "nombre": "Diseño y MK",
         "_es_de_prueba": false,
         "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
@@ -1290,14 +1566,47 @@
           "_contexto": "Se le ofrecieron dos opciones: (1) crear un proyecto de prueba --recomendada-- o (2) autorizar escritura en el proyecto real 'Diseno y MK' (P8). Eligio la 2 de forma explicita.",
           "_alcance": "SOLO el proyecto 21897000000139001 de este espacio de trabajo. No es una autorizacion general de escritura y no se extiende a Meta Ads, que sigue siendo de solo lectura por instruccion aparte (regla 8, ADR-012).",
           "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
+        },
+        "_destino": "EL BACKLOG DEL PROYECTO, no un sprint. sprint_id lleva el backlogId (21897000000139025) a proposito: CreateItem acepta un sprint O el backlog en la misma variable de ruta. El sprint activo 'AGOSTO 2026' (SP49) termina el 2026-08-31, asi que escribir ahi metia las tareas en un sprint que cierra el mismo dia. El backlog no caduca y es donde corresponde el trabajo que aun no se planifico: la mesa lo arrastra al sprint cuando decide.",
+        "_ids_leidos_por_api": {
+          "_fecha": "2026-08-31",
+          "_como": "GetProjects -> GetSprints -> GetProjectPriorities -> GetItems, con el team_id 667151262. Ninguno se invento ni se dedujo.",
+          "sprint_id": "backlogId, de GetProjectDetails action=details y confirmado por GetSprints",
+          "item_type_id": "de GetItems: el tipo 'Task' que ya usan los items del proyecto",
+          "priority_id": "de GetProjectPriorities: 'Medium'"
+        },
+        "_catalogos_leidos": {
+          "_nota": "Los catalogos completos, para no volver a preguntarlos. Los nombres de tipo y prioridad estan en INGLES; los de estado en ESPANOL.",
+          "tipos_de_item": {
+            "Task": "21897000000139035",
+            "Story": "21897000000139039"
+          },
+          "prioridades": {
+            "None": "21897000000139003",
+            "Low": "21897000000139005",
+            "Medium": "21897000000139007",
+            "High": "21897000000139009"
+          },
+          "estados_observados": {
+            "Por Hacer": "21897000000156037",
+            "Para Programar": "21897000001181007",
+            "Completado": "21897000000051049"
+          },
+          "sprints": {
+            "AGOSTO 2026 (SP49, activo, termina 2026-08-31)": "21897000001520034",
+            "ReMarketing (SP45, proximo)": "21897000001443016"
+          },
+          "_convencion_del_equipo": "El equipo usa 'Story' para las piezas de contenido (Post 2, Post 3, Video Pauta 1) y 'Task' para lo demas. La importacion del CSV creo 'Task'."
+        },
+        "_import_csv_verificado": {
+          "_fecha": "2026-08-28, confirmado por API el 2026-08-31",
+          "_que_paso": "Mercadeo subio el CSV y las tres tareas ACEPTADAS entraron al backlog: itemNo 1140 'Contra-angulo frente a Recurrente en GT', 1141 'Brecha de eficiencia entre campanas' y 1142 'Punto de venta'. addedVia=3 (importacion).",
+          "_lo_que_confirma": "Las tres columnas en ingles del CSV las traduce Zoho sola: Status 'Open' -> 'Por Hacer', Item Type 'Task' -> Task, Priority 'Medium' -> Medium. Era una duda abierta y quedo resuelta con evidencia.",
+          "_lo_que_falto": "Entraron sin responsable, porque la columna Assignee iba vacia: no habia lista de personas. Es el unico dato que sigue faltando."
         }
       },
-      "motivo_bloqueo": "Faltan 3 de los 5 identificadores que exige Sprint para crear un work item (sprint_id, item_type_id, priority_id). Se leen por API en una sola pasada; ver .claude/rutinas/completar-sprint.md.",
-      "_como_desbloquear": [
-        "Los tres IDs que faltan: pegar .claude/rutinas/completar-sprint.md en una conversacion con el conector de Sprint arriba. Los lee y los escribe aqui.",
-        "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",
-        "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable. Mientras siga en true, el tablero muestra el hueco en lugar de una lista de nombres inventada."
-      ],
+      "motivo_bloqueo": null,
+      "_como_desbloquear": null,
       "_flujo": "Aceptar una tarea NO la crea en Sprint. El tablero registra la decisión; el botón «Copiar decisiones» las entrega como JSON, y ese JSON lo consume `python -m modulo1.sprint --dry-run`, que imprime la llamada exacta antes de hacer nada. La escritura la ejecuta el agente orquestador, único con permiso (regla 4)."
     },
     "limites": [
@@ -1309,7 +1618,7 @@
       },
       {
         "que": "cantidad de piezas por tarea",
-        "estado": "LA DECIDE LA MESA",
+        "estado": "DECLARADA",
         "detalle": "Cuántos artes o videos caben en una semana es capacidad del equipo. No existe en Meta ni en Ad Library, así que no se estima.",
         "remedio": "Declarar capacidad_semanal en config/equipo.json."
       },
@@ -1442,7 +1751,7 @@
     },
     {
       "titulo": "SV sin disputa medida",
-      "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
+      "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
       "evidencia": [
         {
           "dato": "Competencia activa en SV",
@@ -1514,7 +1823,7 @@
       },
       {
         "titulo": "SV sin disputa medida",
-        "accion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.",
+        "accion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.",
         "evidencia": [
           {
             "dato": "Competencia activa en SV",

@@ -66,6 +66,23 @@
   };
   var pct = function (n) { return n == null ? "—" : Math.round(n * 100) + "%"; };
 
+  /* Una linea de evidencia, venga como texto o como estructura.
+
+     Las tareas traen evidencia de dos formas: a veces una frase escrita, a veces
+     un objeto con dato, valor y fuente. Pasar el objeto por esc() imprimia
+     «[object Object]» donde tenia que ir el numero que respalda la tarea. La
+     fuente NO se recorta: es lo que hace auditable el dato. */
+  function evidencia(e) {
+    if (e == null) return "";
+    if (typeof e === "string") return e;
+    if (typeof e === "object") {
+      var dato = e.dato || e.que || "", valor = e.valor || "", fuente = e.fuente || "";
+      var cab = dato && valor ? dato + ": " + valor : (dato || valor);
+      return [cab, fuente].filter(function (x) { return x; }).join(" · ");
+    }
+    return String(e);
+  }
+
   function enClaro(ind) {
     if (!ind) return "sin indicador";
     if (/QualifiedLead/i.test(ind)) return "Leads calificados";
@@ -1087,7 +1104,8 @@
     }
     if ((t.evidencia || []).length) {
       det.push(["Evidencia", '<ul class="list-disc pl-5 space-y-1.5">' +
-        t.evidencia.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") +
+        t.evidencia.map(function (e) {
+          return "<li>" + esc(evidencia(e)) + "</li>"; }).join("") +
         "</ul>"]);
     }
 
@@ -1691,7 +1709,7 @@
       if (t.instruccion_exacta) cuerpo.push("\nINSTRUCCION: " + t.instruccion_exacta);
       if ((t.evidencia || []).length) {
         cuerpo.push("\nEVIDENCIA:\n" + t.evidencia.map(function (e) {
-          return "  - " + e; }).join("\n"));
+          return "  - " + evidencia(e); }).join("\n"));
       }
       if (t.copy) cuerpo.push("\nCopy: " + t.copy.estado + " — " + t.copy.motivo);
       cuerpo.push("\nMesa Creativa · corrida " + ((D.corrida || {}).rango || ""));

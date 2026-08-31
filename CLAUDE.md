@@ -11,22 +11,30 @@ Sistema agéntico para el área de Mercadeo. Tres módulos sobre una base compar
 
 ## Estado del proyecto
 
-**Fase actual: 0 (verificaciones) — EN CURSO. 2 de 7 completadas.**
+**Módulo 1 · operativo de punta a punta. Decisión de alcance del 2026-08-31:
+solo Módulo 1. Los Módulos 2 y 3 quedan fuera.**
 
-- ✅ **V0 · convención de fechas** — VERIFICADA. 12/12 valores idénticos entre
-  la interfaz y la API. Desbloquea el paso 2 del Módulo 1.
-- ✅ **V5 · premisa competitiva** — VERIFICADA y corregida. Ver
-  `config/competidores.json`.
+Verificado contra sistemas reales, no contra documentación:
 
-Ninguna verificación se ha ejecutado contra una API real todavía. Lo único
-completado es el **inventario de la superficie de herramientas** (qué conectores
-existen y qué operaciones exponen), que ya invalidó supuestos del documento
-maestro. Ver `docs/01-inventario-conectores.md`.
+- ✅ **Meta Ads** — lectura, convención de fechas verificada al centavo (V0)
+- ✅ **Meta Ad Library** — las 6 marcas del registro, en los 2 mercados
+- ✅ **Zoho Social** — 3 redes, publicaciones con interacciones nativas
+- ✅ **Zoho Sprints** — lectura Y **escritura**: ciclo crear/verificar/borrar
+  ejecutado contra producción el 2026-08-31 (ADR-029)
+- ✅ **Tablero** — publicado, con estado compartido que sobrevive a republicaciones
+- ✅ **Rutina semanal** — `trig_01CWh3gdJWfDKGzR4MDB6qhs`, lunes 07:00 GT.
+  ⚠️ **Le faltan los conectores**: el parámetro no está disponible para esta
+  organización, así que hay que adjuntarlos desde la interfaz de Routines en
+  claude.ai. Sin ellos la Rutina se detiene en su Compuerta 0 y NO toca el
+  tablero, a propósito.
 
-No hay código. No se escribe código hasta que la Fase 0 esté reportada y el
-alcance confirmado.
+`config/equipo.json` está **desbloqueado** (`_lock: false`): los cinco IDs de
+Sprints, las tres personas con su rol y la capacidad semanal están completos.
 
----
+Falta por decisión, no por bloqueo: el **alcance orgánico** no viene por API y se
+descartó en lugar de capturarlo a mano — un paso manual dentro de una
+automatización semanal es una bomba de tiempo. Se reportan interacciones
+absolutas y el hueco queda declarado.
 
 ## Reglas que no se negocian
 
@@ -213,6 +221,28 @@ cometidos; no hay tiempo de repetirlos.
 - **Números escritos a mano en la interfaz se desincronizan.** El tablero decía
   «105 leads» mientras la pantalla mostraba 265: el 105 era de SV y la vista
   estaba en GT. Todo número visible se deriva del dato, sin excepción.
+
+- **`users` de CreateItem es un arreglo JSON como texto**, no el ID suelto:
+  `["21897000...144001"]`. El ID solo devuelve `7600 · Given JSON is invalid`,
+  que no menciona `users` (ADR-029).
+- **En Sprints, tipo y prioridad están en inglés; el estado en español.** `Task`,
+  `Medium`, pero `Por Hacer`. En el CSV se escriben en inglés y Zoho los traduce.
+- **Un camino que nunca se ejecutó no está probado, está apagado.** El `_lock` de
+  `equipo.json` escondía tres errores reales de aritmética y de reporte que solo
+  aparecieron al llenar la configuración (ADR-030). Llenar la config fue la
+  prueba de integración que faltaba.
+- **Repartir una capacidad exige saber entre cuántos.** Devolver la capacidad
+  completa a cada tarea pedía 20 artes sobre una capacidad de 5. El reparto va
+  después de construir la lista, por resto mayor.
+- **Conseguir un dato faltante puede empeorar el reporte.** Al darle `page_id` a
+  Shopify, la marca pasó de salir como «no medida» a **desaparecer**: tenía ID
+  pero no archivo crudo, y el bucle la saltaba en silencio. Un `continue` sin
+  registro es un hueco no declarado.
+- **`sin_medir` es por mercado, no global.** Una marca puede estar leída en GT y
+  no en SV; una sola lista repetida dice que falta donde no falta.
+- **Las consultas de GT y SV pueden devolver los MISMOS anuncios.** Shopify
+  devuelve los 16 idénticos en los dos: son campañas regionales. Sumarlos daría
+  32 anuncios que no existen.
 
 ### Lección de método (error propio, 2026-08-27)
 

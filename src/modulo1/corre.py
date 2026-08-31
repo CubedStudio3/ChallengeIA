@@ -46,9 +46,24 @@ def _serializa(obj):
     return obj
 
 
-def carga_competencia(crudo: Path, registro: dict, mercado: str) -> PanoramaCompetitivo:
-    """Arma el panorama de un mercado a partir de los fixtures de Ad Library."""
+def carga_competencia(
+    crudo: Path, registro: dict, mercado: str
+) -> tuple[PanoramaCompetitivo, list[dict]]:
+    """Arma el panorama de un mercado a partir de los fixtures de Ad Library.
+
+    Devuelve DOS cosas: el panorama y la lista de marcas del registro que
+    quedaron sin leer en este mercado por falta de su archivo crudo.
+
+    Esa segunda lista existe por un fallo real. Shopify estaba en el registro sin
+    `page_id`, y el tablero lo mostraba correctamente como «no se midió, falta su
+    page_id». Al conseguir el page_id, el archivo crudo seguía sin existir, y
+    este bucle lo saltaba con un `continue` mudo: la marca **desapareció** del
+    reporte. Pasó de decir «no lo medimos» a no decir nada, que es peor.
+
+    Una marca que no se pudo leer es un hueco, y los huecos se declaran.
+    """
     comps = []
+    no_leidos = []
     for entrada in registro["competidores"]:
         if entrada.get("page_id") is None:
             continue
@@ -60,6 +75,20 @@ def carga_competencia(crudo: Path, registro: dict, mercado: str) -> PanoramaComp
                         "nombre es fragil: 'Banco Industrial (BI)' no da 'bi'.")
         archivo = crudo / f"adlibrary_{clave}_{mercado}.json"
         if not archivo.exists():
+            no_leidos.append({
+                "nombre": entrada["nombre"],
+                "rol": entrada.get("_rol", "competidor"),
+                "categorias": entrada.get("categorias", []),
+                "estado": "SIN_CONSULTAR_EN_ESTE_MERCADO",
+                "por_que_falta": (
+                    f"Tiene page_id ({entrada['page_id']}), pero la adquisición no "
+                    f"guardó {archivo.name}. Es una consulta que nunca se hizo en "
+                    f"{mercado}, no una marca sin anuncios."),
+                "como_obtenerlo": (
+                    f"Correr la adquisición de Ad Library para «{entrada['nombre']}» "
+                    f"en {mercado} con page_ids=[{entrada['page_id']}] y guardar el "
+                    f"resultado en crudo/{archivo.name}."),
+            })
             continue
         datos = json.loads(archivo.read_text(encoding="utf-8"))
         # Politica de solapamiento: los monoproducto aportan su total; los
@@ -83,7 +112,7 @@ def carga_competencia(crudo: Path, registro: dict, mercado: str) -> PanoramaComp
             solapamiento=solap, origen=archivo.name,
             rol=entrada.get("_rol", "competidor"),
             nota_estrategica=medicion.get("_nota_estrategica", "")))
-    return PanoramaCompetitivo(mercado=mercado, competidores=comps)
+    return PanoramaCompetitivo(mercado=mercado, competidores=comps), no_leidos
 
 
 def rendimiento_por_mercado(campanas, mercados, indicador_principal):
@@ -171,7 +200,9 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
 
     # --- Paso 3 · competencia ---
     registro = cargar("competidores")
-    panoramas = {m: carga_competencia(crudo, registro, m) for m in declarados}
+    cargas = {m: carga_competencia(crudo, registro, m) for m in declarados}
+    panoramas = {m: c[0] for m, c in cargas.items()}
+    no_leidos_por_mercado = {m: c[1] for m, c in cargas.items()}
 
     # --- Paso 4 · orgánico, vía Zoho Social ---
     # Corrección de un supuesto del documento maestro: SÍ viene por API. Lo que
@@ -305,14 +336,17 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     # Competidores del registro que no se pudieron medir. Un competidor sin
     # page_id no es un competidor sin anuncios: es uno que no se midió, y el
     # tablero tiene que mostrar la diferencia.
-    sin_medir = [{"nombre": e["nombre"], "rol": e.get("_rol", "competidor"),
-                  "categorias": e.get("categorias", []),
-                  "estado": e.get("_estado"),
-                  "por_que_falta": e.get("_por_que_falta"),
-                  "como_obtenerlo": e.get("_como_obtenerlo")}
-                 for e in registro["competidores"] if not e.get("page_id")]
+    sin_page_id = [{"nombre": e["nombre"], "rol": e.get("_rol", "competidor"),
+                    "categorias": e.get("categorias", []),
+                    "estado": e.get("_estado"),
+                    "por_que_falta": e.get("_por_que_falta"),
+                    "como_obtenerlo": e.get("_como_obtenerlo")}
+                   for e in registro["competidores"] if not e.get("page_id")]
+    # Se arma por mercado: una marca puede estar leída en GT y no en SV, y
+    # repetir una sola lista en los dos diría que falta donde no falta.
     for m in competencia:
-        competencia[m]["sin_medir"] = sin_medir
+        competencia[m]["sin_medir"] = (
+            sin_page_id + no_leidos_por_mercado.get(m, []))
 
     redes_para_secciones = redes_resumen or {"detalle": {}, "totales": {}}
     refs = REF.arma(redes_para_secciones, competencia, por_mercado,

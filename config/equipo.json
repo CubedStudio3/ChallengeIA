@@ -1,11 +1,9 @@
 {
   "_para_quien": "Este archivo lo llena Mercadeo. Sirve para que el tablero pueda ofrecer a quien asignar una tarea creativa cuando la mesa la aprueba. Mientras esté con _lock en true, el tablero muestra el hueco en lugar de una lista inventada de nombres.",
-  "_estado": "PARCIAL",
-  "_lock": true,
+  "_estado": "COMPLETO",
+  "_lock": false,
   "_como_desbloquear": [
-    "Los cinco IDs de Sprints YA ESTAN, leidos por API el 2026-08-31. No hay que hacer nada.",
-    "Falta el ROL de cada persona. Las tres candidatas estan en _personas_candidatas con su id_sprint real; solo hay que decir quien hace diseno, quien video y quien coordina, y moverlas a 'personas' con ese rol.",
-    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable."
+    "Nada pendiente. Los cinco IDs de Sprints, las personas con su rol y la capacidad semanal estan completos y verificados. _lock esta en false: el tablero habilita el selector de responsable."
   ],
   "_por_que_esta_bloqueado": "NO escribir aqui una explicacion a mano. Este campo ya quedo obsoleto una vez: decia que el teamId no se podia obtener, y siguio diciendolo despues de que se obtuvo, contradiciendo al valor que tenia al lado. El estado real lo calcula `python -m modulo1.sprint --descubrir`, que lo deriva de los campos de este archivo y por lo tanto no puede desincronizarse.",
   "proyecto_sprint": {
@@ -74,7 +72,26 @@
       "_lo_que_falto": "Entraron sin responsable, porque la columna Assignee iba vacia: no habia lista de personas. Es el unico dato que sigue faltando."
     }
   },
-  "personas": [],
+  "personas": [
+    {
+      "nombre": "Dulce Anaí Galindo Escobar",
+      "id_sprint": "21897000001319001",
+      "rol": "diseño",
+      "_zuid": "911930552"
+    },
+    {
+      "nombre": "Jeremy Sterlin Manuel Hernández",
+      "id_sprint": "21897000001317019",
+      "rol": "video",
+      "_zuid": "911929838"
+    },
+    {
+      "nombre": "Elizabeth Sierra",
+      "id_sprint": "21897000001144001",
+      "rol": "coordinación",
+      "_zuid": "895503553"
+    }
+  ],
   "_esquema_persona": {
     "nombre": "Nombre y apellido, como aparece en Sprint",
     "id_sprint": "User ID de Zoho Sprints (string numérico)",
@@ -82,10 +99,13 @@
     "_nota": "El rol se usa para sugerir a quién va cada tipo de tarea. Es una sugerencia, la mesa decide."
   },
   "capacidad_semanal": {
-    "_estado": "PENDIENTE_DE_DATO",
-    "_para_que": "Es lo único que permitiría convertir una tarea creativa en una cantidad concreta de piezas. Sin este dato el tablero pregunta la cantidad a la mesa en lugar de proponerla, porque cuántos artes caben en una semana no es un dato que exista en Meta ni en Ad Library: es capacidad del equipo.",
-    "artes": null,
-    "videos": null
+    "_estado": "DECLARADA_COMO_PROMEDIO",
+    "_para_que": "Es lo unico que permite convertir una tarea creativa en una cantidad concreta de piezas. No existe en Meta ni en Ad Library: es capacidad del equipo.",
+    "artes": 5,
+    "videos": 5,
+    "_es_un_promedio": true,
+    "_texto_del_usuario": "No hay un numero definido, pero un promedio que te puedo dar 5 videos y 5 artes.",
+    "_como_hay_que_leerlo": "Es un PROMEDIO declarado por Mercadeo el 2026-08-31, no un tope duro. El tablero lo usa para proponer una cantidad, y la mesa la puede cambiar: sigue siendo una sugerencia. Presentarlo como capacidad exacta seria darle a un promedio una precision que su fuente no tiene."
   },
   "_estado_de_la_conexion": {
     "probado": "2026-08-31",
@@ -128,37 +148,5 @@
     ],
     "_quien_lo_resuelve": "Los dos son datos del equipo, no de ningun sistema. Nadie los puede leer: hay que preguntarlos."
   },
-  "_personas_candidatas": {
-    "_de_donde": "Leidas por API de los items reales del proyecto 'Diseno y MK' (GetItems sobre el sprint AGOSTO 2026 y el backlog), 2026-08-31. Son las personas que de hecho trabajan en este proyecto, no una lista inventada.",
-    "_por_que_no_estan_en_personas": "Falta UNA cosa: el rol. La API dice quien creo y quien tiene asignado cada item, pero no dice si alguien hace diseno, video o copy. Poner un rol a ojo haria que el tablero sugiera la persona equivocada, asi que se queda como candidatas hasta que Mercadeo confirme.",
-    "candidatas": [
-      {
-        "nombre": "Dulce Anai Galindo Escobar",
-        "id_sprint": "21897000001319001",
-        "_zuid": "911930552",
-        "rol": null,
-        "_evidencia": "Tiene asignados 'Post 2', 'Post 3', 'Post POS' y creo tres de ellos."
-      },
-      {
-        "nombre": "Jeremy Sterlin Manuel Hernandez",
-        "id_sprint": "21897000001317019",
-        "_zuid": "911929838",
-        "rol": null,
-        "_evidencia": "Tiene asignado y creo 'Video Pauta 1'."
-      },
-      {
-        "nombre": "Elizabeth Sierra",
-        "id_sprint": "21897000001144001",
-        "_zuid": "895503553",
-        "rol": null,
-        "_evidencia": "Scrum master del sprint AGOSTO 2026, lo creo, y es quien subio el CSV."
-      }
-    ],
-    "_no_es_una_persona": {
-      "id_sprint": "21897000000002005",
-      "nombre": "Unassigned",
-      "_nota": "Centinela de Zoho para 'sin asignar' (zuid -1). NUNCA meterlo en personas."
-    },
-    "_correccion": "El ZUID 895503553 se habia anotado como 'el ZUID del usuario conectado'. Es el de Elizabeth Sierra, que es la misma cosa: es ella quien opera la cuenta en el navegador."
-  }
+  "_personas_verificado": "2026-08-31. Los nombres y los id_sprint se leyeron por API de los items reales del proyecto (GetItems). Los ROLES los confirmo mercadeo@qpaypro.com el 2026-08-31: «Roles estan bien. No falta nadie esta todo bien.» Ni los nombres ni los IDs ni los roles se inventaron."
 }

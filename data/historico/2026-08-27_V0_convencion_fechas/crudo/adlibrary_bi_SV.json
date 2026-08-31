@@ -1,0 +1,133 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "page_ids": [
+    "135136309831436"
+   ],
+   "ad_active_status": "ACTIVE",
+   "countries": [
+    "SV"
+   ],
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda sin editar. La Ad Library NO acepta rango de fechas: esto es una foto del 2026-08-31.",
+  "_solapamiento_medido": 0,
+  "_metodo": "page_ids + search_terms sobre el universo completo, mismo metodo que en GT: 'Soluciones de Pago'=0, 'punto de venta'=0, 'terminal'=0. Los 11 activos son de REMESAS al consumidor ('Envia dinero desde Guatemala', 'Tarifa de Q75.00'), no de adquirencia. Ninguno disputa nuestra categoria.",
+  "_advertencia": "La ausencia de un termino es evidencia mas debil que su presencia."
+ },
+ "estimated_total_count": 11,
+ "ads": [
+  {
+   "id": "1345638717628673",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00",
+   "ad_creation_time": 1786635231,
+   "ad_delivery_start_time": 1786645063,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1345638717628673",
+   "currency": "USD"
+  },
+  {
+   "id": "1452002793429735",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Consulta aquí para más información | Consulta aquí para más información",
+   "ad_creation_time": 1786635228,
+   "ad_delivery_start_time": 1786642629,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1452002793429735",
+   "currency": "USD"
+  },
+  {
+   "id": "1069919342152893",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Consulta aquí para más información | Consulta aquí para más información",
+   "ad_creation_time": 1786635228,
+   "ad_delivery_start_time": 1786641756,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1069919342152893",
+   "currency": "USD"
+  },
+  {
+   "id": "4429319267334722",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00",
+   "ad_creation_time": 1786635227,
+   "ad_delivery_start_time": 1786642637,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4429319267334722",
+   "currency": "USD"
+  },
+  {
+   "id": "28098318826429161",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Consulta aquí para más información | Consulta aquí para más información",
+   "ad_creation_time": 1786635227,
+   "ad_delivery_start_time": 1786642842,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28098318826429161",
+   "currency": "USD"
+  },
+  {
+   "id": "1735453967654546",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00",
+   "ad_creation_time": 1786635226,
+   "ad_delivery_start_time": 1786643921,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1735453967654546",
+   "currency": "USD"
+  },
+  {
+   "id": "1397521175612942",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Banco Industrial |   |   |  ",
+   "ad_creation_time": 1783620674,
+   "ad_delivery_start_time": 1783633792,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1397521175612942",
+   "currency": "USD"
+  },
+  {
+   "id": "2822928661439948",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "{{product.name}}",
+   "ad_creation_time": 1783620668,
+   "ad_delivery_start_time": 1783628971,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2822928661439948",
+   "currency": "USD"
+  },
+  {
+   "id": "2221435242044558",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Banco Industrial | Realiza tu envío de manera segura y rápida. | Realiza tu envío de manera segura y rápida.",
+   "ad_creation_time": 1783620621,
+   "ad_delivery_start_time": 1783629211,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2221435242044558",
+   "currency": "USD"
+  },
+  {
+   "id": "1014745758077615",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "{{product.name}}",
+   "ad_creation_time": 1783620620,
+   "ad_delivery_start_time": 1783629214,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1014745758077615",
+   "currency": "USD"
+  },
+  {
+   "id": "2084321612150432",
+   "page_id": 135136309831436,
+   "page_name": "Banco Industrial",
+   "ad_creative_link_title": "Banco Industrial |   |   |  ",
+   "ad_creation_time": 1783620551,
+   "ad_delivery_start_time": 1783630667,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2084321612150432",
+   "currency": "USD"
+  }
+ ]
+}

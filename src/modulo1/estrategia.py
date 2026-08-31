@@ -30,6 +30,34 @@ from dataclasses import dataclass, field
 # Tipos de tarea. 'pauta' es especial: nunca la ejecuta el sistema.
 TIPOS = ("video", "arte", "pauta", "dato")
 
+def _linea_de_evidencia(e) -> str:
+    """Una evidencia de hallazgo, como línea legible.
+
+    Los hallazgos traen su evidencia como dicts con `dato`, `valor` y `fuente`.
+    Aquí había un `str(e)`, y sobre un dict eso produce su repr de Python:
+    dentro de la descripción de un work item real de Zoho llegó a leerse
+    literalmente
+
+        {'dato': 'Más eficiente', 'valor': 'Campaña Punto de Venta SV · $1.89'}
+
+    con las comillas simples incluidas. Lo encontró el --dry-run antes de
+    escribir, que es exactamente para lo que existe esa compuerta.
+
+    La fuente se conserva completa: es lo que permite auditar el número, y es
+    la razón por la que la evidencia viaja con la tarea en lugar de quedarse en
+    el análisis.
+    """
+    if isinstance(e, str):
+        return e
+    if isinstance(e, dict):
+        dato = str(e.get("dato") or e.get("que") or "").strip()
+        valor = str(e.get("valor") or "").strip()
+        fuente = str(e.get("fuente") or "").strip()
+        cabeza = f"{dato}: {valor}" if dato and valor else (dato or valor)
+        return " · ".join(x for x in (cabeza, fuente) if x) or repr(e)
+    return str(e)
+
+
 COPY_BLOQUEADO = {
     "estado": "BLOQUEADO",
     "motivo": ("El copy publicable requiere el contexto de marca, que hoy está "
@@ -105,7 +133,17 @@ class Tarea:
 
 
 def _cap(equipo: dict, clave: str) -> tuple[int | None, str]:
-    """Capacidad declarada por el equipo, o el motivo por el que no se propone."""
+    """De qué bolsa de capacidad se sirve esta tarea, si hay alguna declarada.
+
+    NO devuelve la cantidad final. Devolvía la capacidad **completa** a cada
+    tarea, y con dos tareas de arte sobre una capacidad de 5 el plan pedía 10
+    artes: el doble de lo que el equipo dijo que puede hacer. El propio docstring
+    del módulo decía «se reparte» y el código no repartía nada.
+
+    El reparto ocurre en `reparte_capacidad()`, después de saber cuántas tareas
+    de cada tipo hay. Aquí solo se marca la bolsa (`_bolsa`) o el motivo por el
+    que no hay ninguna.
+    """
     if equipo.get("_lock"):
         return None, ("config/equipo.json está bloqueado: nadie ha declarado la "
                       "capacidad semanal. La mesa pone el número.")
@@ -114,7 +152,53 @@ def _cap(equipo: dict, clave: str) -> tuple[int | None, str]:
         return None, (f"No hay capacidad declarada de '{clave}'. Cuántas piezas "
                       f"caben en una semana es capacidad del equipo, no un dato "
                       f"que exista en Meta ni en Ad Library.")
-    return int(c), f"Reparto sobre la capacidad declarada de {c} {clave} por semana."
+    return None, f"_bolsa:{clave}"
+
+
+def reparte_capacidad(tareas_list: list, equipo: dict) -> None:
+    """Reparte la capacidad semanal entre las tareas que se sirven de ella.
+
+    Se hace aquí y no al construir cada tarea porque hasta que la lista no está
+    completa no se sabe entre cuántas hay que dividir.
+
+    Reparto por resto mayor: con capacidad 5 y 3 tareas sale 2, 2, 1 — nunca
+    2, 2, 2, que sumaría 6. El total reparte **exactamente** la capacidad
+    declarada, ni una pieza más.
+
+    Y se dice en el motivo que el reparto es sobre TODAS las tareas de ese tipo:
+    si la mesa descarta una, la capacidad que libera la pueden absorber las que
+    queden. El número es una propuesta que respeta el techo, no una asignación
+    cerrada.
+    """
+    cap = equipo.get("capacidad_semanal") or {}
+    por_bolsa: dict[str, list] = {}
+    for t in tareas_list:
+        marca = t.piezas_motivo or ""
+        if not marca.startswith("_bolsa:"):
+            continue
+        por_bolsa.setdefault(marca.split(":", 1)[1], []).append(t)
+
+    for clave, grupo in por_bolsa.items():
+        total = int(cap.get(clave) or 0)
+        n = len(grupo)
+        if not total or not n:
+            for t in grupo:
+                t.piezas = None
+                t.piezas_motivo = (
+                    f"No hay capacidad declarada de '{clave}'. La mesa pone el número.")
+            continue
+        base, resto = divmod(total, n)
+        promedio = cap.get("_es_un_promedio")
+        for i, t in enumerate(grupo):
+            t.piezas = base + (1 if i < resto else 0)
+            t.piezas_motivo = (
+                f"{t.piezas} de las {total} {clave} de capacidad semanal, "
+                f"repartidas entre las {n} tareas de este tipo que propone la "
+                f"corrida"
+                + (" (la capacidad es un promedio declarado por el equipo, no un "
+                   "tope duro)" if promedio else "")
+                + ". Si la mesa descarta alguna, las que queden pueden absorber "
+                  "lo que libera.")
 
 
 def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
@@ -254,6 +338,8 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
             idempotencia=f"{periodo}::arte::repetir-{red}",
         ))
 
+    # El reparto va al final, cuando ya se sabe cuántas tareas de cada tipo hay.
+    reparte_capacidad(out, equipo)
     return out
 
 
@@ -300,7 +386,8 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
             tipo="pauta",
             titulo=h["titulo"],
             porque=h["afirmacion"],
-            evidencia=[str(e) for e in (h.get("evidencia") or [])] or [h.get("calculo", "")],
+            evidencia=[_linea_de_evidencia(e)
+                       for e in (h.get("evidencia") or [])] or [h.get("calculo", "")],
             angulo="Reasignación de presupuesto entre campañas del mismo indicador.",
             rol_sugerido="pauta",
             piezas_motivo="No aplica: es una decisión de presupuesto, no producción.",

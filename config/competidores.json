@@ -184,19 +184,36 @@
     },
     {
       "nombre": "Shopify",
-      "page_id": null,
-      "page_name_confirmado": null,
+      "page_id": "20409006880",
+      "page_name_confirmado": "Shopify",
       "categorias": [
         "software"
       ],
-      "_estado": "PENDIENTE_DE_DATO",
+      "_estado": "VERIFICADO",
       "_rol": "referente",
-      "_rol_motivo": "Solicitado por el usuario como referente de comercio en linea.",
-      "_por_que_falta": "La busqueda por palabra clave en Ad Library es inutilizable: search_terms='Shopify' devolvio 34,354 resultados y ninguno de los primeros era de Shopify (devolvio 'Oz: AI Marketing Platform', 'DropshippingExpert.co.in', 'Los Angeles Apparel'). Confirmado en vivo el 2026-08-27. Es la misma trampa ya documentada con 'Pagalo'.",
-      "_como_obtenerlo": "Abrir la Ad Library de Meta, buscar la pagina de Shopify a mano y copiar el valor de view_all_page_id de la URL. Es el mismo procedimiento con el que se resolvieron Recurrente, Square, GuatePOS y BI.",
+      "_rol_motivo": "Solicitado por el usuario como referente de comercio en linea. Se mantiene como REFERENTE y no como competidor: pauta en nuestros mercados, pero su mensaje disputa 'monta tu tienda', no 'cobra con nosotros'. Si algun dia su pauta empieza a hablar de pagos, hay que reclasificarlo — y por eso se guardan sus titulares.",
       "_clave_archivo": "shopify",
       "_politica_solapamiento": "total",
-      "_politica_motivo": "Plataforma monoproducto de comercio en linea."
+      "_politica_motivo": "Plataforma monoproducto de comercio en linea.",
+      "_verificado_en": "2026-08-31 · ads_library_search · page_id entregado por el usuario desde la URL de la Ad Library (view_all_page_id). La consulta devolvio page_name 'Shopify' en los 10 anuncios leidos: el ID es correcto.",
+      "medicion_2026_08_31": {
+        "activos_gt_sv": 16,
+        "_nota": "La consulta pide GT+SV juntos y devuelve 16 activos; la Ad Library no separa el conteo por pais en el total estimado, asi que no se parte.",
+        "moneda": "USD",
+        "titulares_observados": [
+          "Comienza a vender mas rapido",
+          "Crea tu tienda gratis",
+          "Impulsa tu idea con Shopify",
+          "Dale vida a tu idea con Shopify",
+          "Tu idea de negocio, lista para crecer",
+          "Todo lo que necesitas para empezar",
+          "Pon en marcha tu negocio con Shopify",
+          "Crea tu tienda rapido con IA"
+        ],
+        "angulo": "empezar y montar el negocio: 'crea tu tienda', 'impulsa tu idea', 'pon en marcha tu negocio'. NO habla de cobrar ni de pagos.",
+        "_hallazgo": "Se esperaba un referente SIN presencia en nuestros mercados, como Square (0 anuncios). Shopify SI pauta aqui: 16 anuncios activos, todos en espanol. Eso lo hace un referente OBSERVABLE, que es mas util que uno teorico.",
+        "_lectura_estrategica": "Shopify ocupa el territorio de EMPEZAR el negocio; Paggo el de GESTIONARLO facil. Ninguno de los dos habla de cobrar mejor. Es el hueco mas claro que ha aparecido, y no salio de una hipotesis sino de leer los dos inventarios."
+      }
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
