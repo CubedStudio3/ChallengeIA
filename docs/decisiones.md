@@ -997,3 +997,84 @@ simples incluidas, dentro de la descripción de un work item real.
 Pero también escondía tres errores de aritmética y de reporte que solo aparecen
 cuando el dato existe. Llenar la configuración fue, de hecho, la prueba de
 integración que faltaba.
+
+---
+
+## ADR-031 · El alcance no existe por API, y buscarlo destapó dos cosas mejores
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+
+### Contexto
+
+Mercadeo mandó la URL del panel de Insights de Business Suite preguntando si de
+ahí se podía sacar el orgánico. El alcance era el único hueco que quedaba
+declarado en el reporte de redes.
+
+### Qué se probó, y con qué resultado
+
+**La URL: no.** Dos razones independientes. El proxy de red la bloquea de raíz
+(`EGRESS_BLOCKED`), y aun sin eso es una aplicación que exige sesión iniciada y
+que pinta sus datos con llamadas internas. No es una página que se pueda leer.
+
+**El alcance: tampoco, por ninguna vía.** Se probó `ads_get_ig_media`, que era la
+única ruta del MCP que quedaba sin explorar. Devuelve `like_count`,
+`comments_count`, `media_type`, `media_product_type`, `permalink`, `timestamp` y
+`caption`. **Ni alcance, ni impresiones, ni guardados, ni compartidos.** Las dos
+fuentes disponibles coinciden en lo mismo, así que el hueco es real y queda
+declarado, no pendiente.
+
+### Pero la búsqueda produjo dos hallazgos
+
+**1 · El corte por formato, que era invisible.** `media_product_type` distingue
+REELS de FEED, y **Zoho Social no expone ese campo**. Sobre las 25 publicaciones
+leídas:
+
+| Formato | n | Interacciones | Promedio | Mediana | Máximo |
+|---|---|---|---|---|---|
+| REELS | 10 | 123 | **12.3** | 7.0 | 37 |
+| FEED | 15 | 57 | **3.8** | 3.0 | 9 |
+
+Los reels rinden **3.2x el promedio del feed** (2.3x por mediana, que es la cifra
+conservadora). Las cinco mejores piezas del periodo son **todas** reels. Y los 7
+comentarios de toda la muestra están **todos** en reels: el feed acumuló cero
+comentarios en 15 publicaciones.
+
+Se controló el sesgo obvio antes de reportarlo: si los reels ganaran solo por ser
+más antiguos y haber acumulado más tiempo, la comparación no valdría. Las dos
+cohortes promedian **exactamente 30 días** de antigüedad. El sesgo no explica la
+diferencia.
+
+Con la capacidad declarada de 5 artes y 5 videos por semana, esto es directamente
+accionable: dice a qué formato conviene mover el peso.
+
+**2 · El corte por mercado NO era imposible.** El proyecto documentaba como
+trampa que «el orgánico no se puede partir por mercado: el portal tiene UNA marca
+y GT y SV comparten audiencia». `ads_get_ad_account_pages` devuelve **dos**
+páginas bajo la misma cuenta publicitaria: «Qpaypro» (1692583127699872 — que es
+justo el `asset_id` de la URL que mandó Mercadeo) y **«Qpaypro El Salvador»
+(829032443626700)**.
+
+El corte existe del lado de Meta. Lo que falta es que la segunda página esté
+conectada como marca en el portal de Zoho Social. Eso es **configuración, no
+desarrollo**.
+
+### Consecuencias
+
+- El hueco de alcance pasa de «pendiente de probar» a **cerrado con evidencia**:
+  no viene por API y no se va a capturar a mano, porque un paso manual dentro de
+  una automatización semanal es una bomba de tiempo.
+- El hueco de mercado cambia de `IMPOSIBLE EN ESTA CONFIGURACIÓN` a
+  `FALTA CONECTAR UNA PÁGINA`, **con su remedio**. La diferencia no es de
+  redacción: lo primero cierra la puerta, lo segundo dice cómo abrirla.
+- Aparece una fuente nueva en `crudo/ig_media_organico.json`, con su método, su
+  tope de 25 publicaciones y el control de sesgo anotados.
+
+### La lección
+
+**Declarar algo imposible cuando solo está desconectado cierra la puerta a
+arreglarlo.** Es la misma lección de método del 2026-08-27 con los conectores
+apagados, repetida en otra forma: entonces se dijo «no existe» de algo que estaba
+instalado; aquí se dijo «imposible» de algo que estaba sin conectar. Y **una
+segunda fuente del mismo dato no es redundancia**: buscando alcance apareció el
+corte por formato, que con una sola fuente no se veía.

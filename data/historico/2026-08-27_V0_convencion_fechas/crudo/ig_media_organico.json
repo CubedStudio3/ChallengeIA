@@ -1,0 +1,269 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ig_media",
+  "fecha_consulta": "2026-08-31",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "ig_account_id": "17841443997027489",
+   "limit": 25
+  },
+  "_cuenta": "qpaypro (Instagram)",
+  "_por_que_esta_fuente": "SEGUNDA fuente para el organico de Instagram, independiente de Zoho Social. Se probo buscando el ALCANCE despues de que Mercadeo mandara la URL de Business Suite Insights. El alcance NO viene por aqui tampoco. Pero esta fuente devuelve un campo que Zoho Social NO da: media_product_type, que distingue REELS de FEED. Eso permite un corte por formato que antes era invisible.",
+  "_lo_que_NO_trae": "alcance, impresiones, guardados, compartidos, vistas de video. Solo like_count y comments_count, igual que Zoho Social.",
+  "_advertencia_conteo": "Los conteos son ACUMULADOS al dia de la consulta, no del dia de la publicacion. Misma naturaleza que la serie de Zoho Social (ADR-025): un numero es 'lo que hoy acumula esa pieza', no 'lo que paso esa semana'.",
+  "_tope": "La lectura viene topada en 25 publicaciones por pagina. Esta muestra cubre del 2026-07-14 al 2026-08-28. Antes de esa fecha hay hueco, no ceros.",
+  "_control_de_sesgo": "La comparacion REELS vs FEED podria estar inflada si los reels fueran mas antiguos y hubieran acumulado mas tiempo. Se midio: las dos cohortes promedian 30 dias de antiguedad. El sesgo no explica la diferencia."
+ },
+ "publicaciones": [
+  {
+   "id": "18340026412255034",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 2,
+   "comentarios": 0,
+   "interacciones": 2,
+   "fecha": "2026-08-28",
+   "texto": "Nosotros te ayudamos a llevar tu negocio al siguiente nivel."
+  },
+  {
+   "id": "18005093162992764",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 37,
+   "comentarios": 0,
+   "interacciones": 37,
+   "fecha": "2026-08-25",
+   "texto": "La importancia de la resiliencia junto a @byanaceci"
+  },
+  {
+   "id": "18137319892591856",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-08-24",
+   "texto": "Tenemos la solucion para que tengas tus ventas bajo control."
+  },
+  {
+   "id": "18006856430975001",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-08-21",
+   "texto": "Tener tu negocio, no debe de ser complicado."
+  },
+  {
+   "id": "18112148134804736",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-08-19",
+   "texto": "Las ventas en linea es lo de ahora."
+  },
+  {
+   "id": "18124144819825168",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-08-18",
+   "texto": "Un ecosistema creado para tu negocio"
+  },
+  {
+   "id": "17903487246503120",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 4,
+   "comentarios": 0,
+   "interacciones": 4,
+   "fecha": "2026-08-17",
+   "texto": ""
+  },
+  {
+   "id": "18097071713614405",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 5,
+   "comentarios": 0,
+   "interacciones": 5,
+   "fecha": "2026-08-14",
+   "texto": "tu negocio en la palma de tu mano"
+  },
+  {
+   "id": "18123848344695503",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 9,
+   "comentarios": 0,
+   "interacciones": 9,
+   "fecha": "2026-08-12",
+   "texto": "Nada vuelve a ser igual junto a Qpaypro"
+  },
+  {
+   "id": "17964475944130455",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 9,
+   "comentarios": 0,
+   "interacciones": 9,
+   "fecha": "2026-07-31",
+   "texto": "Muy pronto, una nueva forma de cobrar"
+  },
+  {
+   "id": "18168193999454962",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 15,
+   "comentarios": 0,
+   "interacciones": 15,
+   "fecha": "2026-07-29",
+   "texto": "the new evolution era"
+  },
+  {
+   "id": "17974038939076686",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 5,
+   "comentarios": 0,
+   "interacciones": 5,
+   "fecha": "2026-07-28",
+   "texto": "Cobrar con un enlace en cuestion de segundo es posible."
+  },
+  {
+   "id": "18140845501490104",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-07-24",
+   "texto": "Tu negocio nunca descansa y los PROfesionales tampoco."
+  },
+  {
+   "id": "17994282737801537",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 13,
+   "comentarios": 0,
+   "interacciones": 13,
+   "fecha": "2026-07-23",
+   "texto": "Esto le hicimos pensando en ti"
+  },
+  {
+   "id": "18135487336579236",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 1,
+   "comentarios": 0,
+   "interacciones": 1,
+   "fecha": "2026-07-22",
+   "texto": "La llamada que hara tu negocio mas PRO"
+  },
+  {
+   "id": "18101132164901824",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 7,
+   "comentarios": 0,
+   "interacciones": 7,
+   "fecha": "2026-07-22",
+   "texto": "El sistema mas completo y PROfesional del mercado."
+  },
+  {
+   "id": "18097328357362809",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 25,
+   "comentarios": 7,
+   "interacciones": 32,
+   "fecha": "2026-07-21",
+   "texto": "La llamada que hara mas PRO tu negocio"
+  },
+  {
+   "id": "18008738441941619",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 2,
+   "comentarios": 0,
+   "interacciones": 2,
+   "fecha": "2026-07-20",
+   "texto": "La plataforma mas completa pensado para los PROfesionales"
+  },
+  {
+   "id": "18015994469858014",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-07-20",
+   "texto": "Tenemos todo para ti, cobrar, operar y crecer"
+  },
+  {
+   "id": "18095313179023388",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 5,
+   "comentarios": 0,
+   "interacciones": 5,
+   "fecha": "2026-07-20",
+   "texto": "Algo nuevo comienza aqui"
+  },
+  {
+   "id": "18060974693725735",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-07-19",
+   "texto": "Tu tienda ya existe. Ahora hazla cobrar."
+  },
+  {
+   "id": "18483661651103924",
+   "formato": "FEED",
+   "tipo_medio": "CAROUSEL_ALBUM",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-07-17",
+   "texto": "Tu tienda ya esta en Shopify, WooCommerce o VTEX?"
+  },
+  {
+   "id": "18349105066170302",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 5,
+   "comentarios": 0,
+   "interacciones": 5,
+   "fecha": "2026-07-16",
+   "texto": "Conecta, vende y cobra."
+  },
+  {
+   "id": "18421969078181463",
+   "formato": "FEED",
+   "tipo_medio": "IMAGE",
+   "likes": 2,
+   "comentarios": 0,
+   "interacciones": 2,
+   "fecha": "2026-07-15",
+   "texto": "Todo tu negocio, en una sola pantalla."
+  },
+  {
+   "id": "17978396120888349",
+   "formato": "REELS",
+   "tipo_medio": "VIDEO",
+   "likes": 3,
+   "comentarios": 0,
+   "interacciones": 3,
+   "fecha": "2026-07-14",
+   "texto": "Tu tienda abierta mientras duermes"
+  }
+ ]
+}

@@ -11,9 +11,19 @@ Tres límites reales, y ninguno se rellena:
 1. **No hay alcance ni impresiones orgánicas.** Ninguna de las cinco redes lo
    devuelve por este conector. Sin alcance no hay tasa de engagement, así que
    este módulo no la calcula. Interacciones absolutas sí; porcentajes no.
-2. **No hay desglose por mercado.** El portal tiene UNA marca y una página por
-   red. GT y SV comparten cuenta. El desglose que sí existe en pauta aquí no
-   existe, y eso se declara en lugar de repartir a ojo.
+2. **No hay desglose por mercado — pero NO es imposible, es que falta conectar
+   una página.** El portal de Zoho Social tiene UNA marca conectada, así que por
+   esta fuente GT y SV comparten cuenta.
+
+   Se creía que era una limitación de la configuración de Meta. **Es falso, y se
+   corrigió el 2026-08-31:** `ads_get_ad_account_pages` devuelve DOS páginas
+   distintas bajo la misma cuenta publicitaria — «Qpaypro» (1692583127699872) y
+   **«Qpaypro El Salvador» (829032443626700)**. El corte por mercado existe del
+   lado de Meta; lo que falta es que la segunda página esté conectada al portal
+   de Zoho Social.
+
+   Mientras no lo esté, el desglose se declara como hueco **con su remedio**, que
+   es distinto de declararlo imposible: lo primero se puede arreglar.
 3. **LinkedIn devuelve cero en todo.** En los 25 posts leídos,
    `like_count` y `comment_count` son 0 sin excepción. Eso es indistinguible
    entre cero real y campo no soportado. Se marca como no verificable — es la
@@ -351,9 +361,19 @@ def resumen(redes: dict[str, Red], hoy: date, *,
                          "Sin alcance no se puede calcular tasa de engagement, así "
                          "que no se calcula. Requiere captura manual en Business Suite.")},
             {"que": "desglose por mercado (GT / SV)",
-             "estado": "IMPOSIBLE EN ESTA CONFIGURACIÓN",
-             "detalle": ("El portal tiene una sola marca y una sola cuenta por red. "
-                         "GT y SV comparten audiencia orgánica. Repartir las "
-                         "interacciones entre los dos mercados sería inventarlo.")},
+             "estado": "FALTA CONECTAR UNA PÁGINA",
+             "detalle": ("El portal de Zoho Social tiene UNA marca conectada, así "
+                         "que por esta fuente GT y SV comparten audiencia y "
+                         "repartir las interacciones entre los dos sería "
+                         "inventarlo. Pero el corte SÍ existe del lado de Meta: "
+                         "hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» "
+                         "(829032443626700)."),
+             "impacto": ("Hoy el orgánico se reporta sin partir por mercado, "
+                         "mientras la pauta sí se parte. Esa asimetría es real y "
+                         "queda declarada."),
+             "remedio": ("Conectar la página «Qpaypro El Salvador» como segunda "
+                         "marca en el portal de Zoho Social. Es configuración, no "
+                         "desarrollo. Se creyó imposible hasta el 2026-08-31; era "
+                         "una página sin conectar.")},
         ],
     }

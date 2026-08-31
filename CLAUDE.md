@@ -160,9 +160,13 @@ cometidos; no hay tiempo de repetirlos.
   `comment_count` en cero. Indistinguible entre cero real y campo no soportado.
   Queda FUERA del total de interacciones en vez de sumar ceros que parecerían
   medidos.
-- **El orgánico no se puede partir por mercado.** El portal tiene UNA marca y una
-  cuenta por red: GT y SV comparten audiencia. No es un dato faltante, es
-  imposible en esta configuración.
+- ~~El orgánico no se puede partir por mercado. Es imposible en esta
+  configuración.~~ **CORREGIDO 2026-08-31.** No es imposible: falta conectar una
+  página. `ads_get_ad_account_pages` devuelve DOS — «Qpaypro» y **«Qpaypro El
+  Salvador» (829032443626700)**. El corte existe del lado de Meta; lo que falta
+  es esa segunda página como marca en el portal de Zoho Social. Es configuración,
+  no desarrollo. Declarar algo imposible cuando solo está desconectado cierra la
+  puerta a arreglarlo.
 - **La serie semanal de orgánico es acumulada, no histórica.** La API devuelve el
   conteo de cada publicación al día de la consulta. Un punto es «lo que hoy
   acumulan las piezas de esa semana», no «lo que pasó esa semana» (ADR-025).
@@ -243,6 +247,19 @@ cometidos; no hay tiempo de repetirlos.
 - **Las consultas de GT y SV pueden devolver los MISMOS anuncios.** Shopify
   devuelve los 16 idénticos en los dos: son campañas regionales. Sumarlos daría
   32 anuncios que no existen.
+
+- **El alcance orgánico no viene por NINGUNA de las dos fuentes.** Probado el
+  2026-08-31 contra `ads_get_ig_media` además de Zoho Social: devuelve
+  `like_count` y `comments_count` y nada más. La URL de Business Suite Insights
+  tampoco sirve — es una app con sesión iniciada, y el proxy la bloquea de raíz.
+- **`ads_get_ig_media` da un corte que Zoho Social no da: `media_product_type`.**
+  Distingue REELS de FEED. Sobre 25 publicaciones, **los reels rinden 3.2x el
+  promedio del feed** (12.3 vs 3.8 interacciones), las 5 mejores piezas son todas
+  reels, y los 7 comentarios de la muestra están todos en reels — el feed tiene
+  cero en 15 publicaciones. Controlado por antigüedad: las dos cohortes promedian
+  30 días, así que no es sesgo (ADR-031).
+- **Una segunda fuente del mismo dato no es redundancia.** Buscando alcance
+  apareció el corte por formato, que era invisible con una sola fuente.
 
 ### Lección de método (error propio, 2026-08-27)
 

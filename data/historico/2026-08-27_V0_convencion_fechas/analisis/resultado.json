@@ -524,8 +524,10 @@
       },
       {
         "que": "desglose por mercado (GT / SV)",
-        "estado": "IMPOSIBLE EN ESTA CONFIGURACIÓN",
-        "detalle": "El portal tiene una sola marca y una sola cuenta por red. GT y SV comparten audiencia orgánica. Repartir las interacciones entre los dos mercados sería inventarlo."
+        "estado": "FALTA CONECTAR UNA PÁGINA",
+        "detalle": "El portal de Zoho Social tiene UNA marca conectada, así que por esta fuente GT y SV comparten audiencia y repartir las interacciones entre los dos sería inventarlo. Pero el corte SÍ existe del lado de Meta: hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» (829032443626700).",
+        "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
+        "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
       }
     ]
   },
@@ -1908,8 +1910,10 @@
     },
     {
       "fuente": "desglose por mercado (GT / SV)",
-      "descripcion": "IMPOSIBLE EN ESTA CONFIGURACIÓN",
-      "impacto": "El portal tiene una sola marca y una sola cuenta por red. GT y SV comparten audiencia orgánica. Repartir las interacciones entre los dos mercados sería inventarlo."
+      "descripcion": "FALTA CONECTAR UNA PÁGINA",
+      "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
+      "detalle": "El portal de Zoho Social tiene UNA marca conectada, así que por esta fuente GT y SV comparten audiencia y repartir las interacciones entre los dos sería inventarlo. Pero el corte SÍ existe del lado de Meta: hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» (829032443626700).",
+      "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
     }
   ]
 }

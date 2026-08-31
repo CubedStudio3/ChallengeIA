@@ -244,9 +244,17 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                 "descripcion": blq["motivo"],
                 "impacto": blq["dato_que_se_pierde"] or "Sin dato medible perdido.",
             })
+        # El `remedio` viaja hasta el final. Se estaba descartando aquí, y sin
+        # remedio un hueco se vuelve a leer como imposible: la diferencia entre
+        # «no se puede» y «falta conectar una página» es justamente ese campo.
         for lim in redes_resumen["limites"]:
-            huecos.append({"fuente": lim["que"], "descripcion": lim["estado"],
-                           "impacto": lim["detalle"]})
+            h = {"fuente": lim["que"], "descripcion": lim["estado"],
+                 "impacto": lim.get("impacto") or lim["detalle"]}
+            if lim.get("impacto") and lim.get("detalle"):
+                h["detalle"] = lim["detalle"]
+            if lim.get("remedio"):
+                h["remedio"] = lim["remedio"]
+            huecos.append(h)
 
     # --- Paso 5 · hallazgos, por indicador ---
     grupos = agrupa_por_indicador(campanas)
@@ -561,7 +569,11 @@ def imprime(r: dict) -> None:
         print(f"\nHUECOS DECLARADOS\n{L}")
         for h in r["huecos_declarados"]:
             print(f"  · {h['fuente']}: {h['descripcion']}")
+            if h.get("detalle"):
+                print(f"    detalle: {h['detalle']}")
             print(f"    impacto: {h['impacto']}")
+            if h.get("remedio"):
+                print(f"    → cómo se arregla: {h['remedio']}")
     print()
 
 
