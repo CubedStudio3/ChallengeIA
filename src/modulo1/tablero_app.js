@@ -116,7 +116,8 @@
     copiar: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
     link: '<path d="M10 14a4 4 0 0 0 6 .5l3-3a4 4 0 0 0-6-6l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-6-.5l-3 3a4 4 0 0 0 6 6L12.5 17"/>',
     arriba: '<path d="M12 19V5M6 11l6-6 6 6"/>',
-    abajo: '<path d="M12 5v14M6 13l6 6 6-6"/>'
+    abajo: '<path d="M12 5v14M6 13l6 6 6-6"/>',
+    flecha: '<path d="M5 12h13M13 6l6 6-6 6"/>'
   };
   function svg(d, cls) {
     return '<svg viewBox="0 0 24 24" class="' + (cls || "w-5 h-5") +
@@ -125,6 +126,14 @@
   }
 
   /* ═════════════ utilidades de datos ═════════════ */
+
+  /* El logo de una marca medida, incrustado por el generador y buscado por su
+     nombre exacto. Una marca sin logo devuelve null y la fila cae en sus
+     iniciales: es mejor una inicial honesta que un logo generico, que haria
+     parecer medida a una marca que no lo esta. */
+  function logoDe(nombre) {
+    return (D.logos_competencia || {})[nombre] || null;
+  }
 
   function mercados() { return Object.keys(D.por_mercado || {}).sort(); }
   function mercadoActivo() {
@@ -245,7 +254,7 @@
     var lg = D.logo;
     if (lg && lg.uri) {
       return '<img src="' + esc(lg.uri) + '" alt="' + esc(lg.alt || "") + '" ' +
-        'class="w-10 h-10 rounded-2xl object-contain mb-6 hidden md:block">';
+        'class="w-12 h-12 object-contain mb-6 hidden md:block">';
     }
     return '<div class="w-10 h-10 rounded-2xl grid place-items-center ' +
       'font-bold text-[13px] mb-6 hidden md:grid" ' +
@@ -345,15 +354,26 @@
 
   /* Una fila de lista: avatar circular, nombre en negrita, descripción sutil,
      valor a la derecha. */
-  function fila(inicial, nombre, desc, valor, sub, tono, tinte) {
+  /* `tono` es el SEMAFORO y solo eso: verde aprobado, rojo rechazado, ambar
+     intermedio. Esos tres colores no salen de la paleta pastel a proposito —
+     instruccion de Mercadeo (2026-08-31) y ademas es lo correcto: si «bien» y
+     «pendiente» fueran dos pasteles del mismo tablero, el estado dejaria de
+     leerse de un golpe. Cuando no hay estado, el circulo lleva el lavado de la
+     seccion, que si es de la paleta.
+
+     `logo` gana sobre `inicial`: una marca con logo se reconoce sin leer. */
+  function fila(inicial, nombre, desc, valor, sub, tono, tinte, logo) {
     var col = { verde: "bg-emerald-50 text-emerald-700",
                 rojo: "bg-rose-50 text-rose-700",
                 ambar: "bg-amber-50 text-amber-700" }[tono] ||
-              (tinte ? "bg-white text-slate-600" : "bg-slate-100 text-slate-500");
+              (tinte ? "fila-ini-tinte" : "fila-ini");
     var suave = tinte ? "text-slate-700" : "text-slate-400";
-    return '<div class="flex items-center gap-4 py-3.5">' +
-      '<div class="w-10 h-10 rounded-full grid place-items-center shrink-0 ' +
-      'text-[13px] font-bold ' + col + '">' + esc(inicial) + "</div>" +
+    var avatar = logo
+      ? '<div class="w-10 h-10 rounded-full shrink-0 fila-logo"><img src="' +
+        esc(logo) + '" alt="' + esc(nombre) + '"></div>'
+      : '<div class="w-10 h-10 rounded-full grid place-items-center shrink-0 ' +
+        'text-[13px] font-bold ' + col + '">' + esc(inicial) + "</div>";
+    return '<div class="flex items-center gap-4 py-3.5">' + avatar +
       '<div class="min-w-0 flex-1">' +
       '<div class="text-[13.5px] font-semibold text-slate-900 truncate">' +
       esc(nombre) + "</div>" +
@@ -479,10 +499,19 @@
 
     S.forEach(function (s, si) {
       var gid = id + "-grad-" + si;
+      /* El relleno del area es el PASTEL de la paleta; el trazo es el mismo
+         tono bajado a peso de linea. Es lo que permite pintar la grafica con
+         la paleta de Mercadeo y que se siga leyendo: el pastel puro como
+         linea da 1.34:1 sobre blanco. */
+      var relleno = s.relleno || s.color;
+      /* El patron va PEGADO al color, no a la posicion en la grafica: si en una
+         grafica YouTube es la tercera serie y en otra la unica, en las dos
+         tiene que verse igual. Por eso la serie puede declarar el suyo. */
+      var patron = "g-l" + Math.min(s.patron || si + 1, 3);
       defs.push('<linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0%" stop-color="' + s.color + '" stop-opacity="0.26"/>' +
-        '<stop offset="55%" stop-color="' + s.color + '" stop-opacity="0.07"/>' +
-        '<stop offset="100%" stop-color="' + s.color + '" stop-opacity="0"/>' +
+        '<stop offset="0%" stop-color="' + relleno + '" stop-opacity="0.85"/>' +
+        '<stop offset="55%" stop-color="' + relleno + '" stop-opacity="0.32"/>' +
+        '<stop offset="100%" stop-color="' + relleno + '" stop-opacity="0"/>' +
         "</linearGradient>");
       var tramos = [], actual = [];
       s.valores.forEach(function (v, i) {
@@ -505,7 +534,8 @@
             gid + ')" stroke="none"/>');
         }
         partes.push('<path d="' + d + '" fill="none" stroke="' + s.color +
-          '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>');
+          '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" ' +
+          'class="' + patron + '"/>');
       });
       s.valores.forEach(function (v, i) {
         if (v == null) return;
@@ -522,13 +552,18 @@
       '" width="' + (G.w - G.iz - G.de) + '" height="' + (G.h - G.ar - G.ab) +
       '" fill="transparent" style="cursor:crosshair"/>');
 
+    /* La muestra de la leyenda dibuja el MISMO patron de trazo que la linea,
+       no un punto de color. Con tres tonos de una sola paleta el patron es lo
+       que separa las series para quien no distingue esos tres colores. */
     var leyenda = S.length < 2
       ? '<div class="mb-5 h-[18px]"></div>'
       : '<div class="flex flex-wrap gap-x-5 gap-y-2 mb-5 min-h-[18px]">' +
-        S.map(function (s) {
+        S.map(function (s, si) {
+          var n = Math.min(s.patron || si + 1, 3);
           return '<span class="inline-flex items-center gap-2 text-[12px] ' +
-            'text-slate-400"><i class="w-2.5 h-2.5 rounded-full" ' +
-            'style="background:' + s.color + '"></i>' + esc(s.nombre) + "</span>";
+            'text-slate-500"><i class="g-muestra' +
+            (n > 1 ? " g-muestra-" + n : "") + '" style="border-top-color:' +
+            s.color + '"></i>' + esc(s.nombre) + "</span>";
         }).join("") + "</div>";
 
     var tabla = '<details class="mt-5 pt-4 border-t border-slate-100">' +
@@ -621,9 +656,150 @@
   }
 
   /* ── 1 · Resumen ─────────────────────────────────────────────────────────── */
+
+  /* La portada, con la estructura de la imagen de referencia que mando Mercadeo
+     el 2026-08-31: una tarjeta oscura grande a la izquierda con la frase de la
+     semana y el boton de accion, tres tarjetas numeradas de color al lado, la
+     fila de estadisticas en blanco debajo, y la lista de pendientes al final.
+
+     TODO numero de aqui se deriva del dato. La imagen de referencia trae un
+     «28%» de adorno en cada tarjeta; aqui cada barra tiene un denominador real
+     y el pie de la tarjeta dice cual es. Una barra sin denominador es un dibujo.
+
+     Los tres colores van en las tarjetas de PREVIO, no en las de dato: las
+     cuatro tarjetas de estadistica siguen blancas, que es lo que pidio
+     Mercadeo. */
+
+  /* Una tarjeta numerada, del color de la seccion que previsualiza. Es un
+     enlace entero: la tarjeta lleva a su seccion. */
+  function cardNum(num, secId, icono, titulo, valor, sub, frac, pie) {
+    var barra = "";
+    if (frac && frac.total > 0) {
+      var pc = Math.round(frac.parte / frac.total * 100);
+      barra = '<div class="mt-4"><div class="h-1.5 rounded-full ' +
+        'bg-black/[0.12] overflow-hidden"><div class="h-full rounded-full ' +
+        'bg-black/75 transition-all duration-700" style="width:' + pc +
+        '%"></div></div></div>';
+    }
+    return '<a href="#' + secId + '" class="rounded-3xl p-6 flex flex-col ' +
+      'min-h-[212px] transition-transform hover:-translate-y-0.5" ' +
+      'style="background:var(--sec-' + secId + ');color:var(--sec-' + secId +
+      '-tinta)">' +
+      '<div class="flex items-start justify-between">' +
+      '<span class="text-[12px] font-bold tabular-nums opacity-45">' + num +
+      "</span>" +
+      '<span class="opacity-70">' + svg(icono, "w-[18px] h-[18px]") + "</span>" +
+      "</div>" +
+      '<div class="mt-auto pt-6">' +
+      '<div class="text-[13.5px] font-bold leading-snug">' + esc(titulo) +
+      "</div>" +
+      '<div class="text-[27px] font-bold tracking-[-0.03em] tabular-nums ' +
+      'leading-none mt-2.5">' + valor + "</div>" +
+      '<div class="text-[11.5px] opacity-70 mt-1.5 leading-snug">' + esc(sub) +
+      "</div>" + barra +
+      (pie ? '<div class="text-[10.5px] opacity-60 mt-2 leading-snug">' +
+        esc(pie) + "</div>" : "") +
+      "</div></a>";
+  }
+
   function resumen() {
     var L = leadTotal(), rs = D.redes_sociales, t = (rs && rs.totales) || {};
     var vari = variacionOrganico();
+    var act = estrategiaActiva();
+    var vis = tareasVisibles();
+    var decid = vis.filter(function (x) { return E.decisiones[x.id]; }).length;
+
+    /* ── la tarjeta oscura ───────────────────────────────────────────────── */
+
+    /* La frase de la semana sale del dato o no sale. Sin pauta leida no se
+       escribe una frase generica: se dice que falta. */
+    var titular, apoyo;
+    if (L && L.resultados != null) {
+      titular = 'La pauta trajo <b class="font-bold">' + ent(L.resultados) +
+        " leads</b> a " + dinero(L.costo_por_resultado) + " cada uno.";
+      apoyo = ent(L.campanas) + " campañas con entrega · " + dinero(L.gasto) +
+        " invertidos";
+    } else {
+      titular = "Esta corrida no trae rendimiento de pauta.";
+      apoyo = "Sin el dato no se escribe la frase de la semana.";
+    }
+
+    var pcDec = vis.length ? Math.round(decid / vis.length * 100) : 0;
+    var heroe = '<div class="rounded-3xl p-8 sm:p-9 flex flex-col" ' +
+      'style="background:var(--sec-resumen);color:var(--sec-resumen-tinta)">' +
+      '<div class="text-[10.5px] font-bold tracking-[0.14em] uppercase ' +
+      'opacity-50">Semana del ' + esc((D.corrida || {}).rango || "") + "</div>" +
+      '<h3 class="text-[25px] sm:text-[29px] font-bold leading-[1.18] ' +
+      'tracking-[-0.02em] mt-4 max-w-[24ch]">' + titular + "</h3>" +
+      '<p class="text-[12.5px] opacity-60 mt-3">' + esc(apoyo) + "</p>" +
+      (act
+        ? '<p class="text-[13px] opacity-85 mt-6 leading-relaxed max-w-[46ch] ' +
+          'line-clamp-3"><b class="font-semibold">' + esc(act.nombre) + ".</b> " +
+          esc(act.en_pocas_palabras) + "</p>"
+        : '<p class="text-[13px] opacity-85 mt-6 leading-relaxed">Ninguna ' +
+          "estrategia sostenida por los datos de esta corrida.</p>") +
+      '<div class="mt-auto pt-7">' +
+      '<div class="flex items-baseline justify-between text-[11.5px] ' +
+      'opacity-60 mb-2"><span>Decisiones tomadas</span>' +
+      '<span class="tabular-nums font-semibold">' + decid + " / " + vis.length +
+      "</span></div>" +
+      '<div class="h-1.5 rounded-full bg-white/20 overflow-hidden mb-7">' +
+      '<div class="h-full rounded-full bg-white transition-all duration-700" ' +
+      'style="width:' + pcDec + '%"></div></div>' +
+      '<a href="#estrategia" class="inline-flex items-center gap-2 bg-white ' +
+      'text-slate-900 rounded-full px-6 py-3.5 text-[13px] font-semibold ' +
+      'hover:opacity-90 transition-opacity">Ir a decidir' +
+      svg(ico.flecha, "w-4 h-4") + "</a></div></div>";
+
+    /* ── 01 · Rendimiento ────────────────────────────────────────────────── */
+
+    var porM = mercados().map(function (m) {
+      var q = (D.por_mercado[m] || {}).principal;
+      return { m: m, r: (q && q.resultados) || 0 };
+    });
+    var sumaM = porM.reduce(function (a, x) { return a + x.r; }, 0);
+    var lider = porM.slice().sort(function (a, b) { return b.r - a.r; })[0];
+    var c01 = cardNum("01", "rendimiento", ico.grafico, "Rendimiento",
+      ent(L && L.resultados), "leads del indicador actions:lead",
+      lider && sumaM ? { parte: lider.r, total: sumaM } : null,
+      lider && sumaM
+        ? lider.m + " concentra " + Math.round(lider.r / sumaM * 100) +
+          "% de los leads medidos"
+        : "");
+
+    /* ── 02 · Competencia ────────────────────────────────────────────────── */
+
+    /* Se cuentan MARCAS, no anuncios. Sumar los anuncios de los dos mercados
+       duplicaria las campañas regionales: Shopify devuelve los mismos 16 en GT
+       y en SV. Contar marcas no tiene ese problema. */
+    var todasM = marcas();
+    var disputan = todasM.filter(function (b) {
+      return Object.keys(b.mercados || {}).some(function (m) {
+        return b.mercados[m].presion_real > 0;
+      });
+    });
+    var faltanM = sinMedir().length;
+    var registro = todasM.length + faltanM;
+    var terr = ((D.referencias || {}).territorios) || {};
+    var top = (terr.saturados || [])[0];
+    var c02 = cardNum("02", "competencia", ico.objetivo, "Competencia",
+      ent(disputan.length), "marcas con anuncios que nos disputan",
+      registro ? { parte: disputan.length, total: registro } : null,
+      "de " + registro + " del registro" +
+      (faltanM ? " · " + faltanM + " sin medir" : "") +
+      (top ? " · repite «" + top.mensaje + "»" : ""));
+
+    /* ── 03 · Referencias ────────────────────────────────────────────────── */
+
+    var ocup = (terr.saturados || []).length, libres = (terr.libres || []).length;
+    var c03 = cardNum("03", "referencias", ico.brujula, "Referencias",
+      ent(ocup + libres), "territorios de mensaje leídos",
+      ocup + libres ? { parte: ocup, total: ocup + libres } : null,
+      ocup + " ocupado" + (ocup === 1 ? "" : "s") + " · " + libres +
+      " sin disputa");
+
+    /* ── la fila de estadisticas, en blanco ──────────────────────────────── */
+
     var kpis = [
       kpi("Leads del periodo", ent(L && L.resultados), "indicador actions:lead"),
       kpi("Inversión", dinero(L && L.gasto),
@@ -638,77 +814,73 @@
              : (t.publicaciones || 0) + " publicaciones", vari),
     ].join("");
 
-    var terr = ((D.referencias || {}).territorios) || {};
-    var act = estrategiaActiva();
-    var vis = tareasVisibles();
-    var decid = vis.filter(function (x) { return E.decisiones[x.id]; }).length;
+    /* ── la lista de pendientes ──────────────────────────────────────────── */
 
-    var comp = [];
-    (terr.saturados || []).forEach(function (s) {
-      comp.push(fila(s.de.slice(0, 2).toUpperCase(), s.de,
-        "«" + s.mensaje + "» en " + s.mercado, pct(s.cuota),
-        "de su inventario", null, true));
-    });
-    (terr.libres || []).forEach(function (l) {
-      comp.push(fila(l.mercado, l.mercado + " sin disputa",
-        "Ningún competidor medido pauta aquí", "0", "anuncios", null, true));
-    });
-    sinMedir().forEach(function (x) {
-      comp.push(fila(x.nombre.slice(0, 2).toUpperCase(), x.nombre,
-        "No se midió: falta su page_id", "—", "sin dato", null, true));
+    /* Aqui el color NO es de la paleta: es el semaforo. Aceptada verde,
+       rechazada roja, sin decidir ambar — un estado intermedio de verdad, no
+       un hueco. Instruccion de Mercadeo (2026-08-31) y ademas es lo correcto:
+       si el estado fuera pastel se confundiria con la identidad de la
+       seccion. */
+    /* La misma lista que usa el selector de la seccion Estrategia, para que el
+       nombre que se ve aqui sea el que se guardo alla. */
+    var personas = (((D.estrategia || {}).asignacion) || {}).personas || [];
+    var quien = function (id) {
+      for (var i = 0; i < personas.length; i++) {
+        if (String(personas[i].id_sprint) === String(id)) return personas[i].nombre;
+      }
+      return null;
+    };
+    var pend = vis.map(function (x) {
+      var d = E.decisiones[x.id], e = d ? d.estado : null;
+      var nom = d && d.responsable ? quien(d.responsable) : null;
+      return fila(
+        (x.tipo || "?").slice(0, 2).toUpperCase(),
+        x.titulo,
+        (x.tipo === "pauta" ? "cambio en pauta" : x.tipo) +
+          (nom ? " · " + nom : e === "aceptada" ? " · sin responsable" : ""),
+        /* El estado va escrito Y en color. Solo con color quedaria fuera quien
+           no lo percibe; solo con la palabra habria que leer tres filas para
+           ver como va la mesa. */
+        '<span class="' + (e === "aceptada" ? "text-emerald-600"
+          : e === "rechazada" ? "text-rose-600" : "text-amber-600") + '">' +
+        (e === "aceptada" ? "Aceptada" : e === "rechazada" ? "Rechazada"
+          : "Sin decidir") + "</span>",
+        e ? "" : "esperando la mesa",
+        e === "aceptada" ? "verde" : e === "rechazada" ? "rojo" : "ambar");
     });
 
-    var pm = mercados().map(function (m) {
-      var p = (D.por_mercado[m] || {}).principal;
-      return p ? fila(m, m === "GT" ? "Guatemala" : m === "SV" ? "El Salvador" : m,
-        ent(p.resultados) + " leads · " + ent(p.campanas) + " campañas",
-        dinero(p.costo_por_resultado), "por lead", null, true) : "";
-    }).join("");
+    var lista = '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Para decidir en la mesa",
+        decid + " de " + vis.length + " ya tienen decisión",
+        "pend", pend.length, 3) +
+      (pend.length
+        ? '<div class="divide-y divide-slate-50">' +
+          recorta(pend, "pend").join("") + "</div>"
+        : '<p class="text-[13px] text-slate-400 py-2">Ninguna tarea coincide ' +
+          "con la búsqueda.</p>") + "</div>";
 
-    /* Cada tarjeta de síntesis lleva el color de la sección que previsualiza.
-       Los KPI de arriba siguen blancos: ahí se leen números, y el blanco es lo
-       que pidió Mercadeo que siguiera predominando. */
-    var tarjeta = function (secId, cuerpo) {
-      return '<div class="rounded-3xl p-7 flex flex-col" ' +
-        'style="background:var(--sec-' + secId + ')">' + cuerpo + "</div>";
+    var rotulo = function (txt) {
+      return '<h3 class="text-[15px] font-bold text-slate-800 ' +
+        'tracking-[-0.01em] mb-5 mt-10">' + esc(txt) + "</h3>";
     };
 
     return seccion("resumen", "La semana", "Resumen",
-      "Lo que dicen los datos, en tres frentes.", "",
-      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
+      "Lo que dicen los datos, y qué hay que decidir con eso.", "",
+      /* Una sola columna hasta xl: por debajo de eso el heroe a media pantalla
+         deja las tres tarjetas en 170 px y el titulo se parte en cinco lineas.
+         Medido en la prueba, no supuesto: con 1.05fr_1fr desde tableta las
+         tres no caben en fila y se rompe el 2+1. */
+      '<div class="grid gap-6 xl:[grid-template-columns:1fr_1.18fr]">' +
+      heroe +
+      '<div class="grid gap-5 ' +
+      '[grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr))] ' +
+      'xl:[grid-template-columns:repeat(3,minmax(0,1fr))]">' +
+      c01 + c02 + c03 + "</div></div>" +
+      rotulo("Estadísticas") +
+      '<div class="grid gap-6 ' +
+      '[grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))]">' +
       kpis + "</div>" +
-      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))]">' +
-      tarjeta("rendimiento",
-        cardCab("Rendimiento por mercado", "Meta Ads, costo por lead",
-                null, 0, 0, true) +
-        '<div class="divide-y divide-black/10">' + pm + "</div>") +
-      tarjeta("competencia",
-        cardCab("Qué hace la competencia", "Ad Library, foto de hoy",
-                "comp", comp.length, 3, true) +
-        '<div class="divide-y divide-black/10">' + recorta(comp, "comp").join("") +
-        "</div>") +
-      tarjeta("estrategia",
-        cardCab("La estrategia propuesta", "Para decidir en la mesa",
-                null, 0, 0, true) +
-        (act
-          ? '<div class="text-[15px] font-bold text-slate-900 leading-snug mb-2">' +
-            esc(act.nombre) + "</div>" +
-            '<p class="text-[12.5px] text-slate-700 leading-relaxed mb-5">' +
-            esc(act.en_pocas_palabras) + "</p>"
-          : '<p class="text-[13px] text-slate-700 mb-5">Ninguna estrategia ' +
-            "sostenida por los datos de esta corrida.</p>") +
-        '<div class="mt-auto"><div class="flex items-baseline justify-between mb-2">' +
-        '<span class="text-[12px] text-slate-700">Decisiones tomadas</span>' +
-        '<span class="text-[13px] font-bold text-slate-900 tabular-nums">' + decid +
-        " / " + vis.length + "</span></div>" +
-        '<div class="h-1.5 rounded-full bg-black/10 overflow-hidden">' +
-        '<div class="h-full rounded-full bg-black transition-all duration-500" ' +
-        'style="width:' + (vis.length ? Math.round(decid / vis.length * 100) : 0) +
-        '%"></div></div>' +
-        '<a href="#estrategia" class="inline-block mt-5 text-[12.5px] ' +
-        'font-semibold text-slate-900 underline decoration-black/30 ' +
-        'underline-offset-4 hover:decoration-black">Ir a decidir →</a></div>') +
-      "</div>");
+      rotulo("Pendientes") + lista);
   }
 
   /* La advertencia de que los indicadores no se suman, con los numeros del
@@ -758,7 +930,10 @@
         c.costo_por_resultado <= 2.6 ? "verde" : null);
     }).join("");
 
-    var COL = ["var(--c1)", "var(--c2)", "var(--c3)"];
+    /* Cada serie va con DOS colores del mismo tono: el trazo (oscuro, para la
+       linea) y el pastel (para el area). Los dos salen de config/tema.json. */
+    var COL = ["var(--trazo-azul)", "var(--trazo-rosa)", "var(--trazo-verde)"];
+    var REL = ["var(--pastel-azul)", "var(--pastel-rosa)", "var(--pastel-verde)"];
     var orden = ["facebook", "instagram", "youtube"];
     var gInt = "", gVis = "";
     if (se) {
@@ -766,7 +941,8 @@
         titulo: "Interacciones por semana", semanas: se.semanas, area: true,
         series: orden.filter(function (r) { return se.interacciones[r]; })
           .map(function (r, i) {
-            return { nombre: RED[r] || r, valores: se.interacciones[r], color: COL[i] };
+            return { nombre: RED[r] || r, valores: se.interacciones[r],
+                     color: COL[i], relleno: REL[i] };
           }),
       });
       var conVistas = orden.filter(function (r) { return se.vistas[r]; });
@@ -774,7 +950,9 @@
         titulo: "Vistas de video por semana", semanas: se.semanas, area: true,
         series: conVistas.map(function (r) {
           return { nombre: RED[r] || r, valores: se.vistas[r],
-                   color: COL[orden.indexOf(r)] };
+                   color: COL[orden.indexOf(r)],
+                   relleno: REL[orden.indexOf(r)],
+                   patron: orden.indexOf(r) + 1 };
         }),
       }) : "";
     }
@@ -898,16 +1076,21 @@
       if (b.advertencia) extra.push(esc(b.advertencia));
       if (b.metodo) extra.push("Método: " + esc(b.metodo));
 
+      var lg = logoDe(b.nombre);
       return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
         '<div class="flex items-start justify-between gap-3 mb-6">' +
-        '<h3 class="text-[17px] font-bold text-slate-800 tracking-[-0.01em]">' +
-        esc(b.nombre) + "</h3>" +
+        '<div class="flex items-center gap-3 min-w-0">' +
+        (lg ? '<span class="w-11 h-11 rounded-2xl shrink-0 fila-logo grid ' +
+              'place-items-center"><img src="' + esc(lg) + '" alt="' +
+              esc(b.nombre) + '"></span>' : "") +
+        '<h3 class="text-[17px] font-bold text-slate-800 tracking-[-0.01em] ' +
+        'truncate">' + esc(b.nombre) + "</h3></div>" +
         '<div class="flex gap-1.5 flex-wrap justify-end">' +
         (b.categorias || []).map(function (c) {
-          return '<span class="etiqueta">' +
+          return '<span class="etiqueta-sec">' +
             esc(c === "hardware" ? "punto de venta" : c) + "</span>";
         }).join("") +
-        (b.moneda ? '<span class="etiqueta">' + esc(b.moneda) + "</span>" : "") +
+        (b.moneda ? '<span class="etiqueta-sec">' + esc(b.moneda) + "</span>" : "") +
         "</div></div>" +
         '<div class="flex gap-5 pb-6 mb-2 border-b border-slate-50">' + pres +
         "</div>" +
@@ -929,9 +1112,13 @@
     }).join("");
 
     var avisos = faltan.map(function (x) {
+      var lgx = logoDe(x.nombre);
       return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra ' +
         'ring-1 ring-amber-100">' +
         '<div class="flex items-center gap-3 mb-4">' +
+        (lgx ? '<span class="w-11 h-11 rounded-2xl shrink-0 fila-logo grid ' +
+               'place-items-center"><img src="' + esc(lgx) + '" alt="' +
+               esc(x.nombre) + '"></span>' : "") +
         '<h3 class="text-[17px] font-bold text-slate-800">' + esc(x.nombre) +
         "</h3>" +
         '<span class="etiqueta-ambar">' + esc(x.estado) + "</span></div>" +

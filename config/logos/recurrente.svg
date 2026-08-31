@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img"
+     aria-label="Recurrente">
+  <title>Recurrente</title>
+  <path fill="none" stroke="#0A0A0A" stroke-width="14" stroke-linecap="round"
+        d="M11 84c26 5 52-3 62-24 10-21 0-42-22-44C31 14 17 30 21 48c4 16 19 24 33 19"/>
+  <path fill="none" stroke="#0A0A0A" stroke-width="14" stroke-linecap="butt"
+        d="M75 55c4-13 4-24 1-33"/>
+  <path fill="#0A0A0A" d="M76 8 94 34H58Z"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 154" role="img"
+     aria-label="Mesa Creativa">
+  <title>Mesa Creativa</title>
+  <!-- Las tres piezas que salen de la mesa, en los tres colores de la paleta.
+       Se dibujan anchas a proposito: en el rail el logo mide 40 px y una punta
+       fina a ese tamano desaparece. -->
+  <path fill="#d0e4bb" d="M38 26 112 68 44 76Z"/>
+  <path fill="#a1caed" d="M164 22 136 76 112 44Z"/>
+  <path fill="#f3d7e9" d="M96 0 126 62 66 48Z"/>
+  <!-- La mesa: tablero y dos patas abiertas. -->
+  <ellipse cx="100" cy="90" rx="98" ry="13" fill="#0A0A0A"/>
+  <path fill="#0A0A0A" d="M74 95 14 143 26 152 88 101Z"/>
+  <path fill="#0A0A0A" d="M126 95 186 143 174 152 112 101Z"/>
+</svg>

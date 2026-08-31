@@ -1241,3 +1241,131 @@ consola de la corrida. No se inventó un logo ni se dejó un `<img>` roto.
 La misma paleta, sin medir, habría terminado como texto de KPI a 1.4:1 y como
 cuatro series indistinguibles en las gráficas — ambas cosas invisibles en la
 pantalla del que las escribe y evidentes en la reunión.
+
+---
+
+## ADR-034 · La paleta de cuatro colores, y cómo entró a las gráficas
+
+**Fecha:** 2026-08-31
+**Estado:** aceptada
+**Pedido:** Mercadeo, mismo día que el ADR-033 · «no uses el color marrón, solo
+deja el azul, rosado, verde, negro y blanco. utiliza esta misma paleta para las
+gráficas de rendimiento. Quiero que la estructura inicial sea más similar a esta
+imagen de referencia. […] Aplica los colores pastel en detalles también, excepto
+cuando sea algo para aprobado o desaprobado, ahí sí utiliza verde y rojo. incluso
+amarillo si es un estado intermedio. También coloca los logos de la competencia:
+paggo, recurrente y Bi.»
+
+### 1 · Fuera el arena, y qué hace Estrategia con el hueco
+
+Sale `#dcd6c9`. Quedan cuatro colores para cinco secciones, así que Estrategia
+—que tenía el arena— pasa a **negro**, igual que Resumen. No es un empate por
+falta de colores: en la imagen de referencia la tarjeta de acción también es la
+oscura, y Resumen y Estrategia son justamente la portada y el cierre.
+
+Pero el negro tiene un problema que el pastel no tiene: **su lavado es un gris.**
+La sección donde el equipo pasa el rato —donde se acepta, se rechaza y se
+asigna— se habría quedado sin una gota de color. Por eso una sección ahora puede
+declarar `lavado_base`: el relleno sigue siendo negro y el lavado arranca del
+azul. Azul y no verde a propósito, y esa es la regla del punto 3.
+
+### 2 · La paleta SÍ puede pintar las gráficas — bajada a peso de línea
+
+El ADR-033 dejó dicho que los pasteles fallan los cinco checks del validador.
+Eso sigue siendo cierto **de los pasteles**. Lo que no se había probado es el
+tono: conservando H y bajando la luminosidad a peso de línea, los tres
+
+| Serie | Pastel (relleno) | Trazo (línea) | vs blanco |
+|---|---|---|---|
+| Facebook | `#a1caed` | `#1A5B93` | 7.09:1 |
+| Instagram | `#f3d7e9` | `#931A68` | 8.11:1 |
+| YouTube | `#d0e4bb` | `#4E7722` | 5.27:1 |
+
+**pasan 5/5** — banda de luminosidad, piso de croma, separación para daltonismo
+(ΔE 8.8 deutan), piso de visión normal (ΔE 20.9) y contraste contra blanco. Así
+que la gráfica es de la paleta de Mercadeo Y se lee: **el pastel rellena el área
+bajo la curva, el tono oscuro traza la línea.**
+
+Queda un margen estrecho: la separación para **tritanopia es 6.9**, dentro de la
+banda 6–8 que el validador solo admite con **codificación secundaria**. Está
+puesta y no es adorno: cada serie tiene su patrón de trazo (continuo, guiones,
+puntos) y la leyenda dibuja el mismo patrón en su muestra. Con eso las tres
+líneas se distinguen incluso impresas en blanco y negro.
+
+Un detalle que salió de la primera versión: el patrón se ató a la POSICIÓN de la
+serie en la gráfica, y entonces YouTube salía punteado en «Interacciones» y
+continuo en «Vistas», donde es la única serie. El patrón va pegado al color, no
+al orden. La serie lo declara.
+
+Y desapareció `serie_4`: la paleta tiene tres tonos. Inventar un cuarto color
+fuera de la paleta para llenar el hueco sería salirse de lo que se pidió. El
+reporte de la Ad Library usaba `var(--c4)` y se quedaba **sin color y sin
+error** — una variable CSS que no existe no avisa. Ahora cicla sobre tres.
+
+### 3 · Pastel en el detalle, semáforo en el estado
+
+El pastel entra en la capa de detalle: etiquetas, círculos de las listas, anillo
+de foco de los campos, segmento activo del formulario, bloques de nota. Cada uno
+toma el lavado de **la sección en la que vive** (`var(--sec-lavado)`), así que el
+detalle lleva el color de su apartado sin una regla por sección.
+
+El estado NO. Aprobado va en verde, rechazado en rojo y **sin decidir en ámbar**
+—un intermedio de verdad, no un hueco—, con los colores semánticos saturados que
+el tema ya tenía, y con la palabra escrita al lado: solo color dejaría fuera a
+quien no lo percibe, solo palabra obligaría a leer tres filas para saber cómo va
+la mesa.
+
+Esta separación es la razón por la que el lavado de Estrategia es azul: es la
+sección donde se aprueba y se rechaza, y un fondo verde pálido debajo de una
+etiqueta verde de «aceptada» convierte el semáforo en decoración.
+
+### 4 · La portada, con la estructura de la referencia
+
+Resumen se rearmó según la imagen: tarjeta oscura grande con la frase de la
+semana y el botón de decidir, tres tarjetas numeradas 01/02/03 en azul, rosado y
+verde al lado, la fila de Estadísticas en blanco debajo, y la lista de
+Pendientes al final.
+
+La imagen de referencia trae un `28%` de adorno en cada tarjeta. Aquí **cada
+barra tiene un denominador real y el pie de la tarjeta dice cuál es**: 01 reparte
+los leads entre mercados, 02 cuenta marcas medidas sobre el registro, 03 parte
+los territorios de mensaje entre ocupados y libres. Una barra sin denominador es
+un dibujo.
+
+En 02 se cuentan **marcas, no anuncios**: sumar los anuncios de los dos mercados
+duplicaría las campañas regionales — Shopify devuelve los mismos 16 en GT y en
+SV (ADR-032). Contar marcas no tiene ese problema.
+
+Dos cosas que encontró la prueba en navegador, no la vista:
+
+1. `xl:[grid-template-columns:1.05fr_1fr]` dejaba la columna de las tres
+   tarjetas en **552 px**, y tres tarjetas de 172 px con dos huecos de 20 piden
+   556. Se rompía en 2+1 por cuatro píxeles. Ahora la proporción es `1fr_1.18fr`
+   y las tres declaran `repeat(3,minmax(0,1fr))` solo desde xl.
+2. `.etiqueta-sec` se agregó al bloque de estilo de las etiquetas pero **no al
+   selector de grupo** que les pone el `display`, el relleno y el radio. La
+   pastilla salía como texto suelto con un tinte detrás. Una clase nueva en una
+   familia de clases hay que darla de alta en los dos lados.
+
+### 5 · Los logos, y de dónde salieron
+
+Los adjuntos de la conversación **no aterrizan en el sistema de archivos de la
+sesión** — se ven en el mensaje y `/mnt/attach` está vacío. Es la segunda vez que
+pasa con el mismo pedido. Así que los cuatro logos —el principal y los de Paggo,
+Recurrente y Banco Industrial— son **redibujos en SVG** hechos a partir de las
+imágenes: sin fondo, vectoriales, de 300 a 600 bytes cada uno, y verificados en
+navegador a 120 px y a 44 px antes de aceptarlos. Se incrustan como data URI
+porque el visor bloquea cualquier imagen externa.
+
+Para sustituirlos por el asset oficial: dejar el archivo en `config/` o
+`config/logos/` con el mismo nombre. No hay que tocar código. Una marca sin
+archivo cae en sus iniciales y no se dibuja un logo genérico: una marca con logo
+inventado se leería como medida cuando no lo está.
+
+### La lección
+
+**Un límite medido puede ser el límite del uso, no del color.** El ADR-033 midió
+que los pasteles no sirven de línea y de ahí se concluyó, de más, que la paleta
+no servía para gráficas. Servía: había que cambiar el tono, no la paleta. La
+diferencia entre las dos conclusiones son cinco minutos de validador — los
+mismos cinco minutos que la primera vez.

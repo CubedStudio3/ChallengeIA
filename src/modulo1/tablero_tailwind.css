@@ -248,8 +248,8 @@
     transition: background 0.15s ease, color 0.15s ease;
   }
   .np-tipo.on {
-    background: #fff;
-    color: #0f172a;
+    background: var(--pastel-azul);
+    color: #0b0b0b;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   }
 
@@ -258,6 +258,7 @@
   .etiqueta,
   .etiqueta-gris,
   .etiqueta-marca,
+  .etiqueta-sec,
   .etiqueta-verde,
   .etiqueta-rojo,
   .etiqueta-ambar {
@@ -278,10 +279,19 @@
     background: #f1f5f9;
     color: #64748b;
   }
+  /* La etiqueta lleva el lavado de la seccion en la que vive, asi que el
+     detalle va del color del apartado sin escribir una regla por seccion.
+     --marca-suave es el respaldo para cuando no hay seccion alrededor.
+     La tinta es negra y no del color: el lavado da 1.2:1 como letra. */
   .etiqueta-marca {
-    background: var(--marca-suave);
-    color: var(--marca-2);
+    background: var(--sec-lavado, var(--marca-suave));
+    color: #0b0b0b;
     cursor: pointer;
+  }
+  /* Etiqueta neutra dentro de una seccion: el mismo lavado, tinta mas suave. */
+  .etiqueta-sec {
+    background: var(--sec-lavado, var(--marca-suave));
+    color: #334155;
   }
   .etiqueta-verde {
     background: var(--bien-suave);
@@ -294,6 +304,29 @@
   .etiqueta-ambar {
     background: var(--falta-suave);
     color: var(--falta-tex);
+  }
+
+  /* El circulo de una fila de lista. Sin estado va con el lavado de la
+     seccion; con estado lo pinta el semaforo y esta clase no interviene. */
+  .fila-ini {
+    background: var(--sec-lavado, #f1f5f9);
+    color: #0b0b0b;
+  }
+  /* Cuando la fila va sobre un pastel puro, el lavado desaparece contra el
+     fondo: ahi el circulo va blanco. */
+  .fila-ini-tinte {
+    background: #fff;
+    color: #0b0b0b;
+  }
+  .fila-logo {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(11, 11, 11, 0.08);
+    padding: 6px;
+  }
+  .fila-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   /* Rotulo pequeno sobre un dato o un campo. */
@@ -325,10 +358,13 @@
   .campo::placeholder {
     color: #cbd5e1;
   }
+  /* El anillo de foco va en el trazo azul de la paleta, no en negro: en un
+     formulario el negro se lee como error. El azul oscuro da 7.1:1 sobre
+     blanco, asi que el foco se ve sin depender del color. */
   .campo:focus {
     outline: none;
     background: #fff;
-    box-shadow: inset 0 0 0 2px var(--marca);
+    box-shadow: inset 0 0 0 2px var(--trazo-azul);
   }
   .campo:disabled {
     opacity: 0.5;
@@ -386,6 +422,24 @@
     stroke: #fff;
     stroke-width: 2;
   }
+  /* CODIFICACION SECUNDARIA, no adorno. Los tres tonos de la paleta separan
+     bien para protanopia y deutanopia (ΔE 8.8) pero se quedan en 6.9 para
+     tritanopia, y el validador solo admite la banda 6-8 CON una segunda
+     codificacion ademas del color. Es esta: cada serie tiene su patron de
+     trazo, y la leyenda dibuja el mismo patron en su muestra. Asi las tres
+     lineas se distinguen incluso en una impresion en blanco y negro. */
+  .g-l1 { stroke-dasharray: none; }
+  .g-l2 { stroke-dasharray: 7 4; }
+  .g-l3 { stroke-dasharray: 1.6 3.4; }
+  .g-muestra {
+    width: 18px;
+    height: 0;
+    border-top-width: 2.5px;
+    border-top-style: solid;
+    flex: none;
+  }
+  .g-muestra-2 { border-top-style: dashed; }
+  .g-muestra-3 { border-top-style: dotted; border-top-width: 3px; }
   .g-tip {
     position: absolute;
     top: 10px;

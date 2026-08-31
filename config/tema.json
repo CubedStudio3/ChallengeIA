@@ -47,7 +47,7 @@
     "lateral_activo": "#F2F2F0",
     "marca": "#000000",
     "marca_oscura": "#000000",
-    "marca_suave": "#dcd6c9",
+    "marca_suave": "#E9F2FA",
     "bien": "#12946B",
     "bien_texto": "#0E7A57",
     "bien_suave": "#E6F5EF",
@@ -57,14 +57,15 @@
     "alerta": "#C04A66",
     "alerta_texto": "#A83B55",
     "alerta_suave": "#FCEDF0",
-    "pista": "#EFEEEA",
+    "pista": "#EAF1F8",
     "marca_fondo": "#000000",
     "marca_fondo_2": "#000000",
     "panel_oscuro": "#000000",
     "panel_oscuro_texto": "#FFFFFF",
     "_nota_marca": "marca = acento de texto y series de grafico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco.",
     "_nota_oscuro": "panel_oscuro es el negro del boton principal y del aviso flotante. Antes se reusaba el color del panel lateral, y al volverlo blanco el aviso quedaba blanco sobre blanco. Es un trabajo propio y ahora tiene su propio token.",
-    "_nota_negro": "El acento de la interfaz es el negro de la paleta que entrego Mercadeo (2026-08-31). Antes era un violeta; la paleta nueva no trae violeta, y la imagen de referencia no usa texto de color en ninguna parte: usa rellenos pastel con tinta oscura. El color de marca cambia aqui y se propaga solo."
+    "_nota_negro": "El acento de la interfaz es el negro de la paleta que entrego Mercadeo (2026-08-31). Antes era un violeta; la paleta nueva no trae violeta, y la imagen de referencia no usa texto de color en ninguna parte: usa rellenos pastel con tinta oscura. El color de marca cambia aqui y se propaga solo.",
+    "_nota_marca_suave": "El fondo de las etiquetas cuando no hay seccion alrededor. Dentro de una seccion, la etiqueta usa el lavado de ESA seccion (--sec-lavado), asi que el detalle lleva el color del apartado en el que esta. Este valor es el respaldo."
   },
   "colores_oscuro": {
     "_nota": "Modo oscuro. NO es un invertido automatico del claro: son pasos elegidos y validados contra la superficie oscura.",
@@ -101,11 +102,12 @@
     "_nota_marca": "marca = acento de texto y series de grafico. marca_fondo = fondo que lleva texto blanco (botones, badge). Son dos trabajos distintos: un violeta claro sirve de acento y NO sirve de fondo con texto blanco."
   },
   "paleta_graficos": {
-    "_nota": "Los colores de las series en los gráficos. Se usan en ESTE orden, nunca en ciclo. Si agregas o cambias uno, el validador comprueba que sigan distinguiéndose entre sí para alguien con daltonismo y que contrasten contra el fondo. Un fallo aquí no es estético: es que alguien no va a poder leer el gráfico.",
-    "serie_1": "#7355E8",
-    "serie_2": "#12946B",
-    "serie_3": "#C4820F",
-    "serie_4": "#C04A66"
+    "_nota": "Los colores de las series. Son los tres tonos de la paleta de Mercadeo bajados a peso de linea (ver paleta_secciones.trazos). Se usan en ESTE orden, nunca en ciclo.",
+    "_validado": "2026-08-31 · validate_palette.js · 5/5 PASS · superficie #FFFFFF, pairs all",
+    "serie_1": "#1A5B93",
+    "serie_2": "#931A68",
+    "serie_3": "#4E7722",
+    "_no_hay_serie_4": "La paleta tiene tres tonos, no cuatro, desde que salio el arena. Antes habia un serie_4 que nadie usaba: la grafica de mas series del tablero son las tres redes. Inventar un cuarto color fuera de la paleta para rellenar el hueco seria salirse de lo que pidio Mercadeo. Si algun dia hace falta, hay que validarlo."
   },
   "acentos_suaves": {
     "_nota": "Tintes DECORATIVOS para las tres tarjetas del resumen. Son adorno, no semantica: no significan bien/mal. Para eso estan bien_suave, falta_suave y alerta_suave, y no se deben usar de adorno porque el lector los lee como una alerta. Cada valor es [claro, oscuro]. El validador comprueba que el texto se lea encima y que el tinte se distinga de la superficie.",
@@ -125,11 +127,16 @@
   "_modo_del_tablero": "claro",
   "_nota_modo": "El tablero se pinta SOLO en modo claro por peticion explicita del usuario (2026-08-28). colores_oscuro se conserva porque el generador puede volver a emitirlo con una linea, pero el tablero no lo usa.",
   "paleta_secciones": {
-    "_para_quien": "La paleta que entrego Mercadeo el 2026-08-31. Cada seccion del tablero lleva uno de estos colores como IDENTIDAD.",
-    "_la_regla_de_uso": "EL PASTEL ES RELLENO, NUNCA TINTA. Medido: un pastel sobre blanco da entre 1.30:1 y 1.72:1 de contraste, cuando el minimo para texto es 4.5:1 — como color de letra son ilegibles. Encima del pastel, el negro da entre 12.19:1 y 15.71:1. Asi que la identidad de cada seccion se ve en una pastilla rellena con texto negro, no en texto de color.",
-    "_por_que_no_son_colores_de_grafico": "Se paso la paleta por el validador de graficos y FALLA los cinco checks: banda de luminosidad, piso de croma, separacion para daltonismo (arena vs verde da 3.0 de ΔE donde se pide 8), piso de vision normal (4.9 donde se pide 15) y contraste contra la superficie (1.3 a 1.7 donde se pide 3). Dos series pintadas con arena y verde serian indistinguibles incluso para quien ve todos los colores. Las series de los graficos siguen usando `paleta_graficos`, que si esta validada.",
+    "_para_quien": "La paleta que entrego Mercadeo el 2026-08-31, corregida el mismo dia: SIN el arena #dcd6c9. Quedan cinco colores y solo cinco: negro, azul, rosado, verde y blanco. Cada seccion del tablero lleva uno como IDENTIDAD.",
+    "_la_regla_de_uso": "EL PASTEL ES RELLENO, NUNCA TINTA. Medido: un pastel sobre blanco da entre 1.34:1 y 1.72:1 de contraste, cuando el minimo para texto es 4.5:1 — como color de letra son ilegibles. Encima del pastel, el negro da entre 12.19:1 y 15.71:1. Asi que la identidad de cada seccion se ve en una pastilla rellena con texto negro, no en texto de color.",
     "blanco_predomina": "Peticion explicita del usuario: el blanco sigue siendo el fondo de las tarjetas de dato. El pastel aparece en la pastilla de la seccion, en el icono del rail y en los bloques secundarios (notas y plegados) — no en las tarjetas donde se leen numeros.",
     "negro": "#000000",
+    "pasteles": {
+      "_que_son": "Los tres pasteles por nombre de tono, para lo que necesita el color sin depender de en que seccion esta: el relleno del area bajo una curva, un detalle, un icono. Cada uno tiene su version a peso de linea en `trazos`, con el mismo nombre.",
+      "azul": "#a1caed",
+      "rosa": "#f3d7e9",
+      "verde": "#d0e4bb"
+    },
     "secciones": {
       "resumen": {
         "relleno": "#000000",
@@ -153,18 +160,40 @@
         "_contraste": "15.50:1"
       },
       "estrategia": {
-        "relleno": "#dcd6c9",
-        "tinta": "#000000",
-        "_contraste": "14.51:1"
+        "relleno": "#000000",
+        "tinta": "#FFFFFF",
+        "lavado_base": "#a1caed",
+        "_nota": "Era el arena #dcd6c9 y Mercadeo lo saco de la paleta. Pasa a negro: es la seccion donde se decide, y en la imagen de referencia la tarjeta de accion tambien es la oscura. El lavado si arranca del azul, porque un lavado de negro es un gris y dejaria esta seccion —la que mas se usa— sin una gota de color. Azul y no verde a proposito: aqui el verde ya significa «aceptada» y el rojo «rechazada».",
+        "_contraste": "21.0:1"
       }
     },
-    "_lavado": "Los bloques secundarios usan el pastel a baja opacidad sobre blanco, no el pastel puro: asi el color se nota sin competir con las tarjetas de dato. Se hace con color-mix() y hay respaldo en rgba para navegadores viejos."
+    "_lavado": "Los bloques secundarios usan el pastel a baja opacidad sobre blanco, no el pastel puro. Se hace con color-mix() y hay respaldo en rgba. Una seccion puede declarar `lavado_base` para que su lavado salga de OTRO color que su relleno: es lo que hace Estrategia, cuyo relleno es negro.",
+    "_como_si_van_a_los_graficos": "Mercadeo pidio la misma paleta en las graficas de Rendimiento. El pastel puro no puede ser una linea: 1.34:1 sobre blanco. Pero el TONO si: bajando cada pastel a peso de linea (misma H, L~0.30-0.34, S~0.55-0.70) los tres PASAN los cinco checks del validador — banda de luminosidad, piso de croma, separacion para daltonismo, piso de vision normal y contraste contra la superficie. Van en `paleta_graficos`; el pastel se queda como relleno del area bajo la curva. Asi la grafica es de la paleta y ademas se lee.",
+    "trazos": {
+      "_que_son": "El mismo color de cada seccion, oscurecido a peso de linea. Se conserva el tono; solo baja la luminosidad. Es lo que hace legible una grafica pintada con la paleta pastel.",
+      "azul": "#1A5B93",
+      "rosa": "#931A68",
+      "verde": "#4E7722",
+      "_validado": "2026-08-31 · validate_palette.js · 5/5 PASS sobre superficie blanca",
+      "_tritan": "La separacion para tritanopia queda en 6.9, dentro de la banda 6-8 que el validador solo admite CON codificacion secundaria. Por eso la grafica lleva el nombre de cada serie pegado a su ultimo punto, ademas de la leyenda y la tabla."
+    }
   },
   "marca_logo": {
-    "_para_quien": "El logo del usuario principal, arriba del rail. Mientras este en null, el tablero dibuja el monograma «MC» y no se rompe nada.",
-    "_como_ponerlo": "Guardar el archivo en `config/logo.png` (o .svg / .jpg / .webp) y poner aqui su ruta relativa a la raiz del proyecto: \"config/logo.png\". El generador lo incrusta como data URI, porque el visor de artefactos bloquea cualquier imagen que venga de fuera.",
-    "archivo": null,
-    "texto_alternativo": "QPayPro",
-    "_pendiente": "2026-08-31: Mercadeo pidio usar un archivo como logo pero el adjunto no llego a la sesion. El hueco queda listo: al poner la ruta aqui, el logo aparece sin tocar codigo."
+    "_para_quien": "El logo del usuario principal, arriba del rail.",
+    "_como_ponerlo": "Guardar el archivo en `config/` y poner aqui su ruta relativa a la raiz. El generador lo incrusta como data URI, porque el visor de artefactos bloquea cualquier imagen que venga de fuera. Si el archivo no existe, el tablero dibuja el monograma «MC» y avisa en consola: un logo que falta no puede romper la pagina.",
+    "archivo": "config/logo.svg",
+    "texto_alternativo": "Mesa Creativa",
+    "_procedencia": "2026-08-31: el adjunto de Mercadeo NO llega al sistema de archivos de la sesion (se ve en el mensaje, no aterriza en disco). `config/logo.svg` es un REDIBUJO del mismo mark —mesa negra con tres piezas en azul, rosado y verde— hecho en SVG: sin fondo, vectorial y de 600 bytes. Para poner el archivo oficial: dejarlo en `config/` y cambiar la ruta de arriba. No hay que tocar codigo."
+  },
+  "logos_competencia": {
+    "_para_quien": "Los logos de las marcas medidas, para que la lista de Competencia se lea de un vistazo en vez de por iniciales. La clave de cada uno es el `_clave_archivo` de config/competidores.json.",
+    "_procedencia": "REDIBUJOS en SVG, por lo mismo que el logo principal: los adjuntos no aterrizan en disco. Son marcas de terceros y se usan solo para identificar una fila en un tablero interno. Para sustituirlos por el asset oficial, reemplazar el archivo conservando el nombre.",
+    "directorio": "config/logos",
+    "archivos": {
+      "paggo": "paggo.svg",
+      "recurrente": "recurrente.svg",
+      "bi": "bi.svg"
+    },
+    "_sin_logo": "Una marca sin archivo cae en sus iniciales, como antes. No se dibuja un logo generico: una marca con logo inventado se leeria como medida cuando no lo esta."
   }
 }

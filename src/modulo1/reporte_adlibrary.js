@@ -55,7 +55,12 @@ const rico = (s) =>
 const ent = (n) => (n == null ? "—" : Number(n).toLocaleString("es-GT"));
 const pct = (n) => (n == null ? "—" : Math.round(n * 100) + "%");
 
-const COL = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)"];
+/* El acento de cada dossier. Son los tres tonos de la paleta de Mercadeo a
+   peso de linea; ciclan, porque aqui el color identifica una seccion y no una
+   serie que haya que distinguir de otra en el mismo grafico. Dejo de haber un
+   cuarto cuando salio el arena de la paleta: usar `var(--c4)`, que ya no se
+   emite, dejaba las barras sin color y sin error. */
+const COL = ["var(--c1)", "var(--c2)", "var(--c3)"];
 
 /* ── gráficos ───────────────────────────────────────────────────────────── */
 

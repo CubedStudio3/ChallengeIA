@@ -80,9 +80,13 @@ function seccionesVars(bloque) {
     if (id.startsWith("_") || !v || !v.relleno) continue;
     l.push(`  --sec-${id}:${v.relleno};`);
     l.push(`  --sec-${id}-tinta:${v.tinta || "#000000"};`);
-    const r = parseInt(v.relleno.slice(1, 3), 16);
-    const g = parseInt(v.relleno.slice(3, 5), 16);
-    const b = parseInt(v.relleno.slice(5, 7), 16);
+    // El lavado puede arrancar de OTRO color que el relleno. Lo usa Estrategia,
+    // cuyo relleno es negro: un lavado de negro es un gris, y dejaria la seccion
+    // que mas se usa sin una gota de color. Ver tema.json.
+    const base = v.lavado_base || v.relleno;
+    const r = parseInt(base.slice(1, 3), 16);
+    const g = parseInt(base.slice(3, 5), 16);
+    const b = parseInt(base.slice(5, 7), 16);
     // La proporcion del lavado NO puede ser fija. Un pastel al 38% sobre blanco
     // da un tinte suave; el negro al 38% da un gris oscuro que se traga el
     // texto. Se escala con la luminosidad del relleno: cuanto mas oscuro, menos
@@ -92,7 +96,19 @@ function seccionesVars(bloque) {
     const alfa = (mezcla / 100).toFixed(2);
     // Respaldo primero, color-mix despues: quien entienda las dos usa la segunda.
     l.push(`  --sec-${id}-lavado:rgba(${r},${g},${b},${alfa});`);
-    l.push(`  --sec-${id}-lavado:color-mix(in srgb, ${v.relleno} ${mezcla}%, #fff);`);
+    l.push(`  --sec-${id}-lavado:color-mix(in srgb, ${base} ${mezcla}%, #fff);`);
+  }
+  const pt = (bloque && bloque.pasteles) || {};
+  for (const [k, v] of Object.entries(pt)) {
+    if (k.startsWith("_")) continue;
+    l.push(`  --pastel-${k}:${v};`);
+  }
+  const tz = (bloque && bloque.trazos) || {};
+  // El tono de cada color a peso de linea, para lo que necesite dibujar con el
+  // color de la paleta y ser legible: una linea de grafica, un borde, un icono.
+  for (const [k, v] of Object.entries(tz)) {
+    if (k.startsWith("_")) continue;
+    l.push(`  --trazo-${k}:${v};`);
   }
   return l.join("\n");
 }
@@ -105,26 +121,58 @@ function seccionesVars(bloque) {
  * existe se devuelve null y el tablero dibuja su monograma — un logo faltante no
  * puede romper la pagina.
  */
-function logo(raiz, bloque) {
-  if (!bloque || !bloque.archivo) return null;
-  const ruta = path.join(raiz, bloque.archivo);
+const TIPOS_IMAGEN = {
+  ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml", ".webp": "image/webp",
+};
+
+/** Incrusta una imagen como data URI. Devuelve null y AVISA si no se puede. */
+function imagen(raiz, rel, quien) {
+  const ruta = path.join(raiz, rel);
   if (!fs.existsSync(ruta)) {
-    console.error(`  AVISO: tema.json apunta a ${bloque.archivo} y ese archivo no ` +
-                  `existe. Se dibuja el monograma en su lugar.`);
+    console.error(`  AVISO: ${quien} apunta a ${rel} y ese archivo no existe.`);
     return null;
   }
-  const tipos = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
-                  ".svg": "image/svg+xml", ".webp": "image/webp" };
-  const tipo = tipos[path.extname(ruta).toLowerCase()];
+  const tipo = TIPOS_IMAGEN[path.extname(ruta).toLowerCase()];
   if (!tipo) {
-    console.error(`  AVISO: ${bloque.archivo} no es un formato de imagen que el ` +
-                  `visor acepte (png, jpg, svg, webp). Se dibuja el monograma.`);
+    console.error(`  AVISO: ${rel} no es un formato que el visor acepte ` +
+                  `(png, jpg, svg, webp).`);
     return null;
   }
   const datos = fs.readFileSync(ruta).toString("base64");
-  return { uri: `data:${tipo};base64,${datos}`,
+  return `data:${tipo};base64,${datos}`;
+}
+
+function logo(raiz, bloque) {
+  if (!bloque || !bloque.archivo) return null;
+  const uri = imagen(raiz, bloque.archivo, "tema.json marca_logo");
+  if (!uri) {
+    console.error("  Se dibuja el monograma «MC» en su lugar.");
+    return null;
+  }
+  return { uri: uri,
            alt: bloque.texto_alternativo || "Logo",
-           kb: Math.round(datos.length / 1024) };
+           kb: Math.round(uri.length / 1024) };
+}
+
+/**
+ * Los logos de las marcas medidas, tambien como data URI.
+ *
+ * Devuelve un objeto { clave: uri }. Una marca sin archivo simplemente no
+ * aparece, y el tablero cae en sus iniciales: es mejor una inicial honesta que
+ * un logo generico que haria parecer medida a una marca que no lo esta.
+ */
+function logosCompetencia(raiz, bloque) {
+  if (!bloque || !bloque.archivos) return {};
+  const dir = bloque.directorio || "config/logos";
+  const salida = {};
+  for (const [clave, nombre] of Object.entries(bloque.archivos)) {
+    if (clave.startsWith("_")) continue;
+    const rel = path.join(dir, nombre);
+    const uri = imagen(raiz, rel, `logos_competencia.${clave}`);
+    if (uri) salida[clave] = uri;
+  }
+  return salida;
 }
 
 /**
@@ -192,7 +240,8 @@ ${oscuro}
     familias.map((n) => "family=" + n.replace(/\s+/g, "+") +
       ":wght@" + pesos).join("&") + '&display=swap">';
 
-  return { css, enlaceFuentes, logo: logo(raiz, t.marca_logo) };
+  return { css, enlaceFuentes, logo: logo(raiz, t.marca_logo),
+           logosCompetencia: logosCompetencia(raiz, t.logos_competencia) };
 }
 
 module.exports = { construye };

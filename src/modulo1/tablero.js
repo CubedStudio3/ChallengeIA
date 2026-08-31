@@ -74,6 +74,25 @@ const app = fs.readFileSync(path.join(aqui, "tablero_app.js"), "utf8");
    monograma. */
 datos.logo = tema.logo;
 
+/* Los logos de las marcas medidas, indexados por el NOMBRE con el que aparecen
+   en el resultado de la corrida.
+   La traduccion clave -> nombre sale de config/competidores.json, no del
+   resultado: asi funciona tambien sobre las corridas ya guardadas, que se
+   escribieron antes de que existieran los logos. Una marca sin archivo no
+   aparece y el tablero cae en sus iniciales. */
+datos.logos_competencia = (function () {
+  const porClave = tema.logosCompetencia || {};
+  const salida = {};
+  const ruta = path.join(raizProyecto, "config", "competidores.json");
+  if (!fs.existsSync(ruta)) return salida;
+  const reg = JSON.parse(fs.readFileSync(ruta, "utf8"));
+  (reg.competidores || []).forEach(function (c) {
+    const uri = porClave[c._clave_archivo];
+    if (uri && c.nombre) salida[c.nombre] = uri;
+  });
+  return salida;
+})();
+
 const periodo = (datos.corrida && datos.corrida.rango) || "";
 
 const FUENTES = tema.enlaceFuentes;
@@ -114,5 +133,8 @@ console.log(`  CSS compilado: ${(css.length / 1024).toFixed(0)} KB`);
 console.log(tema.logo
   ? `  Logo incrustado: ${tema.logo.kb} KB`
   : "  Logo: sin archivo en config/tema.json, se dibuja el monograma MC");
+const marcasConLogo = Object.keys(datos.logos_competencia);
+console.log(`  Logos de marcas: ${marcasConLogo.length
+  ? marcasConLogo.join(", ") : "ninguno"}`);
 if (/^\s*<!doctype/i.test(fragmento))
   console.error("  ERROR: el archivo empieza con doctype. Debe ser un fragmento.");
