@@ -1662,6 +1662,21 @@
   var COLUMNAS_CSV = ["Item Name", "Description", "Item Type", "Priority",
                       "Assignee", "Status", "Tags"];
 
+  /* La marca de idempotencia, dentro del nombre.
+
+     Sprints no expone webhooks ni un campo de clave externa, asi que el nombre
+     es el unico lugar donde puede viajar algo que permita reconocer un item ya
+     creado. Sin ella, importar el CSV de dos semanas que comparten una tarea la
+     crea dos veces — y ya paso: los items 1140 a 1142 del backlog de «Diseno y
+     MK» entraron sin marca. Es fea a proposito: tiene que ser improbable de
+     escribir a mano.
+
+     Si falta la clave se avisa en lugar de inventarse una: una marca distinta
+     cada vez seria peor que ninguna, porque parecerian items nuevos. */
+  function marcado(titulo, clave) {
+    return clave ? titulo + " [MC:" + clave + "]" : titulo;
+  }
+
   function filasParaSprint() {
     var est = D.estrategia || {}, act = estrategiaActiva();
     var filas = [];
@@ -1680,8 +1695,9 @@
       }
       if (t.copy) cuerpo.push("\nCopy: " + t.copy.estado + " — " + t.copy.motivo);
       cuerpo.push("\nMesa Creativa · corrida " + ((D.corrida || {}).rango || ""));
-      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
-                  d.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+      filas.push([marcado(t.titulo, t.idempotencia), cuerpo.join("\n"), "Task",
+                  "Medium", d.responsable || "", "Open",
+                  "mesa-creativa," + t.tipo]);
     });
     Object.keys(E.propias).forEach(function (k) {
       var t = E.propias[k];
@@ -1693,8 +1709,9 @@
         cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
           return "  - " + u; }).join("\n"));
       }
-      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
-                  t.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+      filas.push([marcado(t.titulo, "equipo::" + t.id), cuerpo.join("\n"), "Task",
+                  "Medium", t.responsable || "", "Open",
+                  "mesa-creativa," + t.tipo]);
     });
     return filas;
   }

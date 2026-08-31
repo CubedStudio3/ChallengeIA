@@ -298,6 +298,13 @@ def a_csv(escrituras: list[Escritura], tipos: dict | None = None) -> str:
 
     No reemplaza al camino por API: ése sigue siendo el que corre solo cada
     semana. Éste es el que desbloquea a la mesa mientras tanto.
+
+    El nombre lleva la marca `[MC:...]` igual que por API, y NO es opcional. Sin
+    ella, importar el CSV de dos semanas que comparten una tarea crea el item dos
+    veces — y eso ya pasó: los items 1140 a 1142 del backlog de «Diseño y MK»
+    entraron sin marca porque esta función escribía el título pelado. La marca es
+    lo único que permite reconocer un item ya creado, porque Sprints no expone
+    webhooks ni campo de clave externa.
     """
     import csv
     import io
@@ -309,7 +316,7 @@ def a_csv(escrituras: list[Escritura], tipos: dict | None = None) -> str:
     w.writerow(COLUMNAS_CSV)
     for e in escrituras:
         w.writerow([
-            e.nombre,
+            f"{e.nombre} {_marca(e.idempotencia)}",
             e.descripcion,
             tipos.get(e.tipo, "Task"),
             "Medium",
@@ -426,7 +433,7 @@ def main() -> int:
         a.csv.write_text(a_csv(escrituras), encoding="utf-8-sig")
         print(f"\nCSV para importar: {a.csv}")
         print(f"  {len(escrituras)} work items")
-        print("  En Zoho Sprints: el proyecto → Backlog → menú (···) → Importar.")
+        print("  En Zoho Sprints: Configuración → Imports → Ítems de trabajo.")
         print("  El asistente deja mapear las columnas, así que si algún nombre")
         print("  no coincide se corrige ahí mismo, sin tocar el archivo.")
         print("  Se guarda con BOM para que Excel respete los acentos.")

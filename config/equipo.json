@@ -3,17 +3,17 @@
   "_estado": "PARCIAL",
   "_lock": true,
   "_como_desbloquear": [
-    "Los tres IDs que faltan: pegar .claude/rutinas/completar-sprint.md en una conversacion con el conector de Sprint arriba. Los lee y los escribe aqui.",
-    "Llenar 'personas' con los integrantes reales. El campo id_sprint es el User ID de Zoho Sprints, NO el correo: el parametro 'users' de CreateItem espera IDs.",
-    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable. Mientras siga en true, el tablero muestra el hueco en lugar de una lista de nombres inventada."
+    "Los cinco IDs de Sprints YA ESTAN, leidos por API el 2026-08-31. No hay que hacer nada.",
+    "Falta el ROL de cada persona. Las tres candidatas estan en _personas_candidatas con su id_sprint real; solo hay que decir quien hace diseno, quien video y quien coordina, y moverlas a 'personas' con ese rol.",
+    "Poner _lock en false. Recien entonces el tablero habilita el selector de responsable."
   ],
   "_por_que_esta_bloqueado": "NO escribir aqui una explicacion a mano. Este campo ya quedo obsoleto una vez: decia que el teamId no se podia obtener, y siguio diciendolo despues de que se obtuvo, contradiciendo al valor que tenia al lado. El estado real lo calcula `python -m modulo1.sprint --descubrir`, que lo deriva de los campos de este archivo y por lo tanto no puede desincronizarse.",
   "proyecto_sprint": {
     "team_id": "667151262",
     "project_id": "21897000000139001",
-    "sprint_id": null,
-    "item_type_id": null,
-    "priority_id": null,
+    "sprint_id": "21897000000139025",
+    "item_type_id": "21897000000139035",
+    "priority_id": "21897000000139007",
     "nombre": "Diseño y MK",
     "_es_de_prueba": false,
     "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
@@ -35,6 +35,43 @@
       "_contexto": "Se le ofrecieron dos opciones: (1) crear un proyecto de prueba --recomendada-- o (2) autorizar escritura en el proyecto real 'Diseno y MK' (P8). Eligio la 2 de forma explicita.",
       "_alcance": "SOLO el proyecto 21897000000139001 de este espacio de trabajo. No es una autorizacion general de escritura y no se extiende a Meta Ads, que sigue siendo de solo lectura por instruccion aparte (regla 8, ADR-012).",
       "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
+    },
+    "_destino": "EL BACKLOG DEL PROYECTO, no un sprint. sprint_id lleva el backlogId (21897000000139025) a proposito: CreateItem acepta un sprint O el backlog en la misma variable de ruta. El sprint activo 'AGOSTO 2026' (SP49) termina el 2026-08-31, asi que escribir ahi metia las tareas en un sprint que cierra el mismo dia. El backlog no caduca y es donde corresponde el trabajo que aun no se planifico: la mesa lo arrastra al sprint cuando decide.",
+    "_ids_leidos_por_api": {
+      "_fecha": "2026-08-31",
+      "_como": "GetProjects -> GetSprints -> GetProjectPriorities -> GetItems, con el team_id 667151262. Ninguno se invento ni se dedujo.",
+      "sprint_id": "backlogId, de GetProjectDetails action=details y confirmado por GetSprints",
+      "item_type_id": "de GetItems: el tipo 'Task' que ya usan los items del proyecto",
+      "priority_id": "de GetProjectPriorities: 'Medium'"
+    },
+    "_catalogos_leidos": {
+      "_nota": "Los catalogos completos, para no volver a preguntarlos. Los nombres de tipo y prioridad estan en INGLES; los de estado en ESPANOL.",
+      "tipos_de_item": {
+        "Task": "21897000000139035",
+        "Story": "21897000000139039"
+      },
+      "prioridades": {
+        "None": "21897000000139003",
+        "Low": "21897000000139005",
+        "Medium": "21897000000139007",
+        "High": "21897000000139009"
+      },
+      "estados_observados": {
+        "Por Hacer": "21897000000156037",
+        "Para Programar": "21897000001181007",
+        "Completado": "21897000000051049"
+      },
+      "sprints": {
+        "AGOSTO 2026 (SP49, activo, termina 2026-08-31)": "21897000001520034",
+        "ReMarketing (SP45, proximo)": "21897000001443016"
+      },
+      "_convencion_del_equipo": "El equipo usa 'Story' para las piezas de contenido (Post 2, Post 3, Video Pauta 1) y 'Task' para lo demas. La importacion del CSV creo 'Task'."
+    },
+    "_import_csv_verificado": {
+      "_fecha": "2026-08-28, confirmado por API el 2026-08-31",
+      "_que_paso": "Mercadeo subio el CSV y las tres tareas ACEPTADAS entraron al backlog: itemNo 1140 'Contra-angulo frente a Recurrente en GT', 1141 'Brecha de eficiencia entre campanas' y 1142 'Punto de venta'. addedVia=3 (importacion).",
+      "_lo_que_confirma": "Las tres columnas en ingles del CSV las traduce Zoho sola: Status 'Open' -> 'Por Hacer', Item Type 'Task' -> Task, Priority 'Medium' -> Medium. Era una duda abierta y quedo resuelta con evidencia.",
+      "_lo_que_falto": "Entraron sin responsable, porque la columna Assignee iba vacia: no habia lista de personas. Es el unico dato que sigue faltando."
     }
   },
   "personas": [],
@@ -51,10 +88,10 @@
     "videos": null
   },
   "_estado_de_la_conexion": {
-    "probado": "2026-08-28",
+    "probado": "2026-08-31",
     "conector": "Zoho_Sprints",
-    "autenticacion": "FUNCIONA",
-    "_evidencia": "La llamada devolvio el sobre de error propio de Zoho ({'code':7404,'message':'Given URL is wrong','status':'failed'}) en lugar de un fallo de autorizacion. Un error estructurado de Zoho significa que la llamada llego y el token sirvio: lo unico que no resolvio fue el teamId.",
+    "autenticacion": "FUNCIONA Y LEE",
+    "_evidencia": "Ya no es una inferencia desde un mensaje de error. GetProjects, GetSprints, GetProjectPriorities, GetProjectDetails y GetItems devolvieron datos reales del espacio 667151262 el 2026-08-31. La escritura sigue sin probarse: CreateItem no se ha llamado.",
     "_descartado": "El error no lo causa la cabecera: se repitio igual con x-za-ui-version en v2 y en v1.",
     "_hipotesis_descartadas": [
       "683127178 (portal de Zoho Social) → 7404",
@@ -62,7 +99,6 @@
       "'qpaypro' (slug del workspace, tomado de la URL real) → 7404",
       "'1' (ID trivial, como prueba de ruta) → 7404"
     ],
-    "_dos_lecturas_posibles": "TRES formas distintas de teamId --numerico tipo organizacion, el slug del workspace, y un '1' trivial-- devuelven el MISMO error 'Given URL is wrong'. El test no distingue las hipotesis, pero el patron inclina hacia (H2): con una ruta valida y un ID sin permiso, Zoho normalmente responde un error de permiso, no que la URL este mal. Sigue sin poder probarse. Un teamId real es lo unico que lo settlea: si con el correcto sigue fallando, el problema es la plantilla de URL del conector y no el dato, y entonces el paso 9 no depende de Mercadeo sino de que se arregle el conector.",
     "_ids_observados_en_el_dom": {
       "_de_donde": "Capturas del inspector del navegador enviadas por el usuario, 2026-08-28. Son IDs reales de la cuenta, no inventados, pero NINGUNO esta confirmado como el teamId de Sprints.",
       "895503553": "Parametro 'uname' del iframe /_wms/pconnect.sas. En el servicio de mensajeria de Zoho ese campo lleva el ZUID del usuario conectado, no el del espacio de trabajo.",
@@ -70,23 +106,59 @@
       "709817046": "Parametro 'bundleOrgId' del mismo iframe: la organizacion de Zoho One.",
       "_pendiente": "Los tres se probaran como teamId en cuanto el conector vuelva. Probarlos es legitimo porque son IDs observados de esta cuenta; seguir con numeros al azar no lo seria."
     },
-    "_duda_resuelta": "Quedaba abierto si el 7404 lo causaba un teamId malo (H1) o una plantilla de URL equivocada en el conector (H2). RESUELTO A FAVOR DE H1: la aplicacion llama a /zsapi/team/<id>/..., que es la misma forma que arma el conector. Los cuatro intentos fallaron porque los cuatro IDs eran incorrectos.",
+    "_duda_resuelta": "RESUELTA. El 7404 lo causaba el teamId, no la plantilla de URL del conector (H1, no H2). Con 667151262 la misma ruta /zsapi/team/<id>/... responde bien. Los cuatro intentos de la sesion anterior fallaron porque los cuatro IDs eran malos.",
     "_correccion_propia": "Se habia etiquetado 667151262 como 'ID del servicio ZohoSprints' y se dijo al usuario que no se esperaba que funcionara. Era el correcto: en Zoho One el ID del servicio y el del espacio de trabajo son el mismo numero. Descartar un candidato por como se llama el parametro donde aparece fue el error.",
-    "_falta_para_escribir": "Con el team_id ya se pueden leer por API los otros cuatro IDs (project_id, sprint_id, item_type_id, priority_id). Tambien se pueden sacar del mismo truco de consola estando en el tablero del proyecto: las llamadas incluyen /projects/<projectId>/sprints/<sprintId>/. El conector de Sprints esta caido en este momento, asi que la lectura por API queda pendiente."
+    "_lo_que_falta_probar": "CreateItem. Leer funciona; escribir no se ha ejecutado ni una vez. Va con --dry-run primero y con la marca de idempotencia, o dos corridas del mismo periodo duplican tareas (regla 7)."
   },
   "_falta_hoy": {
-    "_actualizado": "2026-08-28",
+    "_actualizado": "2026-08-31",
     "_resuelto": [
       "team_id",
       "project_id",
-      "autorizacion de escritura"
-    ],
-    "_pendiente": [
-      "sprint_id",
+      "sprint_id (backlog)",
       "item_type_id",
       "priority_id",
-      "personas"
+      "autorizacion de escritura",
+      "la ruta del CSV, verificada de punta a punta",
+      "los nombres de las personas del proyecto"
     ],
-    "_quien_lo_resuelve": "Los tres IDs los lee la API en una pasada; ver .claude/rutinas/completar-sprint.md. La lista de personas la llena Mercadeo: no existe por API."
+    "_pendiente": [
+      "el ROL de cada persona (no existe por API)",
+      "capacidad_semanal (artes y videos por semana)"
+    ],
+    "_quien_lo_resuelve": "Los dos son datos del equipo, no de ningun sistema. Nadie los puede leer: hay que preguntarlos."
+  },
+  "_personas_candidatas": {
+    "_de_donde": "Leidas por API de los items reales del proyecto 'Diseno y MK' (GetItems sobre el sprint AGOSTO 2026 y el backlog), 2026-08-31. Son las personas que de hecho trabajan en este proyecto, no una lista inventada.",
+    "_por_que_no_estan_en_personas": "Falta UNA cosa: el rol. La API dice quien creo y quien tiene asignado cada item, pero no dice si alguien hace diseno, video o copy. Poner un rol a ojo haria que el tablero sugiera la persona equivocada, asi que se queda como candidatas hasta que Mercadeo confirme.",
+    "candidatas": [
+      {
+        "nombre": "Dulce Anai Galindo Escobar",
+        "id_sprint": "21897000001319001",
+        "_zuid": "911930552",
+        "rol": null,
+        "_evidencia": "Tiene asignados 'Post 2', 'Post 3', 'Post POS' y creo tres de ellos."
+      },
+      {
+        "nombre": "Jeremy Sterlin Manuel Hernandez",
+        "id_sprint": "21897000001317019",
+        "_zuid": "911929838",
+        "rol": null,
+        "_evidencia": "Tiene asignado y creo 'Video Pauta 1'."
+      },
+      {
+        "nombre": "Elizabeth Sierra",
+        "id_sprint": "21897000001144001",
+        "_zuid": "895503553",
+        "rol": null,
+        "_evidencia": "Scrum master del sprint AGOSTO 2026, lo creo, y es quien subio el CSV."
+      }
+    ],
+    "_no_es_una_persona": {
+      "id_sprint": "21897000000002005",
+      "nombre": "Unassigned",
+      "_nota": "Centinela de Zoho para 'sin asignar' (zuid -1). NUNCA meterlo en personas."
+    },
+    "_correccion": "El ZUID 895503553 se habia anotado como 'el ZUID del usuario conectado'. Es el de Elizabeth Sierra, que es la misma cosa: es ella quien opera la cuenta en el navegador."
   }
 }
