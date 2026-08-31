@@ -13,11 +13,20 @@
  *    documento **completo** que empiece con doctype. Por eso `plantilla.head`
  *    viaja embebido: `documento()` lo usa para reconstruir el archivo entero.
  *
+ * EL CSS SE COMPILA, NO SE CARGA DE UN CDN.
+ * El diseño usa Tailwind, como pidió el usuario. Pero el script de
+ * cdn.tailwindcss.com no se usa: el tablero se abre en una reunión, y si ese
+ * script no carga la página no sale «un poco distinta», sale sin CSS. Aquí se
+ * corre el compilador de Tailwind sobre `tablero_app.js` y el resultado queda
+ * dentro del archivo. Si Tailwind no está instalado, esto FALLA con un mensaje
+ * claro en vez de generar un tablero sin estilos.
+ *
  * Uso:  node tablero.js <resultado.json> <salida.html>
  */
 
 const fs = require("fs");
 const path = require("path");
+const { execFileSync } = require("child_process");
 
 const [, , entrada, salida] = process.argv;
 if (!entrada || !salida) {
@@ -26,10 +35,37 @@ if (!entrada || !salida) {
 }
 
 const aqui = __dirname;
+const raizProyecto = path.resolve(aqui, "..", "..");
 const datos = JSON.parse(fs.readFileSync(entrada, "utf8"));
-const tema = require("./tema.js").construye(path.resolve(aqui, "..", ".."));
-const componentes = fs.readFileSync(path.join(aqui, "tablero_estilos.css"), "utf8");
-const css = tema.css + "\n\n" + componentes;
+
+// soloClaro: el usuario pidió un tema único (2026-08-28). Ver tema.js.
+const tema = require("./tema.js").construye(raizProyecto, { soloClaro: true });
+
+/** Corre el compilador de Tailwind y devuelve el CSS. Falla ruidosamente. */
+function compilaTailwind() {
+  const entradaCss = path.join(aqui, "tablero_tailwind.css");
+  const config = path.join(raizProyecto, "tailwind.config.js");
+  const binario = path.join(raizProyecto, "node_modules", ".bin", "tailwindcss");
+  if (!fs.existsSync(binario)) {
+    console.error(
+      "ERROR: falta el compilador de Tailwind.\n" +
+      "  El CSS del tablero se compila, no se carga de un CDN.\n" +
+      "  Instalarlo con:  npm install\n" +
+      "  Generar un tablero sin CSS sería peor que no generarlo.");
+    process.exit(3);
+  }
+  const destino = path.join(aqui, ".tailwind.salida.css");
+  try {
+    execFileSync(binario, ["-c", config, "-i", entradaCss, "-o", destino,
+                           "--minify"],
+                 { cwd: raizProyecto, stdio: ["ignore", "ignore", "pipe"] });
+    return fs.readFileSync(destino, "utf8");
+  } finally {
+    if (fs.existsSync(destino)) fs.unlinkSync(destino);
+  }
+}
+
+const css = tema.css + "\n" + compilaTailwind();
 const app = fs.readFileSync(path.join(aqui, "tablero_app.js"), "utf8");
 
 const periodo = (datos.corrida && datos.corrida.rango) || "";
@@ -47,7 +83,8 @@ const head = [
   ESTILOS,
 ].join("\n");
 
-const estado = { aprobadas: {}, decisiones: {}, version: 1, periodo };
+const estado = { aprobadas: {}, decisiones: {}, propias: {}, estrategia: null,
+                 version: 1, periodo };
 const plantilla = { head, app };
 
 const j = (o) => JSON.stringify(o).replace(/<\/script/gi, "<\\/script");
@@ -67,5 +104,6 @@ const kb = (Buffer.byteLength(fragmento, "utf8") / 1024).toFixed(0);
 console.log(`Tablero generado: ${salida}`);
 const nTareas = ((datos.estrategia || {}).tareas || []).length;
 console.log(`  periodo ${periodo} · ${nTareas} tareas · ${kb} KB`);
+console.log(`  CSS compilado: ${(css.length / 1024).toFixed(0)} KB`);
 if (/^\s*<!doctype/i.test(fragmento))
   console.error("  ERROR: el archivo empieza con doctype. Debe ser un fragmento.");

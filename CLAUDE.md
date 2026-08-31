@@ -194,6 +194,26 @@ cometidos; no hay tiempo de repetirlos.
 - **El volumen de anuncios no equivale a presión competitiva.** BI tiene 845
   activos en GT y solo 2 tocan pagos. Medir solapamiento de mensaje, no contar.
 
+- **Un spline suave se dispara por encima del dato.** Catmull-Rom dibuja un
+  máximo donde la semana no lo tuvo. Recortar las manijas lo evita pero devuelve
+  los picos rectos. La respuesta es interpolación monótona (Fritsch-Carlson):
+  suave y sin sobrepasar (ADR-028).
+- **`minmax(400px, 1fr)` es un piso, no una sugerencia.** En una pantalla de
+  390 px desborda. Va siempre `minmax(min(400px, 100%), 1fr)`. Lo encontró la
+  prueba en navegador, no la vista.
+- **`auto-fit` estira una tarjeta sola a todo el ancho; `auto-fill` no.** Con una
+  sola tarjeta en la fila la diferencia es toda la maquetación.
+- **Tailwind extrae las clases leyendo texto plano.** El tablero se pinta con
+  `innerHTML`, así que las clases viven en literales partidos en varias líneas:
+  **cortar siempre en un espacio.** Partir `'rounded-' + '2xl'` deja la clase sin
+  generar y no da ningún error.
+- **Sin `window.claude` la página se declara de solo lectura** y desactiva todos
+  los botones — que es correcto, pero deja las interacciones sin probar. La
+  prueba en navegador tiene que simular ese runtime o no prueba nada.
+- **Números escritos a mano en la interfaz se desincronizan.** El tablero decía
+  «105 leads» mientras la pantalla mostraba 265: el 105 era de SV y la vista
+  estaba en GT. Todo número visible se deriva del dato, sin excepción.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -220,6 +240,10 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `config/tema.json` | **El diseño.** Lo edita el equipo de diseño; no hay que tocar código |
 | `config/equipo.json` | Personas y proyecto de Sprint. **Bloqueado** hasta que Mercadeo lo llene |
 | `config/convenciones.json` | Fechas, métricas, mercados y **qué redes entran al reporte** |
+| `src/modulo1/tablero_tailwind.css` | Las clases propias del tablero. El CSS se **compila** con Tailwind; no hay CDN |
+| `tailwind.config.js` | Qué archivos escanea Tailwind. Ver la trampa del corte en un espacio |
+| `.prueba-tablero.js` | Prueba del tablero en Chromium a 1440, 834 y 390 px. `node .prueba-tablero.js` |
+| `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |
 
 ---
 

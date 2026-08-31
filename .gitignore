@@ -19,3 +19,6 @@ node_modules/
 # Se ignoran solo los archivos temporales de generacion.
 salidas/**/*.tmp
 salidas/**/~$*
+
+# Salida intermedia del compilador de Tailwind (tablero.js la borra al terminar)
+src/modulo1/.tailwind.salida.css

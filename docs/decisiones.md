@@ -774,3 +774,114 @@ que las dos copias se desincronicen.
 **Nota de mantenimiento.** El conector pasó de `Zoho_Sprint` a `Zoho_Sprints`.
 Los agentes `orquestador` y `validador` apuntaban a herramientas que ya no
 existen; se corrigieron y `verifica_permisos` vuelve a pasar sin violaciones.
+
+---
+
+## ADR-027 · El tablero se rediseña a un solo tema claro, y Tailwind se compila
+
+**Fecha:** 2026-08-28
+**Estado:** aceptada
+
+### Contexto
+
+Mercadeo pidió dos veces que el tablero se viera más ordenado, y la segunda vez
+entregó una especificación de diseño completa: modo claro exclusivamente, fondo
+`#F3F6F8`, tarjetas blancas de esquinas muy redondeadas con sombra amplia y
+difusa y **sin bordes sólidos oscuros**, tipografía Inter, panel lateral solo de
+iconos, saludo grande con buscador en píldora, curvas bezier suaves en lugar de
+picos rígidos, **sin cuadrícula interna** en las gráficas, listas de **nunca más
+de 3 o 4 elementos** con «Ver todo», y «preferiblemente usando HTML y Tailwind
+CSS».
+
+El motivo detrás de la petición fue explícito: *«que no se vea todo
+amontonado»*. El diseño anterior era correcto en datos y denso en pantalla.
+
+### Decisión
+
+Se reescribe la capa de presentación completa siguiendo esa especificación al
+pie de la letra, con **tres desviaciones deliberadas**, cada una porque seguir
+la letra habría producido una página que miente:
+
+1. **El indicador de variación (`+8.2%`) NO va en todos los KPI.** La
+   especificación lo pedía en cada tarjeta de cifra. En esta corrida solo existe
+   un periodo anterior con el que comparar: la serie semanal de orgánico, que da
+   **+105.6 % real** (18 → 37 interacciones). En pauta **no hay corrida de la
+   semana anterior**, así que un porcentaje ahí sería inventado. Las tarjetas de
+   pauta llevan en su lugar el dato factual que sí se tiene (`GT $2.89 ·
+   SV $1.89`). Un `+8.2 %` de adorno haría que alguien tomara una decisión sobre
+   una cifra que nadie midió — regla 1 del proyecto.
+
+2. **Los iconos del rail llevan `aria-label` y `title`.** «Sin textos largos» se
+   respeta visualmente, pero un icono sin nombre accesible es un botón que un
+   lector de pantalla no puede anunciar.
+
+3. **Tailwind se compila, no se carga del CDN.** El visor permite el script de
+   `cdn.tailwindcss.com`, así que la ruta fácil existía. No se usa: el tablero se
+   abre en una reunión, y si ese script no baja la página no sale «un poco
+   distinta», sale **sin una sola línea de CSS**. `tablero.js` corre el
+   compilador sobre `tablero_app.js` y deja los ~24 KB dentro del archivo. Si
+   Tailwind no está instalado, el generador **falla ruidosamente** en vez de
+   escribir un tablero sin estilos.
+
+Además, el tema deja de ser doble. `tema.js` acepta `{ soloClaro: true }`,
+emite únicamente el bloque de modo claro y fija `color-scheme: light`, y el
+`<body>` pinta su fondo explícitamente. Sin las tres cosas, quien abriera la
+página con el sistema en oscuro vería los `<select>` negros sobre tarjetas
+blancas. `colores_oscuro` se conserva en `tema.json`: volver atrás es quitar
+esa opción.
+
+### Consecuencias
+
+- Se borra `src/modulo1/tablero_estilos.css` (491 líneas). Su trabajo lo hacen
+  ahora `tablero_tailwind.css` (las clases propias) y las utilidades generadas.
+- El proyecto adquiere una dependencia de desarrollo, `tailwindcss`. No es una
+  dependencia de ejecución: el archivo publicado no pide nada a nadie.
+- `config/tema.json` sigue siendo la fuente del color de marca y de la
+  tipografía. Los **neutros** ahora son literales de la escala `slate` porque el
+  usuario los pidió así por nombre. Es su decisión, y queda escrita para que no
+  se lea como un descuido.
+- Aparece una trampa nueva al editar: Tailwind extrae las clases leyendo texto,
+  así que al partir una cadena hay que **cortar siempre en un espacio**. Partir
+  `'rounded-' + '2xl'` deja la clase sin generar y no da ningún error.
+
+---
+
+## ADR-028 · La curva de las gráficas usa interpolación monótona
+
+**Fecha:** 2026-08-28
+**Estado:** aceptada
+
+### Contexto
+
+La especificación pedía «curvas bezier suaves, no picos rígidos». El primer
+intento fue un spline de Catmull-Rom, que es la respuesta habitual — y está
+mal por una razón que no es estética.
+
+Un spline suave **se dispara por encima de sus propios datos**. Entre un valle y
+un pico dibuja una panza que sube más alto que el pico. En una gráfica de
+interacciones semanales eso significa dibujar un máximo que la semana no tuvo.
+Nadie lo va a medir con una regla, pero la forma de la curva es el argumento
+visual, y ese argumento sería falso.
+
+El parche fue recortar las manijas de la bezier al rango vertical de cada tramo.
+Eso sí evita el sobrepaso, pero en un pico deja la manija pegada al propio
+vértice y el tramo entra recto: se recuperan exactamente los picos rígidos que
+había que evitar. Se veía en la serie de Instagram del 13 de julio.
+
+### Decisión
+
+Interpolación cúbica monótona de **Fritsch-Carlson**. En un máximo o un mínimo
+local pone la tangente horizontal — el pico sale redondeado — y garantiza por
+construcción que la curva no se sale del rango de los dos puntos que une.
+
+Suave y sin inventar un máximo que el dato no tiene. Las dos cosas a la vez, no
+una a costa de la otra.
+
+### Consecuencias
+
+- La curva es más suave que el Catmull-Rom recortado y nunca sobrepasa.
+- Un hueco (`null`) sigue cortando el trazo. Las semanas anteriores a la primera
+  publicación leída de una red **no son ceros**, son semanas que no se leyeron
+  (ADR-025), y eso no lo cambia ninguna interpolación.
+- No se toca la regla de dos gráficas separadas: interacciones y vistas siguen
+  en ejes propios. Un eje doble seguiría siendo una comparación falsa.

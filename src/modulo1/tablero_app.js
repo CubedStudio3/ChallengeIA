@@ -1,17 +1,26 @@
-/* Tablero semanal · lógica de cliente.
-   Cinco secciones: Resumen, Rendimiento, Competencia, Referencias, Estrategia.
+/* Tablero semanal · Mesa Creativa.
 
-   Nota de arquitectura: el ARCHIVO que se publica es un fragmento (sin doctype,
-   html, head ni body) porque el visor lo envuelve en su propio esqueleto. Pero
-   documento(), que usa la auto-publicación, sí devuelve un documento COMPLETO,
-   que es lo que exige la capability. Son dos contratos distintos y hay que
-   respetar cada uno.
+   Diseño según especificación del usuario (2026-08-28): modo claro
+   exclusivamente, fondo #F3F6F8, tarjetas blancas de esquinas muy redondeadas,
+   sombras amplias y difusas, tipografía Inter con contraste fuerte, y
+   revelación progresiva — resúmenes a la vista y «Ver todo» para el resto.
+
+   DOS NOTAS DE ARQUITECTURA que no se pueden perder:
+
+   1. El ARCHIVO que se publica es un fragmento (sin doctype, html, head ni
+      body): el visor lo envuelve. Pero documento(), que usa la
+      auto-publicación, devuelve un documento COMPLETO. Son dos contratos y hay
+      que respetar cada uno.
+   2. Este diseño es de un solo tema a propósito. Los colores neutros son
+      literales de la paleta que pidió el usuario, no tokens que cambian con el
+      tema del visor: así la página se ve igual sin importar si quien la abre
+      tiene el sistema en oscuro. El color de marca sí sigue viniendo de
+      config/tema.json, para que el equipo de diseño lo siga controlando.
 
    Y una distinción que gobierna el estado: las DECISIONES (aceptar, rechazar,
-   asignar) son compartidas y se publican como versión nueva de la página. Los
-   FILTROS (qué mercado, qué grupo de competencia) son de quien mira, viven en
-   localStorage y nunca se publican. Publicar un filtro repintaría la página de
-   los demás cada vez que alguien cambia de pestaña. */
+   asignar, elegir estrategia) son de la mesa, se comparten y se publican. Los
+   FILTROS (mercado, grupo, búsqueda, qué lista está expandida) son de quien
+   mira, viven en localStorage y nunca se publican. */
 (function () {
   "use strict";
 
@@ -20,26 +29,22 @@
     try { return n ? JSON.parse(n.textContent) : null; } catch (e) { return null; }
   };
   var D = leer("datos") || {};
-  var E = leer("estado") || { aprobadas: {}, decisiones: {}, version: 1 };
+  var E = leer("estado") || {};
   var P = leer("plantilla") || { head: "", app: "", estilos: "" };
   if (!E.aprobadas) E.aprobadas = {};
   if (!E.decisiones) E.decisiones = {};
-  /* Las ideas que agrega el equipo. Van aparte de las tareas del análisis a
-     propósito: una no trae evidencia del sistema y la otra sí, y mezclarlas
-     haría parecer que el análisis propuso algo que propuso una persona. */
   if (!E.propias) E.propias = {};
-  /* La estrategia elegida es decisión de la mesa, así que es estado COMPARTIDO
-     y se publica — al contrario que los filtros de vista. */
   if (E.estrategia === undefined) E.estrategia = null;
 
-  var soloLectura = false, api = null, temaManual = null;
+  var soloLectura = false, api = null;
 
   /* Vista local. Nunca se publica. */
-  var V = { mercado: null, grupo: "competencia", categoria: "software" };
+  var V = { mercado: null, grupo: "competencia", categoria: "software",
+            busqueda: "", verTodo: {} };
   try {
     var g = localStorage.getItem("mc.vista");
     if (g) { var o = JSON.parse(g); for (var k in o) if (k in V) V[k] = o[k]; }
-  } catch (e) { /* almacenamiento bloqueado: se usa el valor por defecto */ }
+  } catch (e) { /* almacenamiento bloqueado: se usan los valores por defecto */ }
   function guardarVista() {
     try { localStorage.setItem("mc.vista", JSON.stringify(V)); } catch (e) {}
   }
@@ -61,7 +66,6 @@
   };
   var pct = function (n) { return n == null ? "—" : Math.round(n * 100) + "%"; };
 
-  /* Capa de lenguaje llano: nadie debería necesitar saber qué es actions:lead. */
   function enClaro(ind) {
     if (!ind) return "sin indicador";
     if (/QualifiedLead/i.test(ind)) return "Leads calificados";
@@ -71,25 +75,37 @@
     if (ind === "mixed") return "Mezclado";
     return ind.replace(/^actions:/, "");
   }
-  var RED = {
-    facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok",
-    youtube: "YouTube", linkedin: "LinkedIn"
-  };
+  var RED = { facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok",
+              youtube: "YouTube", linkedin: "LinkedIn" };
 
   var SECCIONES = [
-    { id: "resumen", n: "Resumen" },
-    { id: "rendimiento", n: "Rendimiento" },
-    { id: "competencia", n: "Competencia" },
-    { id: "referencias", n: "Referencias" },
-    { id: "estrategia", n: "Estrategia" }
+    { id: "resumen", n: "Resumen", i: "cuadros" },
+    { id: "rendimiento", n: "Rendimiento", i: "grafico" },
+    { id: "competencia", n: "Competencia", i: "objetivo" },
+    { id: "referencias", n: "Referencias", i: "brujula" },
+    { id: "estrategia", n: "Estrategia", i: "chispa" }
   ];
+
   var ico = {
-    tic: '<svg viewBox="0 0 24 24"><path d="M4 12.5 9 17.5 20 6.5"/></svg>',
-    x: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-    tema: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20h2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>',
-    copiar: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>',
-    link: '<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 .5l3-3a4 4 0 0 0-6-6l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-6-.5l-3 3a4 4 0 0 0 6 6L12.5 17"/></svg>'
+    cuadros: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
+    grafico: '<path d="M4 19V5M4 19h16M8 15l4-5 3 3 4-6"/>',
+    objetivo: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
+    brujula: '<circle cx="12" cy="12" r="8"/><path d="M15 9l-2.5 5.5L7 17l2.5-5.5z"/>',
+    chispa: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>' +
+             '<path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',
+    lupa: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+    tic: '<path d="M4 12.5 9 17.5 20 6.5"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    copiar: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
+    link: '<path d="M10 14a4 4 0 0 0 6 .5l3-3a4 4 0 0 0-6-6l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-6-.5l-3 3a4 4 0 0 0 6 6L12.5 17"/>',
+    arriba: '<path d="M12 19V5M6 11l6-6 6 6"/>',
+    abajo: '<path d="M12 5v14M6 13l6 6 6-6"/>'
   };
+  function svg(d, cls) {
+    return '<svg viewBox="0 0 24 24" class="' + (cls || "w-5 h-5") +
+      '" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round">' + d + "</svg>";
+  }
 
   /* ═════════════ utilidades de datos ═════════════ */
 
@@ -99,21 +115,16 @@
     if (!ms.length) return null;
     return ms.indexOf(V.mercado) >= 0 ? V.mercado : ms[0];
   }
-  function leadTotal() {
-    return (D.consolidados_detalle || {})["actions:lead"] || null;
-  }
+  function leadTotal() { return (D.consolidados_detalle || {})["actions:lead"] || null; }
+
   function competidoresDe(mercado) {
     var c = (D.competencia || {})[mercado];
     if (!c) return [];
     return Object.keys(c.detalle || {}).map(function (n) {
-      var d = c.detalle[n]; d = Object.assign({}, d); d.nombre = n; d.mercado = mercado;
+      var d = Object.assign({}, c.detalle[n]); d.nombre = n; d.mercado = mercado;
       return d;
     });
   }
-  /* Un competidor puede pautar en un mercado y no en otro. Para la vista de
-     marca se juntan sus mediciones de todos los mercados en una sola tarjeta,
-     conservando el desglose: decir solo "31 anuncios" escondería que en SV
-     tiene cero, que es justamente el hallazgo. */
   function marcas() {
     var por = {};
     mercados().forEach(function (m) {
@@ -126,11 +137,9 @@
         e.mercados[m] = c;
         if (!e.url && c.url_biblioteca) e.url = c.url_biblioteca;
         if (!e.moneda && c.moneda) e.moneda = c.moneda;
-        if (c.mensajes && c.mensajes.length > e.mensajes.length) {
-          e.mensajes = c.mensajes; e.mensajesDe = m;
-        }
-        if (c.anuncios_en_muestra > (e.muestra || 0)) e.muestra = c.anuncios_en_muestra;
-        if (c.activos_declarados > (e.activos || 0)) e.activos = c.activos_declarados;
+        if (c.mensajes && c.mensajes.length > e.mensajes.length) e.mensajes = c.mensajes;
+        if (c.anuncios_en_muestra > e.muestra) e.muestra = c.anuncios_en_muestra;
+        if (c.activos_declarados > e.activos) e.activos = c.activos_declarados;
         if (!e.metodo && c.metodo) e.metodo = c.metodo;
         if (c.advertencia_muestra) e.advertencia = c.advertencia_muestra;
       });
@@ -143,329 +152,256 @@
     return [];
   }
 
+  function estrategiaActiva() {
+    var es = ((D.estrategia || {}).estrategias) || [];
+    if (!es.length) return null;
+    return es.filter(function (e) { return e.id === E.estrategia; })[0] ||
+           es.filter(function (e) { return e.recomendada; })[0] || es[0];
+  }
+  function tareasVisibles() {
+    var act = estrategiaActiva();
+    return (((D.estrategia || {}).tareas) || []).filter(function (t) {
+      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
+    });
+  }
+
+  /* La serie semanal permite la ÚNICA comparación real que existe en esta
+     corrida. No hay corrida de la semana anterior, así que un porcentaje de
+     variación en las cifras de pauta sería inventado: ahí no se pone ninguno. */
+  function serieTotal() {
+    var se = ((D.redes_sociales || {}).serie_semanal) || null;
+    if (!se) return null;
+    var tot = se.semanas.map(function (_, i) {
+      var suma = 0, hay = false;
+      Object.keys(se.interacciones).forEach(function (r) {
+        var v = se.interacciones[r][i];
+        if (v != null) { suma += v; hay = true; }
+      });
+      return hay ? suma : null;
+    });
+    return { semanas: se.semanas, total: tot, crudo: se };
+  }
+  function variacionOrganico() {
+    var s = serieTotal();
+    if (!s) return null;
+    var t = s.total.filter(function (v) { return v != null; });
+    if (t.length < 2) return null;
+    var a = t[t.length - 2], b = t[t.length - 1];
+    if (!a) return null;
+    return { pct: (b - a) / a * 100, de: a, a: b };
+  }
+
   /* ═════════════ armazón ═════════════ */
 
-  function lateral() {
+  /* Rail de iconos. Sin etiquetas largas, como pide la especificación — pero
+     con aria-label y title, porque un icono sin nombre accesible no es
+     minimalismo, es un botón que un lector de pantalla no puede anunciar. */
+  function rail() {
+    var act = seccionVisible;
+    return '<nav data-rail-nav aria-label="Secciones" ' +
+      'class="fixed z-30 bg-white left-0 right-0 bottom-0 h-[68px] flex-row ' +
+      'justify-center gap-1.5 px-4 rail-borde ' +
+      'md:right-auto md:top-0 md:bottom-auto md:h-full md:w-[76px] ' +
+      'md:flex-col md:justify-start md:py-7 md:gap-2 md:px-0 ' +
+      'flex items-center">' +
+      '<div class="w-10 h-10 rounded-2xl grid place-items-center text-white ' +
+      'font-bold text-[13px] mb-6 hidden md:grid" ' +
+      'style="background:var(--marca)">MC</div>' +
+      SECCIONES.map(function (s) {
+        var on = s.id === act;
+        return '<a href="#' + s.id + '" data-rail="' + s.id + '" title="' + esc(s.n) +
+          '" aria-label="' + esc(s.n) + '"' +
+          (on ? ' aria-current="true"' : "") +
+          ' class="rail-b group relative w-11 h-11 shrink-0 ' +
+          'rounded-2xl grid place-items-center transition-colors ' +
+          (on ? "text-white" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50") +
+          '"' + (on ? ' style="background:var(--marca)"' : "") + ">" +
+          svg(ico[s.i], "w-[21px] h-[21px]") +
+          '<span class="rail-tip">' + esc(s.n) + "</span></a>";
+      }).join("") +
+      "</nav>";
+  }
+
+  function encabezado() {
     var c = D.corrida || {};
-    var act = estrategiaActiva();
-    var pend = (((D.estrategia || {}).tareas) || []).filter(function (t) {
-      if (!t.siempre && act && (t.estrategias || []).indexOf(act.id) < 0) return false;
-      return !E.decisiones[t.id];
-    }).length;
-    return '<aside class="lateral">' +
-      '<div class="logo"><div class="g">MC</div><div class="marca-txt">' +
-        "<b>Mesa Creativa</b><span>QPayPro · Mercadeo</span></div></div>" +
-      '<nav class="nav">' + SECCIONES.map(function (s, i) {
-        var b = s.id === "estrategia" && pend ? '<b class="badge">' + pend + "</b>" : "";
-        return '<a href="#' + s.id + '"' + (i === 0 ? ' class="on"' : "") +
-          ' data-sec="' + s.id + '"><i></i>' + s.n + b + "</a>";
-      }).join("") + "</nav>" +
-      '<div class="pie">Corrida del<br><b>' + esc(c.rango || "") + "</b></div>" +
-      "</aside>";
-  }
-
-  function barra() {
-    var act = estrategiaActiva();
-    var n = (((D.estrategia || {}).tareas) || []).filter(function (t) {
-      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
-    }).length;
-    return '<div class="barra"><div class="izq"><h1>Reunión creativa</h1>' +
-      "<p>Lo que la semana dice, y las " + n +
-      " tareas que quedan para decidir en la mesa.</p></div>" +
-      '<div class="der">' +
-      '<button class="btn chico" type="button" id="bCopiar">' + ico.copiar +
-        "Copiar resumen</button>" +
-      '<button class="btn chico" type="button" id="bDecisiones">' + ico.copiar +
-        "Copiar decisiones</button>" +
-      '<button class="btn chico pri" type="button" id="bCsv">' + ico.copiar +
-        "Copiar para Sprint</button>" +
-      '<button class="btn chico" type="button" id="bTema" aria-label="Cambiar tema">' +
-        ico.tema + "Tema</button>" +
-      "</div></div>";
-  }
-
-  function kpi(et, val, nota, tono) {
-    return '<div class="kpi' + (tono ? " " + tono : "") + '">' +
-      '<span class="kpi-et">' + esc(et) + "</span>" +
-      '<span class="kpi-v">' + val + "</span>" +
-      (nota ? '<span class="kpi-n">' + esc(nota) + "</span>" : "") + "</div>";
-  }
-
-  /* ═════════════ 1 · Resumen ═════════════ */
-
-  function tiras() {
-    var L = leadTotal(), rs = D.redes_sociales, t = (rs && rs.totales) || {};
-    var out = [];
-    out.push('<div class="tira"><div class="tira-cab">Meta Ads · ' +
-      esc((D.corrida || {}).rango || "") + "</div><div class=\"kpis\">");
-    if (L) {
-      out.push(kpi("Leads", ent(L.resultados), "indicador actions:lead"));
-      out.push(kpi("Inversión", dinero(L.gasto), L.campanas + " campañas con entrega"));
-      out.push(kpi("Costo por lead", dinero(L.costo_por_resultado), "promedio del periodo"));
-      out.push(kpi("Impresiones", ent(L.impresiones), ""));
-    } else {
-      out.push('<div class="hueco">No hay datos utilizables de pauta para este periodo.</div>');
-    }
-    out.push("</div></div>");
-
-    out.push('<div class="tira"><div class="tira-cab">Redes sociales · orgánico</div>' +
-      '<div class="kpis">');
-    if (rs) {
-      out.push(kpi("Interacciones", ent(t.interacciones),
-        (t.redes_contadas || []).map(function (r) { return RED[r] || r; }).join(", ")));
-      out.push(kpi("Publicaciones", ent(t.publicaciones), "en el periodo"));
-      out.push(t.vistas != null
-        ? kpi("Vistas de video", ent(t.vistas), "solo TikTok y YouTube las reportan")
-        : kpi("Vistas de video", "—", "ninguna red las reporta"));
-      out.push(kpi("Alcance", "no disponible",
-        "ninguna red lo devuelve por este conector", "tono-falta"));
-    } else {
-      out.push('<div class="hueco">No hay captura de redes para este periodo.</div>');
-    }
-    out.push("</div></div>");
-    return '<div class="tiras">' + out.join("") + "</div>";
-  }
-
-  function tarjetaResumen(titulo, et, cuerpoHtml, ancla) {
-    return '<article class="rcard"><div class="rcard-et">' + esc(et) + "</div>" +
-      "<h3>" + esc(titulo) + "</h3>" + cuerpoHtml +
-      '<a class="rcard-ir" href="#' + ancla + '">Ver el detalle →</a></article>';
-  }
-
-  function resumen() {
-    var L = leadTotal(), pm = D.por_mercado || {};
-    var filas = mercados().map(function (m) {
-      var p = (pm[m] || {}).principal;
-      return '<li><b>' + esc(m) + "</b> · " +
-        (p ? ent(p.resultados) + " leads a " + dinero(p.costo_por_resultado)
-           : "sin datos utilizables") + "</li>";
-    }).join("");
-    var c1 = "<p>" + (L
-      ? "La pauta trajo <b>" + ent(L.resultados) + " leads</b> con " +
-        dinero(L.gasto) + " de inversión, a " + dinero(L.costo_por_resultado) +
-        " cada uno."
-      : "No hay datos de pauta utilizables.") + "</p><ul class=\"mini\">" + filas + "</ul>";
-
-    var comp = [], terr = ((D.referencias || {}).territorios) || {};
-    (terr.saturados || []).forEach(function (s) {
-      comp.push("<li><b>" + esc(s.de) + "</b> ocupa «" + esc(s.mensaje) +
-        "» en " + pct(s.cuota) + " de sus anuncios en " + esc(s.mercado) + ".</li>");
-    });
-    (terr.libres || []).forEach(function (l) {
-      comp.push("<li><b>" + esc(l.mercado) +
-        "</b> no tiene competencia medida en pauta.</li>");
-    });
-    var sm = sinMedir();
-    if (sm.length) {
-      comp.push('<li class="ojo">' + sm.map(function (x) { return esc(x.nombre); })
-        .join(", ") + (sm.length === 1 ? " no se midió" : " no se midieron") +
-        ": falta su page_id.</li>");
-    }
-    var c2 = '<ul class="mini">' + (comp.join("") ||
-      "<li>Sin patrones de competencia en esta corrida.</li>") + "</ul>";
-
-    var est = D.estrategia || {}, ts = est.tareas || [];
-    var act = estrategiaActiva();
-    var vis = ts.filter(function (t) {
-      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
-    });
-    var cre = vis.filter(function (t) { return t.tipo !== "pauta"; }).length;
-    var pau = vis.length - cre;
-    var dec = vis.filter(function (t) { return E.decisiones[t.id]; }).length;
-    var propias = Object.keys(E.propias).length;
-    var c3 = (act
-        ? "<p><b>" + esc(act.nombre) + ".</b> " + esc(act.en_pocas_palabras) + "</p>"
-        : "<p>El análisis no encontró una estrategia sostenida por los datos de " +
-          "esta corrida.</p>") +
-      "<p>Activa <b>" + vis.length + (vis.length === 1 ? " tarea" : " tareas") +
-      "</b>: " + cre + " de producción y " + pau + " de pauta" +
-      (propias ? ", más " + propias + " idea" + (propias === 1 ? "" : "s") +
-        " del equipo" : "") + ".</p>" +
-      '<div class="prog"><div class="prog-b" style="width:' +
-      (vis.length ? Math.round(dec / vis.length * 100) : 0) + '%"></div></div>' +
-      '<p class="aclara">' + dec + " de " + vis.length +
-      " ya tienen decisión de la mesa.</p>";
-
-    return '<section id="resumen">' +
-      cabecera("La semana", "Resumen",
-        "Lo que dicen los datos, en tres frentes.") + tiras() +
-      '<div class="grid3 rcards">' +
-      tarjetaResumen("Rendimiento propio", "Meta Ads y leads", c1, "rendimiento") +
-      tarjetaResumen("Qué hace la competencia", "Ad Library", c2, "competencia") +
-      tarjetaResumen("La estrategia que se propone", "Para decidir", c3, "estrategia") +
-      "</div></section>";
-  }
-
-  /* ═════════════ 2 · Rendimiento ═════════════ */
-
-  /* Encabezado de sección: rótulo, título grande, una línea de contexto y el
-     control a la derecha. Antes el título de sección medía casi lo mismo que el
-     de una tarjeta, así que la página se leía como una sola masa de bloques del
-     mismo peso. La jerarquía es lo que hace que se vea ordenada. */
-  function cabecera(rotulo, titulo, sub, control) {
-    return '<header class="sec-cab"><div class="sec-cab-txt">' +
-      '<span class="sec-rotulo">' + esc(rotulo) + "</span>" +
-      "<h2>" + esc(titulo) + "</h2>" +
-      (sub ? '<p class="sec-sub">' + sub + "</p>" : "") +
-      "</div>" + (control ? '<div class="sec-cab-ctl">' + control + "</div>" : "") +
+    var chip = buscando()
+      ? '<button type="button" id="limpiarBusqueda" class="etiqueta-marca ' +
+        'hover:underline">Filtrando por «' + esc(V.busqueda.trim()) +
+        '» · quitar</button>'
+      : "";
+    return '<header class="mb-10">' +
+      '<div class="flex flex-wrap items-center gap-x-6 gap-y-5 justify-between">' +
+      "<div>" +
+      '<h1 class="text-[28px] sm:text-[32px] leading-tight font-bold ' +
+      'text-slate-800 tracking-[-0.02em]">Hola, Merca</h1>' +
+      '<p class="text-slate-400 mt-1.5 text-[13.5px] sm:text-[14px]">' +
+      "Reunión creativa de la semana del " + esc(c.rango || "") + "</p></div>" +
+      '<div class="flex items-center gap-3 flex-wrap">' +
+      '<div class="relative">' +
+      '<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300">' +
+      svg(ico.lupa, "w-[18px] h-[18px]") + "</span>" +
+      '<input id="buscar" type="search" value="' + esc(V.busqueda) + '" ' +
+      'aria-label="Buscar" placeholder="Buscar campaña, marca o tarea" ' +
+      'class="w-full sm:w-[280px] bg-white rounded-full pl-11 pr-4 py-3 ' +
+      'text-[13.5px] text-slate-700 placeholder:text-slate-300 outline-none ' +
+      'focus:ring-2 focus:ring-slate-200 tarjeta-sombra"></div>' +
+      '<button type="button" id="bCsv" class="btn-oscuro">' +
+      svg(ico.copiar, "w-4 h-4") + "Copiar para Sprint</button>" +
+      '<button type="button" id="bDecisiones" class="btn-claro" ' +
+      'title="JSON para la creación automática por API">' +
+      svg(ico.copiar, "w-4 h-4") + "Decisiones</button>" +
+      "</div></div>" +
+      (chip ? '<div class="mt-5">' + chip + "</div>" : "") +
       "</header>";
   }
 
-  /* Un subtítulo dentro de una sección. Más chico que el de sección, para que
-     se lea como lo que es: un nivel abajo. */
-  function subcab(titulo, sub) {
-    return '<div class="sub-cab"><h3 class="sub-titulo">' + esc(titulo) + "</h3>" +
-      (sub ? '<p class="sec-sub">' + sub + "</p>" : "") + "</div>";
+  /* ═════════════ piezas de dato ═════════════ */
+
+  /* Una tarjeta de KPI. El indicador de variación se muestra SOLO cuando existe
+     un periodo anterior con el que comparar. En esta corrida eso pasa
+     únicamente en orgánico, porque la serie semanal lo permite; en pauta no hay
+     corrida previa, así que en lugar de un porcentaje inventado va el dato
+     factual que sí se tiene. Un +8.2% de adorno haría que alguien tome una
+     decisión sobre una cifra que nadie midió. */
+  function kpi(titulo, valor, nota, variacion) {
+    var ind = "";
+    if (variacion && variacion.pct != null) {
+      var sube = variacion.pct >= 0;
+      ind = '<span class="inline-flex items-center gap-1 text-[12px] font-semibold ' +
+        'px-2 py-1 rounded-lg ' +
+        (sube ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50") +
+        '">' + svg(sube ? ico.arriba : ico.abajo, "w-3 h-3") +
+        (sube ? "+" : "") + variacion.pct.toFixed(1) + "%</span>";
+    }
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      '<div class="flex items-start justify-between gap-3 min-h-[34px]">' +
+      '<span class="text-[12.5px] font-medium text-slate-400 leading-snug">' +
+      esc(titulo) + "</span>" + ind + "</div>" +
+      '<div class="text-[34px] font-bold text-slate-800 tracking-[-0.03em] ' +
+      'mt-3 tabular-nums leading-none">' + valor + "</div>" +
+      (nota ? '<div class="text-[12px] text-slate-400 mt-2.5 leading-snug">' +
+        esc(nota) + "</div>" : "") + "</div>";
   }
 
-  /* Las advertencias iban como bloques amarillos abiertos al final de cada
-     sección: cinco paneles gritando lo mismo en una página. Ahora van plegadas
-     y en gris. El contenido no se pierde; deja de competir con los datos. */
-  function limites(titulo, items) {
-    if (!items || !items.length) return "";
-    return '<details class="limites"><summary>' + esc(titulo) +
-      " · " + items.length + "</summary><ul class=\"mini\">" +
-      items.map(function (l) {
-        if (typeof l === "string") return "<li>" + l + "</li>";
-        return "<li><b>" + esc(l.que || l.fuente || "") +
-          (l.estado ? " · " + esc(l.estado) : "") + ".</b> " +
-          esc(l.detalle || l.descripcion || "") +
-          (l.remedio ? " <i>" + esc(l.remedio) + "</i>" : "") +
-          (l.impacto ? " " + esc(l.impacto) : "") + "</li>";
-      }).join("") + "</ul></details>";
+  /* Encabezado de tarjeta con «Ver todo» opcional. El enlace no es decorativo:
+     expande la lista en su lugar. Un «Ver todo» que no lleva a ninguna parte
+     sería peor que no tenerlo. */
+  function cardCab(titulo, sub, clave, total, mostrados) {
+    var ver = "";
+    if (clave && total > mostrados) {
+      ver = '<button type="button" data-vertodo="' + esc(clave) + '" ' +
+        'class="text-[12.5px] font-semibold shrink-0 hover:underline" ' +
+        'style="color:var(--marca)">' +
+        (V.verTodo[clave] ? "Ver menos" : "Ver todo (" + total + ")") + "</button>";
+    }
+    return '<div class="flex items-start justify-between gap-4 mb-6">' +
+      "<div><h3 class=\"text-[16px] font-bold text-slate-800 tracking-[-0.01em]\">" +
+      esc(titulo) + "</h3>" +
+      (sub ? '<p class="text-[12.5px] text-slate-400 mt-1">' + sub + "</p>" : "") +
+      "</div>" + ver + "</div>";
   }
 
-  function segmentado(id, opciones, activo) {
-    return '<div class="seg" role="tablist">' + opciones.map(function (o) {
-      return '<button type="button" role="tab" class="seg-b' +
-        (o.v === activo ? " on" : "") + '" data-' + id + '="' + esc(o.v) +
-        '" aria-selected="' + (o.v === activo) + '">' + esc(o.n) + "</button>";
-    }).join("") + "</div>";
+  function recorta(lista, clave, tope) {
+    return V.verTodo[clave] ? lista : lista.slice(0, tope || 3);
   }
 
-  function tablaCampanas(m) {
-    var d = (D.por_mercado || {})[m] || {};
-    var cs = d.campanas || [];
-    if (!cs.length) return '<div class="hueco">Sin campañas con entrega en ' +
-      esc(m) + " en este periodo.</div>";
-    return '<div class="tabla-wrap"><table class="tabla"><thead><tr>' +
-      "<th>Campaña</th><th>Se mide por</th><th class=\"n\">Resultados</th>" +
-      "<th class=\"n\">Inversión</th><th class=\"n\">Costo por resultado</th>" +
-      "<th class=\"n\">Impresiones</th></tr></thead><tbody>" +
-      cs.map(function (c) {
-        return "<tr><td>" + esc(c.etiqueta) + "</td>" +
-          '<td><span class="chip">' + esc(enClaro(c.indicador)) + "</span></td>" +
-          '<td class="n">' + ent(c.resultados) + "</td>" +
-          '<td class="n">' + dinero(c.gasto) + "</td>" +
-          '<td class="n"><b>' + dinero(c.costo_por_resultado) + "</b></td>" +
-          '<td class="n">' + ent(c.impresiones) + "</td></tr>";
-      }).join("") + "</tbody></table></div>";
+  /* Una fila de lista: avatar circular, nombre en negrita, descripción sutil,
+     valor a la derecha. */
+  function fila(inicial, nombre, desc, valor, sub, tono) {
+    var col = { verde: "bg-emerald-50 text-emerald-600",
+                rojo: "bg-rose-50 text-rose-600",
+                ambar: "bg-amber-50 text-amber-600" }[tono] ||
+              "bg-slate-100 text-slate-500";
+    return '<div class="flex items-center gap-4 py-3.5">' +
+      '<div class="w-10 h-10 rounded-full grid place-items-center shrink-0 ' +
+      'text-[13px] font-bold ' + col + '">' + esc(inicial) + "</div>" +
+      '<div class="min-w-0 flex-1">' +
+      '<div class="text-[13.5px] font-semibold text-slate-700 truncate">' +
+      esc(nombre) + "</div>" +
+      (desc ? '<div class="text-[12px] text-slate-400 truncate mt-0.5">' +
+        esc(desc) + "</div>" : "") + "</div>" +
+      '<div class="text-right shrink-0">' +
+      '<div class="text-[14px] font-bold text-slate-800 tabular-nums">' + valor +
+      "</div>" +
+      (sub ? '<div class="text-[11px] text-slate-400 mt-0.5">' + esc(sub) +
+        "</div>" : "") + "</div></div>";
   }
 
-  function bloqueRedes() {
-    var rs = D.redes_sociales;
-    if (!rs) return '<div class="hueco">No hay captura de redes para este periodo.</div>';
-    var det = rs.detalle || {};
-    var tarjetas = Object.keys(det).sort().map(function (n) {
-      var r = det[n];
-      var cuerpo;
-      if (!r.confiable) {
-        cuerpo = '<div class="no-fiable"><b>Dato no verificable.</b> ' +
-          esc(r.motivo_no_confiable) + "</div>";
-      } else if (r.silenciosa) {
-        cuerpo = '<div class="silencio"><b>' + r.dias_de_silencio +
-          " días sin publicar.</b><br>Última publicación: " +
-          esc(r.ultima_publicacion) + "</div>";
-      } else {
-        cuerpo = '<div class="kpis chicos">' +
-          kpi("Publicaciones", ent(r.publicaciones), "") +
-          kpi("Interacciones", ent(r.interacciones), "") +
-          (r.vistas != null ? kpi("Vistas", ent(r.vistas), "") : "") + "</div>" +
-          (r.mejores && r.mejores.length
-            ? '<div class="mejor"><span class="mini-et">Lo que más rindió</span>' +
-              r.mejores.map(function (m) {
-                var marca = m.vistas != null ? ent(m.vistas) + " vistas"
-                  : ent(m.interacciones) + " interacciones";
-                return '<div class="mejor-f"><span>' +
-                  esc(m.titulo || "(sin texto)") + '</span><b>' + marca + "</b></div>";
-              }).join("") + "</div>"
-            : "");
-      }
-      return '<article class="panel red' + (r.confiable ? "" : " atenuado") + '">' +
-        "<h3>" + esc(RED[n] || n) + "</h3>" + cuerpo + "</article>";
-    }).join("");
+  /* ═════════════ gráfica ═════════════ */
 
-    return '<div class="grid3">' + tarjetas + "</div>" +
-      limites("Lo que este bloque no puede decir", rs.limites || []);
-  }
+  /* Área suave, sin cuadrícula interna, con degradado que se desvanece hacia
+     abajo — la especificación pidió exactamente eso.
 
-  function rendimiento() {
-    var m = mercadoActivo();
-    var ms = mercados();
-    if (!m) return '<section id="rendimiento"><div class="cab"><h2>Rendimiento</h2>' +
-      '</div><div class="hueco">Sin datos por mercado en esta corrida.</div></section>';
-    var d = (D.por_mercado || {})[m] || {};
-    var p = d.principal;
-    var kpis = p
-      ? '<div class="panel kpis-panel"><div class="kpis">' +
-        kpi("Leads", ent(p.resultados), enClaro(d.indicador_principal)) +
-        kpi("Inversión", dinero(p.gasto), "") +
-        kpi("Costo por lead", dinero(p.costo_por_resultado), "") +
-        kpi("Campañas con entrega", ent(p.campanas), "no es lo mismo que activas hoy") +
-        kpi("Impresiones", ent(p.impresiones), "") + "</div></div>"
-      : '<div class="hueco">Sin datos utilizables de ' +
-        esc(enClaro(d.indicador_principal)) + " en " + esc(m) + ".</div>";
+     La curva se traza con un spline de Catmull-Rom convertido a bezier cúbica,
+     con tensión bajada a 0.5 y las manijas recortadas para que la curva NO se
+     dispare por encima de un pico ni por debajo de un valle. Una curva que
+     sobrepasa el dato lo está falseando: dibujaría un máximo donde el número no
+     lo tiene.
 
-    return '<section id="rendimiento">' +
-      cabecera("Pauta y orgánico", "Rendimiento",
-        "Meta Ads en <b>" + esc(m) + "</b>, del periodo " +
-        esc((D.corrida || {}).rango || "") + ".",
-        segmentado("mercado", ms.map(function (x) {
-          return { v: x, n: x === "GT" ? "Guatemala" : x === "SV" ? "El Salvador" : x };
-        }), m)) +
-      kpis + tablaCampanas(m) +
-      limites("Cómo leer esta tabla", [
-        "Las campañas se muestran juntas pero <b>no se suman entre indicadores " +
-        "distintos</b>: 105 leads y 10,771 clics no son la misma cosa. El total " +
-        "de arriba es solo del indicador principal.",
-        esc(d._nota_activas || ""),
-      ]) +
-      subcab("Redes sociales",
-        "Orgánico de las cuentas reportadas. <b>No hay corte por país</b>: el " +
-        "portal tiene una sola marca, así que GT y SV comparten cuenta.") +
-      bloqueGraficas() + bloqueRedes() + "</section>";
-  }
-
-
-  /* ═════════════ gráficas ═════════════ */
-
-  /* Un gráfico de líneas en SVG, sin librería. Decisiones que no son de gusto:
-
-     - **Dos medidas, dos gráficos.** Interacciones y vistas tienen escalas
-       distintas (34 contra 184). Meterlas en un eje doble haría que el lector
-       compare alturas que no son comparables, y es el error más común de este
-       tipo de gráfico. Van separadas.
-     - **Un hueco no es un cero.** Donde la serie vale null la línea se corta.
-       Las semanas anteriores a la muestra de cada red no son semanas sin
-       interacción: son semanas que no leímos.
-     - **El texto nunca lleva el color de la serie.** La identidad la da el punto
-       de color al lado, no el color de la letra: un verde o un ámbar claro no se
-       leen como texto.
-     - **Se etiqueta una sola línea al final.** Tres etiquetas al borde derecho
-       se pisan cuando las series convergen, y separarlas a mano las despega de
-       su línea. Se rotula la más alta; la leyenda y el tooltip cargan el resto. */
-
-  var GEO = { w: 520, h: 236, iz: 44, de: 58, ar: 16, ab: 34 };
+     Un hueco (null) corta el trazo. Las semanas anteriores a la muestra de una
+     red no son ceros: son semanas que no se leyeron. */
+  var GEO = { w: 760, h: 260, iz: 46, de: 26, ar: 22, ab: 40 };
 
   function escalaLinda(max) {
     if (!(max > 0)) return { max: 1, pasos: [0, 1] };
     var mag = Math.pow(10, Math.floor(Math.log10(max)));
     var paso = mag / 2;
-    while (max / paso > 5) paso *= 2;
+    while (max / paso > 4) paso *= 2;
     var tope = Math.ceil(max / paso) * paso;
     var pasos = [];
     for (var v = 0; v <= tope + 1e-9; v += paso) pasos.push(v);
     return { max: tope, pasos: pasos };
+  }
+
+  /* Interpolacion cubica monotona (Fritsch-Carlson).
+
+     El primer intento fue un spline de Catmull-Rom con las manijas recortadas
+     al rango vertical de cada tramo. Recortar evitaba que la curva se
+     disparara, si — pero en un pico la manija quedaba pegada al propio vertice
+     y el tramo entraba recto: exactamente los «picos rigidos» que el diseno
+     pide evitar. Se veia en la serie de Instagram del 13 de julio.
+
+     Fritsch-Carlson resuelve las dos cosas de una vez: en un maximo o un minimo
+     local pone la tangente horizontal, asi que el pico sale redondeado, y
+     garantiza por construccion que la curva no se sale del rango de sus dos
+     extremos. Suave y sin inventar un maximo que el dato no tiene. */
+  function curva(pts) {
+    var n = pts.length;
+    if (n < 2) return "";
+    if (n === 2) {
+      return "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1) +
+             " L" + pts[1][0].toFixed(1) + " " + pts[1][1].toFixed(1);
+    }
+
+    var h = [], d = [], i;
+    for (i = 0; i < n - 1; i++) {
+      h.push(pts[i + 1][0] - pts[i][0]);
+      d.push(h[i] ? (pts[i + 1][1] - pts[i][1]) / h[i] : 0);
+    }
+
+    var m = [d[0]];
+    for (i = 1; i < n - 1; i++) {
+      if (d[i - 1] * d[i] <= 0) {
+        m.push(0);                       // extremo local: tangente horizontal
+      } else {
+        var t = (d[i - 1] + d[i]) / 2;
+        var tope = 3 * Math.min(Math.abs(d[i - 1]), Math.abs(d[i]));
+        m.push(Math.sign(t) * Math.min(Math.abs(t), tope));
+      }
+    }
+    m.push(d[n - 2]);
+
+    var s = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+    for (i = 0; i < n - 1; i++) {
+      var c1x = pts[i][0] + h[i] / 3,
+          c1y = pts[i][1] + m[i] * h[i] / 3,
+          c2x = pts[i + 1][0] - h[i] / 3,
+          c2y = pts[i + 1][1] - m[i + 1] * h[i] / 3;
+      s += " C" + c1x.toFixed(1) + " " + c1y.toFixed(1) + "," +
+           c2x.toFixed(1) + " " + c2y.toFixed(1) + "," +
+           pts[i + 1][0].toFixed(1) + " " + pts[i + 1][1].toFixed(1);
+    }
+    return s;
   }
 
   function grafico(id, cfg) {
@@ -473,42 +409,42 @@
       return s.valores.some(function (v) { return v != null; });
     });
     if (!S.length || !cfg.semanas.length) {
-      return '<div class="hueco chico">Sin serie para graficar en este periodo.</div>';
+      return '<div class="text-[13px] text-slate-400 py-8 text-center">' +
+        "Sin serie para graficar en este periodo.</div>";
     }
-    var G = GEO;
-    var n = cfg.semanas.length;
-    var pico = 0;
+    var G = GEO, n = cfg.semanas.length, pico = 0;
     S.forEach(function (s) {
       s.valores.forEach(function (v) { if (v != null && v > pico) pico = v; });
     });
-    var esc = escalaLinda(pico);
+    var esc_ = escalaLinda(pico);
     var px = function (i) {
       return G.iz + (n === 1 ? 0 : i * (G.w - G.iz - G.de) / (n - 1));
     };
-    var py = function (v) {
-      return G.ar + (1 - v / esc.max) * (G.h - G.ar - G.ab);
-    };
+    var py = function (v) { return G.ar + (1 - v / esc_.max) * (G.h - G.ar - G.ab); };
 
-    var partes = [];
+    var partes = [], defs = [];
 
-    // Rejilla: hairline sólida, recesiva, con su tick redondo a la izquierda.
-    esc.pasos.forEach(function (v) {
-      var y = py(v);
-      partes.push('<line class="g-rej" x1="' + G.iz + '" y1="' + y.toFixed(1) +
-        '" x2="' + (G.w - G.de) + '" y2="' + y.toFixed(1) + '"/>');
-      partes.push('<text class="g-tick" x="' + (G.iz - 9) + '" y="' +
-        (y + 3.5).toFixed(1) + '" text-anchor="end">' + ent(v) + "</text>");
+    // Solo el eje Y con sus valores y una línea base. Sin cuadrícula interna.
+    esc_.pasos.forEach(function (v) {
+      partes.push('<text x="' + (G.iz - 12) + '" y="' + (py(v) + 4).toFixed(1) +
+        '" text-anchor="end" class="g-tick">' + ent(v) + "</text>");
     });
+    partes.push('<line x1="' + G.iz + '" y1="' + py(0).toFixed(1) + '" x2="' +
+      (G.w - G.de) + '" y2="' + py(0).toFixed(1) + '" class="g-eje"/>');
 
-    // Eje de semanas: una etiqueta cada dos para que no se amontonen.
     cfg.semanas.forEach(function (w, i) {
-      if (i % 2 !== (n - 1) % 2) return;
-      partes.push('<text class="g-tick" x="' + px(i).toFixed(1) + '" y="' +
-        (G.h - 14) + '" text-anchor="middle">' + esc2(w.etiqueta) + "</text>");
+      if (n > 8 && i % 2 !== (n - 1) % 2) return;
+      partes.push('<text x="' + px(i).toFixed(1) + '" y="' + (G.h - 14) +
+        '" text-anchor="middle" class="g-tick">' + esc(w.etiqueta) + "</text>");
     });
 
-    // Cada serie: tramos continuos, relleno opcional, y un punto por dato.
     S.forEach(function (s, si) {
+      var gid = id + "-grad-" + si;
+      defs.push('<linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="' + s.color + '" stop-opacity="0.26"/>' +
+        '<stop offset="55%" stop-color="' + s.color + '" stop-opacity="0.07"/>' +
+        '<stop offset="100%" stop-color="' + s.color + '" stop-opacity="0"/>' +
+        "</linearGradient>");
       var tramos = [], actual = [];
       s.valores.forEach(function (v, i) {
         if (v == null) { if (actual.length) { tramos.push(actual); actual = []; } return; }
@@ -517,863 +453,1325 @@
       if (actual.length) tramos.push(actual);
 
       tramos.forEach(function (t) {
-        var d = t.map(function (p, k) {
-          return (k ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1);
-        }).join(" ");
-        if (cfg.area && t.length > 1) {
+        var d = curva(t);
+        if (!d) {
+          partes.push('<circle cx="' + t[0][0].toFixed(1) + '" cy="' +
+            t[0][1].toFixed(1) + '" r="4" fill="' + s.color + '" class="g-pto"/>');
+          return;
+        }
+        if (cfg.area) {
           var base = py(0).toFixed(1);
-          partes.push('<path class="g-area" d="' + d + " L" +
-            t[t.length - 1][0].toFixed(1) + " " + base + " L" +
-            t[0][0].toFixed(1) + " " + base + ' Z" fill="' + s.color + '"/>');
+          partes.push('<path d="' + d + " L" + t[t.length - 1][0].toFixed(1) +
+            " " + base + " L" + t[0][0].toFixed(1) + " " + base + ' Z" fill="url(#' +
+            gid + ')" stroke="none"/>');
         }
-        partes.push('<path class="g-linea" d="' + d + '" stroke="' + s.color + '"/>');
-        if (t.length === 1) {
-          partes.push('<circle class="g-pto" cx="' + t[0][0].toFixed(1) + '" cy="' +
-            t[0][1].toFixed(1) + '" r="4" fill="' + s.color + '"/>');
-        }
+        partes.push('<path d="' + d + '" fill="none" stroke="' + s.color +
+          '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>');
       });
       s.valores.forEach(function (v, i) {
         if (v == null) return;
-        partes.push('<circle class="g-pto" data-s="' + si + '" data-i="' + i +
-          '" cx="' + px(i).toFixed(1) + '" cy="' + py(v).toFixed(1) +
-          '" r="4" fill="' + s.color + '"/>');
+        var ultimo = i === s.valores.length - 1 ||
+          s.valores.slice(i + 1).every(function (x) { return x == null; });
+        partes.push('<circle cx="' + px(i).toFixed(1) + '" cy="' + py(v).toFixed(1) +
+          '" r="' + (ultimo ? 5 : 3.5) + '" fill="' + s.color + '" class="g-pto"/>');
       });
     });
 
-    // Una sola etiqueta directa: la serie que termina más arriba.
-    var alta = null;
-    S.forEach(function (s) {
-      for (var i = s.valores.length - 1; i >= 0; i--) {
-        if (s.valores[i] == null) continue;
-        if (!alta || s.valores[i] > alta.v) alta = { s: s, v: s.valores[i], i: i };
-        break;
-      }
-    });
-    if (alta) {
-      partes.push('<text class="g-fin" x="' + (px(alta.i) + 9).toFixed(1) +
-        '" y="' + (py(alta.v) + 4).toFixed(1) + '">' + ent(alta.v) + "</text>");
-    }
-
-    // Cruz y zona de captura del puntero.
-    partes.push('<line class="g-cruz" id="' + id + '-cruz" x1="0" y1="' + G.ar +
-      '" x2="0" y2="' + (G.h - G.ab) + '" style="opacity:0"/>');
+    partes.push('<line id="' + id + '-cruz" x1="0" y1="' + G.ar + '" x2="0" y2="' +
+      (G.h - G.ab) + '" class="g-cruz" style="opacity:0"/>');
     partes.push('<rect id="' + id + '-caza" x="' + G.iz + '" y="' + G.ar +
       '" width="' + (G.w - G.iz - G.de) + '" height="' + (G.h - G.ar - G.ab) +
       '" fill="transparent" style="cursor:crosshair"/>');
 
-    var leyenda = S.length > 1
-      ? '<div class="g-ley">' + S.map(function (s) {
-          return '<span><i style="background:' + s.color + '"></i>' +
-            esc2(s.nombre) + "</span>";
-        }).join("") + "</div>"
-      : "";
+    var leyenda = S.length < 2
+      ? '<div class="mb-5 h-[18px]"></div>'
+      : '<div class="flex flex-wrap gap-x-5 gap-y-2 mb-5 min-h-[18px]">' +
+        S.map(function (s) {
+          return '<span class="inline-flex items-center gap-2 text-[12px] ' +
+            'text-slate-400"><i class="w-2.5 h-2.5 rounded-full" ' +
+            'style="background:' + s.color + '"></i>' + esc(s.nombre) + "</span>";
+        }).join("") + "</div>";
 
-    var tabla = '<details class="g-tabla"><summary>Ver la tabla</summary>' +
-      '<div class="tabla-wrap"><table class="tabla"><thead><tr><th>Semana</th>' +
-      S.map(function (s) { return '<th class="n">' + esc2(s.nombre) + "</th>"; }).join("") +
-      "</tr></thead><tbody>" +
+    var tabla = '<details class="mt-5 pt-4 border-t border-slate-100">' +
+      '<summary class="text-[12px] text-slate-400 font-medium cursor-pointer ' +
+      'hover:text-slate-600">Ver la tabla</summary>' +
+      '<div class="overflow-x-auto mt-4"><table class="w-full text-[12px]">' +
+      '<thead><tr class="text-slate-300 text-left"><th class="py-2 pr-4 font-semibold ' +
+      'uppercase tracking-wider text-[10px]">Semana</th>' +
+      S.map(function (s) {
+        return '<th class="py-2 pl-4 text-right font-semibold uppercase ' +
+          'tracking-wider text-[10px]">' + esc(s.nombre) + "</th>";
+      }).join("") + "</tr></thead><tbody>" +
       cfg.semanas.map(function (w, i) {
-        return "<tr><td>" + esc2(w.etiqueta) + "</td>" + S.map(function (s) {
-          var v = s.valores[i];
-          return '<td class="n">' + (v == null ? "—" : ent(v)) + "</td>";
-        }).join("") + "</tr>";
+        return '<tr class="border-t border-slate-50"><td class="py-2 pr-4 ' +
+          'text-slate-500">' + esc(w.etiqueta) + "</td>" + S.map(function (s) {
+            var v = s.valores[i];
+            return '<td class="py-2 pl-4 text-right tabular-nums text-slate-700">' +
+              (v == null ? '<span class="text-slate-300">sin muestra</span>' : ent(v)) +
+              "</td>";
+          }).join("") + "</tr>";
       }).join("") + "</tbody></table></div></details>";
 
     return '<div class="graf" id="' + id + '" data-graf=\'' +
-      esc2(JSON.stringify({
+      esc(JSON.stringify({
         semanas: cfg.semanas.map(function (w) { return w.etiqueta; }),
-        series: S.map(function (s) {
-          return { n: s.nombre, v: s.valores, c: s.color };
-        }),
-        unidad: cfg.unidad, geo: G, max: esc.max
-      })) + "'>" +
-      '<div class="graf-cab"><h4>' + esc2(cfg.titulo) + "</h4>" +
-        (cfg.subtitulo ? "<p>" + esc2(cfg.subtitulo) + "</p>" : "") + "</div>" +
-      leyenda +
-      '<div class="graf-lienzo"><svg viewBox="0 0 ' + G.w + " " + G.h +
-        '" role="img" aria-label="' + esc2(cfg.titulo) + '">' + partes.join("") +
-        "</svg><div class=\"g-tip\" id=\"" + id + "-tip\"></div></div>" +
-      tabla + "</div>";
+        series: S.map(function (s) { return { n: s.nombre, v: s.valores, c: s.color }; }),
+        geo: G
+      })) + "'>" + leyenda +
+      '<div class="relative"><svg viewBox="0 0 ' + G.w + " " + G.h +
+      '" class="block w-full h-auto" role="img" aria-label="' + esc(cfg.titulo) +
+      '"><defs>' + defs.join("") + "</defs>" + partes.join("") + "</svg>" +
+      '<div class="g-tip" id="' + id + '-tip"></div></div>' + tabla + "</div>";
   }
 
-  function bloqueGraficas() {
-    var rs = D.redes_sociales, se = (rs && rs.serie_semanal) || null;
-    if (!se || !se.semanas || !se.semanas.length) return "";
+  /* ═════════════ secciones ═════════════ */
+
+  function seccion(id, rotulo, titulo, sub, ctl, cuerpo) {
+    return '<section id="' + id + '" class="mb-16">' +
+      '<div class="flex flex-wrap items-end justify-between gap-5 mb-7">' +
+      "<div><div class=\"text-[10.5px] font-bold tracking-[0.14em] uppercase mb-2\" " +
+      'style="color:var(--marca)">' + esc(rotulo) + "</div>" +
+      '<h2 class="text-[26px] font-bold text-slate-800 tracking-[-0.025em] ' +
+      'leading-tight">' + esc(titulo) + "</h2>" +
+      (sub ? '<p class="text-[13.5px] text-slate-400 mt-2 max-w-[62ch] ' +
+        'leading-relaxed">' + sub + "</p>" : "") + "</div>" +
+      (ctl ? "<div>" + ctl + "</div>" : "") + "</div>" + cuerpo + "</section>";
+  }
+
+  function pastillas(campo, opciones, activo) {
+    return '<div class="inline-flex bg-white rounded-full p-1 tarjeta-sombra">' +
+      opciones.map(function (o) {
+        var on = o.v === activo;
+        return '<button type="button" data-' + campo + '="' + esc(o.v) + '" ' +
+          'class="px-5 py-2.5 rounded-full text-[13px] font-semibold transition-colors ' +
+          (on ? "text-white" : "text-slate-400 hover:text-slate-600") + '"' +
+          (on ? ' style="background:var(--marca)"' : "") + ">" + esc(o.n) + "</button>";
+      }).join("") + "</div>";
+  }
+
+  function nota(texto) {
+    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra text-[12.5px] ' +
+      'text-slate-500 leading-relaxed">' + texto + "</div>";
+  }
+
+  function plegado(titulo, items) {
+    if (!items || !items.length) return "";
+    return '<details class="bg-white rounded-3xl px-7 py-5 tarjeta-sombra mt-5">' +
+      '<summary class="text-[12.5px] font-semibold text-slate-400 cursor-pointer ' +
+      'hover:text-slate-600">' + esc(titulo) + " · " + items.length + "</summary>" +
+      '<ul class="mt-5 space-y-3 text-[12.5px] text-slate-500 leading-relaxed ' +
+      'list-disc pl-5">' + items.map(function (l) {
+        if (typeof l === "string") return "<li>" + l + "</li>";
+        return '<li><b class="text-slate-700 font-semibold">' +
+          esc(l.que || l.fuente || "") + (l.estado ? " · " + esc(l.estado) : "") +
+          ".</b> " + esc(l.detalle || l.descripcion || "") +
+          (l.impacto ? " " + esc(l.impacto) : "") +
+          (l.remedio ? ' <i class="text-slate-400">' + esc(l.remedio) + "</i>" : "") +
+          "</li>";
+      }).join("") + "</ul></details>";
+  }
+
+  /* ── 1 · Resumen ─────────────────────────────────────────────────────────── */
+  function resumen() {
+    var L = leadTotal(), rs = D.redes_sociales, t = (rs && rs.totales) || {};
+    var vari = variacionOrganico();
+    var kpis = [
+      kpi("Leads del periodo", ent(L && L.resultados), "indicador actions:lead"),
+      kpi("Inversión", dinero(L && L.gasto),
+        (L ? L.campanas + " campañas con entrega" : "")),
+      kpi("Costo por lead", dinero(L && L.costo_por_resultado),
+        mercados().map(function (m) {
+          var q = (D.por_mercado[m] || {}).principal;
+          return m + " " + dinero(q && q.costo_por_resultado);
+        }).join(" · ")),
+      kpi("Interacciones orgánicas", ent(t.interacciones),
+        vari ? "de " + vari.de + " a " + vari.a + " contra la semana anterior"
+             : (t.publicaciones || 0) + " publicaciones", vari),
+    ].join("");
+
+    var terr = ((D.referencias || {}).territorios) || {};
+    var act = estrategiaActiva();
+    var vis = tareasVisibles();
+    var decid = vis.filter(function (x) { return E.decisiones[x.id]; }).length;
+
+    var comp = [];
+    (terr.saturados || []).forEach(function (s) {
+      comp.push(fila(s.de.slice(0, 2).toUpperCase(), s.de,
+        "«" + s.mensaje + "» en " + s.mercado, pct(s.cuota),
+        "de su inventario", "rojo"));
+    });
+    (terr.libres || []).forEach(function (l) {
+      comp.push(fila(l.mercado, l.mercado + " sin disputa",
+        "Ningún competidor medido pauta aquí", "0", "anuncios", "verde"));
+    });
+    sinMedir().forEach(function (x) {
+      comp.push(fila(x.nombre.slice(0, 2).toUpperCase(), x.nombre,
+        "No se midió: falta su page_id", "—", "sin dato", "ambar"));
+    });
+
+    var pm = mercados().map(function (m) {
+      var p = (D.por_mercado[m] || {}).principal;
+      return p ? fila(m, m === "GT" ? "Guatemala" : m === "SV" ? "El Salvador" : m,
+        ent(p.resultados) + " leads · " + ent(p.campanas) + " campañas",
+        dinero(p.costo_por_resultado), "por lead",
+        p.costo_por_resultado <= 2 ? "verde" : null) : "";
+    }).join("");
+
+    return seccion("resumen", "La semana", "Resumen",
+      "Lo que dicen los datos, en tres frentes.", "",
+      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
+      kpis + "</div>" +
+      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))]">' +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Rendimiento por mercado", "Meta Ads, costo por lead") +
+      '<div class="divide-y divide-slate-50">' + pm + "</div></div>" +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Qué hace la competencia", "Ad Library, foto de hoy",
+        "comp", comp.length, 3) +
+      '<div class="divide-y divide-slate-50">' + recorta(comp, "comp").join("") +
+      "</div></div>" +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra flex flex-col">' +
+      cardCab("La estrategia propuesta", "Para decidir en la mesa") +
+      (act
+        ? '<div class="text-[15px] font-bold text-slate-800 leading-snug mb-2">' +
+          esc(act.nombre) + "</div>" +
+          '<p class="text-[12.5px] text-slate-400 leading-relaxed mb-5">' +
+          esc(act.en_pocas_palabras) + "</p>"
+        : '<p class="text-[13px] text-slate-400 mb-5">Ninguna estrategia sostenida ' +
+          "por los datos de esta corrida.</p>") +
+      '<div class="mt-auto"><div class="flex items-baseline justify-between mb-2">' +
+      '<span class="text-[12px] text-slate-400">Decisiones tomadas</span>' +
+      '<span class="text-[13px] font-bold text-slate-700 tabular-nums">' + decid +
+      " / " + vis.length + "</span></div>" +
+      '<div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">' +
+      '<div class="h-full rounded-full transition-all duration-500" ' +
+      'style="width:' + (vis.length ? Math.round(decid / vis.length * 100) : 0) +
+      '%;background:var(--marca)"></div></div>' +
+      '<a href="#estrategia" class="inline-block mt-5 text-[12.5px] font-semibold" ' +
+      'style="color:var(--marca)">Ir a decidir →</a></div></div></div>');
+  }
+
+  /* La advertencia de que los indicadores no se suman, con los numeros del
+     mercado que se esta viendo. Antes eran dos literales y contradecian el
+     total de la pantalla al cambiar de mercado. */
+  function noSeSuman(d) {
+    var base = "El total de arriba es solo del indicador principal: las " +
+      "campañas no se suman entre indicadores distintos.";
+    var ind = d.indicadores || {}, pr = d.indicador_principal;
+    var otro = null;
+    Object.keys(ind).forEach(function (k) {
+      if (k === pr || !ind[k].utilizable) return;
+      if (!otro || ind[k].resultados > ind[otro].resultados) otro = k;
+    });
+    if (!otro || !pr || !ind[pr]) return base;
+    return "Las campañas no se suman entre indicadores distintos: " +
+      ent(ind[pr].resultados) + " " + enClaro(pr).toLowerCase() + " y " +
+      ent(ind[otro].resultados) + " " + enClaro(otro).toLowerCase() +
+      " no son la misma cosa. El total de arriba es solo del indicador " +
+      "principal.";
+  }
+
+  /* ── 2 · Rendimiento ─────────────────────────────────────────────────────── */
+  function rendimiento() {
+    var m = mercadoActivo(), ms = mercados();
+    if (!m) return seccion("rendimiento", "Pauta y orgánico", "Rendimiento", "", "",
+      nota("Sin datos por mercado en esta corrida."));
+    var d = D.por_mercado[m] || {}, p = d.principal;
+    var s = serieTotal(), se = s && s.crudo;
+
+    var kpis = p ? [
+      kpi(enClaro(d.indicador_principal), ent(p.resultados),
+        "indicador " + (d.indicador_principal || "—")),
+      kpi("Inversión", dinero(p.gasto), ""),
+      kpi("Costo por lead", dinero(p.costo_por_resultado), ""),
+      kpi("Campañas con entrega", ent(p.campanas), "no es lo mismo que activas hoy"),
+    ].join("") : "";
+
+    var cs = (d.campanas || []).filter(function (c) {
+      return coincide(c.etiqueta, enClaro(c.indicador));
+    });
+    var filas = recorta(cs, "camp", 4).map(function (c) {
+      return fila((c.etiqueta.match(/[A-Z]/g) || ["C"]).slice(0, 2).join(""),
+        c.etiqueta.replace(/\s*\[[A-Z]{2}\]\s*$/, ""),
+        enClaro(c.indicador) + " · " + ent(c.resultados) + " resultados",
+        dinero(c.costo_por_resultado), dinero(c.gasto) + " invertidos",
+        c.costo_por_resultado <= 2.6 ? "verde" : null);
+    }).join("");
+
     var COL = ["var(--c1)", "var(--c2)", "var(--c3)"];
     var orden = ["facebook", "instagram", "youtube"];
-    var serInt = orden.filter(function (r) { return se.interacciones[r]; })
-      .map(function (r, i) {
-        return { nombre: RED[r] || r, valores: se.interacciones[r], color: COL[i] };
+    var gInt = "", gVis = "";
+    if (se) {
+      gInt = grafico("gInt", {
+        titulo: "Interacciones por semana", semanas: se.semanas, area: true,
+        series: orden.filter(function (r) { return se.interacciones[r]; })
+          .map(function (r, i) {
+            return { nombre: RED[r] || r, valores: se.interacciones[r], color: COL[i] };
+          }),
       });
-    var serVis = orden.filter(function (r) { return se.vistas[r]; })
-      .map(function (r, i) {
-        return { nombre: RED[r] || r, valores: se.vistas[r], color: COL[orden.indexOf(r)] };
-      });
-
-    var g1 = grafico("gInt", {
-      titulo: "Interacciones por semana",
-      subtitulo: "Reacciones más comentarios de las publicaciones de cada semana",
-      semanas: se.semanas, series: serInt, unidad: "interacciones",
-    });
-    var g2 = serVis.length ? grafico("gVis", {
-      titulo: "Vistas de video por semana",
-      subtitulo: "Solo " + serVis.map(function (s) { return s.nombre; }).join(" y ") +
-        ": las demás redes no devuelven vistas",
-      semanas: se.semanas, series: serVis, unidad: "vistas", area: true,
-    }) : '<div class="hueco chico">Ninguna de las redes reportadas devuelve ' +
-      "vistas de video.</div>";
-
-    return '<div class="grid2 grafs">' +
-      '<article class="panel">' + g1 + "</article>" +
-      '<article class="panel">' + g2 + "</article>" + "</div>" +
-      limites("Cómo leer estas dos gráficas", [
-        "<b>Qué mide cada punto.</b> " + esc2(se._que_mide || ""),
-        "<b>Por qué las líneas arrancan en semanas distintas.</b> " +
-        esc2(se._por_que_arrancan_distinto || ""),
-        "<b>Dos gráficas, no una.</b> Interacciones y vistas tienen escalas muy " +
-        "distintas. Un eje doble haría comparar alturas que no son comparables.",
-      ]);
-  }
-
-  /* ═════════════ 3 · Competencia ═════════════ */
-
-  function tarjetaMarca(b) {
-    var ms = Object.keys(b.mercados).sort();
-    var presion = ms.map(function (m) {
-      var c = b.mercados[m];
-      return '<div class="pres"><span>' + esc(m) + "</span><b>" +
-        ent(c.presion_real) + "</b><i>anuncios que disputan</i>" +
-        (c.activos_declarados !== c.presion_real
-          ? '<u title="Anuncios activos totales de la página">de ' +
-            ent(c.activos_declarados) + " activos</u>" : "") + "</div>";
-    }).join("");
-
-    /* El «no es un ranking de efectividad» estaba repetido en CADA tarjeta:
-       cuatro párrafos idénticos en una pantalla. Se dice UNA vez, arriba de la
-       sección, donde aplica a todas. */
-    var mensajes = (b.mensajes || []).length
-      ? '<div class="mensajes"><span class="mini-et">Sus mensajes, por lo que ' +
-        'repite y por lo que no mata</span>' +
-        b.mensajes.slice(0, 3).map(function (m) {
-          return '<div class="msg"><div class="msg-t">' + esc(m.titular) + "</div>" +
-            '<div class="msg-d"><span><b>' + m.repeticiones +
-            "</b> anuncios · " + pct(m.cuota) + " de su inventario</span>" +
-            "<span><b>" + m.dias_vivo + "</b> días vivo</span></div></div>";
-        }).join("") + "</div>"
-      : (!b.activos
-        ? '<div class="hueco chico"><b>No tiene anuncios activos</b> en los mercados ' +
-          "que medimos, así que no hay mensaje que leer. Eso no dice nada de lo que " +
-          "anuncia fuera de aquí." + "</div>"
-        : !b.muestra
-        ? '<div class="hueco chico"><b>No se guardó muestra de sus anuncios.</b> ' +
-          "De esta marca solo se midió cuántos de sus anuncios tocan nuestra " +
-          "categoría, sobre su inventario completo. No se leyeron titulares, así " +
-          "que no se puede decir qué mensaje repite." +
-          (b.metodo ? '<div class="metodo">Método: ' + esc(b.metodo) + "</div>" : "") +
-          "</div>"
-        : '<div class="hueco chico">Se leyeron ' + b.muestra + " de sus anuncios y " +
-          "ninguno trae un titular legible: son plantillas dinámicas sin renderizar " +
-          "o anuncios sin titular.</div>");
-
-    var extra = [];
-    ms.forEach(function (m) {
-      var c = b.mercados[m];
-      if (c.lanzados_10d > 0) {
-        extra.push("<li>" + esc(m) + ": <b>" + c.lanzados_10d +
-          "</b> anuncios lanzados en los últimos 10 días" +
-          (c.lanzados_3d ? " (" + c.lanzados_3d + " en los últimos 3)" : "") + ".</li>");
-      }
-      if (c.plantillas_sin_renderizar > 0) {
-        extra.push("<li>" + esc(m) + ": <b>" + c.plantillas_sin_renderizar +
-          "</b> anuncios muestran una plantilla dinámica sin renderizar " +
-          "(<code>{{…}}</code>). Puede ser normal o un error suyo de " +
-          "configuración; requiere revisión humana.</li>");
-      }
-    });
-
-    var plegado = [];
-    if (b.nota) plegado.push("<li>" + esc(b.nota) + "</li>");
-    extra.forEach(function (e) { plegado.push(e); });
-    if (b.advertencia) plegado.push("<li>⚠ " + esc(b.advertencia) + "</li>");
-
-    return '<article class="panel marca">' +
-      '<div class="marca-cab"><h3>' + esc(b.nombre) + "</h3>" +
-      '<div class="tags">' + (b.categorias || []).map(function (c) {
-        return '<span class="chip">' + esc(c === "hardware" ? "punto de venta" : c) +
-          "</span>";
-      }).join("") + (b.moneda ? '<span class="chip">' + esc(b.moneda) + "</span>" : "") +
-      "</div></div>" +
-      '<div class="presiones">' + presion + "</div>" +
-      mensajes +
-      (plegado.length
-        ? '<details class="detalle"><summary>Cómo lee el análisis a esta marca' +
-          '</summary><ul class="mini">' + plegado.join("") + "</ul></details>"
-        : "") +
-      (b.url ? '<a class="ext" href="' + esc(b.url) + '" target="_blank" ' +
-        'rel="noopener noreferrer">' + ico.link +
-        "Ver sus anuncios reales en la Ad Library</a>" : "") +
-      "</article>";
-  }
-
-  function competencia() {
-    var todas = marcas();
-    var comp = todas.filter(function (b) { return b.rol === "competidor"; });
-    var refs = todas.filter(function (b) { return b.rol === "referente"; });
-    var sm = sinMedir();
-
-    var lista, sub = "", explica;
-    if (V.grupo === "referentes") {
-      lista = refs;
-      explica = "Marcas que <b>no disputan</b> nuestros mercados. Se miran para " +
-        "aprender, no se cuentan como amenaza.";
-    } else {
-      var cat = V.categoria;
-      lista = comp.filter(function (b) {
-        return (b.categorias || []).indexOf(cat) >= 0;
-      });
-      sub = segmentado("categoria", [
-        { v: "software", n: "Software" },
-        { v: "hardware", n: "Punto de venta" }
-      ], cat);
-      explica = "Marcas que pautan en nuestros mercados y disputan nuestro espacio " +
-        "de mensaje o de público.";
+      var conVistas = orden.filter(function (r) { return se.vistas[r]; });
+      gVis = conVistas.length ? grafico("gVis", {
+        titulo: "Vistas de video por semana", semanas: se.semanas, area: true,
+        series: conVistas.map(function (r) {
+          return { nombre: RED[r] || r, valores: se.vistas[r],
+                   color: COL[orden.indexOf(r)] };
+        }),
+      }) : "";
     }
 
-    var faltantes = sm.filter(function (x) {
-      return V.grupo === "referentes" ? x.rol === "referente" : x.rol === "competidor";
-    });
-
-    var avisosFalt = faltantes.map(function (x) {
-      return '<article class="panel falta-marca"><h3>' + esc(x.nombre) + "</h3>" +
-        '<div class="badge-falta">' + esc(x.estado) + "</div>" +
-        "<p><b>No se midió.</b> Que no aparezca aquí no significa que no anuncie: " +
-        "significa que no lo pudimos preguntar.</p>" +
-        (x.por_que_falta ? '<p class="aclara">' + esc(x.por_que_falta) + "</p>" : "") +
-        (x.como_obtenerlo ? '<p class="remedio"><b>Cómo desbloquearlo:</b> ' +
-          esc(x.como_obtenerlo) + "</p>" : "") +
-        "</article>";
+    var det = (D.redes_sociales || {}).detalle || {};
+    var redes = Object.keys(det).sort().map(function (n) {
+      var r = det[n];
+      if (r.silenciosa) {
+        return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
+          r.dias_de_silencio + " días sin publicar", "0", "publicaciones", "rojo");
+      }
+      return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
+        r.publicaciones + " publicaciones" +
+        (r.vistas != null ? " · " + ent(r.vistas) + " vistas" : ""),
+        ent(r.interacciones), "interacciones");
     }).join("");
 
-    var cuerpoL = lista.length || avisosFalt
-      ? '<div class="grid2">' + lista.map(tarjetaMarca).join("") + avisosFalt + "</div>"
-      : '<div class="hueco">Ninguna marca medida en esta categoría.</div>';
-
-    return '<section id="competencia">' +
-      cabecera("Ad Library", "Competencia", explica,
-        segmentado("grupo", [
-          { v: "competencia", n: "Competencia" },
-          { v: "referentes", n: "Referentes" }
-        ], V.grupo)) +
-      (sub ? '<div class="sub-seg">' + sub + "</div>" : "") +
-      '<p class="nota-seccion"><b>Lo de abajo no es un ranking de efectividad.</b> ' +
-      "La Ad Library no publica rendimiento de anunciantes comerciales: no hay " +
-      "impresiones, ni gasto, ni conversiones. Lo que sí se ve es en qué apuestan " +
-      "— cuánto repiten un mensaje y cuánto tiempo lo dejan vivo.</p>" +
-      cuerpoL +
-      limites("Cómo leer estos números", [
-        "<b>Es una foto, no una serie.</b> La Ad Library no acepta rango de " +
-        "fechas: solo responde qué está activo ahora. Por eso una corrida " +
-        "retroactiva no puede incluir competencia.",
-        "<b>Volumen no es presión.</b> Banco Industrial tiene 845 anuncios " +
-        "activos en GT y solo 2 tocan pagos. Sumar los 845 inflaría la presión " +
-        "competitiva 21 veces.",
-        "<b>Solo se midieron las marcas del registro.</b> Un competidor que " +
-        "nadie agregó no aparece, y su ausencia aquí no es evidencia de nada.",
-      ]) + "</section>";
+    return seccion("rendimiento", "Pauta y orgánico", "Rendimiento",
+      "Meta Ads en <b class=\"text-slate-600 font-semibold\">" + esc(m) +
+      "</b>, del periodo " + esc((D.corrida || {}).rango || "") + ".",
+      pastillas("mercado", ms.map(function (x) {
+        return { v: x, n: x === "GT" ? "Guatemala" : x === "SV" ? "El Salvador" : x };
+      }), m),
+      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
+      kpis + "</div>" +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
+      cardCab("Campañas con entrega", buscando()
+        ? "Solo las que coinciden con la búsqueda"
+        : "Ordenadas por inversión", "camp", cs.length, 4) +
+      (cs.length
+        ? '<div class="divide-y divide-slate-50">' + filas + "</div>"
+        : '<p class="text-[13px] text-slate-400 py-2">Ninguna campaña del ' +
+          "periodo coincide con la búsqueda.</p>") +
+      '<p class="text-[11.5px] text-slate-400 mt-5 leading-relaxed">' +
+      noSeSuman(d) + "</p></div>" +
+      (gInt ? '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))] mb-6">' +
+        '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+        cardCab("Interacciones por semana",
+          "Reacciones más comentarios de las piezas de cada semana") + gInt + "</div>" +
+        (gVis ? '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+          cardCab("Vistas de video por semana",
+            "Solo YouTube las reporta entre las redes del informe") + gVis + "</div>"
+          : "") + "</div>" : "") +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Redes sociales", "Sin corte por país: una sola marca para GT y SV") +
+      '<div class="divide-y divide-slate-50">' + redes + "</div></div>" +
+      plegado("Lo que este bloque no puede decir",
+        ((D.redes_sociales || {}).limites || []).concat(
+          se ? [{ que: "qué mide cada punto", detalle: se._que_mide },
+                { que: "por qué las líneas arrancan distinto",
+                  detalle: se._por_que_arrancan_distinto }] : [])));
   }
 
-  /* ═════════════ 4 · Referencias ═════════════ */
+  /* ── 3 · Competencia ─────────────────────────────────────────────────────── */
+  function competencia() {
+    var todas = marcas();
+    var lista, explica, sub = "";
+    if (V.grupo === "referentes") {
+      lista = todas.filter(function (b) { return b.rol === "referente"; });
+      explica = "Marcas que <b class=\"text-slate-600 font-semibold\">no disputan" +
+        "</b> nuestros mercados. Se miran para aprender.";
+    } else {
+      lista = todas.filter(function (b) {
+        return b.rol === "competidor" &&
+          (b.categorias || []).indexOf(V.categoria) >= 0;
+      });
+      explica = "Marcas que pautan en nuestros mercados y disputan nuestro espacio.";
+      sub = pastillas("categoria", [{ v: "software", n: "Software" },
+                                    { v: "hardware", n: "Punto de venta" }],
+                      V.categoria);
+    }
+    var faltan = sinMedir().filter(function (x) {
+      return V.grupo === "referentes" ? x.rol === "referente" : x.rol === "competidor";
+    });
+    lista = lista.filter(function (b) {
+      return coincide(b.nombre, (b.mensajes || []).map(function (m) {
+        return m.titular; }).join(" "));
+    });
+    faltan = faltan.filter(function (x) { return coincide(x.nombre); });
 
+    var tarjetas = lista.map(function (b) {
+      var pres = Object.keys(b.mercados).sort().map(function (m) {
+        var c = b.mercados[m];
+        return '<div class="flex-1 min-w-[104px]">' +
+          '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+          'uppercase">' + esc(m) + "</div>" +
+          '<div class="text-[26px] font-bold text-slate-800 tabular-nums ' +
+          'leading-tight mt-0.5">' + ent(c.presion_real) + "</div>" +
+          '<div class="text-[11px] text-slate-400 leading-tight">anuncios que ' +
+          "disputan" + (c.activos_declarados !== c.presion_real
+            ? "<br>de " + ent(c.activos_declarados) + " activos" : "") + "</div></div>";
+      }).join("");
+
+      var msgs = (b.mensajes || []).length
+        ? recorta(b.mensajes, "msg-" + b.nombre, 3).map(function (m) {
+            return fila(String(m.repeticiones), m.titular,
+              pct(m.cuota) + " de su inventario", m.dias_vivo + " d", "vivo");
+          }).join("")
+        : '<p class="text-[12.5px] text-slate-400 leading-relaxed py-2">' +
+          (!b.activos
+            ? "<b class=\"text-slate-600 font-semibold\">No tiene anuncios activos" +
+              "</b> en los mercados medidos, así que no hay mensaje que leer."
+            : "<b class=\"text-slate-600 font-semibold\">No se guardó muestra de sus " +
+              "anuncios.</b> Solo se midió cuántos tocan nuestra categoría sobre su " +
+              "inventario completo.") + "</p>";
+
+      var extra = [];
+      Object.keys(b.mercados).forEach(function (m) {
+        var c = b.mercados[m];
+        if (c.lanzados_10d > 0) {
+          extra.push(esc(m) + ": <b>" + c.lanzados_10d + "</b> anuncios lanzados en " +
+            "los últimos 10 días" +
+            (c.lanzados_3d ? " (" + c.lanzados_3d + " en los últimos 3)" : "") + ".");
+        }
+        if (c.plantillas_sin_renderizar > 0) {
+          extra.push(esc(m) + ": <b>" + c.plantillas_sin_renderizar + "</b> anuncios " +
+            "muestran una plantilla dinámica sin renderizar. Requiere revisión humana.");
+        }
+      });
+      if (b.nota) extra.push(esc(b.nota));
+      if (b.advertencia) extra.push(esc(b.advertencia));
+      if (b.metodo) extra.push("Método: " + esc(b.metodo));
+
+      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+        '<div class="flex items-start justify-between gap-3 mb-6">' +
+        '<h3 class="text-[17px] font-bold text-slate-800 tracking-[-0.01em]">' +
+        esc(b.nombre) + "</h3>" +
+        '<div class="flex gap-1.5 flex-wrap justify-end">' +
+        (b.categorias || []).map(function (c) {
+          return '<span class="etiqueta">' +
+            esc(c === "hardware" ? "punto de venta" : c) + "</span>";
+        }).join("") +
+        (b.moneda ? '<span class="etiqueta">' + esc(b.moneda) + "</span>" : "") +
+        "</div></div>" +
+        '<div class="flex gap-5 pb-6 mb-2 border-b border-slate-50">' + pres +
+        "</div>" +
+        '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+        'uppercase mt-5 mb-1">Lo que repite</div>' +
+        '<div class="divide-y divide-slate-50">' + msgs + "</div>" +
+        (extra.length
+          ? '<details class="mt-4 pt-4 border-t border-slate-50">' +
+            '<summary class="text-[12px] font-semibold text-slate-400 ' +
+            'cursor-pointer hover:text-slate-600">Cómo lee el análisis a esta ' +
+            'marca</summary><ul class="mt-4 space-y-2.5 text-[12px] text-slate-500 ' +
+            'leading-relaxed list-disc pl-5">' +
+            extra.map(function (x) { return "<li>" + x + "</li>"; }).join("") +
+            "</ul></details>"
+          : "") +
+        (b.url ? '<a href="' + esc(b.url) + '" target="_blank" ' +
+          'rel="noopener noreferrer" class="enlace mt-5">' + svg(ico.link, "w-4 h-4") +
+          "Ver sus anuncios reales</a>" : "") + "</div>";
+    }).join("");
+
+    var avisos = faltan.map(function (x) {
+      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra ' +
+        'ring-1 ring-amber-100">' +
+        '<div class="flex items-center gap-3 mb-4">' +
+        '<h3 class="text-[17px] font-bold text-slate-800">' + esc(x.nombre) +
+        "</h3>" +
+        '<span class="etiqueta-ambar">' + esc(x.estado) + "</span></div>" +
+        '<p class="text-[13px] text-slate-500 leading-relaxed mb-4">' +
+        "<b class=\"text-slate-700 font-semibold\">No se midió.</b> Que no aparezca " +
+        "aquí no significa que no anuncie: significa que no lo pudimos preguntar.</p>" +
+        (x.por_que_falta ? '<p class="text-[12px] text-slate-400 leading-relaxed ' +
+          'mb-4">' + esc(x.por_que_falta) + "</p>" : "") +
+        (x.como_obtenerlo ? '<div class="bg-emerald-50 rounded-2xl p-4 text-[12px] ' +
+          'text-emerald-700 leading-relaxed"><b>Cómo desbloquearlo:</b> ' +
+          esc(x.como_obtenerlo) + "</div>" : "") + "</div>";
+    }).join("");
+
+    return seccion("competencia", "Ad Library", "Competencia", explica,
+      pastillas("grupo", [{ v: "competencia", n: "Competencia" },
+                          { v: "referentes", n: "Referentes" }], V.grupo),
+      (sub ? '<div class="mb-6">' + sub + "</div>" : "") +
+      nota("<b class=\"text-slate-700 font-semibold\">Lo de abajo no es un ranking " +
+        "de efectividad.</b> La Ad Library no publica rendimiento de anunciantes " +
+        "comerciales: no hay impresiones, ni gasto, ni conversiones. Lo que sí se " +
+        "ve es en qué apuestan — cuánto repiten un mensaje y cuánto lo dejan vivo.") +
+      '<div class="grid gap-6 mt-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
+      (tarjetas + avisos ||
+        '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
+        'text-slate-400">' + (buscando()
+          ? "Ninguna marca de este grupo coincide con la búsqueda."
+          : "Ninguna marca en este grupo con los filtros de arriba.") +
+        "</div>") + "</div>" +
+      plegado("Cómo leer estos números", [
+        "<b class=\"text-slate-700 font-semibold\">Es una foto, no una serie.</b> " +
+        "La Ad Library no acepta rango de fechas: solo responde qué está activo " +
+        "ahora. Por eso una corrida retroactiva no puede incluir competencia.",
+        "<b class=\"text-slate-700 font-semibold\">Volumen no es presión.</b> Banco " +
+        "Industrial tiene 845 anuncios activos en GT y solo 2 tocan pagos. Sumar " +
+        "los 845 inflaría la presión competitiva 21 veces.",
+        "<b class=\"text-slate-700 font-semibold\">Solo se midieron las marcas del " +
+        "registro.</b> Un competidor que nadie agregó no aparece, y su ausencia " +
+        "aquí no es evidencia de nada.",
+      ]));
+  }
+
+  /* ── 4 · Referencias ─────────────────────────────────────────────────────── */
   function referencias() {
     var R = D.referencias;
-    if (!R) return '<section id="referencias"><div class="cab"><h2>Referencias</h2>' +
-      "</div><div class=\"hueco\">Sin datos de referencias en esta corrida.</div></section>";
+    if (!R) return seccion("referencias", "Contraste", "Referencias", "", "",
+      nota("Sin datos de referencias en esta corrida."));
 
-    var filas = (R.contraste || []).map(function (f) {
-      return "<tr><td><b>" + esc(f.dimension) + "</b></td><td>" + esc(f.qpaypro) +
-        "</td><td>" + esc(f.competencia) + "</td><td>" + esc(f.referentes) +
-        '</td></tr><tr class="lectura-f"><td colspan="4">' + esc(f.lectura) +
-        "</td></tr>";
+    var filasC = (R.contraste || []).map(function (f) {
+      return '<div class="py-5">' +
+        '<div class="text-[13.5px] font-semibold text-slate-700 mb-3">' +
+        esc(f.dimension) + "</div>" +
+        '<div class="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr))] mb-3">' +
+        [["QPayPro", f.qpaypro], ["Competencia", f.competencia],
+         ["Referentes", f.referentes]].map(function (par) {
+          return "<div><div class=\"text-[10.5px] font-bold tracking-wider " +
+            'text-slate-300 uppercase mb-1">' + esc(par[0]) + "</div>" +
+            '<div class="text-[12.5px] text-slate-600 leading-snug">' +
+            esc(par[1]) + "</div></div>";
+        }).join("") + "</div>" +
+        '<p class="text-[11.5px] text-slate-400 leading-relaxed">' +
+        esc(f.lectura) + "</p></div>";
     }).join("");
 
     var t = R.territorios || {};
-    var terr = "";
-    if ((t.saturados || []).length || (t.libres || []).length) {
-      terr = '<div class="grid2">' +
-        (t.saturados || []).map(function (s) {
-          return '<article class="panel terr ocupado"><div class="terr-et">' +
-            "Territorio ocupado</div><h3>«" + esc(s.mensaje) + "»</h3>" +
-            "<p>" + esc(s.lectura) + "</p>" +
-            '<p class="aclara">' + esc(s.de) + " · " + esc(s.mercado) + " · " +
-            s.repeticiones + " anuncios · " + s.dias_vivo + " días vivo</p></article>";
-        }).join("") +
-        (t.libres || []).map(function (l) {
-          return '<article class="panel terr libre"><div class="terr-et">' +
-            "Territorio sin disputa</div><h3>" + esc(l.mercado) + "</h3>" +
-            "<p>" + esc(l.lectura) + "</p></article>";
-        }).join("") + "</div>";
-    }
+    var terr = (t.saturados || []).map(function (s) {
+      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+        '<div class="etiqueta-rojo mb-4">Territorio ocupado</div>' +
+        '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">«' +
+        esc(s.mensaje) + "»</h3>" +
+        '<p class="text-[13px] text-slate-500 leading-relaxed mb-4">' +
+        esc(s.lectura) + "</p>" +
+        '<div class="text-[11.5px] text-slate-400">' + esc(s.de) + " · " +
+        esc(s.mercado) + " · " + s.repeticiones + " anuncios · " + s.dias_vivo +
+        " días vivo</div></div>";
+    }).concat((t.libres || []).map(function (l) {
+      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+        '<div class="etiqueta-verde mb-4">Territorio sin disputa</div>' +
+        '<h3 class="text-[17px] font-bold text-slate-800 mb-3">' + esc(l.mercado) +
+        "</h3>" +
+        '<p class="text-[13px] text-slate-500 leading-relaxed">' + esc(l.lectura) +
+        "</p></div>";
+    })).join("");
 
-    var bus = (R.busquedas || []).map(function (b) {
-      return '<article class="panel busq"><div class="busq-cab">' +
-        '<span class="chip">' + esc(b.formato) + "</span>" +
-        '<span class="chip gris">búsqueda sin curar</span></div>' +
-        "<h3>" + esc(b.tema) + "</h3>" +
-        '<p class="aclara">' + esc(b.motivo) + "</p>" +
-        '<div class="consulta">' + esc(b.consulta) + "</div>" +
-        '<a class="ext" href="' + esc(b.url) + '" target="_blank" ' +
-        'rel="noopener noreferrer">' + ico.link + "Abrir la búsqueda en Pinterest</a>" +
-        "</article>";
+    var bus = (R.busquedas || []);
+    var busq = recorta(bus, "busq", 3).map(function (b) {
+      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+        '<div class="flex gap-1.5 mb-4"><span class="etiqueta">' + esc(b.formato) +
+        '</span><span class="etiqueta-gris">búsqueda sin curar</span></div>' +
+        '<h3 class="text-[15px] font-bold text-slate-800 leading-snug mb-3">' +
+        esc(b.tema) + "</h3>" +
+        '<p class="text-[12px] text-slate-400 leading-relaxed mb-4">' +
+        esc(b.motivo) + "</p>" +
+        '<div class="bg-slate-50 rounded-2xl px-4 py-3 font-mono text-[11.5px] ' +
+        'text-slate-500 leading-relaxed break-words">' + esc(b.consulta) + "</div>" +
+        '<a href="' + esc(b.url) + '" target="_blank" rel="noopener noreferrer" ' +
+        'class="enlace mt-4">' + svg(ico.link, "w-4 h-4") +
+        "Abrir la búsqueda</a></div>";
     }).join("");
 
-    return '<section id="referencias">' +
-      cabecera("Contraste", "Referencias",
-        "Lo nuestro contra lo de ellos, y de ahí adónde ir a buscar cómo se ve.") +
-      '<div class="tabla-wrap"><table class="tabla contraste"><thead><tr>' +
-      "<th>Dimensión</th><th>QPayPro</th><th>Competencia</th><th>Referentes</th>" +
-      "</tr></thead><tbody>" + filas + "</tbody></table></div>" +
-      (terr ? subcab("Territorios de mensaje",
-        "Qué promesa está ocupada y cuál no.") + terr : "") +
-      subcab("Dónde buscar referencia visual",
-        "Cada búsqueda sale de un dato de arriba. <b>Ningún pin fue visto ni " +
-        "verificado por el sistema</b>: son búsquedas, no referencias curadas.") +
-      (bus ? '<div class="grid3">' + bus + "</div>"
-           : '<div class="hueco">Sin búsquedas que proponer en esta corrida.</div>') +
-      limites("Lo que esta sección no puede dar", R.limites || []) + "</section>";
+    return seccion("referencias", "Contraste", "Referencias",
+      "Lo nuestro contra lo de ellos, y de ahí adónde ir a buscar cómo se ve.", "",
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
+      cardCab("Nosotros contra ellos", "Solo se compara lo comparable") +
+      '<div class="divide-y divide-slate-50">' + filasC + "</div></div>" +
+      (terr ? '<h3 class="text-[17px] font-bold text-slate-800 mb-5 mt-10">' +
+        'Territorios de mensaje</h3>' +
+        '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
+        terr + "</div>" : "") +
+      '<div class="flex items-end justify-between gap-4 mb-5 mt-10">' +
+      '<div><h3 class="text-[17px] font-bold text-slate-800">Dónde buscar ' +
+      'referencia visual</h3>' +
+      '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[62ch] leading-relaxed">' +
+      "Cada búsqueda sale de un dato de arriba. <b class=\"text-slate-600 " +
+      "font-semibold\">Ningún pin fue visto ni verificado por el sistema</b>: son " +
+      "búsquedas, no referencias curadas.</p></div>" +
+      (bus.length > 3
+        ? '<button type="button" data-vertodo="busq" class="text-[12.5px] ' +
+          'font-semibold shrink-0 hover:underline" style="color:var(--marca)">' +
+          (V.verTodo.busq ? "Ver menos" : "Ver todo (" + bus.length + ")") +
+          "</button>"
+        : "") + "</div>" +
+      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))]">' +
+      busq + "</div>" +
+      plegado("Lo que esta sección no puede dar", R.limites || []));
   }
 
-  /* ═════════════ 5 · Estrategia ═════════════ */
+  /* ── 5 · Estrategia ──────────────────────────────────────────────────────── */
+  function selectorEstrategia() {
+    var es = ((D.estrategia || {}).estrategias) || [];
+    if (!es.length) return "";
+    var act = estrategiaActiva();
+    return '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
+      es.map(function (e) {
+        var on = e.id === act.id;
+        return '<div class="bg-white rounded-3xl p-7 flex flex-col ' +
+          (on ? "tarjeta-elegida" : "tarjeta-sombra") + '">' +
+          '<div class="flex items-center justify-between gap-3 mb-4">' +
+          (e.recomendada ? '<span class="etiqueta-marca">Recomendada</span>'
+                         : '<span class="etiqueta-gris">Alternativa</span>') +
+          (on ? '<span class="inline-flex items-center gap-1.5 text-[11.5px] ' +
+            'font-bold" style="color:var(--marca)">' + svg(ico.tic, "w-3.5 h-3.5") +
+            "Elegida</span>" : "") + "</div>" +
+          '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">' +
+          esc(e.nombre) + "</h3>" +
+          '<p class="text-[13px] text-slate-500 leading-relaxed mb-5">' +
+          esc(e.en_pocas_palabras) + "</p>" +
+          '<details class="mb-5"><summary class="text-[12px] font-semibold ' +
+          'text-slate-400 cursor-pointer hover:text-slate-600">Por qué, cuándo no, ' +
+          'y la evidencia</summary>' +
+          '<div class="mt-4 space-y-4">' +
+          '<div><div class="micro-et">Por qué es buena idea</div>' +
+          '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
+          esc(e.por_que) + "</p></div>" +
+          '<div><div class="micro-et">Cuándo NO conviene</div>' +
+          '<p class="text-[12.5px] text-amber-700 leading-relaxed">' +
+          esc(e.cuando_no_conviene) + "</p></div>" +
+          (e._por_que_recomendada
+            ? '<div><div class="micro-et">Por qué la recomienda el análisis</div>' +
+              '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
+              esc(e._por_que_recomendada) + "</p></div>" : "") +
+          '<div><div class="micro-et">Evidencia</div><ul class="text-[12px] ' +
+          'text-slate-500 leading-relaxed list-disc pl-5 space-y-1.5">' +
+          (e.evidencia || []).map(function (x) {
+            return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          "</div></details>" +
+          '<div class="mt-auto pt-5 border-t border-slate-50 flex items-center ' +
+          'justify-between gap-3">' +
+          '<span class="text-[12px] text-slate-400">Activa ' + e.tareas.length +
+          (e.tareas.length === 1 ? " tarea" : " tareas") + "</span>" +
+          (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
+            'class="btn-claro"' + (soloLectura ? " disabled" : "") +
+            ">Usar esta</button>") + "</div></div>";
+      }).join("") + "</div>";
+  }
 
-  function selectorResponsable(t, asig) {
-    var d = E.decisiones[t.id] || {};
+  function selectorResponsable(id, actual, asig) {
     if (!asig.habilitada) {
-      return '<div class="asig bloq"><span class="mini-et">Responsable</span>' +
-        '<select disabled><option>Sin lista de personas</option></select>' +
-        '<p class="aclara">' + esc(asig.motivo_bloqueo || "") + "</p></div>";
+      return '<select disabled class="campo w-full max-w-[220px] opacity-50">' +
+        "<option>Sin lista de personas</option></select>";
     }
-    var ops = ['<option value="">Sin asignar</option>'].concat(
+    return '<select data-asignar="' + esc(id) + '" class="campo w-full ' +
+      'max-w-[220px]"' + (soloLectura ? " disabled" : "") +
+      '><option value="">Sin asignar</option>' +
       (asig.personas || []).map(function (p) {
         return '<option value="' + esc(p.id_sprint) + '"' +
-          (d.responsable === p.id_sprint ? " selected" : "") + ">" +
-          esc(p.nombre) + (p.rol ? " · " + esc(p.rol) : "") + "</option>";
-      }));
-    return '<div class="asig"><span class="mini-et">Responsable</span>' +
-      '<select data-asignar="' + esc(t.id) + '"' + (soloLectura ? " disabled" : "") +
-      ">" + ops.join("") + "</select></div>";
+          (actual === p.id_sprint ? " selected" : "") + ">" + esc(p.nombre) +
+          "</option>";
+      }).join("") + "</select>";
   }
 
   function tarjetaTarea(t, asig) {
-    var d = E.decisiones[t.id];
-    var estado = d ? d.estado : null;
-    var refs = (t.referencias || []).map(function (r) {
-      return '<a class="ref-mini" href="' + esc(r.url) + '" target="_blank" ' +
-        'rel="noopener noreferrer">' + esc(r.tema) + "</a>";
-    }).join("");
-
-    /* Visible: qué es, qué hay que hacer, por qué, y el único aviso que cambia
-       una decisión (el mensaje que la competencia ya paga). Todo lo demás vive
-       detrás de un clic. Seis recuadros por tarjeta convertían tres tarjetas en
-       dieciocho bloques, y eso es lo que se veía amontonado. */
-    var detalle = [];
-    if (t.angulo) {
-      detalle.push('<div class="dato"><span class="mini-et">Ángulo</span><p>' +
-        esc(t.angulo) + "</p></div>");
-    }
-    if (t.instruccion_exacta) {
-      detalle.push('<div class="dato"><span class="mini-et">Instrucción exacta ' +
-        'para quien la aplique</span><p>' + esc(t.instruccion_exacta) + "</p></div>");
-    }
+    var d = E.decisiones[t.id], estado = d ? d.estado : null;
+    var det = [];
+    if (t.angulo) det.push(["Ángulo", esc(t.angulo)]);
+    if (t.instruccion_exacta) det.push(["Instrucción exacta", esc(t.instruccion_exacta)]);
     if (t.tipo !== "pauta") {
-      detalle.push('<div class="dato"><span class="mini-et">Cuántas piezas</span><p>' +
-        (t.piezas != null ? "<b>" + t.piezas + "</b> · " + esc(t.piezas_motivo)
-          : "<b>Lo decide la mesa.</b> " + esc(t.piezas_motivo)) + "</p></div>");
+      det.push(["Cuántas piezas", t.piezas != null
+        ? "<b class=\"text-slate-700\">" + t.piezas + "</b> · " + esc(t.piezas_motivo)
+        : "<b class=\"text-slate-700\">Lo decide la mesa.</b> " + esc(t.piezas_motivo)]);
     }
     if (t.copy) {
-      detalle.push('<div class="dato"><span class="mini-et">Copy</span><p><b>' +
-        esc(t.copy.estado) + ".</b> " + esc(t.copy.motivo) + "</p>" +
-        '<ul class="mini">' + (t.copy.falta || []).map(function (f) {
-          return "<li>" + esc(f) + "</li>"; }).join("") + "</ul>" +
-        '<p class="aclara">Se llena en <code>' + esc(t.copy.donde) +
-        "</code></p></div>");
+      det.push(["Copy", "<b class=\"text-slate-700\">" + esc(t.copy.estado) +
+        ".</b> " + esc(t.copy.motivo) + '<ul class="list-disc pl-5 mt-2 space-y-1">' +
+        (t.copy.falta || []).map(function (f) {
+          return "<li>" + esc(f) + "</li>"; }).join("") + "</ul>"]);
     }
-    if (refs) {
-      detalle.push('<div class="dato"><span class="mini-et">Referencia visual' +
-        '</span><div class="refs">' + refs + "</div></div>");
+    if ((t.referencias || []).length) {
+      det.push(["Referencia visual", (t.referencias).map(function (r) {
+        return '<a href="' + esc(r.url) + '" target="_blank" ' +
+          'rel="noopener noreferrer" class="etiqueta-marca mr-1.5 mb-1.5 ' +
+          'inline-block hover:underline">' + esc(r.tema) + "</a>";
+      }).join("")]);
     }
     if ((t.evidencia || []).length) {
-      detalle.push('<div class="dato"><span class="mini-et">Evidencia</span>' +
-        '<ul class="mini">' + t.evidencia.map(function (e) {
-          return "<li>" + esc(e) + "</li>"; }).join("") + "</ul></div>");
+      det.push(["Evidencia", '<ul class="list-disc pl-5 space-y-1.5">' +
+        t.evidencia.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") +
+        "</ul>"]);
     }
 
-    return '<article class="tarea' + (estado ? " " + estado : "") + '">' +
-      '<div class="tarea-cab"><span class="chip ' + esc(t.tipo) + '">' +
-        esc(t.tipo === "pauta" ? "cambio en pauta" : t.tipo) + "</span>" +
-        (t.requiere_humano ? '<span class="chip alerta">la aplica una persona</span>' : "") +
-        (estado ? '<span class="sello ' + esc(estado) + '">' +
-          (estado === "aceptada" ? "Aceptada" : "Rechazada") + "</span>" : "") +
+    return '<div class="bg-white rounded-3xl p-7 flex flex-col ' +
+      (estado === "aceptada" ? "tarjeta-aceptada"
+        : estado === "rechazada" ? "tarjeta-sombra opacity-60" : "tarjeta-sombra") +
+      '">' +
+      '<div class="flex items-center gap-2 flex-wrap mb-4">' +
+      '<span class="etiqueta-marca">' +
+      esc(t.tipo === "pauta" ? "cambio en pauta" : t.tipo) + "</span>" +
+      (t.requiere_humano ? '<span class="etiqueta-ambar">la aplica una persona' +
+        "</span>" : "") +
+      (estado ? '<span class="ml-auto ' +
+        (estado === "aceptada" ? "etiqueta-verde" : "etiqueta-rojo") + '">' +
+        (estado === "aceptada" ? "Aceptada" : "Rechazada") + "</span>" : "") +
       "</div>" +
-      "<h3>" + esc(t.titulo) + "</h3>" +
-      '<p class="porque">' + esc(t.porque) + "</p>" +
-      (t.no_decir ? '<p class="no-decir-linea"><b>No decir:</b> «' +
-        esc(t.no_decir) + "» — ese terreno ya lo paga la competencia.</p>" : "") +
-      (detalle.length
-        ? '<details class="detalle"><summary>Ver el detalle</summary>' +
-          '<div class="datos">' + detalle.join("") + "</div></details>"
+      '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">' +
+      esc(t.titulo) + "</h3>" +
+      '<p class="text-[13px] text-slate-500 leading-relaxed mb-4 max-w-[56ch]">' +
+      esc(t.porque) + "</p>" +
+      (t.no_decir ? '<div class="bg-rose-50 rounded-2xl px-4 py-3 text-[12.5px] ' +
+        'text-rose-700 leading-relaxed mb-4"><b>No decir:</b> «' + esc(t.no_decir) +
+        "» — ese terreno ya lo paga la competencia.</div>" : "") +
+      (det.length
+        ? '<details class="mb-5"><summary class="text-[12px] font-semibold ' +
+          'text-slate-400 cursor-pointer hover:text-slate-600">Ver el detalle' +
+          '</summary><div class="mt-4 space-y-4">' + det.map(function (p) {
+            return '<div><div class="micro-et">' + esc(p[0]) + "</div>" +
+              '<div class="text-[12.5px] text-slate-500 leading-relaxed">' + p[1] +
+              "</div></div>";
+          }).join("") + "</div></details>"
         : "") +
-      '<div class="tarea-pie">' +
-        '<div class="acciones">' +
-        '<button type="button" class="btn ok' + (estado === "aceptada" ? " on" : "") +
-          '" data-decidir="' + esc(t.id) + '" data-estado="aceptada"' +
-          (soloLectura ? " disabled" : "") + ">" + ico.tic + "Aceptar</button>" +
-        '<button type="button" class="btn no' + (estado === "rechazada" ? " on" : "") +
-          '" data-decidir="' + esc(t.id) + '" data-estado="rechazada"' +
-          (soloLectura ? " disabled" : "") + ">" + ico.x + "Rechazar</button>" +
-        "</div>" +
-        (estado === "aceptada" ? selectorResponsable(t, asig) : "") +
-      "</div></article>";
-  }
-
-  function estrategiaActiva() {
-    var est = D.estrategia || {}, es = est.estrategias || [];
-    if (!es.length) return null;
-    var hay = es.filter(function (e) { return e.id === E.estrategia; })[0];
-    return hay || es.filter(function (e) { return e.recomendada; })[0] || es[0];
-  }
-
-  function selectorEstrategia() {
-    var est = D.estrategia || {}, es = est.estrategias || [];
-    if (!es.length) return "";
-    var act = estrategiaActiva();
-    return '<div class="ests">' + es.map(function (e) {
-      var on = e.id === act.id;
-      return '<article class="est' + (on ? " on" : "") + '">' +
-        '<div class="est-cab">' +
-          (e.recomendada ? '<span class="chip rec">Recomendada por el análisis</span>'
-                         : '<span class="chip gris">Alternativa</span>') +
-          (on ? '<span class="est-marca">' + ico.tic + "Elegida</span>" : "") +
-        "</div>" +
-        "<h3>" + esc(e.nombre) + "</h3>" +
-        '<p class="est-que">' + esc(e.en_pocas_palabras) + "</p>" +
-        '<div class="campo"><span class="mini-et">Por qué es buena idea</span><p>' +
-          esc(e.por_que) + "</p></div>" +
-        '<div class="campo est-no"><span class="mini-et">Cuándo NO conviene</span>' +
-          "<p>" + esc(e.cuando_no_conviene) + "</p></div>" +
-        (e._por_que_recomendada
-          ? '<p class="aclara">' + esc(e._por_que_recomendada) + "</p>" : "") +
-        '<details><summary>Evidencia (' + (e.evidencia || []).length +
-          ')</summary><ul class="mini">' +
-          (e.evidencia || []).map(function (x) { return "<li>" + esc(x) + "</li>"; })
-            .join("") + "</ul></details>" +
-        '<div class="est-pie">' +
-          '<span class="aclara">Activa ' + e.tareas.length +
-            (e.tareas.length === 1 ? " tarea" : " tareas") + " de producción</span>" +
-          (on ? "" : '<button type="button" class="btn chico" data-estrategia="' +
-            esc(e.id) + '"' + (soloLectura ? " disabled" : "") +
-            ">Usar esta</button>") +
-        "</div></article>";
-    }).join("") + "</div>" +
-    '<p class="aclara aviso-linea">Cambiar de estrategia cambia las tareas de ' +
-    "producción que se proponen: una tarea sin una estrategia detrás es una " +
-    "ocurrencia. Las decisiones que ya tomaron sobre una tarea se conservan, y " +
-    "las tareas de configuración de pauta no dependen de la estrategia porque " +
-    "son higiene.</p>";
-  }
-
-  function formNuevaTarea(asig) {
-    var ops = asig.habilitada
-      ? '<label class="np-campo"><span class="mini-et">Responsable</span>' +
-        '<select id="npResp"><option value="">Sin asignar</option>' +
-        (asig.personas || []).map(function (p) {
-          return '<option value="' + esc(p.id_sprint) + '">' + esc(p.nombre) +
-            (p.rol ? " · " + esc(p.rol) : "") + "</option>";
-        }).join("") + "</select></label>"
-      : "";
-    return '<article class="panel nueva-tarea">' +
-      '<div class="nt-cab"><h3>Agregar una idea del equipo</h3>' +
-      '<span class="chip gris">entra directo a aceptadas</span></div>' +
-      '<p class="aclara">Si a la mesa se le ocurre algo mejor que lo que propone ' +
-      "el análisis, va aquí. Queda marcada como idea del equipo: no trae " +
-      "evidencia del sistema, y esa diferencia se conserva para que nadie la lea " +
-      "después como un hallazgo.</p>" +
-      '<div class="np-rejilla">' +
-        '<label class="np-campo np-ancho"><span class="mini-et">Qué hay que hacer</span>' +
-        '<input type="text" id="npTitulo" maxlength="140" ' +
-        'placeholder="Ej. Video del POS en un negocio real de San Salvador"></label>' +
-        '<label class="np-campo np-ancho"><span class="mini-et">En qué consiste y por qué</span>' +
-        '<textarea id="npDetalle" rows="3" maxlength="900" ' +
-        'placeholder="El ángulo, el público, qué debería mostrar…"></textarea></label>' +
-        '<div class="np-campo"><span class="mini-et">Tipo de pieza</span>' +
-          '<div class="seg" id="npTipo">' +
-          '<button type="button" class="seg-b on" data-nptipo="arte">Arte</button>' +
-          '<button type="button" class="seg-b" data-nptipo="video">Video</button>' +
-          "</div></div>" +
-        ops +
-        '<label class="np-campo np-ancho"><span class="mini-et">Links o referencias ' +
-        '(uno por línea)</span><textarea id="npRefs" rows="2" maxlength="900" ' +
-        'placeholder="https://…"></textarea></label>' +
-      "</div>" +
-      '<div class="np-pie">' +
-        '<button type="button" class="btn chico pri" id="npAgregar"' +
-        (soloLectura ? " disabled" : "") + ">Agregar a aceptadas</button>" +
-        (soloLectura ? '<span class="aclara">Esta vista es de solo lectura.</span>'
-                     : "") +
-      "</div></article>";
+      '<div class="mt-auto pt-5 border-t border-slate-50 flex flex-wrap ' +
+      'items-center gap-3 justify-between">' +
+      '<div class="flex gap-2">' +
+      '<button type="button" data-decidir="' + esc(t.id) + '" data-estado="aceptada" ' +
+      'class="' + (estado === "aceptada" ? "btn-verde" : "btn-claro") + '"' +
+      (soloLectura ? " disabled" : "") + ">" + svg(ico.tic, "w-4 h-4") +
+      "Aceptar</button>" +
+      '<button type="button" data-decidir="' + esc(t.id) + '" data-estado="rechazada" ' +
+      'class="' + (estado === "rechazada" ? "btn-rojo" : "btn-claro") + '"' +
+      (soloLectura ? " disabled" : "") + ">" + svg(ico.x, "w-4 h-4") +
+      "Rechazar</button></div>" +
+      (estado === "aceptada"
+        ? selectorResponsable(t.id, d && d.responsable, asig) : "") +
+      "</div></div>";
   }
 
   function tarjetaPropia(t, asig) {
-    var refs = (t.referencias || []).map(function (u) {
-      return '<a class="ref-mini" href="' + esc(u) + '" target="_blank" ' +
-        'rel="noopener noreferrer">' + esc(u.replace(/^https?:\/\//, "").slice(0, 42)) +
-        "</a>";
-    }).join("");
     var estado = t.estado || "aceptada";
-    var sel = "";
-    if (estado === "aceptada") {
-      if (!asig.habilitada) {
-        sel = '<div class="asig bloq"><span class="mini-et">Responsable</span>' +
-          '<select disabled><option>Sin lista de personas</option></select></div>';
-      } else {
-        sel = '<div class="asig"><span class="mini-et">Responsable</span>' +
-          '<select data-asignar-propia="' + esc(t.id) + '"' +
-          (soloLectura ? " disabled" : "") + '><option value="">Sin asignar</option>' +
+    return '<div class="bg-white rounded-3xl p-7 flex flex-col ' +
+      (estado === "aceptada" ? "tarjeta-aceptada" : "tarjeta-sombra opacity-60") +
+      '">' +
+      '<div class="flex items-center gap-2 flex-wrap mb-4">' +
+      '<span class="etiqueta-marca">' + esc(t.tipo) + "</span>" +
+      '<span class="etiqueta-gris">idea del equipo</span>' +
+      '<span class="ml-auto ' +
+      (estado === "aceptada" ? "etiqueta-verde" : "etiqueta-rojo") + '">' +
+      (estado === "aceptada" ? "Aceptada" : "Rechazada") + "</span></div>" +
+      '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">' +
+      esc(t.titulo) + "</h3>" +
+      (t.detalle ? '<p class="text-[13px] text-slate-500 leading-relaxed mb-4">' +
+        esc(t.detalle) + "</p>" : "") +
+      '<div class="bg-slate-50 rounded-2xl px-4 py-3 text-[12px] text-slate-500 ' +
+      'leading-relaxed mb-4"><b class="text-slate-700">Sin evidencia del sistema.' +
+      "</b> La propuso el equipo, no el análisis.</div>" +
+      ((t.referencias || []).length
+        ? '<div class="mb-4 flex flex-wrap gap-1.5">' + t.referencias.map(function (u) {
+            return '<a href="' + esc(u) + '" target="_blank" ' +
+              'rel="noopener noreferrer" class="etiqueta-marca hover:underline">' +
+              esc(u.replace(/^https?:\/\//, "").slice(0, 40)) + "</a>";
+          }).join("") + "</div>"
+        : "") +
+      '<div class="mt-auto pt-5 border-t border-slate-50 flex flex-wrap ' +
+      'items-center gap-3 justify-between">' +
+      '<div class="flex gap-2">' +
+      '<button type="button" data-propia="' + esc(t.id) + '" data-estado="aceptada" ' +
+      'class="' + (estado === "aceptada" ? "btn-verde" : "btn-claro") + '"' +
+      (soloLectura ? " disabled" : "") + ">" + svg(ico.tic, "w-4 h-4") +
+      "Aceptada</button>" +
+      '<button type="button" data-propia="' + esc(t.id) + '" data-estado="rechazada" ' +
+      'class="' + (estado === "rechazada" ? "btn-rojo" : "btn-claro") + '"' +
+      (soloLectura ? " disabled" : "") + ">Rechazar</button>" +
+      '<button type="button" data-borrar="' + esc(t.id) + '" class="btn-claro"' +
+      (soloLectura ? " disabled" : "") + ">Quitar</button></div>" +
+      (estado === "aceptada"
+        ? '<select data-asignar-propia="' + esc(t.id) + '" class="campo w-full ' +
+          'max-w-[220px]"' + (asig.habilitada && !soloLectura ? "" : " disabled") +
+          '><option value="">' + (asig.habilitada ? "Sin asignar"
+            : "Sin lista de personas") + "</option>" +
           (asig.personas || []).map(function (p) {
             return '<option value="' + esc(p.id_sprint) + '"' +
               (t.responsable === p.id_sprint ? " selected" : "") + ">" +
               esc(p.nombre) + "</option>";
-          }).join("") + "</select></div>";
-      }
-    }
-    return '<article class="tarea propia ' + esc(estado) + '">' +
-      '<div class="tarea-cab"><span class="chip ' + esc(t.tipo) + '">' +
-        esc(t.tipo) + '</span><span class="chip gris">idea del equipo</span>' +
-        '<span class="sello ' + esc(estado) + '">' +
-        (estado === "aceptada" ? "Aceptada" : "Rechazada") + "</span></div>" +
-      "<h3>" + esc(t.titulo) + "</h3>" +
-      (t.detalle ? '<p class="porque">' + esc(t.detalle) + "</p>" : "") +
-      '<div class="campo sin-ev"><span class="mini-et">Evidencia</span>' +
-      "<p>Ninguna. La propuso el equipo, no el análisis. Se distingue a propósito " +
-      "de las tareas de arriba, que sí traen el dato que las sostiene.</p></div>" +
-      (refs ? '<div class="campo"><span class="mini-et">Referencias</span>' +
-        '<div class="refs">' + refs + "</div></div>" : "") +
-      '<div class="tarea-pie"><div class="acciones">' +
-        '<button type="button" class="btn chico ok' +
-          (estado === "aceptada" ? " on" : "") + '" data-propia="' + esc(t.id) +
-          '" data-estado="aceptada"' + (soloLectura ? " disabled" : "") + ">" +
-          ico.tic + "Aceptada</button>" +
-        '<button type="button" class="btn chico no' +
-          (estado === "rechazada" ? " on" : "") + '" data-propia="' + esc(t.id) +
-          '" data-estado="rechazada"' + (soloLectura ? " disabled" : "") + ">" +
-          ico.x + "Rechazar</button>" +
-        '<button type="button" class="btn chico" data-borrar="' + esc(t.id) + '"' +
-          (soloLectura ? " disabled" : "") + ">Quitar</button>" +
-      "</div>" + sel + "</div>" +
-      '<p class="aclara">Agregada el ' + esc((t.en || "").slice(0, 10)) + "</p>" +
-      "</article>";
+          }).join("") + "</select>"
+        : "") + "</div></div>";
+  }
+
+  function formNuevaTarea(asig) {
+    return '<div class="bg-white rounded-3xl p-8 tarjeta-sombra">' +
+      '<div class="flex items-center gap-3 flex-wrap mb-2">' +
+      '<h3 class="text-[16px] font-bold text-slate-800">Agregar una idea del ' +
+      'equipo</h3><span class="etiqueta-gris">entra directo a aceptadas</span></div>' +
+      '<p class="text-[12.5px] text-slate-400 leading-relaxed mb-6 max-w-[70ch]">' +
+      "Si a la mesa se le ocurre algo mejor que lo que propone el análisis, va " +
+      "aquí. Queda marcada como idea del equipo: no trae evidencia del sistema, y " +
+      "esa diferencia se conserva.</p>" +
+      '<div class="grid gap-5 [grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr))]">' +
+      '<label class="block [grid-column:1/-1]"><span class="micro-et">Qué hay que ' +
+      'hacer</span><input type="text" id="npTitulo" maxlength="140" class="campo" ' +
+      'placeholder="Ej. Video del POS en un negocio real de San Salvador"></label>' +
+      '<label class="block [grid-column:1/-1]"><span class="micro-et">En qué ' +
+      'consiste y por qué</span><textarea id="npDetalle" rows="3" maxlength="900" ' +
+      'class="campo" placeholder="El ángulo, el público, qué debería mostrar…">' +
+      "</textarea></label>" +
+      '<div><span class="micro-et">Tipo de pieza</span>' +
+      '<div class="inline-flex bg-slate-50 rounded-full p-1" id="npTipo">' +
+      '<button type="button" data-nptipo="arte" class="np-tipo on">Arte</button>' +
+      '<button type="button" data-nptipo="video" class="np-tipo">Video</button>' +
+      "</div></div>" +
+      (asig.habilitada
+        ? '<label class="block"><span class="micro-et">Responsable</span>' +
+          '<select id="npResp" class="campo"><option value="">Sin asignar</option>' +
+          (asig.personas || []).map(function (p) {
+            return '<option value="' + esc(p.id_sprint) + '">' + esc(p.nombre) +
+              "</option>";
+          }).join("") + "</select></label>"
+        : "") +
+      '<label class="block [grid-column:1/-1]"><span class="micro-et">Links o ' +
+      'referencias (uno por línea)</span><textarea id="npRefs" rows="2" ' +
+      'maxlength="900" class="campo" placeholder="https://…"></textarea></label>' +
+      "</div>" +
+      '<div class="mt-6 flex items-center gap-4 flex-wrap">' +
+      '<button type="button" id="npAgregar" class="btn-oscuro"' +
+      (soloLectura ? " disabled" : "") + ">Agregar a aceptadas</button>" +
+      (soloLectura ? '<span class="text-[12px] text-slate-400">Esta vista es de ' +
+        "solo lectura.</span>" : "") + "</div></div>";
   }
 
   function estrategia() {
     var est = D.estrategia;
-    if (!est) return '<section id="estrategia"><div class="cab"><h2>Estrategia</h2>' +
-      "</div><div class=\"hueco\">Sin propuesta de estrategia en esta corrida.</div></section>";
-    var asig = est.asignacion || {};
-    var ts = est.tareas || [];
-    var act = estrategiaActiva();
-
-    var visibles = ts.filter(function (t) {
-      if (t.siempre) return true;
-      if (!act) return true;
-      return (t.estrategias || []).indexOf(act.id) >= 0;
+    if (!est) return seccion("estrategia", "Para decidir", "Estrategia", "", "",
+      nota("Sin propuesta de estrategia en esta corrida."));
+    var asig = est.asignacion || {}, act = estrategiaActiva();
+    var vis = tareasVisibles().filter(function (t) {
+      return coincide(t.titulo, t.porque, t.angulo, t.instruccion_exacta);
     });
-    var creativas = visibles.filter(function (t) { return t.tipo !== "pauta"; });
-    var pauta = visibles.filter(function (t) { return t.tipo === "pauta"; });
+    var creativas = vis.filter(function (t) { return t.tipo !== "pauta"; });
+    var pauta = vis.filter(function (t) { return t.tipo === "pauta"; });
     var propias = Object.keys(E.propias).map(function (k) { return E.propias[k]; })
+      .filter(function (t) { return coincide(t.titulo, t.detalle); })
       .sort(function (a, b) { return (a.en || "") < (b.en || "") ? 1 : -1; });
 
-    var flujo = '<div class="panel flujo"><h3>Qué pasa cuando aceptas una tarea</h3>' +
-      "<p>" + esc(asig._flujo || "") + "</p>" +
-      (!asig.habilitada
-        ? '<div class="bloqueo"><b>La asignación a Sprint está apagada.</b>' +
-          "<p>" + esc(asig.motivo_bloqueo || "") + "</p>" +
-          (asig._como_desbloquear
-            ? '<ol class="mini">' + asig._como_desbloquear.map(function (p) {
-                return "<li>" + esc(p) + "</li>"; }).join("") + "</ol>" : "") +
-          "</div>"
-        : "") + "</div>";
+    var G = '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">';
 
-    return '<section id="estrategia">' +
-      cabecera("Para decidir", "Estrategia",
-        "Primero la apuesta, después las tareas. El sistema propone la que su " +
-        "premisa sostiene mejor y dice cuándo no conviene; elegir es de la mesa.",
-        '<div class="acciones-masa">' +
-        '<button type="button" class="btn chico pri" id="bTodas">Aceptar todas</button>' +
-        '<button type="button" class="btn chico" id="bNada">Limpiar</button>' +
-        "</div>") +
+    return seccion("estrategia", "Para decidir", "Estrategia",
+      "Primero la apuesta, después las tareas. El sistema propone la que su " +
+      "premisa sostiene mejor; elegir es de la mesa.",
+      '<div class="flex gap-2 flex-wrap">' +
+      '<button type="button" id="bTodas" class="btn-oscuro"' +
+      (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
+      '<button type="button" id="bNada" class="btn-claro"' +
+      (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
       selectorEstrategia() +
-      subcab("Producción creativa · " + creativas.length,
-        "Cada tarea sale de un dato medido y trae su evidencia." +
-        (act ? " Estas son las que activa <b>" + esc(act.nombre) + "</b>." : "")) +
-      '<div class="nota-flujo"><b>Aceptar registra la decisión aquí; las tareas ' +
-      "se crean en Sprint en un segundo paso.</b> Esta página vive en un " +
-      "navegador y no puede llamar a Zoho — y si pudiera, necesitaría " +
-      "credenciales que no deben viajar en una página que se comparte. " +
-      "Cuando terminen de decidir, arriba hay dos botones: " +
-      "<b>Copiar para Sprint</b> da un CSV que se pega en un archivo y se sube " +
-      "en <i>Backlog → Importar</i> (no necesita nada más), y " +
-      "<b>Copiar decisiones</b> da el JSON para la creación automática por " +
-      "API.</div>" +
+      nota("<b class=\"text-slate-700 font-semibold\">Aceptar registra la decisión " +
+        "aquí; las tareas se crean en Sprint en un segundo paso.</b> Esta página " +
+        "vive en un navegador y no puede llamar a Zoho. Cuando terminen de decidir, " +
+        "<b class=\"text-slate-700 font-semibold\">Copiar para Sprint</b> da un CSV " +
+        "que se sube en <i>Configuración → Imports → Ítems de trabajo</i>. Zoho " +
+        "mapea las siete columnas solo.") +
+      '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
+      "Producción creativa · " + creativas.length + "</h3>" +
+      '<p class="text-[12.5px] text-slate-400 mb-6 max-w-[62ch] leading-relaxed">' +
+      "Cada tarea sale de un dato medido y trae su evidencia." +
+      (act ? " Estas son las que activa <b class=\"text-slate-600 font-semibold\">" +
+        esc(act.nombre) + "</b>." : "") + "</p>" +
       (creativas.length
-        ? '<div class="grid2 tareas">' + creativas.map(function (t) {
-            return tarjetaTarea(t, asig); }).join("") + "</div>"
-        : '<div class="hueco">Esta estrategia no activa tareas de producción en ' +
-          "esta corrida.</div>") +
-      subcab("Ideas del equipo · " + propias.length,
-        "Lo que propone la mesa. Se guarda aparte porque no trae evidencia del " +
-        "sistema, y esa diferencia importa la semana que viene.") +
+        ? G + creativas.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
+          "</div>"
+        : nota(buscando()
+            ? "Ninguna tarea de producción coincide con la búsqueda."
+            : "Esta estrategia no activa tareas de producción en esta corrida.")) +
+      '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
+      "Ideas del equipo · " + propias.length + "</h3>" +
+      '<p class="text-[12.5px] text-slate-400 mb-6">Lo que propone la mesa.</p>' +
       formNuevaTarea(asig) +
       (propias.length
-        ? '<div class="grid2 tareas">' + propias.map(function (t) {
-            return tarjetaPropia(t, asig); }).join("") + "</div>"
+        ? '<div class="mt-6">' + G +
+          propias.map(function (t) { return tarjetaPropia(t, asig); }).join("") +
+          "</div></div>"
         : "") +
       (pauta.length
-        ? subcab("Cambios en Meta Ads · " + pauta.length,
-            "<b>El sistema no ejecuta ninguno.</b> Meta Ads es de solo lectura, " +
-            "así que cada cambio sale escrito para que una persona lo aplique.") +
-          '<div class="grid2 tareas">' + pauta.map(function (t) {
-            return tarjetaTarea(t, asig); }).join("") + "</div>"
+        ? '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
+          "Cambios en Meta Ads · " + pauta.length + "</h3>" +
+          '<p class="text-[12.5px] text-slate-400 mb-6 max-w-[62ch] leading-relaxed">' +
+          "<b class=\"text-slate-600 font-semibold\">El sistema no ejecuta " +
+          "ninguno.</b> Meta Ads es de solo lectura, así que cada cambio sale " +
+          "escrito para que una persona lo aplique.</p>" +
+          G + pauta.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
+          "</div>"
         : "") +
-      flujo +
-      limites("Los límites de esta sección", est.limites || []) + "</section>";
+      (!asig.habilitada
+        ? '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mt-6 ' +
+          'ring-1 ring-amber-100">' +
+          '<h3 class="text-[15px] font-bold text-slate-800 mb-3">La asignación a ' +
+          'Sprint está apagada</h3>' +
+          '<p class="text-[12.5px] text-slate-500 leading-relaxed mb-4">' +
+          esc(asig.motivo_bloqueo || "") + "</p>" +
+          (asig._como_desbloquear
+            ? '<ol class="text-[12px] text-slate-500 leading-relaxed list-decimal ' +
+              'pl-5 space-y-2">' + asig._como_desbloquear.map(function (p) {
+                return "<li>" + esc(p) + "</li>"; }).join("") + "</ol>"
+            : "") + "</div>"
+        : "") +
+      plegado("Los límites de esta sección", est.limites || []));
+  }
+  /* -- 6 · Pie: la trazabilidad ------------------------------------------- */
+
+  /* No es decoracion. La definicion de terminado del proyecto exige que la
+     salida sea trazable hasta las consultas de origen, y que los huecos se
+     declaren en vez de rellenarse. Van al final porque no se leen primero,
+     pero van. */
+  function pie() {
+    var c = D.corrida || {}, ig = D.integridad || {};
+    var hu = D.huecos_declarados || [];
+    var ex = ig.mercados_excluidos_con_gasto || {};
+    var exl = Object.keys(ex).map(function (k) {
+      return { que: k + " excluido", detalle: ex[k].motivo_de_exclusion,
+               impacto: "Gasto detectado: " + dinero(ex[k].gasto) + " en " +
+                        (ex[k].campanas || []).join(", ") + ".",
+               remedio: ex[k].accion_pendiente };
+    });
+
+    return '<footer class="mt-4 mb-6">' +
+      '<div class="bg-white rounded-3xl p-8 tarjeta-sombra">' +
+      '<div class="grid gap-7 [grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr))]">' +
+      [["Periodo leído", esc(c.rango || "—")],
+       ["Consultado el", esc(c.hoy || "—")],
+       ["Campañas leídas", ent(ig.campanas_leidas)],
+       ["Redes en el informe", "Facebook · Instagram · YouTube"]].map(function (p) {
+        return '<div><div class="micro-et">' + p[0] + "</div>" +
+          '<div class="text-[13.5px] font-semibold text-slate-700">' + p[1] +
+          "</div></div>";
+      }).join("") + "</div>" +
+      '<p class="text-[12px] text-slate-400 leading-relaxed mt-7 pt-6 ' +
+      'border-t border-slate-50 max-w-[80ch]">' +
+      "Todo número de esta página sale de una consulta a la API de Meta Ads, a la " +
+      "Meta Ad Library o a Zoho Social en las fechas de arriba. " +
+      "<b class=\"text-slate-600 font-semibold\">Donde no hubo dato no se puso un " +
+      "cero</b>: se dice que falta y por qué. Un reporte con un número inventado " +
+      "es peor que un reporte que no se generó.</p>" +
+      plegado("Huecos declarados de la corrida", hu.concat(exl)) +
+      "</footer>";
   }
 
-  /* ═════════════ armado ═════════════ */
+  /* ============ pintado ============ */
 
-  function huecos() {
-    var h = D.huecos_declarados || [];
-    if (!h.length) return "";
-    return limites("Lo que esta corrida no incluye", h);
+  /* Que seccion resalta el rail. La calcula un IntersectionObserver, y se
+     guarda fuera de V porque no es una preferencia que valga la pena
+     persistir: es donde esta el scroll ahora mismo. */
+  var seccionVisible = "resumen";
+  var observador = null;
+
+  /* Un <details> abierto es trabajo del lector: lo abrio para leer algo. Si un
+     repintado lo cierra, la pagina le quita de las manos lo que estaba
+     leyendo. Se identifican por el texto de su resumen mas su ordinal, no por
+     indice global, para que agregar una tarjeta arriba no descoloque a las de
+     abajo. */
+  function estadoDetalles() {
+    var m = {}, n = {};
+    Array.prototype.forEach.call(
+      document.querySelectorAll("#raiz details"), function (d) {
+        var s = d.querySelector("summary");
+        var k = (s ? s.textContent : "?").trim();
+        n[k] = (n[k] || 0) + 1;
+        m[k + " " + n[k]] = d.open;
+      });
+    return m;
+  }
+  function restauraDetalles(m) {
+    var n = {};
+    Array.prototype.forEach.call(
+      document.querySelectorAll("#raiz details"), function (d) {
+        var s = d.querySelector("summary");
+        var k = (s ? s.textContent : "?").trim();
+        n[k] = (n[k] || 0) + 1;
+        var v = m[k + " " + n[k]];
+        if (v !== undefined) d.open = v;
+      });
   }
 
-  function cuerpo() {
-    return '<div class="app">' + lateral() + '<main class="principal">' +
-      (soloLectura ? '<div class="lectura">Estás viendo esta página en <b>modo ' +
-        "lectura</b>. Puedes revisar todo; las decisiones las registra quien tiene " +
-        "permiso de escritura.</div>" : "") +
-      barra() + resumen() + rendimiento() + competencia() + referencias() +
-      estrategia() + huecos() +
-      '<footer class="pieP">Cada cifra de esta página es trazable hasta la consulta ' +
-      "que la produjo. Las respuestas crudas de las APIs quedan guardadas sin editar " +
-      "en <code>data/historico/</code> junto a la corrida, para que cualquiera pueda " +
-      "verificar de dónde salió un número.</footer>" +
-      '</main></div><div class="toast" id="toast" role="status"></div>';
-  }
+  function pintar(preservar) {
+    var det = preservar ? estadoDetalles() : null;
+    var y = preservar ? window.scrollY : 0;
+    var act = document.activeElement;
+    var idFoco = preservar && act && act.id ? act.id : null;
+    var cursor = null;
+    if (idFoco) { try { cursor = act.selectionStart; } catch (e) {} }
 
-  /* ═════════════ interacción ═════════════ */
+    raiz().innerHTML =
+      rail() +
+      '<main class="md:ml-[76px] pb-28 md:pb-0">' +
+      '<div class="mx-auto w-full max-w-[1240px] px-5 sm:px-7 md:px-10 ' +
+      'py-9 md:py-12">' +
+      encabezado() + resumen() + rendimiento() + competencia() +
+      referencias() + estrategia() + pie() +
+      "</div></main>";
 
-  function avisar(txt) {
-    var t = document.getElementById("toast");
-    if (!t) return;
-    t.textContent = txt; t.classList.add("ver");
-    clearTimeout(avisar._t);
-    avisar._t = setTimeout(function () { t.classList.remove("ver"); }, 2600);
-  }
-
-  /* Se renderiza en un contenedor propio, NUNCA reemplazando todo el body.
-     Cuando la página se publica como fragmento, el <style> y el <link> de
-     fuentes viven dentro del body: hacer body.innerHTML = ... los destruía y
-     la página quedaba sin una sola línea de CSS. Pasó, y así no puede volver
-     a pasar. */
-  function raiz() {
-    var r = document.getElementById("raiz");
-    if (!r) {
-      r = document.createElement("div");
-      r.id = "raiz";
-      document.body.appendChild(r);
-    }
-    return r;
-  }
-
-  function pintar(anclaje) {
-    var y = anclaje ? window.scrollY : null;
-    raiz().innerHTML = cuerpo();
-    if (temaManual) document.documentElement.setAttribute("data-theme", temaManual);
-    conectar();
-    if (y != null) window.scrollTo(0, y);
-  }
-
-  function conectarGraficos() {
-    raiz().querySelectorAll("[data-graf]").forEach(function (nodo) {
-      var cfg;
-      try { cfg = JSON.parse(nodo.dataset.graf); } catch (e) { return; }
-      var G = cfg.geo, n = cfg.semanas.length;
-      var svg = nodo.querySelector("svg");
-      var caza = nodo.querySelector('[id$="-caza"]');
-      var cruz = nodo.querySelector('[id$="-cruz"]');
-      var tip = nodo.querySelector(".g-tip");
-      if (!svg || !caza || !cruz || !tip) return;
-
-      var px = function (i) {
-        return G.iz + (n === 1 ? 0 : i * (G.w - G.iz - G.de) / (n - 1));
-      };
-      var indice = function (ev) {
-        var r = svg.getBoundingClientRect();
-        var x = (ev.clientX - r.left) / r.width * G.w;
-        var mejor = 0, dmin = Infinity;
-        for (var i = 0; i < n; i++) {
-          var d = Math.abs(px(i) - x);
-          if (d < dmin) { dmin = d; mejor = i; }
+    if (det) restauraDetalles(det);
+    conectarGraficos();
+    observa();
+    if (preservar) {
+      window.scrollTo(0, y);
+      if (idFoco) {
+        var n = document.getElementById(idFoco);
+        if (n && n.focus) {
+          n.focus();
+          if (cursor != null && n.setSelectionRange) {
+            try { n.setSelectionRange(cursor, cursor); } catch (e) {}
+          }
         }
-        return mejor;
-      };
-      var mostrar = function (ev) {
-        var i = indice(ev);
-        var x = px(i);
-        cruz.setAttribute("x1", x); cruz.setAttribute("x2", x);
-        cruz.style.opacity = "1";
-        tip.innerHTML = '<b>Semana del ' + esc(cfg.semanas[i]) + "</b>" +
-          cfg.series.map(function (s) {
-            var v = s.v[i];
-            return '<span><i style="background:' + s.c + '"></i>' + esc(s.n) +
-              "<b>" + (v == null ? "sin muestra" : ent(v)) + "</b></span>";
-          }).join("");
-        /* El tooltip se ancla en la esquina OPUESTA al cursor. Centrado sobre
-           el punto tapaba justamente la curva que se está leyendo. */
-        var derecha = i > (n - 1) / 2;
-        tip.classList.toggle("izq", derecha);
-        tip.classList.toggle("der", !derecha);
-        tip.classList.add("ver");
-      };
-      var ocultar = function () {
-        cruz.style.opacity = "0"; tip.classList.remove("ver");
-      };
-      caza.addEventListener("pointermove", mostrar);
-      caza.addEventListener("pointerdown", mostrar);
-      caza.addEventListener("pointerleave", ocultar);
-      nodo.addEventListener("pointerleave", ocultar);
+      }
+    }
+  }
+
+  function observa() {
+    if (observador) observador.disconnect();
+    if (typeof IntersectionObserver !== "function") return;
+    observador = new IntersectionObserver(function (entradas) {
+      var mejor = null;
+      entradas.forEach(function (e) {
+        if (e.isIntersecting &&
+            (!mejor || e.intersectionRatio > mejor.intersectionRatio)) mejor = e;
+      });
+      if (!mejor) return;
+      var id = mejor.target.id;
+      if (id === seccionVisible) return;
+      seccionVisible = id;
+      /* Se reemplaza SOLO el rail. Repintar todo por un scroll cerraria los
+         <details> abiertos y sacaria el foco del buscador en cada rueda del
+         raton. */
+      var viejo = document.querySelector("[data-rail-nav]");
+      if (viejo) {
+        var tmp = document.createElement("div");
+        tmp.innerHTML = rail();
+        viejo.parentNode.replaceChild(tmp.firstChild, viejo);
+      }
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.01, 0.5] });
+    SECCIONES.forEach(function (s) {
+      var n = document.getElementById(s.id);
+      if (n) observador.observe(n);
     });
   }
+
+  /* ============ graficas: cruz y globo ============ */
+
+  /* El globo se ancla en la esquina OPUESTA al cursor. Si va siempre al mismo
+     lado, tapa justo el tramo de curva que la persona esta mirando. */
+  function conectarGraficos() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll("#raiz .graf"), function (g) {
+        var cfg;
+        try { cfg = JSON.parse(g.getAttribute("data-graf")); } catch (e) { return; }
+        var id = g.id, G = cfg.geo, n = cfg.semanas.length;
+        var caza = document.getElementById(id + "-caza");
+        var cruz = document.getElementById(id + "-cruz");
+        var tip = document.getElementById(id + "-tip");
+        if (!caza || !cruz || !tip) return;
+        var lienzo = g.querySelector("svg");
+
+        function indice(clienteX) {
+          var r = lienzo.getBoundingClientRect();
+          if (!r.width || n === 1) return 0;
+          var x = (clienteX - r.left) / r.width * G.w;
+          var paso = (G.w - G.iz - G.de) / (n - 1);
+          var i = Math.round((x - G.iz) / paso);
+          return Math.max(0, Math.min(n - 1, i));
+        }
+
+        function muestra(ev) {
+          var i = indice(ev.clientX);
+          var paso = n === 1 ? 0 : (G.w - G.iz - G.de) / (n - 1);
+          var xs = G.iz + i * paso;
+          cruz.setAttribute("x1", xs); cruz.setAttribute("x2", xs);
+          cruz.style.opacity = "1";
+
+          var lineas = cfg.series.map(function (s) {
+            var v = s.v[i];
+            return '<div class="flex items-center gap-2.5 mt-1.5">' +
+              '<i class="w-2 h-2 rounded-full shrink-0" style="background:' +
+              s.c + '"></i><span class="text-slate-400">' + esc(s.n) +
+              '</span><b class="ml-auto tabular-nums text-slate-800">' +
+              (v == null ? "sin muestra" : ent(v)) + "</b></div>";
+          }).join("");
+          tip.innerHTML = '<div class="font-bold text-slate-800">' +
+            esc(cfg.semanas[i]) + "</div>" + lineas;
+
+          var r = lienzo.getBoundingClientRect();
+          var rel = r.width ? (ev.clientX - r.left) / r.width : 0;
+          tip.style.left = rel > 0.5 ? "10px" : "auto";
+          tip.style.right = rel > 0.5 ? "auto" : "10px";
+          tip.style.opacity = "1";
+        }
+        function oculta() { cruz.style.opacity = "0"; tip.style.opacity = "0"; }
+
+        caza.addEventListener("mousemove", muestra);
+        caza.addEventListener("mouseleave", oculta);
+        caza.addEventListener("touchstart", function (ev) {
+          if (ev.touches[0]) muestra(ev.touches[0]);
+        }, { passive: true });
+        caza.addEventListener("touchmove", function (ev) {
+          if (ev.touches[0]) muestra(ev.touches[0]);
+        }, { passive: true });
+        caza.addEventListener("touchend", oculta);
+      });
+  }
+
+  /* ============ busqueda ============ */
+
+  /* Filtra las tres listas largas: campanas, marcas y tareas. Un buscador que
+     no busca seria adorno, y la barra de arriba es demasiado prominente para
+     ser adorno. */
+  function coincide() {
+    var q = (V.busqueda || "").trim().toLowerCase();
+    if (!q) return true;
+    var s = Array.prototype.slice.call(arguments)
+      .filter(function (x) { return x != null; }).join(" ").toLowerCase();
+    return q.split(/\s+/).every(function (t) { return s.indexOf(t) >= 0; });
+  }
+  function buscando() { return (V.busqueda || "").trim().length > 0; }
+
+  /* ============ eventos ============ */
+
+  var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
+    "[data-categoria],[data-estrategia],[data-decidir],[data-propia]," +
+    "[data-borrar],[data-nptipo],#bCsv,#bDecisiones,#bTodas,#bNada," +
+    "#npAgregar,#limpiarBusqueda";
 
   function conectar() {
-    var R = raiz();
-    conectarGraficos();
+    var r = raiz();
 
-    R.querySelectorAll("[data-decidir]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        decidir(b.dataset.decidir, b.dataset.estado);
-      });
-    });
-    R.querySelectorAll("[data-asignar]").forEach(function (s) {
-      s.addEventListener("change", function () {
-        asignar(s.dataset.asignar, s.value || null);
-      });
-    });
-    /* La estrategia elegida SÍ se publica: es decisión de la mesa, no un filtro
-       personal. Un filtro repintaría la página de los demás; esto tiene que
-       repintarla, porque cambia qué tareas se están discutiendo. */
-    R.querySelectorAll("[data-estrategia]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        if (soloLectura) return;
-        E.estrategia = b.dataset.estrategia;
-        persistir("Estrategia cambiada");
-      });
-    });
-    R.querySelectorAll("[data-propia]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        if (soloLectura) return;
-        var t = E.propias[b.dataset.propia];
-        if (!t) return;
-        t.estado = b.dataset.estado;
-        persistir();
-      });
-    });
-    R.querySelectorAll("[data-borrar]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        if (soloLectura) return;
-        delete E.propias[b.dataset.borrar];
-        persistir("Idea quitada");
-      });
-    });
-    R.querySelectorAll("[data-asignar-propia]").forEach(function (sel) {
-      sel.addEventListener("change", function () {
-        if (soloLectura) return;
-        var t = E.propias[sel.dataset.asignarPropia];
-        if (!t) return;
-        t.responsable = sel.value || null;
-        persistir(sel.value ? "Responsable asignado" : "Sin asignar");
-      });
-    });
-    /* El tipo de pieza del formulario es estado LOCAL del formulario, no de la
-       mesa: se guarda en el nodo, no en E, para no publicar cada clic. */
-    R.querySelectorAll("[data-nptipo]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        var caja = b.parentNode;
-        caja.querySelectorAll(".seg-b").forEach(function (o) {
-          o.classList.toggle("on", o === b);
-          o.setAttribute("aria-selected", o === b);
-        });
-      });
-    });
-    var agregar = document.getElementById("npAgregar");
-    if (agregar) agregar.addEventListener("click", nuevaTarea);
-    /* Los filtros no publican: solo repintan para quien mira. */
-    ["mercado", "grupo", "categoria"].forEach(function (campo) {
-      R.querySelectorAll("[data-" + campo + "]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          V[campo] = b.dataset[campo];
-          guardarVista();
-          pintar(true);
-        });
-      });
-    });
+    r.addEventListener("click", function (ev) {
+      if (!ev.target.closest) return;
 
-    var todas = document.getElementById("bTodas");
-    if (todas) todas.addEventListener("click", function () {
-      var a = estrategiaActiva();
-      var ts = (((D.estrategia || {}).tareas) || []).filter(function (t) {
-        return t.siempre || !a || (t.estrategias || []).indexOf(a.id) >= 0;
-      });
-      ts.forEach(function (t) {
-        if (!E.decisiones[t.id]) {
-          E.decisiones[t.id] = { estado: "aceptada", responsable: null,
-                                 en: new Date().toISOString() };
+      /* Navegacion interna primero: el rail y el «Ir a decidir» son anclas. */
+      var a = ev.target.closest("a[href^='#']");
+      if (a) {
+        var idA = (a.getAttribute("href") || "").replace(/^#/, "");
+        var nA = idA && document.getElementById(idA);
+        if (nA) {
+          ev.preventDefault();
+          nA.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
         }
-      });
-      persistir("Todas las tareas quedaron aceptadas");
-    });
-    var nada = document.getElementById("bNada");
-    if (nada) nada.addEventListener("click", function () {
-      E.decisiones = {};
-      persistir("Decisiones borradas");
-    });
-    var tema = document.getElementById("bTema");
-    if (tema) tema.addEventListener("click", function () {
-      var actual = document.documentElement.getAttribute("data-theme");
-      var oscuroSis = window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      temaManual = actual ? (actual === "dark" ? "light" : "dark")
-        : (oscuroSis ? "light" : "dark");
-      document.documentElement.setAttribute("data-theme", temaManual);
-    });
-    var cop = document.getElementById("bCopiar");
-    if (cop) cop.addEventListener("click", copiar);
-    var dec = document.getElementById("bDecisiones");
-    if (dec) dec.addEventListener("click", copiarDecisiones);
-    var csv = document.getElementById("bCsv");
-    if (csv) csv.addEventListener("click", copiarCsv);
+      }
 
-    var secs = SECCIONES.map(function (s) { return document.getElementById(s.id); })
-      .filter(Boolean);
-    if (window.IntersectionObserver && secs.length) {
-      var obs = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          R.querySelectorAll(".nav a").forEach(function (a) {
-            a.classList.toggle("on", a.dataset.sec === e.target.id);
+      var t = ev.target.closest(SELECTOR_CLIC);
+      if (!t) return;
+      var d = t.dataset || {};
+
+      if (d.vertodo) {
+        V.verTodo[d.vertodo] = !V.verTodo[d.vertodo];
+        guardarVista(); pintar(true); return;
+      }
+      if (d.mercado) { V.mercado = d.mercado; guardarVista(); pintar(true); return; }
+      if (d.grupo) { V.grupo = d.grupo; guardarVista(); pintar(true); return; }
+      if (d.categoria) {
+        V.categoria = d.categoria; guardarVista(); pintar(true); return;
+      }
+      if (d.nptipo) {
+        Array.prototype.forEach.call(
+          r.querySelectorAll("#npTipo .np-tipo"), function (b) {
+            b.classList.toggle("on", b.dataset.nptipo === d.nptipo);
           });
+        return;
+      }
+      if (t.id === "limpiarBusqueda") {
+        V.busqueda = ""; guardarVista(); pintar(true); return;
+      }
+      if (t.id === "bCsv") { copiarCsv(); return; }
+      if (t.id === "bDecisiones") { copiarDecisiones(); return; }
+
+      if (soloLectura) { avisar("Esta vista es de solo lectura"); return; }
+
+      if (t.id === "npAgregar") { nuevaTarea(); return; }
+      if (d.estrategia) {
+        E.estrategia = d.estrategia;
+        var e = (((D.estrategia || {}).estrategias) || []).filter(function (x) {
+          return x.id === d.estrategia;
+        })[0];
+        persistir(e ? "Estrategia: " + e.nombre : "Estrategia cambiada");
+        return;
+      }
+      if (d.decidir) { decidir(d.decidir, d.estado); return; }
+      if (d.propia) {
+        var p = E.propias[d.propia];
+        if (p) {
+          p.estado = d.estado;
+          persistir(d.estado === "aceptada" ? "Idea aceptada" : "Idea rechazada");
+        }
+        return;
+      }
+      if (d.borrar) {
+        if (E.propias[d.borrar]) {
+          delete E.propias[d.borrar]; persistir("Idea quitada");
+        }
+        return;
+      }
+      if (t.id === "bTodas") {
+        tareasVisibles().forEach(function (x) {
+          var prev = E.decisiones[x.id];
+          E.decisiones[x.id] = { estado: "aceptada",
+                                 responsable: (prev && prev.responsable) || null,
+                                 en: new Date().toISOString() };
         });
-      }, { rootMargin: "-15% 0px -70% 0px" });
-      secs.forEach(function (s) { obs.observe(s); });
+        persistir("Todas aceptadas"); return;
+      }
+      if (t.id === "bNada") {
+        E.decisiones = {}; persistir("Decisiones limpiadas"); return;
+      }
+    });
+
+    r.addEventListener("change", function (ev) {
+      var s = ev.target;
+      if (!s.dataset) return;
+      if (s.dataset.asignar) { asignar(s.dataset.asignar, s.value || null); return; }
+      if (s.dataset.asignarPropia) {
+        var p = E.propias[s.dataset.asignarPropia];
+        if (p) {
+          p.responsable = s.value || null;
+          persistir(s.value ? "Responsable asignado" : "Sin asignar");
+        }
+      }
+    });
+
+    /* El buscador se repinta con retardo: repintar en cada tecla haria perder
+       el ritmo de escritura en una pagina con seis secciones. */
+    var reloj = null;
+    r.addEventListener("input", function (ev) {
+      if (ev.target.id !== "buscar") return;
+      V.busqueda = ev.target.value;
+      clearTimeout(reloj);
+      reloj = setTimeout(function () { guardarVista(); pintar(true); }, 260);
+    });
+    r.addEventListener("keydown", function (ev) {
+      if (ev.target.id !== "buscar") return;
+      if (ev.key === "Escape") {
+        clearTimeout(reloj);
+        V.busqueda = ""; ev.target.value = ""; guardarVista(); pintar(true);
+      }
+    });
+  }
+
+  function montaToast() {
+    if (document.getElementById("toast")) return;
+    var t = document.createElement("div");
+    t.id = "toast";
+    t.setAttribute("role", "status");
+    t.setAttribute("aria-live", "polite");
+    document.body.appendChild(t);
+  }
+  /* ============ salida hacia Sprint ============ */
+
+  function csvEscapa(v) {
+    v = String(v == null ? "" : v);
+    return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+
+  /* Las columnas y su orden son los que el asistente de importacion de Zoho
+     Sprints mapea solo, verificado en la corrida del 2026-08-28. Cambiar el
+     orden obliga a mapear a mano campo por campo. */
+  var COLUMNAS_CSV = ["Item Name", "Description", "Item Type", "Priority",
+                      "Assignee", "Status", "Tags"];
+
+  function filasParaSprint() {
+    var est = D.estrategia || {}, act = estrategiaActiva();
+    var filas = [];
+    (est.tareas || []).forEach(function (t) {
+      if (!t.siempre && act && (t.estrategias || []).indexOf(act.id) < 0) return;
+      var d = E.decisiones[t.id];
+      if (!d || d.estado !== "aceptada") return;
+      var cuerpo = [t.porque];
+      if (t.angulo) cuerpo.push("\nANGULO: " + t.angulo);
+      if (t.no_decir) cuerpo.push("\nNO DECIR: «" + t.no_decir +
+        "» — ese terreno ya lo paga la competencia.");
+      if (t.instruccion_exacta) cuerpo.push("\nINSTRUCCION: " + t.instruccion_exacta);
+      if ((t.evidencia || []).length) {
+        cuerpo.push("\nEVIDENCIA:\n" + t.evidencia.map(function (e) {
+          return "  - " + e; }).join("\n"));
+      }
+      if (t.copy) cuerpo.push("\nCopy: " + t.copy.estado + " — " + t.copy.motivo);
+      cuerpo.push("\nMesa Creativa · corrida " + ((D.corrida || {}).rango || ""));
+      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
+                  d.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+    });
+    Object.keys(E.propias).forEach(function (k) {
+      var t = E.propias[k];
+      if (t.estado !== "aceptada") return;
+      var cuerpo = [t.detalle || ""];
+      cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
+        "la propuso una persona en la mesa.");
+      if ((t.referencias || []).length) {
+        cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
+          return "  - " + u; }).join("\n"));
+      }
+      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
+                  t.responsable || "", "Open", "mesa-creativa," + t.tipo]);
+    });
+    return filas;
+  }
+
+  /* Se copia al portapapeles en vez de descargar un archivo: el visor de
+     artefactos bloquea toda descarga que inicie la propia pagina. Un boton de
+     descarga aqui no daria error, simplemente no haria nada. */
+  function copiarCsv() {
+    var filas = filasParaSprint();
+    if (!filas.length) { avisar("No hay ninguna tarea aceptada todavía"); return; }
+    var txt = [COLUMNAS_CSV].concat(filas).map(function (f) {
+      return f.map(csvEscapa).join(",");
+    }).join("\r\n");
+    copiar(txt, filas.length + " tarea(s) copiadas · pégalas en un archivo .csv " +
+      "y súbelo en Sprints → Configuración → Imports → Ítems de trabajo");
+  }
+
+  function copiarDecisiones() {
+    var act = estrategiaActiva();
+    var payload = {
+      _para: "python -m modulo1.sprint --corrida <carpeta> --decisiones <este archivo>",
+      _corrida: (D.corrida || {}).rango || null,
+      _copiado: new Date().toISOString(),
+      estrategia: act ? act.id : null,
+      decisiones: E.decisiones,
+      propias: E.propias,
+    };
+    var n = Object.keys(E.decisiones).length + Object.keys(E.propias).length;
+    copiar(JSON.stringify(payload, null, 2), n
+      ? "Decisiones copiadas · " + n + " en total. Pégalas en un .json"
+      : "No hay ninguna decisión todavía; se copió la plantilla vacía");
+  }
+
+  function copiar(txt, exito) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(
+        function () { avisar(exito); },
+        function () { avisar("El navegador no dejó copiar al portapapeles"); });
+      return;
     }
+    avisar("Este navegador no expone el portapapeles");
+  }
+
+  /* ============ decisiones ============ */
+
+  function nuevaTarea() {
+    if (soloLectura) return;
+    var campo = document.getElementById("npTitulo");
+    var tit = ((campo && campo.value) || "").trim();
+    if (!tit) {
+      avisar("Falta escribir qué hay que hacer");
+      if (campo) campo.focus();
+      return;
+    }
+    var det = ((document.getElementById("npDetalle") || {}).value || "").trim();
+    var elegido = document.querySelector("#npTipo .np-tipo.on");
+    var tipo = elegido ? elegido.dataset.nptipo : "arte";
+    var resp = (document.getElementById("npResp") || {}).value || null;
+    /* Solo se guardan enlaces que de verdad lo son. Un texto pegado que no es
+       una URL se convertiria en un enlace roto, y esta pagina existe para no
+       poner delante del equipo cosas que no se pueden verificar. */
+    var crudo = (document.getElementById("npRefs") || {}).value || "";
+    var lineas = crudo.split(/\r?\n/).map(function (x) { return x.trim(); })
+      .filter(function (x) { return x; });
+    var refs = lineas.filter(function (x) { return /^https?:\/\/\S+$/i.test(x); });
+
+    var id = "propia-" + Date.now().toString(36) +
+      Math.random().toString(36).slice(2, 6);
+    E.propias[id] = {
+      id: id, titulo: tit, detalle: det, tipo: tipo,
+      referencias: refs, responsable: resp,
+      estado: "aceptada", en: new Date().toISOString(),
+    };
+    persistir(lineas.length > refs.length
+      ? "Idea agregada · " + (lineas.length - refs.length) +
+        " línea(s) de referencia no eran un enlace y no se guardaron"
+      : "Idea agregada a aceptadas");
   }
 
   function decidir(id, estado) {
@@ -1417,212 +1815,45 @@
     });
   }
 
-  function nuevaTarea() {
-    if (soloLectura) return;
-    var tit = (document.getElementById("npTitulo") || {}).value || "";
-    tit = tit.trim();
-    if (!tit) {
-      avisar("Falta escribir qué hay que hacer");
-      var n = document.getElementById("npTitulo");
-      if (n) n.focus();
-      return;
-    }
-    var det = ((document.getElementById("npDetalle") || {}).value || "").trim();
-    var elegido = document.querySelector("#npTipo .seg-b.on");
-    var tipo = elegido ? elegido.dataset.nptipo : "arte";
-    var resp = (document.getElementById("npResp") || {}).value || null;
-    /* Solo se guardan enlaces que de verdad lo son. Un texto pegado que no es
-       una URL se convertiría en un enlace roto, y esta página existe para no
-       poner delante del equipo cosas que no se pueden verificar. */
-    var refs = ((document.getElementById("npRefs") || {}).value || "")
-      .split(/\r?\n/).map(function (x) { return x.trim(); })
-      .filter(function (x) { return /^https?:\/\/\S+$/i.test(x); });
-    var crudas = ((document.getElementById("npRefs") || {}).value || "")
-      .split(/\r?\n/).filter(function (x) { return x.trim(); }).length;
-
-    var id = "propia-" + Date.now().toString(36) +
-      Math.random().toString(36).slice(2, 6);
-    E.propias[id] = {
-      id: id, titulo: tit, detalle: det, tipo: tipo,
-      referencias: refs, responsable: resp,
-      estado: "aceptada", en: new Date().toISOString(),
-    };
-    persistir(crudas > refs.length
-      ? "Idea agregada · " + (crudas - refs.length) +
-        " línea(s) de referencia no eran un enlace y no se guardaron"
-      : "Idea agregada a aceptadas");
-  }
-
-  /* El puente entre el tablero y el paso 9.
-
-     El visor del artefacto bloquea cualquier descarga que la propia página
-     inicie, así que un botón de "bajar archivo" sería inerte. El portapapeles sí
-     funciona: se copia el JSON y quien corre la escritura lo pega en un archivo.
-
-     Lo que se copia es SOLO la decisión: qué se aceptó, quién es responsable y
-     con qué estrategia. No se copia el análisis, porque el análisis ya vive en
-     el resultado.json de la corrida y duplicarlo abriría la puerta a que las
-     dos copias se desincronicen. */
-  function copiarDecisiones() {
-    var act = estrategiaActiva();
-    var payload = {
-      _para: "python -m modulo1.sprint --corrida <carpeta> --decisiones <este archivo>",
-      _corrida: (D.corrida || {}).rango || null,
-      _copiado: new Date().toISOString(),
-      estrategia: act ? act.id : null,
-      decisiones: E.decisiones,
-      propias: E.propias,
-    };
-    var txt = JSON.stringify(payload, null, 2);
-    var n = Object.keys(E.decisiones).length + Object.keys(E.propias).length;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(
-        function () {
-          avisar(n
-            ? "Decisiones copiadas · " + n + " en total. Pégalas en un .json"
-            : "No hay ninguna decisión todavía; se copió la plantilla vacía");
-        },
-        function () { avisar("No se pudo copiar"); });
-    } else { avisar("No se pudo copiar"); }
-  }
-
-  /* El camino que NO depende del conector.
-
-     Zoho Sprints importa work items desde un archivo, y el asistente de
-     importación pregunta el proyecto y el sprint — así que este camino no
-     necesita ninguno de los cinco identificadores que tuvieron trabado el paso
-     por API, ni que el conector esté arriba.
-
-     Se copia al portapapeles en vez de descargar porque el visor del artefacto
-     bloquea cualquier descarga que la página inicie. Se pega en un archivo
-     .csv y se sube. */
-  function csvEscapa(v) {
-    v = String(v == null ? "" : v);
-    return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
-  }
-
-  function filasParaSprint() {
-    var est = D.estrategia || {}, act = estrategiaActiva();
-    var filas = [];
-    (est.tareas || []).forEach(function (t) {
-      if (!t.siempre && act && (t.estrategias || []).indexOf(act.id) < 0) return;
-      var d = E.decisiones[t.id];
-      if (!d || d.estado !== "aceptada") return;
-      var cuerpo = [t.porque];
-      if (t.angulo) cuerpo.push("\nANGULO: " + t.angulo);
-      if (t.no_decir) cuerpo.push("\nNO DECIR: «" + t.no_decir +
-        "» — ese terreno ya lo paga la competencia.");
-      if (t.instruccion_exacta) cuerpo.push("\nINSTRUCCION: " + t.instruccion_exacta);
-      if ((t.evidencia || []).length) {
-        cuerpo.push("\nEVIDENCIA:\n" + t.evidencia.map(function (e) {
-          return "  - " + e; }).join("\n"));
-      }
-      if (t.copy) cuerpo.push("\nCopy: " + t.copy.estado + " — " + t.copy.motivo);
-      cuerpo.push("\nMesa Creativa · corrida " + ((D.corrida || {}).rango || ""));
-      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
-                  d.responsable || "", "Open", "mesa-creativa," + t.tipo]);
-    });
-    Object.keys(E.propias).forEach(function (k) {
-      var t = E.propias[k];
-      if (t.estado !== "aceptada") return;
-      var cuerpo = [t.detalle || ""];
-      cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
-        "la propuso una persona en la mesa.");
-      if ((t.referencias || []).length) {
-        cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
-          return "  - " + u; }).join("\n"));
-      }
-      filas.push([t.titulo, cuerpo.join("\n"), "Task", "Medium",
-                  t.responsable || "", "Open", "mesa-creativa," + t.tipo]);
-    });
-    return filas;
-  }
-
-  function copiarCsv() {
-    var filas = filasParaSprint();
-    if (!filas.length) {
-      avisar("No hay ninguna tarea aceptada todavía");
-      return;
-    }
-    var cab = ["Item Name", "Description", "Item Type", "Priority", "Assignee",
-               "Status", "Tags"];
-    var txt = [cab].concat(filas).map(function (f) {
-      return f.map(csvEscapa).join(",");
-    }).join("\r\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(
-        function () {
-          avisar(filas.length + " tarea(s) copiadas · pégalas en un archivo .csv " +
-                 "y súbelo en Sprint → Backlog → Importar");
-        },
-        function () { avisar("No se pudo copiar"); });
-    } else { avisar("No se pudo copiar"); }
-  }
-
-  function copiar() {
-    var c = D.corrida || {}, est = D.estrategia || {};
-    var l = ["Mesa Creativa · " + (c.rango || ""), ""];
-    var L = leadTotal();
-    if (L) {
-      l.push("Pauta: " + ent(L.resultados) + " leads · " + dinero(L.gasto) +
-        " · " + dinero(L.costo_por_resultado) + " por lead");
-    }
-    var rs = D.redes_sociales;
-    if (rs) {
-      l.push("Orgánico: " + ent(rs.totales.interacciones) + " interacciones en " +
-        ent(rs.totales.publicaciones) + " publicaciones");
-    }
-    var act = estrategiaActiva();
-    if (act) {
-      l.push("", "Estrategia elegida: " + act.nombre);
-      l.push("  " + act.en_pocas_palabras);
-    }
-    l.push("");
-    (est.tareas || []).forEach(function (t) {
-      var d = E.decisiones[t.id];
-      var m = d ? (d.estado === "aceptada" ? "[x]" : "[—]") : "[ ]";
-      l.push(m + " " + t.titulo);
-      l.push("    " + t.porque);
-      if (d && d.responsable) l.push("    responsable: " + d.responsable);
-    });
-    var propias = Object.keys(E.propias);
-    if (propias.length) {
-      l.push("", "Ideas del equipo (sin evidencia del sistema):");
-      propias.forEach(function (k) {
-        var t = E.propias[k];
-        l.push((t.estado === "aceptada" ? "[x] " : "[—] ") + "[" + t.tipo + "] " +
-          t.titulo);
-        if (t.detalle) l.push("    " + t.detalle);
-      });
-    }
-    var h = D.huecos_declarados || [];
-    if (h.length) {
-      l.push("", "No incluye:");
-      h.forEach(function (x) { l.push("  - " + x.fuente + ": " + x.descripcion); });
-    }
-    var txt = l.join("\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(
-        function () { avisar("Resumen copiado"); },
-        function () { avisar("No se pudo copiar"); });
-    } else { avisar("No se pudo copiar"); }
-  }
-
-  /* documento() DEBE devolver un documento completo: es lo que exige la
-     capability de auto-publicación. El archivo original en cambio es un
-     fragmento, porque el visor lo envuelve. */
+  /* OJO: aqui SI va un documento completo, con doctype. Es el otro contrato
+     -- el archivo que se publica es un fragmento, este no. */
   function documento() {
     var j = function (o) {
       return JSON.stringify(o).replace(/<\/script/gi, "<\\/script");
     };
     return "<!doctype html>\n<html lang=\"es\">\n<head>\n" + P.head +
-      "\n</head>\n<body>\n" +
+      "\n</head>\n<body>\n<div id=\"raiz\"></div>\n" +
       '<script id="datos" type="application/json">' + j(D) + "<\/script>\n" +
       '<script id="estado" type="application/json">' + j(E) + "<\/script>\n" +
       '<script id="plantilla" type="application/json">' + j(P) + "<\/script>\n" +
       "<script>" + P.app + "<\/script>\n</body>\n</html>";
   }
 
+  /* ============ utilidades del DOM ============ */
+
+  function raiz() {
+    var r = document.getElementById("raiz");
+    if (!r) {
+      r = document.createElement("div");
+      r.id = "raiz";
+      document.body.appendChild(r);
+    }
+    return r;
+  }
+
+  function avisar(txt) {
+    var t = document.getElementById("toast");
+    if (!t) return;
+    t.textContent = txt;
+    t.classList.add("ver");
+    clearTimeout(avisar._t);
+    avisar._t = setTimeout(function () { t.classList.remove("ver"); }, 2800);
+  }
+
+  /* ============ arranque ============ */
+
+  montaToast();
+  conectar();
   pintar();
 
   try {
@@ -1630,8 +1861,10 @@
       value: Object.freeze({ documento: documento }),
       writable: false, configurable: false, enumerable: false
     });
-  } catch (e) { /* entorno que no lo permite: la página funciona igual */ }
+  } catch (e) { /* entorno que no lo permite: la pagina funciona igual */ }
 
+  /* Sin la capacidad `artifact` la pagina sigue siendo util para leer, pero no
+     puede guardar decisiones. Se dice, no se finge. */
   if (window.claude && typeof window.claude.use === "function") {
     window.claude.use("artifact").then(function (a) {
       if (!a) { soloLectura = true; pintar(true); return; }

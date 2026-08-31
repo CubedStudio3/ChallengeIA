@@ -131,21 +131,72 @@ distingue no adorna nada y sobra.
 
 ---
 
-## El principio del CSS: la separación la hace el aire
+## El CSS: Tailwind compilado, no un CDN
 
-`src/modulo1/tablero_estilos.css` tiene casi ningún borde a propósito. Los
-bloques se distinguen porque son blancos sobre un fondo gris muy claro y porque
-hay espacio entre ellos, no porque los rodee una línea.
+El tablero usa **Tailwind CSS**, como lo pidió Mercadeo. Pero **no** carga el
+script de `cdn.tailwindcss.com`. La razón es práctica: el tablero se abre en una
+reunión, y si ese script no baja — red del cliente, bloqueo corporativo, el CDN
+caído — la página no sale «un poco distinta», sale **sin una sola línea de
+CSS**.
 
-Quedan solo dos clases de borde, y las dos se pueden justificar:
+Así que se compila:
 
-1. Los *hairlines* que separan filas de una tabla o de una lista.
-2. Los que marcan un bloque de advertencia, donde el borde es información.
+```bash
+npm install                       # una vez
+node src/modulo1/tablero.js <resultado.json> <salida.html>
+```
 
-Si van a agregar un borde, la pregunta es cuál de esos dos casos es. Un recuadro
-por dato convierte una tarjeta en una reja — ya pasó con los campos de las
-tareas, y por eso ahora se agrupan con un fondo apenas más claro en lugar de un
-marco.
+`tablero.js` corre el compilador de Tailwind sobre `tablero_app.js` y mete el
+CSS resultante dentro del archivo. Son ~24 KB. **Si Tailwind no está instalado,
+el generador falla con un mensaje claro** en vez de escribir un tablero sin
+estilos.
+
+### Dos archivos, dos trabajos
+
+| Archivo | Qué es |
+|---|---|
+| `config/tema.json` | Colores, tipografía y radios. **Esto es lo que edita diseño** |
+| `src/modulo1/tablero_tailwind.css` | Las clases propias (`.btn-oscuro`, `.etiqueta-verde`, `.campo`…) y la capa base |
+| `tailwind.config.js` | Qué archivos escanea Tailwind para saber qué utilidades generar |
+
+### Una trampa al editar `tablero_app.js`
+
+Tailwind encuentra las clases leyendo el archivo como texto. El tablero se pinta
+con `innerHTML`, así que las clases viven dentro de literales de cadena partidos
+en varias líneas. **Al partir una cadena hay que cortar siempre en un espacio.**
+Partir `'rounded-' + '2xl'` deja esa clase sin generar, y el fallo es
+silencioso: no hay error, solo una esquina que dejó de ser redonda.
+
+---
+
+## El principio visual: la separación la hace el aire
+
+No hay bordes sólidos oscuros en ninguna parte. Los bloques se distinguen
+porque son tarjetas blancas sobre un fondo gris muy claro (`#F3F6F8`), con
+esquinas de 24 px y una sombra amplia y difusa
+(`0 4px 20px rgba(0,0,0,.05)`) — nada más.
+
+Quedan solo dos clases de línea, y las dos se pueden justificar:
+
+1. Los *hairlines* que separan filas de una lista (`divide-slate-50`).
+2. El anillo interior que marca una tarjeta elegida o aceptada — ahí el color
+   **es** información, y va acompañado de una etiqueta con el texto del estado,
+   nunca solo del color.
+
+Si van a agregar una línea, la pregunta es cuál de esos dos casos es.
+
+---
+
+## Un solo tema, claro
+
+El tablero se pinta **solo en modo claro**, por petición de Mercadeo
+(2026-08-28). Eso no es descuido: `tema.js` recibe `{ soloClaro: true }`, emite
+únicamente el bloque de modo claro y fija `color-scheme: light`, y el `<body>`
+pinta su fondo explícitamente. Sin esas tres cosas, quien abra la página con el
+sistema en oscuro vería los `<select>` negros sobre tarjetas blancas.
+
+`colores_oscuro` se conserva en `tema.json`: si algún día se quiere el modo
+oscuro de vuelta, es quitar esa opción en `tablero.js`.
 
 ---
 
@@ -156,16 +207,29 @@ HTML:
 
 | Función | Qué dibuja |
 |---|---|
-| `lateral()` | El panel lateral y su navegación |
-| `barra()` | El título y los botones de arriba |
-| `hero()` | El panel grande con el número de la semana |
-| `cifras()` | La fila de tarjetas de cifra |
-| `avisos()` | El bloque de «lo que esta corrida NO incluye» |
-| `decision()` | La zona de tareas y aprobaciones |
-| `rendimiento()` | Los dos paneles de gráficos |
-| `evidencia()` | Las tarjetas de hallazgo |
+| `rail()` | La barra de iconos: columna a la izquierda en escritorio, barra abajo en móvil |
+| `encabezado()` | El saludo, el buscador y los dos botones de copiar |
+| `resumen()` | Sección 1: los cuatro KPI y las tres tarjetas de síntesis |
+| `rendimiento()` | Sección 2: pauta por mercado, campañas y las dos gráficas semanales |
+| `competencia()` | Sección 3: las marcas medidas, con el interruptor competencia/referentes |
+| `referencias()` | Sección 4: el contraste y dónde buscar referencia visual |
+| `estrategia()` | Sección 5: elegir la apuesta, decidir las tareas, agregar ideas |
+| `pie()` | La trazabilidad y los huecos declarados de la corrida |
 
-El orden se arma en `cuerpo()`. Mover una sección es mover una llamada.
+Piezas que reutilizan todas:
+
+| Función | Qué dibuja |
+|---|---|
+| `kpi()` | Tarjeta de cifra grande, con indicador de variación **solo si existe periodo anterior** |
+| `cardCab()` | Encabezado de tarjeta con el «Ver todo» arriba a la derecha |
+| `recorta()` | Corta una lista a 3 o 4 elementos según el estado de «Ver todo» |
+| `fila()` | Fila de lista: avatar circular, nombre, descripción, valor a la derecha |
+| `grafico()` | Área con curva suave, degradado que se desvanece y sin cuadrícula interna |
+| `seccion()` | El marco de una sección: rótulo, título, bajada y control |
+| `pastillas()` | El interruptor de píldoras (mercado, grupo, categoría) |
+| `plegado()` | El bloque «lo que esto no puede decir» |
+
+El orden se arma en `pintar()`. Mover una sección es mover una llamada.
 
 ### Si agregas una sección nueva
 
@@ -186,6 +250,9 @@ No es capricho: cada una de estas cosas está sosteniendo algo.
 | Las etiquetas directas y la separación de 2px entre segmentos de la barra apilada | Son el encoding secundario que hace legible la paleta para alguien con daltonismo. Quitarlas invalida la validación |
 | El bloque «Por qué» de cada tarea | Es la trazabilidad del número. Sin él, el tablero pide confianza en lugar de ofrecer verificación |
 | El aviso de «lo que esta corrida NO incluye» | Es una regla del proyecto, no un adorno: si falta un dato se declara |
+| Que el indicador de variación (`+8.2%`) salga **solo** cuando hay periodo anterior | La especificación de diseño lo pedía en todos los KPI. En pauta no existe corrida previa: ese porcentaje sería inventado, y alguien tomaría una decisión con él |
+| Que la curva use interpolación monótona y no un spline cualquiera | Un spline suave se dispara por encima de un pico y dibuja un máximo que el dato no tiene. Fritsch-Carlson es suave **y** no sobrepasa |
+| Que las listas se recorten a 3 o 4 con «Ver todo» | Es lo que descongestiona la página. Volver a listar todo de golpe deshace el rediseño completo |
 
 ---
 
@@ -202,6 +269,21 @@ node src/modulo1/tablero.js \
 
 Y abrir `/tmp/prueba.html`. Esa corrida tiene datos reales guardados, así que
 lo que ves es lo que verá el equipo.
+
+### Y la prueba en navegador, que no es opcional
+
+```bash
+node .prueba-tablero.js
+```
+
+Abre el tablero en Chromium a 1440, 834 y 390 px, comprueba que no haya
+desborde horizontal ni errores de JavaScript, hace clic en todos los
+interruptores y en el formulario, y deja capturas en `/tmp/capturas`.
+
+Los dos fallos de maquetación más caros de este proyecto los encontró esa
+prueba, no la vista: una tarjeta sola estirada a todo el ancho, y un
+`minmax(400px, 1fr)` que desbordaba en móvil porque 400 px es un **piso**, no
+una sugerencia. A ojo, en una pantalla de escritorio, los dos se veían bien.
 
 Para publicar el cambio al enlace que ya usa el equipo, hay que republicar el
 artefacto sobre la misma URL. Eso lo hace quien es dueño del artefacto.

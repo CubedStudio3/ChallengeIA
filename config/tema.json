@@ -8,18 +8,20 @@
   ],
   "tipografia": {
     "_nota": "Solo se pueden usar fuentes de Google Fonts: es el único host que el visor permite. Siempre dejar una pila de respaldo real.",
-    "titulos": "Plus Jakarta Sans",
-    "cuerpo": "Plus Jakarta Sans",
+    "titulos": "Inter",
+    "cuerpo": "Inter",
     "datos": "IBM Plex Mono",
     "_respaldo_titulos": "-apple-system, 'Segoe UI', system-ui, sans-serif",
     "_respaldo_cuerpo": "-apple-system, 'Segoe UI', system-ui, sans-serif",
     "_respaldo_datos": "ui-monospace, Menlo, monospace",
     "pesos_a_cargar": [
       400,
+      500,
       600,
       700,
       800
-    ]
+    ],
+    "_nota_familia": "Inter por peticion explicita del usuario (2026-08-28): pidio Inter, Roboto o SF Pro para el tablero. Se puede cambiar aqui; el respaldo ya apunta a la fuente del sistema, que en Mac es SF Pro."
   },
   "forma": {
     "_nota": "Radios de esquina y ancho del panel lateral, en pixeles. Radios grandes y bordes casi invisibles son lo que da la sensacion de limpio: la separacion la hace el aire, no la linea.",
@@ -118,5 +120,7 @@
       "#F1EDFE",
       "#1E1836"
     ]
-  }
+  },
+  "_modo_del_tablero": "claro",
+  "_nota_modo": "El tablero se pinta SOLO en modo claro por peticion explicita del usuario (2026-08-28). colores_oscuro se conserva porque el generador puede volver a emitirlo con una linea, pero el tablero no lo usa."
 }

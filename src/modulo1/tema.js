@@ -57,8 +57,17 @@ function pila(fuente, respaldo) {
   return `"${fuente}",${respaldo}`;
 }
 
-/** Devuelve { css, enlaceFuentes } listos para inyectar. */
-function construye(raiz) {
+/**
+ * Devuelve { css, enlaceFuentes } listos para inyectar.
+ *
+ * `opciones.soloClaro` emite UNICAMENTE el bloque de modo claro y fija
+ * color-scheme:light. El tablero lo usa porque el usuario pidio un solo tema
+ * (2026-08-28): asi la pagina se ve igual sin importar si quien la abre tiene
+ * el sistema en oscuro. Sin esa fijacion, los <select> y los <input> los
+ * pintaria el navegador en oscuro sobre tarjetas blancas.
+ */
+function construye(raiz, opciones) {
+  const soloClaro = !!(opciones && opciones.soloClaro);
   const t = JSON.parse(
     fs.readFileSync(path.join(raiz, "config", "tema.json"), "utf8"));
   const f = t.tipografia, forma = t.forma, pal = t.paleta_graficos;
@@ -77,9 +86,18 @@ function construye(raiz) {
   const claro = vars(t.colores_claro, pal, false, ac);
   const oscuro = vars(t.colores_oscuro, pal, true, ac);
 
-  const css = `/* GENERADO desde config/tema.json — no editar aquí.
+  const cabecera = `/* GENERADO desde config/tema.json — no editar aquí.
    Para cambiar el diseño: editar config/tema.json y correr
-   node src/modulo1/valida_tema.js antes de generar. */
+   node src/modulo1/valida_tema.js antes de generar. */`;
+
+  const css = soloClaro
+    ? `${cabecera}
+:root{
+  color-scheme:light;
+${base}
+${claro}
+}`
+    : `${cabecera}
 :root{
 ${base}
 ${claro}

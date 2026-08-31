@@ -1,0 +1,421 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Componentes del tablero.
+
+   Todo lo que se repite y no es una utilidad suelta vive aqui. Los colores
+   salen de las variables que genera config/tema.json (tema.js), no de literales
+   escritos a mano: si el equipo de diseno cambia el violeta de marca, cambia en
+   un solo lugar.
+
+   La UNICA excepcion son los neutros del fondo y del texto, que vienen de la
+   escala `slate` de Tailwind porque el usuario los pidio asi por nombre
+   (fondo #F3F6F8, titulos slate-800, secundarios slate-400). Es una decision
+   suya, no un descuido.
+
+   Tema unico y claro, tambien por peticion del usuario. La pagina se pinta
+   igual sin importar si quien la abre tiene el sistema en oscuro, y por eso el
+   fondo del <body> se pinta explicitamente: el visor pinta su propio fondo
+   detras, y un body transparente le prestaria el tema al anfitrion.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    /* El fondo que pidio el usuario, literal. */
+    background: #f3f6f8;
+    color: #1e293b;
+    font-family: var(--fam-cuerpo);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+  /* Sin bordes solidos oscuros en ninguna parte: la separacion la hace la
+     sombra difusa y el aire. */
+  h1, h2, h3 {
+    font-family: var(--fam-titulo);
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    outline: 2px solid var(--marca);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--marca-suave);
+  }
+  /* El triangulito nativo de <details> no combina con nada de esta pagina. */
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::before {
+    content: "+";
+    display: inline-block;
+    width: 1em;
+    font-weight: 700;
+    opacity: 0.6;
+  }
+  details[open] > summary::before {
+    content: "–";
+  }
+}
+
+@layer components {
+  /* ── Tarjetas ───────────────────────────────────────────────────────────── */
+
+  /* La sombra que pidio el usuario: amplia, difusa, sin borde. */
+  .tarjeta-sombra {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  /* La tarjeta elegida y la aceptada NO se distinguen solo por color: llevan un
+     anillo del color y, en las etiquetas, el texto que dice cual es su estado.
+     Distinguir por color a secas dejaria fuera a quien no lo percibe. */
+  .tarjeta-elegida {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 2px var(--marca);
+  }
+  .tarjeta-aceptada {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 2px var(--bien);
+  }
+
+  /* ── Rail de iconos ─────────────────────────────────────────────────────── */
+
+  /* En movil el rail va abajo y necesita despegarse del contenido que pasa por
+     debajo; en escritorio la columna blanca ya se separa sola. */
+  .rail-borde {
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.06);
+  }
+  @media (min-width: 768px) {
+    .rail-borde {
+      box-shadow: 1px 0 0 rgba(15, 23, 42, 0.05);
+    }
+  }
+
+  /* El nombre de la seccion aparece al pasar el raton. El icono ya lleva
+     aria-label y title, asi que esto es comodidad, no la unica via. */
+  .rail-tip {
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    background: var(--oscuro);
+    color: var(--oscuro-tex);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 11px;
+    border-radius: 9px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.14s ease, transform 0.14s ease;
+    z-index: 40;
+  }
+  .rail-b:hover .rail-tip,
+  .rail-b:focus-visible .rail-tip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  /* Abajo en movil el globo apuntaria fuera de la pantalla. */
+  @media (max-width: 767px) {
+    .rail-tip {
+      display: none;
+    }
+  }
+
+  /* ── Botones ────────────────────────────────────────────────────────────── */
+
+  .btn-oscuro,
+  .btn-claro,
+  .btn-verde,
+  .btn-rojo {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 17px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    border: 0;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease,
+                opacity 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn-oscuro {
+    background: var(--oscuro);
+    color: var(--oscuro-tex);
+  }
+  .btn-oscuro:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+  .btn-claro {
+    background: #fff;
+    color: #475569;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  .btn-claro:hover:not(:disabled) {
+    color: #0f172a;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  }
+  .btn-verde {
+    background: var(--bien);
+    color: #fff;
+  }
+  .btn-rojo {
+    background: var(--alerta);
+    color: #fff;
+  }
+  .btn-oscuro:disabled,
+  .btn-claro:disabled,
+  .btn-verde:disabled,
+  .btn-rojo:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+  }
+
+  /* Segmento de tipo de pieza en el formulario de idea nueva. */
+  .np-tipo {
+    padding: 9px 19px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .np-tipo.on {
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  }
+
+  /* ── Etiquetas ──────────────────────────────────────────────────────────── */
+
+  .etiqueta,
+  .etiqueta-gris,
+  .etiqueta-marca,
+  .etiqueta-verde,
+  .etiqueta-rojo,
+  .etiqueta-ambar {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    border: 0;
+    cursor: default;
+  }
+  .etiqueta,
+  .etiqueta-gris {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+  .etiqueta-marca {
+    background: var(--marca-suave);
+    color: var(--marca-2);
+    cursor: pointer;
+  }
+  .etiqueta-verde {
+    background: var(--bien-suave);
+    color: var(--bien-tex);
+  }
+  .etiqueta-rojo {
+    background: var(--alerta-suave);
+    color: var(--alerta-tex);
+  }
+  .etiqueta-ambar {
+    background: var(--falta-suave);
+    color: var(--falta-tex);
+  }
+
+  /* Rotulo pequeno sobre un dato o un campo. */
+  .micro-et {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 6px;
+  }
+
+  /* ── Campos ─────────────────────────────────────────────────────────────── */
+
+  .campo {
+    display: block;
+    width: 100%;
+    background: #f8fafc;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 15px;
+    font: inherit;
+    font-size: 13.5px;
+    color: #1e293b;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+    transition: box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .campo::placeholder {
+    color: #cbd5e1;
+  }
+  .campo:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: inset 0 0 0 2px var(--marca);
+  }
+  .campo:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  textarea.campo {
+    resize: vertical;
+    min-height: 62px;
+    line-height: 1.55;
+  }
+  select.campo {
+    cursor: pointer;
+  }
+
+  /* ── Enlaces ────────────────────────────────────────────────────────────── */
+
+  .enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--marca);
+    text-decoration: none;
+  }
+  .enlace:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Grafica ────────────────────────────────────────────────────────────── */
+
+  .graf {
+    position: relative;
+  }
+  .g-tick {
+    font-size: 10.5px;
+    font-weight: 600;
+    fill: #94a3b8;
+    font-family: var(--fam-datos);
+  }
+  /* La linea base es lo unico que queda: la cuadricula interna se quito por
+     peticion del usuario. */
+  .g-eje {
+    stroke: #e8edf2;
+    stroke-width: 1;
+  }
+  .g-cruz {
+    stroke: #cbd5e1;
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    transition: opacity 0.1s ease;
+    pointer-events: none;
+  }
+  .g-pto {
+    stroke: #fff;
+    stroke-width: 2;
+  }
+  .g-tip {
+    position: absolute;
+    top: 10px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 11px 14px;
+    font-size: 12px;
+    min-width: 168px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+    z-index: 20;
+  }
+
+  /* ── Aviso flotante ─────────────────────────────────────────────────────── */
+
+  #toast {
+    position: fixed;
+    left: 50%;
+    bottom: 88px;
+    transform: translate(-50%, 14px);
+    background: var(--oscuro);
+    color: var(--oscuro-tex);
+    padding: 13px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    max-width: min(560px, calc(100vw - 32px));
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 60;
+  }
+  #toast.ver {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  @media (min-width: 768px) {
+    #toast {
+      bottom: 28px;
+    }
+  }
+}
+
+/* Impresion: el tablero se lleva a veces impreso a la reunion. Se quita el
+   rail, se despliega todo lo plegado y las sombras se vuelven un borde fino,
+   porque una sombra impresa es una mancha gris. */
+@media print {
+  [data-rail-nav],
+  #toast,
+  .btn-oscuro,
+  .btn-claro,
+  .btn-verde,
+  .btn-rojo,
+  .np-tipo {
+    display: none !important;
+  }
+  main {
+    margin-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  body {
+    background: #fff;
+  }
+  .tarjeta-sombra,
+  .tarjeta-elegida,
+  .tarjeta-aceptada {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0;
+    break-inside: avoid;
+  }
+  details {
+    display: block !important;
+  }
+  details > *:not(summary) {
+    display: revert !important;
+  }
+  details:not([open]) > *:not(summary) {
+    display: block !important;
+  }
+}
