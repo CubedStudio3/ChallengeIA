@@ -286,6 +286,27 @@ cometidos; no hay tiempo de repetirlos.
   piezas pensadas una por una. Distinguir ráfaga de goteo dice si el competidor
   testea o despliega: Paggo sube el 65% de sus creativos en ráfagas.
 
+- **Un límite medido puede ser el límite del USO, no del color.** Se midió que los
+  pasteles no sirven de línea (1.34:1 sobre blanco) y de ahí se concluyó, de más,
+  que la paleta no servía para gráficas. Servía: bajando cada tono a peso de
+  línea los tres pasan 5/5 del validador. Había que cambiar el tono, no la
+  paleta (ADR-034).
+- **Una variable CSS que no existe no avisa.** Al salir el arena desapareció
+  `serie_4`, y el reporte de la Ad Library seguía pidiendo `var(--c4)`: barras
+  sin color, cero errores en consola.
+- **Una clase nueva en una familia de clases hay que darla de alta en los dos
+  lados.** `.etiqueta-sec` tenía su color pero no estaba en el selector de grupo
+  que pone el `display`, el relleno y el radio: salía como texto suelto.
+- **Cuatro píxeles rompen una fila.** Tres tarjetas de 172 px con dos huecos de
+  20 piden 556 y la columna daba 552: la fila se partía en 2+1. Lo vio la prueba
+  en navegador, no la vista.
+- **El patrón de trazo de una serie va atado a su COLOR, no a su posición.** Si
+  no, YouTube sale punteado donde es la tercera serie y continuo donde es la
+  única.
+- **Los adjuntos de la conversación NO aterrizan en el disco de la sesión.**
+  `/mnt/attach` está vacío; la imagen se ve en el mensaje y no hay archivo. Los
+  logos del tablero son redibujos en SVG por eso, y se declara.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -309,7 +330,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `docs/validaciones.md` | Resultado de la Fase 0 (se llena al ejecutar) |
 | `docs/decisiones.md` | Registro de decisiones técnicas (ADR) con su porqué |
 | `docs/linea-base.md` | Mediciones antes/después (pendiente de datos) |
-| `config/tema.json` | **El diseño.** Lo edita el equipo de diseño; no hay que tocar código |
+| `config/tema.json` | **El diseño.** Lo edita el equipo de diseño; no hay que tocar código. Incluye la paleta por sección, los tres pasteles con su tono de línea, y las rutas de los logos |
+| `config/logo.svg`, `config/logos/` | El logo principal y los de las marcas medidas. Redibujos en SVG: para poner el oficial, reemplazar el archivo con el mismo nombre |
 | `config/equipo.json` | Personas y proyecto de Sprint. **Bloqueado** hasta que Mercadeo lo llene |
 | `config/convenciones.json` | Fechas, métricas, mercados y **qué redes entran al reporte** |
 | `src/modulo1/tablero_tailwind.css` | Las clases propias del tablero. El CSS se **compila** con Tailwind; no hay CDN |
