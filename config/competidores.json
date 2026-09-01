@@ -282,5 +282,17 @@
     "_nota": "Rol frente a QPayPro. Son cosas distintas y el tablero las separa: un referente se mira para aprender, un competidor se mide porque disputa el mismo espacio. Square tiene 0 anuncios en GT: tratarlo como competidor seria inventar una amenaza que no existe.",
     "competidor": "Pauta en nuestros mercados y disputa nuestro espacio de mensaje o de publico.",
     "referente": "No disputa nuestros mercados. Se observa como referencia creativa."
+  },
+  "idioma_por_marca": {
+    "_para_que": "Una recomendacion que sale de un referente que anuncia en otro idioma y para otro mercado no se copia al pie de la letra: se copia el mecanismo. El tablero necesita saberlo para poner el aviso, y el idioma NO se adivina del texto —adivinar idioma con heuristicas es como se inventan datos—: se declara aqui, mirando la pagina.",
+    "_clave": "La clave es la del analisis profundo (`_clave_archivo`, o con sufijo de pagina cuando la marca tiene varias). Una marca sin declarar no recibe aviso, y el generador lo avisa en consola.",
+    "_verificado": "2026-09-01 · leyendo los titulares devueltos por la Ad Library",
+    "paggo": "es",
+    "recurrente": "es",
+    "guatepos": "es",
+    "bi": "es",
+    "shopify": "es",
+    "square_us": "en",
+    "square_uk": "en"
   }
 }

@@ -1201,6 +1201,562 @@
       }
     ]
   },
+  "recomendaciones": {
+    "_fuente": "mcp__Meta_MCP__ads_library_search",
+    "_fecha_consulta": "2026-08-31",
+    "_limite": "La Ad Library no publica rendimiento de anunciantes comerciales. Estas recomendaciones dicen DÓNDE APUESTAN las marcas medidas —qué repiten, qué no matan, con qué formato y a qué ritmo—, no qué les funcionó. Es una foto del día de la consulta, no una serie.",
+    "por_marca": [
+      {
+        "clave": "square_us",
+        "page_id": "200925806590732",
+        "idioma": "en",
+        "marca": "Square (US)",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 50,
+        "activos_declarados": 112,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 112 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Square",
+        "mensaje_top_cuota": 0.16,
+        "mensaje_top_dias": 5,
+        "mensajes_distintos": 22,
+        "concentracion": 0.16,
+        "carrusel": 11,
+        "carrusel_cuota": 0.22,
+        "tarjetas_max": 12,
+        "dias_sin_lanzar": 4,
+        "creativos_por_semana": null,
+        "span_dias": 2,
+        "cuota_en_rafaga": 0.3,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 16
+          },
+          {
+            "vertical": "belleza y citas",
+            "anuncios": 11
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 6
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 16,
+          "belleza y citas": 11,
+          "promoción y precio": 6,
+          "cobros y pagos": 6,
+          "punto de venta / hardware": 5,
+          "retail y tienda": 5,
+          "seguridad": 3,
+          "restaurante": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "square_uk",
+        "page_id": "1689602518029813",
+        "idioma": "en",
+        "marca": "Square (UK)",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 50,
+        "activos_declarados": 102,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 102 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Make the smarter choice. Choose Square.",
+        "mensaje_top_cuota": 0.28,
+        "mensaje_top_dias": 6,
+        "mensajes_distintos": 21,
+        "concentracion": 0.28,
+        "carrusel": 20,
+        "carrusel_cuota": 0.4,
+        "tarjetas_max": 20,
+        "dias_sin_lanzar": 6,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.64,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 9
+          },
+          {
+            "vertical": "restaurante",
+            "anuncios": 4
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 4
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 9,
+          "restaurante": 4,
+          "punto de venta / hardware": 4,
+          "retail y tienda": 3,
+          "cobros y pagos": 1
+        },
+        "cobranding_cuota": 0.1
+      },
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 24,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 5,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 50,
+        "activos_declarados": 844,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 844 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Moto en Línea",
+        "mensaje_top_cuota": 0.22,
+        "mensaje_top_dias": 4,
+        "mensajes_distintos": 14,
+        "concentracion": 0.22,
+        "carrusel": 13,
+        "carrusel_cuota": 0.26,
+        "tarjetas_max": 6,
+        "dias_sin_lanzar": 0,
+        "creativos_por_semana": null,
+        "span_dias": 10,
+        "cuota_en_rafaga": 0.28,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 18
+          },
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 14
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2
+          }
+        ],
+        "verticales_todas": {
+          "crédito y financiamiento": 18,
+          "retail y tienda": 14,
+          "promoción y precio": 2,
+          "seguridad": 2,
+          "cobros y pagos": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "paggo",
+        "page_id": "105294361957860",
+        "idioma": "es",
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 43,
+        "activos_declarados": 43,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Gestiona tu Negocio Fácil",
+        "mensaje_top_cuota": 0.837,
+        "mensaje_top_dias": 105,
+        "mensajes_distintos": 4,
+        "concentracion": 0.837,
+        "carrusel": 2,
+        "carrusel_cuota": 0.047,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 4,
+        "creativos_por_semana": 3.0,
+        "span_dias": 101,
+        "cuota_en_rafaga": 0.651,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 7
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 36,
+          "cobros y pagos": 7,
+          "punto de venta / hardware": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "recurrente",
+        "page_id": "100735292254927",
+        "idioma": "es",
+        "marca": "Recurrente",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 12,
+        "activos_declarados": 12,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Recibe pagos con oro digital",
+        "mensaje_top_cuota": 0.583,
+        "mensaje_top_dias": 38,
+        "mensajes_distintos": 2,
+        "concentracion": 0.583,
+        "carrusel": 6,
+        "carrusel_cuota": 0.5,
+        "tarjetas_max": 3,
+        "dias_sin_lanzar": 38,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.333,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 12
+          }
+        ],
+        "verticales_todas": {
+          "cobros y pagos": 12
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "guatepos",
+        "page_id": "593092353887127",
+        "idioma": "es",
+        "marca": "Guatepos",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 3,
+        "activos_declarados": 3,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "api.whatsapp.com",
+        "mensaje_top_cuota": 0.667,
+        "mensaje_top_dias": 17,
+        "mensajes_distintos": 1,
+        "concentracion": 0.667,
+        "carrusel": 0,
+        "carrusel_cuota": 0.0,
+        "tarjetas_max": 1,
+        "dias_sin_lanzar": 17,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0
+      }
+    ],
+    "comparativo": {
+      "referentes": [
+        "Square (US)",
+        "Square (UK)",
+        "Shopify"
+      ],
+      "competidores": [
+        "Banco Industrial",
+        "Paggo Guatemala",
+        "Recurrente",
+        "Guatepos"
+      ],
+      "carrusel": {
+        "referentes": {
+          "carruseles": 40,
+          "anuncios": 116,
+          "cuota": 0.345
+        },
+        "competidores": {
+          "carruseles": 21,
+          "anuncios": 108,
+          "cuota": 0.194
+        }
+      },
+      "concentracion": {
+        "referentes": {
+          "mediana": 0.16,
+          "marcas": 3
+        },
+        "competidores": {
+          "mediana": 0.625,
+          "marcas": 4
+        }
+      },
+      "verticales_referentes": {
+        "gestión del negocio": 28,
+        "belleza y citas": 11,
+        "promoción y precio": 7,
+        "cobros y pagos": 7,
+        "punto de venta / hardware": 9,
+        "retail y tienda": 18,
+        "seguridad": 3,
+        "restaurante": 5
+      },
+      "verticales_competidores": {
+        "crédito y financiamiento": 18,
+        "retail y tienda": 14,
+        "promoción y precio": 2,
+        "seguridad": 2,
+        "cobros y pagos": 20,
+        "gestión del negocio": 36,
+        "punto de venta / hardware": 1
+      },
+      "_como_leer_verticales": "Las verticales salen de clasificar el TITULAR de cada anuncio. Un anuncio cuyo titular no dice a quién le habla queda fuera del conteo en vez de repartirse: es un hueco, no una vertical."
+    },
+    "territorios_ocupados": [
+      {
+        "mensaje": "Gestiona tu Negocio Fácil",
+        "de": "Paggo Guatemala",
+        "cuota": 0.837,
+        "creativos": 36,
+        "dias_vivo": 105,
+        "desde": "2026-05-18",
+        "mercado": "GLOBAL",
+        "sobre": 43
+      },
+      {
+        "mensaje": "Recibe pagos con oro digital",
+        "de": "Recurrente",
+        "cuota": 0.583,
+        "creativos": 7,
+        "dias_vivo": 38,
+        "desde": "2026-07-24",
+        "mercado": "GLOBAL",
+        "sobre": 12
+      }
+    ],
+    "sobrevivientes": [
+      {
+        "marca": "Shopify",
+        "rol": "referente",
+        "mensaje": "Vende más con Shopify",
+        "dias_vivo": 159,
+        "desde": "2026-03-25",
+        "url": "https://www.facebook.com/ads/library/?id=889599310806471"
+      },
+      {
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mensaje": "Gestiona tu Negocio Fácil",
+        "dias_vivo": 105,
+        "desde": "2026-05-18",
+        "url": "https://www.facebook.com/ads/library/?id=26620958677575099"
+      },
+      {
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mensaje": "Cobra y Factura con Paggo",
+        "dias_vivo": 98,
+        "desde": "2026-05-25",
+        "url": "https://www.facebook.com/ads/library/?id=2929068427288049"
+      }
+    ],
+    "recomendaciones": [
+      {
+        "id": "evitar-gestiona-tu-negocio-fácil",
+        "tipo": "evitar",
+        "titulo": "No usar la promesa «Gestiona tu Negocio Fácil»",
+        "que_hacer": "Buscar otra promesa para el mismo producto. Si hay que competir ahí, tiene que ser con un ángulo distinto, no con una versión mejor de la suya.",
+        "porque": "Paggo Guatemala ya es dueña de ese territorio: carga 84% de los 43 anuncios de su inventario global, y lo lleva sosteniendo 105 días.",
+        "evidencia": [
+          "36 de 43 anuncios con ese titular",
+          "84% · universo: consulta global",
+          "vivo desde 2026-05-18 · 105 días"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "evitar-recibe-pagos-con-oro-digital",
+        "tipo": "evitar",
+        "titulo": "No usar la promesa «Recibe pagos con oro digital»",
+        "que_hacer": "Buscar otra promesa para el mismo producto. Si hay que competir ahí, tiene que ser con un ángulo distinto, no con una versión mejor de la suya.",
+        "porque": "Recurrente ya es dueña de ese territorio: carga 58% de los 12 anuncios de su inventario global, y lo lleva sosteniendo 38 días.",
+        "evidencia": [
+          "7 de 12 anuncios con ese titular",
+          "58% · universo: consulta global",
+          "vivo desde 2026-07-24 · 38 días"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "verticales-libres",
+        "tipo": "copiar",
+        "titulo": "Hablarle a un nicho concreto, no a «los negocios»",
+        "que_hacer": "Hacer una pieza por nicho: belleza y citas, restaurante. Un titular que nombra el negocio del que lo lee compite distinto que uno que dice «tu negocio».",
+        "porque": "Los referentes le hablan a verticales que ningún competidor medido está tocando: «belleza y citas» (11), «restaurante» (5).",
+        "evidencia": [
+          "belleza y citas · 11 anuncios de referentes, 0 de competidores",
+          "restaurante · 5 anuncios de referentes, 0 de competidores",
+          "lo trabajan: Square (UK), Square (US)"
+        ],
+        "confianza": "alta",
+        "advertencia": "2 de los 3 referentes medidos anuncian en otro idioma y para otro mercado (Square (US), Square (UK)). Se copia el mecanismo, nunca el texto."
+      },
+      {
+        "id": "formato-carrusel",
+        "tipo": "copiar",
+        "titulo": "Producir en carrusel de varias tarjetas",
+        "que_hacer": "Meter carrusel en la producción de la semana. En los referentes llegan hasta 20 tarjetas, así que hay margen para contar algo por pasos en lugar de una sola imagen.",
+        "porque": "Los referentes usan carrusel casi el doble que los competidores locales: 34% de sus anuncios contra 19%.",
+        "evidencia": [
+          "referentes · 40 de 116 anuncios",
+          "competidores · 21 de 108 anuncios",
+          "el tipo de medio (video o imagen) no lo devuelve la fuente"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      },
+      {
+        "id": "repartir-mensaje",
+        "tipo": "copiar",
+        "titulo": "Repartir el mensaje: que ninguna promesa cargue toda la semana",
+        "que_hacer": "Que la promesa más repetida no pase de 1 de cada 6 piezas producidas, y que cada una apunte a una vertical distinta. Es una cuota, así que aplica igual con capacidad de 5 que de 50.",
+        "porque": "Los referentes reparten y los competidores locales concentran. En un referente el mensaje más repetido carga 16% del inventario — 1 de cada 6 anuncios. En un competidor local, 62%: 5 de cada 8.",
+        "evidencia": [
+          "mediana de concentración · referentes 0.16",
+          "mediana de concentración · competidores 0.625",
+          "3 referentes y 4 competidores medidos"
+        ],
+        "confianza": "alta",
+        "advertencia": "2 de los 3 referentes medidos anuncian en otro idioma y para otro mercado (Square (US), Square (UK)). Se copia el mecanismo, nunca el texto."
+      },
+      {
+        "id": "cadencia-goteo",
+        "tipo": "copiar",
+        "titulo": "Sostener un goteo semanal en vez de una ráfaga y luego nada",
+        "que_hacer": "Repartir la producción de la semana a lo largo de la semana. 0.7 creativos por semana sostenidos mantienen presencia; una carga de golpe la concentra en un día.",
+        "porque": "Shopify mantiene presencia 154 días con 0.7 creativos por semana. Paggo Guatemala sube 65% de sus creativos en lotes del mismo segundo.",
+        "evidencia": [
+          "Shopify · span 154 días, 0.7/semana, 25% en ráfaga",
+          "Paggo Guatemala · 65% en ráfaga"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "sobrevivientes",
+        "tipo": "probar",
+        "titulo": "Leer los 3 titulares que nadie ha retirado",
+        "que_hacer": "Antes de escribir el titular de la semana, leer estos. No para copiarlos: para ver qué forma tiene un titular que su dueño deja pagando más de 90 días.",
+        "porque": "La Ad Library no dice qué funcionó, pero nadie deja vivo 90 días un creativo que no le devuelve nada. Es el sustituto declarado del ranking por impresiones, que no existe para anunciantes comerciales.",
+        "evidencia": [
+          "«Vende más con Shopify» · Shopify · 159 días",
+          "«Gestiona tu Negocio Fácil» · Paggo Guatemala · 105 días",
+          "«Cobra y Factura con Paggo» · Paggo Guatemala · 98 días"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      },
+      {
+        "id": "oferta-con-numero",
+        "tipo": "probar",
+        "titulo": "Probar una oferta con cifra, no un beneficio genérico",
+        "que_hacer": "Una pieza cuyo titular lleve un número concreto — descuento, meses, monto. Es lo único de esta lista que se puede medir contra el resto en una semana.",
+        "porque": "Los referentes tienen 7 anuncios de promoción y precio contra 2 de los competidores locales.",
+        "evidencia": [
+          "referentes · 7 anuncios con oferta",
+          "competidores · 2"
+        ],
+        "confianza": "media",
+        "advertencia": "2 de los 3 referentes medidos anuncian en otro idioma y para otro mercado (Square (US), Square (UK)). Se copia el mecanismo, nunca el texto."
+      },
+      {
+        "id": "ventana-recurrente",
+        "tipo": "probar",
+        "titulo": "Recurrente lleva 38 días sin lanzar nada",
+        "que_hacer": "Si hay algo que se le quiera disputar a Recurrente, esta es la ventana. Verificar antes de producir: la lectura es una foto de un día.",
+        "porque": "Su último creativo nuevo entró hace 38 días. Sus anuncios siguen activos, pero no está produciendo nuevos.",
+        "evidencia": [
+          "último creativo · hace 38 días",
+          "12 anuncios activos leídos",
+          "toda su carga cayó en un solo día"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      }
+    ],
+    "no_respondible": [
+      {
+        "pregunta": "Formatos: video, imagen estática, carrusel y su distribución",
+        "estado": "PARCIAL",
+        "que_si": "Se distingue tarjeta única de carrusel contando los separadores del titular, y se reporta el promedio y el máximo de tarjetas.",
+        "que_no": "Video vs. imagen estática. La API no devuelve ningún campo de tipo de medio para los anuncios de la Ad Library.",
+        "como_se_desbloquearia": "Habría que abrir el `ad_snapshot_url` de cada anuncio y mirarlo. Se intentó: facebook.com está bloqueado por la política de red del entorno, así que desde aquí no hay vía."
+      },
+      {
+        "pregunta": "Partnerships vs. brand ads: los que llevan «with» + handle",
+        "estado": "PARCIAL",
+        "que_si": "Se detecta co-branding en el titular: el patrón «Negocio + Marca» y las historias de un negocio con nombre propio.",
+        "que_no": "El rótulo «with @handle» que identifica a un creador pagado. Vive en el anuncio renderizado, no en los campos de la API. Desde aquí, un caso de cliente y una colaboración pagada son indistinguibles.",
+        "como_se_desbloquearia": "Mismo camino que los formatos: ver el anuncio renderizado."
+      },
+      {
+        "pregunta": "Top 10 anuncios con más impresiones",
+        "estado": "IMPOSIBLE",
+        "que_si": "Un sustituto declarado: el ranking por CANTIDAD DE CREATIVOS que cargan el mismo mensaje, y el ranking por días vivo. Los dos dicen dónde apuesta el anunciante. Ninguno es impresiones.",
+        "que_no": "Impresiones. Meta NO publica métricas de entrega de anunciantes comerciales en la Ad Library — solo los anuncios políticos y de asuntos sociales traen rangos. Es una decisión de Meta, no una limitación del conector, y no hay manera de sortearla.",
+        "como_se_desbloquearia": "No se desbloquea. Ningún permiso ni herramienta lo expone para un anunciante comercial ajeno."
+      }
+    ]
+  },
   "estrategia": {
     "estrategias": [
       {

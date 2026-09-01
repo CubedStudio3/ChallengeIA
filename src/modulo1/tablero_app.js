@@ -131,6 +131,40 @@
      nombre exacto. Una marca sin logo devuelve null y la fila cae en sus
      iniciales: es mejor una inicial honesta que un logo generico, que haria
      parecer medida a una marca que no lo esta. */
+  /* ═════════════ el análisis profundo de la Ad Library ═════════════
+
+     Vive en D.recomendaciones y puede no estar: si la corrida no encontró el
+     análisis profundo, el bloque es null y el hueco quedó declarado. Todo lo
+     que lo consume comprueba primero. */
+
+  function reco() { return D.recomendaciones || null; }
+
+  /* Nombres «Banco Industrial» y «Banco Industrial (BI)» son la misma marca; el
+     registro y el análisis profundo no siempre coinciden en el rótulo. Se cruza
+     primero por page_id, que es el dato duro, y solo si no hay se compara el
+     nombre normalizado en las dos direcciones. */
+  function mismaMarca(a, b) {
+    var n = function (x) {
+      return String(x || "").toLowerCase().replace(/\(.*?\)/g, "")
+        .replace(/[^a-z0-9]/g, "");
+    };
+    var x = n(a), y = n(b);
+    return !!x && !!y && (x === y || x.indexOf(y) === 0 || y.indexOf(x) === 0);
+  }
+
+  /* Las filas del análisis profundo de una marca. Devuelve un ARREGLO porque
+     una marca puede tener varias páginas: Square tiene la de EE.UU. y la de
+     Reino Unido, con inventarios distintos. */
+  function profundoDe(marca) {
+    var R = reco();
+    if (!R) return [];
+    return (R.por_marca || []).filter(function (p) {
+      return (marca.page_id && p.page_id &&
+              String(marca.page_id) === String(p.page_id)) ||
+             mismaMarca(marca.nombre, p.marca);
+    });
+  }
+
   function logoDe(nombre) {
     return (D.logos_competencia || {})[nombre] || null;
   }
@@ -598,6 +632,167 @@
       '<div class="g-tip" id="' + id + '-tip"></div></div>' + tabla + "</div>";
   }
 
+  /* ═════════════ piezas del análisis profundo ═════════════ */
+
+  /* El perfil corto de una marca: cómo apuesta, no cuánto tiene.
+
+     Se muestra dentro de su tarjeta en Competencia. El reporte largo sigue
+     existiendo aparte; esto es lo que se lee en la reunión sin abrir otra
+     pestaña. Cada número trae su rótulo, y el que no vino no se dibuja. */
+  function perfilProfundo(p) {
+    var celdas = [];
+    var mete = function (rot, val, nota) {
+      if (val == null || val === "") return;
+      celdas.push('<div class="min-w-[92px]">' +
+        '<div class="text-[10px] font-bold tracking-wider text-slate-300 ' +
+        'uppercase">' + esc(rot) + "</div>" +
+        '<div class="text-[15px] font-bold text-slate-800 tabular-nums ' +
+        'leading-tight mt-0.5">' + val + "</div>" +
+        (nota ? '<div class="text-[10.5px] text-slate-400 leading-tight">' +
+          esc(nota) + "</div>" : "") + "</div>");
+    };
+    mete("concentración", pct(p.concentracion),
+         p.mensajes_distintos + " mensajes");
+    mete("carrusel", pct(p.carrusel_cuota),
+         p.tarjetas_max ? "hasta " + p.tarjetas_max + " tarjetas" : null);
+    mete("cadencia", esc(p.modo),
+         p.creativos_por_semana ? p.creativos_por_semana + "/semana" : null);
+    mete("sin lanzar", p.dias_sin_lanzar != null ? p.dias_sin_lanzar + " d" : null,
+         p.span_dias != null ? "carga en " + (p.span_dias + 1) + " d" : null);
+    var verts = (p.verticales || []).map(function (v) {
+      return '<span class="etiqueta-sec">' + esc(v.vertical) + " · " +
+        v.anuncios + "</span>";
+    }).join("");
+    return '<div class="mt-1">' +
+      /* El UNIVERSO va escrito. Sin él, el 84% de la consulta global choca
+         contra el 74% de la lectura por país unos centímetros arriba, en la
+         misma tarjeta, y se lee como un error de cálculo. Son dos universos
+         distintos: uno es lo que pauta en GT, el otro todo lo que tiene activo. */
+      '<div class="text-[11px] text-slate-400 mb-3">' + esc(p.marca) + " · " +
+      (p.mercado === "GLOBAL" ? "consulta global" : "consulta " + esc(p.mercado)) +
+      " · " + p.leidos + " anuncios leídos" +
+      (p.muestra_completa
+        ? " (inventario completo)"
+        : " de " + ent(p.activos_declarados) + " activos") + "</div>" +
+      '<div class="flex flex-wrap gap-x-6 gap-y-4">' + celdas.join("") + "</div>" +
+      (verts ? '<div class="flex flex-wrap gap-1.5 mt-4">' + verts + "</div>" : "") +
+      (p.advertencia_muestra
+        ? '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
+          esc(p.advertencia_muestra) + "</p>" : "") + "</div>";
+  }
+
+  /* Una recomendación.
+
+     El color del tipo NO es un semáforo: es el color de la SECCIÓN de donde
+     salió la evidencia. «Evitar» viene de un competidor (rosa), «copiar» de un
+     referente (verde), «probar» de una señal que la muestra no sostiene del
+     todo (azul). El verde y el rojo saturados siguen reservados para aceptar y
+     rechazar, que es una decisión y esto es una lectura. */
+  var TIPO = {
+    evitar:  { et: "Evitar", v: "--pastel-rosa" },
+    copiar:  { et: "Copiar", v: "--pastel-verde" },
+    probar:  { et: "Probar", v: "--pastel-azul" }
+  };
+
+  function recomendacion(r) {
+    var t = TIPO[r.tipo] || { et: r.tipo, v: "--pastel-azul" };
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra flex flex-col">' +
+      '<div class="flex items-center gap-2 flex-wrap mb-4">' +
+      '<span class="etiqueta" style="background:var(' + t.v + ');color:#0b0b0b">' +
+      esc(t.et) + "</span>" +
+      (r.confianza === "media"
+        ? '<span class="micro-et !mb-0 !inline">confianza media</span>' : "") +
+      "</div>" +
+      '<h3 class="text-[16px] font-bold text-slate-800 leading-snug mb-3">' +
+      esc(r.titulo) + "</h3>" +
+      '<p class="text-[13.5px] text-slate-600 leading-relaxed mb-4">' +
+      esc(r.que_hacer) + "</p>" +
+      '<p class="text-[12.5px] text-slate-400 leading-relaxed">' +
+      esc(r.porque) + "</p>" +
+      (r.advertencia
+        ? '<p class="text-[11.5px] leading-relaxed mt-4 sec-lavado rounded-2xl ' +
+          'px-4 py-3 text-slate-600">' + esc(r.advertencia) + "</p>" : "") +
+      ((r.evidencia || []).length
+        ? '<details class="mt-auto pt-5">' +
+          '<summary class="text-[12px] font-semibold text-slate-400 ' +
+          'cursor-pointer hover:text-slate-600">La evidencia</summary>' +
+          '<ul class="mt-3 space-y-1.5 text-[11.5px] text-slate-500 ' +
+          'leading-relaxed list-disc pl-5 font-mono">' +
+          r.evidencia.map(function (e) { return "<li>" + esc(e) + "</li>"; })
+            .join("") + "</ul></details>"
+        : "") + "</div>";
+  }
+
+  /* Referentes contra competidores, en las dos cuotas que sí se pueden
+     comparar entre grupos de tamaño distinto. Se comparan CUOTAS y no totales:
+     un referente con 50 anuncios leídos y un competidor con 3 no se comparan
+     por volumen sin mentir. */
+  function comparativoProfundo() {
+    var R = reco();
+    if (!R || !R.comparativo) return "";
+    var c = R.comparativo;
+    var barra = function (rot, ref, com, nota) {
+      if (ref == null || com == null) return "";
+      var tope = Math.max(ref, com, 0.01);
+      var fila_ = function (et, v, color) {
+        return '<div class="flex items-center gap-3 mb-2">' +
+          '<span class="text-[11px] text-slate-400 w-[92px] shrink-0">' +
+          esc(et) + "</span>" +
+          '<div class="flex-1 h-2.5 rounded-full bg-slate-50 overflow-hidden">' +
+          '<div class="h-full rounded-full" style="width:' +
+          Math.round(v / tope * 100) + "%;background:var(" + color + ')"></div>' +
+          "</div>" +
+          '<span class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
+          'w-[42px] text-right">' + Math.round(v * 100) + "%</span></div>";
+      };
+      return '<div class="mb-6 last:mb-0">' +
+        '<div class="text-[12.5px] font-semibold text-slate-700 mb-3">' +
+        esc(rot) + "</div>" +
+        fila_("Referentes", ref, "--pastel-verde") +
+        fila_("Competidores", com, "--pastel-rosa") +
+        (nota ? '<div class="text-[11px] text-slate-400 mt-1.5 leading-snug">' +
+          esc(nota) + "</div>" : "") + "</div>";
+    };
+    var k = c.carrusel || {}, n = c.concentracion || {};
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Cómo apuestan unos y otros",
+        "Cuotas, no totales: los grupos no tienen el mismo tamaño") +
+      barra("Anuncios en carrusel", (k.referentes || {}).cuota,
+            (k.competidores || {}).cuota,
+            (k.referentes || {}).carruseles + " de " +
+            (k.referentes || {}).anuncios + " contra " +
+            (k.competidores || {}).carruseles + " de " +
+            (k.competidores || {}).anuncios) +
+      barra("Cuota del mensaje más repetido", (n.referentes || {}).mediana,
+            (n.competidores || {}).mediana,
+            "Mediana. Alto = una sola apuesta; bajo = cartera repartida.") +
+      "</div>";
+  }
+
+  /* Los creativos que ninguna marca medida ha retirado.
+
+     Es el sustituto DECLARADO del «top por impresiones», que no existe para un
+     anunciante comercial (ADR-032). Lo que dice: nadie deja pagando meses un
+     creativo que no le devuelve nada. Lo que NO dice: cuánto le devolvió. El
+     rótulo lo repite para que no se lea como un ranking de efectividad. */
+  function sobrevivientesCard() {
+    var R = reco();
+    var lista = R ? (R.sobrevivientes || []) : [];
+    if (!lista.length) return "";
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab("Lo que nadie ha retirado",
+        "No es un ranking de efectividad: es qué dejan pagando") +
+      '<div class="divide-y divide-slate-50">' +
+      lista.slice(0, 5).map(function (a) {
+        return fila(a.rol === "referente" ? "REF" : "COM", "«" + a.mensaje + "»",
+          a.marca + " · desde " + a.desde, a.dias_vivo + " d", "vivo",
+          a.rol === "referente" ? null : "ambar");
+      }).join("") + "</div>" +
+      '<p class="text-[11px] text-slate-400 mt-5 leading-relaxed">' +
+      "Los de la competencia salen en ámbar a propósito: son los que hay que " +
+      "leer y NO repetir — ese territorio ya tiene dueño.</p></div>";
+  }
+
   /* ═════════════ secciones ═════════════ */
 
   /* Cada seccion declara su color una sola vez, en una variable local de CSS.
@@ -799,11 +994,29 @@
     /* ── 03 · Referencias ────────────────────────────────────────────────── */
 
     var ocup = (terr.saturados || []).length, libres = (terr.libres || []).length;
-    var c03 = cardNum("03", "referencias", ico.brujula, "Referencias",
-      ent(ocup + libres), "territorios de mensaje leídos",
-      ocup + libres ? { parte: ocup, total: ocup + libres } : null,
-      ocup + " ocupado" + (ocup === 1 ? "" : "s") + " · " + libres +
-      " sin disputa");
+    /* La tarjeta previsualiza lo ACCIONABLE de la sección. Antes contaba
+       territorios de mensaje; desde que la corrida trae el análisis profundo, lo
+       que se va a usar en la mesa son las recomendaciones. Si no hay análisis
+       profundo, vuelve a los territorios: la tarjeta no puede quedar vacía ni
+       mostrar un cero que parecería medido. */
+    var RC = reco(), c03;
+    if (RC && (RC.recomendaciones || []).length) {
+      var rs = RC.recomendaciones;
+      var altas = rs.filter(function (x) { return x.confianza === "alta"; }).length;
+      var evitar = rs.filter(function (x) { return x.tipo === "evitar"; }).length;
+      c03 = cardNum("03", "referencias", ico.brujula, "Qué hacer",
+        ent(rs.length), "recomendaciones con evidencia",
+        { parte: altas, total: rs.length },
+        altas + " de confianza alta" +
+        (evitar ? " · " + evitar + " territorio" + (evitar === 1 ? "" : "s") +
+          " que no tocar" : ""));
+    } else {
+      c03 = cardNum("03", "referencias", ico.brujula, "Referencias",
+        ent(ocup + libres), "territorios de mensaje leídos",
+        ocup + libres ? { parte: ocup, total: ocup + libres } : null,
+        ocup + " ocupado" + (ocup === 1 ? "" : "s") + " · " + libres +
+        " sin disputa");
+    }
 
     /* ── la fila de estadisticas, en blanco ──────────────────────────────── */
 
@@ -1083,7 +1296,7 @@
       if (b.advertencia) extra.push(esc(b.advertencia));
       if (b.metodo) extra.push("Método: " + esc(b.metodo));
 
-      var lg = logoDe(b.nombre);
+      var lg = logoDe(b.nombre), prof = profundoDe(b);
       return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
         '<div class="flex items-start justify-between gap-3 mb-6">' +
         '<div class="flex items-center gap-3 min-w-0">' +
@@ -1104,6 +1317,29 @@
         '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
         'uppercase mt-5 mb-1">Lo que repite</div>' +
         '<div class="divide-y divide-slate-50">' + msgs + "</div>" +
+        /* El análisis profundo de esta marca, si la corrida lo trae. Una marca
+           puede tener varias páginas y cada una es un perfil aparte: Square
+           tiene la de EE.UU. y la de Reino Unido. */
+        (prof.length
+          ? '<div class="mt-6 pt-5 border-t border-slate-50">' +
+            /* La FECHA de la consulta profunda va en el rótulo. La lectura
+               básica y la profunda se corrieron días distintos, así que los
+               activos declarados pueden diferir en una unidad o dos. Sin la
+               fecha eso parece un error de conteo; con la fecha es lo que es:
+               dos fotos de días distintos. */
+            '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+            'uppercase mb-4">Cómo apuesta' +
+            ((reco() || {})._fecha_consulta
+              ? ' · foto del ' + esc(reco()._fecha_consulta) : "") + "</div>" +
+            prof.map(perfilProfundo).join(
+              '<div class="h-px bg-slate-50 my-5"></div>') +
+            (prof.some(function (x) { return x.mercado === "GLOBAL"; })
+              ? '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
+                "Estos porcentajes son sobre la consulta global; los de " +
+                "«Lo que repite» son sobre el país. Dos universos distintos, " +
+                "así que no tienen por qué coincidir.</p>"
+              : "") + "</div>"
+          : "") +
         (extra.length
           ? '<details class="mt-4 pt-4 border-t border-slate-50">' +
             '<summary class="text-[12px] font-semibold text-slate-400 ' +
@@ -1209,6 +1445,47 @@
         "</p></div>";
     })).join("");
 
+    /* ── Qué hacer con todo esto ──────────────────────────────────────────
+       Es el puente entre «qué hacen ellos» y «qué producimos nosotros». Va en
+       Referencias porque cruza las dos fuentes: lo que el competidor ocupa y lo
+       que el referente hace y aquí nadie hace. */
+    var RC = reco();
+    var recs = RC ? (RC.recomendaciones || []).filter(function (x) {
+      return coincide(x.titulo, x.que_hacer, x.porque);
+    }) : [];
+    var bloqueRecs = "";
+    if (RC) {
+      bloqueRecs =
+        '<div class="flex items-start justify-between gap-4 mb-5">' +
+        '<div><h3 class="text-[17px] font-bold text-slate-800">Qué hacer con ' +
+        'esto</h3>' +
+        '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[64ch] ' +
+        'leading-relaxed">Sale de cruzar lo que la competencia ocupa con lo que ' +
+        "los referentes hacen y aquí nadie hace. Cada una trae su evidencia; " +
+        "las que el dato no sostenía no aparecen.</p></div>" +
+        (recs.length > 3
+          ? '<button type="button" data-vertodo="recs" class="text-[12.5px] ' +
+            'font-semibold shrink-0 hover:underline mt-1" ' +
+            'style="color:var(--marca)">' +
+            (V.verTodo.recs ? "Ver menos" : "Ver todo (" + recs.length + ")") +
+            "</button>"
+          : "") + "</div>" +
+        nota("<b class=\"text-slate-700 font-semibold\">Esto no dice qué le " +
+          "funcionó a la competencia.</b> " + esc(RC._limite || "")) +
+        (recs.length
+          ? '<div class="grid gap-6 mt-6 ' +
+            '[grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr))]">' +
+            recorta(recs, "recs").map(recomendacion).join("") + "</div>"
+          : '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
+            'text-slate-400 mt-6">' + (buscando()
+              ? "Ninguna recomendación coincide con la búsqueda."
+              : "El análisis no encontró ninguna señal que sostenga una " +
+                "recomendación en esta corrida.") + "</div>") +
+        '<div class="grid gap-6 mt-6 ' +
+        '[grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))]">' +
+        comparativoProfundo() + sobrevivientesCard() + "</div>";
+    }
+
     var bus = (R.busquedas || []);
     var busq = recorta(bus, "busq", 3).map(function (b) {
       return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
@@ -1230,6 +1507,7 @@
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
       cardCab("Nosotros contra ellos", "Solo se compara lo comparable") +
       '<div class="divide-y divide-slate-50">' + filasC + "</div></div>" +
+      (bloqueRecs ? '<div class="mt-10">' + bloqueRecs + "</div>" : "") +
       (terr ? '<h3 class="text-[17px] font-bold text-slate-800 mb-5 mt-10">' +
         'Territorios de mensaje</h3>' +
         '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +

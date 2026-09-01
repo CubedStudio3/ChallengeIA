@@ -1369,3 +1369,118 @@ que los pasteles no sirven de línea y de ahí se concluyó, de más, que la pal
 no servía para gráficas. Servía: había que cambiar el tono, no la paleta. La
 diferencia entre las dos conclusiones son cinco minutos de validador — los
 mismos cinco minutos que la primera vez.
+
+---
+
+## ADR-035 · El análisis profundo entra al tablero, y de él salen recomendaciones
+
+**Fecha:** 2026-09-01
+**Estado:** aceptada
+**Pedido:** Mercadeo · «algo que hiciste mal fue que hiciste un artefacto aparte
+[…] yo lo quiero en la mesa creativa, obviamente de manera más resumida, pero
+eso también te va a ayudar hacer el análisis para ver cómo nos dar las
+recomendaciones para nosotros ejecutar y hacer campañas, en base a lo mejor
+tanto de nuestra competencia como las de nuestras referencias.»
+
+### El error que se corrige
+
+El análisis profundo de la Ad Library (ADR-032) se entregó como un reporte HTML
+publicado aparte. Era completo y estaba bien probado, pero **quedó fuera del
+lugar donde se decide.** Nadie va a abrir una segunda pestaña en medio de la
+reunión, así que un análisis que vive fuera del tablero es un análisis que no se
+usa. Se movió adentro, resumido, y el reporte largo queda como anexo para quien
+quiera el detalle de una marca.
+
+### La pieza que faltaba: `recomendaciones.py`
+
+El análisis decía qué hace cada marca. No decía qué hacer nosotros. Ese salto lo
+da un módulo nuevo con **ocho reglas**, y la disciplina del archivo es una sola:
+
+> **Cada recomendación trae su evidencia numérica o no se emite.** Si el umbral
+> no se cumple, la recomendación simplemente no aparece.
+
+No hay ninguna regla que produzca texto sin números detrás. Es la regla 1 del
+proyecto aplicada al lugar donde más tentador sería romperla: una recomendación
+inventada suena exactamente igual de bien que una medida, y nadie la puede
+distinguir leyéndola.
+
+Los tres tipos, y por qué el color no es un semáforo:
+
+| Tipo | De dónde sale | Color |
+|---|---|---|
+| **evitar** | un competidor ya es dueño de ese territorio | rosa (Competencia) |
+| **copiar** | el referente lo hace y aquí nadie lo hace | verde (Referencias) |
+| **probar** | la señal existe pero la muestra no la sostiene del todo | azul |
+
+El color de cada tipo es el de **la sección de donde salió la evidencia**, no un
+juicio. El verde y el rojo saturados siguen reservados para aceptar y rechazar,
+que es una decisión; esto es una lectura.
+
+### Lo que salió de la primera corrida
+
+Nueve recomendaciones. Las tres que más cambian la producción:
+
+- **No usar «Gestiona tu Negocio Fácil».** Paggo carga el 84% de sus 43 anuncios
+  en esa promesa y lleva 105 días sosteniéndola.
+- **Hablarle a un nicho, no a «los negocios».** Los referentes trabajan «belleza
+  y citas» (11 anuncios) y «restaurante» (5) y **ningún competidor medido las
+  toca**.
+- **Repartir el mensaje.** En un referente el mensaje más repetido carga 16% del
+  inventario; en un competidor local, 62%.
+
+### Cuatro errores que salieron al construirlo
+
+1. **Una cuota no se traduce en un conteo.** La regla de repartir el mensaje
+   medía los titulares distintos de un referente y salía «**21 promesas**» para
+   un equipo con capacidad de 10 piezas. El número de titulares de quien produce
+   50 anuncios no es una meta para quien produce 10. Ahora el objetivo es un
+   **techo por promesa** —«que ninguna pase de 1 de cada 6 piezas»—, que sí se
+   traslada de escala.
+
+2. **`int()` sobre un porcentaje pierde el medio punto.** `int(0.625*100)` daba
+   62 donde el dato es 62.5, y la evidencia justo abajo decía `0.625`. Un número
+   que no cuadra con su propia evidencia destruye la confianza en toda la lista.
+   Ahora todo porcentaje pasa por `round()`.
+
+3. **Truncar para mostrar está bien; truncar para calcular es inventar un cero.**
+   El comparativo de verticales se estaba calculando sobre las **tres verticales
+   que se muestran** en el tablero, no sobre todas. Decía «0 anuncios de
+   competidores» en verticales que sí tenían, solo que en cuarto lugar. Ahora hay
+   dos listas: `verticales` (las que se muestran) y `verticales_todas` (con la
+   que se compara). En esta corrida la conclusión no cambió, pero «seguridad»
+   dejó de aparecer como libre — y en otra semana habría cambiado.
+
+4. **El aviso de idioma decía «una marca» donde son dos de tres.** Las reglas que
+   promedian varios referentes llevaban un aviso impreciso. Ahora los cuenta y
+   los nombra: «2 de los 3 referentes medidos anuncian en otro idioma y para otro
+   mercado (Square US, Square UK)».
+
+### El 84% contra el 74%: el mismo dato, dos universos
+
+La lectura básica de Paggo es **por país** (31 anuncios en GT, mensaje dominante
+74%). La profunda es **global** (43 anuncios, 84%). Las dos son correctas. Pero
+al meter el análisis profundo en la misma tarjeta, los dos porcentajes quedaron a
+diez centímetros uno del otro y se leían como un error de cálculo.
+
+No se resolvió unificando —serían dos preguntas distintas contestadas con una— ni
+escondiendo una. **Cada porcentaje declara su universo:** «consulta global · 43
+anuncios leídos», «consulta GT · 50 de 844 activos», y la tarjeta lleva una línea
+que dice que son universos distintos y no tienen por qué coincidir. Se le agregó
+también la **fecha** de la consulta profunda, porque la básica y la profunda se
+corrieron días distintos y los activos declarados difieren en una unidad.
+
+### El idioma se declara, no se adivina
+
+Una recomendación que sale de un referente que anuncia en inglés no se copia al
+pie de la letra. El tablero necesita saberlo, y el idioma **no se detecta leyendo
+el texto**: adivinar idioma con heurísticas es exactamente la clase de dato
+inventado que este proyecto prohíbe. Se declara en `config/competidores.json →
+idioma_por_marca`, mirando la página, y una marca sin declarar no dispara el
+aviso — el generador lo dice en consola.
+
+### La lección
+
+**Un análisis que vive fuera del lugar donde se decide es un análisis que no se
+usa.** El reporte largo estaba bien hecho y bien probado, y eso no lo salvó: en
+una reunión de una hora nadie abre una segunda pestaña. Lo que hay que resumir no
+es el análisis — es la distancia entre el análisis y la decisión.

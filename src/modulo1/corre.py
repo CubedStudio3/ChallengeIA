@@ -24,6 +24,7 @@ from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
 from . import analiza as A
 from . import estrategia as E
 from . import redes as R
+from . import recomendaciones as RECO
 from . import referencias as REF
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
 from .plan import arma_plan, tareas_propuestas
@@ -113,6 +114,19 @@ def carga_competencia(
             rol=entrada.get("_rol", "competidor"),
             nota_estrategica=medicion.get("_nota_estrategica", "")))
     return PanoramaCompetitivo(mercado=mercado, competidores=comps), no_leidos
+
+
+def carga_profundo(carpeta: Path) -> dict | None:
+    """El análisis profundo de la Ad Library de esta misma corrida.
+
+    Vive en `analisis/adlibrary_profundo.json` porque lo produce un paso
+    aparte (`adlibrary_profundo.py`) que lee el crudo. Si no está, se devuelve
+    None y la corrida declara el hueco: es mejor un tablero sin la sección de
+    recomendaciones que uno con recomendaciones de otra semana."""
+    ruta = carpeta / "analisis" / "adlibrary_profundo.json"
+    if not ruta.exists():
+        return None
+    return json.loads(ruta.read_text(encoding="utf-8"))
 
 
 def rendimiento_por_mercado(campanas, mercados, indicador_principal):
@@ -360,6 +374,26 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     refs = REF.arma(redes_para_secciones, competencia, por_mercado,
                     registro.get("categorias", {}))
 
+    # --- Paso 8b · recomendaciones de ejecución ---
+    # Salen del análisis profundo de la Ad Library, no de la lectura básica: lo
+    # que se necesita para recomendar es el corte por formato, cadencia y
+    # vertical, y eso solo lo trae el paso profundo.
+    profundo = carga_profundo(carpeta)
+    idiomas = {k: v for k, v in (registro.get("idioma_por_marca") or {}).items()
+               if not k.startswith("_")}
+    reco = RECO.arma(profundo, hoy, idiomas)
+    if reco is None:
+        huecos.append({
+            "fuente": "recomendaciones de ejecución",
+            "descripcion": "SIN ANÁLISIS PROFUNDO DE LA AD LIBRARY",
+            "impacto": ("El tablero no muestra recomendaciones de ejecución. No "
+                        "se reutilizan las de otra corrida: la Ad Library es una "
+                        "foto del día y una recomendación vieja se leería como "
+                        "actual."),
+            "remedio": ("Correr `python -m src.modulo1.adlibrary_profundo` sobre "
+                        "el crudo de esta corrida antes de generar el tablero."),
+        })
+
     equipo = cargar("equipo", permitir_bloqueado=True)
     estrat = E.arma(id_semana(rango), redes_para_secciones, competencia,
                     por_mercado, refs, equipo, _serializa(hallazgos),
@@ -391,6 +425,7 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         "competencia_registro": {"categorias": registro.get("categorias", {}),
                                  "roles": registro.get("_roles", {})},
         "referencias": refs,
+        "recomendaciones": reco,
         "estrategia": estrat,
         "hallazgos": _serializa(hallazgos),
         "verificacion_semana_anterior": verificacion,
