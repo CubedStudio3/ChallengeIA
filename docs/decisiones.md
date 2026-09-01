@@ -1484,3 +1484,106 @@ aviso — el generador lo dice en consola.
 usa.** El reporte largo estaba bien hecho y bien probado, y eso no lo salvó: en
 una reunión de una hora nadie abre una segunda pestaña. Lo que hay que resumir no
 es el análisis — es la distancia entre el análisis y la decisión.
+
+---
+
+## ADR-036 · El dossier por marca, y la skill de copys que no inventa el tono
+
+**Fecha:** 2026-09-01
+**Estado:** aceptada
+**Pedido:** Mercadeo · «lo que quiero es a quién le están hablando, sus tops
+anuncios, lectura estratégica, mensajes que repiten […] me estás dando algo muy
+general […] crea la skill para darme los copys, somos qpaypro.com».
+
+### El diagnóstico correcto del reclamo
+
+El ADR-035 metió el análisis al tablero, pero metió **cuatro números por marca**
+—concentración, carrusel, cadencia, días sin lanzar— cuando el dato tenía mucho
+más. La lista de mensajes con su cuota y sus días vivo, las verticales con su
+peso, los anuncios más longevos con su enlace: todo eso ya estaba calculado y
+guardado, y no se estaba mostrando. **No era un problema de análisis, era de
+render.**
+
+Ahora cada marca trae los cuatro bloques que se pidieron:
+
+| Bloque | De dónde sale |
+|---|---|
+| **A quién le habla** | verticales inferidas del titular, con su cuota |
+| **Qué repite** | mensajes con creativos, cuota, días vivo y desde cuándo |
+| **Sus anuncios que llevan más tiempo** | longevidad, con enlace al anuncio real |
+| **Lectura estratégica** | frases derivadas, cada una con su número |
+
+### La lectura estratégica es traducción, no interpretación
+
+Cada frase sale de **un umbral cruzado** y trae su evidencia al lado:
+concentración ≥ 0.6 → «apuesta a un solo mensaje»; ≤ 0.3 → «cartera repartida»;
+`cuota_en_rafaga` ≥ 0.5 → «despliega en lote»; `dias_sin_lanzar` ≥ 30 → «dejó de
+producir»; el creativo más viejo ≥ 90 días → «tiene una apuesta que no retira».
+
+Lo que **no** hay ahí es una interpretación de *por qué* lo hace ni de si le
+funciona. La Ad Library no publica rendimiento y eso no se deduce del inventario.
+Una «lectura estratégica» que dijera «Paggo apuesta ahí porque le está
+funcionando» sería exactamente el dato inventado que este proyecto prohíbe, con
+el agravante de sonar como análisis.
+
+### Tres errores que salieron al mostrar el detalle
+
+1. **«44 anuncios clasificables de 43 leídos».** Un imposible en pantalla. La
+   causa no era un bug de suma: `audiencia()` cuenta un titular que toca dos
+   verticales **en las dos**, así que el total son *clasificaciones*, no
+   anuncios. El cálculo estaba bien y el rótulo estaba mal. Ahora dice
+   «clasificaciones de titular» y explica por qué puede pasar del número de
+   anuncios.
+
+2. **«api.whatsapp.com carga 67% de su inventario».** La lectura de GuatePOS
+   trataba un dominio como si fuera un territorio de mensaje. El filtro de
+   titulares vacíos existía en el detector de territorios ocupados pero no en la
+   lectura. Ahora, si ningún titular dice nada, la frase es esa: «no hay mensaje
+   que leer», con los titulares observados como evidencia.
+
+3. **El bloque de anuncios longevos salía vacío** para Square US, Square UK y BI,
+   sin decir por qué. La razón es buena —con más de 50 activos la muestra son los
+   50 más recientes, y «el más viejo de los nuevos» no es el más viejo— y estaba
+   escrita en el módulo. Faltaba subirla a la pantalla. Un bloque vacío sin razón
+   se lee como «no tiene»; lo que pasa es que no se pudo preguntar.
+
+Y el dossier **sustituye** la lista básica de mensajes en lugar de sumarse a
+ella: tener las dos era el problema del 74% contra el 84% (ADR-035). Una tarjeta,
+un universo, declarado al pie.
+
+### La skill de copys, y por qué no escribe con el tono de QPayPro
+
+`.claude/skills/copys-qpaypro/` convierte una recomendación medida en dos o tres
+opciones de copy, cada una con su ángulo, la evidencia que lo sostiene, lo que
+evita a propósito, y el estado `PROPUESTA · requiere aprobación humana`.
+
+**El tono de QPayPro no está y no se inventa.** Se intentó leerlo de
+`qpaypro.com` el 2026-09-01: el proxy de red del entorno bloquea el dominio.
+Así que la skill escribe en un **registro declarado por defecto** —español de
+Guatemala, segunda persona, frases cortas, sin superlativos ni signos de
+exclamación— y **rotula cada entrega** con `REGISTRO POR DEFECTO · falta el tono
+de marca`.
+
+Esto es deliberado y es la parte más importante de la skill. Un copy escrito con
+un tono inventado no se distingue de uno escrito con el tono real hasta que
+alguien de la marca lo lee y dice «nosotros no hablamos así» — y para entonces ya
+se produjo la pieza. Rotularlo cuesta una línea y evita esa pérdida.
+
+Para quitar el rótulo hacen falta tres cosas, y son cortas: cinco frases
+aprobadas, tres rechazadas con su motivo, y el nombre comercial de cada producto.
+
+### Lo que la skill sí tiene anclado
+
+Los territorios que no se pueden usar (con su cuota y sus días), los que están
+libres y medidos («belleza y citas» y «restaurante»: 0 anuncios de competidores),
+el formato que el dato propio sostiene (los reels rinden 3.2× el feed), y cinco
+reglas duras: cero cifras inventadas, cero superlativos sin sustento, nada se
+publica desde ahí, si falta el tono se rotula, y el nombre de un producto no se
+inventa.
+
+### La lección
+
+**Mostrar cuatro números de un análisis de veinte campos no es resumir: es
+recortar.** Resumir es elegir qué preguntas contesta la tarjeta y contestarlas
+completas. El pedido original —a quién le hablan, qué repiten, qué no matan, qué
+se lee de eso— ya era la estructura correcta; lo que faltaba era respetarla.

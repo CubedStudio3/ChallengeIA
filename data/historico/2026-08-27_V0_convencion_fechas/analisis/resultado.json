@@ -1203,6 +1203,1493 @@
   },
   "recomendaciones": {
     "_fuente": "mcp__Meta_MCP__ads_library_search",
+    "dossier": [
+      {
+        "clave": "square_us",
+        "page_id": "200925806590732",
+        "idioma": "en",
+        "marca": "Square (US)",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 50,
+        "activos_declarados": 112,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 112 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Square",
+        "mensaje_top_cuota": 0.16,
+        "mensaje_top_dias": 5,
+        "mensajes_distintos": 22,
+        "concentracion": 0.16,
+        "carrusel": 11,
+        "carrusel_cuota": 0.22,
+        "tarjetas_max": 12,
+        "dias_sin_lanzar": 4,
+        "creativos_por_semana": null,
+        "span_dias": 2,
+        "cuota_en_rafaga": 0.3,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 16
+          },
+          {
+            "vertical": "belleza y citas",
+            "anuncios": 11
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 6
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 16,
+          "belleza y citas": 11,
+          "promoción y precio": 6,
+          "cobros y pagos": 6,
+          "punto de venta / hardware": 5,
+          "retail y tienda": 5,
+          "seguridad": 3,
+          "restaurante": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 16,
+            "cuota": 0.302
+          },
+          {
+            "vertical": "belleza y citas",
+            "anuncios": 11,
+            "cuota": 0.208
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 6,
+            "cuota": 0.113
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 6,
+            "cuota": 0.113
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 5,
+            "cuota": 0.094
+          },
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 5,
+            "cuota": 0.094
+          },
+          {
+            "vertical": "seguridad",
+            "anuncios": 3,
+            "cuota": 0.057
+          },
+          {
+            "vertical": "restaurante",
+            "anuncios": 1,
+            "cuota": 0.019
+          }
+        ],
+        "audiencia_clasificaciones": 53,
+        "mensajes_lista": [
+          {
+            "mensaje": "Square",
+            "creativos": 8,
+            "cuota": 0.16,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Get started with Square",
+            "creativos": 4,
+            "cuota": 0.08,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Up to $200 Off Hardware",
+            "creativos": 4,
+            "cuota": 0.08,
+            "dias_vivo": 4,
+            "desde": "2026-08-27",
+            "ultima": "2026-08-27"
+          },
+          {
+            "mensaje": "See the client picture most booking apps miss.",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Stop juggling tools to run your business",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Run your whole beauty business on Square",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Payment security — built in.",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Smart tools. Smart choices.",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Start selling today",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Grow with Square",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Built to grow with you",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Square · For do-it-all businesses",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Your bookings, your payments, your sales — one dashboard.",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Try Square for Retail—Now Free",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Appointments that work with everything else.",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 4,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Save time and get paid faster.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Square Register · Complete POS System · Square Reader",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "One system. Counter to kitchen.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "More than appointments.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Protect what you've built.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "All-in-One Payments and Receipts",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 3,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Why sellers choose Square.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 2,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          }
+        ],
+        "top_anuncios": [],
+        "top_respondible": false,
+        "top_por_que_no": "La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.",
+        "dias_vivo_mediana": null,
+        "lectura": [
+          {
+            "frase": "8 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 8% del inventario, con 21 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Get started with Square», va en 4 creativos"
+          },
+          {
+            "frase": "Reparte entre 8 verticales distintas; la mayor, «gestión del negocio», no pasa de 30%.",
+            "evidencia": "gestión del negocio 16 · belleza y citas 11 · promoción y precio 6 · cobros y pagos 6 · punto de venta / hardware 5"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "square_uk",
+        "page_id": "1689602518029813",
+        "idioma": "en",
+        "marca": "Square (UK)",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 50,
+        "activos_declarados": 102,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 102 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Make the smarter choice. Choose Square.",
+        "mensaje_top_cuota": 0.28,
+        "mensaje_top_dias": 6,
+        "mensajes_distintos": 21,
+        "concentracion": 0.28,
+        "carrusel": 20,
+        "carrusel_cuota": 0.4,
+        "tarjetas_max": 20,
+        "dias_sin_lanzar": 6,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.64,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 9
+          },
+          {
+            "vertical": "restaurante",
+            "anuncios": 4
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 4
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 9,
+          "restaurante": 4,
+          "punto de venta / hardware": 4,
+          "retail y tienda": 3,
+          "cobros y pagos": 1
+        },
+        "cobranding_cuota": 0.1,
+        "audiencia": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 9,
+            "cuota": 0.429
+          },
+          {
+            "vertical": "restaurante",
+            "anuncios": 4,
+            "cuota": 0.19
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 4,
+            "cuota": 0.19
+          },
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 3,
+            "cuota": 0.143
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 1,
+            "cuota": 0.048
+          }
+        ],
+        "audiencia_clasificaciones": 21,
+        "mensajes_lista": [
+          {
+            "mensaje": "Make the smarter choice. Choose Square.",
+            "creativos": 14,
+            "cuota": 0.28,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square serves you better.",
+            "creativos": 5,
+            "cuota": 0.1,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Make the smarter choice. Get Square.",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square helps you grow.",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Tender Cow’s rapid rise",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square® Card Reader (2nd Generation) · Square® Terminal · Square® Register",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Sell on the go, anytime.",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Manage everything with Square",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 5,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Easy to get started.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square Reader for magstripe (headset jack) · Square Reader for magstripe (USB-C) · Square Reader for magstripe (Lightning)",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Take payments right away.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square · Upgrade your business today.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Get Square today",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Why restaurants pick Square",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Increase orders with Square.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Get tools that keep up.",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Gordon's Wine Bar + Square",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Loved by British businesses",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 4,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Square · Gordon's Wine Bar + Square",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 4,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "default_collection_headline",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 4,
+            "desde": "2026-08-25",
+            "ultima": "2026-08-25"
+          }
+        ],
+        "top_anuncios": [],
+        "top_respondible": false,
+        "top_por_que_no": "La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.",
+        "dias_vivo_mediana": null,
+        "lectura": [
+          {
+            "frase": "2 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 28% del inventario, con 19 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Make the smarter choice. Choose Square.», va en 14 creativos"
+          },
+          {
+            "frase": "Reparte entre 5 verticales distintas; la mayor, «gestión del negocio», no pasa de 43%.",
+            "evidencia": "gestión del negocio 9 · restaurante 4 · punto de venta / hardware 4 · retail y tienda 3 · cobros y pagos 1"
+          },
+          {
+            "frase": "Despliega en lote: 64% de sus creativos entraron en cargas del mismo segundo.",
+            "evidencia": "varios anuncios con el mismo instante de creación son una subida en lote, no piezas pensadas una por una"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 40% de sus anuncios, hasta 20 tarjetas.",
+            "evidencia": "20 de 50 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 5,
+          "terceros_nombrados": [
+            "Gordon's Wine Bar",
+            "Tender Cow"
+          ],
+          "cuota": 0.1,
+          "ejemplos": [
+            {
+              "tercero": "Gordon's Wine Bar",
+              "titular": "Square"
+            },
+            {
+              "tercero": "Tender Cow",
+              "titular": "Tender Cow’s rapid rise"
+            },
+            {
+              "tercero": "Tender Cow",
+              "titular": "Tender Cow’s rapid rise"
+            },
+            {
+              "tercero": "Tender Cow",
+              "titular": "Tender Cow’s rapid rise"
+            },
+            {
+              "tercero": "Gordon's Wine Bar",
+              "titular": "Gordon's Wine Bar + Square"
+            }
+          ],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "GLOBAL",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 24,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 5,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10,
+            "cuota": 0.714
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3,
+            "cuota": 0.214
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1,
+            "cuota": 0.071
+          }
+        ],
+        "audiencia_clasificaciones": 14,
+        "mensajes_lista": [
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende más con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 159,
+            "desde": "2026-03-25",
+            "ultima": "2026-03-25"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 77,
+            "desde": "2026-06-15",
+            "ultima": "2026-06-15"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Tu idea de negocio, lista para crecer",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Todo lo que necesitas para empezar",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda rápido con IA",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende en todas partes.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda gratis",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Vende más con Shopify",
+            "dias_vivo": 159,
+            "desde": "2026-03-25",
+            "url": "https://www.facebook.com/ads/library/?id=889599310806471"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "dias_vivo": 77,
+            "desde": "2026-06-15",
+            "url": "https://www.facebook.com/ads/library/?id=2679318102468690"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 46,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1358998209538323"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 46,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=2217143392369589"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 46,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1337669978536648"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1066441425835107"
+          },
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2121980418413329"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1047885671291107"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1749243509418880"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "dias_vivo": 24,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2316269725444335"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 24,
+        "lectura": [
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 12% del inventario, con 11 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Comienza a vender más rápido», va en 2 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «retail y tienda»: 71% de sus anuncios clasificables.",
+            "evidencia": "10 de 14 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Sostiene un goteo: 0.7 creativos por semana a lo largo de 154 días.",
+            "evidencia": "25% en ráfaga · el resto repartido"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 56% de sus anuncios, hasta 4 tarjetas.",
+            "evidencia": "9 de 16 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          },
+          {
+            "frase": "Tiene una apuesta que no retira: «Vende más con Shopify» lleva 159 días al aire.",
+            "evidencia": "desde 2026-03-25 · nadie deja pagando meses un creativo que no le devuelve nada, pero la fuente no dice cuánto"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 50,
+        "activos_declarados": 844,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 50 de 844 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Moto en Línea",
+        "mensaje_top_cuota": 0.22,
+        "mensaje_top_dias": 4,
+        "mensajes_distintos": 14,
+        "concentracion": 0.22,
+        "carrusel": 13,
+        "carrusel_cuota": 0.26,
+        "tarjetas_max": 6,
+        "dias_sin_lanzar": 0,
+        "creativos_por_semana": null,
+        "span_dias": 10,
+        "cuota_en_rafaga": 0.28,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 18
+          },
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 14
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2
+          }
+        ],
+        "verticales_todas": {
+          "crédito y financiamiento": 18,
+          "retail y tienda": 14,
+          "promoción y precio": 2,
+          "seguridad": 2,
+          "cobros y pagos": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 18,
+            "cuota": 0.486
+          },
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 14,
+            "cuota": 0.378
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2,
+            "cuota": 0.054
+          },
+          {
+            "vertical": "seguridad",
+            "anuncios": 2,
+            "cuota": 0.054
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 1,
+            "cuota": 0.027
+          }
+        ],
+        "audiencia_clasificaciones": 37,
+        "mensajes_lista": [
+          {
+            "mensaje": "Moto en Línea",
+            "creativos": 11,
+            "cuota": 0.22,
+            "dias_vivo": 4,
+            "desde": "2026-08-27",
+            "ultima": "2026-08-28"
+          },
+          {
+            "mensaje": "Banco Industrial S.A. - Banco Industrial",
+            "creativos": 7,
+            "cuota": 0.14,
+            "dias_vivo": 9,
+            "desde": "2026-08-21",
+            "ultima": "2026-08-27"
+          },
+          {
+            "mensaje": "Crediauto",
+            "creativos": 3,
+            "cuota": 0.06,
+            "dias_vivo": 6,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-25"
+          },
+          {
+            "mensaje": "Crédito Bi",
+            "creativos": 2,
+            "cuota": 0.04,
+            "dias_vivo": 4,
+            "desde": "2026-08-27",
+            "ultima": "2026-08-28"
+          },
+          {
+            "mensaje": "Banco Industrial · ¡Empieza a ahorrar sin pensarlo! · Rápido, fácil y seguro",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Forma Parte Del Talento BI",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Banco Industrial · ¡Actívalas hoy!",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Facilita tus días con Bi en Línea",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Banco Industrial · Beneficios exclusivos · Mirada perfecta con #CuotasBi",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Paga desde #BiEnLinea App",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 7,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Soluciones de Pago",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 6,
+            "desde": "2026-08-24",
+            "ultima": "2026-08-24"
+          },
+          {
+            "mensaje": "Banco Industrial · Cuida tus datos en línea",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 5,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Banco Industrial · Compra y disfruta · Suma Puntos Bi",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 4,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Moto en Línea Bi",
+            "creativos": 1,
+            "cuota": 0.02,
+            "dias_vivo": 2,
+            "desde": "2026-08-28",
+            "ultima": "2026-08-28"
+          }
+        ],
+        "top_anuncios": [],
+        "top_respondible": false,
+        "top_por_que_no": "La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.",
+        "dias_vivo_mediana": null,
+        "lectura": [
+          {
+            "frase": "3 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 22% del inventario, con 13 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Moto en Línea», va en 11 creativos"
+          },
+          {
+            "frase": "Reparte entre 5 verticales distintas; la mayor, «crédito y financiamiento», no pasa de 49%.",
+            "evidencia": "crédito y financiamiento 18 · retail y tienda 14 · promoción y precio 2 · seguridad 2 · cobros y pagos 1"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "paggo",
+        "page_id": "105294361957860",
+        "idioma": "es",
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 43,
+        "activos_declarados": 43,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Gestiona tu Negocio Fácil",
+        "mensaje_top_cuota": 0.837,
+        "mensaje_top_dias": 105,
+        "mensajes_distintos": 4,
+        "concentracion": 0.837,
+        "carrusel": 2,
+        "carrusel_cuota": 0.047,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 4,
+        "creativos_por_semana": 3.0,
+        "span_dias": 101,
+        "cuota_en_rafaga": 0.651,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 7
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 36,
+          "cobros y pagos": 7,
+          "punto de venta / hardware": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36,
+            "cuota": 0.818
+          },
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 7,
+            "cuota": 0.159
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1,
+            "cuota": 0.023
+          }
+        ],
+        "audiencia_clasificaciones": 44,
+        "mensajes_lista": [
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "creativos": 36,
+            "cuota": 0.837,
+            "dias_vivo": 105,
+            "desde": "2026-05-18",
+            "ultima": "2026-08-27"
+          },
+          {
+            "mensaje": "Acepta Pagos",
+            "creativos": 4,
+            "cuota": 0.093,
+            "dias_vivo": 7,
+            "desde": "2026-08-19",
+            "ultima": "2026-08-27"
+          },
+          {
+            "mensaje": "Cobra y Factura con Paggo",
+            "creativos": 2,
+            "cuota": 0.047,
+            "dias_vivo": 98,
+            "desde": "2026-05-18",
+            "ultima": "2026-05-18"
+          },
+          {
+            "mensaje": "Acepta Pagos con Tarjeta",
+            "creativos": 1,
+            "cuota": 0.023,
+            "dias_vivo": 61,
+            "desde": "2026-05-18",
+            "ultima": "2026-05-18"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 105,
+            "desde": "2026-05-18",
+            "url": "https://www.facebook.com/ads/library/?id=26620958677575099"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 105,
+            "desde": "2026-05-18",
+            "url": "https://www.facebook.com/ads/library/?id=1293243899679840"
+          },
+          {
+            "mensaje": "Cobra y Factura con Paggo",
+            "dias_vivo": 98,
+            "desde": "2026-05-25",
+            "url": "https://www.facebook.com/ads/library/?id=2929068427288049"
+          },
+          {
+            "mensaje": "Cobra y Factura con Paggo",
+            "dias_vivo": 96,
+            "desde": "2026-05-27",
+            "url": "https://www.facebook.com/ads/library/?id=1695752641567492"
+          },
+          {
+            "mensaje": "Acepta Pagos con Tarjeta",
+            "dias_vivo": 61,
+            "desde": "2026-07-01",
+            "url": "https://www.facebook.com/ads/library/?id=1091107136823721"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 12,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1887802498872348"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 12,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1554289652858568"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 12,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1347303467477998"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 12,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1378385277588743"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 11,
+            "desde": "2026-08-20",
+            "url": "https://www.facebook.com/ads/library/?id=935765245534989"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 7,
+        "lectura": [
+          {
+            "frase": "Apuesta a un solo mensaje: «Gestiona tu Negocio Fácil» carga 84% de todo lo que tiene al aire.",
+            "evidencia": "36 de 43 creativos · 4 mensajes distintos en total"
+          },
+          {
+            "frase": "Le habla casi solo a «gestión del negocio»: 82% de sus anuncios clasificables.",
+            "evidencia": "36 de 44 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Despliega en lote: 65% de sus creativos entraron en cargas del mismo segundo.",
+            "evidencia": "varios anuncios con el mismo instante de creación son una subida en lote, no piezas pensadas una por una"
+          },
+          {
+            "frase": "Casi no usa carrusel: 5% de sus anuncios. Todo pieza única.",
+            "evidencia": "2 de 43 anuncios"
+          },
+          {
+            "frase": "Tiene una apuesta que no retira: «Gestiona tu Negocio Fácil» lleva 105 días al aire.",
+            "evidencia": "desde 2026-05-18 · nadie deja pagando meses un creativo que no le devuelve nada, pero la fuente no dice cuánto"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "recurrente",
+        "page_id": "100735292254927",
+        "idioma": "es",
+        "marca": "Recurrente",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 12,
+        "activos_declarados": 12,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Recibe pagos con oro digital",
+        "mensaje_top_cuota": 0.583,
+        "mensaje_top_dias": 38,
+        "mensajes_distintos": 2,
+        "concentracion": 0.583,
+        "carrusel": 6,
+        "carrusel_cuota": 0.5,
+        "tarjetas_max": 3,
+        "dias_sin_lanzar": 38,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.333,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 12
+          }
+        ],
+        "verticales_todas": {
+          "cobros y pagos": 12
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 12,
+            "cuota": 1.0
+          }
+        ],
+        "audiencia_clasificaciones": 12,
+        "mensajes_lista": [
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "creativos": 7,
+            "cuota": 0.583,
+            "dias_vivo": 38,
+            "desde": "2026-07-24",
+            "ultima": "2026-07-24"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "creativos": 5,
+            "cuota": 0.417,
+            "dias_vivo": 38,
+            "desde": "2026-07-24",
+            "ultima": "2026-07-24"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 38,
+            "desde": "2026-07-24",
+            "url": "https://www.facebook.com/ads/library/?id=37834302472820619"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 38,
+            "desde": "2026-07-24",
+            "url": "https://www.facebook.com/ads/library/?id=1385097710250258"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 37,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1743357080341279"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 37,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=28137499115868209"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 37,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1037128235730742"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 37,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1755819768903559"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 37,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=28165107449759621"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 35,
+            "desde": "2026-07-27",
+            "url": "https://www.facebook.com/ads/library/?id=1698548684585928"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 35,
+            "desde": "2026-07-27",
+            "url": "https://www.facebook.com/ads/library/?id=1010481958652273"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 35,
+            "desde": "2026-07-27",
+            "url": "https://www.facebook.com/ads/library/?id=914669437672861"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 37,
+        "lectura": [
+          {
+            "frase": "Concentra sin apostarlo todo: «Recibe pagos con oro digital» lleva 58% y hay 2 mensajes más.",
+            "evidencia": "7 de 12 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «cobros y pagos»: 100% de sus anuncios clasificables.",
+            "evidencia": "12 de 12 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Dejó de producir: su último creativo nuevo entró hace 38 días, aunque sus anuncios siguen activos.",
+            "evidencia": "última creación registrada en la consulta del 2026-08-31"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 50% de sus anuncios, hasta 3 tarjetas.",
+            "evidencia": "6 de 12 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "guatepos",
+        "page_id": "593092353887127",
+        "idioma": "es",
+        "marca": "Guatepos",
+        "rol": "competidor",
+        "mercado": "GLOBAL",
+        "leidos": 3,
+        "activos_declarados": 3,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "api.whatsapp.com",
+        "mensaje_top_cuota": 0.667,
+        "mensaje_top_dias": 17,
+        "mensajes_distintos": 1,
+        "concentracion": 0.667,
+        "carrusel": 0,
+        "carrusel_cuota": 0.0,
+        "tarjetas_max": 1,
+        "dias_sin_lanzar": 17,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0,
+        "audiencia": [],
+        "audiencia_clasificaciones": 1,
+        "mensajes_lista": [
+          {
+            "mensaje": "api.whatsapp.com",
+            "creativos": 2,
+            "cuota": 0.667,
+            "dias_vivo": 17,
+            "desde": "2026-08-14",
+            "ultima": "2026-08-14"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "api.whatsapp.com",
+            "dias_vivo": 17,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=2096308025102930"
+          },
+          {
+            "mensaje": "api.whatsapp.com",
+            "dias_vivo": 17,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=1952340028778354"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 17,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=3250839388449338"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 17,
+        "lectura": [
+          {
+            "frase": "No hay mensaje que leer: sus 2 anuncios con titular traen un dominio o una sola palabra, no una promesa.",
+            "evidencia": "titulares observados: api.whatsapp.com"
+          },
+          {
+            "frase": "No se puede decir a quién le habla: ninguno de sus titulares clasifica en una vertical.",
+            "evidencia": "3 anuncios leídos, 0 con titular clasificable"
+          },
+          {
+            "frase": "Casi no usa carrusel: 0% de sus anuncios. Todo pieza única.",
+            "evidencia": "0 de 3 anuncios"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      }
+    ],
     "_fecha_consulta": "2026-08-31",
     "_limite": "La Ad Library no publica rendimiento de anunciantes comerciales. Estas recomendaciones dicen DÓNDE APUESTAN las marcas medidas —qué repiten, qué no matan, con qué formato y a qué ritmo—, no qué les funcionó. Es una foto del día de la consulta, no una serie.",
     "por_marca": [

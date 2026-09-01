@@ -138,6 +138,7 @@
      que lo consume comprueba primero. */
 
   function reco() { return D.recomendaciones || null; }
+  function recoFecha() { return (reco() || {})._fecha_consulta || null; }
 
   /* Nombres «Banco Industrial» y «Banco Industrial (BI)» son la misma marca; el
      registro y el análisis profundo no siempre coinciden en el rótulo. Se cruza
@@ -155,10 +156,10 @@
   /* Las filas del análisis profundo de una marca. Devuelve un ARREGLO porque
      una marca puede tener varias páginas: Square tiene la de EE.UU. y la de
      Reino Unido, con inventarios distintos. */
-  function profundoDe(marca) {
+  function dossierDe(marca) {
     var R = reco();
     if (!R) return [];
-    return (R.por_marca || []).filter(function (p) {
+    return (R.dossier || []).filter(function (p) {
       return (marca.page_id && p.page_id &&
               String(marca.page_id) === String(p.page_id)) ||
              mismaMarca(marca.nombre, p.marca);
@@ -679,6 +680,124 @@
       (p.advertencia_muestra
         ? '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
           esc(p.advertencia_muestra) + "</p>" : "") + "</div>";
+  }
+
+  /* ── El dossier de una marca ──────────────────────────────────────────
+     Cuatro preguntas, en el orden en que se leen: a quién le habla, qué
+     repite, qué no retira y qué se lee de todo eso. Cada bloque muestra los
+     primeros y despliega el resto, así que la tarjeta cabe en la reunión sin
+     perder el detalle. */
+
+  /* Una barra de cuota. Se usa para las verticales y para los mensajes: en los
+     dos casos lo que importa es el peso relativo, no el absoluto. */
+  function barraCuota(rot, sub, cuota, tinte) {
+    return '<div class="py-2.5">' +
+      '<div class="flex items-baseline justify-between gap-3 mb-1.5">' +
+      '<span class="text-[12.5px] font-semibold text-slate-700 truncate">' +
+      esc(rot) + "</span>" +
+      '<span class="text-[12px] font-bold text-slate-800 tabular-nums ' +
+      'shrink-0">' + pct(cuota) + "</span></div>" +
+      '<div class="h-1.5 rounded-full bg-slate-50 overflow-hidden">' +
+      '<div class="h-full rounded-full" style="width:' +
+      Math.round((cuota || 0) * 100) + "%;background:var(" + (tinte ||
+      "--pastel-azul") + ')"></div></div>' +
+      (sub ? '<div class="text-[11px] text-slate-400 mt-1.5">' + esc(sub) +
+        "</div>" : "") + "</div>";
+  }
+
+  function rotuloBloque(txt, extra) {
+    return '<div class="flex items-baseline justify-between gap-3 mt-6 mb-2">' +
+      '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+      'uppercase">' + esc(txt) + "</div>" + (extra || "") + "</div>";
+  }
+
+  function verMas(clave, total, tope) {
+    if (total <= tope) return "";
+    return '<button type="button" data-vertodo="' + esc(clave) + '" ' +
+      'class="text-[11.5px] font-semibold shrink-0 hover:underline" ' +
+      'style="color:var(--marca)">' +
+      (V.verTodo[clave] ? "menos" : "ver " + total) + "</button>";
+  }
+
+  function dossierMarca(d) {
+    var k = d.clave, out = "";
+
+    /* 1 · A quién le habla. Las verticales salen de clasificar el TITULAR, así
+       que un anuncio cuyo titular no dice a quién le habla queda fuera del
+       conteo en vez de repartirse. */
+    if (d.audiencia && d.audiencia.length) {
+      out += rotuloBloque("A quién le habla",
+        verMas("aud-" + k, d.audiencia.length, 3)) +
+        recorta(d.audiencia, "aud-" + k).map(function (a) {
+          return barraCuota(a.vertical, a.anuncios + " anuncios", a.cuota,
+            "--pastel-rosa");
+        }).join("") +
+        '<div class="text-[10.5px] text-slate-400 mt-1 leading-relaxed">' +
+        "Sobre " + d.audiencia_clasificaciones + " clasificaciones de titular " +
+        "en " + d.leidos + " anuncios leídos: un titular que toca dos " +
+        "verticales cuenta en las dos, así que el total puede pasar del " +
+        "número de anuncios.</div>";
+    } else {
+      out += rotuloBloque("A quién le habla") +
+        '<p class="text-[12px] text-slate-400 leading-relaxed">Ninguno de sus ' +
+        "titulares clasifica en una vertical, así que esto no se puede " +
+        "responder para esta marca.</p>";
+    }
+
+    /* 2 · Qué repite. */
+    if (d.mensajes_lista && d.mensajes_lista.length) {
+      out += rotuloBloque("Qué repite",
+        verMas("msg-" + k, d.mensajes_lista.length, 3)) +
+        recorta(d.mensajes_lista, "msg-" + k).map(function (m) {
+          return barraCuota("«" + m.mensaje + "»",
+            m.creativos + " creativos · " + m.dias_vivo + " d vivo · desde " +
+            m.desde, m.cuota, "--pastel-azul");
+        }).join("");
+    }
+
+    /* 3 · Sus anuncios más longevos. Si la muestra viene topada, esta pregunta
+       NO se responde: el más viejo de los 50 más recientes no es el más viejo,
+       y darlo como tal engañaría. Se dice por qué en lugar de dejar el hueco. */
+    out += rotuloBloque("Sus anuncios que llevan más tiempo");
+    if (d.top_respondible && (d.top_anuncios || []).length) {
+      out += '<div class="divide-y divide-slate-50">' +
+        recorta(d.top_anuncios, "top-" + k).map(function (a) {
+          return '<div class="flex items-center gap-3 py-2.5">' +
+            '<div class="min-w-0 flex-1">' +
+            '<div class="text-[12.5px] font-semibold text-slate-800 truncate">' +
+            "«" + esc(a.mensaje) + "»</div>" +
+            '<div class="text-[11px] text-slate-400">desde ' + esc(a.desde) +
+            "</div></div>" +
+            '<div class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
+            'shrink-0">' + a.dias_vivo + " d</div>" +
+            (a.url ? '<a href="' + esc(a.url) + '" target="_blank" ' +
+              'rel="noopener noreferrer" class="shrink-0 text-slate-300 ' +
+              'hover:text-slate-600" title="Ver el anuncio">' +
+              svg(ico.link, "w-4 h-4") + "</a>" : "") + "</div>";
+        }).join("") + "</div>" +
+        verMas("top-" + k, d.top_anuncios.length, 3) +
+        (d.dias_vivo_mediana != null
+          ? '<div class="text-[10.5px] text-slate-400 mt-2">Mediana de la ' +
+            "marca: " + d.dias_vivo_mediana + " días vivo.</div>" : "");
+    } else {
+      out += '<p class="text-[12px] text-slate-400 leading-relaxed">' +
+        esc(d.top_por_que_no ||
+            "No se guardó muestra suficiente para responderlo.") + "</p>";
+    }
+
+    /* 4 · La lectura. Cada frase es la traducción de un umbral cruzado, y trae
+       su número al lado. Ninguna es una interpretación libre. */
+    if ((d.lectura || []).length) {
+      out += rotuloBloque("Lectura estratégica") +
+        '<ul class="space-y-3">' + d.lectura.map(function (l) {
+          return '<li><div class="text-[12.5px] text-slate-700 ' +
+            'leading-relaxed">' + esc(l.frase) + "</div>" +
+            (l.evidencia ? '<div class="text-[10.5px] text-slate-400 mt-1 ' +
+              'font-mono leading-relaxed">' + esc(l.evidencia) + "</div>" : "") +
+            "</li>";
+        }).join("") + "</ul>";
+    }
+    return out;
   }
 
   /* Una recomendación.
@@ -1296,7 +1415,7 @@
       if (b.advertencia) extra.push(esc(b.advertencia));
       if (b.metodo) extra.push("Método: " + esc(b.metodo));
 
-      var lg = logoDe(b.nombre), prof = profundoDe(b);
+      var lg = logoDe(b.nombre), prof = dossierDe(b), dos = prof[0] || null;
       return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
         '<div class="flex items-start justify-between gap-3 mb-6">' +
         '<div class="flex items-center gap-3 min-w-0">' +
@@ -1314,31 +1433,46 @@
         "</div></div>" +
         '<div class="flex gap-5 pb-6 mb-2 border-b border-slate-50">' + pres +
         "</div>" +
-        '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
-        'uppercase mt-5 mb-1">Lo que repite</div>' +
-        '<div class="divide-y divide-slate-50">' + msgs + "</div>" +
+        /* Si la corrida trae el análisis profundo, el dossier SUSTITUYE la
+           lista básica de mensajes en lugar de sumarse a ella. Tener las dos
+           era el problema del 74% contra el 84%: dos universos, dos listas,
+           en la misma tarjeta. */
+        (dos
+          ? dossierMarca(dos) +
+            '<div class="text-[10.5px] text-slate-400 mt-4 leading-relaxed">' +
+            "Universo: " + (dos.mercado === "GLOBAL" ? "consulta global"
+              : "consulta " + esc(dos.mercado)) + " · " + dos.leidos +
+            " anuncios leídos" +
+            (dos.muestra_completa ? " (inventario completo)"
+              : " de " + ent(dos.activos_declarados) + " activos") +
+            (recoFecha() ? " · foto del " + esc(recoFecha()) : "") +
+            ". Los números de arriba, por país.</div>"
+          : '<div class="text-[10.5px] font-bold tracking-wider ' +
+            'text-slate-300 uppercase mt-5 mb-1">Lo que repite</div>' +
+            '<div class="divide-y divide-slate-50">' + msgs + "</div>") +
         /* El análisis profundo de esta marca, si la corrida lo trae. Una marca
            puede tener varias páginas y cada una es un perfil aparte: Square
            tiene la de EE.UU. y la de Reino Unido. */
-        (prof.length
+        (dos
           ? '<div class="mt-6 pt-5 border-t border-slate-50">' +
-            /* La FECHA de la consulta profunda va en el rótulo. La lectura
-               básica y la profunda se corrieron días distintos, así que los
-               activos declarados pueden diferir en una unidad o dos. Sin la
-               fecha eso parece un error de conteo; con la fecha es lo que es:
-               dos fotos de días distintos. */
             '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
-            'uppercase mb-4">Cómo apuesta' +
-            ((reco() || {})._fecha_consulta
-              ? ' · foto del ' + esc(reco()._fecha_consulta) : "") + "</div>" +
-            prof.map(perfilProfundo).join(
-              '<div class="h-px bg-slate-50 my-5"></div>') +
-            (prof.some(function (x) { return x.mercado === "GLOBAL"; })
-              ? '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
-                "Estos porcentajes son sobre la consulta global; los de " +
-                "«Lo que repite» son sobre el país. Dos universos distintos, " +
-                "así que no tienen por qué coincidir.</p>"
-              : "") + "</div>"
+            'uppercase mb-4">Cómo apuesta</div>' + perfilProfundo(dos) +
+            "</div>"
+          : "") +
+        /* Una marca con varias páginas: las demás van plegadas, para que la
+           tarjeta no se duplique. Square tiene la de EE.UU. y la de Reino
+           Unido, con inventarios distintos. */
+        (prof.length > 1
+          ? '<details class="mt-5 pt-4 border-t border-slate-50">' +
+            '<summary class="text-[12px] font-semibold text-slate-400 ' +
+            'cursor-pointer hover:text-slate-600">Sus otras ' +
+            (prof.length - 1) + " página(s): " +
+            prof.slice(1).map(function (x) { return esc(x.marca); }).join(", ") +
+            "</summary>" +
+            prof.slice(1).map(function (x) {
+              return '<div class="mt-5">' + dossierMarca(x) +
+                '<div class="mt-4">' + perfilProfundo(x) + "</div></div>";
+            }).join('<div class="h-px bg-slate-100 my-6"></div>') + "</details>"
           : "") +
         (extra.length
           ? '<details class="mt-4 pt-4 border-t border-slate-50">' +

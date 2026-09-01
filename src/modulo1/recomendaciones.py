@@ -144,6 +144,176 @@ def resumen_por_marca(profundo: dict, idiomas: dict | None = None) -> list[dict]
     return sorted(salida, key=lambda x: (x["rol"] != "referente", -x["leidos"]))
 
 
+# ── El dossier por marca ─────────────────────────────────────────────────────
+
+# Umbrales de la lectura estratégica. Cada frase de la lectura sale de un
+# umbral: si no se cruza, la frase no se escribe. No hay una sola línea de
+# narrativa en este bloque que no tenga un número detrás.
+APUESTA_UNICA = 0.6        # cuota del mensaje dominante
+CARTERA = 0.3
+CARRUSEL_SISTEMATICO = 0.35
+CARRUSEL_CASI_NULO = 0.1
+AUDIENCIA_MONO = 0.5       # cuota de la vertical principal
+AUDIENCIA_REPARTIDA = 4    # verticales distintas
+
+
+def lectura_estrategica(r: dict, crudo: dict) -> list[dict]:
+    """Cómo se comporta esta marca, en frases con su número al lado.
+
+    Es lo más cerca que se puede estar de una «lectura estratégica» sin
+    inventar: cada frase es la traducción literal de un umbral cruzado. Lo que
+    NO hay aquí es una interpretación de por qué lo hace ni de si le funciona —
+    la Ad Library no publica rendimiento y eso no se deduce del inventario."""
+    L, msgs = [], crudo.get("mensajes", [])
+    di = lambda f, e: L.append({"frase": f, "evidencia": e})
+
+    # 0 · Antes de leer la apuesta: ¿hay titulares que decir algo?
+    # GuatePOS tenía «api.whatsapp.com» como mensaje dominante y la lectura
+    # decía «apuesta a un solo mensaje: api.whatsapp.com», que no significa
+    # nada. Un dominio o una palabra sola no es un territorio de mensaje.
+    vacios = sum(m["creativos"] for m in msgs if _titular_vacio(m["mensaje"]))
+    utiles = [m for m in msgs if not _titular_vacio(m["mensaje"])]
+    if msgs and not utiles:
+        di(f"No hay mensaje que leer: sus {vacios} anuncios con titular traen "
+           f"un dominio o una sola palabra, no una promesa.",
+           f"titulares observados: "
+           f"{' · '.join(m['mensaje'] for m in msgs[:3])}")
+        msgs = []
+    elif vacios:
+        di(f"{vacios} de sus anuncios traen un titular que no dice nada (un "
+           f"dominio o una palabra sola) y quedan fuera de la lectura.",
+           "un titular sin promesa no es un territorio de mensaje")
+        msgs = utiles
+
+    # 1 · Apuesta única o cartera repartida.
+    c = r.get("concentracion")
+    if c is not None and msgs:
+        top = msgs[0]
+        # La cuota se recalcula sobre los mensajes ÚTILES: si se descartaron
+        # titulares vacíos, la concentración original ya no es la de esta lista.
+        c = top["cuota"] if utiles else c
+        if c >= APUESTA_UNICA:
+            di(f"Apuesta a un solo mensaje: «{top['mensaje']}» carga "
+               f"{_pc(c)}% de todo lo que tiene al aire.",
+               f"{top['creativos']} de {r['leidos']} creativos · "
+               f"{len(msgs)} mensajes distintos en total")
+        elif c <= CARTERA:
+            di(f"Cartera repartida: ningún mensaje pasa de {_pc(c)}% del "
+               f"inventario, con {len(msgs)} mensajes distintos al aire.",
+               f"el más repetido, «{top['mensaje']}», va en "
+               f"{top['creativos']} creativos")
+        else:
+            di(f"Concentra sin apostarlo todo: «{top['mensaje']}» lleva "
+               f"{_pc(c)}% y hay {len(msgs)} mensajes más.",
+               f"{top['creativos']} de {r['leidos']} creativos")
+
+    # 2 · A quién le habla.
+    verts = sorted((r.get("verticales_todas") or {}).items(), key=lambda x: -x[1])
+    tot = sum(n for _, n in verts)
+    if verts and tot:
+        v0, n0 = verts[0]
+        if n0 / tot >= AUDIENCIA_MONO:
+            di(f"Le habla casi solo a «{v0}»: {_pc(n0 / tot)}% de sus anuncios "
+               f"clasificables.",
+               f"{n0} de {tot} anuncios con titular clasificable")
+        elif len(verts) >= AUDIENCIA_REPARTIDA:
+            di(f"Reparte entre {len(verts)} verticales distintas; la mayor, "
+               f"«{v0}», no pasa de {_pc(n0 / tot)}%.",
+               " · ".join(f"{v} {n}" for v, n in verts[:5]))
+    elif r.get("leidos"):
+        di("No se puede decir a quién le habla: ninguno de sus titulares "
+           "clasifica en una vertical.",
+           f"{r['leidos']} anuncios leídos, 0 con titular clasificable")
+
+    # 3 · Cómo carga los creativos.
+    if r.get("modo") == "ráfaga":
+        di(f"Despliega en lote: {_pc(r.get('cuota_en_rafaga'))}% de sus "
+           f"creativos entraron en cargas del mismo segundo.",
+           "varios anuncios con el mismo instante de creación son una subida "
+           "en lote, no piezas pensadas una por una")
+    elif r.get("creativos_por_semana") and (r.get("span_dias") or 0) >= 60:
+        di(f"Sostiene un goteo: {r['creativos_por_semana']} creativos por "
+           f"semana a lo largo de {r['span_dias']} días.",
+           f"{_pc(r.get('cuota_en_rafaga') or 0)}% en ráfaga · el resto "
+           f"repartido")
+
+    # 4 · Si dejó de producir.
+    d = r.get("dias_sin_lanzar")
+    if d is not None and d >= DIAS_SILENCIO:
+        di(f"Dejó de producir: su último creativo nuevo entró hace {d} días, "
+           f"aunque sus anuncios siguen activos.",
+           f"última creación registrada en la consulta del "
+           f"{crudo.get('_fecha') or 'día de la lectura'}")
+
+    # 5 · El formato.
+    k = r.get("carrusel_cuota")
+    if k is not None and r.get("leidos"):
+        if k >= CARRUSEL_SISTEMATICO:
+            di(f"Usa carrusel de forma sistemática: {_pc(k)}% de sus anuncios, "
+               f"hasta {r.get('tarjetas_max')} tarjetas.",
+               f"{r.get('carrusel')} de {r['leidos']} anuncios · el tipo de "
+               f"medio (video o imagen) no lo devuelve la fuente")
+        elif k <= CARRUSEL_CASI_NULO:
+            di(f"Casi no usa carrusel: {_pc(k)}% de sus anuncios. Todo pieza "
+               f"única.",
+               f"{r.get('carrusel')} de {r['leidos']} anuncios")
+
+    # 6 · La apuesta que no retira.
+    top_vivo = ((crudo.get("longevidad") or {}).get("top") or [None])[0]
+    if top_vivo and top_vivo.get("dias_vivo", 0) >= LONGEVIDAD_MINIMA:
+        di(f"Tiene una apuesta que no retira: «{top_vivo['mensaje']}» lleva "
+           f"{top_vivo['dias_vivo']} días al aire.",
+           f"desde {top_vivo['entrega_desde']} · nadie deja pagando meses un "
+           f"creativo que no le devuelve nada, pero la fuente no dice cuánto")
+
+    return L
+
+
+def dossier(marcas: list[dict], profundo: dict) -> list[dict]:
+    """Por cada marca: a quién le habla, qué repite, qué no retira y la lectura.
+
+    Es la versión completa del análisis pero recortable: el tablero muestra los
+    primeros de cada lista y despliega el resto. Los `mensajes` salen del
+    análisis profundo y NO de la lectura por país — son dos universos, y en la
+    tarjeta se declara cuál se está viendo."""
+    por_clave = {m.get("clave"): m for m in profundo.get("marcas", [])}
+    fecha = (profundo.get("_corrida") or {}).get("fecha_consulta")
+    salida = []
+    for r in marcas:
+        crudo = dict(por_clave.get(r["clave"]) or {})
+        crudo["_fecha"] = fecha
+        verts = sorted((r.get("verticales_todas") or {}).items(),
+                       key=lambda x: -x[1])
+        tot = sum(n for _, n in verts) or 1
+        d = dict(r)
+        d["audiencia"] = [{"vertical": v, "anuncios": n,
+                           "cuota": round(n / tot, 3)} for v, n in verts]
+        # OJO con este total: NO es un conteo de anuncios, es un conteo de
+        # CLASIFICACIONES. Un titular que dice «gestiona tu negocio y cobra»
+        # toca dos verticales y se cuenta en las dos (ver audiencia() en
+        # adlibrary_profundo.py). Por eso puede superar el número de anuncios
+        # leídos, y por eso el tablero lo rotula como clasificaciones: decir
+        # «44 anuncios de 43 leídos» era un imposible en pantalla.
+        d["audiencia_clasificaciones"] = tot
+        d["mensajes_lista"] = [
+            {"mensaje": m["mensaje"], "creativos": m["creativos"],
+             "cuota": m["cuota"], "dias_vivo": m["dias_vivo_max"],
+             "desde": m["primera_creacion"], "ultima": m["ultima_creacion"]}
+            for m in crudo.get("mensajes", [])]
+        lon = crudo.get("longevidad") or {}
+        d["top_anuncios"] = [
+            {"mensaje": a.get("mensaje"), "dias_vivo": a.get("dias_vivo"),
+             "desde": a.get("entrega_desde"), "url": a.get("url")}
+            for a in (lon.get("top") or [])]
+        d["top_respondible"] = lon.get("_respondible", False)
+        d["top_por_que_no"] = lon.get("_por_que_no")
+        d["dias_vivo_mediana"] = lon.get("dias_vivo_mediana")
+        d["lectura"] = lectura_estrategica(r, crudo)
+        d["cobranding"] = crudo.get("cobranding") or {}
+        salida.append(d)
+    return salida
+
+
 def comparativo(marcas: list[dict]) -> dict:
     """Lo que separa a los referentes de los competidores, en números.
 
@@ -448,6 +618,7 @@ def arma(profundo: dict | None, hoy: date,
     recs = recomienda(marcas, comp, ocupados, sobrev)
     return {
         "_fuente": (profundo.get("_corrida") or {}).get("herramienta"),
+        "dossier": dossier(marcas, profundo),
         "_fecha_consulta": (profundo.get("_corrida") or {}).get("fecha_consulta"),
         "_limite": (
             "La Ad Library no publica rendimiento de anunciantes comerciales. "
