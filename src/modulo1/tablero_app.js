@@ -1502,12 +1502,16 @@
         "Abrir la búsqueda</a></div>";
     }).join("");
 
-    return seccion("referencias", "Contraste", "Referencias",
-      "Lo nuestro contra lo de ellos, y de ahí adónde ir a buscar cómo se ve.", "",
+    return seccion("referencias", "Qué hacer", "Referencias",
+      "Primero las recomendaciones de ejecución; después de dónde salen.", "",
+      /* Lo ACCIONABLE va primero. Estaba debajo de la tabla de contraste y
+         Mercadeo no lo encontró: en una sección larga, el orden es la
+         navegación. Lo que se va a usar en la mesa no puede estar a dos
+         scrolls de distancia. */
+      (bloqueRecs ? bloqueRecs + '<div class="mt-12"></div>' : "") +
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
       cardCab("Nosotros contra ellos", "Solo se compara lo comparable") +
       '<div class="divide-y divide-slate-50">' + filasC + "</div></div>" +
-      (bloqueRecs ? '<div class="mt-10">' + bloqueRecs + "</div>" : "") +
       (terr ? '<h3 class="text-[17px] font-bold text-slate-800 mb-5 mt-10">' +
         'Territorios de mensaje</h3>' +
         '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
