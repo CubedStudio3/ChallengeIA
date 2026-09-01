@@ -249,3 +249,255 @@ adopta esa contingencia como **modo normal de operación** en lugar de plan B.
    leads cerraron) es una escritura. Podrá calcular qué cargar y dejarlo como
    instrucción para un humano, pero no cerrar el circuito solo. Ya estaba
    bloqueado por la ausencia de Zoho CRM, así que no altera el plan inmediato.
+
+---
+
+## Sesión 2 · 27 y 28 de agosto de 2026 · de las verificaciones al tablero
+
+La Sesión 1 terminó sin una sola línea de código, a propósito. Esta sesión
+resolvió los bloqueantes y construyó la rebanada vertical completa.
+
+### Paso 1 · Fase 0, y la trampa heredada que NO era cierta
+
+Las verificaciones se corrieron contra las cuentas reales, en solo lectura.
+
+| Verificación | Resultado |
+|---|---|
+| V0 · convención de fechas y métricas | ✅ **12/12 valores al centavo** contra la interfaz |
+| V1 · escritura en Sprint | postergada por ADR-012 (solo lectura en Fase 0) |
+| V5 · page_id de competidores | ✅ Paggo confirmado; Square y Recurrente pendientes entonces |
+
+El hallazgo más caro de la Fase 0 fue **desmontar una trampa heredada**. El
+documento maestro advertía que el campo `lead` no correspondía a la columna de
+Resultados. Con rango **cerrado** y `level=campaign`, `results` y
+`cost_per_result` calzan **exactamente** con la interfaz. Y las campañas que
+concentran el gasto optimizan por `actions:lead`, no por `QualifiedLead` — este
+último existe como evento del pixel pero lo usa **1 campaña, con 1 resultado y
+$3.23**. Se documentó en ADR-013.
+
+El caso «$70.74 vs $1.57» del documento maestro **no se reprodujo** y el usuario
+no lo reconoció. Se trató como no verificable en lugar de heredarlo como verdad.
+
+### Paso 2 · El error propio de método, y su corrección
+
+Se concluyó que cinco conectores de Zoho «no existían» porque sus herramientas
+no estaban cargadas en la sesión. **Estaban instalados, solo apagados.**
+`ListConnectors` lo mostró. Quedó como lección permanente en `CLAUDE.md`:
+*ausencia de evidencia no es evidencia de ausencia*.
+
+Consecuencia: los Módulos 2 y 3 dejaron de estar «descartados» y pasaron a
+«dependen de habilitar CRM y Mail».
+
+### Paso 3 · El tablero, en cinco secciones
+
+Se construyó el tablero semanal como artefacto publicado, con estado compartido
+que sobrevive a las republicaciones: Resumen, Rendimiento, Competencia,
+Referencias, Estrategia.
+
+Decisiones de esta etapa: primero la estrategia y después las tareas (ADR-023);
+las ideas del equipo se guardan aparte de los hallazgos del sistema (ADR-024);
+dos gráficas en vez de una porque son dos medidas distintas, y un hueco no es un
+cero (ADR-025).
+
+### Paso 4 · Zoho Sprint: el camino que no dependía del conector
+
+El conector autenticaba pero faltaba el `teamId`. Se probaron tres formas y las
+tres dieron el mismo error. En vez de quedarse esperando, se abrió una segunda
+vía: **importación por CSV**, que no necesita ninguno de los cinco IDs. El
+mapeo de columnas se confirmó en vivo con Zoho.
+
+Ese fue el paso que salvó el módulo. Y trajo una trampa que se documentó: en
+Sprints, **tipo y prioridad van en inglés y el estado en español** — `Task`,
+`Medium`, pero `Por Hacer`.
+
+### Estado al cierre de la Sesión 2
+
+| Ítem | Estado |
+|---|---|
+| Fase 0 | ✅ ejecutada, con V0 verificada al centavo |
+| Tablero | ✅ publicado y operativo |
+| Sprint por CSV | ✅ probado en producción (ítems 1140-1142) |
+| Sprint por API | ⚠️ autentica, falta el `teamId` |
+| ADR escritos | 027 |
+
+---
+
+## Sesión 3 · 31 de agosto de 2026 · cerrar los datos y el diseño
+
+La sesión más larga. Cinco frentes, en este orden.
+
+### Paso 1 · Los cinco IDs de Sprints, y la escritura real
+
+El usuario autorizó explícitamente una escritura de prueba en producción,
+acotada al proyecto `21897000000139001`. Se ejecutó el ciclo completo:
+
+```
+CreateItem  → ítem I1149 creado y asignado a la persona correcta
+GetItems    → verificado que existe con los campos esperados
+DeleteItem  → borrado
+GetItems    → confirmado que ya no está
+```
+
+**La escritura por API funciona.** Y apareció la trampa que costó las horas:
+`users` **no es el ID suelto**, es un **arreglo JSON serializado como texto** —
+`["21897000...144001"]`. El ID a secas devuelve `7600 · Given JSON is invalid`,
+un mensaje que ni menciona el campo `users` (ADR-029).
+
+Los cinco IDs quedaron en `config/equipo.json` y el destino es el **backlog**,
+porque el sprint «AGOSTO 2026» cierra el 31 de agosto.
+
+### Paso 2 · Llenar la configuración destapó tres fallos reales
+
+`config/equipo.json` estaba bloqueado con `_lock: true`. Al llenarlo con los
+datos verdaderos, el camino que nunca se había ejecutado reveló tres errores:
+
+1. La capacidad semanal se **devolvía completa a cada tarea**: pedía 20 artes
+   sobre una capacidad de 5. El reparto tiene que ir después de construir la
+   lista, por resto mayor.
+2. La evidencia estructurada se imprimía como **repr de Python** dentro de la
+   descripción del work item.
+3. El campo `remedio` de cada hueco se **descartaba** antes de llegar al tablero.
+
+**Lección:** *un camino que nunca se ejecutó no está probado, está apagado.*
+Llenar la configuración fue la prueba de integración que faltaba (ADR-030).
+
+### Paso 3 · Buscando el alcance orgánico: no existe, y apareció algo mejor
+
+Se probó por las dos fuentes. Zoho Social devuelve interacciones pero no
+alcance. `ads_get_ig_media` tampoco: solo `like_count` y `comments_count`. La
+URL de Business Suite Insights que mandó el usuario es una app con sesión
+iniciada y el proxy la bloquea de raíz.
+
+**El alcance no viene por ninguna vía.** Se declara el hueco en vez de
+capturarlo a mano: un paso manual dentro de una automatización semanal es una
+bomba de tiempo.
+
+Pero la segunda fuente trajo un corte que la primera no tiene:
+**`media_product_type`**, que distingue REELS de FEED. Sobre 25 publicaciones,
+**los reels rinden 3.2× el promedio del feed** (12.3 vs 3.8 interacciones), las
+5 mejores piezas son todas reels, y los 7 comentarios de la muestra están todos
+en reels. Controlado por antigüedad: las dos cohortes promedian 30 días, así que
+no es sesgo (ADR-031).
+
+**Lección:** *una segunda fuente del mismo dato no es redundancia.*
+
+Y se corrigió otro «imposible» heredado: el corte del orgánico por mercado no es
+imposible, **falta conectar una página**. `ads_get_ad_account_pages` devuelve
+dos: «Qpaypro» y «Qpaypro El Salvador» (829032443626700). Es configuración, no
+desarrollo.
+
+### Paso 4 · El análisis profundo de la Ad Library
+
+El usuario pidió el mismo análisis que se hizo de Square, aplicado a todas las
+marcas. Se entregó como reporte HTML propio, con siete dossiers.
+
+De ocho preguntas, **la fuente sostiene cinco**. Las otras tres se declaran
+arriba, donde no se pueden no leer: la Ad Library devuelve **ocho campos y nada
+más**, y **Meta no publica impresiones de anunciantes comerciales** — un «top 10
+por impresiones» de un competidor comercial es imposible, no difícil (ADR-032).
+
+Cuatro trampas nuevas salieron de aquí:
+
+- `_normaliza()` unía las tarjetas de un carrusel con `" + "`, que es justo el
+  patrón que busca la detección de co-branding: **leía su propio join** y
+  reportaba «Square + Gordon's Wine Bar» como marca aliada.
+- «Creativos por semana» daba **350** para Square UK: con la muestra topada en
+  los 50 más recientes el span colapsa a 1 día. Si el span no la sostiene, la
+  tasa no se publica.
+- Consultar **sin `countries`** da el inventario global: Square pasó de 0
+  anuncios (GT/SV) a 112 activos en su página de EE.UU.
+- Varios anuncios con el **mismo segundo de creación** son una carga en lote, no
+  piezas pensadas una por una. Paggo sube el 65% de sus creativos en ráfagas.
+
+### Paso 5 · Dos rondas de diseño
+
+Mercadeo entregó una paleta y una imagen de referencia. Se aplicó en dos rondas,
+y la segunda **corrigió una conclusión de la primera**.
+
+- **Ronda 1 (ADR-033):** se midió antes de aplicar. Los pasteles sobre blanco
+  dan **1.34-1.72:1**, cuando el mínimo para texto es 4.5:1 — como color de
+  letra son ilegibles. Regla: **el pastel es relleno, nunca tinta.** De ahí se
+  concluyó, de más, que la paleta tampoco servía para gráficas.
+- **Ronda 2 (ADR-034):** sale el arena. Y se probó lo que faltaba probar:
+  bajando cada tono a **peso de línea**, los tres **pasan 5/5 del validador**.
+  La paleta sí puede pintar las gráficas — el pastel rellena el área y el tono
+  oscuro traza la línea.
+
+**Lección:** *un límite medido puede ser el límite del uso, no del color.*
+Había que cambiar el tono, no la paleta.
+
+El Resumen se rearmó con la estructura de la imagen de referencia. Una
+diferencia deliberada: la imagen trae un «28%» de adorno en cada tarjeta; aquí
+**cada barra tiene un denominador real** y el pie dice cuál es.
+
+Los adjuntos de la conversación **no aterrizan en el disco de la sesión**, así
+que los cuatro logos son redibujos en SVG, verificados en navegador a 120 y a
+44 px. Queda declarado y se reemplazan sin tocar código.
+
+### Paso 6 · La Rutina semanal
+
+Se creó la Rutina `trig_01CWh3gdJWfDKGzR4MDB6qhs`, lunes 07:00 GT. El parámetro
+de conectores **no está disponible para esta organización**, así que hay que
+adjuntarlos desde la interfaz de Routines. Sin ellos la Rutina se detiene en su
+Compuerta 0 y **no toca el tablero, a propósito**: es preferible que no corra a
+que corra a ciegas y sobrescriba el trabajo del equipo.
+
+---
+
+## Estado al cierre de la Sesión 3 · 31 de agosto de 2026
+
+### Lo que está operativo
+
+| Componente | Estado | Verificado contra |
+|---|---|---|
+| Meta Ads · lectura | ✅ | 12/12 valores al centavo (V0) |
+| Meta Ad Library | ✅ | 6 marcas × 2 mercados |
+| Zoho Social · lectura | ✅ | 3 redes, 17 publicaciones |
+| Zoho Sprints · lectura y **escritura** | ✅ | ciclo crear/verificar/borrar en producción |
+| Tablero publicado | ✅ | Chromium a 1440, 834 y 390 px |
+| Reporte de Ad Library | ✅ | Chromium, 7 dossiers |
+| Rutina semanal | ⚠️ | creada; **le faltan los conectores** |
+
+### Los números de la corrida de referencia (2026-08-01 a 2026-08-24)
+
+| Dato | Valor |
+|---|---|
+| Leads (`actions:lead`) | **370** — GT 265, SV 105 |
+| Inversión | **$963.46** |
+| Costo por lead | **$2.60** — GT $2.89, SV $1.89 |
+| Campañas con entrega | 4 (1 excluida por indicador distinto) |
+| Interacciones orgánicas | 49 en 17 publicaciones |
+| Presión competitiva GT | 42 anuncios que disputan, **4** competidores |
+| Presión competitiva SV | **0** — medido, no supuesto |
+| Estrategias propuestas | 3, con su premisa |
+| Tareas con evidencia | 6 |
+
+### Los huecos, declarados
+
+1. **Alcance orgánico** — no viene por ninguna de las dos fuentes. Se reportan
+   interacciones absolutas y el hueco se declara. Sin alcance no hay tasa de
+   engagement, así que **no se calcula**.
+2. **Corte del orgánico por mercado** — falta conectar «Qpaypro El Salvador» en
+   el portal de Zoho Social. Configuración, no desarrollo.
+3. **LinkedIn y TikTok** — fuera del reporte por instrucción del usuario.
+   LinkedIn además devolvía 0 en 25 de 25 publicaciones, indistinguible entre
+   cero real y campo no soportado.
+4. **Impresiones de la competencia** — Meta no las publica para anunciantes
+   comerciales. Imposible, no pendiente.
+
+### Alcance
+
+Decisión del 2026-08-31: **solo Módulo 1**. Los Módulos 2 y 3 quedan fuera. No
+es un fracaso de criterio de corte — es el criterio de corte del 1 de
+septiembre aplicado un día antes, con el Módulo 1 completo en lugar de tres
+módulos a medias.
+
+### Lo que falta, y de quién depende
+
+| Pendiente | De quién |
+|---|---|
+| Adjuntar los conectores a la Rutina desde claude.ai | **del usuario** (solo él puede) |
+| Conectar «Qpaypro El Salvador» en Zoho Social | del usuario, opcional |
+| Sustituir los logos redibujados por los oficiales | del usuario, opcional |
+| Corridas retroactivas de junio y julio para el Demo Day | del sistema |
+| El deck de la presentación | del sistema |

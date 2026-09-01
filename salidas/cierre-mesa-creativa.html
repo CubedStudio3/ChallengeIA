@@ -1,0 +1,747 @@
+<title>Mesa Creativa al cierre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Mesa Creativa · resumen de cierre.
+   El sistema de diseno NO se invento aqui: sale de config/tema.json del
+   proyecto, para que esta pagina y el tablero se vean como una sola cosa el dia
+   de la presentacion. Paleta, tipografias, radio y sombra son los mismos.
+
+   TEMA UNICO CLARO, igual que el tablero, por peticion explicita del usuario
+   (2026-08-28). No es una omision: todos los colores y el fondo se pintan
+   explicitamente para que la pagina se vea igual sin importar el tema del
+   visor. */
+:root {
+  --tinta:      #0B0B0B;
+  --tinta-2:    #566070;
+  --tinta-3:    #8B95A3;
+  --ground:     #F3F6F8;
+  --sup:        #FFFFFF;
+  --linea:      #E7ECF1;
+  --negro:      #000000;
+  --azul:       #a1caed;
+  --rosa:       #f3d7e9;
+  --verde:      #d0e4bb;
+  --t-azul:     #1A5B93;
+  --t-rosa:     #931A68;
+  --t-verde:    #4E7722;
+  --bien:       #12946B;
+  --falta:      #C4820F;
+  --alerta:     #C04A66;
+  --falta-suave:#FDF6E7;
+  --sombra:     0 4px 20px rgba(0,0,0,.05);
+  --r:          20px;
+  --fam:        "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono:       "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--tinta);
+  font-family: var(--fam);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hoja {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+@media (max-width: 640px) { .hoja { padding: 28px 16px 64px; gap: 44px; } }
+
+/* ── Tipografia ─────────────────────────────────────────────────────────── */
+
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 800; line-height: 1.1; }
+h2 { font-size: clamp(21px, 3vw, 26px); font-weight: 700; line-height: 1.25; }
+h3 { font-size: 15.5px; font-weight: 700; letter-spacing: -0.01em; }
+p  { margin: 0; max-width: 66ch; }
+b, strong { font-weight: 700; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  background: var(--sec, var(--negro));
+  color: var(--sec-tinta, #fff);
+}
+.sec { display: flex; flex-direction: column; gap: 22px; }
+.sec > .intro { color: var(--tinta-2); font-size: 15px; }
+/* align-items en flex-start, no por gusto: en una columna flex los hijos se
+   estiran por defecto, y la pastilla del rotulo —que es inline-flex— salia
+   ocupando todo el ancho como una banda de color. */
+.cabecera { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.portada { align-items: flex-start; }
+.portada > * { max-width: 100%; }
+
+/* ── Piezas ─────────────────────────────────────────────────────────────── */
+
+.tarjeta {
+  background: var(--sup);
+  border-radius: var(--r);
+  box-shadow: var(--sombra);
+  padding: 26px;
+}
+
+.rejilla {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
+}
+.rejilla-2 {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+}
+
+.dato .et {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--tinta-3);
+  display: block;
+}
+.dato .n {
+  font-size: 33px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin-top: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.dato .sub {
+  font-size: 12px;
+  color: var(--tinta-3);
+  margin-top: 8px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+/* La cabecera oscura. Es la tesis de la pagina, no un adorno. */
+.portada {
+  background: var(--negro);
+  color: #fff;
+  border-radius: 28px;
+  padding: clamp(30px, 5vw, 54px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.portada .kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.portada p { color: rgba(255,255,255,.82); font-size: 16px; max-width: 60ch; }
+.portada .tesis {
+  border-top: 1px solid rgba(255,255,255,.16);
+  padding-top: 22px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  max-width: 56ch;
+  letter-spacing: -0.01em;
+}
+.fechas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(255,255,255,.62);
+}
+.fechas span b { color: #fff; font-weight: 600; }
+
+/* Hallazgo: el numero manda, la lectura lo explica. */
+.hallazgo { display: flex; flex-direction: column; gap: 12px; }
+.hallazgo .cifra {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.hallazgo p { font-size: 13.5px; color: var(--tinta-2); }
+.hallazgo .fuente {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--tinta-3);
+  letter-spacing: 0.04em;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.c-azul  { color: var(--t-azul); }
+.c-rosa  { color: var(--t-rosa); }
+.c-verde { color: var(--t-verde); }
+
+/* Relleno pastel: EL PASTEL ES RELLENO, NUNCA TINTA. Medido en el proyecto,
+   un pastel sobre blanco da 1.34:1 como letra; el negro encima da mas de 12:1. */
+.pastel { border-radius: var(--r); padding: 24px; color: var(--tinta); }
+.f-azul  { background: var(--azul); }
+.f-rosa  { background: var(--rosa); }
+.f-verde { background: var(--verde); }
+.pastel p { font-size: 13.5px; color: rgba(0,0,0,.7); }
+
+/* Tabla */
+.envoltura { overflow-x: auto; border-radius: var(--r); background: var(--sup);
+             box-shadow: var(--sombra); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 500px; }
+caption { text-align: left; padding: 22px 26px 0; font-size: 12.5px;
+          color: var(--tinta-3); }
+th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  padding: 18px 26px 10px;
+  white-space: nowrap;
+}
+td { padding: 13px 26px; border-top: 1px solid var(--linea); vertical-align: top; }
+td:first-child { font-weight: 600; }
+/* La primera columna es el nombre de la cosa y no debe partirse a mitad de
+   frase; la segunda es una pastilla y nunca se parte. Cabe porque la tabla vive
+   en un contenedor con scroll propio. */
+th:nth-child(1), td:nth-child(1) { min-width: 218px; }
+th:nth-child(2), td:nth-child(2) { white-space: nowrap; }
+tbody tr:first-child td { border-top: 1px solid var(--linea); }
+.num { font-variant-numeric: tabular-nums; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.p-bien  { background: #E6F5EF; color: #0E7A57; }
+.p-falta { background: var(--falta-suave); color: #8B5905; }
+.p-no    { background: #FCEDF0; color: #A83B55; }
+
+/* Reglas: lista de afirmaciones, no de adornos. */
+.reglas { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.reglas li {
+  background: var(--sup);
+  padding: 18px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.reglas li:first-child { border-radius: var(--r) var(--r) 0 0; }
+.reglas li:last-child  { border-radius: 0 0 var(--r) var(--r); }
+.reglas .qué { font-weight: 700; font-size: 14px; flex: 0 0 200px; }
+.reglas .por { font-size: 13.5px; color: var(--tinta-2); flex: 1 1 300px;
+               max-width: 60ch; }
+
+/* Huecos: se declaran, con el mismo peso que los aciertos. */
+.hueco {
+  background: var(--sup);
+  border-radius: var(--r);
+  box-shadow: var(--sombra);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.hueco h3 { font-size: 14.5px; }
+.hueco p { font-size: 13px; color: var(--tinta-2); }
+/* El veredicto va en pastilla y no en un borde de color a la izquierda: un
+   borde recto contra un radio de 20 px deja una astilla curva en las esquinas
+   que se lee como un fallo de dibujo. Y la pastilla es el lenguaje que ya usa
+   el resto de la pagina. */
+.hueco .veredicto {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #8B5905;
+  background: var(--falta-suave);
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+
+/* La linea de tiempo SI es una secuencia: tres sesiones con fecha, y el orden
+   carga informacion. Por eso va numerada y nada mas lo esta. */
+.linea { display: flex; flex-direction: column; gap: 2px; }
+.hito {
+  background: var(--sup);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.hito:first-child { border-radius: var(--r) var(--r) 0 0; }
+.hito:last-child  { border-radius: 0 0 var(--r) var(--r); }
+.hito .n {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tinta-3);
+  padding-top: 2px;
+}
+.hito .cuerpo { display: flex; flex-direction: column; gap: 8px; }
+.hito .fecha {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+}
+.hito p { font-size: 13.5px; color: var(--tinta-2); }
+@media (max-width: 560px) {
+  .hito { grid-template-columns: 1fr; gap: 10px; }
+}
+
+.pie {
+  border-top: 1px solid var(--linea);
+  padding-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 34px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  font-variant-numeric: tabular-nums;
+}
+.pie b { color: var(--tinta); font-weight: 600; }
+
+a { color: var(--t-azul); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--t-azul);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+</style>
+
+<div class="hoja">
+
+  <header class="portada">
+    <span class="kicker">Mercadeo · QPayPro · Reto interno de IA</span>
+    <h1>Mesa Creativa llega al cierre con un módulo completo, no con tres a medias.</h1>
+    <p>Un sistema agéntico que prepara la reunión creativa semanal: lee la pauta
+      de Meta, la competencia activa en la Ad Library y el orgánico de las
+      redes; cruza las tres fuentes; propone una estrategia con su premisa y un
+      plan de producción con evidencia; y deja las tareas listas para Zoho
+      Sprints. Corre solo, con las compuertas humanas declaradas.</p>
+    <div class="fechas">
+      <span>Cierre de desarrollo · <b>5 de septiembre</b></span>
+      <span>Demo Day · <b>9 de septiembre</b></span>
+      <span>Alcance · <b>Módulo 1</b></span>
+    </div>
+    <p class="tesis">Lo que se presenta está verificado contra los sistemas
+      reales, no contra la documentación. Y lo que no se pudo medir está escrito
+      con el mismo tamaño de letra que lo que sí.</p>
+  </header>
+
+  <!-- ── Los números ──────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow" style="--sec: var(--azul); --sec-tinta: #000">Los números</span>
+      <h2>La corrida de referencia</h2>
+      <p class="intro">Periodo del 1 al 24 de agosto de 2026, leído de las
+        cuentas de producción. La convención de fechas se verificó valor por
+        valor contra la interfaz de Meta: doce de doce, al centavo.</p>
+    </div>
+
+    <div class="rejilla">
+      <div class="tarjeta dato">
+        <span class="et">Leads del periodo</span>
+        <div class="n">370</div>
+        <div class="sub">indicador <code>actions:lead</code><br>GT 265 · SV 105</div>
+      </div>
+      <div class="tarjeta dato">
+        <span class="et">Inversión</span>
+        <div class="n">$963.46</div>
+        <div class="sub">4 campañas con entrega<br>204,908 impresiones</div>
+      </div>
+      <div class="tarjeta dato">
+        <span class="et">Costo por lead</span>
+        <div class="n">$2.60</div>
+        <div class="sub">GT $2.89 · SV $1.89</div>
+      </div>
+      <div class="tarjeta dato">
+        <span class="et">Interacciones orgánicas</span>
+        <div class="n">49</div>
+        <div class="sub">17 publicaciones en 3 redes<br>Facebook 12 · Instagram 30 · YouTube 7</div>
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Una advertencia que el sistema pone él mismo</h3>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--tinta-2)">
+        <b>El indicador de resultados cambia por campaña.</b> En Guatemala hay
+        265 leads y 10,771 clics en el enlace, y <b>no se suman</b>: son
+        campañas que optimizan cosas distintas. El total de arriba es solo del
+        indicador principal, y una campaña quedó excluida por eso. Agregar
+        campañas con indicadores distintos era el riesgo real de este análisis
+        — no el que advertía el documento heredado.</p>
+    </div>
+  </section>
+
+  <!-- ── Hallazgos ────────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow" style="--sec: var(--rosa); --sec-tinta: #000">Hallazgos</span>
+      <h2>Cinco cosas que el sistema encontró y nadie había mirado</h2>
+      <p class="intro">Ninguna sale de una intuición. Cada una trae la consulta
+        que la produjo y el corte que la sostiene.</p>
+    </div>
+
+    <div class="rejilla-2">
+      <div class="tarjeta hallazgo">
+        <div class="cifra c-rosa">3.2×</div>
+        <h3>Los reels rinden 3.2 veces el promedio del feed</h3>
+        <p>12.3 contra 3.8 interacciones por pieza. Las cinco mejores
+          publicaciones de la muestra son todas reels, y los siete comentarios
+          están todos en reels: el feed tiene cero en quince publicaciones.
+          Controlado por antigüedad — las dos cohortes promedian 30 días, así
+          que no es que unas sean más nuevas.</p>
+        <div class="fuente">ads_get_ig_media · media_product_type · n=25</div>
+      </div>
+
+      <div class="tarjeta hallazgo">
+        <div class="cifra c-verde">0</div>
+        <h3>El Salvador no se lo disputa nadie</h3>
+        <p>Cero anuncios de competencia activos en SV. No es un supuesto por
+          falta de datos: se preguntó por las seis marcas del registro en los
+          dos mercados y las seis dieron cero. Y SV es además el mercado más
+          barato — $1.89 por lead contra $2.89 en Guatemala.</p>
+        <div class="fuente">ads_library_search · 6 marcas × 2 mercados</div>
+      </div>
+
+      <div class="tarjeta hallazgo">
+        <div class="cifra c-azul">2 <span style="font-size:17px;font-weight:600;color:var(--tinta-3)">de 845</span></div>
+        <h3>Volumen no es presión competitiva</h3>
+        <p>Banco Industrial tiene 845 anuncios activos en Guatemala y solo
+          <b>2</b> tocan pagos. Contar los 845 habría inflado la presión
+          competitiva 21 veces. Se mide solapamiento de mensaje, no volumen de
+          inventario.</p>
+        <div class="fuente">ads_library_search · clasificación por categoría</div>
+      </div>
+
+      <div class="tarjeta hallazgo">
+        <div class="cifra c-rosa">74%</div>
+        <h3>Paggo apuesta todo a una sola frase</h3>
+        <p>El 74% de su inventario en Guatemala repite «Gestiona tu Negocio
+          Fácil», y lleva 101 días vivo. Además está escalando: 21 de sus 31
+          anuncios se lanzaron en los últimos diez días, y sube el 65% de sus
+          creativos en ráfagas del mismo segundo — despliega, no testea.</p>
+        <div class="fuente">ads_library_search · ad_creation_time</div>
+      </div>
+
+      <div class="pastel f-verde">
+        <h3>Y un «imposible» que resultó ser un cable suelto</h3>
+        <p style="margin-top:10px">Se había concluido que el orgánico no se
+          podía partir por mercado. No era cierto:
+          <code>ads_get_ad_account_pages</code> devuelve <b>dos</b> páginas —
+          «Qpaypro» y «Qpaypro El Salvador». El corte existe del lado de Meta;
+          lo que falta es conectar esa segunda página en el portal de Zoho
+          Social. Es configuración, no desarrollo. Declarar algo imposible
+          cuando solo está desconectado cierra la puerta a arreglarlo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Verificado ───────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow" style="--sec: var(--verde); --sec-tinta: #000">Verificado</span>
+      <h2>Contra los sistemas reales, no contra la documentación</h2>
+      <p class="intro">Cada fila se probó ejecutándola. Lo que no se probó no
+        aparece como probado.</p>
+    </div>
+
+    <div class="envoltura">
+      <table>
+        <caption>Estado al 31 de agosto de 2026.</caption>
+        <thead>
+          <tr><th>Capacidad</th><th>Estado</th><th>Cómo se comprobó</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Meta Ads · lectura</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td class="num">12 de 12 valores al centavo contra la interfaz</td>
+          </tr>
+          <tr>
+            <td>Meta Ad Library</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>6 marcas en los 2 mercados, más el inventario global de los referentes</td>
+          </tr>
+          <tr>
+            <td>Zoho Social · lectura</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>3 redes, 17 publicaciones con sus interacciones nativas</td>
+          </tr>
+          <tr>
+            <td>Zoho Sprints · <b>escritura</b></td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>ciclo crear / verificar / borrar ejecutado en producción, con autorización explícita</td>
+          </tr>
+          <tr>
+            <td>Sprints por importación CSV</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>tres ítems creados en producción; mapeo de columnas confirmado en vivo</td>
+          </tr>
+          <tr>
+            <td>Tablero de la reunión</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>publicado, con estado compartido que sobrevive a las republicaciones · probado en navegador a 1440, 834 y 390 px</td>
+          </tr>
+          <tr>
+            <td>Reporte de la Ad Library</td>
+            <td><span class="pill p-bien">verificado</span></td>
+            <td>7 dossiers de marca, probado en navegador</td>
+          </tr>
+          <tr>
+            <td>Rutina semanal · lunes 07:00 GT</td>
+            <td><span class="pill p-falta">le falta un paso</span></td>
+            <td>creada y programada. El parámetro de conectores no está disponible para esta organización: hay que adjuntarlos desde la interfaz de Routines. Sin ellos la Rutina se detiene y <b>no toca el tablero, a propósito</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Reglas ───────────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow">Las reglas</span>
+      <h2>Por qué se le puede creer al reporte</h2>
+      <p class="intro">Un sistema que prepara decisiones de inversión tiene que
+        ser confiable antes que rápido. Estas seis reglas están en el código, no
+        en un documento aparte.</p>
+    </div>
+
+    <ul class="reglas">
+      <li>
+        <span class="qué">Cero datos inventados</span>
+        <span class="por">Falta un dato → el sistema se detiene y lo reporta.
+          Está prohibido rellenar con estimaciones o promedios. Un reporte con
+          un número inventado es peor que un reporte que no se generó.</span>
+      </li>
+      <li>
+        <span class="qué">Meta Ads es solo lectura</span>
+        <span class="por">Ninguna escritura de ningún tipo, ni siquiera en
+          estado pausado. Si una acción requiere escritura, el sistema redacta
+          la instrucción exacta y crea la tarea para que un humano la
+          aplique.</span>
+      </li>
+      <li>
+        <span class="qué">Solo un agente escribe</span>
+        <span class="por">Los agentes de análisis leen y producen archivos. Un
+          error de análisis no puede publicar ni modificar nada en producción,
+          porque no tiene la herramienta para hacerlo.</span>
+      </li>
+      <li>
+        <span class="qué">Ningún copy sin aprobación</span>
+        <span class="por">Los borradores de redes se crean con aprobación
+          requerida, nunca publicación directa. Decisión de diseño en contexto
+          de fintech; no se elimina por conveniencia.</span>
+      </li>
+      <li>
+        <span class="qué">Simulación obligatoria</span>
+        <span class="por">Toda operación que escriba en un sistema externo
+          tiene modo de simulación que muestra exactamente qué haría, sin
+          hacerlo.</span>
+      </li>
+      <li>
+        <span class="qué">Dos corridas no duplican</span>
+        <span class="por">Cada tarea lleva una marca de identidad en su
+          nombre. Correr el mismo periodo dos veces no crea tareas repetidas ni
+          publicaciones repetidas.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Huecos ───────────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow" style="--sec: var(--falta-suave); --sec-tinta: #8B5905">Los huecos</span>
+      <h2>Lo que no se puede medir, y por qué se dice en voz alta</h2>
+      <p class="intro">Esta sección existe a propósito. Un sistema que solo
+        muestra lo que le salió bien obliga a quien decide a adivinar el resto.</p>
+    </div>
+
+    <div class="rejilla-2">
+      <div class="hueco">
+        <span class="veredicto">no existe por API</span>
+        <h3>Alcance orgánico</h3>
+        <p>Probado por las dos fuentes: Zoho Social y la API de Instagram
+          devuelven interacciones y comentarios, nada más. La URL de Business
+          Suite es una aplicación con sesión iniciada y no se puede consultar.
+          Sin alcance no hay tasa de <i>engagement</i>, así que
+          <b>no se calcula</b>: se reportan interacciones absolutas. Capturarlo
+          a mano cada semana dentro de una automatización sería una bomba de
+          tiempo.</p>
+      </div>
+
+      <div class="hueco">
+        <span class="veredicto">imposible, no pendiente</span>
+        <h3>Impresiones de la competencia</h3>
+        <p>Meta publica rangos de impresiones solo de anuncios políticos y de
+          asuntos sociales. Para un anunciante comercial la Ad Library devuelve
+          ocho campos y ninguno es rendimiento. Un «top 10 por impresiones» de
+          un competidor comercial no es difícil: no existe. Lo que sí se mide
+          es qué repiten y qué no matan.</p>
+      </div>
+
+      <div class="hueco">
+        <span class="veredicto">falta configuración</span>
+        <h3>Orgánico separado por país</h3>
+        <p>Se resuelve conectando la página «Qpaypro El Salvador» en el portal
+          de Zoho Social. No requiere desarrollo. Mientras no esté, el orgánico
+          se reporta junto para los dos mercados y el tablero lo dice en la
+          tarjeta, no en una nota al pie.</p>
+      </div>
+
+      <div class="hueco">
+        <span class="veredicto">fuera por decisión</span>
+        <h3>LinkedIn y TikTok</h3>
+        <p>Fuera del reporte por instrucción de Mercadeo. En el caso de
+          LinkedIn coincide con lo que ya recomendaba el análisis: devolvía cero
+          en 25 de 25 publicaciones, y eso es indistinguible entre un cero real
+          y un campo que la fuente no soporta. Sumar ceros que parecerían
+          medidos habría sido peor que excluirlo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Cómo se llegó ────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow" style="--sec: var(--azul); --sec-tinta: #000">Cómo se llegó</span>
+      <h2>Tres sesiones, y una corrección de rumbo en cada una</h2>
+      <p class="intro">El orden importa: la primera sesión no escribió una
+        línea de código a propósito.</p>
+    </div>
+
+    <div class="linea">
+      <div class="hito">
+        <div class="n">01</div>
+        <div class="cuerpo">
+          <span class="fecha">27 de agosto · análisis</span>
+          <h3>Auditar antes de construir</h3>
+          <p>Se revisó el documento maestro contra el entorno real y salieron
+            las contradicciones, los riesgos y el inventario de conectores. Cero
+            código, por diseño. <b>La corrección:</b> se dio por inexistentes
+            cinco conectores de Zoho porque sus herramientas no estaban
+            cargadas. Estaban instalados, solo apagados — ausencia de evidencia
+            no es evidencia de ausencia.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <div class="n">02</div>
+        <div class="cuerpo">
+          <span class="fecha">27 y 28 de agosto · la rebanada vertical</span>
+          <h3>Verificar los datos y construir el tablero</h3>
+          <p>La convención de fechas quedó verificada al centavo y el tablero
+            de cinco secciones quedó publicado. <b>La corrección:</b> la trampa
+            heredada más citada del documento maestro —que el campo de leads no
+            correspondía a la columna de resultados— <b>no era cierta</b>. Con
+            rango cerrado calzan exactamente. El riesgo real era otro: agregar
+            campañas con indicadores distintos.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <div class="n">03</div>
+        <div class="cuerpo">
+          <span class="fecha">31 de agosto · cerrar</span>
+          <h3>Escritura real, datos completos y diseño</h3>
+          <p>Se verificó la escritura en Sprints contra producción, se llenó la
+            configuración del equipo y se aplicó la paleta de Mercadeo.
+            <b>La corrección:</b> llenar la configuración destapó tres errores
+            reales de aritmética y de reporte que el bloqueo escondía. Un camino
+            que nunca se ejecutó no está probado, está apagado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lo que falta ─────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cabecera">
+      <span class="eyebrow">Lo que falta</span>
+      <h2>Cinco días, y de quién depende cada cosa</h2>
+    </div>
+
+    <div class="envoltura">
+      <table>
+        <thead>
+          <tr><th>Pendiente</th><th>De quién</th><th>Si no se hace</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Adjuntar los conectores a la Rutina semanal</td>
+            <td><span class="pill p-no">solo Mercadeo</span></td>
+            <td>la Rutina se detiene en su primera compuerta y el tablero no se
+              actualiza el lunes. No se rompe nada: se queda quieta.</td>
+          </tr>
+          <tr>
+            <td>Corridas retroactivas de junio y julio</td>
+            <td><span class="pill p-bien">del sistema</span></td>
+            <td>el Demo Day muestra una sola semana en lugar de una tendencia.
+              La competencia no puede incluirse: la Ad Library solo responde qué
+              está activo hoy.</td>
+          </tr>
+          <tr>
+            <td>El deck de la presentación</td>
+            <td><span class="pill p-bien">del sistema</span></td>
+            <td>hay que presentar desde el tablero en vivo, que funciona, pero
+              sin narrativa de respaldo.</td>
+          </tr>
+          <tr>
+            <td>Conectar «Qpaypro El Salvador» en Zoho Social</td>
+            <td><span class="pill p-falta">Mercadeo · opcional</span></td>
+            <td>el orgánico sigue sin poder partirse por país. Ya está declarado
+              como hueco, así que no engaña a nadie.</td>
+          </tr>
+          <tr>
+            <td>Reemplazar los logos redibujados por los oficiales</td>
+            <td><span class="pill p-falta">Mercadeo · opcional</span></td>
+            <td>se ven los redibujos en SVG. Se sustituyen dejando el archivo
+              con el mismo nombre, sin tocar código.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="pie">
+    <span><b>34</b> decisiones técnicas registradas con su porqué</span>
+    <span><b>45</b> commits</span>
+    <span><b>10,132</b> líneas de código propio</span>
+    <span><b>0</b> números sin fuente</span>
+  </footer>
+
+</div>

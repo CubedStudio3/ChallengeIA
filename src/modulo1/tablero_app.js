@@ -773,17 +773,24 @@
        duplicaria las campañas regionales: Shopify devuelve los mismos 16 en GT
        y en SV. Contar marcas no tiene ese problema. */
     var todasM = marcas();
-    var disputan = todasM.filter(function (b) {
+    /* Solo COMPETIDORES. Shopify tiene 16 anuncios activos y es un referente:
+       contarlo aqui diria que nos disputa el mercado cuando lo que hace es
+       ensenarnos como se ve un buen anuncio. Un referente no suma a la presion
+       competitiva (ADR-017). */
+    var comps = todasM.filter(function (b) { return b.rol === "competidor"; });
+    var disputan = comps.filter(function (b) {
       return Object.keys(b.mercados || {}).some(function (m) {
         return b.mercados[m].presion_real > 0;
       });
     });
-    var faltanM = sinMedir().length;
-    var registro = todasM.length + faltanM;
+    var faltanM = sinMedir().filter(function (x) {
+      return x.rol === "competidor";
+    }).length;
+    var registro = comps.length + faltanM;
     var terr = ((D.referencias || {}).territorios) || {};
     var top = (terr.saturados || [])[0];
     var c02 = cardNum("02", "competencia", ico.objetivo, "Competencia",
-      ent(disputan.length), "marcas con anuncios que nos disputan",
+      ent(disputan.length), "competidores con anuncios que nos disputan",
       registro ? { parte: disputan.length, total: registro } : null,
       "de " + registro + " del registro" +
       (faltanM ? " · " + faltanM + " sin medir" : "") +
