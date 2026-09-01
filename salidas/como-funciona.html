@@ -1,0 +1,626 @@
+<title>Cómo funciona Mesa Creativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Mesa Creativa · explicación para el equipo.
+   Misma paleta y tipografías que el tablero (config/tema.json), porque es la
+   misma cosa contada para otra audiencia. Texto un punto más grande que el
+   avance: esta página se va a proyectar en una reunión.
+   Tema único claro, igual que el tablero, por decisión del proyecto: todos los
+   colores y el fondo se pintan explícitamente. */
+:root {
+  --tinta:   #0B0B0B;
+  --tinta-2: #4E586A;
+  --tinta-3: #8B95A3;
+  --ground:  #F3F6F8;
+  --sup:     #FFFFFF;
+  --linea:   #E4EAF0;
+  --negro:   #000000;
+  --azul:    #a1caed;
+  --rosa:    #f3d7e9;
+  --verde:   #d0e4bb;
+  --t-azul:  #1A5B93;
+  --t-rosa:  #931A68;
+  --t-verde: #4E7722;
+  --bien:    #12946B;
+  --falta:   #C4820F;
+  --falta-suave: #FDF6E7;
+  --sombra:  0 4px 20px rgba(0,0,0,.05);
+  --r: 20px;
+  --fam:  "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--tinta);
+  font-family: var(--fam);
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+.hoja {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 46px 24px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 66px;
+}
+@media (max-width: 640px) { .hoja { padding: 26px 16px 70px; gap: 48px; } }
+
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.022em; }
+h1 { font-size: clamp(31px, 5.2vw, 46px); font-weight: 800; line-height: 1.08; }
+h2 { font-size: clamp(23px, 3.2vw, 30px); font-weight: 700; line-height: 1.2; }
+h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.012em; }
+p { margin: 0; max-width: 64ch; }
+
+.rotulo {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  background: var(--sec, var(--negro));
+  color: var(--sec-tinta, #fff);
+}
+.sec { display: flex; flex-direction: column; gap: 26px; align-items: flex-start; }
+.sec > * { max-width: 100%; }
+.cab { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.cab .intro { color: var(--tinta-2); font-size: 16.5px; }
+
+.tarjeta {
+  background: var(--sup);
+  border-radius: var(--r);
+  box-shadow: var(--sombra);
+  padding: 28px;
+}
+.malla {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
+}
+
+/* ── Portada ─────────────────────────────────────────────────────────────── */
+.portada {
+  background: var(--negro);
+  color: #fff;
+  border-radius: 28px;
+  padding: clamp(32px, 5vw, 58px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+.portada > * { max-width: 100%; }
+.portada .kicker {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.portada p { color: rgba(255,255,255,.84); font-size: 17px; max-width: 58ch; }
+.portada .quien {
+  border-top: 1px solid rgba(255,255,255,.16);
+  padding-top: 22px;
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  font-family: var(--mono);
+}
+
+/* ── El problema ─────────────────────────────────────────────────────────── */
+.dolor {
+  background: var(--sup);
+  border-radius: var(--r);
+  box-shadow: var(--sombra);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dolor .marca {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t-rosa);
+}
+.dolor p { font-size: 15px; color: var(--tinta-2); }
+
+/* ── Los cuatro pasos ────────────────────────────────────────────────────── */
+.pasos {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  counter-reset: paso;
+}
+.paso {
+  border-radius: var(--r);
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+.paso .n {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .55;
+}
+.paso h3 { font-size: 16.5px; }
+.paso p { font-size: 14.5px; color: rgba(0,0,0,.72); }
+.p1 { background: var(--azul); }
+.p2 { background: var(--rosa); }
+.p3 { background: var(--verde); }
+.p4 { background: var(--negro); color: #fff; }
+.p4 p { color: rgba(255,255,255,.78); }
+.p4 .n { opacity: .5; }
+/* La flecha entre pasos. Se oculta cuando la fila se parte, porque una flecha
+   que apunta al vacío miente sobre el orden. */
+.paso::after {
+  content: "";
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--tinta-3);
+  border-right: 2px solid var(--tinta-3);
+  transform: translateY(-50%) rotate(45deg);
+}
+.paso:last-child::after { display: none; }
+@media (max-width: 1000px) { .paso::after { display: none; } }
+
+/* ── Antes / ahora ───────────────────────────────────────────────────────── */
+.comparo { display: grid; gap: 2px; width: 100%; }
+.par {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.celda { background: var(--sup); padding: 22px 26px; }
+.celda .et {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  display: block;
+  margin-bottom: 8px;
+}
+.celda p { font-size: 15px; }
+.antes { color: var(--tinta-2); }
+.antes p { color: var(--tinta-2); }
+.ahora { background: #FBFDFA; }
+.ahora .et { color: var(--t-verde); }
+.par:first-child .celda:first-child { border-radius: var(--r) 0 0 0; }
+.par:first-child .celda:last-child  { border-radius: 0 var(--r) 0 0; }
+.par:last-child .celda:first-child  { border-radius: 0 0 0 var(--r); }
+.par:last-child .celda:last-child   { border-radius: 0 0 var(--r) 0; }
+@media (max-width: 700px) {
+  .par { grid-template-columns: 1fr; }
+  .par .celda, .par:first-child .celda, .par:last-child .celda { border-radius: 0; }
+  .comparo { border-radius: var(--r); overflow: hidden; }
+}
+
+/* ── Hallazgos ───────────────────────────────────────────────────────────── */
+.dato {
+  background: var(--sup);
+  border-radius: var(--r);
+  box-shadow: var(--sombra);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dato .cifra {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.dato p { font-size: 15px; color: var(--tinta-2); }
+.dato .accion {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--linea);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--tinta);
+}
+.c-azul { color: var(--t-azul); }
+.c-rosa { color: var(--t-rosa); }
+.c-verde { color: var(--t-verde); }
+
+/* ── Listas de garantías y de tareas ─────────────────────────────────────── */
+.filas { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; width: 100%; }
+.filas li {
+  background: var(--sup);
+  padding: 22px 26px;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.filas li:first-child { border-radius: var(--r) var(--r) 0 0; }
+.filas li:last-child { border-radius: 0 0 var(--r) var(--r); }
+.filas .izq { font-weight: 700; font-size: 15.5px; flex: 0 0 240px; }
+.filas .der { font-size: 15px; color: var(--tinta-2); flex: 1 1 320px; max-width: 58ch; }
+
+.aviso {
+  background: var(--falta-suave);
+  border-radius: var(--r);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.aviso h3 { color: #6B4504; }
+.aviso p { color: #6B4504; font-size: 15px; max-width: 62ch; }
+.aviso .sello {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #8B5905;
+}
+
+.pie {
+  border-top: 1px solid var(--linea);
+  padding-top: 26px;
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tinta-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 30px;
+}
+.pie b { color: var(--tinta); font-weight: 600; }
+a { color: var(--t-azul); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--t-azul); outline-offset: 3px; border-radius: 4px; }
+</style>
+
+<div class="hoja">
+
+  <header class="portada">
+    <span class="kicker">Mesa Creativa · Mercadeo QPayPro</span>
+    <h1>El lunes ya no empieza en blanco.</h1>
+    <p>Mesa Creativa es un asistente que hace la tarea antes de la reunión
+      creativa. Cada lunes a las 7 de la mañana revisa cómo nos fue en pauta,
+      qué está anunciando la competencia y qué publicaciones engancharon; cruza
+      las tres cosas; y deja una página lista con lo que pasó, qué conviene
+      hacer esta semana y una lista de tareas con nombre y apellido.</p>
+    <p>Ustedes llegan, lo leen, deciden qué sí y qué no, y las tareas se pasan a
+      Sprints con un botón. La decisión sigue siendo de la mesa. Lo que cambia
+      es que ya no se decide de memoria.</p>
+    <div class="quien">Para Dulce, Jeremy y Elizabeth · y para quien entre después</div>
+  </header>
+
+  <!-- ── El problema ───────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo" style="--sec: var(--rosa); --sec-tinta: #000">El problema</span>
+      <h2>La reunión creativa arrancaba desde cero cada semana</h2>
+      <p class="intro">No porque nadie quisiera mirar los datos. Porque mirarlos
+        de verdad, cada semana, era un trabajo aparte que nadie tenía tiempo de
+        hacer.</p>
+    </div>
+
+    <div class="malla">
+      <div class="dolor">
+        <span class="marca">Uno</span>
+        <h3>Se decidía por opinión, no por resultado</h3>
+        <p>¿Qué produjo mejor la semana pasada, el video o el arte? ¿Guatemala o
+          El Salvador? La respuesta estaba en Meta, pero abrirlo, filtrar el
+          periodo correcto y anotar los números costaba horas. Así que se
+          decidía por lo que se recordaba, o por lo que se hizo la semana
+          anterior.</p>
+      </div>
+      <div class="dolor">
+        <span class="marca">Dos</span>
+        <h3>Nadie sabía qué estaba anunciando la competencia</h3>
+        <p>Los anuncios de Paggo, Recurrente o BI son públicos, cualquiera puede
+          verlos. Pero verlos uno por uno, en dos países, y anotar qué mensaje
+          repiten es tarde de trabajo. Nunca se hacía. Entonces producíamos sin
+          saber si estábamos diciendo exactamente lo mismo que ellos.</p>
+      </div>
+      <div class="dolor">
+        <span class="marca">Tres</span>
+        <h3>Cuando sí había un número, era fácil equivocarse</h3>
+        <p>La columna de «resultados» de Meta no significa lo mismo en todas las
+          campañas: en unas cuenta leads y en otras clics. Sumarlas da un número
+          que parece bueno y no existe. Ese error es invisible y ya nos había
+          pasado antes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Cómo lo resolvimos ────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo" style="--sec: var(--azul); --sec-tinta: #000">La solución</span>
+      <h2>Cuatro pasos, y el último es de ustedes</h2>
+      <p class="intro">El sistema hace los tres primeros solo. El cuarto no lo
+        hace nunca: decidir es de la mesa, y eso es a propósito.</p>
+    </div>
+
+    <div class="pasos">
+      <div class="paso p1">
+        <span class="n">Paso 1</span>
+        <h3>Lee</h3>
+        <p>Entra a Meta y saca cómo le fue a cada campaña. Entra a la biblioteca
+          pública de anuncios y cuenta qué tiene activo cada competidor, por
+          país. Entra a Zoho Social y saca qué publicaciones engancharon.</p>
+      </div>
+      <div class="paso p2">
+        <span class="n">Paso 2</span>
+        <h3>Revisa</h3>
+        <p>Comprueba que los números sean comparables antes de usarlos: agrupa
+          las campañas por lo que cada una mide, separa a los competidores de
+          los referentes, y marca lo que no se pudo medir en lugar de ponerle un
+          cero.</p>
+      </div>
+      <div class="paso p3">
+        <span class="n">Paso 3</span>
+        <h3>Propone</h3>
+        <p>Cruza las tres fuentes y arma una apuesta para la semana, con el
+          motivo escrito. De esa apuesta salen las tareas: qué pieza, para qué
+          mercado, por qué, y cuántas caben en la capacidad del equipo.</p>
+      </div>
+      <div class="paso p4">
+        <span class="n">Paso 4</span>
+        <h3>Ustedes deciden</h3>
+        <p>En la reunión aceptan, rechazan y le ponen responsable a cada tarea.
+          Lo aceptado se copia a Sprints. Nada se publica ni se cambia en
+          ninguna cuenta sin que alguien lo apruebe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Antes / ahora ─────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo" style="--sec: var(--verde); --sec-tinta: #000">Qué cambia</span>
+      <h2>Lo mismo, contado en concreto</h2>
+    </div>
+
+    <div class="comparo">
+      <div class="par">
+        <div class="celda antes"><span class="et">Antes</span>
+          <p>La reunión empezaba con una hoja en blanco y la pregunta «¿qué
+            hacemos esta semana?».</p></div>
+        <div class="celda ahora"><span class="et">Ahora</span>
+          <p>Empieza con una página abierta que ya dice qué pasó, qué hace la
+            competencia y qué conviene hacer.</p></div>
+      </div>
+      <div class="par">
+        <div class="celda antes"><span class="et">Antes</span>
+          <p>Los números de pauta los buscaba alguien a mano, cuando le
+            alcanzaba el tiempo.</p></div>
+        <div class="celda ahora"><span class="et">Ahora</span>
+          <p>Llegan solos cada lunes, y cada uno dice de qué consulta salió.</p></div>
+      </div>
+      <div class="par">
+        <div class="celda antes"><span class="et">Antes</span>
+          <p>De la competencia se hablaba de memoria o por lo que uno había
+            visto pasar en su feed.</p></div>
+        <div class="celda ahora"><span class="et">Ahora</span>
+          <p>Se ve cuántos anuncios tiene cada marca activos, en qué país, y qué
+            frase repite.</p></div>
+      </div>
+      <div class="par">
+        <div class="celda antes"><span class="et">Antes</span>
+          <p>Las tareas se escribían a mano en Sprints después de la reunión, y
+            a veces se quedaban sin escribir.</p></div>
+        <div class="celda ahora"><span class="et">Ahora</span>
+          <p>Salen con el botón de copiar, ya con responsable, tipo de pieza y el
+            motivo adentro.</p></div>
+      </div>
+      <div class="par">
+        <div class="celda antes"><span class="et">Antes</span>
+          <p>Si faltaba un dato, se rellenaba con un promedio o con «más o
+            menos».</p></div>
+        <div class="celda ahora"><span class="et">Ahora</span>
+          <p>Si falta un dato, el sistema lo dice y explica por qué falta. Nunca
+            lo inventa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lo que ya nos dijo ────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo">Ya sirvió</span>
+      <h2>Tres cosas que nos dijo en la primera corrida</h2>
+      <p class="intro">Ninguna la sabíamos antes. Las tres cambian qué conviene
+        producir.</p>
+    </div>
+
+    <div class="malla">
+      <div class="dato">
+        <div class="cifra c-rosa">3.2×</div>
+        <h3>Los reels rinden más del triple que el feed</h3>
+        <p>12.3 interacciones por reel contra 3.8 por publicación de feed. Las
+          cinco piezas que mejor funcionaron son todas reels, y todos los
+          comentarios del periodo están en reels: el feed no recibió ni uno en
+          quince publicaciones. Y no es que los reels sean más nuevos —
+          revisamos eso, tienen la misma antigüedad promedio.</p>
+        <div class="accion">→ Producir en reel antes que en imagen de feed.</div>
+      </div>
+
+      <div class="dato">
+        <div class="cifra c-verde">0</div>
+        <h3>En El Salvador no nos está compitiendo nadie</h3>
+        <p>Cero anuncios activos de las seis marcas que medimos. Y encima SV nos
+          sale más barato: $1.89 por lead contra $2.89 en Guatemala. Es el único
+          territorio del que nadie está hablando ahora mismo.</p>
+        <div class="accion">→ Hacer creativo pensado para SV, no reciclado de GT.</div>
+      </div>
+
+      <div class="dato">
+        <div class="cifra c-azul">74%</div>
+        <h3>Paggo apostó todo a una sola frase</h3>
+        <p>Tres de cada cuatro anuncios suyos en Guatemala repiten «Gestiona tu
+          Negocio Fácil», y llevan 101 días al aire. Esa promesa ya es suya:
+          repetirla es pagar por pelear en su terreno.</p>
+        <div class="accion">→ Buscar una promesa distinta, no una mejor versión de la suya.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Garantías ─────────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo">Tranquilidad</span>
+      <h2>Lo que el sistema no puede hacer, por diseño</h2>
+      <p class="intro">Esto no son buenas intenciones: son límites puestos en el
+        código, para que nadie tenga que confiar en que se va a portar bien.</p>
+    </div>
+
+    <ul class="filas">
+      <li>
+        <span class="izq">No toca las campañas</span>
+        <span class="der">No puede crear, pausar, editar ni cambiar el
+          presupuesto de nada en Meta Ads. Ni siquiera de una campaña pausada.
+          Si algo hay que cambiar ahí, escribe la instrucción exacta y crea la
+          tarea para que una persona lo haga.</span>
+      </li>
+      <li>
+        <span class="izq">No publica nada solo</span>
+        <span class="der">Los textos de redes se guardan como borrador con
+          aprobación pendiente. Nunca se publican directo. Somos una fintech y
+          eso no se negocia.</span>
+      </li>
+      <li>
+        <span class="izq">No inventa números</span>
+        <span class="der">Si un dato falta, se detiene y lo reporta. Está
+          prohibido rellenar con estimaciones o promedios. Un reporte con un
+          número inventado es peor que un reporte que no salió.</span>
+      </li>
+      <li>
+        <span class="izq">No duplica el trabajo</span>
+        <span class="der">Si se corre dos veces la misma semana, no crea las
+          tareas otra vez. Cada tarea lleva su marca de identidad.</span>
+      </li>
+      <li>
+        <span class="izq">Avisa antes de actuar</span>
+        <span class="der">Toda operación que escriba en un sistema tiene un modo
+          que muestra exactamente qué haría, sin hacerlo.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Qué te toca ───────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo" style="--sec: var(--azul); --sec-tinta: #000">Tu parte</span>
+      <h2>Qué hay que hacer el lunes</h2>
+    </div>
+
+    <ul class="filas">
+      <li>
+        <span class="izq">Abrir el tablero</span>
+        <span class="der">Es una página web, se abre en el navegador y no hay
+          que instalar nada. Todos ven lo mismo y lo que uno decide lo ven los
+          demás.</span>
+      </li>
+      <li>
+        <span class="izq">Leer las tres tarjetas de arriba</span>
+        <span class="der">Rendimiento, competencia y la apuesta propuesta. Están
+          hechas para leerse en un minuto; el detalle está más abajo si alguien
+          lo quiere.</span>
+      </li>
+      <li>
+        <span class="izq">Aceptar, rechazar, asignar</span>
+        <span class="der">Cada tarea tiene su botón y su lista de personas.
+          Rechazar también es una decisión válida y queda registrada — si algo
+          no se va a hacer, es mejor que se sepa.</span>
+      </li>
+      <li>
+        <span class="izq">Agregar sus propias ideas</span>
+        <span class="der">Hay un formulario para eso. Las ideas del equipo se
+          guardan aparte de lo que propuso el sistema, así siempre se sabe cuál
+          fue de quién.</span>
+      </li>
+      <li>
+        <span class="izq">Copiar a Sprints</span>
+        <span class="der">Un botón deja todas las tareas aceptadas listas para
+          pegar en Sprints, con responsable y descripción.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Lo que falta ──────────────────────────────────────────────────── -->
+  <section class="sec">
+    <div class="cab">
+      <span class="rotulo" style="--sec: var(--falta-suave); --sec-tinta: #8B5905">Honestidad</span>
+      <h2>Lo que todavía no puede, dicho de frente</h2>
+      <p class="intro">Va aquí y no en una nota al pie, porque un sistema que
+        solo cuenta lo que le salió bien obliga a adivinar el resto.</p>
+    </div>
+
+    <div class="malla">
+      <div class="tarjeta">
+        <h3>No sabe cuánta gente vio una publicación</h3>
+        <p style="margin-top:12px;font-size:15px;color:var(--tinta-2)">Ni Zoho ni
+          Meta nos entregan el alcance de las publicaciones orgánicas por
+          ningún lado — lo intentamos por dos caminos distintos. Así que
+          reportamos interacciones absolutas y no calculamos porcentaje de
+          engagement, porque saldría inventado.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>El orgánico todavía no se separa por país</h3>
+        <p style="margin-top:12px;font-size:15px;color:var(--tinta-2)">Se
+          arregla conectando la página de «Qpaypro El Salvador» en Zoho Social.
+          No hay que programar nada: es un paso de configuración en el
+          portal.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>No sabemos cuánto gasta la competencia</h3>
+        <p style="margin-top:12px;font-size:15px;color:var(--tinta-2)">Meta solo
+          publica eso de anuncios políticos. De una empresa comercial se puede
+          ver qué anuncia y desde cuándo, pero no cuánto invierte ni cuánta
+          gente lo vio. No es que falte: no existe.</p>
+      </div>
+    </div>
+
+    <div class="aviso">
+      <span class="sello">Lo único que les pedimos esta semana</span>
+      <h3>Anoten cuánto les tomó preparar la última reunión</h3>
+      <p>Necesitamos el «antes» para poder decir con honestidad cuánto tiempo
+        ahorra esto — y el «antes» solo se puede medir <b>antes</b> de que el
+        sistema empiece a hacerlo. Una vez que corra, esa medición ya no se
+        puede tomar, solo reconstruir de memoria. No hace falta precisión de
+        cronómetro: quién lo hizo, qué pasos dio y cuánto tiempo le llevó,
+        aproximado.</p>
+      <p>Es el único dato del proyecto que no podemos sacar de un sistema. Tiene
+        que venir de ustedes.</p>
+    </div>
+  </section>
+
+  <footer class="pie">
+    <span>Módulo 1 · <b>operativo</b></span>
+    <span>Corre solo los <b>lunes 07:00</b></span>
+    <span>Medido en <b>6 marcas</b> y <b>2 mercados</b></span>
+    <span><b>0</b> números sin fuente</span>
+  </footer>
+
+</div>
