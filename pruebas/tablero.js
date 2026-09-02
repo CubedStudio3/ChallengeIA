@@ -116,8 +116,52 @@ function envuelve(frag) {
     await pag.screenshot({ path: path.join(SALIDA, nombre + "-completo.png"),
                            fullPage: true });
 
+    /* MARKUP CRUDO A LA VISTA. Un helper que hace esc() sobre su argumento
+       convierte en texto cualquier HTML que se le pase, y sale el markup
+       impreso en la pagina sin ningun error en consola. Paso de verdad: el
+       sello ambar se le pasaba a cardCab dentro del titulo y se veia
+       `Campañas con entrega<span class="etiqueta-ambar" ...>`, publicado.
+       Contar la cadena del sello no lo detectaba, porque el texto esta
+       presente igual escapado que renderizado. Hay que preguntar por el
+       markup, no por el texto. Se revisa con y sin ventana propia, porque
+       algunos rotulos solo aparecen con el filtro puesto. */
+    const crudo = async (cuando) => {
+      const hall = await pag.evaluate(() => {
+        const t = document.body.innerText || "";
+        const pat = /<\/?(span|div|b|details|summary|a|p|h3)\b|class="[a-z-]/g;
+        const m = t.match(pat) || [];
+        if (!m.length) return null;
+        const i = t.search(pat);
+        return { cuantos: m.length, muestra: t.slice(Math.max(0, i - 40), i + 90) };
+      });
+      if (hall) {
+        console.log("  FALLO markup crudo a la vista (" + cuando + "): " +
+                    hall.cuantos + " · " + JSON.stringify(hall.muestra));
+        fallos++;
+      } else {
+        console.log("  ok sin markup crudo a la vista (" + cuando + ")");
+      }
+    };
+
     // Interacciones, solo en escritorio.
     if (nombre === "escritorio") {
+      console.log("\n--- markup ---");
+      await crudo("sin filtro");
+      await pag.evaluate(() => {
+        const d = document.getElementById("fDesde"), h = document.getElementById("fHasta");
+        if (!d || !h) return;
+        d.value = "2026-07-06"; d.dispatchEvent(new Event("change", { bubbles: true }));
+        h.value = "2026-07-27"; h.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      await pag.waitForTimeout(700);
+      await crudo("con ventana propia");
+      await pag.evaluate(() => {
+        const b = [...document.querySelectorAll("[data-rango]")]
+          .find(x => x.getAttribute("data-rango") === "todo");
+        if (b) b.click();
+      });
+      await pag.waitForTimeout(600);
+
       for (const s of ["resumen", "rendimiento", "competencia", "referencias",
                        "estrategia"]) {
         await pag.evaluate((id) => document.getElementById(id)

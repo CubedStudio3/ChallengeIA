@@ -444,7 +444,14 @@
       esc(motivo) + '">no cambia con el rango</span>';
   }
 
-  function cardCab(titulo, sub, clave, total, mostrados, tinte) {
+  /* `sello` va aparte del titulo A PROPOSITO: el titulo pasa por esc(), asi que
+     pegarle HTML lo escapa y sale el markup crudo en pantalla. Paso exactamente
+     eso con el sello de «no cambia con el rango»: se veia
+     `Campañas con entrega<span class="etiqueta-ambar" ...>` en el encabezado,
+     publicado. La prueba de entonces contaba la CADENA «no cambia con el
+     rango», que esta presente igual escapada que renderizada — contar un texto
+     no distingue renderizado de escapado. */
+  function cardCab(titulo, sub, clave, total, mostrados, tinte, sello) {
     var ver = "";
     if (clave && total > mostrados) {
       ver = '<button type="button" data-vertodo="' + esc(clave) + '" ' +
@@ -455,7 +462,7 @@
     }
     return '<div class="flex items-start justify-between gap-4 mb-6">' +
       "<div><h3 class=\"text-[16px] font-bold text-slate-900 tracking-[-0.01em]\">" +
-      esc(titulo) + "</h3>" +
+      esc(titulo) + (sello || "") + "</h3>" +
       (sub ? '<p class="text-[12.5px] mt-1 ' +
         (tinte ? "text-slate-700" : "text-slate-400") + '">' + sub + "</p>" : "") +
       "</div>" + ver + "</div>";
@@ -1856,12 +1863,13 @@
       '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
       kpis + "</div>" +
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
-      cardCab("Campañas con entrega" + selloSinRango(
-        "La corrida agrega la pauta por periodo y no trae desglose diario: " +
-        "estos números son del periodo " + ((D.corrida || {}).rango || "") +
-        " sin importar la ventana elegida."), buscando()
+      cardCab("Campañas con entrega", buscando()
         ? "Solo las que coinciden con la búsqueda"
-        : "Ordenadas por inversión", "camp", cs.length, 4) +
+        : "Ordenadas por inversión", "camp", cs.length, 4, false,
+        selloSinRango(
+          "La corrida agrega la pauta por periodo y no trae desglose diario: " +
+          "estos números son del periodo " + ((D.corrida || {}).rango || "") +
+          " sin importar la ventana elegida.")) +
       (cs.length
         ? '<div class="divide-y divide-slate-50">' + filas + "</div>"
         : '<p class="text-[13px] text-slate-400 py-2">Ninguna campaña del ' +
