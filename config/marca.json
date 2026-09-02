@@ -1,6 +1,6 @@
 {
   "_que_es": "Los datos de marca de Qpaypro EXTRAÍDOS DE SU PROPIO SITIO, no supuestos. Reemplaza el hueco que tenía la skill contexto-marca. Todo lo de aquí es verbatim o derivado de verbatim; lo que no está en el sitio no está aquí.",
-  "_fuente": "https://www.qpaypro.com/gt · texto pegado por Mercadeo el 2026-09-02: home, punto-de-venta, tiendas-en-linea, pasarela-de-pagos, retail, servicios, ecommerce y belleza. El dominio está bloqueado por la política de egreso del entorno, así que la única vía es el pegado.",
+  "_fuente": "https://www.qpaypro.com · texto pegado por Mercadeo el 2026-09-02. GT: home, punto-de-venta, tiendas-en-linea, pasarela-de-pagos, retail, servicios, ecommerce, belleza. SV: home. El dominio está bloqueado por la política de egreso.",
   "_como_actualizarlo": "Volver a pegar el texto del sitio y rehacer esta extracción. Si el sitio cambia de comisión o de nombre de producto, este archivo miente hasta que se actualice — y los copys salen de aquí.",
   "nombre": {
     "como_lo_escribe_el_sitio": "Qpaypro",
@@ -275,22 +275,69 @@
     "SV": {
       "telefono": "+(503) 2208-2300",
       "moneda": "USD",
-      "lenguaje": "IGUAL que GT",
-      "_procedencia_del_lenguaje": "DECLARADO por Mercadeo el 2026-09-02: «en sv es lo mismo». No es una lectura de la página /sv —esa no se leyó— sino la palabra de quien conoce la operación. Se marca así a propósito: si mañana aparece una diferencia, hay que saber que esto vino de una declaración y no de una verificación.",
-      "_lo_que_si_cambia": "La MONEDA. El cálculo de la home está en quetzales y el costo administrativo es Q2.95: eso no se traslada a SV, que opera en USD. Cualquier copy con una cifra de precio NO se reusa entre mercados sin confirmar la tarifa de SV. El teléfono también cambia (+503).",
-      "_lo_que_esto_desbloquea": "Que el lenguaje sea el mismo abarata el empujón a SV: no hay que reescribir, hay que segmentar. La estrategia decía «creativo hecho para SV, no reciclado»; con el idioma igual, «hecho para SV» significa campaña y segmentación dedicadas —y USD donde haya cifra—, no un texto nuevo."
+      "_landings_leidas": "home",
+      "lenguaje": "IGUAL que GT · verificado leyendo la home de SV",
+      "_el_registro_si_es_el_mismo": "Confirmado contra la página, no solo declarado: la home de SV usa los mismos titulares, la misma bajada, la misma firma de tres verbos y los mismos CTA que la de GT. En eso Mercadeo tenía razón.",
+      "_pero_el_producto_no": {
+        "_advertencia": "«En SV es lo mismo» vale para el LENGUAJE. Para el producto y la tarifa NO, y las diferencias son materiales. Un copy de GT reusado en SV puede nombrar un producto que en SV no se vende y una tarifa que no es la de SV.",
+        "hardware": {
+          "GT": "POS Cute",
+          "SV": "POS A920",
+          "_nota": "Es OTRO equipo, con otro nombre. Un anuncio de SV que diga «POS Cute» nombra algo que ahí no existe."
+        },
+        "suscripciones": {
+          "GT": "sí · «Links de pago, QR y suscripciones»",
+          "SV": "NO aparecen · «Links de pago y código QR»",
+          "_nota": "La home de SV no lista suscripciones entre los cobros en línea. Antes de escribir un copy de membresías o mensualidades para SV, hay que confirmar si el producto está."
+        },
+        "cuotas": {
+          "GT": "contado, 3, 6, 10, 12, 15 y 18 meses",
+          "SV": "no aparecen en la calculadora"
+        },
+        "seguridad_punto_05": {
+          "GT": "Tokenización · PAN seguro",
+          "SV": "Autenticación 3D Secure · 3DS"
+        }
+      },
+      "tarifa": {
+        "_fuente": "calculadora de la home de SV, 2026-09-02",
+        "comision": "3.5%",
+        "iva_de_la_comision": "13%",
+        "retencion": "Retención Anticipo 2% IVA",
+        "regimenes": [
+          "Contribuyente de IVA",
+          "No contribuyente"
+        ],
+        "ejemplo_literal": "Sobre $100: recibes $94.73 · comisión $3.10 · IVA de la comisión $0.40 · retención $1.77",
+        "letra_chica_literal": "El monto final puede variar al momento del desembolso, debido a que el cálculo se realiza de manera aproximada.",
+        "_comparacion_con_gt": "SV cobra 3.5% y GT 4.50% más Q2.95 de costo administrativo. La comisión de SV es MÁS BARATA. No se usa como comparación entre mercados en un copy —sería comparar contra uno mismo— pero sí explica por qué el costo por lead de SV es más bajo."
+      },
+      "liquidacion_diaria": {
+        "literal": "Recibes tu dinero cada 24 horas — liquidación diaria.",
+        "_donde": "calculadora de la home de SV",
+        "_por_que_importa": "ESTO NO APARECE EN LA HOME DE GT. Es un territorio de mensaje propio, con cifra, en el único mercado donde CERO competidores medidos están pautando. Es el hallazgo más accionable de las nueve landings leídas: una promesa concreta que nadie está diciendo, en un mercado vacío y con el lead más barato ($1.89 contra $2.89).",
+        "_a_confirmar": "Si también aplica en GT y solo falta ponerlo en esa página, es un territorio para los dos mercados. Hay que preguntarlo."
+      }
     },
     "whatsapp": "+(502) 4785-6011"
   },
   "_lo_que_sigue_faltando": [
-    "TRES FRASES RECHAZADAS con su motivo. Es lo único que no está en el sitio y lo que más rápido corrige un copy.",
-    "La tarifa de El Salvador. El lenguaje ya está resuelto (declarado igual a GT), pero la cifra de comisión y el costo fijo en USD no. Sin eso, ningún copy de SV lleva precio.",
+    "TRES FRASES RECHAZADAS con su motivo.",
+    "¿La liquidación diaria aplica también en GT? Si sí, es el mejor territorio para los dos mercados y solo falta decirlo en esa página.",
+    "¿Se venden suscripciones en SV? La home de SV no las lista y la de GT sí.",
     "Las restricciones de comunicación de fintech por escrito.",
-    "Landings que faltan: precios, clinicas, terminal-pos, seguridad, sobre-qpaypro."
+    "Landings que faltan: precios (GT y SV), clinicas, terminal-pos, seguridad."
   ],
   "diferenciales_propios": {
     "_que_son": "Territorios de mensaje que el sitio sostiene con un hecho Y que ningún competidor ni referente medido está usando. Es donde el copy puede competir sin entrar al terreno de nadie.",
     "lista": [
+      {
+        "territorio": "Tu dinero cada 24 horas · liquidación diaria",
+        "lo_sostiene": "«Recibes tu dinero cada 24 horas — liquidación diaria» · calculadora de la home de SV",
+        "quien_mas_lo_dice": "nadie de los medidos",
+        "_mercado": "declarado en SV; sin confirmar en GT",
+        "_es_el_mas_fuerte": "Es el único territorio propio que trae una CIFRA verificable y que resuelve la angustia real de un negocio chico: cuándo entra la plata."
+      },
       {
         "territorio": "Un solo inventario entre físico y en línea",
         "lo_sostiene": "Tu tienda física, tu tienda en línea y tus ventas por redes descuentan del mismo stock",

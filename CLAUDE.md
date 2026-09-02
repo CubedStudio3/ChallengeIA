@@ -248,10 +248,27 @@ cometidos; no hay tiempo de repetirlos.
   devuelve los 16 idénticos en los dos: son campañas regionales. Sumarlos daría
   32 anuncios que no existen.
 
-- **El alcance orgánico no viene por NINGUNA de las dos fuentes.** Probado el
-  2026-08-31 contra `ads_get_ig_media` además de Zoho Social: devuelve
-  `like_count` y `comments_count` y nada más. La URL de Business Suite Insights
-  tampoco sirve — es una app con sesión iniciada, y el proxy la bloquea de raíz.
+- ~~El alcance orgánico no viene por NINGUNA de las dos fuentes.~~
+  **CORREGIDO 2026-09-02 · el alcance SÍ existe, en una TERCERA fuente.**
+  `ads_get_ig_media` y Zoho Social efectivamente no lo dan. **Zoho Analytics
+  sí:** `Post Insights (Páginas de Facebook)` trae `Impressions` por
+  publicación en 1000 filas desde 2020, y `Media Insights (Perfil de
+  Instagram)` trae `Reach`. Estaba instalado, habilitado el 2026-08-28 y
+  anotado como «sin probar» — nadie lo abrió hasta que el usuario insistió.
+  **Tercera vez del mismo error de método en este proyecto.** Receta completa,
+  ids de vista y las cuatro trampas del dato en `docs/09-alcance-por-zoho-analytics.md`.
+- **`Impressions` de Facebook NO es `Reach` de Instagram.** Impresiones cuenta
+  veces mostrado; alcance cuenta personas. No se suman entre redes ni se
+  comparan de frente.
+- **El histórico de impresiones no existe antes de 2024.** Medido: mediana 0 en
+  2020-2022, 1 en 2023, 11 en 2024, 279 en 2025, 402 en 2026. Un cero viejo no
+  es «no lo vio nadie», es que la métrica no está.
+- **Un rótulo de columna no es una verificación.** La columna `Saved` de
+  Instagram trae valores 2 a 5 veces mayores que `Reach`, y guardar exige haber
+  visto: es casi seguro impresiones mal rotulado. No se usa hasta confirmarlo.
+- **El `CONFIG` de Zoho Analytics NO va URL-encoded**, contra lo que dice su
+  propia descripción: `%7B%22...` devuelve `8534 Invalid JSON Format` y
+  `{"responseFormat":"csv"}` funciona.
 - **`ads_get_ig_media` da un corte que Zoho Social no da: `media_product_type`.**
   Distingue REELS de FEED. Sobre 25 publicaciones, **los reels rinden 3.2x el
   promedio del feed** (12.3 vs 3.8 interacciones), las 5 mejores piezas son todas
