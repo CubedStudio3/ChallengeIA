@@ -285,6 +285,16 @@ cometidos; no hay tiempo de repetirlos.
 - **Meta no publica impresiones de anunciantes comerciales.** Solo los anuncios
   políticos y de asuntos sociales traen rangos. Un «top 10 por impresiones» de un
   competidor comercial es imposible, no difícil.
+- **Zoho Social tiene CINCO canales conectados, y TikTok es uno.** Facebook,
+  LinkedIn, Instagram, YouTube y **TikTok** (`719804000004619107`). TikTok no
+  aparecía en ninguna parte de esta documentación. Pinterest **no** está
+  conectado: `getSocialPinterestBoards` devuelve `CHANNEL_NOT_ALLOWED`, así que
+  no hay puerta de atrás a Pinterest por Zoho.
+- **Pinterest no da analíticas de pines ajenos.** Ni saves, ni impresiones, ni
+  clics de un pin que no es de la cuenta. «El mejor pin» del catálogo **no tiene
+  denominador**, y elegir por cómo se ve la imagen sería un número inventado con
+  cara de criterio. La vuelta defendible es puntuar un pin por a qué
+  recomendación medida sirve. Ver `docs/10-pinterest.md`.
 - **Los dominios bloqueados por el proxy son una POLÍTICA, no un límite.**
   `facebook.com`, `business.facebook.com` y `qpaypro.com` devuelven 403 en el
   CONNECT: es la política de egreso del entorno, elegida al crearlo, y se puede
@@ -367,6 +377,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |
+| `docs/10-pinterest.md` | Pinterest: los cuatro dominios que hay que desbloquear, lo que la API **no** deja hacer y por qué «el mejor pin» no tiene denominador |
+| `src/modulo1/pinterest_sonda.py` | Sonda de la API de Pinterest. No analiza: mide qué se puede. Separa red bloqueada de token rechazado de permiso faltante |
 
 ---
 
