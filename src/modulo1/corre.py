@@ -24,6 +24,7 @@ from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
 from . import analiza as A
 from . import estrategia as E
 from . import redes as R
+from . import alcance as ALC
 from . import recomendaciones as RECO
 from . import referencias as REF
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
@@ -378,6 +379,54 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     # Salen del análisis profundo de la Ad Library, no de la lectura básica: lo
     # que se necesita para recomendar es el corte por formato, cadencia y
     # vertical, y eso solo lo trae el paso profundo.
+    # --- Paso 8a · alcance e impresiones del organico ---
+    # Tercera fuente: Zoho Analytics. Zoho Social da interacciones sin
+    # denominador; esta da el denominador. Ver docs/09-alcance-por-zoho-analytics.md.
+    alc = ALC.arma(crudo, rango.desde, rango.hasta)
+    if alc:
+        # Ojo: `redes_resumen` es None cuando Zoho Social no devolvio nada. El
+        # alcance viene de OTRA fuente y no puede depender de esa: si se
+        # colgara de ella, un fallo de Zoho Social se llevaria el alcance por
+        # delante sin motivo.
+        if redes_resumen is None:
+            redes_resumen = {"detalle": {}, "totales": {}, "limites": [],
+                             "excluidas": {},
+                             "_solo_alcance": ("Zoho Social no devolvio "
+                                               "publicaciones; esto es solo el "
+                                               "alcance de Zoho Analytics.")}
+        redes_resumen["alcance"] = alc
+    else:
+        huecos.append({
+            "fuente": "alcance del organico",
+            "descripcion": "SIN EXPORTACIONES DE ZOHO ANALYTICS",
+            "impacto": ("Se reportan interacciones absolutas sin tasa, como antes del "
+                        "2026-09-02. La tasa de interaccion no se calcula: sin "
+                        "denominador seria un numero inventado."),
+            "remedio": ("Exportar las cuatro vistas de Zoho Analytics a "
+                        "`crudo/analytics/`. Los ids y la receta estan en "
+                        "docs/09-alcance-por-zoho-analytics.md."),
+        })
+
+    redes_para_secciones = redes_resumen or {"detalle": {}, "totales": {}}
+
+    # --- Paso 8c · copys propuestos ---
+    # Vienen de config/copys_propuestos.json, redactados a partir del lenguaje
+    # real del sitio y de un angulo con evidencia. La tuberia los transporta y
+    # los marca; no los inventa. Ninguno se publica sin aprobacion (regla 5).
+    try:
+        copys_cfg = cargar("copys_propuestos", permitir_bloqueado=True)
+    except Exception:
+        copys_cfg = None
+    copys = (copys_cfg or {}).get("copys") or None
+    if not copys:
+        huecos.append({
+            "fuente": "copys propuestos",
+            "descripcion": "SIN PROPUESTAS DE COPY",
+            "impacto": "La mesa no tiene texto que aprobar; solo angulos.",
+            "remedio": ("Redactarlos con la skill copys-qpaypro y dejarlos en "
+                        "config/copys_propuestos.json."),
+        })
+
     profundo = carga_profundo(carpeta)
     idiomas = {k: v for k, v in (registro.get("idioma_por_marca") or {}).items()
                if not k.startswith("_")}
@@ -433,6 +482,9 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                                  "roles": registro.get("_roles", {})},
         "referencias": refs,
         "recomendaciones": reco,
+        "copys": ({"_registro": (copys_cfg or {}).get("_registro"),
+                   "_estado_de_todos": (copys_cfg or {}).get("_estado_de_todos"),
+                   "lista": copys} if copys else None),
         "estrategia": estrat,
         "hallazgos": _serializa(hallazgos),
         "verificacion_semana_anterior": verificacion,

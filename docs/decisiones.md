@@ -1587,3 +1587,94 @@ inventa.
 recortar.** Resumir es elegir qué preguntas contesta la tarjeta y contestarlas
 completas. El pedido original —a quién le hablan, qué repiten, qué no matan, qué
 se lee de eso— ya era la estructura correcta; lo que faltaba era respetarla.
+
+---
+
+## ADR-037 · El alcance y los copys entran al tablero
+
+**Fecha:** 2026-09-02
+**Estado:** aceptada
+**Pedido:** Mercadeo · «no me aparecen los copys y tampoco veo lo orgánico».
+
+Tenía razón las dos veces: se lo conté en el chat y no se lo puse en la
+herramienta. Un hallazgo que solo existe en una conversación no existe.
+
+### 1 · El alcance, y cómo cambia la conclusión
+
+El alcance entró como bloque propio en Rendimiento, con la tasa de interacción
+que este proyecto se venía negando a calcular por falta de denominador
+(ADR-016). Fuente: Zoho Analytics, la tercera vía, documentada en
+`docs/09-alcance-por-zoho-analytics.md`.
+
+**Y con el denominador, la conclusión se da la vuelta.** Sin él, el hallazgo era
+«los reels rinden 3.2× el feed». Con él:
+
+| Red | Formato | n | Exposición prom. | Tasa |
+|---|---|---|---|---|
+| Facebook | reel o video | 93 | **3,509** impresiones | 0.39% |
+| Facebook | imagen | 121 | 370 | 0.52% |
+| Facebook | **carrusel** | 32 | 353 | **0.82%** |
+| Instagram | reel | 206 | 292 alcance | 3.80% |
+| Instagram | imagen | 60 | 310 | 3.24% |
+| Instagram | **carrusel** | 25 | 300 | **5.65%** |
+
+**Los reels ganan porque alcanzan a mucha más gente, no porque enganchen mejor
+a quien los ve.** En Facebook alcanzan 9.5 veces más y convierten una porción
+MENOR. El carrusel tiene la mejor tasa en las dos redes.
+
+Eso no invalida «hacer reels»: los precisa. Reel para llegar, carrusel para
+enganchar. Y converge con lo que dijo el análisis de la Ad Library por otro
+camino: los referentes usan carrusel el doble que los competidores locales
+(34% contra 19%). Dos análisis independientes apuntan al mismo formato.
+
+### 2 · El bug que el guardia destapó
+
+La primera versión del módulo cruzó `Media` con `Media Insights` y dejó **206 de
+291** publicaciones «sin alcance». El número delató el error: 206 es exactamente
+la cantidad de reels. El alcance de Instagram vive en **dos** tablas y la de
+reels es aparte.
+
+**Si la cifra hubiera sido cualquier otra, el tablero habría reportado «alcance
+de Instagram» excluyendo en silencio a los reels** — que son 71% de las piezas y
+las que mejor rinden. Lo que salvó el dato fue haber programado el contador de
+piezas sin métrica en lugar de contarlas como cero.
+
+Y de paso quedó **probado** lo que era una sospecha: la columna `Saved` de la
+tabla de feed está mal rotulada. En la tabla de reels `Saved` es ≤ `Reach` en las
+206 filas; en la de feed es 2 a 5 veces mayor, y guardar exige haber visto. Se
+usa la de reels y no la de feed.
+
+### 3 · Los copys, y por qué NO los genera una plantilla
+
+Seis propuestas entraron a Estrategia, cada una con su titular, cuerpo, CTA,
+ángulo, la evidencia que lo sostiene y **qué evita a propósito**. Se aprueban o
+se rechazan con los mismos botones que las tareas.
+
+**Están en `config/copys_propuestos.json`, redactados, no generados.** Una
+plantilla de Python produce copy que suena a plantilla; lo que sí se automatiza
+es la **disciplina**: que cada propuesta declare su ángulo, su evidencia, su
+mercado y su estado, y que ninguna llegue a producción sin que una persona la
+apruebe. Eso es lo que pide la regla 5, y aquí la aprobación es un registro
+consultable, no una promesa.
+
+Esto **matiza el ADR-021** («el copy no se escribe; el ángulo sí»). Esa decisión
+se tomó cuando no había contexto de marca y escribir habría sido inventar el
+tono. Hoy el tono está verificado contra nueve landings del sitio, así que la
+premisa cambió y la decisión con ella. Lo que no cambia es la compuerta humana.
+
+### 4 · La compuerta de mercado, en la interfaz
+
+Hay afirmaciones verdaderas en un mercado y falsas en el otro: la liquidación
+diaria existe en SV y no en GT; el POS se llama Cute en GT y A920 en SV.
+
+Un copy bloqueado en el mercado que se está viendo **se muestra con el botón de
+aprobar desactivado y el motivo escrito**, no se oculta. Ocultarlo haría creer
+que no existe, y alguien lo escribiría de nuevo. Verificado en navegador: con la
+vista en GT, los dos copys de liquidación diaria tienen «Aprobar» deshabilitado.
+
+### La lección
+
+**Un hallazgo que solo vive en el chat no es un entregable.** El alcance estuvo
+encontrado y documentado un día antes de estar usable, y en ese día no servía
+para nada. La distancia entre «lo descubrí» y «está en la herramienta donde se
+decide» es todo el trabajo que importa.

@@ -529,7 +529,272 @@
         "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
         "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
       }
-    ]
+    ],
+    "alcance": {
+      "_fuente": "Zoho Analytics · workspace Marketing · ZohoAnalytics_exportDataView",
+      "_la_regla": "Cada red reporta SU métrica con SU nombre. Facebook da impresiones (veces mostrado) e Instagram da alcance (personas distintas). No se suman entre redes ni se comparan de frente: hacerlo produciría un número que no existe.",
+      "_lo_que_desbloquea": "La tasa de interacción, que hasta hoy no se calculaba por falta de denominador. Ver ADR-016.",
+      "_sigue_abierto": "El corte por mercado. Hay una sola página conectada, así que esta fuente tampoco parte GT de SV.",
+      "redes": [
+        {
+          "red": "Facebook",
+          "metrica": "impresiones",
+          "_que_mide": "Impresiones: cuántas VECES se mostró la publicación. No es alcance — una misma persona puede contar varias veces.",
+          "paginas_conectadas": [
+            "1692583127699872"
+          ],
+          "piezas_desde_el_corte": 258,
+          "piezas_en_el_periodo": 8,
+          "descartadas_por_el_corte": 742,
+          "_el_corte": "Se descartan las publicaciones anteriores a 2025-01-01: la mediana de impresiones era 0 en 2020-2022, 1 en 2023 y 11 en 2024. Un cero de esos años no es «no lo vio nadie», es que la métrica no está.",
+          "periodo": {
+            "piezas": 8,
+            "metrica": "impresiones",
+            "nombre_metrica": "impresiones",
+            "total": 2742,
+            "promedio": 343,
+            "mediana": 350,
+            "interacciones": 13,
+            "tasa": 0.00474,
+            "_tasa_omitida": null
+          },
+          "acumulado": {
+            "piezas": 258,
+            "metrica": "impresiones",
+            "nombre_metrica": "impresiones",
+            "total": 386034,
+            "promedio": 1496,
+            "mediana": 312,
+            "interacciones": 1625,
+            "tasa": 0.00421,
+            "_tasa_omitida": null
+          },
+          "por_formato": {
+            "imagen": {
+              "piezas": 121,
+              "metrica": "impresiones",
+              "nombre_metrica": "impresiones",
+              "total": 44758,
+              "promedio": 370,
+              "mediana": 309,
+              "interacciones": 231,
+              "tasa": 0.00516,
+              "_tasa_omitida": null
+            },
+            "reel o video": {
+              "piezas": 93,
+              "metrica": "impresiones",
+              "nombre_metrica": "impresiones",
+              "total": 326352,
+              "promedio": 3509,
+              "mediana": 374,
+              "interacciones": 1281,
+              "tasa": 0.00393,
+              "_tasa_omitida": null
+            },
+            "carrusel": {
+              "piezas": 32,
+              "metrica": "impresiones",
+              "nombre_metrica": "impresiones",
+              "total": 11298,
+              "promedio": 353,
+              "mediana": 286,
+              "interacciones": 93,
+              "tasa": 0.00823,
+              "_tasa_omitida": null
+            },
+            "enlace": {
+              "piezas": 11,
+              "metrica": "impresiones",
+              "nombre_metrica": "impresiones",
+              "total": 3324,
+              "promedio": 302,
+              "mediana": 288,
+              "interacciones": 20,
+              "tasa": 0.00602,
+              "_tasa_omitida": null
+            },
+            "texto": {
+              "piezas": 1,
+              "metrica": "impresiones",
+              "nombre_metrica": "impresiones",
+              "total": 302,
+              "promedio": 302,
+              "mediana": 302,
+              "interacciones": 0,
+              "tasa": null,
+              "_tasa_omitida": "Menos de 5 piezas: una tasa sobre 1 sería una anécdota con signo de porcentaje."
+            }
+          },
+          "mejores_por_tasa": [
+            {
+              "mensaje": "Los principales errores de los negocios que están iniciando incluyen no tener un plan claro de pagos ⚡ ignorar la seguri",
+              "fecha": "2025-05-09",
+              "formato": "reel o video",
+              "impresiones": 207,
+              "interacciones": 7,
+              "tasa": 0.03382,
+              "url": "https://facebook.com/1692583127699872_1176106631194591"
+            },
+            {
+              "mensaje": "Herramientas gratuitas que harán mas pro tu negocio",
+              "fecha": "2026-04-24",
+              "formato": "reel o video",
+              "impresiones": 242,
+              "interacciones": 6,
+              "tasa": 0.02479,
+              "url": "https://facebook.com/1692583127699872_1467360542069197"
+            },
+            {
+              "mensaje": "¿Sabías que nuestros links de pagos son rápidos, fáciles y seguros. ? ¡Comienza ahora! ?",
+              "fecha": "2026-06-01",
+              "formato": "carrusel",
+              "impresiones": 447,
+              "interacciones": 10,
+              "tasa": 0.02237,
+              "url": "https://facebook.com/1692583127699872_1501024948702756"
+            },
+            {
+              "mensaje": "Nuestros clientes en El Salvador,  ya confían en nosotros. ¿Y tú que esperás? para formar parte del ecosistema de cobro ",
+              "fecha": "2026-06-16",
+              "formato": "carrusel",
+              "impresiones": 278,
+              "interacciones": 6,
+              "tasa": 0.02158,
+              "url": "https://facebook.com/1692583127699872_1515062197299031"
+            },
+            {
+              "mensaje": "Cuando el equipo de MK de #Qpaypro se acerca entra el temor al grupo ?? #teamqpaypro #humor",
+              "fecha": "2026-02-05",
+              "formato": "reel o video",
+              "impresiones": 779,
+              "interacciones": 16,
+              "tasa": 0.02054,
+              "url": "https://facebook.com/1692583127699872_1400256685446250"
+            }
+          ],
+          "recepcion_negativa": 72,
+          "_recepcion_negativa": "Reacciones «me entristece» y «me enoja». No se medía en ninguna otra fuente."
+        },
+        {
+          "red": "Instagram",
+          "metrica": "alcance",
+          "_que_mide": "Alcance: cuántas PERSONAS distintas vieron la publicación. No es comparable de frente con las impresiones de Facebook.",
+          "piezas_leidas": 291,
+          "piezas_con_alcance": 291,
+          "piezas_sin_alcance": 0,
+          "_las_sin_alcance": "La tabla de alcance cubre solo una parte de las publicaciones. Las que no están quedan FUERA en lugar de contarse como cero, que es lo que las convertiría en un dato inventado.",
+          "_saved_no_se_usa": "La columna `Saved` de la tabla de FEED trae valores 2 a 5 veces mayores que `Reach`, y guardar algo exige haberlo visto: está mal rotulada, casi seguro son impresiones. Queda PROBADO al comparar con la tabla de REELS, donde `Saved` es menor o igual que `Reach` en las 206 filas. Se usa el `Saved` de reels y NO el de feed.",
+          "_dos_tablas": "El alcance de Instagram vive en DOS tablas: `Media Insights` para el feed y `Reels Insights` para los reels. Cruzar solo la primera dejaba 206 de 291 publicaciones sin alcance — y esos 206 son exactamente los reels, o sea las piezas que mejor rinden.",
+          "piezas_en_el_periodo": 7,
+          "shares": 225,
+          "periodo": {
+            "piezas": 7,
+            "metrica": "alcance",
+            "nombre_metrica": "alcance",
+            "total": 967,
+            "promedio": 138,
+            "mediana": 59,
+            "interacciones": 30,
+            "tasa": 0.03102,
+            "_tasa_omitida": null
+          },
+          "acumulado": {
+            "piezas": 291,
+            "metrica": "alcance",
+            "nombre_metrica": "alcance",
+            "total": 86246,
+            "promedio": 296,
+            "mediana": 133,
+            "interacciones": 3312,
+            "tasa": 0.0384,
+            "_tasa_omitida": null
+          },
+          "por_formato": {
+            "reel": {
+              "piezas": 206,
+              "metrica": "alcance",
+              "nombre_metrica": "alcance",
+              "total": 60155,
+              "promedio": 292,
+              "mediana": 146,
+              "interacciones": 2286,
+              "tasa": 0.038,
+              "_tasa_omitida": null
+            },
+            "imagen": {
+              "piezas": 60,
+              "metrica": "alcance",
+              "nombre_metrica": "alcance",
+              "total": 18590,
+              "promedio": 310,
+              "mediana": 106,
+              "interacciones": 602,
+              "tasa": 0.03238,
+              "_tasa_omitida": null
+            },
+            "carrusel": {
+              "piezas": 25,
+              "metrica": "alcance",
+              "nombre_metrica": "alcance",
+              "total": 7501,
+              "promedio": 300,
+              "mediana": 112,
+              "interacciones": 424,
+              "tasa": 0.05653,
+              "_tasa_omitida": null
+            }
+          },
+          "mejores_por_tasa": [
+            {
+              "mensaje": "✨ ¡Qué inspiradora fue la historia que compartimos ayer! ??\n\nGracias a todos los participantes por acompañarnos . Y un a",
+              "fecha": "2026-05-14",
+              "formato": "carrusel",
+              "alcance": 124,
+              "interacciones": 17,
+              "tasa": 0.1371,
+              "url": "https://www.instagram.com/p/DYVc_I5k2T6/"
+            },
+            {
+              "mensaje": "??‍?Nuestras emprendedoras, aprendieron de sus propias madres. Conoce la Historia de Ana Lucia y Lalúh. ?",
+              "fecha": "2026-05-04",
+              "formato": "carrusel",
+              "alcance": 579,
+              "interacciones": 76,
+              "tasa": 0.13126,
+              "url": "https://www.instagram.com/p/DX7GBqODkIq/"
+            },
+            {
+              "mensaje": "?️ ¿Listo para inspirarte? El episodio completo de Emprendiendo con Ganas ya está disponible. ¡Dale play y descubre idea",
+              "fecha": "2024-10-25",
+              "formato": "reel",
+              "alcance": 54,
+              "interacciones": 6,
+              "tasa": 0.11111,
+              "url": "https://www.instagram.com/reel/DBj1R3NNSTH/"
+            },
+            {
+              "mensaje": "No todos los negocios funcionan igual y sus herramientas tampoco deberían. ? En Qpaypro tienes todas las opciones, tú el",
+              "fecha": "2026-06-07",
+              "formato": "imagen",
+              "alcance": 55,
+              "interacciones": 6,
+              "tasa": 0.10909,
+              "url": "https://www.instagram.com/p/DZTWTfyk72T/"
+            },
+            {
+              "mensaje": "El sistema más completo y PROfesional del mercado. ? #MuyPronto",
+              "fecha": "2026-07-22",
+              "formato": "imagen",
+              "alcance": 66,
+              "interacciones": 7,
+              "tasa": 0.10606,
+              "url": "https://www.instagram.com/p/DbGv8hXlOjQ/"
+            }
+          ]
+        }
+      ]
+    }
   },
   "competencia": {
     "GT": {
@@ -3254,6 +3519,109 @@
         "que_si": "Un sustituto declarado: el ranking por CANTIDAD DE CREATIVOS que cargan el mismo mensaje, y el ranking por días vivo. Los dos dicen dónde apuesta el anunciante. Ninguno es impresiones.",
         "que_no": "Impresiones. Meta NO publica métricas de entrega de anunciantes comerciales en la Ad Library — solo los anuncios políticos y de asuntos sociales traen rangos. Es una decisión de Meta, no una limitación del conector, y no hay manera de sortearla.",
         "como_se_desbloquearia": "No se desbloquea. Ningún permiso ni herramienta lo expone para un anunciante comercial ajeno."
+      }
+    ]
+  },
+  "copys": {
+    "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
+    "_estado_de_todos": "PROPUESTA · requiere aprobacion humana",
+    "lista": [
+      {
+        "id": "copy-sv-liquidacion-a",
+        "angulo": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+        "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
+        "mercado": "SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "etapa": "descubrimiento",
+        "titular": "Tu dinero cada 24 horas",
+        "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
+        "cta": "Empezar ahora",
+        "porque": "Cero anuncios activos de las seis marcas medidas en SV, y es el único mercado donde Qpaypro promete liquidación en 24 horas. El lead de SV cuesta $1.89 contra $2.89 en GT.",
+        "no_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02."
+      },
+      {
+        "id": "copy-sv-liquidacion-b",
+        "angulo": "Liquidación diaria · con el patrón de fricción primero",
+        "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
+        "mercado": "SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Cobraste el lunes. ¿Cuándo lo ves?",
+        "cuerpo": "Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.",
+        "cta": "Calcula tu cobro",
+        "porque": "Usa el patrón de las landings de Qpaypro —nombrar la fricción y después resolverla— y cierra con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
+        "no_dice": "No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.",
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala."
+      },
+      {
+        "id": "copy-belleza-anticipo",
+        "angulo": "Salones y barberías · nicho libre donde ya hay producto y cliente",
+        "de_la_recomendacion": "Pautar en Belleza: ya tenemos el producto, falta el anuncio",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "etapa": "descubrimiento",
+        "titular": "El anticipo asegura la cita",
+        "cuerpo": "Manda un link por WhatsApp al agendar. Tu clienta paga desde su celular y las ausencias bajan.",
+        "cta": "Comenzar ahora",
+        "porque": "Los referentes trabajan «belleza y citas» con 11 anuncios y ningún competidor medido la toca. Qpaypro ya tiene la página del sector y un testimonio: NayeNails.",
+        "no_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
+        "bloqueada_en": [],
+        "_apoyo": "En Instagram el carrusel rinde 5.65% de tasa y el reel 3.80%; el reel alcanza más gente. Vale probar los dos formatos con el mismo texto."
+      },
+      {
+        "id": "copy-belleza-propina",
+        "angulo": "Salones y barberías · el detalle que nadie más menciona",
+        "de_la_recomendacion": "Pautar en Belleza: ya tenemos el producto, falta el anuncio",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Cobra rápido, incluso la propina",
+        "cuerpo": "Tarjeta en recepción, con propina y sin depender del efectivo. La clienta sale y la caja cuadra sola.",
+        "cta": "Hablar con ventas",
+        "porque": "«Propina» es un detalle de mostrador que solo aparece en la landing de belleza de Qpaypro. Ningún competidor ni referente medido lo menciona.",
+        "no_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
+        "bloqueada_en": []
+      },
+      {
+        "id": "copy-inventario-descuadre",
+        "angulo": "Un solo inventario · territorio propio que nadie usa",
+        "de_la_recomendacion": "Territorios propios sin disputa",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Vendiste algo que ya no tenías",
+        "cuerpo": "Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.",
+        "cta": "Comenzar ahora",
+        "porque": "Ni Paggo, ni Recurrente, ni BI, ni Square, ni Shopify usan el inventario único como mensaje en los mercados medidos. Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
+        "no_dice": "No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.",
+        "bloqueada_en": []
+      },
+      {
+        "id": "copy-soporte-tecnico",
+        "angulo": "Soporte local y técnico presencial · lo único que un referente global no puede decir",
+        "de_la_recomendacion": "Territorios propios sin disputa",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "reel",
+        "etapa": "consideración",
+        "titular": "Un técnico llega y lo instala",
+        "cuerpo": "El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.",
+        "cta": "Hablar con ventas",
+        "porque": "Square y Shopify venden autoservicio: no pueden decir esto. Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
+        "no_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
+        "bloqueada_en": []
       }
     ]
   },

@@ -1,0 +1,13 @@
+{
+  "_que_es": "Exportaciones crudas de Zoho Analytics, workspace «Marketing». Es la TERCERA fuente de organico y la unica que trae alcance/impresiones. Ver docs/09-alcance-por-zoho-analytics.md.",
+  "org_id": "683128256",
+  "workspace_id": "1909408000026698063",
+  "capturado": "2026-09-02",
+  "herramienta": "ZohoAnalytics_exportDataView",
+  "_trampa_del_conector": "CONFIG NO va URL-encoded, contra lo que dice su propia descripcion.",
+  "vistas": {
+    "fb_post_insights.csv": {"view_id": "1909408000026703149", "nombre": "Post Insights (Páginas de Facebook)", "metrica": "Impressions"},
+    "ig_media_insights.csv": {"view_id": "1909408000026716986", "nombre": "Media Insights (Perfil de Instagram)", "metrica": "Reach"},
+    "ig_media.csv": {"view_id": "1909408000026716816", "nombre": "Media (Perfil de Instagram)", "metrica": "fecha, tipo y texto para el cruce"}
+  }
+}

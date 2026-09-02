@@ -633,6 +633,234 @@
       '<div class="g-tip" id="' + id + '-tip"></div></div>' + tabla + "</div>";
   }
 
+  /* ═════════════ copys propuestos ═════════════
+
+     Texto listo para producir, con su ángulo y su evidencia. Cada uno se
+     acepta o se rechaza con los mismos botones que las tareas, porque es la
+     misma decisión: la regla 5 del proyecto dice que ningún copy se publica sin
+     aprobación humana, y aquí esa aprobación es un registro, no una promesa.
+
+     Y llevan COMPUERTA DE MERCADO: hay afirmaciones verdaderas en un mercado y
+     falsas en el otro. Un copy bloqueado en el mercado que se está viendo se
+     muestra deshabilitado y con el motivo, en lugar de ocultarse: esconderlo
+     haría creer que no existe. */
+
+  function copys() {
+    return ((D.copys || {}).lista) || [];
+  }
+
+  /* ¿Este copy se puede usar en el mercado que está seleccionado arriba? */
+  function copyBloqueado(c) {
+    var m = mercadoActivo();
+    if (!m) return null;
+    return (c.bloqueada_en || []).indexOf(m) >= 0 ? m : null;
+  }
+
+  function tarjetaCopy(c, asig) {
+    var d = E.decisiones[c.id], estado = d ? d.estado : null;
+    var bloq = copyBloqueado(c);
+    var anillo = estado === "aceptada" ? " tarjeta-aceptada"
+               : estado === "rechazada" ? " opacity-60" : "";
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra' + anillo +
+      ' flex flex-col">' +
+      '<div class="flex items-center gap-2 flex-wrap mb-4">' +
+      '<span class="etiqueta-sec">' + esc(c.mercado) + "</span>" +
+      '<span class="etiqueta-sec">' + esc(c.red) + "</span>" +
+      '<span class="etiqueta-sec">' + esc(c.formato) + "</span>" +
+      (estado === "aceptada" ? '<span class="etiqueta-verde">Aceptada</span>' : "") +
+      (estado === "rechazada" ? '<span class="etiqueta-rojo">Rechazada</span>' : "") +
+      (!estado ? '<span class="etiqueta-ambar">Sin decidir</span>' : "") +
+      "</div>" +
+      (bloq
+        ? '<div class="etiqueta-rojo mb-4">No usar en ' + esc(bloq) + "</div>" +
+          '<p class="text-[12px] text-slate-500 leading-relaxed mb-4">' +
+          esc(c._por_que_bloqueada || "") + "</p>"
+        : "") +
+      /* El texto, con el peso que tiene: es lo que se va a producir. */
+      '<div class="sec-lavado rounded-2xl p-5 mb-4">' +
+      '<div class="text-[17px] font-bold text-slate-900 leading-snug">' +
+      esc(c.titular) + "</div>" +
+      '<p class="text-[13.5px] text-slate-700 leading-relaxed mt-2">' +
+      esc(c.cuerpo) + "</p>" +
+      '<div class="mt-4 inline-flex items-center gap-1.5 text-[12px] ' +
+      'font-semibold text-slate-900 bg-white rounded-full px-4 py-2">' +
+      esc(c.cta) + "</div></div>" +
+      '<div class="micro-et">El ángulo</div>' +
+      '<p class="text-[12.5px] text-slate-600 leading-relaxed mb-4">' +
+      esc(c.angulo) + "</p>" +
+      '<div class="micro-et">Por qué</div>' +
+      '<p class="text-[12px] text-slate-400 leading-relaxed mb-4">' +
+      esc(c.porque) + "</p>" +
+      (c.no_dice
+        ? '<div class="micro-et">Qué evita a propósito</div>' +
+          '<p class="text-[12px] text-slate-400 leading-relaxed mb-4">' +
+          esc(c.no_dice) + "</p>"
+        : "") +
+      (c._apoyo
+        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mb-4">' +
+          esc(c._apoyo) + "</p>"
+        : "") +
+      '<div class="mt-auto pt-4 flex flex-wrap items-center gap-2">' +
+      '<button type="button" data-decidir="' + esc(c.id) + '" ' +
+      'data-estado="aceptada" class="btn-verde"' +
+      (soloLectura || bloq ? " disabled" : "") + ">" +
+      svg(ico.tic, "w-4 h-4") + "Aprobar</button>" +
+      '<button type="button" data-decidir="' + esc(c.id) + '" ' +
+      'data-estado="rechazada" class="btn-rojo"' +
+      (soloLectura ? " disabled" : "") + ">" +
+      svg(ico.x, "w-4 h-4") + "Rechazar</button>" +
+      (estado ? selectorResponsable(c.id, d && d.responsable, asig) : "") +
+      "</div></div>";
+  }
+
+  function bloqueCopys() {
+    var cs = copys().filter(function (c) {
+      return coincide(c.titular, c.cuerpo, c.angulo, c.mercado);
+    });
+    if (!copys().length) return "";
+    var m = mercadoActivo();
+    var asig = ((D.estrategia || {}).asignacion) || {};
+    var decid = cs.filter(function (c) { return E.decisiones[c.id]; }).length;
+    return '<div class="flex items-start justify-between gap-4 mb-5 mt-12">' +
+      '<div><h3 class="text-[17px] font-bold text-slate-800">Copys para ' +
+      'aprobar</h3>' +
+      '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[66ch] ' +
+      'leading-relaxed">Texto listo para producir. Cada uno trae su ángulo y ' +
+      "el dato que lo sostiene. " +
+      "<b class=\"text-slate-600 font-semibold\">Nada se publica desde aquí" +
+      "</b>: aprobar registra la decisión." +
+      (m ? " Se marcan los que no se pueden usar en <b>" + esc(m) +
+           "</b>." : "") + "</p></div>" +
+      '<span class="text-[12.5px] font-semibold shrink-0 mt-1 ' +
+      'text-slate-400">' + decid + " / " + cs.length + "</span></div>" +
+      ((D.copys || {})._registro
+        ? nota(esc((D.copys || {})._registro)) : "") +
+      '<div class="grid gap-6 mt-6 ' +
+      '[grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))]">' +
+      (cs.length
+        ? cs.map(function (c) { return tarjetaCopy(c, asig); }).join("")
+        : '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
+          'text-slate-400">Ningún copy coincide con la búsqueda.</div>') +
+      "</div>";
+  }
+
+  /* ═════════════ alcance del orgánico ═════════════
+
+     Viene de Zoho Analytics, la tercera fuente, y es lo que permite calcular la
+     tasa de interacción — que hasta el 2026-09-02 este proyecto se negaba a
+     calcular por falta de denominador.
+
+     LA REGLA QUE GOBIERNA ESTE BLOQUE: cada red muestra SU métrica con SU
+     nombre. Facebook da IMPRESIONES (veces mostrado), Instagram da ALCANCE
+     (personas distintas). No se suman, no se promedian juntas y no se comparan
+     de frente. Un total que las mezclara sería un número que no existe. */
+
+  function alcance() {
+    return ((D.redes_sociales || {}).alcance) || null;
+  }
+
+  function tarjetaAlcance(r) {
+    var ac = r.acumulado || {}, pe = r.periodo || {};
+    var dato = function (rot, val, nota) {
+      return '<div class="min-w-[104px]">' +
+        '<div class="text-[10px] font-bold tracking-wider text-slate-300 ' +
+        'uppercase">' + esc(rot) + "</div>" +
+        '<div class="text-[19px] font-bold text-slate-800 tabular-nums ' +
+        'leading-tight mt-0.5">' + val + "</div>" +
+        (nota ? '<div class="text-[10.5px] text-slate-400 leading-tight">' +
+          esc(nota) + "</div>" : "") + "</div>";
+    };
+    /* La tasa es lo único nuevo de verdad, así que va primero y con su
+       denominador escrito al lado: una tasa sin denominador visible es
+       exactamente lo que este proyecto no publica. */
+    var filas = (Object.keys(r.por_formato || {})).map(function (f) {
+      var b = r.por_formato[f];
+      return '<div class="py-2.5">' +
+        '<div class="flex items-baseline justify-between gap-3 mb-1.5">' +
+        '<span class="text-[12.5px] font-semibold text-slate-700">' + esc(f) +
+        '</span><span class="text-[12px] font-bold text-slate-800 ' +
+        'tabular-nums shrink-0">' +
+        (b.tasa != null ? (b.tasa * 100).toFixed(2) + "%" : "sin tasa") +
+        "</span></div>" +
+        '<div class="h-1.5 rounded-full bg-slate-50 overflow-hidden">' +
+        '<div class="h-full rounded-full" style="width:' +
+        Math.round(Math.min(1, (b.tasa || 0) / 0.06) * 100) +
+        '%;background:var(--pastel-verde)"></div></div>' +
+        '<div class="text-[10.5px] text-slate-400 mt-1.5">' + b.piezas +
+        " piezas · " + ent(b.promedio) + " " + esc(b.nombre_metrica) +
+        " en promedio" +
+        (b._tasa_omitida ? " · " + esc(b._tasa_omitida) : "") + "</div></div>";
+    }).join("");
+
+    return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      cardCab(r.red, r._que_mide) +
+      '<div class="flex flex-wrap gap-x-7 gap-y-4 mb-6">' +
+      dato("tasa acumulada",
+           ac.tasa != null ? (ac.tasa * 100).toFixed(2) + "%" : "—",
+           ac.interacciones != null
+             ? ent(ac.interacciones) + " sobre " + ent(ac.total) : null) +
+      dato(ac.nombre_metrica || "—", ent(ac.total), ac.piezas + " piezas") +
+      dato("en el periodo",
+           pe.tasa != null ? (pe.tasa * 100).toFixed(2) + "%"
+                           : (pe.piezas ? "sin tasa" : "—"),
+           pe.piezas ? pe.piezas + " piezas · " + ent(pe.total) + " " +
+             (pe.nombre_metrica || "") : "sin piezas en el periodo") +
+      (r.recepcion_negativa
+        ? dato("reacciones negativas", ent(r.recepcion_negativa),
+               "«me entristece» y «me enoja»") : "") +
+      "</div>" +
+      '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+      'uppercase mb-1">Tasa por formato</div>' + filas +
+      '<details class="mt-5 pt-4 border-t border-slate-50">' +
+      '<summary class="text-[12px] font-semibold text-slate-400 ' +
+      'cursor-pointer hover:text-slate-600">Qué se dejó fuera y por qué' +
+      "</summary>" +
+      '<ul class="mt-3 space-y-2 text-[11.5px] text-slate-500 leading-relaxed ' +
+      'list-disc pl-5">' +
+      ["_el_corte", "_las_sin_alcance", "_saved_no_se_usa", "_dos_tablas",
+       "_recepcion_negativa"].filter(function (k) { return r[k]; })
+        .map(function (k) { return "<li>" + esc(r[k]) + "</li>"; }).join("") +
+      (r.descartadas_por_el_corte
+        ? "<li>" + ent(r.descartadas_por_el_corte) +
+          " publicaciones anteriores al corte, descartadas.</li>" : "") +
+      (r.piezas_sin_alcance
+        ? "<li>" + ent(r.piezas_sin_alcance) + " sin dato de " +
+          esc(r.metrica) + ", fuera del cálculo.</li>" : "") +
+      "</ul></details>" +
+      '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
+      'uppercase mt-6 mb-2">Las 3 de mejor tasa</div>' +
+      '<div class="divide-y divide-slate-50">' +
+      (r.mejores_por_tasa || []).slice(0, 3).map(function (m) {
+        return '<div class="flex items-start gap-3 py-2.5">' +
+          '<div class="min-w-0 flex-1">' +
+          '<div class="text-[12px] text-slate-700 leading-snug">' +
+          esc(m.mensaje || "(sin texto)") + "</div>" +
+          '<div class="text-[10.5px] text-slate-400 mt-0.5">' + esc(m.formato) +
+          " · " + esc(m.fecha) + " · " + ent(m.impresiones || m.alcance) + " " +
+          esc(r.metrica) + "</div></div>" +
+          '<div class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
+          'shrink-0">' + (m.tasa * 100).toFixed(2) + "%</div>" +
+          (m.url ? '<a href="' + esc(m.url) + '" target="_blank" ' +
+            'rel="noopener noreferrer" class="shrink-0 text-slate-300 ' +
+            'hover:text-slate-600">' + svg(ico.link, "w-4 h-4") + "</a>" : "") +
+          "</div>";
+      }).join("") + "</div></div>";
+  }
+
+  function bloqueAlcance() {
+    var A = alcance();
+    if (!A) return "";
+    return '<h3 class="text-[17px] font-bold text-slate-800 mb-2 mt-10">' +
+      "Alcance y tasa de interacción</h3>" +
+      '<p class="text-[12.5px] text-slate-400 mb-5 max-w-[70ch] ' +
+      'leading-relaxed">' + esc(A._la_regla) + "</p>" +
+      nota("<b class=\"text-slate-700 font-semibold\">Esto es nuevo.</b> " +
+        esc(A._lo_que_desbloquea) + " " + esc(A._sigue_abierto)) +
+      '<div class="grid gap-6 mt-6 ' +
+      '[grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
+      A.redes.map(tarjetaAlcance).join("") + "</div>";
+  }
+
   /* ═════════════ piezas del análisis profundo ═════════════ */
 
   /* El perfil corto de una marca: cómo apuesta, no cuánto tiene.
@@ -1335,7 +1563,8 @@
           cardCab("Vistas de video por semana",
             "Solo YouTube las reporta entre las redes del informe") + gVis + "</div>"
           : "") + "</div>" : "") +
-      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
+      bloqueAlcance() +
+      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mt-10">' +
       cardCab("Redes sociales", "Sin corte por país: una sola marca para GT y SV") +
       '<div class="divide-y divide-slate-50">' + redes + "</div></div>" +
       plegado("Lo que este bloque no puede decir",
@@ -1941,6 +2170,10 @@
         : nota(buscando()
             ? "Ninguna tarea de producción coincide con la búsqueda."
             : "Esta estrategia no activa tareas de producción en esta corrida.")) +
+      /* Los copys van entre la producción y las ideas del equipo: son lo que
+         se produce con las tareas de arriba, y se deciden con los mismos
+         botones. */
+      bloqueCopys() +
       '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
       "Ideas del equipo · " + propias.length + "</h3>" +
       '<p class="text-[12.5px] text-slate-400 mb-6">Lo que propone la mesa.</p>' +
