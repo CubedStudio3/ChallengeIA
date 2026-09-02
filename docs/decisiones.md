@@ -1878,3 +1878,115 @@ cumplir completa, la salida no es achicar la promesa ni fingir que se cumple:
 es cumplirla donde se puede y **marcar en el sitio exacto** lo que quedó fuera.
 Los dos sellos ámbar valen más que el filtro, porque son lo que evita leer la
 pauta de agosto como si fuera la de la ventana elegida.
+
+---
+
+## ADR-040 · El indicador de variación recorta con el rango, y el cero no es verde
+
+**Fecha:** 2026-09-02
+**Estado:** aceptada
+**Pedido:** Mercadeo, antes de la corrida del lunes: verificar si el indicador
+de variación de los KPI se había ejecutado alguna vez con datos reales.
+
+### Lo que la verificación encontró
+
+La sospecha era que el código nunca había corrido porque «no hay periodo
+anterior». Las dos mitades de esa premisa eran falsas, y averiguarlo destapó un
+error real:
+
+1. **No compara contra una corrida anterior.** `variacionOrganico()` toma los
+   dos últimos puntos no nulos de la **serie semanal de orgánico de la misma
+   corrida**. No necesita historial. Un solo KPI lo recibe —Interacciones
+   orgánicas—; los otros siete no, y eso es correcto: en pauta sí haría falta
+   una corrida previa, y ahí un porcentaje sería inventado.
+2. **Sí se había ejecutado.** `+105.6%` está en el tablero publicado.
+   Recalculado desde el JSON crudo: `(37 − 18) / 18 × 100 = 105.5556`. Correcto
+   al decimal.
+
+Lo que **nunca** se había ejecutado con datos reales era la **rama negativa** —
+esta corrida solo tiene subida. Forzada en `/tmp`, funciona.
+
+### El error que destapó · el indicador ignoraba el filtro global
+
+Con la ventana puesta en junio, la gráfica recortaba a junio y el KPI de al lado
+seguía diciendo `+105.6% contra la semana anterior`, que eran el **17 y el 24 de
+agosto**. Y a diferencia de *Campañas con entrega* y de la nota de *Competencia*,
+este KPI no llevaba el sello ámbar: nada avisaba.
+
+Es el modo de falla que nombra el ADR-038 —*el total de un periodo al lado de las
+piezas de otro*— y es un error mío de la sesión anterior: al subir el filtro al
+encabezado revisé las gráficas y me salté este KPI.
+
+**La corrección no fue un sello, fue recortar de verdad.** La serie semanal trae
+`inicio` en ISO por semana, que es exactamente lo que ya usaba la gráfica: el
+dato alcanzaba, faltaba usarlo.
+
+### Por qué la máscara es UNA función y no dos
+
+El recorte estaba escrito dentro de `grafico()` y en ningún otro lado. Copiarlo
+al KPI habría dejado dos copias que pueden divergir otra vez. Se extrajo a
+`semanasEnRango(semanas)`, que usan las dos. **Una misma función no puede
+discrepar consigo misma**; dos copias sí, y ya lo hicieron.
+
+Devuelve `null` cuando no hay nada que recortar y `{hay:false}` cuando la
+ventana existe y ninguna semana cae dentro. Son casos distintos: el primero usa
+la serie completa, el segundo no tiene nada que mostrar.
+
+### El orden importa
+
+El recorte va **antes** del guardia de «se necesitan dos semanas». Al revés,
+una ventana de una sola semana compararía dos semanas que el equipo no está
+mirando.
+
+Verificado con la ventana movida sobre el dato real:
+
+| Ventana | Gráfica | Indicador | Nota |
+|---|---|---|---|
+| sin filtro | 12 semanas | `+105.6%` | de 18 (17 ago) a 37 (24 ago) |
+| jul 06 – jul 27 | 4 semanas | `−49.4%` | de 89 (20 jul) a 45 (27 jul) |
+| jun 01 – jun 30 | 4 semanas | ninguno | «17 publicaciones» |
+| 20 – 28 ago · **una semana** | 1 semana | ninguno | «17 publicaciones» |
+| mayo 2026 · **ninguna** | «ninguna semana cae» | ninguno | «17 publicaciones» |
+
+Junio cae al texto alterno por una razón que no se había previsto: sus cuatro
+semanas son `4, 0, 0, 1` y la penúltima es **0**. El guardia de división por
+cero se activa, y está bien — un 0 que sube a 1 no es «+Infinito%», es que antes
+no había nada que medir.
+
+### El residuo, declarado
+
+El **valor** del KPI (49) sigue sin poder recortarse: viene de la lectura de
+Zoho Social, que no trae fecha por publicación. Así que con una ventana activa
+la tarjeta muestra un valor del periodo al lado de una variación de la ventana.
+
+En lugar de esconderlo, **la nota nombra las dos semanas**: «de 89 (20 jul) a 45
+(27 jul)» en vez de «contra la semana anterior». El lector ve de dónde sale el
+porcentaje sin tener que adivinar.
+
+### El cero exacto no es una subida
+
+`pct >= 0` metía el cero en la rama de subida: «sin cambio» salía verde con
+flecha arriba. Y al implementarlo apareció el caso simétrico, que no estaba en
+la lista: **un `−0.04%` redondea a `−0.0%`** y salía en rojo con flecha abajo.
+
+El signo se decide ahora sobre la **cifra redondeada, que es la que se lee**, con
+tres estados: sube verde, baja rojo, **igual gris con una raya**. Y el texto se
+normaliza a `0.0%`, porque un menos delante insinúa una caída que el dato no
+sostiene.
+
+| Serie | Antes | Ahora |
+|---|---|---|
+| 18 → 18 | `↑ +0.0%` verde | `— 0.0%` gris |
+| 2500 → 2499 | `↓ -0.0%` rojo | `— 0.0%` gris |
+
+### La lección
+
+**Un camino que sí se ejecutó puede estar igual de sin probar que uno que no.**
+La pregunta era si el código había corrido; había corrido, y el número estaba
+bien. Lo que no se había probado nunca era la **combinación** — el indicador
+junto al filtro que se le puso encima un día antes. Cada pieza verificada por
+separado y el cruce sin mirar.
+
+Y el corolario del ADR-039, ahora con un caso: cuando un control global no puede
+filtrar algo, el sello es el último recurso, no el primero. Aquí el dato para
+recortar **ya existía**; el sello habría documentado un hueco evitable.

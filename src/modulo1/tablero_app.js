@@ -121,6 +121,7 @@
     link: '<path d="M10 14a4 4 0 0 0 6 .5l3-3a4 4 0 0 0-6-6l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-6-.5l-3 3a4 4 0 0 0 6 6L12.5 17"/>',
     arriba: '<path d="M12 19V5M6 11l6-6 6 6"/>',
     abajo: '<path d="M12 5v14M6 13l6 6 6-6"/>',
+    igual: '<path d="M6 12h12"/>',
     flecha: '<path d="M5 12h13M13 6l6 6-6 6"/>'
   };
   function svg(d, cls) {
@@ -230,9 +231,36 @@
     });
   }
 
+  /* Qué semanas de una serie caen en la ventana elegida.
+
+     Vive aquí, y no dentro de `grafico()` donde nació, porque la gráfica y el
+     indicador del KPI TIENEN que recortar igual. Estaban duplicados y
+     divergieron: con la ventana en junio la gráfica mostraba junio y el KPI
+     seguía diciendo «+105.6% contra la semana anterior», que eran el 17 y el 24
+     de agosto. Una misma función no puede discrepar consigo misma.
+
+     Devuelve null cuando no hay nada que recortar —sin ventana propia, o sin
+     fechas de inicio en la serie— para que quien llama use la serie completa.
+     `hay:false` significa que la ventana existe y ninguna semana cae dentro,
+     que NO es lo mismo. */
+  function semanasEnRango(semanas) {
+    var R = rango();
+    if (!R || !R.propio || !semanas || !semanas.length || !semanas[0].inicio) {
+      return null;
+    }
+    var dentro = semanas.map(function (w) {
+      return w.inicio >= R.desde && w.inicio <= R.hasta;
+    });
+    return { dentro: dentro, hay: dentro.some(Boolean) };
+  }
+
   /* La serie semanal permite la ÚNICA comparación real que existe en esta
      corrida. No hay corrida de la semana anterior, así que un porcentaje de
-     variación en las cifras de pauta sería inventado: ahí no se pone ninguno. */
+     variación en las cifras de pauta sería inventado: ahí no se pone ninguno.
+
+     `crudo` sale SIN recortar a propósito: es lo que se le pasa a `grafico()`,
+     que recorta por su cuenta con la misma máscara. Recortarlo aquí lo dejaría
+     recortado dos veces. */
   function serieTotal() {
     var se = ((D.redes_sociales || {}).serie_semanal) || null;
     if (!se) return null;
@@ -249,11 +277,33 @@
   function variacionOrganico() {
     var s = serieTotal();
     if (!s) return null;
-    var t = s.total.filter(function (v) { return v != null; });
+    /* El recorte va ANTES de exigir dos semanas: si la ventana deja una sola
+       —o ninguna— hay que caer al texto alterno, no comparar semanas que el
+       equipo no está mirando.
+
+       Y la semana viaja junto a su total para poder rotular cuáles dos se
+       comparó. Hace falta: el VALOR del KPI es del periodo de la corrida y no
+       se puede recortar por rango (Zoho Social no trae fecha por publicación),
+       así que con una ventana activa la tarjeta muestra un valor del periodo al
+       lado de una variación de la ventana. Nombrar las semanas es lo que evita
+       que eso engañe. */
+    var pares = s.semanas.map(function (w, i) {
+      return { w: w, v: s.total[i] };
+    });
+    var msk = semanasEnRango(s.semanas);
+    if (msk) {
+      if (!msk.hay) return null;
+      pares = pares.filter(function (_, i) { return msk.dentro[i]; });
+    }
+    var t = pares.filter(function (x) { return x.v != null; });
     if (t.length < 2) return null;
-    var a = t[t.length - 2], b = t[t.length - 1];
-    if (!a) return null;
-    return { pct: (b - a) / a * 100, de: a, a: b };
+    var pa = t[t.length - 2], pb = t[t.length - 1];
+    /* Sin base no hay porcentaje: dividir por cero daría Infinity, y un 0 que
+       sube a 5 no es «+Infinito%», es que antes no había nada que medir. */
+    if (!pa.v) return null;
+    return { pct: (pb.v - pa.v) / pa.v * 100, de: pa.v, a: pb.v,
+             etDe: (pa.w || {}).etiqueta || null,
+             etA: (pb.w || {}).etiqueta || null };
   }
 
   /* ═════════════ armazón ═════════════ */
@@ -347,12 +397,23 @@
   function kpi(titulo, valor, nota, variacion) {
     var ind = "";
     if (variacion && variacion.pct != null) {
-      var sube = variacion.pct >= 0;
+      /* El SIGNO se decide sobre la cifra REDONDEADA, que es la que se lee.
+         Con el crudo, un -0.04% salia con flecha abajo y en rojo diciendo
+         «-0.0%», y un cero exacto salia verde y con flecha arriba: «sin
+         cambio» pintado como crecimiento. En un tablero donde se decide, un
+         verde que no corresponde es de la misma familia que un dato inventado. */
+      var n = parseFloat(variacion.pct.toFixed(1));
+      /* `n === 0` tambien captura el -0 de un -0.04% redondeado, y ahi el
+         texto se normaliza: «-0.0%» leido como caida seria un signo que el
+         dato no sostiene. */
+      var txt = n === 0 ? "0.0" : variacion.pct.toFixed(1);
+      var tono = n > 0 ? "text-emerald-600 bg-emerald-50"
+               : n < 0 ? "text-rose-600 bg-rose-50"
+                       : "text-slate-500 bg-slate-100";
       ind = '<span class="inline-flex items-center gap-1 text-[12px] font-semibold ' +
-        'px-2 py-1 rounded-lg ' +
-        (sube ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50") +
-        '">' + svg(sube ? ico.arriba : ico.abajo, "w-3 h-3") +
-        (sube ? "+" : "") + variacion.pct.toFixed(1) + "%</span>";
+        'px-2 py-1 rounded-lg ' + tono + '">' +
+        svg(n > 0 ? ico.arriba : n < 0 ? ico.abajo : ico.igual, "w-3 h-3") +
+        (n > 0 ? "+" : "") + txt + "%</span>";
     }
     return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
       '<div class="flex items-start justify-between gap-3 min-h-[34px]">' +
@@ -520,12 +581,10 @@
        gráfica. Cada semana trae su `inicio` en ISO, así que el corte es exacto.
        Se recortan LOS VALORES junto con las semanas: quedarse con las semanas
        y no con los datos dibujaría la serie corrida. */
-    var R = rango();
-    if (R && R.propio && cfg.semanas.length && cfg.semanas[0].inicio) {
-      var dentro = cfg.semanas.map(function (w) {
-        return w.inicio >= R.desde && w.inicio <= R.hasta;
-      });
-      if (dentro.some(Boolean)) {
+    var msk = semanasEnRango(cfg.semanas);
+    if (msk) {
+      var dentro = msk.dentro;
+      if (msk.hay) {
         cfg = {
           titulo: cfg.titulo, area: cfg.area,
           semanas: cfg.semanas.filter(function (_, i) { return dentro[i]; }),
@@ -1625,7 +1684,10 @@
          publicación: es del periodo de la corrida y no se puede recalcular por
          rango. El alcance sí se recalcula, y está en Rendimiento. */
       kpi("Interacciones orgánicas", ent(t.interacciones),
-        vari ? "de " + vari.de + " a " + vari.a + " contra la semana anterior"
+        vari ? (vari.etDe && vari.etA
+                  ? "de " + vari.de + " (" + vari.etDe + ") a " + vari.a +
+                    " (" + vari.etA + ")"
+                  : "de " + vari.de + " a " + vari.a + " contra la semana anterior")
              : (t.publicaciones || 0) + " publicaciones", vari),
     ].join("");
 
