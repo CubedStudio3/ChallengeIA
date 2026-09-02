@@ -24,6 +24,7 @@ entrada debe incluir **fecha, método, llamada exacta y salida obtenida**.
 | V5 | Premisa competitiva | ✅ **APROBADA** | 2026-08-27 | Corregida: 31 en GT no 51; 0 en SV; 6 competidores catalogados |
 | V6 | Zoho Social y el candado | ⬜ no ejecutada | — | — |
 | V7 | Runtime de la corrida automática | ⬜ no ejecutada | — | — |
+| V8 | Desglose diario de pauta reproduce el agregado | ✅ **APROBADA** | 2026-09-02 | 18/18 idénticos al centavo · y la división reproduce `cost_per_result` 6/6 |
 
 **Alcance confirmado por módulo:** pendiente. Se determina al cerrar la Fase 0.
 
@@ -263,3 +264,119 @@ convención verificada, el módulo ya puede calcular cantidades trazables en lug
 de solo describir competencia.
 
 **Y añade una restricción de diseño no anticipada:** ver ADR-013.
+
+---
+
+## V8 · El desglose diario reproduce el agregado — ✅ APROBADA
+
+**Fecha:** 2026-09-02
+**Ejecutado por:** agente. Solo lectura, ninguna escritura en Meta (regla 8).
+**Motivo:** antes de hacer que Resumen y Rendimiento obedezcan el filtro de
+fechas hay que probar que pedir la pauta día por día devuelve exactamente lo
+mismo que el agregado ya verificado en V0. Si no coincidía, no se seguía.
+
+### Método
+
+Se pidió el MISMO periodo de las dos formas y se comparó por campaña:
+
+**Agregada** (idéntica a la llamada de V0):
+
+```
+ads_get_ad_entities · level=campaign
+time_range = {"since":"2026-08-01","until":"2026-08-24"}
+fields = [id, name, results, cost_per_result, spend, impressions]
+sort = spend_descending · limit = 10
+```
+
+**Día por día** (nueva). Sin `cost_per_result` a propósito: el costo NO se pide
+por día, se calcula una sola vez dividiendo. Y con `object_ids` en vez de
+`sort`+`limit`, porque con ids la respuesta viene completa y **sin cursor**, así
+que no hay paginación que pueda truncar la comparación:
+
+```
+ads_get_ad_entities · level=campaign
+time_range = {"since":"2026-08-01","until":"2026-08-24"}
+time_increment = "1"
+fields = [id, name, results, spend, impressions]
+object_ids = [las 6 campañas con gasto]
+```
+
+Devolvió 144 filas (6 campañas × 24 días), una respuesta sin `pagination`.
+
+### Resultado · 18 de 18 idénticos
+
+Suma de los días contra el agregado, por campaña:
+
+| Campaña | Indicador | Gasto | Resultados | Impresiones |
+|---|---|---|---|---|
+| Qpaypro Guatemala Nueva | actions:lead | $380.68 ✅ | 95 ✅ | 88,240 ✅ |
+| Punto de Venta GT | actions:lead | $331.66 ✅ | 158 ✅ | 57,334 ✅ |
+| Punto de Venta SV | actions:lead | $199.29 ✅ | 105 ✅ | 46,332 ✅ |
+| Plan Free Tráfico 2026 | actions:link_click | $104.03 ✅ | 10,771 ✅ | 476,959 ✅ |
+| Qpayshop e Integraciones | actions:lead | $53.15 ✅ | 12 ✅ | 13,348 ✅ |
+| SV \| POS Físico | QualifiedLead | $3.23 ✅ | 1 ✅ | 1,150 ✅ |
+
+Los tres valores de Punto de Venta GT, Punto de Venta SV y Plan Free coinciden
+además con la tabla de V0, que se comparó contra la interfaz.
+
+### Verificación adicional · la división reproduce `cost_per_result`
+
+Como el costo ya no se va a pedir, hay que probar que calcularlo no pierde nada.
+`gasto / resultados` sobre el periodo completo, contra lo que devuelve la API:
+
+| Campaña | División | API | |
+|---|---|---|---|
+| Punto de Venta GT | 331.66 / 158 = 2.0991 | $2.10 | ✅ |
+| Qpaypro GT Nueva | 380.68 / 95 = 4.0072 | $4.01 | ✅ |
+| Punto de Venta SV | 199.29 / 105 = 1.8980 | $1.90 | ✅ |
+| Plan Free Tráfico | 104.03 / 10771 = 0.00966 | $0.01 | ✅ |
+| Qpayshop | 53.15 / 12 = 4.4292 | $4.43 | ✅ |
+| SV \| POS Físico | 3.23 / 1 = 3.23 | $3.23 | ✅ |
+
+**6 de 6.** Dejar de pedir `cost_per_result` no pierde información, y evita el
+hueco de `Not available` en el costo de los días flacos.
+
+### Lo que se aprendió del `Not available` diario
+
+Un día puede traer **gasto y impresiones con `results` en `Not available`**.
+Ejemplo medido: Qpayshop el 2026-08-02 gastó $5.38 con 1,179 impresiones y
+`results: "Not available"`.
+
+La pregunta era si eso es «cero resultados» o «resultado desconocido». **La suma
+lo resuelve:** los días con número suman 12, que es exactamente el total
+agregado de esa campaña. Si los `Not available` escondieran resultados, la suma
+daría de menos. Así que en el desglose diario, para sumar, **un `Not available`
+en `results` aporta cero** — y eso está medido, no supuesto.
+
+Se guardan igual como `null` y no como `0`, para poder decir cuántos días
+tienen dato y cuántos no.
+
+### El corte por mercado también puede ser diario
+
+`breakdowns: ["country"]` **sí** se combina con `time_increment`. Probado con una
+campaña sobre 5 días: devuelve fila por campaña × país × día, y los valores de GT
+coinciden con los del nivel campaña.
+
+```
+ads_get_ad_entities · level=campaign · time_increment="1"
+breakdowns = ["country"] · object_ids = ["120249292740850783"]
+→ 5 filas, country=GT, gasto 39.49 / 40.49 / 37.43 / 31.02 / 32.77
+```
+
+### Un detalle que no hay que confundir
+
+La suma de las 4 campañas con `actions:lead` da **$964.78**, mientras
+`resultado.json` reporta **$963.46** para ese indicador. No es un error: 963.46
+es la suma de **GT + SV por país** (765.49 + 197.97), y la diferencia de $1.32 es
+gasto atribuido a países fuera de los dos mercados declarados —entre ellos los
+$0.02 de HN que ya están registrados como exclusión.
+
+Son dos lecturas distintas —por campaña y por campaña × país— y las dos tienen
+que volverse diarias por separado. Compararlas entre sí sin decir cuál es cuál
+es cómo se fabrica un descuadre que no existe.
+
+### Veredicto
+
+**Se puede seguir.** El desglose diario es fiel al agregado verificado, la
+división reemplaza al costo pedido sin pérdida, y el corte por país sobrevive al
+desglose.
