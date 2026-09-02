@@ -525,9 +525,15 @@ def recomienda(marcas: list[dict], comp: dict, ocupados: list[dict],
             if vert and not sector.startswith("_"):
                 inverso.setdefault(vert, []).append(sector)
         sectores = sorted({s for v, _ in nuestras for s in inverso.get(v, [])})
+        # El testimonio tiene que ser DEL SECTOR que se está recomendando, no el
+        # primero que traiga sector. Antes tomaba el primero con `_sector` y por
+        # eso acreditó a una clienta de servicios como prueba de belleza: el
+        # dato la acredita como «María Belén Coach». Un supuesto sobre una
+        # palabra («mis clientas») que el sitio desmintió.
         testimonio = None
         for t in ((marca or {}).get("prueba_social") or {}).get("testimonios", []):
-            if t.get("_sector"):
+            sec = (t.get("sector") or "").lower()
+            if any(s.lower().split()[0] in sec for s in sectores):
                 testimonio = t
                 break
         recs.append(_rec(

@@ -1,6 +1,6 @@
 {
   "_que_es": "Los datos de marca de Qpaypro EXTRAÍDOS DE SU PROPIO SITIO, no supuestos. Reemplaza el hueco que tenía la skill contexto-marca. Todo lo de aquí es verbatim o derivado de verbatim; lo que no está en el sitio no está aquí.",
-  "_fuente": "https://www.qpaypro.com/gt · texto pegado por Mercadeo el 2026-09-02 (home, punto de venta, tiendas en línea, pasarela de pagos) porque el dominio está bloqueado por la política de egreso del entorno",
+  "_fuente": "https://www.qpaypro.com/gt · texto pegado por Mercadeo el 2026-09-02: home, punto-de-venta, tiendas-en-linea, pasarela-de-pagos, retail, servicios, ecommerce y belleza. El dominio está bloqueado por la política de egreso del entorno, así que la única vía es el pegado.",
   "_como_actualizarlo": "Volver a pegar el texto del sitio y rehacer esta extracción. Si el sitio cambia de comisión o de nombre de producto, este archivo miente hasta que se actualice — y los copys salen de aquí.",
   "nombre": {
     "como_lo_escribe_el_sitio": "Qpaypro",
@@ -183,28 +183,30 @@
       {
         "quien": "Najelee Gálvez",
         "negocio": "NayeNails",
-        "_sector": "belleza · uñas",
+        "sector": "Belleza · uñas",
         "dice": "Descubrí Qpaypro y se me hizo súper fácil afiliarme. En menos de 48 horas ya estaba cobrando."
       },
       {
         "quien": "María Belén",
-        "negocio": null,
-        "_sector": "belleza · probable («mis clientas»)",
+        "negocio": "María Belén Coach",
+        "sector": "Servicios · coaching",
         "dice": "Antes de conocer Qpaypro los cobros eran manuales y engorrosos: me robaban tiempo y generaban estrés. Hoy mis clientas pagan de forma práctica, con tarjeta de crédito y en cuotas, con un solo clic."
       },
       {
         "quien": "Ana Cecilia Guerra",
         "negocio": "ByAnaCeci",
-        "dice": "Qpayshop me facilitó el trabajo: fácil de integrar, ver inventarios y recibir mis pagos sin complicaciones."
+        "sector": "Ecommerce",
+        "dice": "Cuando comencé mi negocio necesitaba una plataforma para gestionar mis pedidos en línea. Qpayshop me facilitó el trabajo: fácil de integrar, ver inventarios, monitorear pedidos y recibir pagos sin complicaciones."
       },
       {
         "quien": "Ana Lucía",
         "negocio": "Laluh",
+        "sector": "Retail",
         "dice": "Ha sido la herramienta segura que le da confianza a mis clientes y que hizo crecer mis ventas."
       }
     ],
     "_las_48_horas": "El plazo lo dice una CLIENTA en su testimonio, no la marca. Como promesa de marca necesitaría que Qpaypro lo confirme; como cita textual con atribución se puede usar tal cual.",
-    "_dos_de_cuatro_son_belleza": "Najelee (NayeNails) y María Belén («mis clientas») vienen del sector belleza. Refuerza la recomendación de pautar en Salones y barberías: no es un nicho nuevo, es donde ya hay clientas contentas."
+    "_correccion_2026_09_02": "Se había inferido que María Belén era del sector belleza porque dice «mis clientas». La landing de servicios la acredita como «María Belén Coach»: es SERVICIOS. Era un supuesto mío sobre una palabra, y el dato lo desmintió. Queda UN testimonio de belleza —NayeNails—, no dos. La recomendación de pautar en Salones y barberías sigue en pie con un testimonio, no con dos."
   },
   "precio": {
     "_para_que_esta_aqui": "Para poder marcar cualquier copy que toque precio, y para no inventar la cifra si el copy la necesita.",
@@ -276,10 +278,10 @@
     "whatsapp": "+(502) 4785-6011"
   },
   "_lo_que_sigue_faltando": [
-    "TRES FRASES RECHAZADAS con su motivo. Es lo único que no se saca del sitio, y es lo que más rápido corrige un copy: el sitio dice qué sí dicen, no qué decidieron no decir.",
-    "El texto de la página /sv. Sin eso el lenguaje de El Salvador sigue sin verificar y un copy para SV es GT con otra bandera.",
-    "Las restricciones de comunicación de fintech por escrito. La letra chica del precio es un pedazo, no la lista.",
-    "Landings pendientes que Mercadeo ofreció mandar: precios, retail, servicios, ecommerce, belleza, clínicas, terminal-pos, seguridad."
+    "TRES FRASES RECHAZADAS con su motivo. Sigue siendo lo único que no está en el sitio, y lo que más rápido corrige un copy.",
+    "La página /sv. Sin ella el lenguaje de El Salvador no está verificado y todo copy para SV sale marcado SIN LOCALIZAR.",
+    "Las restricciones de comunicación de fintech por escrito.",
+    "Landings que faltan: precios, clinicas, terminal-pos, seguridad, sobre-qpaypro."
   ],
   "diferenciales_propios": {
     "_que_son": "Territorios de mensaje que el sitio sostiene con un hecho Y que ningún competidor ni referente medido está usando. Es donde el copy puede competir sin entrar al terreno de nadie.",
@@ -310,5 +312,109 @@
         "quien_mas_lo_dice": "nadie de los medidos lo dice en su titular"
       }
     ]
+  },
+  "por_sector": {
+    "_que_es": "El lenguaje que Qpaypro ya usa en cada landing de sector. Es lo que hay que reusar en un anuncio de ese sector: son sus palabras, no una traducción mía.",
+    "belleza": {
+      "url": "/gt/belleza",
+      "titular_del_sitio": "Asegura cada cita y cobra al instante.",
+      "bajada": "Pagos con tarjeta, links de pago y membresías para tu salón, barbería o spa.",
+      "giros": [
+        "Salón de belleza",
+        "Barbería",
+        "Spa",
+        "Uñas",
+        "Maquillaje"
+      ],
+      "cierre": "Llena tu agenda y cobra sin fricción",
+      "frases_propias": [
+        "Cobra rápido, incluso la propina",
+        "Terminal lista para aceptar tarjeta y propina.",
+        "Cobra el anticipo de la cita",
+        "Envía un link por WhatsApp para asegurar la cita con un anticipo y reduce las ausencias.",
+        "Menos ausencias",
+        "Vende paquetes y planes mensuales",
+        "Fideliza a tus clientes y estabiliza tus ingresos.",
+        "Al pagar por adelantado, tus clientes faltan mucho menos.",
+        "Cierra caja sin cuadernos"
+      ],
+      "_la_palabra_clave": "«AUSENCIAS», no «cancelaciones» ni «no-shows». Y «PROPINA», que es un detalle del sector que ningún competidor medido menciona. Los dos son de ellos y hay que usarlos tal cual."
+    },
+    "servicios": {
+      "url": "/gt/servicios",
+      "titular_del_sitio": "Cobra tus servicios sin perseguir pagos.",
+      "bajada": "Cobros con tarjeta, links de pago y suscripciones para tu negocio de servicios.",
+      "giros": [
+        "Hogar y reparación",
+        "Automotriz",
+        "Servicios profesionales",
+        "Limpieza",
+        "Transporte",
+        "Mascotas"
+      ],
+      "frases_propias": [
+        "No pierdas un trabajo por falta de efectivo",
+        "Si tu cliente no trae efectivo, igual cobras — incluso en cuotas.",
+        "Cobra el anticipo por WhatsApp",
+        "Menos cancelaciones de última hora",
+        "Cobra mensualidades sin perseguir a nadie",
+        "Menos morosidad y un ingreso más predecible.",
+        "¿Puedo cobrar con tarjeta si no tengo un local?"
+      ]
+    },
+    "retail": {
+      "url": "/gt/retail",
+      "titular_del_sitio": "Tu tienda física y online en un mismo lugar.",
+      "bajada": "Cobros, punto de venta, inventario y ventas en línea en una sola plataforma.",
+      "giros": [
+        "Ropa y calzado",
+        "Abarrotes",
+        "Ferreterías",
+        "Librerías",
+        "Hogar y regalos",
+        "Tecnología",
+        "Tiendas de conveniencia"
+      ],
+      "frases_propias": [
+        "Vende en línea y en tu tienda, sin descuadres",
+        "Tarifas claras, sin sorpresas",
+        "cierra caja sin cuadernos ni cuentas a mano",
+        "para que nunca vendas de más",
+        "Si se vende algo en línea, tu stock del mostrador se actualiza solo",
+        "Sabes qué tienes y qué se está por acabar, en tiempo real."
+      ]
+    },
+    "ecommerce": {
+      "url": "/gt/ecommerce",
+      "titular_del_sitio": "Convierte más visitas en ventas.",
+      "bajada": "Pasarela de pagos, tienda en línea e integraciones para tu ecommerce.",
+      "giros": [
+        "Moda",
+        "Electrónica",
+        "Cosmética",
+        "Alimentos",
+        "Suscripciones",
+        "Marketplace"
+      ],
+      "frases_propias": [
+        "¿No tienes web? Crea tu Qpayshop",
+        "Conecta tu tienda sin programar",
+        "Sin escribir una línea de código",
+        "Una API que tus devs van a amar",
+        "pasarela local certificada PCI-DSS que cobra en moneda local, con soporte directo"
+      ],
+      "_registro_devs": "El bloque de desarrolladores se suelta más que el resto del sitio («una API que tus devs van a amar»). Es el único lugar donde la marca se permite eso, y solo hablándole a un dev."
+    }
+  },
+  "sello_de_confianza": {
+    "literal": "Certificada PCI-DSS · Aprobación rápida · Soporte local",
+    "_donde": "Aparece igual en las cuatro landings de sector, debajo de los botones.",
+    "_para_que": "Es su trío de confianza estándar. «Soporte local» y «aprobación rápida» son dos de los cinco territorios propios, y aquí están juntos y ya escritos."
+  },
+  "_bug_del_sitio": {
+    "que": "Los contadores de las landings de sector se leen «0+ Comercios activos / 0+ Usuarios».",
+    "donde": "retail, servicios, ecommerce y belleza · bloque previo al cierre",
+    "_lectura": "En el texto pegado salen en cero. Lo más probable es que sean contadores animados por JavaScript que no habían corrido al copiar. Pero si a un visitante con JS lento o bloqueado le pasa lo mismo, la página le está diciendo «0+ comercios activos», que es peor que no poner el dato. Vale que alguien lo abra y confirme.",
+    "_no_se_usa_como_dato": "Ese 0+ NO entra en ningún copy. La cifra usable es la de la home: «Más de 800,000 usuarios activos»."
   }
 }
