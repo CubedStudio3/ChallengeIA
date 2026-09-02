@@ -40,7 +40,11 @@
 
   /* Vista local. Nunca se publica. */
   var V = { mercado: null, grupo: "competencia", categoria: "software",
-            busqueda: "", verTodo: {} };
+            busqueda: "", verTodo: {},
+            /* Filtros de los copys y del alcance. Son de quien mira —no
+               decisiones de la mesa—, así que viven en localStorage y nunca
+               se publican. */
+            pieza: null, solucion: null, desde: null, hasta: null };
   try {
     var g = localStorage.getItem("mc.vista");
     if (g) { var o = JSON.parse(g); for (var k in o) if (k in V) V[k] = o[k]; }
@@ -664,6 +668,9 @@
     return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra' + anillo +
       ' flex flex-col">' +
       '<div class="flex items-center gap-2 flex-wrap mb-4">' +
+      (c.solucion ? '<span class="etiqueta-marca !cursor-default">' +
+        esc(c.solucion) + "</span>" : "") +
+      (c.pieza ? '<span class="etiqueta-sec">' + esc(c.pieza) + "</span>" : "") +
       '<span class="etiqueta-sec">' + esc(c.mercado) + "</span>" +
       '<span class="etiqueta-sec">' + esc(c.red) + "</span>" +
       '<span class="etiqueta-sec">' + esc(c.formato) + "</span>" +
@@ -685,21 +692,27 @@
       '<div class="mt-4 inline-flex items-center gap-1.5 text-[12px] ' +
       'font-semibold text-slate-900 bg-white rounded-full px-4 py-2">' +
       esc(c.cta) + "</div></div>" +
-      '<div class="micro-et">El ángulo</div>' +
-      '<p class="text-[12.5px] text-slate-600 leading-relaxed mb-4">' +
+      /* A la vista: el texto que se va a producir y el ángulo en una línea.
+         Plegado: el porqué, lo que evita y el apoyo. Con diez copys, cuatro
+         párrafos por tarjeta convertían la sección en lectura en vez de en una
+         cola de aprobación. */
+      '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
       esc(c.angulo) + "</p>" +
-      '<div class="micro-et">Por qué</div>' +
-      '<p class="text-[12px] text-slate-400 leading-relaxed mb-4">' +
+      '<details class="mt-3">' +
+      '<summary class="text-[12px] font-semibold text-slate-400 ' +
+      'cursor-pointer hover:text-slate-600">Por qué y qué evita</summary>' +
+      '<p class="text-[12px] text-slate-500 leading-relaxed mt-3">' +
       esc(c.porque) + "</p>" +
       (c.no_dice
-        ? '<div class="micro-et">Qué evita a propósito</div>' +
-          '<p class="text-[12px] text-slate-400 leading-relaxed mb-4">' +
-          esc(c.no_dice) + "</p>"
-        : "") +
+        ? '<p class="text-[12px] text-slate-400 leading-relaxed mt-2">' +
+          "<b>Evita:</b> " + esc(c.no_dice) + "</p>" : "") +
+      (c.tambien_toca
+        ? '<p class="text-[11.5px] text-slate-400 mt-2">También toca ' +
+          esc(c.tambien_toca) + ".</p>" : "") +
       (c._apoyo
-        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mb-4">' +
-          esc(c._apoyo) + "</p>"
-        : "") +
+        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-2">' +
+          esc(c._apoyo) + "</p>" : "") +
+      "</details>" +
       '<div class="mt-auto pt-4 flex flex-wrap items-center gap-2">' +
       '<button type="button" data-decidir="' + esc(c.id) + '" ' +
       'data-estado="aceptada" class="btn-verde"' +
@@ -713,34 +726,71 @@
       "</div></div>";
   }
 
+  /* Los dos cortes que pidió Mercadeo: qué hay que producir y de qué solución
+     habla. Un copy sin taxonomía no se puede filtrar —se vería siempre, que es
+     peor que no verse—, así que se cuenta aparte y se avisa. */
   function bloqueCopys() {
-    var cs = copys().filter(function (c) {
-      return coincide(c.titular, c.cuerpo, c.angulo, c.mercado);
+    var todos = copys();
+    if (!todos.length) return "";
+    var sinEtiqueta = todos.filter(function (c) {
+      return !c.pieza || !c.solucion;
+    }).length;
+    var cs = todos.filter(function (c) {
+      if (V.pieza && c.pieza !== V.pieza) return false;
+      if (V.solucion && c.solucion !== V.solucion) return false;
+      return coincide(c.titular, c.cuerpo, c.angulo, c.mercado, c.solucion);
     });
-    if (!copys().length) return "";
+    var cuenta = function (campo, val) {
+      return todos.filter(function (c) {
+        if (campo === "pieza" && V.solucion && c.solucion !== V.solucion) return false;
+        if (campo === "solucion" && V.pieza && c.pieza !== V.pieza) return false;
+        return c[campo] === val;
+      }).length;
+    };
+    var SOL = ["Punto de Venta", "Pasarela de Pagos", "Tienda en Línea"];
+    var filtros =
+      '<div class="flex flex-wrap items-center gap-x-3 gap-y-3 mb-6">' +
+      pastillas("pieza", [{ v: null, n: "Arte y video" },
+                          { v: "arte", n: "Arte · " + cuenta("pieza", "arte") },
+                          { v: "video", n: "Video · " + cuenta("pieza", "video") }],
+                V.pieza) +
+      pastillas("solucion", [{ v: null, n: "Las tres soluciones" }].concat(
+        SOL.map(function (x) {
+          return { v: x, n: x + " · " + cuenta("solucion", x) };
+        })), V.solucion) +
+      ((V.pieza || V.solucion)
+        ? '<button type="button" id="limpiarCopys" class="etiqueta-marca">' +
+          "quitar filtros</button>"
+        : "") + "</div>";
     var m = mercadoActivo();
     var asig = ((D.estrategia || {}).asignacion) || {};
     var decid = cs.filter(function (c) { return E.decisiones[c.id]; }).length;
     return '<div class="flex items-start justify-between gap-4 mb-5 mt-12">' +
       '<div><h3 class="text-[17px] font-bold text-slate-800">Copys para ' +
       'aprobar</h3>' +
-      '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[66ch] ' +
-      'leading-relaxed">Texto listo para producir. Cada uno trae su ángulo y ' +
-      "el dato que lo sostiene. " +
-      "<b class=\"text-slate-600 font-semibold\">Nada se publica desde aquí" +
-      "</b>: aprobar registra la decisión." +
-      (m ? " Se marcan los que no se pueden usar en <b>" + esc(m) +
-           "</b>." : "") + "</p></div>" +
+      '<p class="text-[12.5px] text-slate-400 mt-1.5">Aprobar registra la ' +
+      "decisión; no publica nada." +
+      (m ? " Se marca lo que no aplica en " + esc(m) + "." : "") +
+      "</p></div>" +
       '<span class="text-[12.5px] font-semibold shrink-0 mt-1 ' +
-      'text-slate-400">' + decid + " / " + cs.length + "</span></div>" +
-      ((D.copys || {})._registro
-        ? nota(esc((D.copys || {})._registro)) : "") +
+      'text-slate-400">' + decid + " / " + cs.length +
+      (cs.length !== todos.length ? " · de " + todos.length : "") +
+      "</span></div>" + filtros +
+      (sinEtiqueta
+        ? '<p class="text-[11.5px] text-slate-400 mt-3">' + sinEtiqueta +
+          " copy sin pieza o sin solución declarada: no entra en los filtros." +
+          "</p>"
+        : "") +
       '<div class="grid gap-6 mt-6 ' +
       '[grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))]">' +
       (cs.length
         ? cs.map(function (c) { return tarjetaCopy(c, asig); }).join("")
         : '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
-          'text-slate-400">Ningún copy coincide con la búsqueda.</div>') +
+          'text-slate-400">' +
+          ((V.pieza || V.solucion)
+            ? "Ningún copy de " + esc([V.pieza, V.solucion].filter(Boolean).join(" · ")) +
+              (buscando() ? " coincide con la búsqueda." : " todavía.")
+            : "Ningún copy coincide con la búsqueda.") + "</div>") +
       "</div>";
   }
 
@@ -759,8 +809,88 @@
     return ((D.redes_sociales || {}).alcance) || null;
   }
 
+  /* El rango elegido, o el completo si no se eligió nada. */
+  function rango() {
+    var A = alcance(), r = (A && A.rango_disponible) || null;
+    if (!r) return null;
+    return { desde: V.desde || r.desde, hasta: V.hasta || r.hasta,
+             tope: r, propio: !!(V.desde || V.hasta) };
+  }
+
+  /* RECALCULA los agregados sobre las piezas del rango, no oculta filas de una
+     tabla ya sumada. Un filtro que oculta pero no recalcula deja el total de un
+     periodo al lado de las piezas de otro, que es peor que no tener filtro.
+
+     El mínimo de piezas para publicar una tasa se respeta igual que en Python:
+     si el rango elegido deja tres piezas, no sale una tasa. */
+  var MINIMO_TASA = 5;
+
+  function recalcula(red) {
+    var R = rango();
+    var ps = (red.piezas || []).filter(function (p) {
+      return !R || (p.f >= R.desde && p.f <= R.hasta);
+    });
+    var agrupa = function (lista) {
+      if (!lista.length) return null;
+      var base = 0, inter = 0, neg = 0;
+      lista.forEach(function (p) {
+        base += p.b; inter += p.i; neg += (p.n || 0);
+      });
+      var bs = lista.map(function (p) { return p.b; }).sort(function (a, b) { return a - b; });
+      return {
+        piezas: lista.length, total: base, interacciones: inter,
+        promedio: Math.round(base / lista.length),
+        mediana: bs[Math.floor(bs.length / 2)],
+        negativas: neg,
+        tasa: (base && lista.length >= MINIMO_TASA) ? inter / base : null,
+        pocas: lista.length < MINIMO_TASA,
+      };
+    };
+    var porFormato = {};
+    ps.forEach(function (p) {
+      (porFormato[p.t] = porFormato[p.t] || []).push(p);
+    });
+    var fmt = Object.keys(porFormato)
+      .map(function (k) { return [k, agrupa(porFormato[k])]; })
+      .sort(function (a, b) { return b[1].piezas - a[1].piezas; });
+    var mejores = ps.filter(function (p) { return p.b >= 50; })
+      .sort(function (a, b) { return (b.i / b.b) - (a.i / a.b); }).slice(0, 3);
+    return { total: agrupa(ps), formatos: fmt, mejores: mejores,
+             piezas: ps.length, deTodas: (red.piezas || []).length };
+  }
+
+  /* El control de fechas. Dos campos y un botón, con el rango real como límite:
+     no se puede pedir una ventana donde no hay dato. */
+  function controlFechas() {
+    var A = alcance();
+    if (!A || !A.rango_disponible) return "";
+    var R = rango();
+    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra mb-6 flex ' +
+      'flex-wrap items-end gap-4">' +
+      '<div><span class="micro-et">Desde</span>' +
+      '<input type="date" id="fDesde" class="campo w-[168px]" value="' +
+      esc(R.desde) + '" min="' + esc(R.tope.desde) + '" max="' +
+      esc(R.tope.hasta) + '"></div>' +
+      '<div><span class="micro-et">Hasta</span>' +
+      '<input type="date" id="fHasta" class="campo w-[168px]" value="' +
+      esc(R.hasta) + '" min="' + esc(R.tope.desde) + '" max="' +
+      esc(R.tope.hasta) + '"></div>' +
+      '<div class="flex gap-2 flex-wrap">' +
+      [["periodo", "El periodo de la corrida"], ["30", "Últimos 30 días"],
+       ["90", "Últimos 90 días"], ["todo", "Todo"]].map(function (a) {
+        return '<button type="button" data-rango="' + a[0] + '" ' +
+          'class="np-tipo">' + esc(a[1]) + "</button>";
+      }).join("") + "</div>" +
+      '<div class="text-[11.5px] text-slate-400 leading-snug flex-1 ' +
+      'min-w-[200px]">' +
+      (R.propio ? "Los números se recalculan sobre este rango."
+                : "Dato disponible: " + esc(R.tope.desde) + " a " +
+                  esc(R.tope.hasta) + ".") + "</div></div>";
+  }
+
   function tarjetaAlcance(r) {
-    var ac = r.acumulado || {}, pe = r.periodo || {};
+    var rc = recalcula(r);
+    var ac = rc.total || {}, pe = r.periodo || {};
     var dato = function (rot, val, nota) {
       return '<div class="min-w-[104px]">' +
         '<div class="text-[10px] font-bold tracking-wider text-slate-300 ' +
@@ -773,8 +903,12 @@
     /* La tasa es lo único nuevo de verdad, así que va primero y con su
        denominador escrito al lado: una tasa sin denominador visible es
        exactamente lo que este proyecto no publica. */
-    var filas = (Object.keys(r.por_formato || {})).map(function (f) {
-      var b = r.por_formato[f];
+    var filas = rc.formatos.map(function (par) {
+      var f = par[0], b = par[1];
+      b.nombre_metrica = r.metrica;
+      b._tasa_omitida = b.pocas
+        ? "Menos de " + MINIMO_TASA + " piezas en este rango: no se publica tasa."
+        : null;
       return '<div class="py-2.5">' +
         '<div class="flex items-baseline justify-between gap-3 mb-1.5">' +
         '<span class="text-[12.5px] font-semibold text-slate-700">' + esc(f) +
@@ -793,21 +927,22 @@
     }).join("");
 
     return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
-      cardCab(r.red, r._que_mide) +
+      cardCab(r.red, r.metrica === "impresiones"
+        ? "Impresiones · veces mostrado"
+        : "Alcance · personas distintas") +
       '<div class="flex flex-wrap gap-x-7 gap-y-4 mb-6">' +
-      dato("tasa acumulada",
-           ac.tasa != null ? (ac.tasa * 100).toFixed(2) + "%" : "—",
+      dato("tasa del rango",
+           ac.tasa != null ? (ac.tasa * 100).toFixed(2) + "%"
+                           : (ac.piezas ? "sin tasa" : "—"),
            ac.interacciones != null
              ? ent(ac.interacciones) + " sobre " + ent(ac.total) : null) +
-      dato(ac.nombre_metrica || "—", ent(ac.total), ac.piezas + " piezas") +
-      dato("en el periodo",
-           pe.tasa != null ? (pe.tasa * 100).toFixed(2) + "%"
-                           : (pe.piezas ? "sin tasa" : "—"),
-           pe.piezas ? pe.piezas + " piezas · " + ent(pe.total) + " " +
-             (pe.nombre_metrica || "") : "sin piezas en el periodo") +
-      (r.recepcion_negativa
-        ? dato("reacciones negativas", ent(r.recepcion_negativa),
-               "«me entristece» y «me enoja»") : "") +
+      dato(esc(r.metrica), ent(ac.total),
+           (ac.piezas || 0) + " de " + rc.deTodas + " piezas") +
+      dato("promedio por pieza", ent(ac.promedio),
+           ac.mediana != null ? "mediana " + ent(ac.mediana) : null) +
+      (ac.negativas != null && r.recepcion_negativa != null
+        ? dato("reacciones negativas", ent(ac.negativas),
+               "«me entristece» y «me enoja» · en este rango") : "") +
       "</div>" +
       '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
       'uppercase mb-1">Tasa por formato</div>' + filas +
@@ -830,21 +965,25 @@
       '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
       'uppercase mt-6 mb-2">Las 3 de mejor tasa</div>' +
       '<div class="divide-y divide-slate-50">' +
-      (r.mejores_por_tasa || []).slice(0, 3).map(function (m) {
-        return '<div class="flex items-start gap-3 py-2.5">' +
-          '<div class="min-w-0 flex-1">' +
-          '<div class="text-[12px] text-slate-700 leading-snug">' +
-          esc(m.mensaje || "(sin texto)") + "</div>" +
-          '<div class="text-[10.5px] text-slate-400 mt-0.5">' + esc(m.formato) +
-          " · " + esc(m.fecha) + " · " + ent(m.impresiones || m.alcance) + " " +
-          esc(r.metrica) + "</div></div>" +
-          '<div class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
-          'shrink-0">' + (m.tasa * 100).toFixed(2) + "%</div>" +
-          (m.url ? '<a href="' + esc(m.url) + '" target="_blank" ' +
-            'rel="noopener noreferrer" class="shrink-0 text-slate-300 ' +
-            'hover:text-slate-600">' + svg(ico.link, "w-4 h-4") + "</a>" : "") +
-          "</div>";
-      }).join("") + "</div></div>";
+      (rc.mejores.length
+        ? rc.mejores.map(function (m) {
+            return '<div class="flex items-start gap-3 py-2.5">' +
+              '<div class="min-w-0 flex-1">' +
+              '<div class="text-[12px] text-slate-700 leading-snug">' +
+              esc(m.m || "(sin texto)") + "</div>" +
+              '<div class="text-[10.5px] text-slate-400 mt-0.5">' + esc(m.t) +
+              " · " + esc(m.f) + " · " + ent(m.b) + " " + esc(r.metrica) +
+              "</div></div>" +
+              '<div class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
+              'shrink-0">' + (m.i / m.b * 100).toFixed(2) + "%</div>" +
+              (m.u ? '<a href="' + esc(m.u) + '" target="_blank" ' +
+                'rel="noopener noreferrer" class="shrink-0 text-slate-300 ' +
+                'hover:text-slate-600">' + svg(ico.link, "w-4 h-4") + "</a>" : "") +
+              "</div>";
+          }).join("")
+        : '<p class="text-[12px] text-slate-400 py-2">Ninguna pieza con al ' +
+          "menos 50 " + esc(r.metrica) + " en este rango.</p>") +
+      "</div></div>";
   }
 
   function bloqueAlcance() {
@@ -852,11 +991,15 @@
     if (!A) return "";
     return '<h3 class="text-[17px] font-bold text-slate-800 mb-2 mt-10">' +
       "Alcance y tasa de interacción</h3>" +
-      '<p class="text-[12.5px] text-slate-400 mb-5 max-w-[70ch] ' +
-      'leading-relaxed">' + esc(A._la_regla) + "</p>" +
-      nota("<b class=\"text-slate-700 font-semibold\">Esto es nuevo.</b> " +
-        esc(A._lo_que_desbloquea) + " " + esc(A._sigue_abierto)) +
-      '<div class="grid gap-6 mt-6 ' +
+      '<div class="text-[12.5px] text-slate-400 mb-5">Facebook mide ' +
+      "impresiones e Instagram alcance: no se suman." +
+      '<details class="inline"><summary class="inline cursor-pointer ' +
+      'font-semibold hover:text-slate-600"> Por qué</summary>' +
+      '<span class="block mt-2 max-w-[70ch] leading-relaxed">' +
+      esc(A._la_regla) + " " + esc(A._lo_que_desbloquea) + " " +
+      esc(A._sigue_abierto) + "</span></details></div>" +
+      controlFechas() +
+      '<div class="grid gap-6 ' +
       '[grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
       A.redes.map(tarjetaAlcance).join("") + "</div>";
   }
@@ -960,11 +1103,10 @@
           return barraCuota(a.vertical, a.anuncios + " anuncios", a.cuota,
             "--pastel-rosa");
         }).join("") +
-        '<div class="text-[10.5px] text-slate-400 mt-1 leading-relaxed">' +
-        "Sobre " + d.audiencia_clasificaciones + " clasificaciones de titular " +
-        "en " + d.leidos + " anuncios leídos: un titular que toca dos " +
-        "verticales cuenta en las dos, así que el total puede pasar del " +
-        "número de anuncios.</div>";
+        '<div class="text-[10.5px] text-slate-400 mt-1" title="Un titular que ' +
+        'toca dos verticales cuenta en las dos, así que el total puede pasar ' +
+        'del número de anuncios.">' + d.audiencia_clasificaciones +
+        " clasificaciones en " + d.leidos + " anuncios</div>";
     } else {
       out += rotuloBloque("A quién le habla") +
         '<p class="text-[12px] text-slate-400 leading-relaxed">Ninguno de sus ' +
@@ -1016,14 +1158,25 @@
     /* 4 · La lectura. Cada frase es la traducción de un umbral cruzado, y trae
        su número al lado. Ninguna es una interpretación libre. */
     if ((d.lectura || []).length) {
+      /* Las frases a la vista; su evidencia en el título del elemento y en un
+         pliegue. La lectura es lo accionable; el aparato que la sostiene se
+         consulta, no se lee de corrido. */
       out += rotuloBloque("Lectura estratégica") +
-        '<ul class="space-y-3">' + d.lectura.map(function (l) {
-          return '<li><div class="text-[12.5px] text-slate-700 ' +
-            'leading-relaxed">' + esc(l.frase) + "</div>" +
-            (l.evidencia ? '<div class="text-[10.5px] text-slate-400 mt-1 ' +
-              'font-mono leading-relaxed">' + esc(l.evidencia) + "</div>" : "") +
-            "</li>";
-        }).join("") + "</ul>";
+        '<ul class="space-y-2">' + d.lectura.map(function (l) {
+          return '<li class="text-[12.5px] text-slate-700 leading-relaxed"' +
+            (l.evidencia ? ' title="' + esc(l.evidencia) + '"' : "") + ">" +
+            esc(l.frase) + "</li>";
+        }).join("") + "</ul>" +
+        (d.lectura.some(function (l) { return l.evidencia; })
+          ? '<details class="mt-2"><summary class="text-[11.5px] ' +
+            'font-semibold text-slate-400 cursor-pointer ' +
+            'hover:text-slate-600">De dónde sale cada frase</summary>' +
+            '<ul class="mt-2 space-y-1 text-[10.5px] text-slate-400 font-mono ' +
+            'leading-relaxed list-disc pl-5">' +
+            d.lectura.filter(function (l) { return l.evidencia; })
+              .map(function (l) { return "<li>" + esc(l.evidencia) + "</li>"; })
+              .join("") + "</ul></details>"
+          : "");
     }
     return out;
   }
@@ -1052,22 +1205,27 @@
       "</div>" +
       '<h3 class="text-[16px] font-bold text-slate-800 leading-snug mb-3">' +
       esc(r.titulo) + "</h3>" +
-      '<p class="text-[13.5px] text-slate-600 leading-relaxed mb-4">' +
+      '<p class="text-[13.5px] text-slate-600 leading-relaxed">' +
       esc(r.que_hacer) + "</p>" +
-      '<p class="text-[12.5px] text-slate-400 leading-relaxed">' +
+      /* El porqué, el aviso y la evidencia van PLEGADOS. Antes eran tres
+         párrafos visibles por tarjeta y con nueve tarjetas la sección se leía
+         como un informe, no como una lista de cosas que hacer. La evidencia no
+         se borra —sin ella la recomendación no vale— pero se abre cuando
+         alguien la pide. */
+      '<details class="mt-auto pt-5">' +
+      '<summary class="text-[12px] font-semibold text-slate-400 ' +
+      'cursor-pointer hover:text-slate-600">Por qué</summary>' +
+      '<p class="text-[12px] text-slate-500 leading-relaxed mt-3">' +
       esc(r.porque) + "</p>" +
       (r.advertencia
-        ? '<p class="text-[11.5px] leading-relaxed mt-4 sec-lavado rounded-2xl ' +
+        ? '<p class="text-[11.5px] leading-relaxed mt-3 sec-lavado rounded-2xl ' +
           'px-4 py-3 text-slate-600">' + esc(r.advertencia) + "</p>" : "") +
       ((r.evidencia || []).length
-        ? '<details class="mt-auto pt-5">' +
-          '<summary class="text-[12px] font-semibold text-slate-400 ' +
-          'cursor-pointer hover:text-slate-600">La evidencia</summary>' +
-          '<ul class="mt-3 space-y-1.5 text-[11.5px] text-slate-500 ' +
+        ? '<ul class="mt-3 space-y-1.5 text-[11.5px] text-slate-500 ' +
           'leading-relaxed list-disc pl-5 font-mono">' +
           r.evidencia.map(function (e) { return "<li>" + esc(e) + "</li>"; })
-            .join("") + "</ul></details>"
-        : "") + "</div>";
+            .join("") + "</ul>"
+        : "") + "</details></div>";
   }
 
   /* Referentes contra competidores, en las dos cuotas que sí se pueden
@@ -1161,12 +1319,19 @@
       (ctl ? "<div>" + ctl + "</div>" : "") + "</div>" + cuerpo + "</section>";
   }
 
+  /* El grupo de pastillas. `flex-wrap` y `max-w-full` no son opcionales: con
+     cuatro opciones de nombre largo —«Pasarela de Pagos · 4»— el grupo mide
+     421 px y la pantalla de 390 desbordaba en horizontal. Lo encontró la prueba
+     en navegador, no la vista. Al envolverse, el control segmentado pasa a dos
+     filas dentro de la misma pastilla blanca y sigue leyéndose igual. */
   function pastillas(campo, opciones, activo) {
-    return '<div class="inline-flex bg-white rounded-full p-1 tarjeta-sombra">' +
+    return '<div class="inline-flex flex-wrap max-w-full bg-white rounded-full ' +
+      'p-1 tarjeta-sombra">' +
       opciones.map(function (o) {
         var on = o.v === activo;
         return '<button type="button" data-' + campo + '="' + esc(o.v) + '" ' +
-          'class="px-5 py-2.5 rounded-full text-[13px] font-semibold transition-colors ' +
+          'class="px-4 sm:px-5 py-2.5 rounded-full text-[13px] font-semibold ' +
+          'transition-colors whitespace-nowrap ' +
           (on ? "text-white" : "text-slate-400 hover:text-slate-600") + '"' +
           (on ? ' style="background:var(--marca)"' : "") + ">" + esc(o.n) + "</button>";
       }).join("") + "</div>";
@@ -1432,7 +1597,7 @@
     };
 
     return seccion("resumen", "La semana", "Resumen",
-      "Lo que dicen los datos, y qué hay que decidir con eso.", "",
+      "Los datos, y qué decidir con eso.", "",
       /* Una sola columna hasta xl: por debajo de eso el heroe a media pantalla
          deja las tres tarjetas en 170 px y el titulo se parte en cinco lineas.
          Medido en la prueba, no supuesto: con 1.05fr_1fr desde tableta las
@@ -1553,8 +1718,8 @@
         ? '<div class="divide-y divide-slate-50">' + filas + "</div>"
         : '<p class="text-[13px] text-slate-400 py-2">Ninguna campaña del ' +
           "periodo coincide con la búsqueda.</p>") +
-      '<p class="text-[11.5px] text-slate-400 mt-5 leading-relaxed">' +
-      noSeSuman(d) + "</p></div>" +
+      '<p class="text-[11.5px] text-slate-400 mt-5" title="' + esc(noSeSuman(d)) +
+      '">Los indicadores no se suman entre campañas distintas.</p></div>' +
       (gInt ? '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))] mb-6">' +
         '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
         cardCab("Interacciones por semana",
@@ -1668,14 +1833,14 @@
            en la misma tarjeta. */
         (dos
           ? dossierMarca(dos) +
-            '<div class="text-[10.5px] text-slate-400 mt-4 leading-relaxed">' +
-            "Universo: " + (dos.mercado === "GLOBAL" ? "consulta global"
-              : "consulta " + esc(dos.mercado)) + " · " + dos.leidos +
-            " anuncios leídos" +
-            (dos.muestra_completa ? " (inventario completo)"
-              : " de " + ent(dos.activos_declarados) + " activos") +
-            (recoFecha() ? " · foto del " + esc(recoFecha()) : "") +
-            ". Los números de arriba, por país.</div>"
+            '<div class="text-[10.5px] text-slate-400 mt-4" title="Los ' +
+            'porcentajes de este bloque son sobre este universo; los de la ' +
+            'cabecera son por país. Son universos distintos.">' +
+            (dos.mercado === "GLOBAL" ? "Consulta global"
+              : "Consulta " + esc(dos.mercado)) + " · " + dos.leidos +
+            " anuncios" +
+            (dos.muestra_completa ? "" : " de " + ent(dos.activos_declarados)) +
+            (recoFecha() ? " · " + esc(recoFecha()) : "") + "</div>"
           : '<div class="text-[10.5px] font-bold tracking-wider ' +
             'text-slate-300 uppercase mt-5 mb-1">Lo que repite</div>' +
             '<div class="divide-y divide-slate-50">' + msgs + "</div>") +
@@ -1742,10 +1907,13 @@
       pastillas("grupo", [{ v: "competencia", n: "Competencia" },
                           { v: "referentes", n: "Referentes" }], V.grupo),
       (sub ? '<div class="mb-6">' + sub + "</div>" : "") +
-      nota("<b class=\"text-slate-700 font-semibold\">Lo de abajo no es un ranking " +
-        "de efectividad.</b> La Ad Library no publica rendimiento de anunciantes " +
-        "comerciales: no hay impresiones, ni gasto, ni conversiones. Lo que sí se " +
-        "ve es en qué apuestan — cuánto repiten un mensaje y cuánto lo dejan vivo.") +
+      nota("<b class=\"text-slate-700 font-semibold\">No es un ranking de " +
+        "efectividad</b>: es dónde apuestan." +
+        '<details class="inline"><summary class="inline cursor-pointer ' +
+        'font-semibold"> Por qué</summary><span class="block mt-2">La Ad ' +
+        "Library no publica rendimiento de anunciantes comerciales: no hay " +
+        "impresiones, ni gasto, ni conversiones. Lo medible es cuánto repiten " +
+        "un mensaje y cuánto lo dejan vivo.</span></details>") +
       '<div class="grid gap-6 mt-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
       (tarjetas + avisos ||
         '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
@@ -1822,10 +1990,9 @@
         '<div class="flex items-start justify-between gap-4 mb-5">' +
         '<div><h3 class="text-[17px] font-bold text-slate-800">Qué hacer con ' +
         'esto</h3>' +
-        '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[64ch] ' +
-        'leading-relaxed">Sale de cruzar lo que la competencia ocupa con lo que ' +
-        "los referentes hacen y aquí nadie hace. Cada una trae su evidencia; " +
-        "las que el dato no sostenía no aparecen.</p></div>" +
+        '<p class="text-[12.5px] text-slate-400 mt-1.5">De cruzar lo que la ' +
+        "competencia ocupa con lo que los referentes hacen y aquí nadie " +
+        "hace.</p></div>" +
         (recs.length > 3
           ? '<button type="button" data-vertodo="recs" class="text-[12.5px] ' +
             'font-semibold shrink-0 hover:underline mt-1" ' +
@@ -1833,8 +2000,11 @@
             (V.verTodo.recs ? "Ver menos" : "Ver todo (" + recs.length + ")") +
             "</button>"
           : "") + "</div>" +
-        nota("<b class=\"text-slate-700 font-semibold\">Esto no dice qué le " +
-          "funcionó a la competencia.</b> " + esc(RC._limite || "")) +
+        nota("<b class=\"text-slate-700 font-semibold\">No dice qué le " +
+          "funcionó a la competencia</b>, dice dónde apuesta." +
+          '<details class="inline"><summary class="inline cursor-pointer ' +
+          'font-semibold"> Detalle</summary><span class="block mt-2">' +
+          esc(RC._limite || "") + "</span></details>") +
         (recs.length
           ? '<div class="grid gap-6 mt-6 ' +
             '[grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr))]">' +
@@ -1866,7 +2036,7 @@
     }).join("");
 
     return seccion("referencias", "Qué hacer", "Referencias",
-      "Primero las recomendaciones de ejecución; después de dónde salen.", "",
+      "Las recomendaciones, y de dónde salen.", "",
       /* Lo ACCIONABLE va primero. Estaba debajo de la tabla de contraste y
          Mercadeo no lo encontró: en una sección larga, el orden es la
          navegación. Lo que se va a usar en la mesa no puede estar a dos
@@ -1882,10 +2052,8 @@
       '<div class="flex items-end justify-between gap-4 mb-5 mt-10">' +
       '<div><h3 class="text-[17px] font-bold text-slate-800">Dónde buscar ' +
       'referencia visual</h3>' +
-      '<p class="text-[12.5px] text-slate-400 mt-1.5 max-w-[62ch] leading-relaxed">' +
-      "Cada búsqueda sale de un dato de arriba. <b class=\"text-slate-600 " +
-      "font-semibold\">Ningún pin fue visto ni verificado por el sistema</b>: son " +
-      "búsquedas, no referencias curadas.</p></div>" +
+      '<p class="text-[12.5px] text-slate-400 mt-1.5">Búsquedas, no ' +
+      "referencias curadas: ningún pin fue verificado.</p></div>" +
       (bus.length > 3
         ? '<button type="button" data-vertodo="busq" class="text-[12.5px] ' +
           'font-semibold shrink-0 hover:underline" style="color:var(--marca)">' +
@@ -2144,26 +2312,27 @@
     var G = '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">';
 
     return seccion("estrategia", "Para decidir", "Estrategia",
-      "Primero la apuesta, después las tareas. El sistema propone la que su " +
-      "premisa sostiene mejor; elegir es de la mesa.",
+      "Primero la apuesta, después las tareas. Elegir es de la mesa.",
       '<div class="flex gap-2 flex-wrap">' +
       '<button type="button" id="bTodas" class="btn-oscuro"' +
       (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
       selectorEstrategia() +
-      nota("<b class=\"text-slate-700 font-semibold\">Aceptar registra la decisión " +
-        "aquí; las tareas se crean en Sprint en un segundo paso.</b> Esta página " +
-        "vive en un navegador y no puede llamar a Zoho. Cuando terminen de decidir, " +
-        "<b class=\"text-slate-700 font-semibold\">Copiar para Sprint</b> da un CSV " +
-        "que se sube en <i>Configuración → Imports → Ítems de trabajo</i>. Zoho " +
-        "mapea las siete columnas solo.") +
+      nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
+        "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +
+        "de trabajo</i>." +
+        '<details class="inline"><summary class="inline cursor-pointer ' +
+        'font-semibold"> Por qué no se crean solas</summary>' +
+        "<span class=\"block mt-2\">Esta página vive en un navegador y no " +
+        "puede llamar a Zoho. Aceptar registra la decisión; la creación es un " +
+        "segundo paso. Zoho mapea las siete columnas solo.</span></details>") +
       '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
       "Producción creativa · " + creativas.length + "</h3>" +
-      '<p class="text-[12.5px] text-slate-400 mb-6 max-w-[62ch] leading-relaxed">' +
-      "Cada tarea sale de un dato medido y trae su evidencia." +
-      (act ? " Estas son las que activa <b class=\"text-slate-600 font-semibold\">" +
-        esc(act.nombre) + "</b>." : "") + "</p>" +
+      '<p class="text-[12.5px] text-slate-400 mb-6">' +
+      (act ? "Las que activa <b class=\"text-slate-600 font-semibold\">" +
+        esc(act.nombre) + "</b>." : "Cada tarea sale de un dato medido.") +
+      "</p>" +
       (creativas.length
         ? G + creativas.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
           "</div>"
@@ -2186,10 +2355,9 @@
       (pauta.length
         ? '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
           "Cambios en Meta Ads · " + pauta.length + "</h3>" +
-          '<p class="text-[12.5px] text-slate-400 mb-6 max-w-[62ch] leading-relaxed">' +
+          '<p class="text-[12.5px] text-slate-400 mb-6">' +
           "<b class=\"text-slate-600 font-semibold\">El sistema no ejecuta " +
-          "ninguno.</b> Meta Ads es de solo lectura, así que cada cambio sale " +
-          "escrito para que una persona lo aplique.</p>" +
+          "ninguno</b>: Meta Ads es de solo lectura.</p>" +
           G + pauta.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
           "</div>"
         : "") +
@@ -2427,8 +2595,9 @@
 
   var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
     "[data-categoria],[data-estrategia],[data-decidir],[data-propia]," +
-    "[data-borrar],[data-nptipo],#bCsv,#bDecisiones,#bTodas,#bNada," +
-    "#npAgregar,#limpiarBusqueda";
+    "[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
+    "#bCsv,#bDecisiones,#bTodas,#bNada," +
+    "#npAgregar,#limpiarBusqueda,#limpiarCopys";
 
   function conectar() {
     var r = raiz();
@@ -2460,6 +2629,40 @@
       if (d.grupo) { V.grupo = d.grupo; guardarVista(); pintar(true); return; }
       if (d.categoria) {
         V.categoria = d.categoria; guardarVista(); pintar(true); return;
+      }
+      /* Los filtros de los copys. `pastillas()` serializa el valor nulo como
+         la cadena "null", así que la opción «todos» llega como texto y hay que
+         volverla a null: si no, filtraría por una pieza llamada «null» y la
+         lista saldría vacía sin explicación. */
+      if (d.pieza !== undefined) {
+        V.pieza = d.pieza === "null" ? null : d.pieza;
+        guardarVista(); pintar(true); return;
+      }
+      if (d.solucion !== undefined) {
+        V.solucion = d.solucion === "null" ? null : d.solucion;
+        guardarVista(); pintar(true); return;
+      }
+      if (t.id === "limpiarCopys") {
+        V.pieza = null; V.solucion = null; guardarVista(); pintar(true); return;
+      }
+      /* Los atajos de rango. «periodo» usa el de la corrida; los de días se
+         cuentan desde la última pieza que hay, no desde hoy: contar desde hoy
+         daría una ventana vacía en una corrida retroactiva. */
+      if (d.rango) {
+        var A = alcance(), tope = A && A.rango_disponible;
+        if (!tope) return;
+        if (d.rango === "todo") { V.desde = null; V.hasta = null; }
+        else if (d.rango === "periodo") {
+          var pr = String((D.corrida || {}).rango || "").split(" a ");
+          if (pr.length === 2) { V.desde = pr[0].trim(); V.hasta = pr[1].trim(); }
+        } else {
+          var dias = parseInt(d.rango, 10);
+          var fin = new Date(tope.hasta + "T00:00:00Z");
+          var ini = new Date(fin.getTime() - dias * 86400000);
+          V.desde = ini.toISOString().slice(0, 10);
+          V.hasta = tope.hasta;
+        }
+        guardarVista(); pintar(true); return;
       }
       if (d.nptipo) {
         Array.prototype.forEach.call(
@@ -2516,6 +2719,22 @@
 
     r.addEventListener("change", function (ev) {
       var s = ev.target;
+      if (s.id === "fDesde" || s.id === "fHasta") {
+        var A = alcance(), tope = A && A.rango_disponible;
+        var v = s.value || null;
+        /* Se recorta al rango del dato en lugar de aceptar cualquier fecha:
+           una ventana fuera del dato mostraria ceros que parecerian medidos. */
+        if (v && tope) {
+          if (v < tope.desde) v = tope.desde;
+          if (v > tope.hasta) v = tope.hasta;
+        }
+        if (s.id === "fDesde") V.desde = v; else V.hasta = v;
+        /* Si el rango queda invertido se corrige en vez de mostrar vacio. */
+        if (V.desde && V.hasta && V.desde > V.hasta) {
+          if (s.id === "fDesde") V.hasta = V.desde; else V.desde = V.hasta;
+        }
+        guardarVista(); pintar(true); return;
+      }
       if (!s.dataset) return;
       if (s.dataset.asignar) { asignar(s.dataset.asignar, s.value || null); return; }
       if (s.dataset.asignarPropia) {

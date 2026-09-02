@@ -5,7 +5,6 @@
   "_redactados": "2026-09-02",
   "_estado_de_todos": "PROPUESTA · requiere aprobacion humana",
   "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
-
   "copys": [
     {
       "id": "copy-sv-liquidacion-a",
@@ -20,8 +19,12 @@
       "cta": "Empezar ahora",
       "porque": "Cero anuncios activos de las seis marcas medidas en SV, y es el único mercado donde Qpaypro promete liquidación en 24 horas. El lead de SV cuesta $1.89 contra $2.89 en GT.",
       "no_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
-      "bloqueada_en": ["GT"],
-      "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02."
+      "bloqueada_en": [
+        "GT"
+      ],
+      "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02.",
+      "pieza": "video",
+      "solucion": "Pasarela de Pagos"
     },
     {
       "id": "copy-sv-liquidacion-b",
@@ -36,8 +39,12 @@
       "cta": "Calcula tu cobro",
       "porque": "Usa el patrón de las landings de Qpaypro —nombrar la fricción y después resolverla— y cierra con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
       "no_dice": "No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.",
-      "bloqueada_en": ["GT"],
-      "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala."
+      "bloqueada_en": [
+        "GT"
+      ],
+      "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala.",
+      "pieza": "arte",
+      "solucion": "Pasarela de Pagos"
     },
     {
       "id": "copy-belleza-anticipo",
@@ -53,7 +60,10 @@
       "porque": "Los referentes trabajan «belleza y citas» con 11 anuncios y ningún competidor medido la toca. Qpaypro ya tiene la página del sector y un testimonio: NayeNails.",
       "no_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
       "bloqueada_en": [],
-      "_apoyo": "En Instagram el carrusel rinde 5.65% de tasa y el reel 3.80%; el reel alcanza más gente. Vale probar los dos formatos con el mismo texto."
+      "_apoyo": "En Instagram el carrusel rinde 5.65% de tasa y el reel 3.80%; el reel alcanza más gente. Vale probar los dos formatos con el mismo texto.",
+      "pieza": "video",
+      "solucion": "Pasarela de Pagos",
+      "tambien_toca": "Punto de Venta"
     },
     {
       "id": "copy-belleza-propina",
@@ -68,7 +78,9 @@
       "cta": "Hablar con ventas",
       "porque": "«Propina» es un detalle de mostrador que solo aparece en la landing de belleza de Qpaypro. Ningún competidor ni referente medido lo menciona.",
       "no_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
-      "bloqueada_en": []
+      "bloqueada_en": [],
+      "pieza": "arte",
+      "solucion": "Punto de Venta"
     },
     {
       "id": "copy-inventario-descuadre",
@@ -83,7 +95,10 @@
       "cta": "Comenzar ahora",
       "porque": "Ni Paggo, ni Recurrente, ni BI, ni Square, ni Shopify usan el inventario único como mensaje en los mercados medidos. Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
       "no_dice": "No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.",
-      "bloqueada_en": []
+      "bloqueada_en": [],
+      "pieza": "arte",
+      "solucion": "Tienda en Línea",
+      "tambien_toca": "Punto de Venta"
     },
     {
       "id": "copy-soporte-tecnico",
@@ -98,7 +113,92 @@
       "cta": "Hablar con ventas",
       "porque": "Square y Shopify venden autoservicio: no pueden decir esto. Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
       "no_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
+      "bloqueada_en": [],
+      "pieza": "video",
+      "solucion": "Punto de Venta"
+    },
+    {
+      "id": "copy-pdv-video-cierre",
+      "angulo": "Punto de Venta · la fricción del cierre de caja, en video",
+      "de_la_recomendacion": "Territorios propios sin disputa · un solo inventario",
+      "mercado": "GT y SV",
+      "red": "Instagram",
+      "formato": "reel",
+      "pieza": "video",
+      "solucion": "Punto de Venta",
+      "etapa": "consideración",
+      "titular": "Cerrar caja no debería tomar media hora",
+      "cuerpo": "El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.",
+      "cta": "Ver Punto de Venta",
+      "porque": "Las dos frases son literales de la landing de punto de venta. En Instagram el reel alcanza 292 personas en promedio, más que cualquier otro formato propio.",
+      "no_dice": "No nombra el modelo: en GT es POS Cute y en SV es POS A920.",
+      "bloqueada_en": []
+    },
+    {
+      "id": "copy-pasarela-arte-whatsapp",
+      "angulo": "Pasarela de Pagos · cobrar sin web ni local, en arte",
+      "de_la_recomendacion": "Nichos libres · servicios sin local",
+      "mercado": "GT y SV",
+      "red": "Facebook",
+      "formato": "carrusel",
+      "pieza": "arte",
+      "solucion": "Pasarela de Pagos",
+      "etapa": "descubrimiento",
+      "titular": "Cobra con tarjeta sin tener local",
+      "cuerpo": "Manda un link de pago por WhatsApp. Tu cliente paga desde su celular y a ti te llega la confirmación.",
+      "cta": "Comenzar ahora",
+      "porque": "Es la pregunta frecuente textual de su landing de servicios: «¿Puedo cobrar con tarjeta si no tengo un local?». Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
+      "no_dice": "No promete tiempo de acreditación: la liquidación diaria solo aplica en SV.",
+      "bloqueada_en": []
+    },
+    {
+      "id": "copy-tienda-video-sinweb",
+      "angulo": "Tienda en Línea · empezar sin web, en video",
+      "de_la_recomendacion": "Territorios propios sin disputa · empezar sin comprar equipo",
+      "mercado": "GT y SV",
+      "red": "Instagram",
+      "formato": "reel",
+      "pieza": "video",
+      "solucion": "Tienda en Línea",
+      "etapa": "descubrimiento",
+      "titular": "¿No tienes web? Crea tu Qpayshop",
+      "cuerpo": "Publica tu catálogo, conecta tu dominio y configura envíos. Sin programar.",
+      "cta": "Comenzar ahora",
+      "porque": "Titular y cuerpo son literales de la landing de ecommerce. Ningún competidor ni referente medido usa «empezar sin web» como mensaje en los mercados medidos.",
+      "no_dice": "No dice «en minutos» aunque el sitio lo diga en una FAQ: como promesa de titular necesitaría que Qpaypro lo confirme.",
+      "bloqueada_en": []
+    },
+    {
+      "id": "copy-tienda-arte-integraciones",
+      "angulo": "Tienda en Línea · conectar la que ya tienen, en arte",
+      "de_la_recomendacion": "Territorios propios sin disputa · un solo inventario",
+      "mercado": "GT y SV",
+      "red": "Facebook",
+      "formato": "carrusel",
+      "pieza": "arte",
+      "solucion": "Tienda en Línea",
+      "etapa": "consideración",
+      "titular": "Ya tienes tienda. Conéctala",
+      "cuerpo": "Instala el plugin y cobra con tarjeta en Shopify, WooCommerce, VTEX, PrestaShop o Ecwid.",
+      "cta": "Más información",
+      "porque": "Las cinco plataformas son las que el sitio lista. Shopify es un REFERENTE del análisis, no un competidor: integrarse con él no es competir con él.",
+      "no_dice": "No dice «en minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo.",
       "bloqueada_en": []
     }
-  ]
+  ],
+  "_taxonomia": {
+    "_para_que": "Los dos cortes con los que Mercadeo filtra en la mesa. Cada copy declara los dos, y un copy sin ellos no se puede filtrar: se veria siempre, que es peor que no verse.",
+    "pieza": [
+      "arte",
+      "video"
+    ],
+    "_pieza": "Que hay que producir. Sale de la capacidad del equipo, que se declara en artes y videos (config/equipo.json).",
+    "solucion": [
+      "Punto de Venta",
+      "Pasarela de Pagos",
+      "Tienda en Línea"
+    ],
+    "_solucion": "Las tres soluciones fuertes, con el nombre EXACTO del sitio. No se inventan categorias: son las tres que Qpaypro pone en su menu de Soluciones.",
+    "_una_sola_solucion_por_copy": "Un copy que dijera «Punto de Venta y Tienda en Linea» no se puede filtrar por ninguna de las dos sin mentir. Si el angulo toca las dos, se elige la que manda en el titular y se dice en el campo `tambien_toca`."
+  }
 }

@@ -80,6 +80,23 @@ def _tasa(inter: int, base: int) -> float | None:
     return round(inter / base, 5) if base else None
 
 
+def _piezas(filas: list[dict]) -> list[dict]:
+    """Las piezas, una por una, con claves cortas.
+
+    Van al tablero para que el filtro de fechas RECALCULE los agregados en vez
+    de ocultar filas de una tabla ya sumada. Un filtro que oculta pero no
+    recalcula muestra el total de otro periodo junto a las piezas del elegido,
+    que es peor que no tener filtro.
+
+    Claves de una letra porque son ~550 filas y el archivo del tablero ya pesa
+    400 KB: `f` fecha, `t` formato, `b` base de exposición, `i` interacciones,
+    `m` mensaje, `u` url."""
+    return [{"f": x["fecha"].isoformat(), "t": x["formato"], "b": x["base"],
+             "i": x["inter"], "m": (x["mensaje"] or "")[:110],
+             "u": x.get("url") or "", "n": x.get("negativas", 0)}
+            for x in sorted(filas, key=lambda y: y["fecha"])]
+
+
 def _bloque(filas: list[dict], metrica: str, nombre_metrica: str) -> dict:
     """Resume un grupo de piezas. `metrica` es la clave y `nombre_metrica` el
     rótulo con el que se muestra: no se puede decir «alcance» de un número que
@@ -161,6 +178,7 @@ def facebook(carpeta: Path, desde: date, hasta: date) -> dict | None:
              "formato": m["formato"], "impresiones": m["base"],
              "interacciones": m["inter"], "tasa": _tasa(m["inter"], m["base"]),
              "url": m["url"]} for m in mejores],
+        "piezas": _piezas(utiles),
         "recepcion_negativa": sum(x["negativas"] for x in utiles),
         "_recepcion_negativa": ("Reacciones «me entristece» y «me enoja». No se medía en "
                                 "ninguna otra fuente."),
@@ -267,6 +285,7 @@ def instagram(carpeta: Path, desde: date, hasta: date) -> dict | None:
              "formato": m["formato"], "alcance": m["base"],
              "interacciones": m["inter"], "tasa": _tasa(m["inter"], m["base"]),
              "url": m["url"]} for m in mejores],
+        "piezas": _piezas(utiles),
     }
 
 
@@ -276,7 +295,13 @@ def arma(carpeta: Path, desde: date, hasta: date) -> dict | None:
     if not fb and not ig:
         return None
     redes = [r for r in (fb, ig) if r]
+    fechas = [p["f"] for r in redes for p in r.get("piezas", [])]
     return {
+        "rango_disponible": ({"desde": min(fechas), "hasta": max(fechas)}
+                             if fechas else None),
+        "_el_rango": ("Es el rango que tienen los datos, no el de la corrida. El "
+                      "tablero deja elegir cualquier ventana dentro de esto y "
+                      "recalcula; fuera de esto no hay dato y no se inventa."),
         "_fuente": "Zoho Analytics · workspace Marketing · ZohoAnalytics_exportDataView",
         "_la_regla": ("Cada red reporta SU métrica con SU nombre. Facebook da "
                       "impresiones (veces mostrado) e Instagram da alcance (personas "

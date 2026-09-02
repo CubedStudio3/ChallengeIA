@@ -1678,3 +1678,99 @@ vista en GT, los dos copys de liquidación diaria tienen «Aprobar» deshabilita
 encontrado y documentado un día antes de estar usable, y en ese día no servía
 para nada. La distancia entre «lo descubrí» y «está en la herramienta donde se
 decide» es todo el trabajo que importa.
+
+---
+
+## ADR-038 · Filtros de copy, rango de fechas que recalcula, y una poda de texto
+
+**Fecha:** 2026-09-02
+**Estado:** aceptada
+**Pedido:** Mercadeo · filtrar los copys por pieza (arte/video) y por las tres
+soluciones fuertes, un filtro de fechas «para visualizar las fechas que
+queramos», y después: «elimina textos innecesarios […] deja solo las cosas que
+se puedan poner en práctica».
+
+### 1 · Los dos filtros de copy
+
+Cada copy declara ahora **pieza** (arte o video) y **solución** (Punto de Venta,
+Pasarela de Pagos, Tienda en Línea, con el nombre exacto del sitio). Las seis
+combinaciones están cubiertas: se redactaron cuatro copys más para completar la
+matriz, y ahora son diez.
+
+Dos decisiones de taxonomía:
+
+- **Una sola solución por copy.** Uno que dijera «Punto de Venta y Tienda en
+  Línea» no se podría filtrar por ninguna de las dos sin mentir. Si el ángulo
+  toca dos, se clasifica por la que manda en el titular y la otra va en
+  `tambien_toca`.
+- **Un copy sin taxonomía no se esconde: se cuenta y se avisa.** Si no
+  apareciera en ningún filtro, se vería siempre — que es peor que no verse.
+
+### 2 · El filtro de fechas RECALCULA, no oculta
+
+Aquí estaba la decisión de fondo. Un filtro que oculta filas de una tabla ya
+sumada deja **el total de un periodo al lado de las piezas de otro**, y eso es
+peor que no tener filtro.
+
+Para que recalcule de verdad, `alcance.py` emite ahora las **piezas una por
+una** —549 filas, claves de una letra para no inflar el archivo— y el tablero
+suma en el navegador sobre la ventana elegida. Se recalculan la tasa, el total,
+el promedio, la mediana, la tabla por formato, las mejores tres y las
+reacciones negativas.
+
+Verificado moviendo el rango:
+
+| Ventana | Piezas | Tasa |
+|---|---|---|
+| todo el dato | 258 de 258 | 0.42% |
+| el periodo de la corrida | 8 | 0.47% |
+| últimos 30 días | 11 | 0.53% |
+| desde 2026-01-01 | 116 | 0.88% |
+
+Tres detalles que no son de adorno:
+
+- El **mínimo de 5 piezas** para publicar una tasa se respeta también en el
+  navegador. Si la ventana elegida deja tres piezas, no sale tasa: sale por qué.
+- Los atajos de días se cuentan **desde la última pieza que hay**, no desde hoy.
+  Contar desde hoy daría una ventana vacía en una corrida retroactiva.
+- Las fechas se **recortan al rango del dato**. Pedir una ventana donde no hay
+  dato mostraría ceros que parecerían medidos.
+
+Y un número que se me quedó atrás en la primera versión: **las reacciones
+negativas no se movían con el rango.** Todo lo demás recalculaba y ese no. Un
+número que no se mueve cuando los otros sí es un número que nadie va a creer, y
+con razón. Ahora también se recalcula.
+
+### 3 · La poda: 22,373 → 16,363 caracteres visibles
+
+Medido en navegador contando solo el texto que **no** está dentro de un pliegue
+cerrado. Un 27% menos de texto a la vista y 1,851 px menos de alto. Estrategia,
+que es donde se trabaja, bajó 44%.
+
+**No se borró una sola línea de las que declaran un hueco o una limitación.** Se
+movieron a pliegues: 38 en total, ninguno vacío. La regla que apliqué es que a
+la vista queda **lo que se ejecuta** —el texto del copy, la recomendación, la
+cifra— y a un clic queda **lo que lo justifica**. Antes cada recomendación tenía
+tres párrafos visibles y cada copy cuatro; con nueve recomendaciones y diez
+copys, las secciones se leían como un informe en vez de como una lista de cosas
+que hacer.
+
+Dos cosas rompí al podar y las dos las encontró la prueba, no la vista:
+
+1. Un `<p>` abierto con `'` y cerrado con `"` — SyntaxError, la página entera en
+   blanco.
+2. Un `<details>` dentro de un `<p>`. Un `details` es contenido de flujo y un
+   `p` solo admite contenido de frase, así que el navegador cierra el párrafo
+   antes de tiempo y el pliegue sale fuera. Se agregó a la prueba una
+   comprobación de que ningún `details` tenga un `<p>` como padre.
+
+Y el grupo de pastillas desbordaba en móvil: cuatro opciones de nombre largo
+miden 421 px y la pantalla tiene 390. `flex-wrap` y `max-w-full`.
+
+### La lección
+
+**La credibilidad y la usabilidad no se pelean; compiten por el mismo espacio.**
+Todo el aparato que hace creíble a este tablero —el universo de cada
+porcentaje, por qué una tasa no se publica, qué se dejó fuera— seguía siendo
+necesario y estaba estorbando. La respuesta no era elegir: era decidir qué se
+lee y qué se consulta.
