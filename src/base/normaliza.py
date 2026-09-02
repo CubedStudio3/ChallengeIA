@@ -249,6 +249,10 @@ class Consolidado:
     gasto: float
     impresiones: float
     excluidas: list[tuple[str, str]] = field(default_factory=list)
+    # Gasto REAL de filas que no tienen resultado atribuido. Va en el total
+    # —se gastó— pero se declara aparte para que nadie lo confunda con gasto
+    # que produjo algo. Ver la nota de consolida().
+    gasto_sin_resultado: float = 0.0
 
     @property
     def costo_por_resultado(self) -> float | None:
@@ -258,14 +262,29 @@ class Consolidado:
         """Nunca dice '370 leads'. Dice de qué indicador son."""
         cpr = self.costo_por_resultado
         cpr_txt = f"${cpr:.2f} por resultado" if cpr is not None else "costo no calculable"
+        extra = ""
+        if self.gasto_sin_resultado:
+            extra = (f" · incluye ${self.gasto_sin_resultado:,.2f} de gasto "
+                     f"sin resultado atribuido")
         return (f"{self.resultados:,.0f} resultados con indicador '{self.indicador}' "
-                f"en {self.campanas} campañas · ${self.gasto:,.2f} · {cpr_txt}")
+                f"en {self.campanas} campañas · ${self.gasto:,.2f} · {cpr_txt}"
+                f"{extra}")
 
 
 def consolida(campanas: list[Campana]) -> Consolidado:
     """Suma campañas. **Aborta si los indicadores difieren** (ADR-013).
 
     Ésta es la barrera que impide el modo de falla más peligroso del proyecto.
+
+    **El gasto se suma de TODAS las filas; los resultados, solo de las que los
+    tienen.** Son dos cosas distintas: una fila sin resultado atribuido no es
+    una fila sin gasto. Antes se descartaba entera y con ella su inversión —
+    medido: $1.30 de «Campaña Punto de Venta SV» con entrega en GT, que
+    desaparecían del total y abarataban el costo por resultado.
+
+    La regla vieja tenía sentido para decidir si una fila sirve para ANALIZAR.
+    No servía para sumar dinero. Y al bajar al desglose diario el error se
+    multiplica: solo en Qpayshop hay $24.89 en días con gasto y sin resultado.
     """
     utilizables = [c for c in campanas if c.utilizable]
     excluidas = [(c.nombre, c.motivo_de_exclusion) for c in campanas if not c.utilizable]
@@ -292,11 +311,18 @@ def consolida(campanas: list[Campana]) -> Consolidado:
             ),
         )
 
+    # El dinero y la entrega se cuentan de toda fila que los declare, aunque no
+    # traiga resultado. Un gasto en hueco sí se salta: no hay número que sumar.
+    con_dinero = [c for c in campanas if not c.gasto.hueco]
+    sin_resultado = [c for c in con_dinero if c.resultados.hueco]
+
     return Consolidado(
         indicador=indicadores.pop(),
         campanas=len(utilizables),
         resultados=sum(c.resultados.numero for c in utilizables),
-        gasto=sum(c.gasto.numero for c in utilizables),
-        impresiones=sum(c.impresiones.numero or 0 for c in utilizables),
+        gasto=sum(c.gasto.numero for c in con_dinero),
+        impresiones=sum(c.impresiones.numero or 0 for c in con_dinero),
         excluidas=excluidas,
+        gasto_sin_resultado=round(
+            sum(c.gasto.numero for c in sin_resultado), 2),
     )

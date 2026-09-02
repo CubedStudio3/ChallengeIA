@@ -39,8 +39,13 @@ from base.normaliza import normaliza_campanas
 
 # Al centavo. No es una tolerancia de comodidad: es la unidad de la moneda.
 TOLERANCIA_DINERO = 0.005
-ARCHIVO_DIA = "meta_campanas_por_dia.json"
-ARCHIVO_AGREGADO = "meta_campanas.json"
+# El desglose diario va CON pais, y reconcilia contra el agregado por pais que
+# es el que la corrida realmente usa. Sin pais no se pueden aplicar las
+# exclusiones —Honduras, que el usuario mando descartar— y el total volveria a
+# incluirla en un numero visible. Pedirlo sin pais no era menos alcance: era
+# contradecir una instruccion directa.
+ARCHIVO_DIA = "meta_campanas_por_pais_por_dia.json"
+ARCHIVO_AGREGADO = "meta_campanas_por_pais.json"
 
 
 def _lee(crudo: Path, nombre: str) -> list[dict]:
@@ -89,27 +94,34 @@ def reconcilia(crudo: Path) -> dict:
     dias = normaliza_campanas(_lee(crudo, ARCHIVO_DIA), origen=ARCHIVO_DIA)
     agg = normaliza_campanas(_lee(crudo, ARCHIVO_AGREGADO), origen=ARCHIVO_AGREGADO)
 
-    por_id: dict[str, list] = {}
+    # La llave es campaña + pais: el agregado trae una fila por cada
+    # combinacion y compararlas solo por campaña mezclaria mercados.
+    def llave(c):
+        return (c.id, c.desglose_dict.get("country") or "")
+
+    por_id: dict[tuple, list] = {}
     for c in dias:
-        por_id.setdefault(c.id, []).append(c)
+        por_id.setdefault(llave(c), []).append(c)
 
     comparadas, descuadres, ausentes = [], [], []
     for a in agg:
+        k = llave(a)
         gasto_agg = a.gasto.numero or 0
-        if a.id not in por_id:
+        if k not in por_id:
             # Solo importa si el agregado dice que hubo gasto: una campaña sin
             # entrega no tiene dias que pedir. Con gasto, es un hueco que
             # ROMPE la corrida (regla 4).
             if gasto_agg > 0:
-                ausentes.append({"id": a.id, "nombre": a.nombre,
+                ausentes.append({"id": a.id, "nombre": a.nombre, "pais": k[1],
                                  "gasto_en_el_agregado": round(gasto_agg, 2)})
             continue
-        s = _suma(por_id[a.id])
+        s = _suma(por_id[k])
         fila = {
-            "id": a.id, "nombre": a.nombre, "indicador": a.indicador,
-            "dias_leidos": len(por_id[a.id]),
+            "id": a.id, "nombre": a.nombre, "pais": k[1],
+            "indicador": a.indicador,
+            "dias_leidos": len(por_id[k]),
             "dias_con_resultado": sum(
-                1 for c in por_id[a.id] if not c.resultados.hueco),
+                1 for c in por_id[k] if not c.resultados.hueco),
             "gasto": {"dias": s["gasto"], "agregado": round(gasto_agg, 2)},
             "resultados": {"dias": s["resultados"],
                            "agregado": a.resultados.numero},
@@ -155,7 +167,9 @@ def reconcilia(crudo: Path) -> dict:
     }
 
 
-def arma(crudo: Path, desde: str, hasta: str) -> dict:
+def arma(crudo: Path, desde: str, hasta: str, *,
+         declarados: list[str] | None = None,
+         excluidos: dict | None = None) -> dict:
     """Las filas diarias para el tablero, ya reconciliadas.
 
     El tablero recibe filas —no agregados— y suma en el navegador sobre la
@@ -173,24 +187,52 @@ def arma(crudo: Path, desde: str, hasta: str) -> dict:
                       "ejemplos": sorted({_fecha(c) for c in fuera})[:5]},
             remedio="Pedir el desglose con el mismo time_range de la corrida.")
 
-    piezas = []
+    declarados = declarados or []
+    excluidos = excluidos or {}
+
+    piezas, fuera_de_mercado = [], {}
     for c in filas:
-        # Una fila sin gasto NI impresiones no es dato, es relleno: la API
-        # devuelve un renglon por campaña × dia aunque no haya pasado nada.
+        # Una fila sin gasto NI impresiones no es dato, es relleno.
         gasto = c.gasto.numero or 0
         imp = c.impresiones.numero or 0
         if gasto == 0 and imp == 0:
             continue
+        pais = c.desglose_dict.get("country") or "?"
+
+        # Los mercados excluidos por decision del usuario NO entran a las
+        # piezas que el tablero suma, pero su gasto se REPORTA. Es la misma
+        # regla que ya aplica la corrida: ignorarlo en silencio esconderia que
+        # una campaña sigue segmentando un pais que ya no es objetivo.
+        if pais in excluidos or (declarados and pais not in declarados):
+            e = fuera_de_mercado.setdefault(pais, {
+                "gasto": 0.0, "impresiones": 0, "dias": 0, "campanas": set(),
+                "motivo": (excluidos.get(pais) or {}).get(
+                    "motivo", "no está en los mercados declarados")})
+            e["gasto"] += gasto
+            e["impresiones"] += imp
+            e["dias"] += 1
+            e["campanas"].add(c.nombre)
+            continue
+
         piezas.append({
             "f": _fecha(c),
             "c": c.id,
             "n": c.nombre,
+            "p": pais,
             "k": c.indicador,
             "g": round(gasto, 2),
+            # `r` en null es un dia con gasto y SIN resultado atribuido. El
+            # gasto cuenta igual: es real. Descartar la fila entera —que es lo
+            # que hace la regla de «utilizable» a nivel agregado— aqui borraria
+            # dias enteros de inversion. Medido: solo en Qpayshop serian $24.89.
             "r": None if c.resultados.hueco else c.resultados.numero,
             "i": imp,
         })
-    piezas.sort(key=lambda p: (p["f"], p["n"]))
+    piezas.sort(key=lambda p: (p["f"], p["n"], p["p"]))
+
+    for p in fuera_de_mercado.values():
+        p["gasto"] = round(p["gasto"], 2)
+        p["campanas"] = sorted(p["campanas"])
 
     dias_con_dato = sorted({p["f"] for p in piezas})
     return {
@@ -199,6 +241,8 @@ def arma(crudo: Path, desde: str, hasta: str) -> dict:
         "dias_con_dato": len(dias_con_dato),
         "primer_dia": dias_con_dato[0] if dias_con_dato else None,
         "ultimo_dia": dias_con_dato[-1] if dias_con_dato else None,
+        "mercados": sorted({p["p"] for p in piezas}),
+        "fuera_de_mercado": fuera_de_mercado,
         "reconciliacion": informe,
         "_el_costo": (
             "No viene por día. Se calcula dividiendo gasto entre resultados "
@@ -212,9 +256,14 @@ def arma(crudo: Path, desde: str, hasta: str) -> dict:
             "`r` en null es un día con gasto y sin resultado atribuido. Para "
             "sumar aporta cero, y eso está medido, no supuesto: los días con "
             "número de Qpayshop dan 12, su total agregado exacto."),
-        "_sin_corte_por_mercado": (
-            "Este desglose es por campaña, no por campaña × país. El corte "
-            "GT/SV sigue siendo del periodo de la corrida y lleva sello en el "
-            "tablero. Se midió que breakdowns=country SÍ se combina con "
-            "time_increment, así que es trabajo pendiente y no un imposible."),
+        "_el_corte_por_mercado": (
+            "Cada pieza trae su país, así que GT y SV se recalculan dentro de "
+            "la ventana igual que el total. Es un requisito de Mercadeo "
+            "(2026-09-03), no un efecto lateral: sin país no se pueden aplicar "
+            "las exclusiones y el total volvería a incluir Honduras."),
+        "_gasto_sin_resultado": (
+            "Un día con gasto y `r` en null cuenta su gasto. El agregado por "
+            "periodo lo descartaba entero por no ser «utilizable», y así se "
+            "perdían $1.30 reales. Esa regla sirve para una fila agregada; "
+            "aplicada por día borraría inversión de verdad."),
     }

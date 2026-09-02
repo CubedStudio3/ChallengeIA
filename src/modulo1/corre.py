@@ -25,6 +25,7 @@ from . import analiza as A
 from . import estrategia as E
 from . import redes as R
 from . import alcance as ALC
+from . import pauta_diaria as PDIA
 from . import recomendaciones as RECO
 from . import referencias as REF
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
@@ -157,6 +158,10 @@ def rendimiento_por_mercado(campanas, mercados, indicador_principal):
                 "costo_por_resultado": (round(c.costo_por_resultado, 4)
                                         if c.costo_por_resultado else None),
                 "excluidas": len(c.excluidas),
+                # Gasto real de filas sin resultado atribuido. Va DENTRO del
+                # total y se declara aparte: se gastó, pero no produjo nada
+                # medible. Antes se descartaba entero, y con él su inversión.
+                "gasto_sin_resultado": c.gasto_sin_resultado,
             }
         principal = indicadores.get(indicador_principal)
         salida[m] = {
@@ -190,6 +195,14 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     fuente_pauta = f"{archivo_pauta} · {rango.etiqueta()}"
 
     declarados, excluidos = _mercados()
+
+    # --- Paso 2b · desglose DIARIO de la pauta, con su compuerta -------------
+    # Va aqui, antes de cualquier analisis, porque reconcilia contra el mismo
+    # agregado que se acaba de cargar: si la suma de los dias no lo reproduce
+    # al centavo, la corrida se detiene y no se analiza nada.
+    pauta_dia = PDIA.arma(crudo, rango.desde.isoformat(), rango.hasta.isoformat(),
+                          declarados=declarados, excluidos=excluidos)
+
     incoherentes = [c.etiqueta() for c in campanas if c.coherente() is False]
     paises_crudos = valores_de_desglose(campanas, "country")
 
@@ -284,6 +297,10 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                 "costo_por_resultado": (round(c.costo_por_resultado, 4)
                                         if c.costo_por_resultado else None),
                 "excluidas": len(c.excluidas),
+                # Gasto real de filas sin resultado atribuido. Va DENTRO del
+                # total y se declara aparte: se gastó, pero no produjo nada
+                # medible. Antes se descartaba entero, y con él su inversión.
+                "gasto_sin_resultado": c.gasto_sin_resultado,
             }
         except FallaRuidosa as e:
             consolidados[indicador] = f"sin datos utilizables: {e.args[0]}"
@@ -476,6 +493,9 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             if c.utilizable and c.indicador == "actions:lead"
             and not c.costo_por_resultado.hueco],
         "por_mercado": por_mercado,
+        # El desglose diario. El tablero suma sobre la ventana elegida y
+        # agrupa por indicador; aqui no se pre-agrega nada mas que el control.
+        "pauta_diaria": pauta_dia,
         "redes_sociales": redes_resumen,
         "competencia": competencia,
         "competencia_registro": {"categorias": registro.get("categorias", {}),
