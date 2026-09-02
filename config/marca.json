@@ -315,16 +315,22 @@
       "liquidacion_diaria": {
         "literal": "Recibes tu dinero cada 24 horas — liquidación diaria.",
         "_donde": "calculadora de la home de SV",
-        "_por_que_importa": "ESTO NO APARECE EN LA HOME DE GT. Es un territorio de mensaje propio, con cifra, en el único mercado donde CERO competidores medidos están pautando. Es el hallazgo más accionable de las nueve landings leídas: una promesa concreta que nadie está diciendo, en un mercado vacío y con el lead más barato ($1.89 contra $2.89).",
-        "_a_confirmar": "Si también aplica en GT y solo falta ponerlo en esa página, es un territorio para los dos mercados. Hay que preguntarlo."
+        "aplica_en": [
+          "SV"
+        ],
+        "no_aplica_en": [
+          "GT"
+        ],
+        "_confirmado_por": "Mercadeo, 2026-09-02: «la liquidacion diaria no aplica para guatemala». No es que falte decirlo en la página de GT: el producto no es el mismo.",
+        "_por_que_importa": "Es el territorio de mensaje más fuerte del análisis y está en el único mercado sin competencia medida y con el lead más barato ($1.89 contra $2.89). Una promesa concreta, con cifra, que resuelve la pregunta real de un negocio chico —cuándo entra la plata— y que ningún competidor ni referente medido está diciendo."
       }
     },
     "whatsapp": "+(502) 4785-6011"
   },
   "_lo_que_sigue_faltando": [
     "TRES FRASES RECHAZADAS con su motivo.",
-    "¿La liquidación diaria aplica también en GT? Si sí, es el mejor territorio para los dos mercados y solo falta decirlo en esa página.",
-    "¿Se venden suscripciones en SV? La home de SV no las lista y la de GT sí.",
+    "¿Cuál es el plazo de liquidación en GUATEMALA? No para compararlo con SV en un copy —eso sería competir contra uno mismo— sino porque «cuándo entra la plata» es una pregunta que el prospecto de GT también hace, y hoy no hay con qué responderla.",
+    "¿Se venden suscripciones y cuotas en SV? La home de SV no las lista y la de GT sí.",
     "Las restricciones de comunicación de fintech por escrito.",
     "Landings que faltan: precios (GT y SV), clinicas, terminal-pos, seguridad."
   ],
@@ -335,8 +341,8 @@
         "territorio": "Tu dinero cada 24 horas · liquidación diaria",
         "lo_sostiene": "«Recibes tu dinero cada 24 horas — liquidación diaria» · calculadora de la home de SV",
         "quien_mas_lo_dice": "nadie de los medidos",
-        "_mercado": "declarado en SV; sin confirmar en GT",
-        "_es_el_mas_fuerte": "Es el único territorio propio que trae una CIFRA verificable y que resuelve la angustia real de un negocio chico: cuándo entra la plata."
+        "_mercado": "SOLO SV · confirmado por Mercadeo que en GT no aplica",
+        "_es_el_mas_fuerte_de_SV": "Y cae justo en el mercado que ya era la apuesta de la estrategia por otra razón —cero competencia, lead más barato—. Las dos razones apuntan al mismo lado."
       },
       {
         "territorio": "Un solo inventario entre físico y en línea",
@@ -468,5 +474,53 @@
     "donde": "retail, servicios, ecommerce y belleza · bloque previo al cierre",
     "_lectura": "En el texto pegado salen en cero. Lo más probable es que sean contadores animados por JavaScript que no habían corrido al copiar. Pero si a un visitante con JS lento o bloqueado le pasa lo mismo, la página le está diciendo «0+ comercios activos», que es peor que no poner el dato. Vale que alguien lo abra y confirme.",
     "_no_se_usa_como_dato": "Ese 0+ NO entra en ningún copy. La cifra usable es la de la home: «Más de 800,000 usuarios activos»."
+  },
+  "afirmaciones_bloqueadas_por_mercado": {
+    "_que_son": "Afirmaciones que son VERDAD en un mercado y FALSAS en el otro. No son un matiz de tono: un copy de GT que prometa liquidación en 24 horas está prometiendo algo que ahí no existe, y en fintech eso no es un error de redacción.",
+    "_regla": "El generador de copys tiene que conocer el mercado ANTES de escribir. Una afirmación de esta lista solo entra en creativo del mercado donde aplica, y un copy sin mercado declarado no puede usar ninguna.",
+    "lista": [
+      {
+        "afirmacion": "Liquidación diaria · tu dinero cada 24 horas",
+        "solo_en": "SV",
+        "prohibida_en": "GT",
+        "_fuente": "calculadora de la home de SV · confirmado por Mercadeo 2026-09-02"
+      },
+      {
+        "afirmacion": "POS Cute",
+        "solo_en": "GT",
+        "prohibida_en": "SV",
+        "_fuente": "la home de SV nombra POS A920, que es otro equipo"
+      },
+      {
+        "afirmacion": "POS A920",
+        "solo_en": "SV",
+        "prohibida_en": "GT",
+        "_fuente": "la home de GT nombra POS Cute"
+      },
+      {
+        "afirmacion": "Suscripciones · mensualidades · membresías automáticas",
+        "solo_en": "GT",
+        "prohibida_en": "SV",
+        "_estado": "A CONFIRMAR · la home de SV no las lista entre los cobros en línea; puede ser que no se vendan o que falte decirlo"
+      },
+      {
+        "afirmacion": "Pagos en cuotas (3 a 18 meses)",
+        "solo_en": "GT",
+        "prohibida_en": "SV",
+        "_estado": "A CONFIRMAR · la calculadora de SV no ofrece cuotas"
+      },
+      {
+        "afirmacion": "Comisión 4.50% + Q2.95",
+        "solo_en": "GT",
+        "prohibida_en": "SV",
+        "_fuente": "SV cobra 3.5% + IVA 13%"
+      },
+      {
+        "afirmacion": "Comisión 3.5%",
+        "solo_en": "SV",
+        "prohibida_en": "GT",
+        "_fuente": "GT cobra 4.50% + Q2.95"
+      }
+    ]
   }
 }

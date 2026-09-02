@@ -108,6 +108,35 @@ palabras. Si el ángulo es gestión del negocio, hay que entrar por otro lado
 - **Oferta con cifra.** Es lo único de la lista que se puede medir contra el
   resto en una semana.
 
+## La compuerta que va ANTES de escribir: el mercado
+
+**Hay afirmaciones que son verdad en un mercado y falsas en el otro.** No es un
+matiz de tono. Un copy de Guatemala que prometa «tu dinero en 24 horas» está
+prometiendo algo que en Guatemala no existe, y en fintech eso no es un error de
+redacción.
+
+Por eso el mercado se declara **antes** de escribir, no después. Y un copy sin
+mercado declarado **no puede usar ninguna** de estas:
+
+| Afirmación | Solo en | Prohibida en |
+|---|---|---|
+| Liquidación diaria · tu dinero cada 24 horas | **SV** | GT |
+| POS Cute | GT | SV |
+| POS A920 | SV | GT |
+| Comisión 4.50% + Q2.95 | GT | SV |
+| Comisión 3.5% | SV | GT |
+| Suscripciones y membresías automáticas | GT | SV · **a confirmar** |
+| Pagos en cuotas (3 a 18 meses) | GT | SV · **a confirmar** |
+
+La lista viva está en `config/marca.json →
+afirmaciones_bloqueadas_por_mercado`. Las marcadas «a confirmar» salen de que la
+home de SV no las lista y la de GT sí: hasta que alguien lo confirme, no se
+escriben para SV.
+
+**Y una que no se hace nunca:** comparar los dos mercados en un copy. Que SV
+cobre 3.5% y GT 4.50% es información interna, no un argumento de venta. Competir
+contra uno mismo no vende nada.
+
 ## Cómo se escribe un copy aquí
 
 ### Paso 1 · Leer el dato, no la memoria
