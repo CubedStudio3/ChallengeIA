@@ -269,17 +269,22 @@
   "mercados": {
     "GT": {
       "telefono": "+(502) 2355-6000",
-      "moneda_del_sitio": "Quetzales y Dólares"
+      "moneda": "Quetzales y Dólares",
+      "_landings_leidas": "home, punto-de-venta, tiendas-en-linea, pasarela-de-pagos, retail, servicios, ecommerce, belleza"
     },
     "SV": {
       "telefono": "+(503) 2208-2300",
-      "_nota": "Hay teléfono de El Salvador en el pie, así que la operación en SV está declarada. Lo que NO está es una página /sv leída: la extracción es de /gt. El lenguaje específico de SV sigue sin verificar."
+      "moneda": "USD",
+      "lenguaje": "IGUAL que GT",
+      "_procedencia_del_lenguaje": "DECLARADO por Mercadeo el 2026-09-02: «en sv es lo mismo». No es una lectura de la página /sv —esa no se leyó— sino la palabra de quien conoce la operación. Se marca así a propósito: si mañana aparece una diferencia, hay que saber que esto vino de una declaración y no de una verificación.",
+      "_lo_que_si_cambia": "La MONEDA. El cálculo de la home está en quetzales y el costo administrativo es Q2.95: eso no se traslada a SV, que opera en USD. Cualquier copy con una cifra de precio NO se reusa entre mercados sin confirmar la tarifa de SV. El teléfono también cambia (+503).",
+      "_lo_que_esto_desbloquea": "Que el lenguaje sea el mismo abarata el empujón a SV: no hay que reescribir, hay que segmentar. La estrategia decía «creativo hecho para SV, no reciclado»; con el idioma igual, «hecho para SV» significa campaña y segmentación dedicadas —y USD donde haya cifra—, no un texto nuevo."
     },
     "whatsapp": "+(502) 4785-6011"
   },
   "_lo_que_sigue_faltando": [
-    "TRES FRASES RECHAZADAS con su motivo. Sigue siendo lo único que no está en el sitio, y lo que más rápido corrige un copy.",
-    "La página /sv. Sin ella el lenguaje de El Salvador no está verificado y todo copy para SV sale marcado SIN LOCALIZAR.",
+    "TRES FRASES RECHAZADAS con su motivo. Es lo único que no está en el sitio y lo que más rápido corrige un copy.",
+    "La tarifa de El Salvador. El lenguaje ya está resuelto (declarado igual a GT), pero la cifra de comisión y el costo fijo en USD no. Sin eso, ningún copy de SV lleva precio.",
     "Las restricciones de comunicación de fintech por escrito.",
     "Landings que faltan: precios, clinicas, terminal-pos, seguridad, sobre-qpaypro."
   ],

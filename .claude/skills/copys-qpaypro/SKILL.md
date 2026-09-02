@@ -44,9 +44,28 @@ Falta lo de abajo. Un copy que lo necesite sale marcado en vez de inventarlo:
 | Falta | Qué se rotula |
 |---|---|
 | Tres frases rechazadas con su motivo | nada se bloquea, pero el afinado fino no está |
-| La página `/sv` | todo copy para SV sale `SIN LOCALIZAR · falta el lenguaje de El Salvador` |
 | Restricciones de fintech por escrito | la lista de `REVISIÓN LEGAL` es un mínimo conservador |
 | El nombre correcto: «Qpaypro» o «QPayPro» | se usa el del sitio y se marca |
+| La tarifa de SV en USD | un copy de SV **con cifra de precio** sale `SIN TARIFA DE SV` |
+
+### El Salvador: el idioma ya no bloquea
+
+Mercadeo declaró el 2026-09-02 que **en SV el lenguaje es el mismo que en GT**.
+No es una lectura de la página `/sv` —esa no se leyó— sino la palabra de quien
+conoce la operación, y se registra así en `config/marca.json`.
+
+Lo que eso cambia para el copy: **un copy de GT sirve en SV tal cual.** Ya no hay
+que rotular «sin localizar». Y cambia algo más grande: la estrategia pedía
+«creativo hecho para SV, no reciclado del otro», y con el idioma igual eso
+significa **campaña y segmentación dedicadas**, no un texto nuevo. El empujón a
+SV es más barato de lo que se creía.
+
+Las dos cosas que **sí** cambian entre mercados:
+
+1. **La moneda.** El cálculo del sitio está en quetzales y el costo
+   administrativo es Q2.95. SV opera en USD. Un copy con cifra de precio no se
+   reusa entre mercados sin la tarifa de SV confirmada.
+2. **El teléfono.** +(502) en GT, +(503) en SV.
 
 ## Lo que SÍ está medido y manda sobre cada copy
 
