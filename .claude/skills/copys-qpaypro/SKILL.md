@@ -18,8 +18,19 @@ persona lo apruebe, y eso no se elimina por conveniencia: es fintech.
 ## El insumo que falta, y cómo se degrada mientras tanto
 
 **El tono de voz de QPayPro no se ha entregado, y no se inventa.** Se intentó
-leerlo de `qpaypro.com` el 2026-09-01 y el proxy de red del entorno bloquea el
-dominio, así que desde aquí no hay vía.
+leerlo de `qpaypro.com` y el gateway de egreso responde **403 al CONNECT**:
+`connect_rejected · qpaypro.com:443`, verificado el 2026-09-02.
+
+Eso es una **denegación de política del entorno, no un límite técnico**, y hay
+dos caminos para levantarla:
+
+1. **Pegar el texto** de la home y de una o dos páginas de producto en la
+   conversación. Es lo más rápido y no depende de nadie más. No hace falta el
+   diseño: hacen falta las palabras.
+2. **Permitir el dominio** en la política de red del entorno, desde la
+   configuración del entorno en claude.ai/code. El mismo cambio, si incluye
+   `facebook.com`, desbloquea el `ad_snapshot_url` de la Ad Library — que es
+   donde viven el tipo de medio y el «with @handle», hoy huecos declarados.
 
 Mientras no esté, esta skill escribe en un **registro declarado por defecto** y
 lo dice en la entrega:

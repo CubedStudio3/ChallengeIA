@@ -268,9 +268,17 @@ cometidos; no hay tiempo de repetirlos.
 - **Meta no publica impresiones de anunciantes comerciales.** Solo los anuncios
   políticos y de asuntos sociales traen rangos. Un «top 10 por impresiones» de un
   competidor comercial es imposible, no difícil.
-- **`facebook.com` y `business.facebook.com` están bloqueados por el proxy.** No
-  se puede renderizar el `ad_snapshot_url`, que es donde viven el formato y el
-  «with @handle».
+- **Los dominios bloqueados por el proxy son una POLÍTICA, no un límite.**
+  `facebook.com`, `business.facebook.com` y `qpaypro.com` devuelven 403 en el
+  CONNECT: es la política de egreso del entorno, elegida al crearlo, y se puede
+  cambiar. Verificado el 2026-09-02 con
+  `curl -sS "$HTTPS_PROXY/__agentproxy/status"`, que registra
+  `connect_rejected · gateway answered 403 · qpaypro.com:443`. Es el mismo error
+  de método de siempre: se anotó como «no se puede» algo que era «no está
+  permitido todavía». Lo que se desbloquea si se permiten esos tres: el tono real
+  de QPayPro para los copys, y el `ad_snapshot_url` — que es donde viven el tipo
+  de medio (video vs. imagen) y el «with @handle» de los creadores pagados, hoy
+  declarados como huecos.
 - **El titular sí dice cuántas TARJETAS tiene el creativo.** Un carrusel llega con
   los títulos pegados por `" | "`. Distingue carrusel de pieza única — nunca video
   de imagen.
