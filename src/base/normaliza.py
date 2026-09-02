@@ -173,8 +173,18 @@ class Campana:
 
 
 # Claves de desglose que la API puede devolver junto a las métricas.
-CLAVES_DESGLOSE = ("country", "publisher_platform", "platform_position",
-                   "impression_device", "age", "gender", "region")
+#
+# `date_start` entra aquí porque el día ES una dimensión de desglose: con
+# `time_increment` la API devuelve una fila por campaña × día y la fecha llega
+# al lado de las métricas, igual que `country`. Va primera para que la etiqueta
+# lea «Campaña X [2026-08-01 · GT]» y no al revés.
+#
+# Los archivos agregados no traen la clave, así que para ellos esto no cambia
+# nada: se comprobó que ni meta_campanas.json ni meta_campanas_por_pais.json
+# la tienen.
+CLAVES_DESGLOSE = ("date_start", "country", "publisher_platform",
+                   "platform_position", "impression_device", "age", "gender",
+                   "region")
 
 
 def normaliza_campanas(crudo: list[dict], *, origen: str = "") -> list[Campana]:

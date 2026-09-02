@@ -1,0 +1,2205 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-02",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-08-01",
+    "until": "2026-08-24"
+   },
+   "time_increment": "1",
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "spend",
+    "impressions"
+   ],
+   "object_ids": [
+    "120238382458610783",
+    "120245898463250783",
+    "120247696546180783",
+    "120249292740850783",
+    "120249908467400783",
+    "120249959697280783"
+   ]
+  },
+  "_nota": "Respuesta cruda. Desglose DIARIO por campaña. Es la evidencia de V8: sumada por campaña reproduce meta_campanas.json al centavo.",
+  "_por_que_sin_cost_per_result": "Instruccion de Mercadeo 2026-09-02: el costo NO se pide por dia. Se calcula una sola vez dividiendo gasto/resultados sobre lo que queda dentro del filtro. Asi el hueco de 'Not available' en el costo de los dias flacos no aparece. Verificado en V8: la division reproduce el cost_per_result de la API en 6 de 6 campañas.",
+  "_por_que_object_ids": "Con object_ids la respuesta viene completa y SIN cursor, asi que no hay paginacion que pueda truncar el desglose. Los ids salen de la llamada agregada, que si pagina.",
+  "_paginacion": "No aplica: object_ids devuelve todo en una respuesta."
+ },
+ "ad_entities": [
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "408"
+     }
+    ]
+   },
+   "amount_spent": "$4,91 USD",
+   "impressions": "34186",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "amount_spent": "$5,40 USD",
+   "impressions": "1197",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "amount_spent": "$39,49 USD",
+   "impressions": "8079",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-01",
+   "date_stop": "2026-08-01",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "474"
+     }
+    ]
+   },
+   "amount_spent": "$5,54 USD",
+   "impressions": "47271",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$5,38 USD",
+   "impressions": "1179",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "amount_spent": "$40,49 USD",
+   "impressions": "8418",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-02",
+   "date_stop": "2026-08-02",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "446"
+     }
+    ]
+   },
+   "amount_spent": "$4,85 USD",
+   "impressions": "65886",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "amount_spent": "$4,08 USD",
+   "impressions": "1039",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$37,43 USD",
+   "impressions": "7403",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-03",
+   "date_stop": "2026-08-03",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "293"
+     }
+    ]
+   },
+   "amount_spent": "$4,10 USD",
+   "impressions": "10967",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "amount_spent": "$5,78 USD",
+   "impressions": "1351",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "amount_spent": "$31,02 USD",
+   "impressions": "6197",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-04",
+   "date_stop": "2026-08-04",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "306"
+     }
+    ]
+   },
+   "amount_spent": "$4,94 USD",
+   "impressions": "34543",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "amount_spent": "$5,05 USD",
+   "impressions": "1339",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$32,77 USD",
+   "impressions": "6648",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-05",
+   "date_stop": "2026-08-05",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "399"
+     }
+    ]
+   },
+   "amount_spent": "$5,48 USD",
+   "impressions": "32289",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$5,37 USD",
+   "impressions": "1499",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$34,91 USD",
+   "impressions": "7044",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-06",
+   "date_stop": "2026-08-06",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "407"
+     }
+    ]
+   },
+   "amount_spent": "$5,44 USD",
+   "impressions": "42587",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$4,29 USD",
+   "impressions": "1073",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$32,54 USD",
+   "impressions": "7128",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-07",
+   "date_stop": "2026-08-07",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "351"
+     }
+    ]
+   },
+   "amount_spent": "$4,60 USD",
+   "impressions": "11687",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "amount_spent": "$4,93 USD",
+   "impressions": "1235",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$35,84 USD",
+   "impressions": "8462",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-08",
+   "date_stop": "2026-08-08",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "416"
+     }
+    ]
+   },
+   "amount_spent": "$5,35 USD",
+   "impressions": "51714",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$4,53 USD",
+   "impressions": "1069",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$40,35 USD",
+   "impressions": "10995",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-09",
+   "date_stop": "2026-08-09",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "394"
+     }
+    ]
+   },
+   "amount_spent": "$5,45 USD",
+   "impressions": "52458",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$5,32 USD",
+   "impressions": "1590",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "amount_spent": "$37,99 USD",
+   "impressions": "12574",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-10",
+   "date_stop": "2026-08-10",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "367"
+     }
+    ]
+   },
+   "amount_spent": "$4,96 USD",
+   "impressions": "33508",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "amount_spent": "$3,02 USD",
+   "impressions": "777",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "amount_spent": "$3,23 USD",
+   "impressions": "1150",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$17,85 USD",
+   "impressions": "5292",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$24,29 USD",
+   "impressions": "4568",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-11",
+   "date_stop": "2026-08-11",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "341"
+     }
+    ]
+   },
+   "amount_spent": "$4,35 USD",
+   "impressions": "17543",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "amount_spent": "$31,12 USD",
+   "impressions": "5232",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-12",
+   "date_stop": "2026-08-12",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "amount_spent": "$17,13 USD",
+   "impressions": "3967",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "281"
+     }
+    ]
+   },
+   "amount_spent": "$4,41 USD",
+   "impressions": "2809",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$25,95 USD",
+   "impressions": "3725",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-13",
+   "date_stop": "2026-08-13",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "17"
+     }
+    ]
+   },
+   "amount_spent": "$18,20 USD",
+   "impressions": "4423",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "301"
+     }
+    ]
+   },
+   "amount_spent": "$4,74 USD",
+   "impressions": "1339",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$26,29 USD",
+   "impressions": "3692",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-14",
+   "date_stop": "2026-08-14",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$15,12 USD",
+   "impressions": "3049",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "379"
+     }
+    ]
+   },
+   "amount_spent": "$5,66 USD",
+   "impressions": "1615",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "amount_spent": "$31,72 USD",
+   "impressions": "4869",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-15",
+   "date_stop": "2026-08-15",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "amount_spent": "$20,87 USD",
+   "impressions": "4276",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "405"
+     }
+    ]
+   },
+   "amount_spent": "$5,39 USD",
+   "impressions": "1099",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "23"
+     }
+    ]
+   },
+   "amount_spent": "$41,95 USD",
+   "impressions": "6736",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-16",
+   "date_stop": "2026-08-16",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "16"
+     }
+    ]
+   },
+   "amount_spent": "$26,04 USD",
+   "impressions": "5101",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1301"
+     }
+    ]
+   },
+   "amount_spent": "$7,08 USD",
+   "impressions": "3971",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "amount_spent": "$33,38 USD",
+   "impressions": "5975",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-17",
+   "date_stop": "2026-08-17",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$18,87 USD",
+   "impressions": "4460",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1402"
+     }
+    ]
+   },
+   "amount_spent": "$5,45 USD",
+   "impressions": "4872",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "21"
+     }
+    ]
+   },
+   "amount_spent": "$28,33 USD",
+   "impressions": "4957",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-18",
+   "date_stop": "2026-08-18",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "amount_spent": "$20,05 USD",
+   "impressions": "4772",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1269"
+     }
+    ]
+   },
+   "amount_spent": "$4,31 USD",
+   "impressions": "4146",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "18"
+     }
+    ]
+   },
+   "amount_spent": "$29,40 USD",
+   "impressions": "5793",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-19",
+   "date_stop": "2026-08-19",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "amount_spent": "$21,49 USD",
+   "impressions": "5924",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "322"
+     }
+    ]
+   },
+   "amount_spent": "$1,79 USD",
+   "impressions": "4323",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "16"
+     }
+    ]
+   },
+   "amount_spent": "$28,06 USD",
+   "impressions": "5504",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-20",
+   "date_stop": "2026-08-20",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "amount_spent": "$19,94 USD",
+   "impressions": "5031",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "419"
+     }
+    ]
+   },
+   "amount_spent": "$4,41 USD",
+   "impressions": "17200",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$24,19 USD",
+   "impressions": "4978",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-21",
+   "date_stop": "2026-08-21",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$16,65 USD",
+   "impressions": "4304",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "90"
+     }
+    ]
+   },
+   "amount_spent": "$0,82 USD",
+   "impressions": "946",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "amount_spent": "$6,98 USD",
+   "impressions": "1305",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-22",
+   "date_stop": "2026-08-22",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "amount_spent": "$4,93 USD",
+   "impressions": "1025",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-23",
+   "date_stop": "2026-08-23",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-24",
+   "date_stop": "2026-08-24",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  }
+ ]
+}
