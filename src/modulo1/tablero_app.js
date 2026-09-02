@@ -330,6 +330,9 @@
       svg(ico.copiar, "w-4 h-4") + "Decisiones</button>" +
       "</div></div>" +
       (chip ? '<div class="mt-5">' + chip + "</div>" : "") +
+      /* El filtro de fechas va aquí arriba porque es de toda la página, no de
+         una sección. */
+      (controlFechas() ? '<div class="mt-6">' + controlFechas() + "</div>" : "") +
       "</header>";
   }
 
@@ -370,6 +373,16 @@
      Sobre pastel la escala sube a slate-700, que da entre 6.0:1 y 7.8:1 en los
      cuatro colores. Se pasa como parametro en lugar de sobrescribir la cascada
      con !important, que es como se rompen los estilos sin darse cuenta. */
+  /* Sello para un bloque que el filtro de fechas NO puede recalcular. Solo
+     aparece cuando hay una ventana elegida: sin filtro activo no hay nada que
+     aclarar y sería ruido. */
+  function selloSinRango(motivo) {
+    var R = rango();
+    if (!R || !R.propio) return "";
+    return '<span class="etiqueta-ambar ml-2 align-middle" title="' +
+      esc(motivo) + '">no cambia con el rango</span>';
+  }
+
   function cardCab(titulo, sub, clave, total, mostrados, tinte) {
     var ver = "";
     if (clave && total > mostrados) {
@@ -503,6 +516,31 @@
   }
 
   function grafico(id, cfg) {
+    /* El filtro de fechas es global, así que también recorta las semanas de la
+       gráfica. Cada semana trae su `inicio` en ISO, así que el corte es exacto.
+       Se recortan LOS VALORES junto con las semanas: quedarse con las semanas
+       y no con los datos dibujaría la serie corrida. */
+    var R = rango();
+    if (R && R.propio && cfg.semanas.length && cfg.semanas[0].inicio) {
+      var dentro = cfg.semanas.map(function (w) {
+        return w.inicio >= R.desde && w.inicio <= R.hasta;
+      });
+      if (dentro.some(Boolean)) {
+        cfg = {
+          titulo: cfg.titulo, area: cfg.area,
+          semanas: cfg.semanas.filter(function (_, i) { return dentro[i]; }),
+          series: cfg.series.map(function (x) {
+            var y = {};
+            for (var k in x) y[k] = x[k];
+            y.valores = x.valores.filter(function (_, i) { return dentro[i]; });
+            return y;
+          }),
+        };
+      } else {
+        return '<div class="text-[13px] text-slate-400 py-8 text-center">' +
+          "Ninguna semana de la serie cae en el rango elegido.</div>";
+      }
+    }
     var S = cfg.series.filter(function (s) {
       return s.valores.some(function (v) { return v != null; });
     });
@@ -747,21 +785,46 @@
         return c[campo] === val;
       }).length;
     };
+    /* DOS NIVELES, como los pidió Mercadeo: primero qué hay que producir, y
+       solo al elegir uno aparecen las tres soluciones. La segunda fila no
+       existe hasta que hay pieza elegida: mostrar seis botones a la vez obliga
+       a leerlos todos para entender que son dos preguntas distintas.
+
+       Volver a pulsar la pieza activa limpia las dos, así que no hace falta un
+       botón de «quitar filtros» aparte. */
     var SOL = ["Punto de Venta", "Pasarela de Pagos", "Tienda en Línea"];
-    var filtros =
-      '<div class="flex flex-wrap items-center gap-x-3 gap-y-3 mb-6">' +
-      pastillas("pieza", [{ v: null, n: "Arte y video" },
-                          { v: "arte", n: "Arte · " + cuenta("pieza", "arte") },
-                          { v: "video", n: "Video · " + cuenta("pieza", "video") }],
-                V.pieza) +
-      pastillas("solucion", [{ v: null, n: "Las tres soluciones" }].concat(
-        SOL.map(function (x) {
-          return { v: x, n: x + " · " + cuenta("solucion", x) };
-        })), V.solucion) +
-      ((V.pieza || V.solucion)
-        ? '<button type="button" id="limpiarCopys" class="etiqueta-marca">' +
-          "quitar filtros</button>"
+    var nivel1 = ["arte", "video"].map(function (x) {
+      var on = V.pieza === x;
+      return '<button type="button" data-pieza="' + x + '" ' +
+        'class="px-7 py-3 rounded-full text-[13.5px] font-semibold ' +
+        'transition-colors ' + (on ? "text-white" : "text-slate-500 " +
+        "hover:text-slate-800") + '"' +
+        (on ? ' style="background:var(--marca)"' : "") + ">" +
+        (x === "arte" ? "Arte" : "Video") + " · " + cuenta("pieza", x) +
+        "</button>";
+    }).join("");
+    var nivel2 = !V.pieza ? "" :
+      '<div class="flex flex-wrap items-center gap-2 mt-3">' +
+      '<span class="text-[11.5px] text-slate-400 mr-1">' +
+      esc(V.pieza === "arte" ? "Artes de" : "Videos de") + "</span>" +
+      SOL.map(function (x) {
+        var n = cuenta("solucion", x), on = V.solucion === x;
+        return '<button type="button" data-solucion="' + esc(x) + '" ' +
+          'class="px-5 py-2.5 rounded-full text-[12.5px] font-semibold ' +
+          'transition-colors ' +
+          (on ? "text-white" : n ? "text-slate-500 hover:text-slate-800 " +
+            "bg-white tarjeta-sombra" : "text-slate-300 bg-white") + '"' +
+          (on ? ' style="background:var(--marca)"' : "") +
+          (n ? "" : ' disabled title="Sin copys de esta solución en ' +
+            esc(V.pieza) + '"') + ">" + esc(x) + " · " + n + "</button>";
+      }).join("") +
+      (V.solucion
+        ? '<button type="button" data-solucion="null" ' +
+          'class="etiqueta-marca">las tres</button>'
         : "") + "</div>";
+    var filtros = '<div class="mb-6">' +
+      '<div class="inline-flex flex-wrap max-w-full bg-white rounded-full ' +
+      'p-1 tarjeta-sombra">' + nivel1 + "</div>" + nivel2 + "</div>";
     var m = mercadoActivo();
     var asig = ((D.estrategia || {}).asignacion) || {};
     var decid = cs.filter(function (c) { return E.decisiones[c.id]; }).length;
@@ -859,13 +922,21 @@
              piezas: ps.length, deTodas: (red.piezas || []).length };
   }
 
-  /* El control de fechas. Dos campos y un botón, con el rango real como límite:
-     no se puede pedir una ventana donde no hay dato. */
+  /* El control de fechas, en el encabezado y para toda la página.
+
+     LO QUE PUEDE Y LO QUE NO, escrito en el propio control: filtra lo que tiene
+     fecha por pieza —el orgánico y sus gráficas— y NO puede partir la pauta de
+     Meta (la corrida la agrega por periodo, sin desglose diario) ni la
+     competencia (la Ad Library es una foto de un solo día).
+
+     Decirlo es obligatorio. Un filtro global que dejara quieto el número de
+     leads sin explicar por qué haría pensar que el dato está mal, y el
+     siguiente paso sería dejar de creerle a todo el tablero. */
   function controlFechas() {
     var A = alcance();
     if (!A || !A.rango_disponible) return "";
     var R = rango();
-    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra mb-6 flex ' +
+    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra flex ' +
       'flex-wrap items-end gap-4">' +
       '<div><span class="micro-et">Desde</span>' +
       '<input type="date" id="fDesde" class="campo w-[168px]" value="' +
@@ -882,10 +953,20 @@
           'class="np-tipo">' + esc(a[1]) + "</button>";
       }).join("") + "</div>" +
       '<div class="text-[11.5px] text-slate-400 leading-snug flex-1 ' +
-      'min-w-[200px]">' +
-      (R.propio ? "Los números se recalculan sobre este rango."
-                : "Dato disponible: " + esc(R.tope.desde) + " a " +
-                  esc(R.tope.hasta) + ".") + "</div></div>";
+      'min-w-[220px]">' +
+      (R.propio ? "<b class=\"text-slate-600 font-semibold\">Ventana " +
+                  "elegida.</b> " : "") +
+      "Recalcula el orgánico y sus gráficas." +
+      '<details class="inline ml-1.5"><summary class="inline ' +
+      'cursor-pointer font-semibold hover:text-slate-600">Qué no ' +
+      'filtra</summary>' +
+      '<span class="block mt-2">La <b>pauta de Meta</b>: la corrida la agrega ' +
+      "por periodo y no trae desglose diario, así que sus números son los del " +
+      "periodo " + esc((D.corrida || {}).rango || "") + " sin importar esta " +
+      "ventana. Y la <b>competencia</b>: la Ad Library solo responde qué está " +
+      "activo hoy, no acepta rango de fechas. Los bloques que no cambian lo " +
+      "dicen en su cabecera. Dato disponible: " + esc(R.tope.desde) + " a " +
+      esc(R.tope.hasta) + ".</span></details></div></div>";
   }
 
   function tarjetaAlcance(r) {
@@ -998,7 +1079,6 @@
       '<span class="block mt-2 max-w-[70ch] leading-relaxed">' +
       esc(A._la_regla) + " " + esc(A._lo_que_desbloquea) + " " +
       esc(A._sigue_abierto) + "</span></details></div>" +
-      controlFechas() +
       '<div class="grid gap-6 ' +
       '[grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
       A.redes.map(tarjetaAlcance).join("") + "</div>";
@@ -1541,6 +1621,9 @@
           var q = (D.por_mercado[m] || {}).principal;
           return m + " " + dinero(q && q.costo_por_resultado);
         }).join(" · ")),
+      /* Este KPI viene de la lectura de Zoho Social, que no trae fecha por
+         publicación: es del periodo de la corrida y no se puede recalcular por
+         rango. El alcance sí se recalcula, y está en Rendimiento. */
       kpi("Interacciones orgánicas", ent(t.interacciones),
         vari ? "de " + vari.de + " a " + vari.a + " contra la semana anterior"
              : (t.publicaciones || 0) + " publicaciones", vari),
@@ -1711,7 +1794,10 @@
       '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
       kpis + "</div>" +
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
-      cardCab("Campañas con entrega", buscando()
+      cardCab("Campañas con entrega" + selloSinRango(
+        "La corrida agrega la pauta por periodo y no trae desglose diario: " +
+        "estos números son del periodo " + ((D.corrida || {}).rango || "") +
+        " sin importar la ventana elegida."), buscando()
         ? "Solo las que coinciden con la búsqueda"
         : "Ordenadas por inversión", "camp", cs.length, 4) +
       (cs.length
@@ -1908,7 +1994,10 @@
                           { v: "referentes", n: "Referentes" }], V.grupo),
       (sub ? '<div class="mb-6">' + sub + "</div>" : "") +
       nota("<b class=\"text-slate-700 font-semibold\">No es un ranking de " +
-        "efectividad</b>: es dónde apuestan." +
+        "efectividad</b>: es dónde apuestan." + selloSinRango(
+          "La Ad Library no acepta rango de fechas: solo responde qué está " +
+          "activo el día de la consulta. Esta sección no se puede filtrar por " +
+          "fecha.") +
         '<details class="inline"><summary class="inline cursor-pointer ' +
         'font-semibold"> Por qué</summary><span class="block mt-2">La Ad ' +
         "Library no publica rendimiento de anunciantes comerciales: no hay " +
@@ -2635,7 +2724,12 @@
          volverla a null: si no, filtraría por una pieza llamada «null» y la
          lista saldría vacía sin explicación. */
       if (d.pieza !== undefined) {
-        V.pieza = d.pieza === "null" ? null : d.pieza;
+        var nueva = d.pieza === "null" ? null : d.pieza;
+        /* Pulsar la pieza que ya estaba activa apaga el filtro completo. Y al
+           cambiar de pieza se suelta la solución: una elegida bajo «Arte» no
+           tiene por qué seguir puesta al pasar a «Video». */
+        if (nueva === V.pieza) { V.pieza = null; V.solucion = null; }
+        else { V.pieza = nueva; V.solucion = null; }
         guardarVista(); pintar(true); return;
       }
       if (d.solucion !== undefined) {

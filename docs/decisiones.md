@@ -1774,3 +1774,107 @@ Todo el aparato que hace creíble a este tablero —el universo de cada
 porcentaje, por qué una tasa no se publica, qué se dejó fuera— seguía siendo
 necesario y estaba estorbando. La respuesta no era elegir: era decidir qué se
 lee y qué se consulta.
+
+---
+
+## ADR-039 · El rango es global, y el filtro de copy es en dos niveles
+
+**Fecha:** 2026-09-02
+**Estado:** aceptada
+**Pedido:** Mercadeo, corrigiendo la entrega anterior: «el filtro de fechas era
+para todo, osea todo literal, (quítalo de donde está ahorita), en teoría el
+filtro tenía que estar hasta arriba»; y «el filtro de los copys está mal […]
+tienen que haber 2 botones: Arte, Video. Cuando alguien le dé click a alguno de
+esos 2 tendrán que desplegarse 3 opciones más».
+
+Las dos correcciones son sobre lo mismo: **dónde vive un control dice a qué
+manda.** Yo puse el rango dentro de la sección de orgánico porque era lo único
+que sabía recalcular, y con eso le dije al equipo, sin decírselo, que solo
+filtraba eso.
+
+### 1 · El rango sube al encabezado, y por eso hay que declarar qué NO filtra
+
+El control está ahora en el `<header>`, antes de la primera sección. Es una
+promesa más grande que la anterior, y en este proyecto una promesa que no se
+puede cumplir se declara en vez de esconderse.
+
+Qué se hizo alcanzable al subirlo:
+
+- **Las gráficas de evolución semanal.** `grafico()` recorta la serie a la
+  ventana usando la fecha ISO de inicio de cada semana, y filtra los valores en
+  paralelo con las semanas. Con 30 días, 12 semanas pasan a 4. Si ninguna semana
+  cae dentro, no dibuja un lienzo vacío: dice que ninguna cae.
+- Todo el orgánico, que ya recalculaba (ADR-038).
+
+Qué **no** se puede, y por qué:
+
+| Bloque | Por qué no | Cómo se dice en pantalla |
+|---|---|---|
+| Pauta de Meta | La corrida la agrega por periodo; no hay desglose diario en el resultado | Sello ámbar «no cambia con el rango» en *Campañas con entrega* |
+| Competencia y referencias | La Ad Library solo responde qué está activo **hoy**; no acepta rango (trampa ya registrada) | Sello ámbar en la nota de Competencia |
+
+**El sello aparece solo cuando hay una ventana propia elegida.** Con el rango
+por defecto —todo el dato— no hay nada que aclarar, y un aviso permanente se
+vuelve mobiliario que nadie lee. Y el control mismo lleva un pliegue «Qué no
+filtra» con los dos casos y el periodo exacto de la corrida.
+
+Esto es preferible a la alternativa que consideré, que era recortar la pauta con
+un prorrateo por días. Habría dado un número que se mueve —y por lo tanto
+creíble— **inventado**: el gasto no es uniforme entre días. Regla 1.
+
+### 2 · El filtro de copy: jerárquico, no plano
+
+Antes eran dos grupos de pastillas al mismo nivel: pieza y solución, cinco
+controles a la vez. Ahora:
+
+- **Nivel 1** siempre visible: `Arte · 5` / `Video · 5`.
+- **Nivel 2** solo existe después de elegir pieza, rotulado con lo que se está
+  mirando («Artes de …», «Videos de …») y con el conteo ya cruzado por pieza:
+  *Punto de Venta · 1*, *Pasarela de Pagos · 2*, *Tienda en Línea · 2*.
+
+Tres detalles del comportamiento:
+
+- Una solución que quede en cero **se ve deshabilitada, no desaparece.** Que
+  «Punto de Venta» tenga un solo arte es información de producción: dice dónde
+  falta redactar. Ocultarla escondería el hueco.
+- Volver a pulsar la pieza activa limpia los dos niveles. Cambiar de pieza
+  reinicia la solución, porque un conteo de la pieza anterior aplicado a la
+  nueva mentiría.
+- Los conteos del nivel 2 son del cruce, no del total. `Pasarela de Pagos` dice
+  2 dentro de Arte y 2 dentro de Video, y son cuatro copys distintos.
+
+Verificado en navegador con los cinco pasos de la secuencia:
+
+| Paso | Nivel 1 | Nivel 2 | Copys |
+|---|---|---|---|
+| inicio | 2 | 0 | 10 |
+| clic en Arte | 2 | 3 | 5 |
+| + Punto de Venta | 2 | 4 (con «las tres») | 1 |
+| cambio a Video | 2 | 3 | 5 |
+| Video otra vez | 2 | 0 | 10 |
+
+### 3 · `fusiona_estado.js`
+
+Fuera del pedido, pero de la misma sesión. El equipo decide **dentro** de la
+página y esta se republica a sí misma, así que la versión publicada va adelante
+de la del disco: publicar el fragmento recién generado tal cual **borra las
+decisiones**. Ya pasó una vez (v48) y se resolvió a mano.
+
+Ahora es un script: lee el `#estado` de la versión en vivo, valida los dos JSON
+antes de escribir e informa qué trajo. En esta publicación trajo la v50 con una
+decisión tomada hoy y dos ideas propias del equipo — que en la prueba se ven
+como 28 botones de decidir donde el disco solo tenía 26.
+
+Un detalle que lo hace necesario y no cosmético: hay **dos** `<script
+id="estado">` en el archivo. El segundo es el literal del propio
+`tablero_app.js` incrustado más abajo. Tocar el equivocado deja la página sin
+estado y **sin error visible**.
+
+### La lección
+
+**Un control colocado dentro de una sección promete solo esa sección; subirlo
+promete todo.** Y cuando la promesa grande es la correcta pero no se puede
+cumplir completa, la salida no es achicar la promesa ni fingir que se cumple:
+es cumplirla donde se puede y **marcar en el sitio exacto** lo que quedó fuera.
+Los dos sellos ámbar valen más que el filtro, porque son lo que evita leer la
+pauta de agosto como si fuera la de la ventana elegida.

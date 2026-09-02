@@ -501,3 +501,157 @@ módulos a medias.
 | Sustituir los logos redibujados por los oficiales | del usuario, opcional |
 | Corridas retroactivas de junio y julio para el Demo Day | del sistema |
 | El deck de la presentación | del sistema |
+
+---
+
+## Sesión 4 · 1 y 2 de septiembre de 2026 · el hueco del alcance, la marca y los copys
+
+Seis frentes. El primero cerró el hueco más viejo del proyecto.
+
+### Paso 1 · El alcance orgánico apareció en una tercera fuente
+
+Durante cinco días el proyecto declaró que el alcance orgánico «no viene por
+API». Era falso, y por el mismo error de método que ya había cometido dos veces:
+se midió que `ads_get_ig_media` no lo trae y que Zoho Social tampoco, y de ahí
+se concluyó que no existía.
+
+**Zoho Analytics sí lo tiene.** Estaba instalado, se habilitó el 28 de agosto y
+quedó anotado como «sin probar». Nadie lo abrió hasta que el usuario insistió.
+
+| Vista | Qué trae | Filas |
+|---|---|---|
+| `Post Insights (Páginas de Facebook)` | `Impressions` por publicación desde 2020 | 1000 |
+| `Media Insights (Perfil de Instagram)` | `Reach` de feed | 85 |
+| `Reels Insights` | `Reach`, `Saved`, `Shares` de reels | 206 |
+
+Tercera vez del mismo error. La receta, los ids de vista y las cuatro trampas
+del dato quedaron en `docs/09-alcance-por-zoho-analytics.md` para que la cuarta
+no dependa de que alguien insista.
+
+Cuatro trampas que salieron al usarlo:
+
+1. **`Impressions` de Facebook no es `Reach` de Instagram.** Veces mostrado
+   contra personas alcanzadas. No se suman ni se comparan de frente.
+2. **No hay histórico antes de 2024.** Mediana de impresiones por año: 0 en
+   2020-2022, 1 en 2023, 11 en 2024, 279 en 2025, 402 en 2026. Un cero viejo no
+   es «no lo vio nadie», es que la métrica no está. De ahí el corte en
+   2025-01-01.
+3. **Un rótulo de columna no es una verificación.** `Saved` de Instagram trae
+   valores 2 a 5 veces mayores que `Reach`, y guardar exige haber visto: es casi
+   seguro impresiones mal rotulado. No se usa.
+4. **El `CONFIG` de Zoho Analytics no va URL-encoded**, contra lo que dice su
+   propia descripción.
+
+Y el hallazgo que no se buscaba: `ads_get_ig_media` da un corte que Zoho Social
+no da, `media_product_type`. **Los reels rinden 3.2x el promedio del feed** en
+interacciones absolutas (12.3 vs 3.8), controlado por antigüedad. Pero con el
+denominador que ahora existe, **ganan en alcance y no en tasa**: 3,509
+impresiones contra 370 de las imágenes, con 0.39% contra 0.52%. El carrusel es
+el mejor en las dos redes (FB 0.82%, IG 5.65%) — y eso converge con lo que ya
+decía la Ad Library, que las referencias usan carrusel el doble que los
+competidores locales (34% vs 19%).
+
+Una segunda fuente del mismo dato no es redundancia.
+
+### Paso 2 · El tono de marca, sacado del sitio y no inventado
+
+`qpaypro.com` está bloqueado por la política de egreso del entorno —403 en el
+CONNECT, verificado con `curl -sS "$HTTPS_PROXY/__agentproxy/status"`. Es una
+política elegida al crear el entorno, **no un límite técnico**, y se puede
+cambiar. Otra vez lo mismo: se había anotado como «no se puede» algo que era «no
+está permitido todavía».
+
+Como no se desbloqueó, el usuario pegó el texto de nueve landings. De ahí salió
+`config/marca.json`, con lo que el sitio dice de verdad:
+
+- El sitio se escribe **«Qpaypro»**; la documentación interna escribe «QPayPro».
+- **Estructura verbal de tres verbos** en secuencia: «cobrar, operar y crecer».
+- **Patrón de copy**: la fricción primero, la solución después.
+- **Cero signos de exclamación y cero superlativos** en todo el sitio.
+- Productos con su nombre real: QPayPOS, Qpayshop, POS Cute (GT), POS A920 (SV),
+  Qpayradar + Qpayverify.
+- Cinco territorios propios que **ninguna marca medida usa**: un solo
+  inventario, técnico que instala, soporte local en tu horario, saber cuánto te
+  queda, empezar sin comprar equipo.
+
+Y una tabla que no existía: **`afirmaciones_bloqueadas_por_mercado`**, siete
+entradas. La liquidación diaria aplica en SV y **no** en GT — lo corrigió el
+usuario, y sin esa tabla un copy correcto en un mercado sería falso en el otro.
+
+Un error propio en este paso, y vale registrarlo porque fue una inferencia mía
+falsificada por el dato: atribuí el testimonio de María Belén a Belleza porque
+dice «mis clientas». La landing de servicios la acredita como «María Belén
+Coach». El código tenía el mismo error —tomaba el primer testimonio con sector,
+no el del sector— y se corrigió con ella.
+
+### Paso 3 · Recomendaciones con evidencia numérica obligatoria
+
+`src/modulo1/recomendaciones.py`, ocho reglas. La regla del módulo es que **cada
+recomendación carga su evidencia numérica o no se emite.** Nueve recomendaciones
+salieron con la corrida real, seis de confianza alta.
+
+Cuatro errores que encontró la revisión y que valen más que las reglas:
+
+- `int(0.625*100)` daba 62 mientras la línea de evidencia decía `0.625`. Un
+  `round()` donde iba.
+- «21 promesas» para un equipo con capacidad 10: la regla contaba titulares
+  distintos de un referente. Se reexpresó como **techo por promesa** («1 de cada
+  6»), que transfiere entre escalas.
+- La comparación de verticales se calculaba sobre el top-3 **visible**, y decía
+  «0 de competidores» donde tenían en cuarto lugar.
+- «44 anuncios clasificables de 43 leídos», imposible en pantalla: un titular
+  que toca dos verticales cuenta en las dos, así que el total son
+  *clasificaciones*. El cálculo estaba bien y el rótulo mal.
+
+### Paso 4 · Los copys, y la skill que los redacta
+
+Diez copys redactados —no generados por plantilla— en
+`config/copys_propuestos.json`. Cada uno declara qué **no** dice y en qué
+mercado está bloqueado. Y `.claude/skills/copys-qpaypro/SKILL.md`, con el tono
+sacado del sitio en vez del «registro por defecto» que tenía antes.
+
+Ningún copy se publica sin aprobación humana (regla 5). El tablero registra la
+decisión; no toca Zoho Social.
+
+### Paso 5 · Todo eso entra al tablero, y la poda
+
+El usuario fue directo: «no me aparecen los copys y tampoco veo lo orgánico».
+Se lo había contado en el chat y no lo había puesto en la herramienta. **Un
+cambio que no está publicado no está entregado.**
+
+Entraron el bloque de alcance, los copys, el dossier por marca y las
+recomendaciones. Y con eso el tablero se volvió un informe: cada recomendación
+con tres párrafos visibles y cada copy con cuatro. La poda dejó el texto visible
+en 16,363 caracteres desde 22,373 —27% menos, 1,851 px menos de alto— **sin
+borrar una sola declaración de hueco**: 38 pliegues, ninguno vacío. A la vista
+queda lo que se ejecuta; a un clic, lo que lo justifica (ADR-038).
+
+### Paso 6 · Los dos filtros, corregidos
+
+El rango de fechas y el filtro de copy salieron mal en la primera entrega, y el
+usuario corrigió las dos cosas. El rango estaba dentro de la sección de
+orgánico —diciendo sin decirlo que solo filtraba eso— y el filtro de copy era
+plano donde tenía que ser jerárquico.
+
+El rango subió al encabezado y arrastró las gráficas semanales con él. Lo que no
+puede filtrar —la pauta de Meta, que la corrida agrega por periodo, y la
+competencia, que la Ad Library solo responde a hoy— lleva un sello ámbar «no
+cambia con el rango» **en el sitio exacto**, y solo cuando hay una ventana
+propia elegida. El filtro de copy quedó en dos niveles: Arte/Video, y las tres
+soluciones apareciendo solo al elegir pieza (ADR-039).
+
+También salió de aquí `src/modulo1/fusiona_estado.js`: el equipo decide dentro
+de la página y la versión publicada va adelante de la del disco, así que
+publicar el fragmento recién generado **borra las decisiones**. Pasó una vez con
+la v48. Ahora es un script que valida antes de escribir. Esta publicación trajo
+la v50 con una decisión tomada hoy y dos ideas propias del equipo.
+
+### Estado al cierre de la Sesión 4
+
+- El hueco del alcance orgánico, **cerrado**. Era el pendiente más viejo.
+- El tono de marca, **verificado contra el sitio** y no inventado.
+- Nueve recomendaciones y diez copys, con evidencia y con compuerta humana.
+- El tablero publicado en la v51, con el estado del equipo intacto.
+
+Lo que sigue: el deck del Demo Day, y las corridas retroactivas de junio y julio
+como evidencia.

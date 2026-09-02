@@ -362,6 +362,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/tablero_tailwind.css` | Las clases propias del tablero. El CSS se **compila** con Tailwind; no hay CDN |
 | `tailwind.config.js` | Qué archivos escanea Tailwind. Ver la trampa del corte en un espacio |
 | `pruebas/tablero.js` | Prueba del tablero en Chromium a 1440, 834 y 390 px. `npm run prueba:tablero` |
+| `src/modulo1/fusiona_estado.js` | Trae el `#estado` de la versión EN VIVO al fragmento recién generado. **Correr siempre antes de republicar el tablero**, o se borran las decisiones del equipo |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
