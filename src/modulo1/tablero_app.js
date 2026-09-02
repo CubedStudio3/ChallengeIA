@@ -254,6 +254,149 @@
     return { dentro: dentro, hay: dentro.some(Boolean) };
   }
 
+  /* ═════════════ la pauta, recalculada sobre la ventana ═════════════
+
+     Antes la pauta era el único bloque grande que el filtro no tocaba, y llevaba
+     un sello para avisarlo. Ahora la corrida emite el desglose DIARIO Y POR
+     PAÍS —una fila por campaña × país × día— y aquí se suma sobre la ventana
+     elegida. GT y SV se recalculan igual que el total: es requisito, no efecto
+     lateral.
+
+     Tres reglas que no se negocian, y las tres vienen de errores medidos:
+
+     1. **Se agrupa por indicador ANTES de sumar** (ADR-013). 158 leads y 10,771
+        clics en enlace no se suman. Un total sin indicador es un número
+        plausible y falso.
+     2. **La división se hace UNA vez, al final, sobre lo que quedó dentro.** No
+        se pide el costo por día ni se promedian costos diarios: lo primero
+        traería «Not available» en los días flacos, y lo segundo no es el costo
+        del periodo.
+     3. **Un día con gasto y sin resultado atribuido aporta su gasto.** Es dinero
+        real. Descartar la fila entera —lo que hacía la regla de «utilizable» a
+        nivel agregado— borraba $26.19, casi la mitad del presupuesto de una
+        campaña. */
+
+  function pautaDia() { return D.pauta_diaria || null; }
+
+  /* El indicador principal es una CONSTANTE del proyecto (`actions:lead`,
+     verificada en V0), no algo que se derive de la ventana. Si la ventana no
+     tiene ese indicador, se declara el hueco en lugar de sustituirlo por otro:
+     mostrar clics donde el equipo espera leads sería peor que no mostrar nada. */
+  function indicadorPrincipal() {
+    var m = mercadoActivo();
+    return ((D.por_mercado || {})[m] || {}).indicador_principal || "actions:lead";
+  }
+
+  /* `mercado` null suma los dos. Devuelve null si la corrida no trae desglose
+     diario —una corrida vieja, por ejemplo— para que quien llama muestre lo que
+     tenga en lugar de romperse. */
+  function pauta(mercado) {
+    var PD = pautaDia();
+    if (!PD || !PD.piezas) return null;
+    var R = rango();
+    var recorta = !!(R && R.propio);
+    var ps = PD.piezas.filter(function (p) {
+      if (mercado && p.p !== mercado) return false;
+      if (recorta && !(p.f >= R.desde && p.f <= R.hasta)) return false;
+      return true;
+    });
+
+    var ind = {}, dias = {};
+    ps.forEach(function (p) {
+      dias[p.f] = 1;
+      var e = ind[p.k] || (ind[p.k] = {
+        indicador: p.k, gasto: 0, resultados: 0, impresiones: 0,
+        gasto_sin_resultado: 0, filas: 0, dias: {}, camp: {}, sinRes: 0
+      });
+      e.gasto += p.g;
+      e.impresiones += p.i;
+      e.filas += 1;
+      e.dias[p.f] = 1;
+      e.camp[p.c] = p.n;
+      if (p.r == null) { e.gasto_sin_resultado += p.g; e.sinRes += 1; }
+      else { e.resultados += p.r; }
+    });
+
+    Object.keys(ind).forEach(function (k) {
+      var e = ind[k];
+      /* Centavos, no flotantes sueltos: sumar 79 decimales binarios deja
+         restos que se ven en pantalla como 964.7600000000001. */
+      e.gasto = Math.round(e.gasto * 100) / 100;
+      e.gasto_sin_resultado = Math.round(e.gasto_sin_resultado * 100) / 100;
+      e.campanas = Object.keys(e.camp).length;
+      e.campanas_nombres = Object.keys(e.camp).map(function (c) { return e.camp[c]; });
+      e.dias = Object.keys(e.dias).length;
+      delete e.camp;
+      // Regla 2: una sola división, al final. Sin resultados no hay costo —y no
+      // es $0.00, es que no se puede calcular.
+      e.costo = e.resultados ? e.gasto / e.resultados : null;
+    });
+
+    var fs = Object.keys(dias).sort();
+    var k = indicadorPrincipal();
+    return {
+      indicadores: ind,
+      principal: ind[k] || null,
+      indicador_principal: k,
+      recortada: recorta,
+      vacia: !ps.length,
+      filas: ps.length,
+      dias: fs.length,
+      primer: fs[0] || null,
+      ultimo: fs[fs.length - 1] || null,
+      /* El tope del DATO de pauta, que no es el mismo que el del orgánico: la
+         pauta solo existe en el periodo de la corrida. Sirve para explicar una
+         ventana vacía sin que parezca un error. */
+      tope: PD.rango_disponible || null,
+      fuera_de_mercado: PD.fuera_de_mercado || {},
+    };
+  }
+
+  /* De qué periodo son las cifras de un bloque DERIVADO —estrategia, tareas,
+     recomendaciones, copys—. Esos bloques no son mediciones que se puedan
+     recortar: son propuestas que ya se calcularon sobre el periodo de la
+     corrida. El problema aparece cuando la pauta SÍ obedece la ventana: una
+     recomendación que cita «370 leads» al lado de un KPI que dice 39 es el
+     mismo engaño del +105.6% en otro lugar.
+
+     Por eso la leyenda no es un sello de «no cambia»: es la declaración de qué
+     periodo miró el análisis. Se muestra siempre, porque es contexto útil, y
+     se pone ámbar solo cuando la ventana elegida difiere de ese periodo. */
+  /* `que` trae el sujeto Y el verbo conjugado: «Las recomendaciones salen»,
+     «La lista de pendientes sale». Concatenar un verbo fijo dejaba «Las
+     recomendaciones sale del análisis», que lo vio la prueba. */
+  function leyendaPeriodo(que) {
+    var per = (D.corrida || {}).rango || "";
+    if (!per) return "";
+    var R = rango();
+    var difiere = !!(R && R.propio);
+    return '<div class="rounded-2xl px-4 py-3 text-[12px] leading-relaxed ' +
+      'mb-5 ' + (difiere
+        ? "bg-amber-50 text-amber-900"
+        : "bg-slate-50 text-slate-500") + '">' +
+      (difiere ? '<b class="font-semibold">Ojo con el rango.</b> ' : "") +
+      esc(que) + " del análisis del periodo " +
+      '<b class="font-semibold">' + esc(per) + "</b>" +
+      (difiere
+        ? ", que no es la ventana que tenés elegida arriba. Las cifras que cita " +
+          "son de ese periodo; los números de pauta de Resumen y Rendimiento sí " +
+          "siguen tu ventana."
+        : ".") + "</div>";
+  }
+
+  /* Una ventana puede no tocar ningún día de pauta. Eso NO es cero gasto: es
+     que no hay dato ahí, y decirlo es la diferencia entre un hueco declarado y
+     un número inventado. */
+  function pautaVacia(P) {
+    if (!P || !P.vacia) return "";
+    var t = P.tope || {};
+    return '<div class="text-[13px] text-slate-400 py-6 text-center ' +
+      'leading-relaxed">Ningún día de pauta cae en el rango elegido.' +
+      (t.desde ? '<span class="block mt-1.5 text-[12px]">La pauta de esta ' +
+        "corrida va del " + esc(t.desde) + " al " + esc(t.hasta) +
+        ".</span>" : "") + "</div>";
+  }
+
   /* La serie semanal permite la ÚNICA comparación real que existe en esta
      corrida. No hay corrida de la semana anterior, así que un porcentaje de
      variación en las cifras de pauta sería inventado: ahí no se pone ninguno.
@@ -1556,7 +1699,21 @@
   }
 
   function resumen() {
-    var L = leadTotal(), rs = D.redes_sociales, t = (rs && rs.totales) || {};
+    /* `P` es la pauta recalculada sobre la ventana; `L` es el agregado del
+       periodo completo que emite la corrida. Se prefiere P cuando existe, y L
+       queda como respaldo para una corrida sin desglose diario. Los dos suman
+       lo mismo cuando no hay ventana propia: lo garantiza la compuerta de
+       reconciliación, que corre en cada corrida. */
+    var P = pauta(null);
+    /* `P ? P.principal : leadTotal()` y NO `(P && P.principal) || leadTotal()`.
+       Con `||`, una ventana vacía —principal en null— caía al agregado del
+       periodo completo y el KPI de costo mostraba $2.61 mientras el titular
+       decía «ningún día de pauta cae en el rango». Es exactamente el error del
+       +105.6% otra vez: un respaldo que se dispara cuando NO debe. El respaldo
+       es para una corrida SIN desglose diario, no para una ventana sin días.
+       Lo encontró la prueba con la ventana de junio. */
+    var L = P ? P.principal : leadTotal();
+    var rs = D.redes_sociales, t = (rs && rs.totales) || {};
     var vari = variacionOrganico();
     var act = estrategiaActiva();
     var vis = tareasVisibles();
@@ -1567,11 +1724,27 @@
     /* La frase de la semana sale del dato o no sale. Sin pauta leida no se
        escribe una frase generica: se dice que falta. */
     var titular, apoyo;
-    if (L && L.resultados != null) {
+    var costoL = L ? (L.costo != null ? L.costo : L.costo_por_resultado) : null;
+    if (P && P.vacia) {
+      /* Una ventana sin pauta NO es una semana sin resultados. Es que no hay
+         dato ahí, y la frase de la semana no se escribe sobre un hueco. */
+      titular = "Ningún día de pauta cae en el rango elegido.";
+      apoyo = P.tope
+        ? "La pauta de esta corrida va del " + P.tope.desde + " al " + P.tope.hasta
+        : "Sin días de pauta en la ventana.";
+    } else if (L && L.resultados) {
       titular = 'La pauta trajo <b class="font-bold">' + ent(L.resultados) +
-        " leads</b> a " + dinero(L.costo_por_resultado) + " cada uno.";
+        " leads</b> a " + dinero(costoL) + " cada uno.";
       apoyo = ent(L.campanas) + " campañas con entrega · " + dinero(L.gasto) +
-        " invertidos";
+        " invertidos" +
+        (P && P.recortada ? " · " + P.dias + (P.dias === 1 ? " día" : " días") +
+                            " en la ventana" : "");
+    } else if (L && L.gasto) {
+      /* Gasto sin un solo resultado en la ventana. Pasa de verdad si la ventana
+         cae en días flacos, y decirlo es mejor que un costo por lead infinito. */
+      titular = "Hubo inversión y ningún lead atribuido en el rango elegido.";
+      apoyo = dinero(L.gasto) + " invertidos · sin resultados, así que no hay " +
+        "costo por lead que calcular";
     } else {
       titular = "Esta corrida no trae rendimiento de pauta.";
       apoyo = "Sin el dato no se escribe la frase de la semana.";
@@ -1606,8 +1779,12 @@
 
     /* ── 01 · Rendimiento ────────────────────────────────────────────────── */
 
+    /* El reparto por mercado también se recalcula: es el requisito de que GT y
+       SV se muevan con la ventana igual que el total. Sin desglose diario cae
+       al agregado del periodo. */
     var porM = mercados().map(function (m) {
-      var q = (D.por_mercado[m] || {}).principal;
+      var pm = pauta(m);
+      var q = pm ? pm.principal : (D.por_mercado[m] || {}).principal;
       return { m: m, r: (q && q.resultados) || 0 };
     });
     var sumaM = porM.reduce(function (a, x) { return a + x.r; }, 0);
@@ -1678,15 +1855,35 @@
 
     /* ── la fila de estadisticas, en blanco ──────────────────────────────── */
 
+    /* Los tres KPI de pauta ya obedecen la ventana. El único que no puede es
+       Interacciones orgánicas, cuyo VALOR viene de la lectura de Zoho Social
+       —que no trae fecha por publicación en el resultado— aunque su variación
+       sí se recorta. */
     var kpis = [
-      kpi("Leads del periodo", ent(L && L.resultados), "indicador actions:lead"),
+      kpi("Leads del periodo", ent(L && L.resultados),
+        (P && P.vacia)
+          ? "ningún día de pauta en el rango"
+          : "indicador " + (P ? P.indicador_principal : "actions:lead")),
       kpi("Inversión", dinero(L && L.gasto),
-        (L ? L.campanas + " campañas con entrega" : "")),
-      kpi("Costo por lead", dinero(L && L.costo_por_resultado),
-        mercados().map(function (m) {
-          var q = (D.por_mercado[m] || {}).principal;
-          return m + " " + dinero(q && q.costo_por_resultado);
-        }).join(" · ")),
+        (P && P.vacia) ? "ningún día de pauta en el rango" :
+        L ? (ent(L.campanas) + " campañas con entrega" +
+             (L.gasto_sin_resultado
+                ? " · " + dinero(L.gasto_sin_resultado) + " sin resultado"
+                : "")) : ""),
+      /* Sin resultados no sale $0.00 ni infinito: sale por qué no se calcula. */
+      kpi("Costo por lead",
+        (L && (L.costo != null || L.costo_por_resultado != null))
+          ? dinero(L.costo != null ? L.costo : L.costo_por_resultado)
+          : "—",
+        (P && P.vacia) ? "ningún día de pauta en el rango" :
+        (L && !L.resultados && L.gasto)
+          ? "sin leads en el rango: no hay costo que calcular"
+          : mercados().map(function (m) {
+              var pm = pauta(m);
+              var q = pm ? pm.principal : (D.por_mercado[m] || {}).principal;
+              var c = q ? (q.costo != null ? q.costo : q.costo_por_resultado) : null;
+              return m + " " + (c != null ? dinero(c) : "—");
+            }).join(" · ")),
       /* Este KPI viene de la lectura de Zoho Social, que no trae fecha por
          publicación: es del periodo de la corrida y no se puede recalcular por
          rango. El alcance sí se recalcula, y está en Rendimiento. */
@@ -1764,7 +1961,8 @@
       '<div class="grid gap-6 ' +
       '[grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))]">' +
       kpis + "</div>" +
-      rotulo("Pendientes") + lista);
+      rotulo("Pendientes") +
+      leyendaPeriodo("La lista de pendientes sale") + lista);
   }
 
   /* La advertencia de que los indicadores no se suman, con los numeros del
@@ -1792,26 +1990,69 @@
     var m = mercadoActivo(), ms = mercados();
     if (!m) return seccion("rendimiento", "Pauta y orgánico", "Rendimiento", "", "",
       nota("Sin datos por mercado en esta corrida."));
-    var d = D.por_mercado[m] || {}, p = d.principal;
+    var d = D.por_mercado[m] || {};
+    /* La pauta del mercado activo, recalculada sobre la ventana. `d.principal`
+       queda de respaldo para una corrida sin desglose diario. */
+    var PM = pauta(m);
+    // Mismo cuidado que en resumen(): el respaldo es por falta de desglose, no
+    // por ventana vacía.
+    var p = PM ? PM.principal : d.principal;
     var s = serieTotal(), se = s && s.crudo;
+    var costoP = p ? (p.costo != null ? p.costo : p.costo_por_resultado) : null;
 
-    var kpis = p ? [
+    var kpis = (PM && PM.vacia) ? "" : (p ? [
       kpi(enClaro(d.indicador_principal), ent(p.resultados),
         "indicador " + (d.indicador_principal || "—")),
-      kpi("Inversión", dinero(p.gasto), ""),
-      kpi("Costo por lead", dinero(p.costo_por_resultado), ""),
-      kpi("Campañas con entrega", ent(p.campanas), "no es lo mismo que activas hoy"),
-    ].join("") : "";
+      kpi("Inversión", dinero(p.gasto),
+        p.gasto_sin_resultado
+          ? dinero(p.gasto_sin_resultado) + " sin resultado atribuido" : ""),
+      kpi("Costo por lead", costoP != null ? dinero(costoP) : "—",
+        costoP == null && p.gasto ? "sin leads en el rango" : ""),
+      /* Ahora sí es «con entrega EN LA VENTANA», que es un número distinto y
+         mejor que el del periodo completo. Por eso ya no lleva sello. */
+      kpi("Campañas con entrega", ent(p.campanas),
+        (PM && PM.recortada ? "con entrega en la ventana" : "") ||
+        "no es lo mismo que activas hoy"),
+    ].join("") : "");
 
-    var cs = (d.campanas || []).filter(function (c) {
+    /* Las filas de campañas salen del desglose diario para que se muevan con la
+       ventana. Se AGRUPA POR INDICADOR antes de sumar (ADR-013) y la división
+       va una sola vez, al final, por campaña. */
+    var cs;
+    if (PM && !PM.vacia) {
+      var porC = {};
+      (pautaDia().piezas || []).forEach(function (q) {
+        var R = rango();
+        if (q.p !== m) return;
+        if (R && R.propio && !(q.f >= R.desde && q.f <= R.hasta)) return;
+        var e = porC[q.c + "|" + q.k] || (porC[q.c + "|" + q.k] = {
+          etiqueta: q.n, indicador: q.k, resultados: 0, gasto: 0,
+          impresiones: 0, sin_resultado: 0
+        });
+        e.gasto += q.g; e.impresiones += q.i;
+        if (q.r == null) e.sin_resultado += q.g; else e.resultados += q.r;
+      });
+      cs = Object.keys(porC).map(function (k) {
+        var e = porC[k];
+        e.gasto = Math.round(e.gasto * 100) / 100;
+        e.costo_por_resultado = e.resultados ? e.gasto / e.resultados : null;
+        return e;
+      }).sort(function (a, b) { return b.gasto - a.gasto; });
+    } else {
+      cs = (d.campanas || []);
+    }
+    cs = cs.filter(function (c) {
       return coincide(c.etiqueta, enClaro(c.indicador));
     });
     var filas = recorta(cs, "camp", 4).map(function (c) {
+      var cc = c.costo_por_resultado;
       return fila((c.etiqueta.match(/[A-Z]/g) || ["C"]).slice(0, 2).join(""),
         c.etiqueta.replace(/\s*\[[A-Z]{2}\]\s*$/, ""),
-        enClaro(c.indicador) + " · " + ent(c.resultados) + " resultados",
-        dinero(c.costo_por_resultado), dinero(c.gasto) + " invertidos",
-        c.costo_por_resultado <= 2.6 ? "verde" : null);
+        enClaro(c.indicador) + " · " + ent(c.resultados) + " resultados" +
+          (c.sin_resultado ? " · " + dinero(c.sin_resultado) + " sin resultado" : ""),
+        cc != null ? dinero(cc) : "—",
+        dinero(c.gasto) + " invertidos",
+        cc != null && cc <= 2.6 ? "verde" : null);
     }).join("");
 
     /* Cada serie va con DOS colores del mismo tono: el trazo (oscuro, para la
@@ -1854,22 +2095,34 @@
         ent(r.interacciones), "interacciones");
     }).join("");
 
+    /* El subtítulo dice de qué ventana son los números. Con ventana propia deja
+       de ser «del periodo de la corrida», y decir el periodo viejo ahí sería
+       justo el error que el filtro vino a arreglar. */
+    var deQue = (PM && PM.recortada && !PM.vacia && PM.primer)
+      ? "</b>, del " + esc(PM.primer) + " al " + esc(PM.ultimo) +
+        " · " + PM.dias + (PM.dias === 1 ? " día con entrega" : " días con entrega")
+      : "</b>, del periodo " + esc((D.corrida || {}).rango || "");
+
     return seccion("rendimiento", "Pauta y orgánico", "Rendimiento",
       "Meta Ads en <b class=\"text-slate-600 font-semibold\">" + esc(m) +
-      "</b>, del periodo " + esc((D.corrida || {}).rango || "") + ".",
+      deQue + ".",
       pastillas("mercado", ms.map(function (x) {
         return { v: x, n: x === "GT" ? "Guatemala" : x === "SV" ? "El Salvador" : x };
       }), m),
-      '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
-      kpis + "</div>" +
+      (PM && PM.vacia
+        ? '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
+          pautaVacia(PM) + "</div>"
+        : '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))] mb-6">' +
+          kpis + "</div>") +
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
+      /* Ya NO lleva sello: con el desglose diario estas filas obedecen la
+         ventana. El sello decía que la corrida agregaba por periodo; eso dejó
+         de ser cierto. Dejarlo puesto sería mentir en la otra dirección. */
       cardCab("Campañas con entrega", buscando()
         ? "Solo las que coinciden con la búsqueda"
-        : "Ordenadas por inversión", "camp", cs.length, 4, false,
-        selloSinRango(
-          "La corrida agrega la pauta por periodo y no trae desglose diario: " +
-          "estos números son del periodo " + ((D.corrida || {}).rango || "") +
-          " sin importar la ventana elegida.")) +
+        : (PM && PM.recortada
+             ? "Con entrega en la ventana · ordenadas por inversión"
+             : "Ordenadas por inversión"), "camp", cs.length, 4) +
       (cs.length
         ? '<div class="divide-y divide-slate-50">' + filas + "</div>"
         : '<p class="text-[13px] text-slate-400 py-2">Ninguna campaña del ' +
@@ -2159,6 +2412,7 @@
             (V.verTodo.recs ? "Ver menos" : "Ver todo (" + recs.length + ")") +
             "</button>"
           : "") + "</div>" +
+        leyendaPeriodo("Las recomendaciones salen") +
         nota("<b class=\"text-slate-700 font-semibold\">No dice qué le " +
           "funcionó a la competencia</b>, dice dónde apuesta." +
           '<details class="inline"><summary class="inline cursor-pointer ' +
@@ -2477,6 +2731,8 @@
       (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
+      leyendaPeriodo("Todo lo de esta sección —la estrategia, las tareas y los " +
+        "copys— sale") +
       selectorEstrategia() +
       nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
         "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +

@@ -6,6 +6,7 @@
     "tablero": "node src/modulo1/tablero.js",
     "prueba:tablero": "node pruebas/tablero.js",
     "prueba:pauta": "PYTHONPATH=src python3 pruebas/pauta_diaria.py",
+    "prueba:filtro": "node pruebas/pauta_filtro.js",
     "capturas": "node pruebas/capturas.js",
     "valida:tema": "node src/modulo1/valida_tema.js",
     "reporte": "node src/modulo1/reporte_adlibrary.js",
