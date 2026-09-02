@@ -381,7 +381,14 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     profundo = carga_profundo(carpeta)
     idiomas = {k: v for k, v in (registro.get("idioma_por_marca") or {}).items()
                if not k.startswith("_")}
-    reco = RECO.arma(profundo, hoy, idiomas)
+    # Los datos de marca salen de config/marca.json, extraídos del sitio. Sin
+    # ellos las recomendaciones no pueden distinguir una vertical que ya
+    # atendemos de una que sería una apuesta nueva.
+    try:
+        marca_datos = cargar("marca", permitir_bloqueado=True)
+    except Exception:
+        marca_datos = None
+    reco = RECO.arma(profundo, hoy, idiomas, marca_datos)
     if reco is None:
         huecos.append({
             "fuente": "recomendaciones de ejecución",

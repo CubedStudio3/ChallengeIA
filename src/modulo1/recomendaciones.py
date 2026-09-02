@@ -425,7 +425,7 @@ def sobrevivientes(profundo: dict) -> list[dict]:
 
 
 def recomienda(marcas: list[dict], comp: dict, ocupados: list[dict],
-               sobrev: list[dict]) -> list[dict]:
+               sobrev: list[dict], marca: dict | None = None) -> list[dict]:
     """Las reglas. Cada una emite solo si su umbral se cumple."""
     recs = []
     ref = [m for m in marcas if m["rol"] == "referente"]
@@ -501,10 +501,54 @@ def recomienda(marcas: list[dict], comp: dict, ocupados: list[dict],
             confianza="media"))
 
     # R4 · Verticales que el referente trabaja y aquí nadie toca.
+    #
+    # Se parten en DOS, y la diferencia es la más importante de todo el archivo:
+    # una vertical libre en la que YA tenemos producto y página no es una
+    # apuesta nueva, es pauta que falta. La otra sí es una apuesta. Tratarlas
+    # igual convertía la recomendación más accionable del análisis en una
+    # sugerencia genérica de explorar un nicho.
     vr, vc = comp["verticales_referentes"], comp["verticales_competidores"]
-    libres = sorted(((v, n) for v, n in vr.items()
-                     if n >= VERT_MINIMO_REF and vc.get(v, 0) == 0),
-                    key=lambda x: -x[1])
+    libres_todas = sorted(((v, n) for v, n in vr.items()
+                           if n >= VERT_MINIMO_REF and vc.get(v, 0) == 0),
+                          key=lambda x: -x[1])
+    mapa = ((marca or {}).get("verticales_propias") or {}).get(
+        "_mapa_a_verticales_del_analisis") or {}
+    propias = {v for k, v in mapa.items() if v and not k.startswith("_")}
+    nuestras = [(v, n) for v, n in libres_todas if v in propias]
+    ajenas = [(v, n) for v, n in libres_todas if v not in propias]
+
+    if nuestras:
+        # Qué sector nuestro corresponde a cada vertical, para nombrarlo como lo
+        # nombra el sitio y no como lo nombra el clasificador.
+        inverso = {}
+        for sector, vert in mapa.items():
+            if vert and not sector.startswith("_"):
+                inverso.setdefault(vert, []).append(sector)
+        sectores = sorted({s for v, _ in nuestras for s in inverso.get(v, [])})
+        testimonio = None
+        for t in ((marca or {}).get("prueba_social") or {}).get("testimonios", []):
+            if t.get("_sector"):
+                testimonio = t
+                break
+        recs.append(_rec(
+            "pauta-vertical-propia", "copiar",
+            f"Pautar en {' y '.join(sectores)}: ya tenemos el producto, falta el anuncio",
+            (f"Producir piezas para {' y '.join(sectores)} esta semana. No hay "
+             f"que construir nada nuevo: la página del sector ya existe, así que "
+             f"el anuncio tiene a dónde llevar."),
+            (f"Es la única recomendación de la lista donde ya está todo puesto "
+             f"menos la pauta. Los referentes trabajan "
+             f"{', '.join(f'«{v}»' for v, _ in nuestras)} y "
+             f"NINGÚN competidor medido la toca."
+             + (f" Y ya hay cliente en el sector: {testimonio['negocio']}."
+                if testimonio else "")),
+            [f"{v} · {n} anuncios de referentes, 0 de competidores"
+             for v, n in nuestras] +
+            [f"sector propio con página: {s}" for s in sectores] +
+            ([f"testimonio en el sector: «{testimonio['dice'][:70]}…» — "
+              f"{testimonio['negocio']}"] if testimonio else [])))
+
+    libres = ajenas
     if libres:
         lista = ", ".join(f"«{v}» ({n})" for v, n in libres)
         # Qué referentes aportan esas verticales: si TODOS son hispanos, el
@@ -604,7 +648,7 @@ def recomienda(marcas: list[dict], comp: dict, ocupados: list[dict],
 
 
 def arma(profundo: dict | None, hoy: date,
-         idiomas: dict | None = None) -> dict | None:
+         idiomas: dict | None = None, marca: dict | None = None) -> dict | None:
     """El bloque completo. Devuelve None si no hay análisis profundo que leer.
 
     None y no un bloque vacío: un bloque vacío se vería igual que «no hay
@@ -615,7 +659,7 @@ def arma(profundo: dict | None, hoy: date,
     comp = comparativo(marcas)
     ocupados = territorios_ocupados(marcas, profundo)
     sobrev = sobrevivientes(profundo)
-    recs = recomienda(marcas, comp, ocupados, sobrev)
+    recs = recomienda(marcas, comp, ocupados, sobrev, marca)
     return {
         "_fuente": (profundo.get("_corrida") or {}).get("herramienta"),
         "dossier": dossier(marcas, profundo),

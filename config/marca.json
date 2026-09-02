@@ -1,0 +1,314 @@
+{
+  "_que_es": "Los datos de marca de Qpaypro EXTRAÍDOS DE SU PROPIO SITIO, no supuestos. Reemplaza el hueco que tenía la skill contexto-marca. Todo lo de aquí es verbatim o derivado de verbatim; lo que no está en el sitio no está aquí.",
+  "_fuente": "https://www.qpaypro.com/gt · texto pegado por Mercadeo el 2026-09-02 (home, punto de venta, tiendas en línea, pasarela de pagos) porque el dominio está bloqueado por la política de egreso del entorno",
+  "_como_actualizarlo": "Volver a pegar el texto del sitio y rehacer esta extracción. Si el sitio cambia de comisión o de nombre de producto, este archivo miente hasta que se actualice — y los copys salen de aquí.",
+  "nombre": {
+    "como_lo_escribe_el_sitio": "Qpaypro",
+    "como_lo_escribe_el_proyecto": "QPayPro",
+    "_a_resolver": "El sitio escribe «Qpaypro» en todo el cuerpo de texto; la documentación interna escribe «QPayPro». Los copys usan la del sitio, porque es la que el cliente ve. Falta que Mercadeo confirme cuál es la correcta."
+  },
+  "posicionamiento": {
+    "declarado_en_el_sitio": "La plataforma de pagos moderna para negocios que quieren crecer.",
+    "promesa_central": "Una plataforma para cobrar, operar y crecer",
+    "_nota": "No es un eslogan inventado: es la bajada del pie del sitio, literal."
+  },
+  "tono": {
+    "_procedencia": "Inferido de las frases del sitio, no de adjetivos. Cada regla trae los ejemplos que la sostienen.",
+    "trato": "tú, en imperativo",
+    "_evidencia_trato": [
+      "cobra",
+      "controla",
+      "crece",
+      "gestiona",
+      "conecta",
+      "haz",
+      "descubre",
+      "empieza",
+      "únete",
+      "obtén",
+      "calcula",
+      "afiliarme"
+    ],
+    "voseo": {
+      "lo_usa_la_marca": false,
+      "lo_usan_los_testimonios": true,
+      "_evidencia": "«Descubrí Qpaypro y se me hizo súper fácil afiliarme» — habla la clienta, no la marca. La marca escribe en tú imperativo en todas sus frases.",
+      "_regla": "En copy de marca: tú. En testimonio o palabra de cliente: se respeta el voseo guatemalteco tal como lo dijo."
+    },
+    "estructura_verbal": {
+      "patron": "tres verbos en secuencia",
+      "_evidencia": [
+        "Para cobrar, operar y crecer",
+        "cobra, controla y crece con una sola plataforma",
+        "los negocios que ya cobran, operan y crecen"
+      ],
+      "_nota": "Aparece tres veces en la misma página. Es la firma verbal de la marca, y un copy que la usa suena a Qpaypro sin tener que decirlo."
+    },
+    "frases_del_sitio": [
+      "Una plataforma para cobrar, operar y crecer",
+      "La plataforma de pagos moderna para negocios que quieren crecer.",
+      "Todo tu negocio, con Qpaypro.",
+      "En línea y en tu local: cobra, controla y crece con una sola plataforma.",
+      "Una para cada forma de vender: en tu local, por chat o en línea.",
+      "Descubre cuánto recibes por cada venta, sin sorpresas ni letra pequeña.",
+      "El equipo cobra. El sistema es el que hace crecer el negocio.",
+      "Diseñado para vender rápido, no para estudiarlo",
+      "Llega armado y listo para vender",
+      "Se acabó vender algo que ya no tenías o recontar existencias cada noche.",
+      "Sabes con qué cuadró cada quien sin perseguir a nadie.",
+      "Cada quien ve lo que le toca.",
+      "Quien entra hoy al mostrador puede estar vendiendo en la misma jornada.",
+      "para reponer con criterio y no por intuición",
+      "Negocios que dejaron de cobrar a mano",
+      "Soporte local en tu mismo horario",
+      "No necesitas comprar equipo para empezar",
+      "Tu cliente paga desde su celular al instante."
+    ],
+    "ctas_reales": [
+      "Empieza gratis",
+      "Crear cuenta gratis",
+      "Comenzar ahora",
+      "Empezar ahora",
+      "Hablar con ventas",
+      "Hablar con asesor",
+      "Hablar con Ventas",
+      "Afiliarme",
+      "Calcula tu cobro",
+      "Ver planes y precios",
+      "Más información",
+      "Obtén más información"
+    ],
+    "no_usa": {
+      "signos_de_exclamacion": "No aparece uno solo en toda la página.",
+      "superlativos": "No dice «el mejor» ni «el más rápido» en ninguna parte.",
+      "_nota": "Es una observación sobre el sitio, no una prohibición declarada por Mercadeo. Se respeta porque es lo que el sitio hace."
+    },
+    "patron_de_copy": {
+      "_el_hallazgo": "Las landings de producto NO abren con el beneficio: abren nombrando la fricción en las palabras del cliente, y después la resuelven. Es el patrón más distintivo de la marca y el más fácil de reusar en un anuncio.",
+      "formula": "fricción concreta y reconocible → la solución, también concreta",
+      "ejemplos_literales": [
+        "Cerrar caja te toma media hora y casi nunca cuadra → El corte se arma solo con lo que pasó por el sistema.",
+        "Vendes en línea y en el local con inventarios separados → Un mismo catálogo y un mismo stock para los dos.",
+        "No sabes qué producto te está dejando dinero → Los reportes te muestran qué rota, en qué sucursal y a qué hora.",
+        "Cada canal nuevo significa otro sistema que aprender → Todo opera desde la misma plataforma."
+      ],
+      "_seccion_del_sitio": "«Por qué importa · Lo que hoy te quita tiempo»"
+    },
+    "registro": "Concreto y sin adorno. Nombra el problema con las palabras del negocio («cerrar caja», «recontar existencias», «perseguir a nadie») y responde con un hecho, no con un adjetivo. Frases cortas. Cero signos de exclamación en todo el sitio. Cero superlativos. Contraste como recurso: «para vender rápido, no para estudiarlo», «con criterio y no por intuición»."
+  },
+  "productos": {
+    "_nota": "Nombres COMERCIALES, como los escribe el sitio. Ya no hay que usar genéricos.",
+    "cobros": {
+      "nombre": "Soluciones de pago",
+      "tambien": "Pasarela de pagos · Plataforma de pagos",
+      "incluye": [
+        "Pagos con tarjeta",
+        "Links de pago",
+        "Suscripciones",
+        "Punto de venta"
+      ],
+      "tarjetas": "Visa y Mastercard · crédito y débito · pago sin contacto (NFC) · 3D Secure · pagos en cuotas"
+    },
+    "punto_de_venta": {
+      "nombre": "Punto de Venta",
+      "software": "QPayPOS",
+      "_software_nota": "QPayPOS vive en la nube: se puede usar SIN comprar hardware, solo con navegador o app.",
+      "tambien": [
+        "POS Cute",
+        "Terminal de Cobro POS"
+      ],
+      "kit": [
+        "Terminal POS (pantalla táctil, stand de aluminio, bloqueo antirrobo, carga por contacto)",
+        "Escáner inalámbrico (1D y 2D, 30-50 m, receptor USB)",
+        "Impresora de recibos térmica de 3\"",
+        "Cajón de efectivo de acero (5 ranuras de billetes, 8 de monedas)"
+      ],
+      "tres_formas_de_entrar": [
+        "Con el kit completo · instalado por un asesor técnico",
+        "Sin hardware · solo navegador o app, porque es en la nube",
+        "Con tu propio equipo · si cumple las especificaciones mínimas"
+      ]
+    },
+    "tienda": {
+      "nombre": "Tienda en Línea",
+      "constructor": "Qpayshop",
+      "o_conectar": "plugin de Qpaypro en la tienda que ya tienen"
+    },
+    "antifraude": {
+      "nombres": [
+        "Qpayradar",
+        "Qpayverify"
+      ],
+      "_dice_el_sitio": "Prevención de fraude Qpayradar + Qpayverify"
+    },
+    "integraciones": [
+      "Shopify",
+      "WooCommerce",
+      "VTEX",
+      "PrestaShop",
+      "Ecwid"
+    ],
+    "plataforma": "Un solo inventario para tienda física, tienda en línea y redes · órdenes, devoluciones, tarjetas de regalo, sucursales, cortes de caja, usuarios y permisos, reportes"
+  },
+  "verticales_propias": {
+    "_que_son": "Los sectores que Qpaypro YA atiende, con página propia. Es el dato que faltaba para cruzar contra las verticales que la competencia deja libres: una vertical libre EN LA QUE YA TENEMOS PRODUCTO no es una apuesta nueva, es pauta que falta.",
+    "_fuente": "menú «Diseñado para todos los sectores» y bloque «Hecho para el mostrador de tu giro»",
+    "lista": [
+      "Retail",
+      "Servicios",
+      "Ecommerce",
+      "Belleza",
+      "Clínicas"
+    ],
+    "como_los_nombra_el_sitio": {
+      "Tiendas y retail": "Ropa, calzado, librerías, ferreterías",
+      "Abarrotes y conveniencia": "Alto volumen, cobro rápido, control de stock",
+      "Salones y barberías": "Cobra por servicio en recepción",
+      "Talleres y servicios": "Órdenes de trabajo y cobros en sitio"
+    },
+    "_por_que_importa_el_nombre": "«Salones y barberías» es como el sitio nombra el sector que el clasificador de la Ad Library llama «belleza y citas». El copy usa el del sitio: nombra el negocio de quien lo lee.",
+    "_mapa_a_verticales_del_analisis": {
+      "Belleza": "belleza y citas",
+      "Retail": "retail y tienda",
+      "Ecommerce": "retail y tienda",
+      "Servicios": null,
+      "Clínicas": null,
+      "_nota": "Servicios y Clínicas no tienen equivalente entre las verticales que el clasificador detecta, así que no se cruzan. No se fuerza el mapeo."
+    }
+  },
+  "prueba_social": {
+    "usuarios": "Más de 800,000 usuarios activos",
+    "_procedencia_usuarios": "Afirmación del propio sitio (2026-09-02). Usable en copy citando la fuente; NO se redondea ni se reformula al alza.",
+    "testimonios": [
+      {
+        "quien": "Najelee Gálvez",
+        "negocio": "NayeNails",
+        "_sector": "belleza · uñas",
+        "dice": "Descubrí Qpaypro y se me hizo súper fácil afiliarme. En menos de 48 horas ya estaba cobrando."
+      },
+      {
+        "quien": "María Belén",
+        "negocio": null,
+        "_sector": "belleza · probable («mis clientas»)",
+        "dice": "Antes de conocer Qpaypro los cobros eran manuales y engorrosos: me robaban tiempo y generaban estrés. Hoy mis clientas pagan de forma práctica, con tarjeta de crédito y en cuotas, con un solo clic."
+      },
+      {
+        "quien": "Ana Cecilia Guerra",
+        "negocio": "ByAnaCeci",
+        "dice": "Qpayshop me facilitó el trabajo: fácil de integrar, ver inventarios y recibir mis pagos sin complicaciones."
+      },
+      {
+        "quien": "Ana Lucía",
+        "negocio": "Laluh",
+        "dice": "Ha sido la herramienta segura que le da confianza a mis clientes y que hizo crecer mis ventas."
+      }
+    ],
+    "_las_48_horas": "El plazo lo dice una CLIENTA en su testimonio, no la marca. Como promesa de marca necesitaría que Qpaypro lo confirme; como cita textual con atribución se puede usar tal cual.",
+    "_dos_de_cuatro_son_belleza": "Najelee (NayeNails) y María Belén («mis clientas») vienen del sector belleza. Refuerza la recomendación de pautar en Salones y barberías: no es un nicho nuevo, es donde ya hay clientas contentas."
+  },
+  "precio": {
+    "_para_que_esta_aqui": "Para poder marcar cualquier copy que toque precio, y para no inventar la cifra si el copy la necesita.",
+    "comision": "4.50%",
+    "costo_administrativo": "Q2.95",
+    "retencion_iva": "5%, según régimen y monto",
+    "regimenes": [
+      "Pequeño Contribuyente",
+      "Régimen General"
+    ],
+    "cuotas": [
+      "Contado",
+      "3",
+      "6",
+      "10",
+      "12",
+      "15",
+      "18 meses"
+    ],
+    "letra_chica_literal": "Cálculo referencial. Incluye comisión (4,50%) y costo administrativo de Q2.95. La retención aplica según tu régimen y monto.",
+    "cuando_se_cobra": "La comisión se cobra en cada cobro exitoso.",
+    "_regla": "Si un copy menciona la comisión, va con la letra chica literal o no va. Y va marcado REVISIÓN LEGAL."
+  },
+  "seguridad": {
+    "_para_que": "Es el bloque más desarrollado del sitio: seis puntos con su cifra. Es un territorio de mensaje propio y con respaldo.",
+    "puntos": [
+      {
+        "que": "Protección avanzada",
+        "dato": "AES-256",
+        "dice": "Validación y encriptación de extremo a extremo en cada transacción."
+      },
+      {
+        "que": "Monitoreo 24/7",
+        "dato": "Tiempo real",
+        "dice": "Detección de riesgo y anomalías en tiempo real, todos los días."
+      },
+      {
+        "que": "Cumplimiento PCI DSS",
+        "dato": "Nivel 1",
+        "dice": "Certificación de seguridad internacional para pagos con tarjeta."
+      },
+      {
+        "que": "Datos protegidos",
+        "dato": "Cifrado",
+        "dice": "Tu información y la de tus clientes, siempre cifrada y resguardada."
+      },
+      {
+        "que": "Tokenización",
+        "dato": "PAN seguro",
+        "dice": "Los datos sensibles se reemplazan por tokens irreversibles."
+      },
+      {
+        "que": "Infraestructura robusta",
+        "dato": "99.9% uptime",
+        "dice": "Servidores redundantes con monitoreo y respaldo continuo."
+      }
+    ],
+    "antifraude": "Qpayradar + Qpayverify · certificación PCI-DSS · protocolo 3D Secure"
+  },
+  "mercados": {
+    "GT": {
+      "telefono": "+(502) 2355-6000",
+      "moneda_del_sitio": "Quetzales y Dólares"
+    },
+    "SV": {
+      "telefono": "+(503) 2208-2300",
+      "_nota": "Hay teléfono de El Salvador en el pie, así que la operación en SV está declarada. Lo que NO está es una página /sv leída: la extracción es de /gt. El lenguaje específico de SV sigue sin verificar."
+    },
+    "whatsapp": "+(502) 4785-6011"
+  },
+  "_lo_que_sigue_faltando": [
+    "TRES FRASES RECHAZADAS con su motivo. Es lo único que no se saca del sitio, y es lo que más rápido corrige un copy: el sitio dice qué sí dicen, no qué decidieron no decir.",
+    "El texto de la página /sv. Sin eso el lenguaje de El Salvador sigue sin verificar y un copy para SV es GT con otra bandera.",
+    "Las restricciones de comunicación de fintech por escrito. La letra chica del precio es un pedazo, no la lista.",
+    "Landings pendientes que Mercadeo ofreció mandar: precios, retail, servicios, ecommerce, belleza, clínicas, terminal-pos, seguridad."
+  ],
+  "diferenciales_propios": {
+    "_que_son": "Territorios de mensaje que el sitio sostiene con un hecho Y que ningún competidor ni referente medido está usando. Es donde el copy puede competir sin entrar al terreno de nadie.",
+    "lista": [
+      {
+        "territorio": "Un solo inventario entre físico y en línea",
+        "lo_sostiene": "Tu tienda física, tu tienda en línea y tus ventas por redes descuentan del mismo stock",
+        "quien_mas_lo_dice": "nadie de los medidos"
+      },
+      {
+        "territorio": "Un técnico va, lo instala y lo deja funcionando",
+        "lo_sostiene": "Nuestros asesores técnicos llegan y lo instalan por ti · Llega armado y listo para vender",
+        "quien_mas_lo_dice": "nadie · Square y Shopify venden autoservicio"
+      },
+      {
+        "territorio": "Soporte local en tu mismo horario",
+        "lo_sostiene": "frase literal del sitio · teléfonos GT y SV propios",
+        "quien_mas_lo_dice": "nadie · es lo que un referente global no puede decir"
+      },
+      {
+        "territorio": "Sabés exactamente cuánto te queda",
+        "lo_sostiene": "calculadora de cobro en la home · «sin sorpresas ni letra pequeña»",
+        "quien_mas_lo_dice": "nadie · Paggo juega «fácil», no «transparente»"
+      },
+      {
+        "territorio": "Empezar sin comprar equipo",
+        "lo_sostiene": "QPayPOS vive en la nube · No necesitas comprar equipo para empezar",
+        "quien_mas_lo_dice": "nadie de los medidos lo dice en su titular"
+      }
+    ]
+  }
+}

@@ -3127,15 +3127,28 @@
         "id": "verticales-libres",
         "tipo": "copiar",
         "titulo": "Hablarle a un nicho concreto, no a «los negocios»",
-        "que_hacer": "Hacer una pieza por nicho: belleza y citas, restaurante. Un titular que nombra el negocio del que lo lee compite distinto que uno que dice «tu negocio».",
-        "porque": "Los referentes le hablan a verticales que ningún competidor medido está tocando: «belleza y citas» (11), «restaurante» (5).",
+        "que_hacer": "Hacer una pieza por nicho: restaurante. Un titular que nombra el negocio del que lo lee compite distinto que uno que dice «tu negocio».",
+        "porque": "Los referentes le hablan a verticales que ningún competidor medido está tocando: «restaurante» (5).",
         "evidencia": [
-          "belleza y citas · 11 anuncios de referentes, 0 de competidores",
           "restaurante · 5 anuncios de referentes, 0 de competidores",
           "lo trabajan: Square (UK), Square (US)"
         ],
         "confianza": "alta",
         "advertencia": "2 de los 3 referentes medidos anuncian en otro idioma y para otro mercado (Square (US), Square (UK)). Se copia el mecanismo, nunca el texto."
+      },
+      {
+        "id": "pauta-vertical-propia",
+        "tipo": "copiar",
+        "titulo": "Pautar en Belleza: ya tenemos el producto, falta el anuncio",
+        "que_hacer": "Producir piezas para Belleza esta semana. No hay que construir nada nuevo: la página del sector ya existe, así que el anuncio tiene a dónde llevar.",
+        "porque": "Es la única recomendación de la lista donde ya está todo puesto menos la pauta. Los referentes trabajan «belleza y citas» y NINGÚN competidor medido la toca. Y ya hay cliente en el sector: NayeNails.",
+        "evidencia": [
+          "belleza y citas · 11 anuncios de referentes, 0 de competidores",
+          "sector propio con página: Belleza",
+          "testimonio en el sector: «Descubrí Qpaypro y se me hizo súper fácil afiliarme. En menos de 48 ho…» — NayeNails"
+        ],
+        "confianza": "alta",
+        "advertencia": null
       },
       {
         "id": "formato-carrusel",

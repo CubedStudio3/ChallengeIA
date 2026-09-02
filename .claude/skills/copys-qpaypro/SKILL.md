@@ -15,43 +15,38 @@ marca no pueda cumplir. Todo lo que salga de aquí es una **propuesta marcada
 para aprobación humana** (regla 5 del proyecto). Nada se publica sin que una
 persona lo apruebe, y eso no se elimina por conveniencia: es fintech.
 
-## El insumo que falta, y cómo se degrada mientras tanto
+## El tono: ya está, y sale del sitio
 
-**El tono de voz de QPayPro no se ha entregado, y no se inventa.** Se intentó
-leerlo de `qpaypro.com` y el gateway de egreso responde **403 al CONNECT**:
-`connect_rejected · qpaypro.com:443`, verificado el 2026-09-02.
+**Ya no se escribe en registro por defecto.** Mercadeo pegó el texto de
+`www.qpaypro.com/gt` el 2026-09-02 y de ahí salieron el tono, los nombres
+comerciales, los sectores y la letra chica. Todo vive en **`config/marca.json`**
+y explicado en la skill `contexto-marca`. **Se lee ese archivo antes de escribir
+una línea.**
 
-Eso es una **denegación de política del entorno, no un límite técnico**, y hay
-dos caminos para levantarla:
+Lo esencial, para no tener que abrirlo cada vez:
 
-1. **Pegar el texto** de la home y de una o dos páginas de producto en la
-   conversación. Es lo más rápido y no depende de nadie más. No hace falta el
-   diseño: hacen falta las palabras.
-2. **Permitir el dominio** en la política de red del entorno, desde la
-   configuración del entorno en claude.ai/code. El mismo cambio, si incluye
-   `facebook.com`, desbloquea el `ad_snapshot_url` de la Ad Library — que es
-   donde viven el tipo de medio y el «with @handle», hoy huecos declarados.
+- **Tú, en imperativo.** Nunca voseo en voz de marca; el voseo es de los
+  testimonios.
+- **Tres verbos en secuencia** es la firma verbal: cobrar, operar y crecer.
+- **Fricción primero, solución después.** Es el patrón de sus landings y el más
+  reusable en un anuncio: nombrar el problema con las palabras del negocio
+  («cerrar caja te toma media hora y casi nunca cuadra») y responder con un
+  hecho.
+- **Cero signos de exclamación. Cero superlativos.** No aparece uno solo en todo
+  el sitio.
+- **Los sectores se nombran como los nombra el sitio:** «Salones y barberías»,
+  no «belleza y citas».
 
-Mientras no esté, esta skill escribe en un **registro declarado por defecto** y
-lo dice en la entrega:
+### Lo que sigue faltando, y qué se rotula
 
-> **Registro por defecto:** español de Guatemala, segunda persona («tu negocio»,
-> «cobrá» solo si el equipo confirma el voseo), frases cortas, verbo al frente,
-> cero adjetivos de relleno, cero anglicismos evitables. Sin signos de
-> exclamación. Sin superlativos («el mejor», «el más rápido»): son promesas
-> comparativas y en fintech necesitan sustento.
+Falta lo de abajo. Un copy que lo necesite sale marcado en vez de inventarlo:
 
-Eso **no es el tono de QPayPro**: es un registro neutro que no ofende y que se
-reemplaza en cuanto llegue el real. Para reemplazarlo hacen falta tres cosas, y
-son cortas:
-
-1. **Cinco frases aprobadas** de campañas reales (no adjetivos: frases).
-2. **Tres frases rechazadas**, con el motivo.
-3. **El nombre comercial de cada producto** como lo dice el cliente, no como lo
-   dice el sistema.
-
-Con eso, esta skill deja de escribir en el registro por defecto. Sin eso, cada
-entrega sale rotulada `REGISTRO POR DEFECTO · falta el tono de marca`.
+| Falta | Qué se rotula |
+|---|---|
+| Tres frases rechazadas con su motivo | nada se bloquea, pero el afinado fino no está |
+| La página `/sv` | todo copy para SV sale `SIN LOCALIZAR · falta el lenguaje de El Salvador` |
+| Restricciones de fintech por escrito | la lista de `REVISIÓN LEGAL` es un mínimo conservador |
+| El nombre correcto: «Qpaypro» o «QPayPro» | se usa el del sitio y se marca |
 
 ## Lo que SÍ está medido y manda sobre cada copy
 
