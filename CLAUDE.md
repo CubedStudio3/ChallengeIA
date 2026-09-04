@@ -34,6 +34,11 @@ Verificado contra sistemas reales, no contra documentación:
   claude.ai. Sin ellos la Rutina se detiene en su Compuerta 0 y NO toca el
   tablero, a propósito.
 
+La sección de Estrategia ya no reparte la información en tres lados: **una
+carta por pieza** con qué hacer, qué dice el análisis (con el número de esta
+corrida), el copy, qué mostrar y la referencia medida. 10 cartas · 5 artes y 5
+videos. El número **nunca** se escribe a mano en el config (ADR-042).
+
 `config/equipo.json` está **desbloqueado** (`_lock: false`): los cinco IDs de
 Sprints, las tres personas con su rol y la capacidad semanal están completos.
 
@@ -374,6 +379,31 @@ cometidos; no hay tiempo de repetirlos.
   día se valida contra el agregado ya verificado —por campaña Y por país, al
   centavo— en **cada corrida**, y si no cuadra la corrida se detiene.
 
+- **Un texto correcto puede estar podrido por dentro.** Los copys traían su
+  justificación con el número escrito a mano: uno decía «SV cuesta $1.89 contra
+  $2.89» cuando la corrida decía $2.68 contra $3.35. El texto se leía bien, la
+  tarjeta se veía bien, y el dato tenía dos semanas. Ninguna revisión visual
+  encuentra eso: el config declara **QUÉ** evidencia sostiene una carta, nunca
+  cuánto vale, y `cartas.py` la resuelve contra la corrida (ADR-042).
+- **La guardia contra eso es una prueba, no un acuerdo.** `npm run prueba:cartas`
+  rechaza cualquier campo humano del config que contenga algo con forma de
+  medición —`$`, `%`, «N días», «N anuncios»—. «24 horas» sí, porque es una
+  promesa de producto; «$2.68» no, porque es una medición.
+- **«¿Arte o video?» no se puede contestar con la competencia.** La Ad Library no
+  publica el tipo de medio de un anuncio ajeno. El corte existe en
+  `ads_get_ig_media` sobre la cuenta propia: **los reels rinden 4.87x el feed**
+  (19.0 vs 3.9 interacciones, mediana 11 vs 3), las 5 mejores piezas son todas
+  reels y **los 9 comentarios de la muestra están todos en reels; el feed tiene
+  cero en 15 de 15**. Controlado por antigüedad: 29.2 días contra 30.9.
+- **Una comparación de cohortes hay que negarse a publicarla si la antigüedad la
+  explica.** `formato.py` no saca el ratio si la brecha de edad promedio pasa de
+  10 días o si una cohorte tiene menos de 4 piezas. Los contadores son
+  acumulados al día de la consulta: una pieza vieja tuvo más días para juntar.
+- **Dos bloques que contestan la misma pregunta obligan a juntarlos de memoria.**
+  El ángulo estaba en una tarjeta, el texto en otra y la referencia en otra
+  sección. Una carta trae los cinco tramos en el orden en que se usan: qué hacer,
+  qué dice el análisis, el copy, qué mostrar, la referencia.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -409,6 +439,11 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `pruebas/pauta_diaria.py` | La compuerta más 8 sabotajes (un centavo menos, un día borrado, gasto movido SV→GT…). `npm run prueba:pauta` |
 | `pruebas/pauta_filtro.js` | 43 comprobaciones del filtro en 5 ventanas, con lo esperado calculado aparte en Python. `npm run prueba:filtro` |
 | `pruebas/filtro_raton.js` | El filtro **usado con el ratón**: solo eventos de confianza, ventanas sacadas del dato de la corrida. `npm run prueba:raton` |
+| `src/modulo1/cartas.py` | **Las cartas.** Una por pieza a producir, con qué hacer, qué dice el análisis, el copy, qué mostrar y la referencia. Resuelve la evidencia declarada contra la corrida; el número nunca viene del config |
+| `src/modulo1/formato.py` | Reel contra feed en la cuenta propia. Es la ÚNICA fuente que contesta «¿arte o video?». Se niega a publicar el ratio si la antigüedad lo explica |
+| `src/modulo1/corre_profundo.py` | Arranque del análisis profundo de la Ad Library. Declara las marcas sin perfil en vez de saltarlas |
+| `pruebas/cartas.py` | 7 sabotajes. El que importa: cambiar el costo en la corrida y comprobar que la carta cambia. `npm run prueba:cartas` |
+| `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |

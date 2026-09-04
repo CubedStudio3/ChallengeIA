@@ -2094,3 +2094,125 @@ en un clic.
 Y el corolario: **cuando el sistema escribe una frase sobre su propio estado,
 esa frase es un test.** «22 días en la ventana» junto a una ventana de 1 día es
 una contradicción que la página se dijo a sí misma en voz alta.
+
+---
+
+## ADR-042 · Una carta por pieza, y el número nunca escrito a mano
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### Contexto
+
+Mercadeo, sobre la sección de Estrategia:
+
+> «no quiero todo por separado, quiero que en 1 carta por recomendación… tus
+> recomendaciones están mal mal, osea no me estás diciendo qué hacer, si hacer
+> artes o videos, o de qué hablar en el arte o video, cómo hablarlo, qué textos
+> poner, qué imágenes poner en base al análisis»
+
+Tenía razón en las dos cosas, y había una tercera que no se veía.
+
+### Lo que estaba mal
+
+**1 · Dos bloques contestando la misma pregunta.** «Producción creativa» traía
+el ángulo y la capacidad; «Copys para aprobar» traía el texto; las referencias
+vivían en otra sección. Quien produce tenía que juntar tres tarjetas de memoria.
+
+**2 · Las recomendaciones eran observaciones, no instrucciones.** «No usar la
+promesa Gestiona tu Negocio Fácil» es un hallazgo correcto y no dice qué
+producir. Faltaba lo único que le sirve a quien diseña: formato, solución, de
+qué hablar, con qué texto y qué mostrar.
+
+**3 · Y esto es lo grave: los copys traían sus números escritos a mano.** Uno
+decía «El lead de SV cuesta **$1.89** contra **$2.89** en GT» mientras la
+corrida del día decía **$2.68 contra $3.35**. Otro citaba «el reel alcanza 292
+personas» —de una corrida con Zoho Analytics que esta no tiene— y otro «el
+carrusel tiene 0.82% contra 0.52%». Un número de hace dos semanas al lado de un
+KPI vivo es exactamente la mentira que este tablero existe para no contar. Y
+nadie lo habría notado: el texto se ve perfectamente bien.
+
+### Decisión
+
+**La carta es la unidad.** Una por pieza a producir, con cinco tramos en el
+orden en que se usan:
+
+| Tramo | Qué contesta | De dónde sale |
+|---|---|---|
+| `Arte · Punto de Venta` | qué produzco | taxonomía del copy |
+| Qué hacer | para quién | config (humano) |
+| Lo que dice el análisis | por qué, con el número | **resuelto contra la corrida** |
+| Copy | con qué texto | config (humano, aprobación regla 5) |
+| Qué mostrar / Que NO vaya | con qué imagen | estructura medida + dirección humana |
+| Referencia | a quién mirar | dossier de la Ad Library, con su número |
+
+**Y la regla que gobierna el módulo: el número nunca se escribe a mano.** El
+config declara **QUÉ** evidencia sostiene cada carta, no cuánto vale:
+
+```json
+"porque_de": [
+  {"tipo": "sin_competencia", "mercado": "SV"},
+  {"tipo": "costo_mercado", "mercado": "SV"},
+  {"tipo": "formato_propio"},
+  {"tipo": "territorio_ocupado", "mensaje": "Gestiona tu Negocio Fácil",
+   "_si_falta": "Ya nadie ocupa ese mensaje: revisar si conviene entrar ahí."}
+]
+```
+
+`src/modulo1/cartas.py` los resuelve contra la corrida. Diez tipos de
+evidencia, un resolvedor cada uno. Lo que sí se escribe a mano es lo que **no
+caduca**: la voz de marca, el ángulo, el tono, la dirección visual y el texto
+publicable.
+
+**Si una evidencia no resuelve, la carta lo DICE.** La carta de belleza salió
+con su aviso ámbar: «los titulares leídos en ESTA corrida no clasifican
+"belleza y citas": la premisa del nicho libre viene de otra corrida y hay que
+re-verificarla». Y un copy cuya evidencia no resuelve **ninguna** no sale como
+carta: aparece listado con lo que le falta. Ni se rellena ni desaparece.
+
+### El dato que faltaba para contestar «¿arte o video?»
+
+No se podía contestar con la competencia: la Ad Library devuelve ocho campos y
+**ninguno dice si un anuncio es video o imagen** (ADR-032). El corte solo existe
+en `ads_get_ig_media`, sobre la cuenta propia. Medido hoy, 25 publicaciones:
+
+| | Publicaciones | Interacciones prom. | Mediana | Comentarios |
+|---|---|---|---|---|
+| **Reels** | 10 | **19.0** | 11 | 9 |
+| Feed | 15 | 3.9 | 3 | **0 de 15** |
+
+**El reel rinde 4.87x el feed**, las cinco mejores piezas de la muestra son
+todas reels, y los nueve comentarios están todos en reels. Controlado por
+antigüedad: 29.2 días de edad promedio contra 30.9, así que no es que los reels
+sean más nuevos. `formato.py` **se niega a publicar el ratio** si esa brecha
+pasa de 10 días o si una cohorte tiene menos de 4 piezas.
+
+Apareció además un corte que nadie buscaba: los reels que mencionan a alguien
+promedian 53.5 interacciones contra 10.4 los que no. **Con dos piezas** — así
+que sale rotulado como pista para probar, no como hallazgo.
+
+### La prueba que impide que se vuelva a podrir
+
+`npm run prueba:cartas`. El sabotaje que importa: **se cambia el costo por lead
+en la corrida y la carta tiene que cambiar con él.** Si no cambia, el número
+está escrito a mano en alguna parte.
+
+Y una guardia permanente: ningún campo humano del config puede contener algo
+que parezca una medición —`$`, `%`, «N días», «N anuncios»—. Puede decir «24
+horas», que es una promesa de producto; no puede decir «$2.68», que es una
+medición de una corrida.
+
+Seis sabotajes más: que avise si SV deja de estar sin disputa (premisa movida),
+que un copy sin evidencia resoluble no salga como carta, que sin el corte de
+formato la estructura se declare por convención en vez de inventarse, y que la
+cuota del territorio ocupado y el ratio de formato sean los de la corrida.
+
+### La lección
+
+**Un texto correcto puede estar podrido por dentro.** El copy se leía bien, la
+tarjeta se veía bien, y el número tenía dos semanas. No hay revisión visual que
+encuentre eso: hace falta que el dato no pueda estar en dos lugares a la vez.
+
+Y el corolario del ADR-032: **cuando la fuente no puede contestar la pregunta,
+la respuesta no es rendirse, es buscar otra fuente.** «¿Arte o video?» era
+imposible con la Ad Library y era una llamada de distancia con dato propio.

@@ -22,7 +22,9 @@ from base.errores import FallaRuidosa
 from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
                             normaliza_campanas, valores_de_desglose)
 from . import analiza as A
+from . import cartas as CARTAS
 from . import estrategia as E
+from . import formato as FMT
 from . import redes as R
 from . import alcance as ALC
 from . import pauta_diaria as PDIA
@@ -467,6 +469,37 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                         "el crudo de esta corrida antes de generar el tablero."),
         })
 
+    # --- Paso 8d · formato propio: la unica fuente que distingue reel de feed ---
+    # No sale de la competencia a proposito: la Ad Library devuelve OCHO campos y
+    # ninguno dice si un anuncio es video o imagen (ADR-032). La pregunta
+    # «¿arte o video?» solo se puede contestar con dato propio.
+    fmt = FMT.arma(carpeta / "crudo", hoy)
+    if fmt is None:
+        huecos.append({
+            "fuente": "formato propio (reel contra feed)",
+            "descripcion": "SIN LECTURA DE ads_get_ig_media",
+            "impacto": ("Las cartas no pueden decir si conviene arte o video con "
+                        "un numero detras. La estructura sale por convencion de "
+                        "la red, y se rotula asi."),
+            "remedio": ("Correr ads_get_ig_accounts y ads_get_ig_media sobre la "
+                        "cuenta y dejar el crudo en crudo/ig_media.json."),
+        })
+
+    # --- Paso 8e · las cartas: una por pieza, con todo junto ---
+    cartas = CARTAS.arma(copys_cfg, reco, por_mercado, competencia, fmt, marca_datos)
+    if cartas and cartas["sin_evidencia"]:
+        # Una carta sin un solo numero vivo no se muestra como si lo tuviera, y
+        # tampoco desaparece en silencio: el hueco se declara.
+        huecos.append({
+            "fuente": "cartas de produccion",
+            "descripcion": (f"{len(cartas['sin_evidencia'])} copys quedaron sin "
+                            "carta porque esta corrida no resuelve NINGUNA de sus "
+                            "evidencias declaradas"),
+            "impacto": "Esas piezas no se proponen. Aparecen listadas con lo que les falta.",
+            "remedio": ("Revisar `porque_de` de esos copys en "
+                        "config/copys_propuestos.json contra lo que la corrida si trae."),
+        })
+
     equipo = cargar("equipo", permitir_bloqueado=True)
     estrat = E.arma(id_semana(rango), redes_para_secciones, competencia,
                     por_mercado, refs, equipo, _serializa(hallazgos),
@@ -502,6 +535,12 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                                  "roles": registro.get("_roles", {})},
         "referencias": refs,
         "recomendaciones": reco,
+        # El formato propio va aparte del bloque de redes porque no es una
+        # metrica de la semana: es la respuesta a «arte o video».
+        "formato_propio": fmt,
+        # Las cartas: una por pieza a producir, con que hacer, de que hablar,
+        # con que texto y con que imagen, todo en el mismo lugar.
+        "cartas": cartas,
         "copys": ({"_registro": (copys_cfg or {}).get("_registro"),
                    "_estado_de_todos": (copys_cfg or {}).get("_estado_de_todos"),
                    "lista": copys} if copys else None),

@@ -3354,6 +3354,737 @@
       }
     ]
   },
+  "formato_propio": {
+    "_fuente": "mcp__Meta_MCP__ads_get_ig_media",
+    "_fecha_consulta": "2026-09-04",
+    "_cuenta": "qpaypro",
+    "_es_dato_propio": true,
+    "_por_que_propio": "La Ad Library no publica el tipo de medio de un anuncio ajeno. Video contra imagen solo se puede medir en la cuenta propia.",
+    "_muestra": {
+      "publicaciones": 25,
+      "desde": "2026-07-16",
+      "hasta": "2026-09-02",
+      "topada_en": 25
+    },
+    "_limites": [
+      "Los contadores son el acumulado al dia de la consulta, no lo que paso en la semana de cada publicacion.",
+      "Son interacciones absolutas: esta fuente no trae alcance, asi que no hay tasa de interaccion.",
+      "La lectura viene topada en 25 publicaciones: no es el historico."
+    ],
+    "cohortes": {
+      "REELS": {
+        "publicaciones": 10,
+        "interacciones": 190,
+        "promedio": 19.0,
+        "mediana": 11.0,
+        "comentarios": 9,
+        "sin_comentarios": 8,
+        "edad_promedio_dias": 29.2
+      },
+      "FEED": {
+        "publicaciones": 15,
+        "interacciones": 59,
+        "promedio": 3.9,
+        "mediana": 3,
+        "comentarios": 0,
+        "sin_comentarios": 15,
+        "edad_promedio_dias": 30.9
+      }
+    },
+    "carrusel": {
+      "piezas": 1,
+      "de": 25
+    },
+    "comparacion": {
+      "publicable": true,
+      "gana": "REELS",
+      "ratio": 4.87,
+      "promedio_reels": 19.0,
+      "promedio_feed": 3.9,
+      "mediana_reels": 11.0,
+      "mediana_feed": 3,
+      "_control_de_edad": "29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+      "comentarios_reels": 9,
+      "comentarios_feed": 0,
+      "feed_sin_comentarios": "15 de 15"
+    },
+    "mejores": [
+      {
+        "interacciones": 70,
+        "formato": "REELS",
+        "dias": 2,
+        "texto": "Lo que no se puede medir no se puede modificar…",
+        "url": "https://www.instagram.com/reel/DczMtqyukd7/"
+      },
+      {
+        "interacciones": 37,
+        "formato": "REELS",
+        "dias": 10,
+        "texto": "La importancia de la resiliencia junto a @byanaceci ",
+        "url": "https://www.instagram.com/reel/DcewIZROC6k/"
+      },
+      {
+        "interacciones": 32,
+        "formato": "REELS",
+        "dias": 45,
+        "texto": "La llamada que hará mas PRO tu negocio",
+        "url": "https://www.instagram.com/reel/DbD8PacuHSw/"
+      },
+      {
+        "interacciones": 15,
+        "formato": "REELS",
+        "dias": 37,
+        "texto": "the new evolution era",
+        "url": "https://www.instagram.com/reel/DbYvbZeuOT6/"
+      },
+      {
+        "interacciones": 13,
+        "formato": "REELS",
+        "dias": 43,
+        "texto": "Esto le hicimos pensando en ti, para que tu negocio sea mas PRO",
+        "url": "https://www.instagram.com/reel/DbKAQ5tM85I/"
+      }
+    ],
+    "con_mencion": {
+      "reels_con_mencion": 2,
+      "promedio_con": 53.5,
+      "reels_sin_mencion": 8,
+      "promedio_sin": 10.4,
+      "ratio": 5.14,
+      "_que_no_prueba": "Una mencion no prueba una colaboracion pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
+    }
+  },
+  "cartas": {
+    "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
+    "_como_se_arma": "El texto y la direccion creativa vienen de config/copys_propuestos.json, que es trabajo humano. Los numeros se resuelven contra ESTA corrida: el config declara que evidencia sostiene cada carta, nunca cuanto vale.",
+    "cartas": [
+      {
+        "id": "copy-sv-liquidacion-a",
+        "titulo": "Video · Pasarela de Pagos",
+        "pieza": "video",
+        "solucion": "Pasarela de Pagos",
+        "mercado": "SV",
+        "red": "Instagram",
+        "etapa": "descubrimiento",
+        "que_hacer": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.",
+        "de_que_hablar": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+        "como_hablarlo": "Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.",
+        "porque": [
+          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atencion no se le compra a nadie.",
+          "En SV el lead cuesta $2.68 · GT $3.35.",
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 dias vivo. Ahi no se entra con una version mejor."
+        ],
+        "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
+        "copy": {
+          "titular": "Tu dinero cada 24 horas",
+          "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
+          "cta": "Empezar ahora"
+        },
+        "voz_de_marca": "Es el único mercado donde Qpaypro promete liquidación en 24 horas. La frase sale de su propia landing.",
+        "visual": {
+          "estructura": {
+            "que": "Reel vertical 9:16, no video de feed",
+            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+          },
+          "mostrar": [
+            "Una pantalla de banca con el saldo del día siguiente, no un billete genérico",
+            "El negocio real abriendo: cortina, caja, primer cliente",
+            "El plazo en pantalla como número grande: 24 h"
+          ],
+          "no_mostrar": [
+            "Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta",
+            "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · SV · 0 anuncios activos de 6 marcas",
+          "pauta de Meta · SV · 87 leads · $233.12 · $2.68 por lead",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
+          "Ad Library · Paggo Guatemala · 36 de 38 anuncios con ese titular"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02.",
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-sv-liquidacion-b",
+        "titulo": "Arte · Pasarela de Pagos",
+        "pieza": "arte",
+        "solucion": "Pasarela de Pagos",
+        "mercado": "SV",
+        "red": "Facebook",
+        "etapa": "consideración",
+        "que_hacer": "Producir un arte de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que ya cobra con tarjeta y no sabe cuándo le llega.",
+        "de_que_hablar": "Liquidación diaria · con el patrón de fricción primero",
+        "como_hablarlo": "El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
+        "porque": [
+          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atencion no se le compra a nadie.",
+          "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
+          "Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%)."
+        ],
+        "lo_que_no_se_dice": "No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.",
+        "copy": {
+          "titular": "Cobraste el lunes. ¿Cuándo lo ves?",
+          "cuerpo": "Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.",
+          "cta": "Calcula tu cobro"
+        },
+        "voz_de_marca": "El patrón —fricción primero, solución después— y el cierre son textuales del sitio de Qpaypro, no inventados.",
+        "visual": {
+          "estructura": {
+            "que": "Carrusel de 3 a 4 tarjetas",
+            "porque": "Los referentes lo usan en 56% de sus anuncios contra 26% de los competidores, y llegan hasta 4 tarjetas."
+          },
+          "mostrar": [
+            "Tarjeta 1: la pregunta sola sobre fondo plano",
+            "Tarjeta 2: la respuesta con el plazo",
+            "Tarjeta 3: el cierre «sin sorpresas ni letra pequeña»"
+          ],
+          "no_mostrar": [
+            "La comisión: si se incluye va con la letra chica completa y marcada REVISIÓN LEGAL",
+            "Iconos de moneda de otro país: es SV"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Contar por pasos en varias tarjetas en vez de meter todo en una imagen.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · SV · 0 anuncios activos de 6 marcas",
+          "Ad Library · referentes 18 de 32",
+          "Ad Library · competidores 22 de 83",
+          "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
+          "Ad Library · mediana de concentracion · competidores 50% sobre 5 marcas · referentes 12% sobre 2"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala.",
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-belleza-anticipo",
+        "titulo": "Video · Pasarela de Pagos",
+        "pieza": "video",
+        "solucion": "Pasarela de Pagos",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "etapa": "descubrimiento",
+        "que_hacer": "Producir un video de Pasarela de Pagos para GT y SV, para la dueña de salón o barbería que pierde la cita cuando la clienta no llega.",
+        "de_que_hablar": "Salones y barberías · nicho libre donde ya hay producto y cliente",
+        "como_hablarlo": "Con la palabra de su propia landing: «ausencias», no «cancelaciones» ni «no-shows». La escena antes que el producto: primero el problema del día, después el link.",
+        "porque": [
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "Los reels que mencionan a alguien promedian 53.5 interacciones contra 10.4 de los que no (5.14x) — con 2 piezas, es una pista para probar, no un hallazgo."
+        ],
+        "lo_que_no_se_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
+        "copy": {
+          "titular": "El anticipo asegura la cita",
+          "cuerpo": "Manda un link por WhatsApp al agendar. Tu clienta paga desde su celular y las ausencias bajan.",
+          "cta": "Comenzar ahora"
+        },
+        "voz_de_marca": "Qpaypro ya tiene la página del sector y un testimonio en él: NayeNails. El anuncio tiene a dónde llevar.",
+        "visual": {
+          "estructura": {
+            "que": "Reel vertical 9:16, no video de feed",
+            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+          },
+          "mostrar": [
+            "La recepción del salón con el celular en mano, no un estudio",
+            "El WhatsApp con el link enviado, legible",
+            "La silla ocupada al final: la cita que sí llegó"
+          ],
+          "no_mostrar": [
+            "Precios de servicios: varían por salón",
+            "Modelos de POS: aquí no hay equipo, es un link"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Hablarle al oficio del cliente —su día, su mostrador— y no a la categoría de software.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
+          "ads_get_ig_media · Una mencion no prueba una colaboracion pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
+        ],
+        "faltantes": [
+          "Los titulares leídos en ESTA corrida no clasifican «belleza y citas»: la premisa del nicho libre viene de otra corrida y hay que re-verificarla antes de apoyarse en ella."
+        ],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-belleza-propina",
+        "titulo": "Arte · Punto de Venta",
+        "pieza": "arte",
+        "solucion": "Punto de Venta",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "etapa": "consideración",
+        "que_hacer": "Producir un arte de Punto de Venta para GT y SV, para el salón o la barbería que cobra en efectivo por la propina.",
+        "de_que_hablar": "Salones y barberías · el detalle que nadie más menciona",
+        "como_hablarlo": "Un detalle de mostrador, no una función. La propina es el gancho porque nadie más la nombra; el resto del texto sostiene, no compite.",
+        "porque": [
+          "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
+          "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
+          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 dias vivo. Ahi no se entra con una version mejor."
+        ],
+        "lo_que_no_se_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
+        "copy": {
+          "titular": "Cobra rápido, incluso la propina",
+          "cuerpo": "Tarjeta en recepción, con propina y sin depender del efectivo. La clienta sale y la caja cuadra sola.",
+          "cta": "Hablar con ventas"
+        },
+        "voz_de_marca": "«Propina» aparece solo en la landing de belleza de Qpaypro. Es un detalle de mostrador, no una función de catálogo.",
+        "visual": {
+          "estructura": {
+            "que": "Carrusel de 3 a 4 tarjetas",
+            "porque": "Los referentes lo usan en 56% de sus anuncios contra 26% de los competidores, y llegan hasta 4 tarjetas."
+          },
+          "mostrar": [
+            "La terminal en recepción con la propina en pantalla",
+            "El cierre del día cuadrando sin conteo de efectivo"
+          ],
+          "no_mostrar": [
+            "El modelo del POS: en GT es Cute y en SV es A920, y decirlo obliga a dos versiones",
+            "Montos de propina: es el gesto, no la cifra"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Paggo Guatemala",
+          "rol": "competidor",
+          "mercado": "GT",
+          "que_hace": "NADA de su promesa. Lo que sí se le copia es la disciplina de repetir un solo mensaje hasta que se pegue; el mensaje tiene que ser otro.",
+          "medido": "Su titular mas repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leidos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · competidores · punto de venta / hardware · 1 de 50",
+          "Ad Library · referentes 18 de 32",
+          "Ad Library · competidores 22 de 83",
+          "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
+          "Ad Library · Paggo Guatemala · 36 de 38 anuncios con ese titular"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-inventario-descuadre",
+        "titulo": "Arte · Tienda en Línea",
+        "pieza": "arte",
+        "solucion": "Tienda en Línea",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "etapa": "consideración",
+        "que_hacer": "Producir un arte de Tienda en Línea para GT y SV, para el negocio que vende en mostrador y en línea con dos inventarios distintos.",
+        "de_que_hablar": "Un solo inventario · territorio propio que nadie usa",
+        "como_hablarlo": "Arrancar por el error concreto —vender lo que ya no hay— en segunda persona y en pasado. Sostener con «en tiempo real», que es lo que el sitio promete y lo que se puede defender.",
+        "porque": [
+          "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
+          "Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%).",
+          "De los 50 anuncios de competidores con titular clasificable, solo 6 tocan «cobros y pagos»."
+        ],
+        "lo_que_no_se_dice": "No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.",
+        "copy": {
+          "titular": "Vendiste algo que ya no tenías",
+          "cuerpo": "Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.",
+          "cta": "Comenzar ahora"
+        },
+        "voz_de_marca": "El sitio dice «en tiempo real», así que la promesa se queda ahí y no baja a segundos.",
+        "visual": {
+          "estructura": {
+            "que": "Carrusel de 3 a 4 tarjetas",
+            "porque": "Los referentes lo usan en 56% de sus anuncios contra 26% de los competidores, y llegan hasta 4 tarjetas."
+          },
+          "mostrar": [
+            "Tarjeta 1: el mensaje al cliente diciendo que ya no había",
+            "Tarjeta 2: los dos inventarios separados",
+            "Tarjeta 3: el mismo número en las dos pantallas"
+          ],
+          "no_mostrar": [
+            "Tiempos en segundos: el sitio dice «en tiempo real»",
+            "Logos de competidores"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "El carrusel para contar una secuencia: problema, causa, arreglo.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · referentes 18 de 32",
+          "Ad Library · competidores 22 de 83",
+          "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
+          "Ad Library · mediana de concentracion · competidores 50% sobre 5 marcas · referentes 12% sobre 2",
+          "Ad Library · competidores · cobros y pagos · 6 de 50"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-soporte-tecnico",
+        "titulo": "Video · Punto de Venta",
+        "pieza": "video",
+        "solucion": "Punto de Venta",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "etapa": "consideración",
+        "que_hacer": "Producir un video de Punto de Venta para GT y SV, para el negocio que no quiere instalar nada por su cuenta.",
+        "de_que_hablar": "Soporte local y técnico presencial · lo único que un referente global no puede decir",
+        "como_hablarlo": "Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.",
+        "porque": [
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+        ],
+        "lo_que_no_se_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
+        "copy": {
+          "titular": "Un técnico llega y lo instala",
+          "cuerpo": "El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.",
+          "cta": "Hablar con ventas"
+        },
+        "voz_de_marca": "Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
+        "visual": {
+          "estructura": {
+            "que": "Reel vertical 9:16, no video de feed",
+            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+          },
+          "mostrar": [
+            "El técnico llegando al local, con caja en mano",
+            "La terminal ya encendida en el mostrador",
+            "Una persona atendiendo el teléfono en horario local"
+          ],
+          "no_mostrar": [
+            "«24/7»: el contador del sitio lo dice pero está junto a dos contadores en cero",
+            "Centros de datos ni nubes: el argumento es que llega alguien"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
+          "Ad Library · competidores · punto de venta / hardware · 1 de 50",
+          "Ad Library · Shopify · vivo desde 2026-03-25"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-pdv-video-cierre",
+        "titulo": "Video · Punto de Venta",
+        "pieza": "video",
+        "solucion": "Punto de Venta",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "etapa": "consideración",
+        "que_hacer": "Producir un video de Punto de Venta para GT y SV, para el dueño que cierra caja a mano cada noche.",
+        "de_que_hablar": "Punto de Venta · la fricción del cierre de caja, en video",
+        "como_hablarlo": "Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.",
+        "porque": [
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
+          "En GT el lead cuesta $3.35 · SV $2.68."
+        ],
+        "lo_que_no_se_dice": "No nombra el modelo: en GT es POS Cute y en SV es POS A920.",
+        "copy": {
+          "titular": "Cerrar caja no debería tomar media hora",
+          "cuerpo": "El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.",
+          "cta": "Ver Punto de Venta"
+        },
+        "voz_de_marca": "Las dos frases son literales de la landing de punto de venta.",
+        "visual": {
+          "estructura": {
+            "que": "Reel vertical 9:16, no video de feed",
+            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+          },
+          "mostrar": [
+            "El mostrador al cierre, no el equipo en estudio",
+            "La pantalla del corte con el total ya armado",
+            "El cuaderno guardándose"
+          ],
+          "no_mostrar": [
+            "El modelo del POS: en GT es Cute y en SV es A920",
+            "Gráficas ni tableros: el mensaje es el tiempo, no el reporte"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Paggo Guatemala",
+          "rol": "competidor",
+          "mercado": "GT",
+          "que_hace": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido.",
+          "medido": "Su titular mas repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leidos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
+          "Ad Library · competidores · punto de venta / hardware · 1 de 50",
+          "pauta de Meta · GT · 107 leads · $358.30 · $3.35 por lead"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-pasarela-arte-whatsapp",
+        "titulo": "Arte · Pasarela de Pagos",
+        "pieza": "arte",
+        "solucion": "Pasarela de Pagos",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "etapa": "descubrimiento",
+        "que_hacer": "Producir un arte de Pasarela de Pagos para GT y SV, para quien vende servicios y no tiene local ni web.",
+        "de_que_hablar": "Pasarela de Pagos · cobrar sin web ni local, en arte",
+        "como_hablarlo": "Responder la pregunta frecuente textual de su landing de servicios: «¿Puedo cobrar con tarjeta si no tengo un local?». El titular es la respuesta, no la pregunta.",
+        "porque": [
+          "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
+          "Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%)."
+        ],
+        "lo_que_no_se_dice": "No promete tiempo de acreditación: la liquidación diaria solo aplica en SV.",
+        "copy": {
+          "titular": "Cobra con tarjeta sin tener local",
+          "cuerpo": "Manda un link de pago por WhatsApp. Tu cliente paga desde su celular y a ti te llega la confirmación.",
+          "cta": "Comenzar ahora"
+        },
+        "voz_de_marca": "Es la pregunta frecuente textual de la landing de servicios de Qpaypro.",
+        "visual": {
+          "estructura": {
+            "que": "Carrusel de 3 a 4 tarjetas",
+            "porque": "Los referentes lo usan en 56% de sus anuncios contra 26% de los competidores, y llegan hasta 4 tarjetas."
+          },
+          "mostrar": [
+            "El chat de WhatsApp con el link de pago, legible",
+            "El cliente pagando desde su celular en la calle",
+            "La confirmación llegando"
+          ],
+          "no_mostrar": [
+            "Tiempos de acreditación: la liquidación diaria solo aplica en SV",
+            "Locales ni mostradores: el argumento es que no hace falta"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Prometer el resultado del cliente —cobrar— y no la herramienta.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · referentes 18 de 32",
+          "Ad Library · competidores 22 de 83",
+          "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
+          "Ad Library · mediana de concentracion · competidores 50% sobre 5 marcas · referentes 12% sobre 2"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-tienda-video-sinweb",
+        "titulo": "Video · Tienda en Línea",
+        "pieza": "video",
+        "solucion": "Tienda en Línea",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "etapa": "descubrimiento",
+        "que_hacer": "Producir un video de Tienda en Línea para GT y SV, para quien vende por redes y no tiene página.",
+        "de_que_hablar": "Tienda en Línea · empezar sin web, en video",
+        "como_hablarlo": "Video con los tres pasos en pantalla, uno por corte, y «sin programar» al final. Titular y cuerpo son literales de la landing de ecommerce.",
+        "porque": [
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos esta ahi.",
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+        ],
+        "lo_que_no_se_dice": "No dice «en minutos» aunque el sitio lo diga en una FAQ: como promesa de titular necesitaría que Qpaypro lo confirme.",
+        "copy": {
+          "titular": "¿No tienes web? Crea tu Qpayshop",
+          "cuerpo": "Publica tu catálogo, conecta tu dominio y configura envíos. Sin programar.",
+          "cta": "Comenzar ahora"
+        },
+        "voz_de_marca": "Titular y cuerpo son literales de la landing de ecommerce de Qpaypro.",
+        "visual": {
+          "estructura": {
+            "que": "Reel vertical 9:16, no video de feed",
+            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+          },
+          "mostrar": [
+            "El catálogo llenándose desde el celular",
+            "El dominio conectándose, en pantalla",
+            "El primer pedido entrando"
+          ],
+          "no_mostrar": [
+            "«En minutos»: el sitio lo dice en una FAQ, pero como promesa de titular hace falta confirmarlo",
+            "Código ni terminales: el argumento es que no hay que programar"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Es el referente del sector y su promesa es «pon en marcha tu negocio». Aquí se juega el escalón anterior: el que todavía no tiene web.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
+          "Ad Library · titulares clasificados · retail y tienda · referentes 20 · competidores 0",
+          "Ad Library · Shopify · vivo desde 2026-03-25"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      },
+      {
+        "id": "copy-tienda-arte-integraciones",
+        "titulo": "Arte · Tienda en Línea",
+        "pieza": "arte",
+        "solucion": "Tienda en Línea",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "etapa": "consideración",
+        "que_hacer": "Producir un arte de Tienda en Línea para GT y SV, para la tienda que ya existe en otra plataforma y no cobra con tarjeta.",
+        "de_que_hablar": "Tienda en Línea · conectar la que ya tienen, en arte",
+        "como_hablarlo": "Reconocer primero lo que ya tienen —«ya tienes tienda»— y pedir una sola acción. Las cinco plataformas son las que el sitio lista, ni una más.",
+        "porque": [
+          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos esta ahi.",
+          "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+        ],
+        "lo_que_no_se_dice": "No dice «en minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo.",
+        "copy": {
+          "titular": "Ya tienes tienda. Conéctala",
+          "cuerpo": "Instala el plugin y cobra con tarjeta en Shopify, WooCommerce, VTEX, PrestaShop o Ecwid.",
+          "cta": "Más información"
+        },
+        "voz_de_marca": "Las cinco plataformas son las que el sitio de Qpaypro lista. Shopify es un REFERENTE del análisis, no un competidor: integrarse con él no es competir con él.",
+        "visual": {
+          "estructura": {
+            "que": "Carrusel de 3 a 4 tarjetas",
+            "porque": "Los referentes lo usan en 56% de sus anuncios contra 26% de los competidores, y llegan hasta 4 tarjetas."
+          },
+          "mostrar": [
+            "Los cinco logos de plataforma, solo los que el sitio lista",
+            "El plugin activándose en el panel",
+            "El primer cobro con tarjeta entrando"
+          ],
+          "no_mostrar": [
+            "«En minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo",
+            "Plataformas que el sitio no lista"
+          ],
+          "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
+        },
+        "referencia": {
+          "marca": "Shopify",
+          "rol": "referente",
+          "mercado": "GT",
+          "que_hace": "Su propio ecosistema de integraciones es el argumento: aquí somos la pieza que le falta, no su reemplazo.",
+          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+        },
+        "evidencia": [
+          "Ad Library · titulares clasificados · retail y tienda · referentes 20 · competidores 0",
+          "Ad Library · referentes 18 de 32",
+          "Ad Library · competidores 22 de 83",
+          "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
+          "Ad Library · Shopify · vivo desde 2026-03-25"
+        ],
+        "faltantes": [],
+        "premisa_movida": false,
+        "bloqueada_en": [],
+        "_por_que_bloqueada": null,
+        "aprobacion": "PENDIENTE",
+        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+      }
+    ],
+    "sin_evidencia": [],
+    "conteo": {
+      "cartas": 10,
+      "artes": 5,
+      "videos": 5,
+      "sin_evidencia": 0
+    }
+  },
   "copys": {
     "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
     "_estado_de_todos": "PROPUESTA · requiere aprobacion humana",
@@ -3369,14 +4100,47 @@
         "titular": "Tu dinero cada 24 horas",
         "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
         "cta": "Empezar ahora",
-        "porque": "Cero anuncios activos de las seis marcas medidas en SV, y es el único mercado donde Qpaypro promete liquidación en 24 horas. El lead de SV cuesta $1.89 contra $2.89 en GT.",
         "no_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
         "bloqueada_en": [
           "GT"
         ],
         "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02.",
         "pieza": "video",
-        "solucion": "Pasarela de Pagos"
+        "solucion": "Pasarela de Pagos",
+        "para_quien": "para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero",
+        "como_hablarlo": "Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.",
+        "porque_marca": "Es el único mercado donde Qpaypro promete liquidación en 24 horas. La frase sale de su propia landing.",
+        "porque_de": [
+          {
+            "tipo": "sin_competencia",
+            "mercado": "SV"
+          },
+          {
+            "tipo": "costo_mercado",
+            "mercado": "SV"
+          },
+          {
+            "tipo": "formato_propio"
+          },
+          {
+            "tipo": "territorio_ocupado",
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "_si_falta": "Nadie ocupa hoy «Gestiona tu Negocio Fácil» entre las marcas medidas: la advertencia de no entrar ahí ya no aplica y hay que re-decidirla."
+          }
+        ],
+        "mostrar": [
+          "Una pantalla de banca con el saldo del día siguiente, no un billete genérico",
+          "El negocio real abriendo: cortina, caja, primer cliente",
+          "El plazo en pantalla como número grande: 24 h"
+        ],
+        "no_mostrar": [
+          "Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta",
+          "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana."
+        }
       },
       {
         "id": "copy-sv-liquidacion-b",
@@ -3389,14 +4153,41 @@
         "titular": "Cobraste el lunes. ¿Cuándo lo ves?",
         "cuerpo": "Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.",
         "cta": "Calcula tu cobro",
-        "porque": "Usa el patrón de las landings de Qpaypro —nombrar la fricción y después resolverla— y cierra con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
         "no_dice": "No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.",
         "bloqueada_en": [
           "GT"
         ],
         "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala.",
         "pieza": "arte",
-        "solucion": "Pasarela de Pagos"
+        "solucion": "Pasarela de Pagos",
+        "para_quien": "para el dueño de negocio en El Salvador que ya cobra con tarjeta y no sabe cuándo le llega",
+        "como_hablarlo": "El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
+        "porque_marca": "El patrón —fricción primero, solución después— y el cierre son textuales del sitio de Qpaypro, no inventados.",
+        "porque_de": [
+          {
+            "tipo": "sin_competencia",
+            "mercado": "SV"
+          },
+          {
+            "tipo": "carrusel"
+          },
+          {
+            "tipo": "concentracion"
+          }
+        ],
+        "mostrar": [
+          "Tarjeta 1: la pregunta sola sobre fondo plano",
+          "Tarjeta 2: la respuesta con el plazo",
+          "Tarjeta 3: el cierre «sin sorpresas ni letra pequeña»"
+        ],
+        "no_mostrar": [
+          "La comisión: si se incluye va con la letra chica completa y marcada REVISIÓN LEGAL",
+          "Iconos de moneda de otro país: es SV"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Contar por pasos en varias tarjetas en vez de meter todo en una imagen."
+        }
       },
       {
         "id": "copy-belleza-anticipo",
@@ -3409,13 +4200,41 @@
         "titular": "El anticipo asegura la cita",
         "cuerpo": "Manda un link por WhatsApp al agendar. Tu clienta paga desde su celular y las ausencias bajan.",
         "cta": "Comenzar ahora",
-        "porque": "Los referentes trabajan «belleza y citas» con 11 anuncios y ningún competidor medido la toca. Qpaypro ya tiene la página del sector y un testimonio: NayeNails.",
         "no_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
         "bloqueada_en": [],
         "_apoyo": "En Instagram el carrusel rinde 5.65% de tasa y el reel 3.80%; el reel alcanza más gente. Vale probar los dos formatos con el mismo texto.",
         "pieza": "video",
         "solucion": "Pasarela de Pagos",
-        "tambien_toca": "Punto de Venta"
+        "tambien_toca": "Punto de Venta",
+        "para_quien": "para la dueña de salón o barbería que pierde la cita cuando la clienta no llega",
+        "como_hablarlo": "Con la palabra de su propia landing: «ausencias», no «cancelaciones» ni «no-shows». La escena antes que el producto: primero el problema del día, después el link.",
+        "porque_marca": "Qpaypro ya tiene la página del sector y un testimonio en él: NayeNails. El anuncio tiene a dónde llevar.",
+        "porque_de": [
+          {
+            "tipo": "formato_propio"
+          },
+          {
+            "tipo": "con_mencion"
+          },
+          {
+            "tipo": "vertical_libre",
+            "vertical": "belleza y citas",
+            "_si_falta": "Los titulares leídos en ESTA corrida no clasifican «belleza y citas»: la premisa del nicho libre viene de otra corrida y hay que re-verificarla antes de apoyarse en ella."
+          }
+        ],
+        "mostrar": [
+          "La recepción del salón con el celular en mano, no un estudio",
+          "El WhatsApp con el link enviado, legible",
+          "La silla ocupada al final: la cita que sí llegó"
+        ],
+        "no_mostrar": [
+          "Precios de servicios: varían por salón",
+          "Modelos de POS: aquí no hay equipo, es un link"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Hablarle al oficio del cliente —su día, su mostrador— y no a la categoría de software."
+        }
       },
       {
         "id": "copy-belleza-propina",
@@ -3428,11 +4247,39 @@
         "titular": "Cobra rápido, incluso la propina",
         "cuerpo": "Tarjeta en recepción, con propina y sin depender del efectivo. La clienta sale y la caja cuadra sola.",
         "cta": "Hablar con ventas",
-        "porque": "«Propina» es un detalle de mostrador que solo aparece en la landing de belleza de Qpaypro. Ningún competidor ni referente medido lo menciona.",
         "no_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
         "bloqueada_en": [],
         "pieza": "arte",
-        "solucion": "Punto de Venta"
+        "solucion": "Punto de Venta",
+        "para_quien": "para el salón o la barbería que cobra en efectivo por la propina",
+        "como_hablarlo": "Un detalle de mostrador, no una función. La propina es el gancho porque nadie más la nombra; el resto del texto sostiene, no compite.",
+        "porque_marca": "«Propina» aparece solo en la landing de belleza de Qpaypro. Es un detalle de mostrador, no una función de catálogo.",
+        "porque_de": [
+          {
+            "tipo": "nadie_toca",
+            "vertical": "punto de venta / hardware"
+          },
+          {
+            "tipo": "carrusel"
+          },
+          {
+            "tipo": "territorio_ocupado",
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "_si_falta": "Ya nadie ocupa «Gestiona tu Negocio Fácil» entre las marcas medidas: revisar si conviene entrar ahí."
+          }
+        ],
+        "mostrar": [
+          "La terminal en recepción con la propina en pantalla",
+          "El cierre del día cuadrando sin conteo de efectivo"
+        ],
+        "no_mostrar": [
+          "El modelo del POS: en GT es Cute y en SV es A920, y decirlo obliga a dos versiones",
+          "Montos de propina: es el gesto, no la cifra"
+        ],
+        "referencia_de": {
+          "marca": "Paggo",
+          "que_copiar": "NADA de su promesa. Lo que sí se le copia es la disciplina de repetir un solo mensaje hasta que se pegue; el mensaje tiene que ser otro."
+        }
       },
       {
         "id": "copy-inventario-descuadre",
@@ -3445,12 +4292,39 @@
         "titular": "Vendiste algo que ya no tenías",
         "cuerpo": "Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.",
         "cta": "Comenzar ahora",
-        "porque": "Ni Paggo, ni Recurrente, ni BI, ni Square, ni Shopify usan el inventario único como mensaje en los mercados medidos. Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
         "no_dice": "No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.",
         "bloqueada_en": [],
         "pieza": "arte",
         "solucion": "Tienda en Línea",
-        "tambien_toca": "Punto de Venta"
+        "tambien_toca": "Punto de Venta",
+        "para_quien": "para el negocio que vende en mostrador y en línea con dos inventarios distintos",
+        "como_hablarlo": "Arrancar por el error concreto —vender lo que ya no hay— en segunda persona y en pasado. Sostener con «en tiempo real», que es lo que el sitio promete y lo que se puede defender.",
+        "porque_marca": "El sitio dice «en tiempo real», así que la promesa se queda ahí y no baja a segundos.",
+        "porque_de": [
+          {
+            "tipo": "carrusel"
+          },
+          {
+            "tipo": "concentracion"
+          },
+          {
+            "tipo": "nadie_toca",
+            "vertical": "cobros y pagos"
+          }
+        ],
+        "mostrar": [
+          "Tarjeta 1: el mensaje al cliente diciendo que ya no había",
+          "Tarjeta 2: los dos inventarios separados",
+          "Tarjeta 3: el mismo número en las dos pantallas"
+        ],
+        "no_mostrar": [
+          "Tiempos en segundos: el sitio dice «en tiempo real»",
+          "Logos de competidores"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "El carrusel para contar una secuencia: problema, causa, arreglo."
+        }
       },
       {
         "id": "copy-soporte-tecnico",
@@ -3463,11 +4337,39 @@
         "titular": "Un técnico llega y lo instala",
         "cuerpo": "El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.",
         "cta": "Hablar con ventas",
-        "porque": "Square y Shopify venden autoservicio: no pueden decir esto. Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
         "no_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
         "bloqueada_en": [],
         "pieza": "video",
-        "solucion": "Punto de Venta"
+        "solucion": "Punto de Venta",
+        "para_quien": "para el negocio que no quiere instalar nada por su cuenta",
+        "como_hablarlo": "Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.",
+        "porque_marca": "Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
+        "porque_de": [
+          {
+            "tipo": "formato_propio"
+          },
+          {
+            "tipo": "nadie_toca",
+            "vertical": "punto de venta / hardware"
+          },
+          {
+            "tipo": "sobreviviente",
+            "marca": "Shopify"
+          }
+        ],
+        "mostrar": [
+          "El técnico llegando al local, con caja en mano",
+          "La terminal ya encendida en el mostrador",
+          "Una persona atendiendo el teléfono en horario local"
+        ],
+        "no_mostrar": [
+          "«24/7»: el contador del sitio lo dice pero está junto a dos contadores en cero",
+          "Centros de datos ni nubes: el argumento es que llega alguien"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio."
+        }
       },
       {
         "id": "copy-pdv-video-cierre",
@@ -3482,9 +4384,37 @@
         "titular": "Cerrar caja no debería tomar media hora",
         "cuerpo": "El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.",
         "cta": "Ver Punto de Venta",
-        "porque": "Las dos frases son literales de la landing de punto de venta. En Instagram el reel alcanza 292 personas en promedio, más que cualquier otro formato propio.",
         "no_dice": "No nombra el modelo: en GT es POS Cute y en SV es POS A920.",
-        "bloqueada_en": []
+        "bloqueada_en": [],
+        "para_quien": "para el dueño que cierra caja a mano cada noche",
+        "como_hablarlo": "Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.",
+        "porque_marca": "Las dos frases son literales de la landing de punto de venta.",
+        "porque_de": [
+          {
+            "tipo": "formato_propio"
+          },
+          {
+            "tipo": "nadie_toca",
+            "vertical": "punto de venta / hardware"
+          },
+          {
+            "tipo": "costo_mercado",
+            "mercado": "GT"
+          }
+        ],
+        "mostrar": [
+          "El mostrador al cierre, no el equipo en estudio",
+          "La pantalla del corte con el total ya armado",
+          "El cuaderno guardándose"
+        ],
+        "no_mostrar": [
+          "El modelo del POS: en GT es Cute y en SV es A920",
+          "Gráficas ni tableros: el mensaje es el tiempo, no el reporte"
+        ],
+        "referencia_de": {
+          "marca": "Paggo",
+          "que_copiar": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido."
+        }
       },
       {
         "id": "copy-pasarela-arte-whatsapp",
@@ -3499,9 +4429,32 @@
         "titular": "Cobra con tarjeta sin tener local",
         "cuerpo": "Manda un link de pago por WhatsApp. Tu cliente paga desde su celular y a ti te llega la confirmación.",
         "cta": "Comenzar ahora",
-        "porque": "Es la pregunta frecuente textual de su landing de servicios: «¿Puedo cobrar con tarjeta si no tengo un local?». Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
         "no_dice": "No promete tiempo de acreditación: la liquidación diaria solo aplica en SV.",
-        "bloqueada_en": []
+        "bloqueada_en": [],
+        "para_quien": "para quien vende servicios y no tiene local ni web",
+        "como_hablarlo": "Responder la pregunta frecuente textual de su landing de servicios: «¿Puedo cobrar con tarjeta si no tengo un local?». El titular es la respuesta, no la pregunta.",
+        "porque_marca": "Es la pregunta frecuente textual de la landing de servicios de Qpaypro.",
+        "porque_de": [
+          {
+            "tipo": "carrusel"
+          },
+          {
+            "tipo": "concentracion"
+          }
+        ],
+        "mostrar": [
+          "El chat de WhatsApp con el link de pago, legible",
+          "El cliente pagando desde su celular en la calle",
+          "La confirmación llegando"
+        ],
+        "no_mostrar": [
+          "Tiempos de acreditación: la liquidación diaria solo aplica en SV",
+          "Locales ni mostradores: el argumento es que no hace falta"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Prometer el resultado del cliente —cobrar— y no la herramienta."
+        }
       },
       {
         "id": "copy-tienda-video-sinweb",
@@ -3516,9 +4469,37 @@
         "titular": "¿No tienes web? Crea tu Qpayshop",
         "cuerpo": "Publica tu catálogo, conecta tu dominio y configura envíos. Sin programar.",
         "cta": "Comenzar ahora",
-        "porque": "Titular y cuerpo son literales de la landing de ecommerce. Ningún competidor ni referente medido usa «empezar sin web» como mensaje en los mercados medidos.",
         "no_dice": "No dice «en minutos» aunque el sitio lo diga en una FAQ: como promesa de titular necesitaría que Qpaypro lo confirme.",
-        "bloqueada_en": []
+        "bloqueada_en": [],
+        "para_quien": "para quien vende por redes y no tiene página",
+        "como_hablarlo": "Video con los tres pasos en pantalla, uno por corte, y «sin programar» al final. Titular y cuerpo son literales de la landing de ecommerce.",
+        "porque_marca": "Titular y cuerpo son literales de la landing de ecommerce de Qpaypro.",
+        "porque_de": [
+          {
+            "tipo": "formato_propio"
+          },
+          {
+            "tipo": "vertical_libre",
+            "vertical": "retail y tienda"
+          },
+          {
+            "tipo": "sobreviviente",
+            "marca": "Shopify"
+          }
+        ],
+        "mostrar": [
+          "El catálogo llenándose desde el celular",
+          "El dominio conectándose, en pantalla",
+          "El primer pedido entrando"
+        ],
+        "no_mostrar": [
+          "«En minutos»: el sitio lo dice en una FAQ, pero como promesa de titular hace falta confirmarlo",
+          "Código ni terminales: el argumento es que no hay que programar"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Es el referente del sector y su promesa es «pon en marcha tu negocio». Aquí se juega el escalón anterior: el que todavía no tiene web."
+        }
       },
       {
         "id": "copy-tienda-arte-integraciones",
@@ -3533,9 +4514,37 @@
         "titular": "Ya tienes tienda. Conéctala",
         "cuerpo": "Instala el plugin y cobra con tarjeta en Shopify, WooCommerce, VTEX, PrestaShop o Ecwid.",
         "cta": "Más información",
-        "porque": "Las cinco plataformas son las que el sitio lista. Shopify es un REFERENTE del análisis, no un competidor: integrarse con él no es competir con él.",
         "no_dice": "No dice «en minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo.",
-        "bloqueada_en": []
+        "bloqueada_en": [],
+        "para_quien": "para la tienda que ya existe en otra plataforma y no cobra con tarjeta",
+        "como_hablarlo": "Reconocer primero lo que ya tienen —«ya tienes tienda»— y pedir una sola acción. Las cinco plataformas son las que el sitio lista, ni una más.",
+        "porque_marca": "Las cinco plataformas son las que el sitio de Qpaypro lista. Shopify es un REFERENTE del análisis, no un competidor: integrarse con él no es competir con él.",
+        "porque_de": [
+          {
+            "tipo": "vertical_libre",
+            "vertical": "retail y tienda"
+          },
+          {
+            "tipo": "carrusel"
+          },
+          {
+            "tipo": "sobreviviente",
+            "marca": "Shopify"
+          }
+        ],
+        "mostrar": [
+          "Los cinco logos de plataforma, solo los que el sitio lista",
+          "El plugin activándose en el panel",
+          "El primer cobro con tarjeta entrando"
+        ],
+        "no_mostrar": [
+          "«En minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo",
+          "Plataformas que el sitio no lista"
+        ],
+        "referencia_de": {
+          "marca": "Shopify",
+          "que_copiar": "Su propio ecosistema de integraciones es el argumento: aquí somos la pieza que le falta, no su reemplazo."
+        }
       }
     ]
   },

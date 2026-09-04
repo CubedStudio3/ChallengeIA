@@ -1,7 +1,7 @@
 {
   "name": "mesa-creativa",
   "private": true,
-  "description": "Mesa Creativa · sistema agentico para Mercadeo de QPayPro. Node solo se usa para generar el tablero y el deck; el analisis es Python.",
+  "description": "Mesa Creativa \u00b7 sistema agentico para Mercadeo de QPayPro. Node solo se usa para generar el tablero y el deck; el analisis es Python.",
   "scripts": {
     "tablero": "node src/modulo1/tablero.js",
     "prueba:tablero": "node pruebas/tablero.js",
@@ -11,7 +11,8 @@
     "capturas": "node pruebas/capturas.js",
     "valida:tema": "node src/modulo1/valida_tema.js",
     "reporte": "node src/modulo1/reporte_adlibrary.js",
-    "prueba:reporte": "node pruebas/reporte.js"
+    "prueba:reporte": "node pruebas/reporte.js",
+    "prueba:cartas": "PYTHONPATH=src python3 pruebas/cartas.py"
   },
   "dependencies": {
     "pptxgenjs": "^4.0.1"

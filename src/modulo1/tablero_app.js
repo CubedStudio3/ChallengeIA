@@ -896,71 +896,183 @@
      muestra deshabilitado y con el motivo, en lugar de ocultarse: esconderlo
      haría creer que no existe. */
 
-  function copys() {
+  /* Las CARTAS reemplazaron a los copys sueltos. Una carta es una pieza a
+     producir con todo junto: qué hacer, de qué hablar, con qué texto y con qué
+     imagen. Antes eso vivía en tres bloques separados —recomendación, copy y
+     referencia— y ninguno de los tres le servía a quien produce.
+
+     `D.copys` se sigue leyendo como respaldo para no romper una corrida vieja
+     guardada en disco. */
+  function cartas() {
+    var C = (D.cartas || {}).cartas;
+    if (C && C.length) return C;
     return ((D.copys || {}).lista) || [];
   }
 
-  /* ¿Este copy se puede usar en el mercado que está seleccionado arriba? */
+  /* ¿Esta carta se puede usar en el mercado que está seleccionado arriba? */
   function copyBloqueado(c) {
     var m = mercadoActivo();
     if (!m) return null;
     return (c.bloqueada_en || []).indexOf(m) >= 0 ? m : null;
   }
 
-  function tarjetaCopy(c, asig) {
+  /* Una lista corta con punto, para los porqués y las listas visuales. */
+  function puntos(xs, clase) {
+    if (!xs || !xs.length) return "";
+    return '<ul class="list-disc pl-5 space-y-1.5 ' + clase + '">' +
+      xs.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+  }
+
+  /* El rótulo de un tramo de la carta. No es decoración: son los cuatro pasos
+     de producir una pieza, y en ese orden. */
+  function tramo(t) {
+    return '<div class="micro-et mt-6 !mb-0">' + esc(t) + "</div>";
+  }
+
+  function tarjetaCarta(c, asig) {
     var d = E.decisiones[c.id], estado = d ? d.estado : null;
     var bloq = copyBloqueado(c);
     var anillo = estado === "aceptada" ? " tarjeta-aceptada"
                : estado === "rechazada" ? " opacity-60" : "";
+    var vis = c.visual || {};
+    var est = vis.estructura || null;
+    var ref = c.referencia || null;
+    var cp = c.copy || { titular: c.titular, cuerpo: c.cuerpo, cta: c.cta };
+
     return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra' + anillo +
       ' flex flex-col">' +
-      '<div class="flex items-center gap-2 flex-wrap mb-4">' +
-      (c.solucion ? '<span class="etiqueta-marca !cursor-default">' +
-        esc(c.solucion) + "</span>" : "") +
-      (c.pieza ? '<span class="etiqueta-sec">' + esc(c.pieza) + "</span>" : "") +
+
+      /* El título es lo que pidió Mercadeo: formato y solución, en una línea. */
+      '<h4 class="text-[19px] font-bold text-slate-900 tracking-[-0.02em] ' +
+      'leading-snug">' + esc(c.titulo || (c.pieza + " · " + c.solucion)) + "</h4>" +
+      '<div class="flex items-center gap-2 flex-wrap mt-3 mb-5">' +
       '<span class="etiqueta-sec">' + esc(c.mercado) + "</span>" +
-      '<span class="etiqueta-sec">' + esc(c.red) + "</span>" +
-      '<span class="etiqueta-sec">' + esc(c.formato) + "</span>" +
+      (c.red ? '<span class="etiqueta-sec">' + esc(c.red) + "</span>" : "") +
+      (c.etapa ? '<span class="etiqueta-sec">' + esc(c.etapa) + "</span>" : "") +
       (estado === "aceptada" ? '<span class="etiqueta-verde">Aceptada</span>' : "") +
       (estado === "rechazada" ? '<span class="etiqueta-rojo">Rechazada</span>' : "") +
       (!estado ? '<span class="etiqueta-ambar">Sin decidir</span>' : "") +
       "</div>" +
+
       (bloq
-        ? '<div class="etiqueta-rojo mb-4">No usar en ' + esc(bloq) + "</div>" +
+        ? '<div class="etiqueta-rojo mb-3">No usar en ' + esc(bloq) + "</div>" +
           '<p class="text-[12px] text-slate-500 leading-relaxed mb-4">' +
           esc(c._por_que_bloqueada || "") + "</p>"
         : "") +
-      /* El texto, con el peso que tiene: es lo que se va a producir. */
-      '<div class="sec-lavado rounded-2xl p-5 mb-4">' +
+
+      /* 1 · qué hacer */
+      '<p class="text-[13.5px] text-slate-700 leading-relaxed">' +
+      esc(c.que_hacer || "") + "</p>" +
+
+      /* 2 · en base a qué. Cada línea trae su número, y el número sale de esta
+         corrida: si viniera escrito a mano caducaría sin avisar. */
+      (c.porque && c.porque.length
+        ? tramo("Lo que dice el análisis") +
+          '<div class="mt-2.5">' +
+          puntos(c.porque, "text-[12.5px] text-slate-600 leading-relaxed") +
+          "</div>"
+        : "") +
+      (c.de_que_hablar
+        ? '<p class="text-[13px] text-slate-800 leading-relaxed mt-4">' +
+          '<b class="font-semibold">Enfocarse en:</b> ' + esc(c.de_que_hablar) +
+          "</p>"
+        : "") +
+      (c.como_hablarlo
+        ? '<p class="text-[12.5px] text-slate-500 leading-relaxed mt-2">' +
+          '<b class="font-semibold text-slate-700">Cómo hablarlo:</b> ' +
+          esc(c.como_hablarlo) + "</p>"
+        : "") +
+
+      /* 3 · el copy, con el peso que tiene: es lo que se va a producir. */
+      tramo("Copy") +
+      '<div class="sec-lavado rounded-2xl p-5 mt-2.5">' +
       '<div class="text-[17px] font-bold text-slate-900 leading-snug">' +
-      esc(c.titular) + "</div>" +
+      esc(cp.titular || "") + "</div>" +
       '<p class="text-[13.5px] text-slate-700 leading-relaxed mt-2">' +
-      esc(c.cuerpo) + "</p>" +
-      '<div class="mt-4 inline-flex items-center gap-1.5 text-[12px] ' +
-      'font-semibold text-slate-900 bg-white rounded-full px-4 py-2">' +
-      esc(c.cta) + "</div></div>" +
-      /* A la vista: el texto que se va a producir y el ángulo en una línea.
-         Plegado: el porqué, lo que evita y el apoyo. Con diez copys, cuatro
-         párrafos por tarjeta convertían la sección en lectura en vez de en una
-         cola de aprobación. */
-      '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
-      esc(c.angulo) + "</p>" +
-      '<details class="mt-3">' +
-      '<summary class="text-[12px] font-semibold text-slate-400 ' +
-      'cursor-pointer hover:text-slate-600">Por qué y qué evita</summary>' +
-      '<p class="text-[12px] text-slate-500 leading-relaxed mt-3">' +
-      esc(c.porque) + "</p>" +
-      (c.no_dice
-        ? '<p class="text-[12px] text-slate-400 leading-relaxed mt-2">' +
-          "<b>Evita:</b> " + esc(c.no_dice) + "</p>" : "") +
-      (c.tambien_toca
-        ? '<p class="text-[11.5px] text-slate-400 mt-2">También toca ' +
-          esc(c.tambien_toca) + ".</p>" : "") +
-      (c._apoyo
-        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-2">' +
-          esc(c._apoyo) + "</p>" : "") +
-      "</details>" +
-      '<div class="mt-auto pt-4 flex flex-wrap items-center gap-2">' +
+      esc(cp.cuerpo || "") + "</p>" +
+      (cp.cta
+        ? '<div class="mt-4 inline-flex items-center gap-1.5 text-[12px] ' +
+          'font-semibold text-slate-900 bg-white rounded-full px-4 py-2">' +
+          esc(cp.cta) + "</div>"
+        : "") + "</div>" +
+      (c.lo_que_no_se_dice
+        ? '<p class="text-[12px] text-slate-400 leading-relaxed mt-2.5">' +
+          '<b class="font-semibold text-slate-500">No dice:</b> ' +
+          esc(c.lo_que_no_se_dice) + "</p>"
+        : "") +
+
+      /* 4 · qué imagen. El tipo de medio de un anuncio ajeno no lo publica la
+         fuente, así que la estructura sale de dato propio y se rotula. */
+      ((est || (vis.mostrar || []).length || (vis.no_mostrar || []).length)
+        ? tramo("Qué mostrar") +
+          (est
+            ? '<p class="text-[13px] font-semibold text-slate-800 mt-2.5">' +
+              esc(est.que) + "</p>" +
+              '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-1">' +
+              esc(est.porque || "") + "</p>"
+            : "") +
+          ((vis.mostrar || []).length
+            ? '<div class="mt-3">' +
+              puntos(vis.mostrar, "text-[12.5px] text-slate-600 leading-relaxed") +
+              "</div>"
+            : "") +
+          ((vis.no_mostrar || []).length
+            ? '<p class="text-[11.5px] font-semibold text-slate-500 mt-3 mb-1.5">' +
+              "Que NO vaya</p>" +
+              puntos(vis.no_mostrar, "text-[12px] text-slate-400 leading-relaxed")
+            : "")
+        : "") +
+
+      /* 5 · la referencia medida. La búsqueda de Pinterest no es esto: esto es
+         una marca real con un número detrás. */
+      (ref
+        ? tramo("Referencia") +
+          '<div class="mt-2.5 rounded-2xl bg-slate-50 p-5">' +
+          '<div class="flex items-center gap-2 flex-wrap mb-2">' +
+          '<span class="text-[13.5px] font-bold text-slate-900">' +
+          esc(ref.marca) + "</span>" +
+          (ref.rol ? '<span class="etiqueta-gris">' + esc(ref.rol) + "</span>" : "") +
+          (ref.mercado ? '<span class="etiqueta-gris">' + esc(ref.mercado) +
+            "</span>" : "") + "</div>" +
+          (ref.que_hace
+            ? '<p class="text-[12.5px] text-slate-700 leading-relaxed">' +
+              esc(ref.que_hace) + "</p>" : "") +
+          (ref.medido
+            ? '<p class="text-[12px] text-slate-500 leading-relaxed mt-2">' +
+              esc(ref.medido) + "</p>" : "") +
+          (ref.url
+            ? '<a class="enlace mt-3" target="_blank" rel="noopener" href="' +
+              esc(ref.url) + '">' + svg(ico.link, "w-3.5 h-3.5") +
+              "Verlo en la Ad Library</a>" : "") +
+          "</div>"
+        : "") +
+
+      /* Lo que falta y de dónde sale cada número. Va plegado porque no se lee
+         primero, pero va: la definición de terminado lo exige. */
+      ((c.faltantes || []).length
+        ? '<div class="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-100 p-4">' +
+          '<p class="text-[11.5px] font-semibold text-amber-900 mb-1.5">' +
+          "Lo que esta corrida no pudo confirmar</p>" +
+          puntos(c.faltantes, "text-[11.5px] text-amber-700 leading-relaxed") +
+          "</div>"
+        : "") +
+      ((c.evidencia || []).length || c.voz_de_marca
+        ? '<details class="mt-4">' +
+          '<summary class="text-[12px] font-semibold text-slate-400 ' +
+          'cursor-pointer hover:text-slate-600">De dónde sale cada número</summary>' +
+          (c.voz_de_marca
+            ? '<p class="text-[11.5px] text-slate-500 leading-relaxed mt-3">' +
+              esc(c.voz_de_marca) + "</p>" : "") +
+          '<div class="mt-2.5">' +
+          puntos(c.evidencia || [], "text-[11px] text-slate-400 leading-relaxed") +
+          "</div>" +
+          (vis._limite
+            ? '<p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">' +
+              esc(vis._limite) + "</p>" : "") +
+          "</details>"
+        : "") +
+
+      '<div class="mt-auto pt-5 flex flex-wrap items-center gap-2">' +
       '<button type="button" data-decidir="' + esc(c.id) + '" ' +
       'data-estado="aceptada" class="btn-verde"' +
       (soloLectura || bloq ? " disabled" : "") + ">" +
@@ -976,8 +1088,8 @@
   /* Los dos cortes que pidió Mercadeo: qué hay que producir y de qué solución
      habla. Un copy sin taxonomía no se puede filtrar —se vería siempre, que es
      peor que no verse—, así que se cuenta aparte y se avisa. */
-  function bloqueCopys() {
-    var todos = copys();
+  function bloqueCartas() {
+    var todos = cartas();
     if (!todos.length) return "";
     var sinEtiqueta = todos.filter(function (c) {
       return !c.pieza || !c.solucion;
@@ -985,7 +1097,10 @@
     var cs = todos.filter(function (c) {
       if (V.pieza && c.pieza !== V.pieza) return false;
       if (V.solucion && c.solucion !== V.solucion) return false;
-      return coincide(c.titular, c.cuerpo, c.angulo, c.mercado, c.solucion);
+      var cp = c.copy || c;
+      return coincide(cp.titular, cp.cuerpo, c.de_que_hablar || c.angulo,
+                      c.mercado, c.solucion, c.que_hacer, c.como_hablarlo,
+                      (c.referencia || {}).marca, (c.porque || []).join(" "));
     });
     var cuenta = function (campo, val) {
       return todos.filter(function (c) {
@@ -1036,12 +1151,14 @@
       'p-1 tarjeta-sombra">' + nivel1 + "</div>" + nivel2 + "</div>";
     var m = mercadoActivo();
     var asig = ((D.estrategia || {}).asignacion) || {};
+    var sinCarta = ((D.cartas || {}).sin_evidencia) || [];
     var decid = cs.filter(function (c) { return E.decisiones[c.id]; }).length;
-    return '<div class="flex items-start justify-between gap-4 mb-5 mt-12">' +
-      '<div><h3 class="text-[17px] font-bold text-slate-800">Copys para ' +
-      'aprobar</h3>' +
-      '<p class="text-[12.5px] text-slate-400 mt-1.5">Aprobar registra la ' +
-      "decisión; no publica nada." +
+    return '<div class="flex items-start justify-between gap-4 mb-5 mt-10">' +
+      '<div><h3 class="text-[17px] font-bold text-slate-800">Cartas de ' +
+      'producción</h3>' +
+      '<p class="text-[12.5px] text-slate-400 mt-1.5">Cada carta es una pieza ' +
+      "completa: qué hacer, de qué hablar, con qué texto y con qué imagen. " +
+      "Aprobar registra la decisión; no publica nada." +
       (m ? " Se marca lo que no aplica en " + esc(m) + "." : "") +
       "</p></div>" +
       '<span class="text-[12.5px] font-semibold shrink-0 mt-1 ' +
@@ -1050,19 +1167,34 @@
       "</span></div>" + filtros +
       (sinEtiqueta
         ? '<p class="text-[11.5px] text-slate-400 mt-3">' + sinEtiqueta +
-          " copy sin pieza o sin solución declarada: no entra en los filtros." +
+          " carta sin pieza o sin solución declarada: no entra en los filtros." +
           "</p>"
         : "") +
+      /* Las que NO se pudieron armar. Un copy que la corrida no puede sostener
+         con un solo número vivo no se muestra como si lo tuviera —y tampoco
+         desaparece en silencio, que es el error del `continue` sin registro. */
+      (sinCarta.length
+        ? '<div class="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-100 p-5">' +
+          '<p class="text-[12px] font-semibold text-amber-900 mb-2">' +
+          sinCarta.length + " copy sin carta: esta corrida no resuelve ninguna " +
+          "de sus evidencias</p>" +
+          '<ul class="list-disc pl-5 space-y-1.5 text-[11.5px] ' +
+          'text-amber-700 leading-relaxed">' +
+          sinCarta.map(function (x) {
+            return "<li><b>" + esc(x.titular || x.id) + "</b> — " +
+              esc((x.faltantes || []).join(" · ")) + "</li>";
+          }).join("") + "</ul></div>"
+        : "") +
       '<div class="grid gap-6 mt-6 ' +
-      '[grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))]">' +
+      '[grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))]">' +
       (cs.length
-        ? cs.map(function (c) { return tarjetaCopy(c, asig); }).join("")
+        ? cs.map(function (c) { return tarjetaCarta(c, asig); }).join("")
         : '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
           'text-slate-400">' +
           ((V.pieza || V.solucion)
-            ? "Ningún copy de " + esc([V.pieza, V.solucion].filter(Boolean).join(" · ")) +
+            ? "Ninguna carta de " + esc([V.pieza, V.solucion].filter(Boolean).join(" · ")) +
               (buscando() ? " coincide con la búsqueda." : " todavía.")
-            : "Ningún copy coincide con la búsqueda.") + "</div>") +
+            : "Ninguna carta coincide con la búsqueda.") + "</div>") +
       "</div>";
   }
 
@@ -2761,8 +2893,8 @@
       (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
-      leyendaPeriodo("Todo lo de esta sección —la estrategia, las tareas y los " +
-        "copys— sale") +
+      leyendaPeriodo("Todo lo de esta sección —la estrategia, las tareas y las " +
+        "cartas de producción— sale") +
       selectorEstrategia() +
       nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
         "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +
@@ -2772,22 +2904,32 @@
         "<span class=\"block mt-2\">Esta página vive en un navegador y no " +
         "puede llamar a Zoho. Aceptar registra la decisión; la creación es un " +
         "segundo paso. Zoho mapea las siete columnas solo.</span></details>") +
-      '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
-      "Producción creativa · " + creativas.length + "</h3>" +
-      '<p class="text-[12.5px] text-slate-400 mb-6">' +
-      (act ? "Las que activa <b class=\"text-slate-600 font-semibold\">" +
-        esc(act.nombre) + "</b>." : "Cada tarea sale de un dato medido.") +
-      "</p>" +
+      /* LAS CARTAS VAN PRIMERO Y SOLAS. Antes esta sección tenía dos bloques
+         que contestaban la misma pregunta con distinto nivel de detalle —las
+         tareas arriba, los copys abajo— y quien produce tenía que juntarlos de
+         memoria: el ángulo en una tarjeta, el texto en otra, la referencia en
+         un tercer lado. Una carta trae las cuatro cosas y en el orden en que
+         se usan: qué hacer, de qué hablar, con qué texto, con qué imagen. */
+      bloqueCartas() +
+      /* Y el reparto de capacidad queda DEBAJO y plegado, porque contesta otra
+         pregunta: no «qué produzco» sino «cuántas piezas caben esta semana y
+         quién las hace». Es el bloque que alimenta el CSV de Sprint, así que
+         no se quita; deja de competir por la atención. */
       (creativas.length
-        ? G + creativas.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
-          "</div>"
+        ? '<details class="mt-12">' +
+          '<summary class="text-[17px] font-bold text-slate-800 ' +
+          'cursor-pointer">Cómo se reparte la capacidad · ' + creativas.length +
+          " ángulos</summary>" +
+          '<p class="text-[12.5px] text-slate-400 mt-1.5 mb-6 pl-5">' +
+          (act ? "Los que activa <b class=\"text-slate-600 font-semibold\">" +
+            esc(act.nombre) + "</b>. " : "") +
+          "Cuántas piezas caben en la semana y quién las hace. De aquí sale el " +
+          "CSV de Sprint.</p>" +
+          G + creativas.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
+          "</div></details>"
         : nota(buscando()
-            ? "Ninguna tarea de producción coincide con la búsqueda."
-            : "Esta estrategia no activa tareas de producción en esta corrida.")) +
-      /* Los copys van entre la producción y las ideas del equipo: son lo que
-         se produce con las tareas de arriba, y se deciden con los mismos
-         botones. */
-      bloqueCopys() +
+            ? "Ningún ángulo de producción coincide con la búsqueda."
+            : "Esta estrategia no activa ángulos de producción en esta corrida.")) +
       '<h3 class="text-[17px] font-bold text-slate-800 mt-10 mb-1.5">' +
       "Ideas del equipo · " + propias.length + "</h3>" +
       '<p class="text-[12.5px] text-slate-400 mb-6">Lo que propone la mesa.</p>' +

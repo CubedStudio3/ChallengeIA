@@ -733,3 +733,32 @@ Y «Campaña Punto de Venta SV» **entrega en GT todos los días que corre**.
   interacción**, solo interacciones absolutas.
 - El corte GT/SV de la competencia **no se filtra por fecha**: la Ad Library no
   acepta rango. Lleva su sello ámbar.
+
+### Sesión 5 · segunda parte · las cartas
+
+Mercadeo revisó la sección de Estrategia y señaló dos cosas: que la información
+estaba repartida en tres lados y que las recomendaciones no decían qué producir.
+Buscando cómo arreglarlo apareció una tercera, peor: **los copys traían sus
+números escritos a mano y estaban caducos.** Uno decía «SV cuesta $1.89 contra
+$2.89» mientras el titular del tablero decía $2.68 contra $3.35.
+
+Lo que se hizo (ADR-042):
+
+1. **Una carta por pieza**, con cinco tramos: qué hacer · lo que dice el
+   análisis · el copy · qué mostrar y qué NO · la referencia medida. 10 cartas,
+   5 artes y 5 videos.
+2. **El número deja de vivir en el config.** Cada copy declara QUÉ evidencia lo
+   sostiene —diez tipos, con resolvedor cada uno— y `cartas.py` la resuelve
+   contra la corrida. Lo escrito a mano es lo que no caduca: voz, ángulo, tono,
+   dirección visual y texto publicable.
+3. **El dato que contestaba «¿arte o video?»**, que no estaba: `ads_get_ig_media`
+   sobre la cuenta propia. Los reels rinden **4.87x** el feed y se llevan los
+   nueve comentarios de la muestra. `formato.py` se niega a publicarlo si la
+   antigüedad lo explica.
+4. **`npm run prueba:cartas`**: siete sabotajes, y una guardia permanente contra
+   volver a escribir una medición a mano en el config.
+
+Al publicar, el artefacto rechazó la publicación: alguien había guardado desde
+dentro de la página a las 18:32. Se trajo su estado (v63) y se publicó encima.
+El mecanismo de `fusiona_estado.js` funcionó como se diseñó — sin él, esa
+decisión se habría borrado.
