@@ -304,8 +304,15 @@ def _referencia(cfg, F):
 
 
 def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
-         competencia: dict | None, fmt: dict | None, marca: dict | None) -> dict | None:
-    """Una carta por copy propuesto, con la evidencia resuelta contra la corrida."""
+         competencia: dict | None, fmt: dict | None, marca: dict | None,
+         semana: str = "") -> dict | None:
+    """Una carta por copy propuesto, con la evidencia resuelta contra la corrida.
+
+    `semana` es el id de semana de la corrida. Cada carta se lleva su marca de
+    idempotencia YA CALCULADA, para que ni el paso 9 ni el tablero tengan que
+    volver a derivar la convención. Dos implementaciones de la misma convención
+    es como se desincronizan dos caminos que tienen que crear lo mismo.
+    """
     copys = (copys_cfg or {}).get("copys") or []
     if not copys:
         return None
@@ -355,8 +362,14 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
             continue
 
         est = _estructura(pieza, F)
+        idem = f"{semana}::{pieza}::{c['id']}" if semana else f"{pieza}::{c['id']}"
         cartas.append({
             "id": c["id"],
+            "idempotencia": idem,
+            # La marca va en el nombre del work item porque Sprints no expone un
+            # campo de clave externa: es la unica forma de reconocer un item ya
+            # creado antes de crear otro (regla 7).
+            "marca": f"[MC:{idem}]",
             "titulo": f"{PIEZA.get(pieza, pieza)} · {c.get('solucion')}",
             "pieza": pieza,
             "solucion": c.get("solucion"),

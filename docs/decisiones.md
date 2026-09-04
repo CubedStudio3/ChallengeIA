@@ -2505,3 +2505,88 @@ entero de la compuerta humana (ADR-002).
 unidad de aprobación fue correcto y silenciosamente desconectó el paso que
 convierte una aprobación en trabajo. No lo encontró una revisión de código: lo
 encontró intentar usarlo.
+
+---
+
+## ADR-046 · Aprobar crea el work item, con el conector del visitante
+
+**Fecha:** 2026-09-04
+**Estado:** implementada · **pendiente de un permiso**
+
+### Lo que hace
+
+Al pulsar **Aprobar** en una carta, la página:
+
+1. guarda la decisión —**siempre y primero**;
+2. busca en el backlog un item con la marca de esa carta (`[MC:2026-W35::…]`);
+3. si no está, crea el work item con `ZohoSprints_CreateItem`;
+4. pinta el número de item en la carta.
+
+Todo con la capacidad `mcp` del runtime de artefactos: la llamada usa **el
+conector del visitante y sus credenciales**, y la página nunca ve un token. El
+item aparece creado por esa persona, no por quien publicó el tablero.
+
+### Un solo payload, dos caminos
+
+`carta.sprint` trae el payload EXACTO de `CreateItem`, construido por
+`sprint.py` —el mismo módulo del paso 9— y guardado en la corrida. La página no
+arma texto: lo envía. Si cada camino armara el suyo, el botón y la línea de
+comandos crearían items distintos y nadie lo notaría hasta comparar dos items
+en Sprints. `npm run prueba:boton` compara la descripción enviada contra la de
+la corrida **carácter por carácter**.
+
+Y cada carta se lleva su `idempotencia` y su `marca` ya calculadas, en vez de
+que el tablero y el paso 9 vuelvan a derivar la convención por su cuenta. Esta
+mañana hubo dos implementaciones de eso durante una hora; se unificó.
+
+### Las cuatro cosas que se diseñaron para fallar
+
+**1 · La decisión se guarda antes de escribir.** Si fuera al revés, un conector
+caído se llevaría por delante la decisión de la mesa, que es el dato que de
+verdad importa.
+
+**2 · Cada código de error tiene su propio arreglo a la vista.** No hay un
+«algo salió mal»: `server_not_connected` dice que hay que agregar el conector,
+`needs_reauth` que hay que reconectarlo, `selection_required` que hay que elegir
+cuál, `tool_error` muestra lo que respondió Sprints. Colapsarlos en un aviso
+genérico esconde la única acción que arreglaría la página.
+
+**3 · Un fallo AMBIGUO no se reintenta: se vuelve a leer.**
+`server_unavailable` y `upstream_error` en una escritura **no prueban que el
+item no se creó**. Reintentar duplicaría. La página vuelve a consultar el
+backlog: si el item está, lo reporta como creado; si no está, lo dice y ofrece
+reintentar. Nunca afirma lo que no sabe.
+
+**4 · Sin conector, la página sigue sirviendo.** `claude.use("mcp")` resuelve
+`null` cuando la vista no puede usarlo —y los tres motivos posibles son
+indistinguibles a propósito—. La carta no promete nada y el camino sigue siendo
+el CSV, como hasta hoy.
+
+### El responsable NO lo pone el sistema
+
+`params_de_carta()` devuelve el payload **sin `users`**. Se agrega solo si la
+mesa eligió responsable en la página. Asignarle trabajo a una persona no es una
+consecuencia de un análisis: es una decisión de otra persona. Se aprendió por
+la vía dura el 2026-09-04, asignando diez cartas que nadie pidió asignar.
+
+### Qué falta para que funcione
+
+**El publish con `capabilities: {mcp: …}` está pendiente de aprobación
+humana.** El clasificador de permisos lo bloqueó, y con razón: declarar esa
+capacidad cambia lo que la página puede hacer y **bloquea el compartido
+público** del artefacto. El código está publicado y probado; mientras la
+capacidad no se declare, `use("mcp")` resuelve `null` y el botón simplemente no
+aparece —que es el estado de hoy, sin regresión.
+
+### La forma de la llamada no está adivinada
+
+La guía prohíbe publicar una página que llame a una herramienta de conector sin
+haber observado un par petición/respuesta real. Se observaron **siete**, contra
+producción, el 2026-09-04: los items I1163 a I1169. De ahí salen las formas que
+usa el doble de la prueba.
+
+### La lección
+
+**Una escritura que falla no es una escritura que no ocurrió.** Es la única
+parte de esto que no se puede resolver con cuidado al escribir el código: hay
+que diseñar el estado «no sé qué pasó» y darle una salida que no sea reintentar.

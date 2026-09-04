@@ -37,6 +37,13 @@
   if (E.estrategia === undefined) E.estrategia = null;
 
   var soloLectura = false, api = null;
+  /* El conector de Zoho Sprints, si el visitante lo tiene. `null` significa
+     que esta vista no puede usarlo —no servido, no concedido, o falló al
+     cargar— y los tres casos son indistinguibles a propósito: se diseña para
+     la ausencia. Sin él la página funciona igual y el camino sigue siendo el
+     CSV, que es lo que hubo hasta hoy. */
+  var sprints = null;
+  var SERVIDOR = "Zoho Sprints";
 
   /* Vista local. Nunca se publica. */
   var V = { mercado: null, grupo: "competencia", categoria: "software",
@@ -929,6 +936,59 @@
     return '<div class="micro-et mt-6 !mb-0">' + esc(t) + "</div>";
   }
 
+  /* Qué pasó con esta carta en Sprints. Se muestra dentro de la carta y no en
+     un aviso suelto: el estado pertenece a la pieza, no a la página. */
+  function tramoSprint(c, estado) {
+    var s0 = (E.sprint || {})[c.id];
+    var puede = !!sprints && !!c.sprint;
+
+    if (s0 && (s0.estado === "creado" || s0.estado === "existia")) {
+      return '<div class="mt-4 rounded-2xl p-4" ' +
+        'style="background:var(--bien-suave)">' +
+        '<p class="text-[12px] font-semibold" style="color:var(--bien-tex)">' +
+        (s0.estado === "existia" ? "Ya estaba en Sprints" : "Creada en Sprints") +
+        " · I" + esc(String(s0.itemNo || "")) + "</p>" +
+        '<p class="text-[11.5px] mt-1 leading-relaxed" ' +
+        'style="color:var(--bien-tex)">En el backlog de ' +
+        esc((destinoSprint() || {}).proyecto || "el proyecto") +
+        ", con el copy, la dirección visual y la referencia adentro." +
+        (s0._nota ? " " + esc(s0._nota) : "") + "</p></div>";
+    }
+    if (s0 && s0.estado === "creando") {
+      return '<div class="mt-4 rounded-2xl bg-slate-50 p-4">' +
+        '<p class="text-[12px] font-semibold text-slate-500">' +
+        "Creando en Sprints…</p></div>";
+    }
+    if (s0 && s0.estado === "error") {
+      return '<div class="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-100 p-4">' +
+        '<p class="text-[12px] font-semibold text-amber-900 mb-1">' +
+        "No se creó en Sprints</p>" +
+        '<p class="text-[11.5px] text-amber-700 leading-relaxed">' +
+        esc(s0.detalle || "") + "</p>" +
+        (puede
+          ? '<button type="button" data-sprint="' + esc(c.id) + '" ' +
+            'class="btn-claro mt-3"' + (soloLectura ? " disabled" : "") + ">" +
+            "Volver a intentar</button>"
+          : "") + "</div>";
+    }
+    /* Todavía no se intentó. Se dice qué va a pasar al aprobar, porque un
+       botón que escribe en un sistema externo no puede sorprender a nadie. */
+    if (estado === "aceptada" && puede) {
+      return '<div class="mt-4 rounded-2xl bg-slate-50 p-4">' +
+        '<p class="text-[11.5px] text-slate-500 leading-relaxed">' +
+        "Aprobada, y todavía sin item en Sprints." +
+        '</p><button type="button" data-sprint="' + esc(c.id) + '" ' +
+        'class="btn-claro mt-3"' + (soloLectura ? " disabled" : "") + ">" +
+        "Crear en Sprints</button></div>";
+    }
+    if (!puede) return "";
+    return '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
+      "Al aprobar se crea el work item en el backlog de " +
+      esc((destinoSprint() || {}).proyecto || "Sprints") +
+      ", con tu conector de " + esc(SERVIDOR) + ". El responsable se asigna " +
+      "solo si lo elegís abajo.</p>";
+  }
+
   function tarjetaCarta(c, asig) {
     var d = E.decisiones[c.id], estado = d ? d.estado : null;
     var bloq = copyBloqueado(c);
@@ -1072,6 +1132,7 @@
           "</details>"
         : "") +
 
+      tramoSprint(c, estado) +
       '<div class="mt-auto pt-5 flex flex-wrap items-center gap-2">' +
       '<button type="button" data-decidir="' + esc(c.id) + '" ' +
       'data-estado="aceptada" class="btn-verde"' +
@@ -3167,7 +3228,7 @@
   /* ============ eventos ============ */
 
   var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
-    "[data-categoria],[data-estrategia],[data-decidir],[data-propia]," +
+    "[data-categoria],[data-estrategia],[data-decidir],[data-propia],[data-sprint]," +
     "[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
     "#bCsv,#bDecisiones,#bTodas,#bNada," +
     "#npAgregar,#limpiarBusqueda,#limpiarCopys";
@@ -3271,6 +3332,10 @@
         return;
       }
       if (d.decidir) { decidir(d.decidir, d.estado); return; }
+      if (d.sprint) {
+        if (soloLectura || !sprints) return;
+        crearEnSprints(d.sprint); return;
+      }
       if (d.propia) {
         var p = E.propias[d.propia];
         if (p) {
@@ -3547,13 +3612,182 @@
   function decidir(id, estado) {
     if (soloLectura) return;
     var d = E.decisiones[id];
-    if (d && d.estado === estado) delete E.decisiones[id];
+    var quita = d && d.estado === estado;
+    if (quita) delete E.decisiones[id];
     else {
       E.decisiones[id] = { estado: estado,
                            responsable: (d && d.responsable) || null,
                            en: new Date().toISOString() };
     }
+    /* La decisión se guarda PRIMERO y siempre. Crear en Sprints es un efecto
+       posterior que puede fallar: si se hiciera al revés, un conector caído se
+       llevaría por delante la decisión de la mesa, que es el dato que de
+       verdad importa. */
     persistir();
+    if (quita || estado !== "aceptada") return;
+    if (!sprints) return;                  // sin conector: sigue el CSV
+    var ya = (E.sprint || {})[id];
+    if (ya && (ya.estado === "creado" || ya.estado === "existia")) return;
+    if (ya && ya.estado === "creando") return;
+    if (cartaPorId(id)) crearEnSprints(id);
+  }
+
+  /* ═════════════ crear el work item en Zoho Sprints ═════════════
+
+     Existe porque hasta hoy APROBAR solo guardaba la decisión dentro de la
+     página: crear la tarea era un segundo paso a mano. La página no podía
+     llamar a Zoho —el sandbox no tiene salida de red—, y la capacidad `mcp`
+     es justamente la puerta: llama al conector DEL VISITANTE, con SUS
+     credenciales, sin que esta página vea ningún token.
+
+     El payload NO se arma aquí. Viene en `carta.sprint`, construido por el
+     mismo módulo de Python que usa el paso 9, para que los dos caminos creen
+     items idénticos. Si cada uno armara su texto, nadie notaría la diferencia
+     hasta comparar dos items en Sprints. */
+
+  function destinoSprint() { return (D.cartas || {})._sprint_destino || null; }
+
+  function cartaPorId(id) {
+    var cs = ((D.cartas || {}).cartas) || [];
+    for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
+    return null;
+  }
+
+  /* Qué hacer con cada código de error. NO se colapsan en un solo aviso: cada
+     uno tiene un arreglo distinto y esconderlo detrás de «algo salió mal»
+     convierte un estado recuperable en un callejón sin salida. */
+  function explicaError(e) {
+    var c = (e && e.code) || "upstream_error";
+    if (c === "server_not_connected")
+      return { txt: "Falta agregar " + SERVIDOR + " en claude.ai → " +
+                    "Configuración → Conectores.", ambiguo: false };
+    if (c === "needs_reauth")
+      return { txt: "Hay que reconectar " + SERVIDOR + " en claude.ai → " +
+                    "Configuración → Conectores.", ambiguo: false };
+    if (c === "selection_required")
+      return { txt: "Tenés más de un conector de " + SERVIDOR + ": elegí uno " +
+                    "en el aviso de arriba y volvé a intentar.", ambiguo: false };
+    if (c === "not_granted" || c === "capability_disabled")
+      return { txt: "Esta vista no tiene permiso para llamar al conector.",
+               ambiguo: false };
+    if (c === "blocked_by_policy")
+      return { txt: "La política de la organización bloquea esta herramienta.",
+               ambiguo: false };
+    if (c === "approval_required")
+      return { txt: "La organización pide aprobación por llamada para esto.",
+               ambiguo: false };
+    if (c === "not_in_manifest")
+      return { txt: "Esta página no declaró esa herramienta.", ambiguo: false };
+    if (c === "cancelled")
+      return { txt: "La llamada se canceló.", ambiguo: false };
+    if (c === "tool_error")
+      return { txt: "Sprints respondió con un error: " +
+                    ((e && e.message) || "sin detalle"), ambiguo: false };
+    /* server_unavailable y upstream_error son AMBIGUOS en una escritura: que
+       la llamada falle NO prueba que el item no se creó. Nunca se reintenta
+       sola; se vuelve a LEER para averiguar qué pasó. */
+    return { txt: "No se pudo confirmar si el item se creó. " +
+                  ((e && e.message) || ""), ambiguo: true };
+  }
+
+  /* Busca el item por su marca. Es la compuerta de idempotencia: Sprints no
+     tiene campo de clave externa, así que la marca en el nombre es la única
+     forma de reconocer un item ya creado (regla 7). */
+  function buscaEnSprints(carta) {
+    var dst = destinoSprint();
+    return sprints.callTool(SERVIDOR, "ZohoSprints_GetItems", {
+      headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
+      path_variables: dst ? { teamId: dst.teamId, projectId: dst.projectId,
+                              sprintId: dst.sprintId } : {},
+      query_params: { action: "data", index: 1, range: 50,
+                      searchby: "name", searchvalue: carta.idempotencia }
+    }, { cache: false }).then(function (r) {
+      var p = r && r.payload, its = p && p.data && p.data.items;
+      if (!its || !its.length) return null;
+      for (var i = 0; i < its.length; i++) {
+        if ((its[i].itemName || "").indexOf(carta.idempotencia) >= 0) {
+          return { itemNo: its[i].itemNo, itemId: its[i].itemId };
+        }
+      }
+      return null;
+    });
+  }
+
+  function marcaSprint(id, datos) {
+    E.sprint = E.sprint || {};
+    E.sprint[id] = datos;
+  }
+
+  function crearEnSprints(id) {
+    var carta = cartaPorId(id);
+    if (!sprints || !carta || !carta.sprint) return;
+    var dst = destinoSprint();
+    if (!dst || !dst.teamId) {
+      marcaSprint(id, { estado: "error",
+                        detalle: "La corrida no trae el destino de Sprints." });
+      persistir(); return;
+    }
+    marcaSprint(id, { estado: "creando" });
+    pintar(true);
+
+    var d = E.decisiones[id] || {};
+    var params = {};
+    for (var k in carta.sprint) params[k] = carta.sprint[k];
+    /* El responsable SOLO si la mesa lo eligió. Asignarle trabajo a alguien no
+       es una consecuencia de un análisis: es una decisión de una persona. */
+    if (d.responsable) params.users = JSON.stringify([String(d.responsable)]);
+
+    buscaEnSprints(carta).then(function (ya) {
+      if (ya) {
+        marcaSprint(id, { estado: "existia", itemNo: ya.itemNo,
+                          itemId: ya.itemId, en: new Date().toISOString() });
+        persistir("Ya existía en Sprints: I" + ya.itemNo);
+        return;
+      }
+      return sprints.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
+        headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
+        path_variables: { teamId: dst.teamId, projectId: dst.projectId,
+                          sprintId: dst.sprintId },
+        query_params: params
+      }).then(function (r) {
+        var p = r && r.payload, dd = p && p.data;
+        if (!dd || !dd.addedItemId) {
+          marcaSprint(id, { estado: "error",
+                            detalle: "Sprints respondió sin id de item." });
+          persistir("Sprints respondió sin id de item"); return;
+        }
+        marcaSprint(id, { estado: "creado", itemNo: dd.itemNo,
+                          itemId: dd.addedItemId,
+                          en: new Date().toISOString() });
+        persistir("Creado en Sprints: I" + dd.itemNo);
+      });
+    }).catch(function (e) {
+      var x = explicaError(e);
+      if (!x.ambiguo) {
+        marcaSprint(id, { estado: "error", detalle: x.txt, codigo: e && e.code });
+        persistir(x.txt); return;
+      }
+      /* Ambiguo: se LEE para saber si quedó creado. Nunca se vuelve a crear
+         sola —eso sí podría duplicar—. */
+      buscaEnSprints(carta).then(function (ya) {
+        if (ya) {
+          marcaSprint(id, { estado: "creado", itemNo: ya.itemNo,
+                            itemId: ya.itemId, en: new Date().toISOString(),
+                            _nota: "La llamada falló pero el item sí quedó." });
+          persistir("Sí quedó creado: I" + ya.itemNo);
+        } else {
+          marcaSprint(id, { estado: "error", detalle: x.txt + " Se releyó el " +
+                            "backlog y no está: se puede volver a intentar.",
+                            codigo: e && e.code, reintentable: true });
+          persistir(x.txt);
+        }
+      }).catch(function () {
+        marcaSprint(id, { estado: "error", detalle: x.txt + " Tampoco se pudo " +
+                          "releer el backlog para confirmar.",
+                          codigo: e && e.code });
+        persistir(x.txt);
+      });
+    });
   }
 
   function asignar(id, responsable) {
@@ -3640,5 +3874,14 @@
       if (!a) { soloLectura = true; pintar(true); return; }
       api = a;
     }).catch(function () { soloLectura = true; pintar(true); });
+
+    /* La capacidad `mcp` es lo que permite que APROBAR cree el work item de
+       verdad, con el conector DEL VISITANTE. Llega después del primer pintado
+       —nunca dentro de la primera corrida del script— así que la página se
+       dibuja sin ella y el botón se enciende cuando resuelve. */
+    window.claude.use("mcp").then(function (m) {
+      sprints = m || null;
+      if (sprints) pintar(true);
+    }).catch(function () { sprints = null; });
   } else { soloLectura = true; pintar(true); }
 })();

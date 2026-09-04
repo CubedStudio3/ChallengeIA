@@ -40,10 +40,18 @@ def ok(etiqueta, bien, detalle=""):
           (("  -> " + str(detalle)) if detalle else ""))
 
 
+# El id de semana sale del dato, no escrito a mano: es el prefijo que ya traen
+# las tareas de la corrida, la misma fuente que usa sprint.py. Si la prueba lo
+# escribiera a mano, caducaria al cambiar el periodo.
+SEMANA = next((t.get("idempotencia", "").split("::")[0]
+               for t in (R.get("estrategia") or {}).get("tareas") or []
+               if t.get("idempotencia")), "")
+
+
 def arma(res=None, cfg=None):
     r = res or R
     return C.arma(cfg or CFG, r["recomendaciones"], r["por_mercado"],
-                  r["competencia"], FMT, None)
+                  r["competencia"], FMT, None, SEMANA)
 
 
 print("\n== la carta esta completa ==")
@@ -63,6 +71,9 @@ for c in out["cartas"]:
        c.get("referencia") is not None or "referencia" in str(c.get("faltantes")))
     ok(f"{c['id']}: la aprobacion queda pendiente (regla 5)",
        c["aprobacion"] == "PENDIENTE")
+    ok(f"{c['id']}: trae su marca de idempotencia con el id de semana",
+       c.get("marca", "").startswith("[MC:2026-W") and c["id"] in c["marca"],
+       c.get("marca"))
 
 print("\n== ningun numero escrito a mano en el config ==")
 # Un numero que parece medicion en un campo humano caduca sin avisar. Los
@@ -121,7 +132,8 @@ ok("y aparece con lo que le falta",
    all(s["faltantes"] for s in o4["sin_evidencia"]))
 
 # 4 · Sin el corte de formato, la estructura NO se inventa: se declara.
-o5 = C.arma(CFG, R["recomendaciones"], R["por_mercado"], R["competencia"], None, None)
+o5 = C.arma(CFG, R["recomendaciones"], R["por_mercado"], R["competencia"],
+            None, None, SEMANA)
 vids = [c for c in o5["cartas"] if c["pieza"] == "video"]
 ok("sin dato de formato, el video declara que va por convencion",
    all("convención de la red" in ((c["visual"]["estructura"] or {}).get("porque") or "")
@@ -162,7 +174,8 @@ elif absoluto:
 import copy as _c
 fmt_sin = _c.deepcopy(FMT)
 fmt_sin.pop("alcance", None)
-o6 = C.arma(CFG, R["recomendaciones"], R["por_mercado"], R["competencia"], fmt_sin, None)
+o6 = C.arma(CFG, R["recomendaciones"], R["por_mercado"], R["competencia"],
+            fmt_sin, None, SEMANA)
 sin = [x for c in o6["cartas"] for x in c["porque"]
        if x.startswith("En nuestra cuenta")]
 ok("sin alcance la carta se degrada y lo dice",

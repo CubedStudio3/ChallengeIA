@@ -231,6 +231,74 @@ def _acepta(dec: dict, id_tarea: str) -> dict | None:
     return d if d and d.get("estado") == "aceptada" else None
 
 
+def cuerpo_de_carta(c: dict, rango: str = "") -> str:
+    """La descripción del work item de una carta.
+
+    Vive aquí y no en el tablero a propósito: el paso 9 y el botón de la página
+    tienen que crear EL MISMO item. Si cada uno armara su texto, dos caminos
+    para la misma acción producirían dos cosas distintas y nadie lo notaría
+    hasta comparar dos items en Sprints.
+    """
+    cuerpo = [c.get("que_hacer", "")]
+    if c.get("de_que_hablar"):
+        cuerpo.append(f"\nENFOCARSE EN: {c['de_que_hablar']}")
+    if c.get("como_hablarlo"):
+        cuerpo.append(f"\nCÓMO HABLARLO: {c['como_hablarlo']}")
+    if c.get("porque"):
+        cuerpo.append("\nLO QUE DICE EL ANÁLISIS:\n" +
+                      "\n".join(f"  · {x}" for x in c["porque"]))
+    cp = c.get("copy") or {}
+    if cp.get("titular"):
+        cuerpo.append(f"\nCOPY (pendiente de aprobación · regla 5):\n"
+                      f"  Titular: {cp['titular']}\n"
+                      f"  Cuerpo: {cp.get('cuerpo', '')}\n"
+                      f"  CTA: {cp.get('cta', '')}")
+    if c.get("lo_que_no_se_dice"):
+        cuerpo.append(f"\nNO DICE: {c['lo_que_no_se_dice']}")
+    vis = c.get("visual") or {}
+    est = vis.get("estructura") or {}
+    if est.get("que"):
+        cuerpo.append(f"\nESTRUCTURA: {est['que']} — {est.get('porque', '')}")
+    if vis.get("mostrar"):
+        cuerpo.append("\nQUÉ MOSTRAR:\n" +
+                      "\n".join(f"  · {x}" for x in vis["mostrar"]))
+    if vis.get("no_mostrar"):
+        cuerpo.append("\nQUE NO VAYA:\n" +
+                      "\n".join(f"  · {x}" for x in vis["no_mostrar"]))
+    ref = c.get("referencia") or {}
+    if ref.get("marca"):
+        cuerpo.append(f"\nREFERENCIA · {ref['marca']} ({ref.get('rol', '')})"
+                      f"\n  {ref.get('que_hace', '')}"
+                      f"\n  Medido: {ref.get('medido', '')}"
+                      f"\n  {ref.get('url', '')}")
+    if c.get("bloqueada_en"):
+        cuerpo.append(f"\nNO USAR EN: {', '.join(c['bloqueada_en'])} — "
+                      f"{c.get('_por_que_bloqueada', '')}")
+    if c.get("faltantes"):
+        cuerpo.append("\nLO QUE ESTA CORRIDA NO PUDO CONFIRMAR:\n" +
+                      "\n".join(f"  · {x}" for x in c["faltantes"]))
+    if rango:
+        cuerpo.append(f"\nGenerado por Mesa Creativa · corrida {rango}")
+    return "\n".join(cuerpo).strip()
+
+
+def params_de_carta(c: dict, resultado: dict, proy: dict) -> dict:
+    """Los parámetros de CreateItem para una carta, SIN el responsable.
+
+    El responsable lo pone quien decide —la mesa en el tablero, o `--decisiones`
+    en el paso 9—, nunca este módulo: asignarle trabajo a alguien no es una
+    consecuencia de un análisis.
+    """
+    rango = (resultado.get("corrida") or {}).get("rango", "")
+    marca = c.get("marca") or _marca(c.get("idempotencia") or c["id"])
+    return {
+        "name": f"{c['titulo']} · {c.get('mercado', '')} {marca}".strip(),
+        "description": cuerpo_de_carta(c, rango),
+        "projitemtypeid": str(proy.get("item_type_id") or ""),
+        "projpriorityid": str(proy.get("priority_id") or ""),
+    }
+
+
 def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritura], list[str]]:
     """Arma el plan de escritura a partir de lo que la mesa aceptó.
 
@@ -332,71 +400,19 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
     # --- Las cartas de producción ------------------------------------------
     # Desde ADR-042 la unidad que la mesa aprueba es la CARTA, no la tarea. El
     # paso 9 solo entendía las tareas, así que aprobar una carta en el tablero
-    # no producía nada: se veía como que el botón no servía. Una carta trae más
-    # que una tarea —el copy completo, la dirección visual y la referencia— y
-    # todo eso va al work item, porque es lo que necesita quien produce.
+    # no producía nada: se veía como que el botón no servía.
     for c in ((resultado.get("cartas") or {}).get("cartas") or []):
         d = _acepta(decisiones, c["id"])
         if not d:
             continue
-        cuerpo = [c.get("que_hacer", "")]
-        if c.get("de_que_hablar"):
-            cuerpo.append(f"\nENFOCARSE EN: {c['de_que_hablar']}")
-        if c.get("como_hablarlo"):
-            cuerpo.append(f"\nCÓMO HABLARLO: {c['como_hablarlo']}")
-        if c.get("porque"):
-            cuerpo.append("\nLO QUE DICE EL ANÁLISIS:\n" +
-                           "\n".join(f"  · {x}" for x in c["porque"]))
-        cp = c.get("copy") or {}
-        if cp.get("titular"):
-            cuerpo.append(f"\nCOPY (pendiente de aprobación · regla 5):\n"
-                          f"  Titular: {cp['titular']}\n"
-                          f"  Cuerpo: {cp.get('cuerpo', '')}\n"
-                          f"  CTA: {cp.get('cta', '')}")
-        if c.get("lo_que_no_se_dice"):
-            cuerpo.append(f"\nNO DICE: {c['lo_que_no_se_dice']}")
-        vis = c.get("visual") or {}
-        est = vis.get("estructura") or {}
-        if est.get("que"):
-            cuerpo.append(f"\nESTRUCTURA: {est['que']} — {est.get('porque', '')}")
-        if vis.get("mostrar"):
-            cuerpo.append("\nQUÉ MOSTRAR:\n" +
-                           "\n".join(f"  · {x}" for x in vis["mostrar"]))
-        if vis.get("no_mostrar"):
-            cuerpo.append("\nQUE NO VAYA:\n" +
-                           "\n".join(f"  · {x}" for x in vis["no_mostrar"]))
-        ref = c.get("referencia") or {}
-        if ref.get("marca"):
-            cuerpo.append(f"\nREFERENCIA · {ref['marca']} ({ref.get('rol', '')})"
-                          f"\n  {ref.get('que_hace', '')}"
-                          f"\n  Medido: {ref.get('medido', '')}"
-                          f"\n  {ref.get('url', '')}")
-        if c.get("bloqueada_en"):
-            cuerpo.append(f"\nNO USAR EN: {', '.join(c['bloqueada_en'])} — "
-                          f"{c.get('_por_que_bloqueada', '')}")
-        if c.get("faltantes"):
-            cuerpo.append("\nLO QUE ESTA CORRIDA NO PUDO CONFIRMAR:\n" +
-                           "\n".join(f"  · {x}" for x in c["faltantes"]))
-        cuerpo.append(f"\nGenerado por Mesa Creativa · corrida "
-                      f"{(resultado.get('corrida') or {}).get('rango', '')}")
-
-        # La marca de idempotencia lleva el id de semana, igual que las tareas.
-        # No se recalcula aquí: se toma del prefijo que las tareas ya traen, para
-        # que las dos familias usen LA MISMA convención. Si no hay tareas en la
-        # corrida, cae al periodo, que también es estable por corrida.
-        idem = f"{semana}::{c['pieza']}::{c['id']}"
-        params = {
-            "name": f"{c['titulo']} · {c.get('mercado', '')} {_marca(idem)}".strip(),
-            "description": "\n".join(cuerpo).strip(),
-            "projitemtypeid": str(proy.get("item_type_id") or ""),
-            "projpriorityid": str(proy.get("priority_id") or ""),
-        }
+        params = params_de_carta(c, resultado, proy)
         if d.get("responsable"):
             params["users"] = _usuarios(d["responsable"])
         escrituras.append(Escritura(
             id_tarea=c["id"], nombre=params["name"],
             descripcion=params["description"], tipo=c["pieza"],
-            responsable=d.get("responsable"), idempotencia=idem,
+            responsable=d.get("responsable"),
+            idempotencia=c.get("idempotencia") or f"{c['pieza']}::{c['id']}",
             ruta=ruta, parametros=params))
 
     if not decisiones.get("decisiones") and not decisiones.get("propias"):

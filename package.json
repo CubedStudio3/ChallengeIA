@@ -12,7 +12,8 @@
     "valida:tema": "node src/modulo1/valida_tema.js",
     "reporte": "node src/modulo1/reporte_adlibrary.js",
     "prueba:reporte": "node pruebas/reporte.js",
-    "prueba:cartas": "PYTHONPATH=src python3 pruebas/cartas.py"
+    "prueba:cartas": "PYTHONPATH=src python3 pruebas/cartas.py",
+    "prueba:boton": "node pruebas/sprint_boton.js"
   },
   "dependencies": {
     "pptxgenjs": "^4.0.1"

@@ -527,7 +527,28 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         })
 
     # --- Paso 8e · las cartas: una por pieza, con todo junto ---
-    cartas = CARTAS.arma(copys_cfg, reco, por_mercado, competencia, fmt, marca_datos)
+    cartas = CARTAS.arma(copys_cfg, reco, por_mercado, competencia, fmt,
+                         marca_datos, id_semana(rango))
+    # Cada carta se lleva el payload EXACTO de CreateItem, sin responsable. Lo
+    # construye el mismo modulo que usa el paso 9, para que el boton del tablero
+    # y la linea de comandos creen items identicos. Sin esto, cada camino
+    # armaria su texto y nadie notaria la diferencia hasta comparar dos items.
+    if cartas:
+        from .sprint import params_de_carta
+        proy_sp = (cargar("equipo", permitir_bloqueado=True)
+                   .get("proyecto_sprint") or {})
+        base = {"corrida": {"rango": rango.etiqueta()}}
+        for c in cartas["cartas"]:
+            c["sprint"] = params_de_carta(c, base, proy_sp)
+        cartas["_sprint_destino"] = {
+            "teamId": str(proy_sp.get("team_id") or ""),
+            "projectId": str(proy_sp.get("project_id") or ""),
+            "sprintId": str(proy_sp.get("sprint_id") or ""),
+            "_es": ("El backlog del proyecto, no un sprint. Un sprint caduca; el "
+                    "backlog es donde corresponde el trabajo que aun no se "
+                    "planifico."),
+            "proyecto": proy_sp.get("nombre") or "",
+        }
     if cartas and cartas["sin_evidencia"]:
         # Una carta sin un solo numero vivo no se muestra como si lo tuviera, y
         # tampoco desaparece en silencio: el hueco se declara.
