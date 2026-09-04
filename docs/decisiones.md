@@ -1990,3 +1990,107 @@ separado y el cruce sin mirar.
 Y el corolario del ADR-039, ahora con un caso: cuando un control global no puede
 filtrar algo, el sello es el último recurso, no el primero. Aquí el dato para
 recortar **ya existía**; el sello habría documentado un hueco evitable.
+
+---
+
+## ADR-041 · El camino del ratón es el único camino real
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### Contexto
+
+El filtro de fechas se probó con 43 comprobaciones que aplicaban la ventana
+**por código**: se escribía el valor en el estado y se repintaba. Todas pasaron.
+El usuario abrió el tablero, eligió una fecha **con el ratón** y los números no
+se movieron. La frase que lo delató la escribió el propio tablero:
+
+> «4 campañas con entrega · $964.76 invertidos · **22 días en la ventana**»
+
+O sea: sabía que había una ventana puesta —escribió la oración— y aun así estaba
+mostrando agosto completo. Leía la fecha para el texto y no para calcular.
+
+### Lo que estaba roto
+
+1. **`propio: !!(V.desde || V.hasta)`.** Una fecha *dentro* del tope encendía
+   «ventana propia» aunque el rango efectivo siguiera siendo el completo. De ahí
+   la oración con 22 días.
+2. **El recorte se hacía contra el tope, no contra lo elegido**, porque los
+   valores fuera de rango se **pegaban al borde** (clamp). Con un rango de 10
+   días, escribir a mano es imposible: un `<input type=date>` con valor dispara
+   `change` en **cada segmento**, con fechas basura intermedias —`0008-09-17`,
+   `0816-09-17`, `8162-09-17`— y todas se pegaban al borde antes de llegar a la
+   fecha buena.
+3. **El filtro no se dibujaba** en la corrida nueva. `controlFechas()` y el
+   manejador de presets se apoyaban en `alcance()` (Zoho Analytics). Sin ese
+   archivo no había control, aunque la pauta diaria sí traía rango.
+
+### Decisión
+
+- `rango()` **une las dos fuentes** —alcance orgánico y pauta diaria— y toma el
+  mínimo `desde` y el máximo `hasta`. El control se dibuja si **cualquiera** de
+  las dos tiene rango.
+- `propio` se calcula comparando contra el tope: `desde !== r.desde ||
+  hasta !== r.hasta`. Si no cambia nada, no hay ventana propia y no se escribe
+  la oración.
+- Un valor fuera de rango se **ignora**, no se pega al borde. La basura
+  intermedia del teclado deja de mover el estado.
+- Cada campo escribe **solo su propio valor**. La inversión (`desde > hasta`) se
+  resuelve al leer, no al escribir: antes, corregirla al escribir borraba el
+  otro campo.
+- `pintar()` con **debounce de 350 ms**, o el repintado destruye el campo que la
+  persona está tecleando.
+
+### El defecto que descubrió la propia corrección
+
+Ignorar la fecha fuera de rango arregló el cálculo y abrió un hueco nuevo: el
+`<input>` se queda en pantalla con la fecha rechazada. La persona lee **junio en
+el campo y agosto en las cifras** — el mismo engaño de antes, ahora con el campo
+del lado equivocado.
+
+Al **salir del campo** se reconcilia contra la ventana que de verdad está
+aplicada, y se dice por qué («del 25/08 al 03/09 es lo que hay medido»). Vaciar
+el campo no es un error —es «sin tope por este lado»— así que ahí vuelve callado.
+
+Lo encontró la prueba del filtro después de arreglar sus propias fechas
+caducadas: 31 fallas eran fixture viejo, y detrás había una real.
+
+### Las fechas de una prueba caducan solas
+
+`pruebas/pauta_filtro.js` traía agosto escrito a mano y sus esperados vivían en
+`/tmp`. Al cambiar el periodo de la corrida, esas cinco ventanas quedaron
+**fuera del rango disponible**: el tablero las ignoró —correctamente— y la suite
+marcó 31 fallas señalando un defecto que no existía. Peor: la suite no era
+reproducible, porque el generador de esperados no estaba en el repositorio.
+
+Ahora `pruebas/esperado_pauta.py` vive en el repo, calcula los esperados aparte
+—a mano, sobre el desglose diario reconciliado— y **deriva las ventanas del
+dato**: primera mitad, segunda mitad, un solo día, un día dentro del tope sin
+pauta, y una ventana entera fuera del tope. Ninguna fecha escrita a mano.
+
+Y la ventana fuera del tope **no tiene esperado numérico**: lo que se comprueba
+es que nada se movió y que los campos volvieron a la ventana aplicada. Afirmar
+«se muestra el periodo completo» habría sido falso —lo que pasa es que se
+conserva la ventana anterior.
+
+### La prueba que faltaba
+
+`pruebas/filtro_raton.js` (`npm run prueba:raton`). Solo usa eventos de
+confianza —`focus`, `keyboard.type`, `click`—, nunca escribe en el estado, y las
+ventanas salen **del dato de la corrida**, no de fechas escritas a mano que
+caducan cuando cambia el periodo.
+
+Su invariante es a prueba de idioma: **los números de la página tienen que
+coincidir con lo que muestran los campos.** No compara contra un valor esperado
+—compara la página contra sí misma.
+
+### La lección
+
+**Una prueba que entra por debajo de la interfaz prueba el cálculo, no el
+producto.** Las 43 comprobaciones eran correctas y no servían para esto: nadie
+usa el tablero llamando funciones. El único camino que importa es el que empieza
+en un clic.
+
+Y el corolario: **cuando el sistema escribe una frase sobre su propio estado,
+esa frase es un test.** «22 días en la ventana» junto a una ventana de 1 día es
+una contradicción que la página se dijo a sí misma en voz alta.

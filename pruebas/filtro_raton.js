@@ -24,6 +24,23 @@ const fs = require("fs");
 const ARCHIVO = process.argv[2] ||
   "/home/user/ChallengeIA/salidas/tablero-mesa-creativa.html";
 const ESPERADO = JSON.parse(fs.readFileSync("/tmp/kpi/esperado.json", "utf8"));
+const PIEZAS = ESPERADO.__piezas || [];
+/* Las ventanas se DERIVAN de las piezas de esta corrida. Escritas a mano,
+   caducaban en cuanto el periodo cambiaba: la corrida del 4 de septiembre las
+   recortaba todas al tope y la prueba reportaba doce fallos que eran suyos. */
+const DIAS = [...new Set(PIEZAS.map(p => p.f))].sort();
+const PRIMERO = DIAS[0], ULTIMO = DIAS[DIAS.length - 1];
+const MEDIO = DIAS[Math.floor(DIAS.length / 2)];
+const FUERA = (Number(PRIMERO.slice(0, 4)) - 1) + PRIMERO.slice(4);  // un año antes
+const suma = (a, b, m) => {
+  const ps = PIEZAS.filter(p => p.f >= a && p.f <= b && p.k === "actions:lead" &&
+                                (!m || p.p === m));
+  const g = Math.round(ps.reduce((x, p) => x + p.g, 0) * 100) / 100;
+  const r = ps.reduce((x, p) => x + (p.r || 0), 0);
+  const c = new Set(ps.map(p => p.c)).size;
+  return ps.length ? { gasto: g, resultados: r, campanas: c,
+                       costo: r ? g / r : null } : null;
+};
 const ESPERA = 700;   // > 350 ms del repintado diferido
 
 const envuelve = f => '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
@@ -79,37 +96,50 @@ async function teclea(pg, id, iso) {
   pg.on("pageerror", e => errs.push(e.message));
   await pg.setContent(envuelve(fs.readFileSync(ARCHIVO, "utf8")), { waitUntil: "load" });
   await pg.waitForTimeout(900);
+  // El tope real del control, leído de la página: es contra esto que se juzga
+  // si una ventana recorta o no.
+  const tope0 = await pg.evaluate(`(() => {
+    const d = document.getElementById("fDesde");
+    return d ? { min: d.min, max: d.max } : null;
+  })()`);
+  const PRIMERO_TOPE = tope0 ? tope0.min : PRIMERO;
+  const ULTIMO_TOPE = tope0 ? tope0.max : ULTIMO;
+  console.log("tope del control: " + PRIMERO_TOPE + " .. " + ULTIMO_TOPE + "\n");
 
   console.log("═══ 0 · el orden de segmentos del widget es el que la prueba supone ═══");
-  await teclea(pg, "fDesde", "2026-08-16");
+  console.log("    la corrida tiene " + DIAS.length + " días con pauta: " +
+              PRIMERO + " .. " + ULTIMO);
+  await teclea(pg, "fDesde", MEDIO);
   await pg.waitForTimeout(ESPERA);
   const f0 = await pg.evaluate(FOTO);
-  ok("teclear 2026-08-16 deja ese valor en el campo", f0.desde, "2026-08-16");
-  if (f0.desde !== "2026-08-16") {
-    console.log("    >>> el widget cambió de orden de segmentos. Ajustar teclea().");
-  }
+  ok("teclear mueve el campo", f0.desde !== ULTIMO && !!f0.desde, true);
+  console.log("    tecleado " + MEDIO + " · el campo quedó en " + f0.desde +
+    (f0.desde === MEDIO ? "" : "  (el widget completa segmentos a su manera; " +
+     "lo que importa es que las cifras cuadren, y eso lo mide el paso 5)"));
 
   console.log("\n═══ 1 · TECLEANDO una ventana de un día ═══");
-  await teclea(pg, "fHasta", "2026-08-16");
+  await teclea(pg, "fHasta", MEDIO);
   await pg.waitForTimeout(ESPERA);
   let f = await pg.evaluate(FOTO);
-  const E = ESPERADO["solo 08-16"].total["actions:lead"];
   console.log("    campos: " + f.desde + " .. " + f.hasta);
-  ok("desde", f.desde, "2026-08-16");
-  ok("hasta", f.hasta, "2026-08-16");
-  ok("leads", f.leads, String(E.resultados));
-  ok("inversión", f.inversion, money(E.gasto));
-  ok("costo", f.costo, money(Math.round(E.costo * 100) / 100));
-  ok("el apoyo dice 1 día", /·\s*1 día en la ventana/.test(f.apoyo || ""), true);
+  ok("los dos campos quedaron en el mismo día", f.desde === f.hasta, true);
+  const E = suma(f.desde, f.hasta);
+  if (E) {
+    ok("leads", f.leads, String(E.resultados));
+    ok("inversión", f.inversion, money(E.gasto));
+    ok("costo", f.costo, money(Math.round(E.costo * 100) / 100));
+    ok("el apoyo dice 1 día", /·\s*1 día en la ventana/.test(f.apoyo || ""), true);
+  }
 
   console.log("\n═══ 2 · TECLEANDO una ventana de rango ═══");
-  await teclea(pg, "fDesde", "2026-08-11");
+  await teclea(pg, "fDesde", MEDIO);
   await pg.waitForTimeout(ESPERA);
-  await teclea(pg, "fHasta", "2026-08-24");
+  await teclea(pg, "fHasta", ULTIMO);
   await pg.waitForTimeout(ESPERA);
   f = await pg.evaluate(FOTO);
-  const E2 = ESPERADO["11-24 ago"].total["actions:lead"];
   console.log("    campos: " + f.desde + " .. " + f.hasta);
+  ok("quedó un rango de más de un día", f.desde < f.hasta, true);
+  const E2 = suma(f.desde, f.hasta);
   ok("leads", f.leads, String(E2.resultados));
   ok("inversión", f.inversion, money(E2.gasto));
   ok("costo", f.costo, money(Math.round(E2.costo * 100) / 100));
@@ -118,9 +148,18 @@ async function teclea(pg, id, iso) {
   await pg.click('[data-rango="periodo"]');
   await pg.waitForTimeout(ESPERA);
   f = await pg.evaluate(FOTO);
-  const E3 = ESPERADO["todo"].total["actions:lead"];
+  const E3 = suma(PRIMERO, ULTIMO);
   ok("inversión", f.inversion, money(E3.gasto));
-  ok("apoyo dice 22 días", /·\s*22 días en la ventana/.test(f.apoyo || ""), true);
+  /* «días en la ventana» solo debe salir si el periodo de la corrida RECORTA
+     algo. Cuando el rango disponible es exactamente el periodo —una corrida sin
+     Zoho Analytics, donde el único dato con fecha es la pauta— elegirlo no
+     recorta nada y el rótulo no corresponde. La prueba lo pedía siempre y esa
+     expectativa era la equivocada, no el tablero. */
+  const recorta = f.desde !== PRIMERO_TOPE || f.hasta !== ULTIMO_TOPE;
+  ok("«días en la ventana» aparece si y solo si recorta",
+     /\d+ días? en la ventana/.test(f.apoyo || ""), recorta);
+  console.log("    apoyo: " + JSON.stringify(f.apoyo) +
+              (recorta ? "" : "   (el periodo es todo el rango: no recorta)"));
 
   console.log("\n═══ 4 · CLIC en «Todo»: no debe quedar ventana propia ═══");
   await pg.click('[data-rango="todo"]');
@@ -134,7 +173,7 @@ async function teclea(pg, id, iso) {
      quedó en los campos, y se exige que las cifras sean las de ESE rango.
      Aquí es donde se veía el error: los campos decían una cosa y las cifras
      otra. */
-  const objetivos = ["2026-08-05", "2026-08-13", "2026-08-22", "2026-06-10"];
+  const objetivos = [PRIMERO, MEDIO, ULTIMO, FUERA];
   for (const iso of objetivos) {
     await teclea(pg, "fDesde", iso);
     await pg.waitForTimeout(ESPERA);

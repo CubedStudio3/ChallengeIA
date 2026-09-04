@@ -1,0 +1,150 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-04",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-08-25",
+    "until": "2026-09-03"
+   },
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "sort": "spend_descending",
+   "limit": 40
+  },
+  "_paginacion": "Cursor agotado: la segunda pagina volvio vacia. La muestra es completa.",
+  "_nota": "Respuesta cruda. Agregado por campaña x pais del 25 ago al 3 sep."
+ },
+ "ad_entities": [
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14324"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,00 USD (Link clicks)"
+   },
+   "amount_spent": "$56,82 USD",
+   "impressions": "215983",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "107"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,33 USD (Leads)"
+   },
+   "amount_spent": "$356,37 USD",
+   "impressions": "64515",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "87"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,68 USD (Leads)"
+   },
+   "amount_spent": "$233,12 USD",
+   "impressions": "59644",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$1,93 USD",
+   "impressions": "595",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,02 USD",
+   "impressions": "10",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "country": "US",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  }
+ ]
+}

@@ -1,0 +1,249 @@
+{
+ "_corrida": {
+  "periodo": "2026-08-25 a 2026-09-03",
+  "hoy": "2026-09-04",
+  "tope": {
+   "desde": "2026-08-25",
+   "hasta": "2026-09-03"
+  },
+  "dias_con_dato": 9
+ },
+ "_fuente": "pauta diaria reconciliada al centavo (V8)",
+ "ventanas": [
+  {
+   "nombre": "todo",
+   "desde": null,
+   "hasta": null,
+   "nota": "sin ventana propia: el periodo completo de la corrida",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 591.42,
+      "resultados": 194.0,
+      "campanas": 2,
+      "dias": 9,
+      "gasto_sin_resultado": 1.93,
+      "costo": 3.0485567010309276
+     },
+     "actions:link_click": {
+      "gasto": 56.82,
+      "resultados": 14324.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.003966769058922089
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 358.3,
+      "resultados": 107.0,
+      "campanas": 2,
+      "dias": 9,
+      "gasto_sin_resultado": 1.93,
+      "costo": 3.3485981308411215
+     },
+     "actions:link_click": {
+      "gasto": 56.82,
+      "resultados": 14324.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.003966769058922089
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 233.12,
+      "resultados": 87.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 2.6795402298850575
+     }
+    }
+   }
+  },
+  {
+   "nombre": "primera mitad",
+   "desde": "2026-08-26",
+   "hasta": "2026-08-30",
+   "nota": "del primer dia con dato a la mitad",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 390.11,
+      "resultados": 123.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 1.37,
+      "costo": 3.171626016260163
+     },
+     "actions:link_click": {
+      "gasto": 36.22,
+      "resultados": 6745.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.005369903632320237
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 237.73,
+      "resultados": 71.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 1.37,
+      "costo": 3.3483098591549294
+     },
+     "actions:link_click": {
+      "gasto": 36.22,
+      "resultados": 6745.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.005369903632320237
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 152.38,
+      "resultados": 52.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 2.9303846153846154
+     }
+    }
+   }
+  },
+  {
+   "nombre": "segunda mitad",
+   "desde": "2026-08-30",
+   "hasta": "2026-09-03",
+   "nota": "de la mitad al ultimo dia con dato",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 260.37,
+      "resultados": 95.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 0.7,
+      "costo": 2.7407368421052634
+     },
+     "actions:link_click": {
+      "gasto": 26.52,
+      "resultados": 9568.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.0027717391304347824
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 156.59,
+      "resultados": 56.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 0.7,
+      "costo": 2.79625
+     },
+     "actions:link_click": {
+      "gasto": 26.52,
+      "resultados": 9568.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.0027717391304347824
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 103.78,
+      "resultados": 39.0,
+      "campanas": 1,
+      "dias": 5,
+      "gasto_sin_resultado": 0.0,
+      "costo": 2.661025641025641
+     }
+    }
+   }
+  },
+  {
+   "nombre": "un solo dia",
+   "desde": "2026-08-30",
+   "hasta": "2026-08-30",
+   "nota": "el caso de una sola fecha, que es el que rompio con el raton",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 59.06,
+      "resultados": 24.0,
+      "campanas": 2,
+      "dias": 1,
+      "gasto_sin_resultado": 0.14,
+      "costo": 2.4608333333333334
+     },
+     "actions:link_click": {
+      "gasto": 5.92,
+      "resultados": 1989.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.0029763700351935645
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 36.02,
+      "resultados": 20.0,
+      "campanas": 2,
+      "dias": 1,
+      "gasto_sin_resultado": 0.14,
+      "costo": 1.8010000000000002
+     },
+     "actions:link_click": {
+      "gasto": 5.92,
+      "resultados": 1989.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.0029763700351935645
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 23.04,
+      "resultados": 4.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 0.0,
+      "costo": 5.76
+     }
+    }
+   }
+  },
+  {
+   "nombre": "dia sin pauta (dentro del tope)",
+   "desde": "2026-08-25",
+   "hasta": "2026-08-25",
+   "nota": "dentro del rango disponible y sin una sola pieza: el tablero tiene que DECLARARLO vacio, no mostrar el total",
+   "esperado": {
+    "total": {},
+    "GT": {},
+    "SV": {}
+   }
+  },
+  {
+   "nombre": "fuera del tope",
+   "desde": "2026-05-27",
+   "hasta": "2026-06-26",
+   "ignorada": true,
+   "nota": "fuera del rango disponible: no cambia nada Y los campos vuelven a la ventana que de verdad esta aplicada. Aqui no hay numeros que esperar: lo que se comprueba es que el campo y las cifras no puedan decir cosas distintas",
+   "esperado": null
+  }
+ ]
+}

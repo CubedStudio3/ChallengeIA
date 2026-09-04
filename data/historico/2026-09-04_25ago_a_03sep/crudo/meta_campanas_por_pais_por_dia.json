@@ -1,0 +1,771 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-04",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-08-25",
+    "until": "2026-09-03"
+   },
+   "breakdowns": [
+    "country"
+   ],
+   "time_increment": "1",
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "spend",
+    "impressions"
+   ],
+   "object_ids": [
+    "120238382458610783",
+    "120249908467400783",
+    "120249959697280783"
+   ]
+  },
+  "_nota": "Desglose DIARIO Y POR PAIS. Fuente del filtro de fechas del tablero.",
+  "_por_que_sin_cost_per_result": "El costo no se pide por dia: se divide una sola vez sobre lo que queda dentro del filtro (V8).",
+  "_las_dos_sin_gasto": "Qpaypro Guatemala Nueva y la fila US de Punto de Venta SV no entregaron nada en el periodo: cero gasto y cero impresiones, asi que no tienen dias que pedir.",
+  "_paginacion": "No aplica: object_ids devuelve todo sin cursor."
+ },
+ "ad_entities": [
+  {
+   "date_start": "2026-08-26",
+   "date_stop": "2026-08-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "amount_spent": "$47,00 USD",
+   "impressions": "8214",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-26",
+   "date_stop": "2026-08-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,25 USD",
+   "impressions": "64",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-26",
+   "date_stop": "2026-08-26",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "2",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-26",
+   "date_stop": "2026-08-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "amount_spent": "$27,81 USD",
+   "impressions": "5922",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-26",
+   "date_stop": "2026-08-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "505"
+     }
+    ]
+   },
+   "amount_spent": "$5,41 USD",
+   "impressions": "58484",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-27",
+   "date_stop": "2026-08-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "18"
+     }
+    ]
+   },
+   "amount_spent": "$51,20 USD",
+   "impressions": "8954",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-27",
+   "date_stop": "2026-08-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,45 USD",
+   "impressions": "76",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-27",
+   "date_stop": "2026-08-27",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "2",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-27",
+   "date_stop": "2026-08-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "amount_spent": "$33,58 USD",
+   "impressions": "7534",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-27",
+   "date_stop": "2026-08-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1133"
+     }
+    ]
+   },
+   "amount_spent": "$8,57 USD",
+   "impressions": "32183",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-28",
+   "date_stop": "2026-08-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "amount_spent": "$50,54 USD",
+   "impressions": "10014",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-28",
+   "date_stop": "2026-08-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,29 USD",
+   "impressions": "98",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-28",
+   "date_stop": "2026-08-28",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "2",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-28",
+   "date_stop": "2026-08-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "amount_spent": "$33,70 USD",
+   "impressions": "8460",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-28",
+   "date_stop": "2026-08-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "898"
+     }
+    ]
+   },
+   "amount_spent": "$8,03 USD",
+   "impressions": "88405",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-29",
+   "date_stop": "2026-08-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "amount_spent": "$51,74 USD",
+   "impressions": "8722",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-29",
+   "date_stop": "2026-08-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,24 USD",
+   "impressions": "67",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-29",
+   "date_stop": "2026-08-29",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-29",
+   "date_stop": "2026-08-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "amount_spent": "$34,25 USD",
+   "impressions": "7441",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-29",
+   "date_stop": "2026-08-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2220"
+     }
+    ]
+   },
+   "amount_spent": "$8,29 USD",
+   "impressions": "11500",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-30",
+   "date_stop": "2026-08-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "20"
+     }
+    ]
+   },
+   "amount_spent": "$35,88 USD",
+   "impressions": "5833",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-30",
+   "date_stop": "2026-08-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,14 USD",
+   "impressions": "37",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-30",
+   "date_stop": "2026-08-30",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "amount_spent": "$23,04 USD",
+   "impressions": "5524",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-30",
+   "date_stop": "2026-08-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1989"
+     }
+    ]
+   },
+   "amount_spent": "$5,92 USD",
+   "impressions": "6280",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-08-31",
+   "date_stop": "2026-08-31",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "amount_spent": "$28,43 USD",
+   "impressions": "5221",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-08-31",
+   "date_stop": "2026-08-31",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,11 USD",
+   "impressions": "56",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-31",
+   "date_stop": "2026-08-31",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$19,77 USD",
+   "impressions": "5400",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-08-31",
+   "date_stop": "2026-08-31",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1923"
+     }
+    ]
+   },
+   "amount_spent": "$6,19 USD",
+   "impressions": "4907",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-09-01",
+   "date_stop": "2026-09-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "amount_spent": "$32,35 USD",
+   "impressions": "6778",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-09-01",
+   "date_stop": "2026-09-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,17 USD",
+   "impressions": "77",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-01",
+   "date_stop": "2026-09-01",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "2",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-01",
+   "date_stop": "2026-09-01",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14"
+     }
+    ]
+   },
+   "amount_spent": "$21,73 USD",
+   "impressions": "8039",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-01",
+   "date_stop": "2026-09-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1987"
+     }
+    ]
+   },
+   "amount_spent": "$5,53 USD",
+   "impressions": "5085",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-09-02",
+   "date_stop": "2026-09-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "amount_spent": "$28,28 USD",
+   "impressions": "5104",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-09-02",
+   "date_stop": "2026-09-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,05 USD",
+   "impressions": "61",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-02",
+   "date_stop": "2026-09-02",
+   "country": "HN",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-02",
+   "date_stop": "2026-09-02",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "amount_spent": "$18,99 USD",
+   "impressions": "6037",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-02",
+   "date_stop": "2026-09-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1680"
+     }
+    ]
+   },
+   "amount_spent": "$4,16 USD",
+   "impressions": "4282",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-09-03",
+   "date_stop": "2026-09-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "amount_spent": "$30,95 USD",
+   "impressions": "5675",
+   "id": "120249908467400783",
+   "name": "Campaña Punto de Venta GT"
+  },
+  {
+   "date_start": "2026-09-03",
+   "date_stop": "2026-09-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "amount_spent": "$0,23 USD",
+   "impressions": "59",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-03",
+   "date_stop": "2026-09-03",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14"
+     }
+    ]
+   },
+   "amount_spent": "$20,25 USD",
+   "impressions": "5287",
+   "id": "120249959697280783",
+   "name": "Campaña Punto de Venta SV"
+  },
+  {
+   "date_start": "2026-09-03",
+   "date_stop": "2026-09-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1989"
+     }
+    ]
+   },
+   "amount_spent": "$4,72 USD",
+   "impressions": "4857",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  }
+ ]
+}

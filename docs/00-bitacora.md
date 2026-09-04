@@ -655,3 +655,81 @@ la v50 con una decisión tomada hoy y dos ideas propias del equipo.
 
 Lo que sigue: el deck del Demo Day, y las corridas retroactivas de junio y julio
 como evidencia.
+
+---
+
+## Sesión 5 · 2026-09-04 · Datos frescos y el filtro que sí obedece
+
+### El bloqueo real
+
+El tablero mostraba datos hasta el **24 de agosto**. Abierto el 4 de septiembre
+y filtrado a «últimos 7 días» salía vacío: no por un error, sino porque no había
+dato en esa ventana. Todo lo demás era cosmética.
+
+### Lo que se hizo
+
+**1 · La pauta día por día, con reconciliación como compuerta.**
+`src/modulo1/pauta_diaria.py` pide la pauta con `time_increment` y
+`breakdowns:["country"]`, y **antes de usarla la reconcilia contra el agregado
+ya verificado en V0**: mismo gasto, mismos resultados, mismas impresiones, por
+campaña Y por país, al centavo. Si un valor no cuadra, la corrida **se detiene**.
+No es un test que corrió una vez: corre en cada corrida (V8, 18/18 y luego
+13/13 idénticos).
+
+Cuatro reglas en el encabezado del módulo, todas nacidas de un error real:
+
+- El **costo nunca se pide por día**. Se piden inversión y resultados, y se
+  divide una sola vez sobre lo que queda dentro del filtro.
+- Se **agrupa por indicador antes de sumar**, en cada punto (ADR-013).
+- Un `Not available` con gasto es `None`, **no `0`** — pero contribuye cero a
+  las sumas, que es lo medido.
+- Una campaña con gasto en el agregado y **ausente** del desglose detiene la
+  corrida.
+
+**2 · `consolida()` estaba tirando gasto real.** $1.30 de gasto en GT sin
+resultado atribuido desaparecía. Por día, eso habría borrado **$24.89 solo en
+Qpayshop**. Ahora inversión e impresiones suman de **todas** las filas con
+número; resultados y el conteo de campañas, solo de las utilizables. Nuevo
+campo `gasto_sin_resultado`, visible.
+
+**3 · El filtro con el ratón.** Ver ADR-041. Tres defectos, uno de ellos ya
+publicado: el tablero escribía «22 días en la ventana» con una ventana de un
+día. La prueba nueva (`npm run prueba:raton`) entra por el clic, no por el
+estado.
+
+**4 · Corrida completa 2026-08-25 → 2026-09-03**, de punta a punta, con las
+cuatro suites en verde.
+
+### Lo que dice el dato fresco
+
+| | Leads | Inversión | Costo |
+|---|---|---|---|
+| Total | **194** | $591.42 | **$3.05** |
+| GT | 107 | $358.30 | $3.35 |
+| SV | 87 | $233.12 | $2.68 |
+
+- 9 días con dato, 36 piezas día×campaña×país, 2 campañas con entrega en
+  `actions:lead`.
+- **$1.93 de gasto sin resultado atribuido**, declarado en el consolidado.
+- **US apareció como país fuera de los mercados declarados** — nuevo, no estaba
+  en la corrida de agosto. HN sigue goteando $0.02.
+- Competencia GT: presión 164. **SV sigue en 0.** El mercado sin disputa
+  aguanta una corrida más.
+- 118 interacciones orgánicas en 10 publicaciones.
+
+### El hallazgo para la reunión
+
+En la corrida de agosto, **Qpayshop gastó $24.89 de $53.15 (46.8%) en 5 de sus
+11 días sin un solo lead atribuido.** Eso explica su costo de $4.43, el peor del
+portafolio. No es un detalle contable: es casi la mitad de un presupuesto en
+días que no produjeron. En el total de todas las campañas fueron $26.19 (2.4%),
+así que el problema está concentrado, no repartido.
+
+Y «Campaña Punto de Venta SV» **entrega en GT todos los días que corre**.
+
+### Huecos que siguen declarados
+
+- Sin exportación de Zoho Analytics en esta corrida → **no hay tasa de
+  interacción**, solo interacciones absolutas.
+- El corte GT/SV de la competencia **no se filtra por fecha**: la Ad Library no
+  acepta rango. Lleva su sello ámbar.

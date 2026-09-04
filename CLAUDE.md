@@ -14,6 +14,12 @@ Sistema agéntico para el área de Mercadeo. Tres módulos sobre una base compar
 **Módulo 1 · operativo de punta a punta. Decisión de alcance del 2026-08-31:
 solo Módulo 1. Los Módulos 2 y 3 quedan fuera.**
 
+**Última corrida: 2026-08-25 → 2026-09-03, ejecutada el 2026-09-04** y publicada
+en el tablero. 194 leads a $3.05 (GT 107 a $3.35, SV 87 a $2.68). El filtro de
+fechas de arriba recalcula Resumen, Rendimiento y el corte GT/SV desde la pauta
+día por día, con reconciliación al centavo como compuerta (V8). Competencia y
+Referencias no se filtran —la Ad Library no acepta rango— y lo dicen con sello.
+
 Verificado contra sistemas reales, no contra documentación:
 
 - ✅ **Meta Ads** — lectura, convención de fechas verificada al centavo (V0)
@@ -342,6 +348,32 @@ cometidos; no hay tiempo de repetirlos.
   `/mnt/attach` está vacío; la imagen se ve en el mensaje y no hay archivo. Los
   logos del tablero son redibujos en SVG por eso, y se declara.
 
+- **Una prueba que entra por debajo de la interfaz prueba el cálculo, no el
+  producto.** 43 comprobaciones del filtro de fechas pasaron aplicando la
+  ventana por código; con el ratón no movía nada. El único camino que importa
+  empieza en un clic (ADR-041). `npm run prueba:raton`.
+- **Cuando la página escribe una frase sobre su propio estado, esa frase es un
+  test.** «22 días en la ventana» junto a una ventana de un día es una
+  contradicción que el tablero se dijo en voz alta.
+- **Un `<input type=date>` con valor dispara `change` en CADA segmento**, con
+  fechas basura intermedias (`0008-09-17`, `0816-09-17`, `8162-09-17`): siete
+  eventos para una fecha. Pegar el valor al borde del rango (clamp) hace
+  imposible teclear con un rango corto. Un valor fuera de rango se **ignora**.
+- **El costo por resultado NUNCA se pide por día.** Se piden inversión y
+  resultados por día y se divide una sola vez sobre lo que queda dentro del
+  filtro. Promediar costos diarios da otro número.
+- **Un dato que se filtra tiene que filtrarse completo.** Recortar el total por
+  fecha y dejar el corte GT/SV sin recortar mete a Honduras de vuelta en un
+  número visible.
+- **`gasto_sin_resultado` no es un redondeo.** `consolida()` descartaba las
+  filas sin resultado atribuido y con eso tiraba gasto real: $1.30 en el
+  agregado, **$24.89 solo en Qpayshop** al bajar a día. Inversión e impresiones
+  suman de todas las filas con número; resultados y conteo de campañas, solo de
+  las utilizables.
+- **La reconciliación no es un test, es una compuerta.** Pedir la pauta día por
+  día se valida contra el agregado ya verificado —por campaña Y por país, al
+  centavo— en **cada corrida**, y si no cuadra la corrida se detiene.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -373,6 +405,10 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `tailwind.config.js` | Qué archivos escanea Tailwind. Ver la trampa del corte en un espacio |
 | `pruebas/tablero.js` | Prueba del tablero en Chromium a 1440, 834 y 390 px. `npm run prueba:tablero` |
 | `src/modulo1/fusiona_estado.js` | Trae el `#estado` de la versión EN VIVO al fragmento recién generado. **Correr siempre antes de republicar el tablero**, o se borran las decisiones del equipo |
+| `src/modulo1/pauta_diaria.py` | Pauta de Meta **día por día, por campaña y país**. Reconcilia contra el agregado verificado antes de dejar usar el dato; si no cuadra al centavo, detiene la corrida |
+| `pruebas/pauta_diaria.py` | La compuerta más 8 sabotajes (un centavo menos, un día borrado, gasto movido SV→GT…). `npm run prueba:pauta` |
+| `pruebas/pauta_filtro.js` | 43 comprobaciones del filtro en 5 ventanas, con lo esperado calculado aparte en Python. `npm run prueba:filtro` |
+| `pruebas/filtro_raton.js` | El filtro **usado con el ratón**: solo eventos de confianza, ventanas sacadas del dato de la corrida. `npm run prueba:raton` |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |

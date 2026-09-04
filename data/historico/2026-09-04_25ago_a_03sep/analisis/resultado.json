@@ -1,0 +1,4185 @@
+{
+  "corrida": {
+    "rango": "2026-08-25 a 2026-09-03",
+    "hoy": "2026-09-04",
+    "dry_run": true
+  },
+  "integridad": {
+    "campanas_leidas": 6,
+    "paises_con_entrega": [
+      "GT",
+      "SV",
+      "US"
+    ],
+    "paises_fuera_de_mercados_declarados": [
+      "US"
+    ],
+    "campanas_incoherentes": [],
+    "mercados_excluidos_con_gasto": {
+      "HN": {
+        "gasto": 0.02,
+        "impresiones": 10.0,
+        "campanas": [
+          "Campaña Punto de Venta SV"
+        ],
+        "motivo_de_exclusion": "Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'.",
+        "accion_pendiente": "Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion."
+      }
+    }
+  },
+  "consolidados_por_indicador": {
+    "actions:lead": "194 resultados con indicador 'actions:lead' en 2 campañas · $591.42 · $3.05 por resultado · incluye $1.93 de gasto sin resultado atribuido",
+    "actions:link_click": "14,324 resultados con indicador 'actions:link_click' en 1 campañas · $56.82 · $0.00 por resultado"
+  },
+  "consolidados_detalle": {
+    "actions:lead": {
+      "campanas": 2,
+      "resultados": 194.0,
+      "gasto": 591.42,
+      "impresiones": 124754.0,
+      "costo_por_resultado": 3.0486,
+      "excluidas": 3,
+      "gasto_sin_resultado": 1.93
+    },
+    "actions:link_click": {
+      "campanas": 1,
+      "resultados": 14324.0,
+      "gasto": 56.82,
+      "impresiones": 215983.0,
+      "costo_por_resultado": 0.004,
+      "excluidas": 0,
+      "gasto_sin_resultado": 0
+    }
+  },
+  "campanas_por_indicador_principal": [
+    {
+      "etiqueta": "Campaña Punto de Venta GT [GT]",
+      "pais": "GT",
+      "resultados": 107.0,
+      "gasto": 356.37,
+      "costo_por_resultado": 3.33,
+      "impresiones": 64515.0
+    },
+    {
+      "etiqueta": "Campaña Punto de Venta SV [SV]",
+      "pais": "SV",
+      "resultados": 87.0,
+      "gasto": 233.12,
+      "costo_por_resultado": 2.68,
+      "impresiones": 59644.0
+    }
+  ],
+  "por_mercado": {
+    "GT": {
+      "indicadores": {
+        "actions:lead": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 107.0,
+          "gasto": 358.3,
+          "impresiones": 65110.0,
+          "costo_por_resultado": 3.3486,
+          "excluidas": 2,
+          "gasto_sin_resultado": 1.93
+        },
+        "actions:link_click": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 14324.0,
+          "gasto": 56.82,
+          "impresiones": 215983.0,
+          "costo_por_resultado": 0.004,
+          "excluidas": 0,
+          "gasto_sin_resultado": 0
+        }
+      },
+      "principal": {
+        "utilizable": true,
+        "campanas": 1,
+        "resultados": 107.0,
+        "gasto": 358.3,
+        "impresiones": 65110.0,
+        "costo_por_resultado": 3.3486,
+        "excluidas": 2,
+        "gasto_sin_resultado": 1.93
+      },
+      "indicador_principal": "actions:lead",
+      "campanas": [
+        {
+          "etiqueta": "Campaña Punto de Venta GT [GT]",
+          "indicador": "actions:lead",
+          "resultados": 107.0,
+          "gasto": 356.37,
+          "costo_por_resultado": 3.33,
+          "impresiones": 64515.0
+        },
+        {
+          "etiqueta": "Plan Free Tráfico 2026 [GT]",
+          "indicador": "actions:link_click",
+          "resultados": 14324.0,
+          "gasto": 56.82,
+          "costo_por_resultado": 0.0,
+          "impresiones": 215983.0
+        }
+      ],
+      "_nota_activas": "La API no devolvió `effective_status` en esta corrida, así que 'campañas' significa campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo y no se rotula como tal."
+    },
+    "SV": {
+      "indicadores": {
+        "actions:lead": {
+          "utilizable": true,
+          "campanas": 1,
+          "resultados": 87.0,
+          "gasto": 233.12,
+          "impresiones": 59644.0,
+          "costo_por_resultado": 2.6795,
+          "excluidas": 0,
+          "gasto_sin_resultado": 0
+        }
+      },
+      "principal": {
+        "utilizable": true,
+        "campanas": 1,
+        "resultados": 87.0,
+        "gasto": 233.12,
+        "impresiones": 59644.0,
+        "costo_por_resultado": 2.6795,
+        "excluidas": 0,
+        "gasto_sin_resultado": 0
+      },
+      "indicador_principal": "actions:lead",
+      "campanas": [
+        {
+          "etiqueta": "Campaña Punto de Venta SV [SV]",
+          "indicador": "actions:lead",
+          "resultados": 87.0,
+          "gasto": 233.12,
+          "costo_por_resultado": 2.68,
+          "impresiones": 59644.0
+        }
+      ],
+      "_nota_activas": "La API no devolvió `effective_status` en esta corrida, así que 'campañas' significa campañas CON ENTREGA en el periodo, no campañas activas hoy. No es lo mismo y no se rotula como tal."
+    }
+  },
+  "pauta_diaria": {
+    "piezas": [
+      {
+        "f": "2026-08-26",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 47.0,
+        "r": 11.0,
+        "i": 8214.0
+      },
+      {
+        "f": "2026-08-26",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.25,
+        "r": null,
+        "i": 64.0
+      },
+      {
+        "f": "2026-08-26",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 27.81,
+        "r": 10.0,
+        "i": 5922.0
+      },
+      {
+        "f": "2026-08-26",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.41,
+        "r": 505.0,
+        "i": 58484.0
+      },
+      {
+        "f": "2026-08-27",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 51.2,
+        "r": 18.0,
+        "i": 8954.0
+      },
+      {
+        "f": "2026-08-27",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.45,
+        "r": null,
+        "i": 76.0
+      },
+      {
+        "f": "2026-08-27",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 33.58,
+        "r": 12.0,
+        "i": 7534.0
+      },
+      {
+        "f": "2026-08-27",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 8.57,
+        "r": 1133.0,
+        "i": 32183.0
+      },
+      {
+        "f": "2026-08-28",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 50.54,
+        "r": 7.0,
+        "i": 10014.0
+      },
+      {
+        "f": "2026-08-28",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.29,
+        "r": null,
+        "i": 98.0
+      },
+      {
+        "f": "2026-08-28",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 33.7,
+        "r": 13.0,
+        "i": 8460.0
+      },
+      {
+        "f": "2026-08-28",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 8.03,
+        "r": 898.0,
+        "i": 88405.0
+      },
+      {
+        "f": "2026-08-29",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 51.74,
+        "r": 15.0,
+        "i": 8722.0
+      },
+      {
+        "f": "2026-08-29",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.24,
+        "r": null,
+        "i": 67.0
+      },
+      {
+        "f": "2026-08-29",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 34.25,
+        "r": 13.0,
+        "i": 7441.0
+      },
+      {
+        "f": "2026-08-29",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 8.29,
+        "r": 2220.0,
+        "i": 11500.0
+      },
+      {
+        "f": "2026-08-30",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 35.88,
+        "r": 20.0,
+        "i": 5833.0
+      },
+      {
+        "f": "2026-08-30",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": null,
+        "i": 37.0
+      },
+      {
+        "f": "2026-08-30",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 23.04,
+        "r": 4.0,
+        "i": 5524.0
+      },
+      {
+        "f": "2026-08-30",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.92,
+        "r": 1989.0,
+        "i": 6280.0
+      },
+      {
+        "f": "2026-08-31",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.43,
+        "r": 10.0,
+        "i": 5221.0
+      },
+      {
+        "f": "2026-08-31",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.11,
+        "r": null,
+        "i": 56.0
+      },
+      {
+        "f": "2026-08-31",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 19.77,
+        "r": 5.0,
+        "i": 5400.0
+      },
+      {
+        "f": "2026-08-31",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 6.19,
+        "r": 1923.0,
+        "i": 4907.0
+      },
+      {
+        "f": "2026-09-01",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 32.35,
+        "r": 5.0,
+        "i": 6778.0
+      },
+      {
+        "f": "2026-09-01",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.17,
+        "r": null,
+        "i": 77.0
+      },
+      {
+        "f": "2026-09-01",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 21.73,
+        "r": 14.0,
+        "i": 8039.0
+      },
+      {
+        "f": "2026-09-01",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.53,
+        "r": 1987.0,
+        "i": 5085.0
+      },
+      {
+        "f": "2026-09-02",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.28,
+        "r": 13.0,
+        "i": 5104.0
+      },
+      {
+        "f": "2026-09-02",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.05,
+        "r": null,
+        "i": 61.0
+      },
+      {
+        "f": "2026-09-02",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 18.99,
+        "r": 2.0,
+        "i": 6037.0
+      },
+      {
+        "f": "2026-09-02",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.16,
+        "r": 1680.0,
+        "i": 4282.0
+      },
+      {
+        "f": "2026-09-03",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 30.95,
+        "r": 8.0,
+        "i": 5675.0
+      },
+      {
+        "f": "2026-09-03",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.23,
+        "r": null,
+        "i": 59.0
+      },
+      {
+        "f": "2026-09-03",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 20.25,
+        "r": 14.0,
+        "i": 5287.0
+      },
+      {
+        "f": "2026-09-03",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.72,
+        "r": 1989.0,
+        "i": 4857.0
+      }
+    ],
+    "rango_disponible": {
+      "desde": "2026-08-25",
+      "hasta": "2026-09-03"
+    },
+    "dias_con_dato": 9,
+    "primer_dia": "2026-08-26",
+    "ultimo_dia": "2026-09-03",
+    "mercados": [
+      "GT",
+      "SV"
+    ],
+    "fuera_de_mercado": {
+      "HN": {
+        "gasto": 0.02,
+        "impresiones": 10.0,
+        "dias": 6,
+        "campanas": [
+          "Campaña Punto de Venta SV"
+        ],
+        "motivo": "Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'."
+      }
+    },
+    "reconciliacion": {
+      "comparadas": [
+        {
+          "id": "120238382458610783",
+          "nombre": "Plan Free Tráfico 2026",
+          "pais": "GT",
+          "indicador": "actions:link_click",
+          "dias_leidos": 9,
+          "dias_con_resultado": 9,
+          "gasto": {
+            "dias": 56.82,
+            "agregado": 56.82
+          },
+          "resultados": {
+            "dias": 14324.0,
+            "agregado": 14324.0
+          },
+          "impresiones": {
+            "dias": 215983.0,
+            "agregado": 215983.0
+          },
+          "cuadra": true
+        },
+        {
+          "id": "120249908467400783",
+          "nombre": "Campaña Punto de Venta GT",
+          "pais": "GT",
+          "indicador": "actions:lead",
+          "dias_leidos": 9,
+          "dias_con_resultado": 9,
+          "gasto": {
+            "dias": 356.37,
+            "agregado": 356.37
+          },
+          "resultados": {
+            "dias": 107.0,
+            "agregado": 107.0
+          },
+          "impresiones": {
+            "dias": 64515.0,
+            "agregado": 64515.0
+          },
+          "cuadra": true
+        },
+        {
+          "id": "120249959697280783",
+          "nombre": "Campaña Punto de Venta SV",
+          "pais": "SV",
+          "indicador": "actions:lead",
+          "dias_leidos": 9,
+          "dias_con_resultado": 9,
+          "gasto": {
+            "dias": 233.12,
+            "agregado": 233.12
+          },
+          "resultados": {
+            "dias": 87.0,
+            "agregado": 87.0
+          },
+          "impresiones": {
+            "dias": 59644.0,
+            "agregado": 59644.0
+          },
+          "cuadra": true
+        },
+        {
+          "id": "120249959697280783",
+          "nombre": "Campaña Punto de Venta SV",
+          "pais": "GT",
+          "indicador": "actions:lead",
+          "dias_leidos": 9,
+          "dias_con_resultado": 0,
+          "gasto": {
+            "dias": 1.93,
+            "agregado": 1.93
+          },
+          "resultados": {
+            "dias": 0,
+            "agregado": null
+          },
+          "impresiones": {
+            "dias": 595.0,
+            "agregado": 595.0
+          },
+          "cuadra": true
+        },
+        {
+          "id": "120249959697280783",
+          "nombre": "Campaña Punto de Venta SV",
+          "pais": "HN",
+          "indicador": "actions:lead",
+          "dias_leidos": 6,
+          "dias_con_resultado": 0,
+          "gasto": {
+            "dias": 0.02,
+            "agregado": 0.02
+          },
+          "resultados": {
+            "dias": 0,
+            "agregado": null
+          },
+          "impresiones": {
+            "dias": 10.0,
+            "agregado": 10.0
+          },
+          "cuadra": true
+        }
+      ],
+      "campanas": 5,
+      "valores_comparados": 13,
+      "_que_prueba": "Que pedir la pauta dia por dia devuelve exactamente lo mismo que el agregado ya verificado contra la interfaz en V0. Corre en CADA corrida, no una sola vez."
+    },
+    "_el_costo": "No viene por día. Se calcula dividiendo gasto entre resultados UNA vez, sobre lo que queda dentro de la ventana y dentro de un mismo indicador. Verificado en V8: la división reproduce el cost_per_result de la API en 6 de 6 campañas.",
+    "_el_indicador": "Cada fila trae el suyo. Hay que agrupar por indicador antes de sumar: 158 leads y 10,771 clics en enlace no se suman.",
+    "_los_huecos": "`r` en null es un día con gasto y sin resultado atribuido. Para sumar aporta cero, y eso está medido, no supuesto: los días con número de Qpayshop dan 12, su total agregado exacto.",
+    "_el_corte_por_mercado": "Cada pieza trae su país, así que GT y SV se recalculan dentro de la ventana igual que el total. Es un requisito de Mercadeo (2026-09-03), no un efecto lateral: sin país no se pueden aplicar las exclusiones y el total volvería a incluir Honduras.",
+    "_gasto_sin_resultado": "Un día con gasto y `r` en null cuenta su gasto. El agregado por periodo lo descartaba entero por no ser «utilizable», y así se perdían $1.30 reales. Esa regla sirve para una fila agregada; aplicada por día borraría inversión de verdad."
+  },
+  "redes_sociales": {
+    "detalle": {
+      "facebook": {
+        "publicaciones": 4,
+        "interacciones": 5,
+        "vistas": null,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-09-02",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-08-25",
+            "titulo": "La importancia de la resiliencia junto a ByAnaCeci ",
+            "interacciones": 2,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-09-02",
+            "titulo": "Lo que no se puede medir no se puede modificar…",
+            "interacciones": 1,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-31",
+            "titulo": "Muy pronto, una nueva manera de cobrar en grande llegará a tu negocio. ¡Espéralo! 🚀 #empre",
+            "interacciones": 1,
+            "vistas": null
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-07-29",
+          "titulo": "the new evolution era",
+          "interacciones": 9,
+          "vistas": null
+        },
+        "publicaciones_leidas": 25
+      },
+      "instagram": {
+        "publicaciones": 4,
+        "interacciones": 113,
+        "vistas": null,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-09-02",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-09-02",
+            "titulo": "Lo que no se puede medir no se puede modificar…",
+            "interacciones": 70,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-25",
+            "titulo": "La importancia de la resiliencia junto a @byanaceci ",
+            "interacciones": 37,
+            "vistas": null
+          },
+          {
+            "fecha": "2026-08-31",
+            "titulo": "Muy pronto, una nueva manera de cobrar en grande llegará a tu negocio. ¡Espéralo! 🚀 #empre",
+            "interacciones": 4,
+            "vistas": null
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-09-02",
+          "titulo": "Lo que no se puede medir no se puede modificar…",
+          "interacciones": 70,
+          "vistas": null
+        },
+        "publicaciones_leidas": 20
+      },
+      "youtube": {
+        "publicaciones": 2,
+        "interacciones": 0,
+        "vistas": 3,
+        "confiable": true,
+        "motivo_no_confiable": null,
+        "silenciosa": false,
+        "ultima_publicacion": "2026-09-02",
+        "dias_de_silencio": null,
+        "mejores": [
+          {
+            "fecha": "2026-09-02",
+            "titulo": "Venta (Punto de Venta)",
+            "interacciones": 0,
+            "vistas": 2
+          },
+          {
+            "fecha": "2026-09-02",
+            "titulo": "Hardware (Punto de Venta)",
+            "interacciones": 0,
+            "vistas": 1
+          }
+        ],
+        "mejor_historico": {
+          "fecha": "2026-06-12",
+          "titulo": "POS 2",
+          "interacciones": 3,
+          "vistas": 180
+        },
+        "publicaciones_leidas": 25
+      }
+    },
+    "serie_semanal": {
+      "semanas": [
+        {
+          "inicio": "2026-06-15",
+          "etiqueta": "15 jun"
+        },
+        {
+          "inicio": "2026-06-22",
+          "etiqueta": "22 jun"
+        },
+        {
+          "inicio": "2026-06-29",
+          "etiqueta": "29 jun"
+        },
+        {
+          "inicio": "2026-07-06",
+          "etiqueta": "6 jul"
+        },
+        {
+          "inicio": "2026-07-13",
+          "etiqueta": "13 jul"
+        },
+        {
+          "inicio": "2026-07-20",
+          "etiqueta": "20 jul"
+        },
+        {
+          "inicio": "2026-07-27",
+          "etiqueta": "27 jul"
+        },
+        {
+          "inicio": "2026-08-03",
+          "etiqueta": "3 ago"
+        },
+        {
+          "inicio": "2026-08-10",
+          "etiqueta": "10 ago"
+        },
+        {
+          "inicio": "2026-08-17",
+          "etiqueta": "17 ago"
+        },
+        {
+          "inicio": "2026-08-24",
+          "etiqueta": "24 ago"
+        },
+        {
+          "inicio": "2026-08-31",
+          "etiqueta": "31 ago"
+        }
+      ],
+      "interacciones": {
+        "facebook": [
+          null,
+          null,
+          null,
+          null,
+          8,
+          23,
+          16,
+          1,
+          5,
+          6,
+          5,
+          2
+        ],
+        "instagram": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          58,
+          29,
+          0,
+          14,
+          13,
+          42,
+          74
+        ],
+        "youtube": [
+          0,
+          0,
+          1,
+          2,
+          1,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "vistas": {
+        "youtube": [
+          84,
+          83,
+          30,
+          144,
+          154,
+          0,
+          13,
+          0,
+          101,
+          16,
+          0,
+          3
+        ]
+      },
+      "_que_mide": "Cada punto son las interacciones que HOY acumulan las publicaciones de esa semana. La API no devuelve serie histórica: devuelve el acumulado de cada pieza al día de la consulta. Sirve para comparar qué semana produjo contenido que enganchó, no para decir en qué semana hubo más actividad.",
+      "_vistas_de": [
+        "youtube"
+      ],
+      "_sin_vistas": [
+        "facebook",
+        "instagram"
+      ],
+      "arranques": {
+        "facebook": {
+          "semana": "2026-07-13",
+          "indice": 4,
+          "publicaciones_leidas": 25
+        },
+        "instagram": {
+          "semana": "2026-07-20",
+          "indice": 5,
+          "publicaciones_leidas": 20
+        },
+        "youtube": {
+          "semana": "2026-06-15",
+          "indice": 0,
+          "publicaciones_leidas": 25
+        }
+      },
+      "_por_que_arrancan_distinto": "Cada red arranca donde arranca su muestra. La lectura viene topada en unas 25 publicaciones por red, así que las semanas anteriores a la publicación más antigua leída quedan como hueco, no como cero: un cero ahí diría que no engancharon, cuando lo que pasa es que no se leyeron."
+    },
+    "excluidas": {},
+    "totales": {
+      "interacciones": 118,
+      "publicaciones": 10,
+      "vistas": 3,
+      "redes_contadas": [
+        "facebook",
+        "instagram",
+        "youtube"
+      ],
+      "redes_excluidas_del_total": []
+    },
+    "limites": [
+      {
+        "que": "alcance e impresiones orgánicas",
+        "estado": "NO DISPONIBLE",
+        "detalle": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+      },
+      {
+        "que": "desglose por mercado (GT / SV)",
+        "estado": "FALTA CONECTAR UNA PÁGINA",
+        "detalle": "El portal de Zoho Social tiene UNA marca conectada, así que por esta fuente GT y SV comparten audiencia y repartir las interacciones entre los dos sería inventarlo. Pero el corte SÍ existe del lado de Meta: hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» (829032443626700).",
+        "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
+        "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
+      }
+    ]
+  },
+  "competencia": {
+    "GT": {
+      "presion_total": 164,
+      "dominante": "Banco Industrial (BI)",
+      "detalle": {
+        "Paggo": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "105294361957860",
+          "activos_declarados": 38,
+          "anuncios_en_muestra": 38,
+          "metodo": null,
+          "presion_real": 38,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 2,
+          "lanzados_10d": 13,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-27",
+              "anuncios": 13
+            },
+            {
+              "fecha": "2026-08-24",
+              "anuncios": 16
+            },
+            {
+              "fecha": "2026-08-19",
+              "anuncios": 5
+            },
+            {
+              "fecha": "2026-06-17",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-05-18",
+              "anuncios": 2
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Gestiona tu Negocio Fácil",
+              "repeticiones": 36,
+              "cuota": 0.9473684210526315,
+              "sobre_anuncios": 38,
+              "con_titular_legible": 36,
+              "dias_vivo": 109,
+              "dias_desde_el_ultimo": 8,
+              "primer_lanzamiento": "2026-05-18"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860"
+        },
+        "Recurrente": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "100735292254927",
+          "activos_declarados": 6,
+          "anuncios_en_muestra": 6,
+          "metodo": null,
+          "presion_real": 6,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24).",
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-07-24",
+              "anuncios": 6
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Recibe pagos con oro digital",
+              "repeticiones": 3,
+              "cuota": 0.5,
+              "sobre_anuncios": 6,
+              "con_titular_legible": 6,
+              "dias_vivo": 42,
+              "dias_desde_el_ultimo": 42,
+              "primer_lanzamiento": "2026-07-24"
+            },
+            {
+              "titular": "Recibe pagos con USDT en Guatemala",
+              "repeticiones": 3,
+              "cuota": 0.5,
+              "sobre_anuncios": 6,
+              "con_titular_legible": 6,
+              "dias_vivo": 42,
+              "dias_desde_el_ultimo": 42,
+              "primer_lanzamiento": "2026-07-24"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=100735292254927"
+        },
+        "Square": {
+          "rol": "referente",
+          "categorias": [
+            "hardware",
+            "software"
+          ],
+          "page_id": "1689602518029813",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=1689602518029813"
+        },
+        "GuatePOS": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "593092353887127",
+          "activos_declarados": 3,
+          "anuncios_en_muestra": 3,
+          "metodo": null,
+          "presion_real": 3,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14).",
+          "moneda": "GTQ",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-14",
+              "anuncios": 3
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "api.whatsapp.com",
+              "repeticiones": 2,
+              "cuota": 0.6666666666666666,
+              "sobre_anuncios": 3,
+              "con_titular_legible": 2,
+              "dias_vivo": 21,
+              "dias_desde_el_ultimo": 21,
+              "primer_lanzamiento": "2026-08-14"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=593092353887127"
+        },
+        "Banco Industrial (BI)": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "135136309831436",
+          "activos_declarados": 598,
+          "anuncios_en_muestra": 25,
+          "metodo": null,
+          "presion_real": 117,
+          "presion_medida": true,
+          "advertencia_muestra": "los titulares son muestra del 4.2% (25 de 598): el tope de 50 sin paginación impide enumerar el universo",
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 25,
+          "lanzados_3d": 25,
+          "cohortes": [
+            {
+              "fecha": "2026-09-04",
+              "anuncios": 10
+            },
+            {
+              "fecha": "2026-09-03",
+              "anuncios": 15
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Démosle con Música: Alux Nahual",
+              "repeticiones": 3,
+              "cuota": 0.12,
+              "sobre_anuncios": 25,
+              "con_titular_legible": 20,
+              "dias_vivo": 0,
+              "dias_desde_el_ultimo": 0,
+              "primer_lanzamiento": "2026-09-04"
+            },
+            {
+              "titular": "Banco Industrial | Prepárate para tu futuro | Alcanza tus metas | Solicítalo ahora",
+              "repeticiones": 2,
+              "cuota": 0.08,
+              "sobre_anuncios": 25,
+              "con_titular_legible": 20,
+              "dias_vivo": 1,
+              "dias_desde_el_ultimo": 1,
+              "primer_lanzamiento": "2026-09-03"
+            },
+            {
+              "titular": "Haz tu solicitud",
+              "repeticiones": 2,
+              "cuota": 0.08,
+              "sobre_anuncios": 25,
+              "con_titular_legible": 20,
+              "dias_vivo": 0,
+              "dias_desde_el_ultimo": 0,
+              "primer_lanzamiento": "2026-09-04"
+            },
+            {
+              "titular": "Banco Industrial | Construye tu futuro | Alcanza tus metas | Cada meta empieza con un plan | Haz realidad tus metas",
+              "repeticiones": 1,
+              "cuota": 0.04,
+              "sobre_anuncios": 25,
+              "con_titular_legible": 20,
+              "dias_vivo": 1,
+              "dias_desde_el_ultimo": 1,
+              "primer_lanzamiento": "2026-09-03"
+            },
+            {
+              "titular": "Solicítalo aquí",
+              "repeticiones": 1,
+              "cuota": 0.04,
+              "sobre_anuncios": 25,
+              "con_titular_legible": 20,
+              "dias_vivo": 1,
+              "dias_desde_el_ultimo": 1,
+              "primer_lanzamiento": "2026-09-03"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=135136309831436"
+        },
+        "Shopify": {
+          "rol": "referente",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "20409006880",
+          "activos_declarados": 16,
+          "anuncios_en_muestra": 16,
+          "metodo": null,
+          "presion_real": 16,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 2,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-08-07",
+              "anuncios": 9
+            },
+            {
+              "fecha": "2026-07-16",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-06-15",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-03-25",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Comienza a vender más rápido",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 9,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Pon en marcha tu negocio con Shopify",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 28,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Vende más con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 163,
+              "dias_desde_el_ultimo": 163,
+              "primer_lanzamiento": "2026-03-25"
+            },
+            {
+              "titular": "Haz lo que amas con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 81,
+              "dias_desde_el_ultimo": 81,
+              "primer_lanzamiento": "2026-06-15"
+            },
+            {
+              "titular": "Impulsa tu idea con Shopify.",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 28,
+              "primer_lanzamiento": "2026-08-07"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880"
+        }
+      },
+      "sin_medir": []
+    },
+    "SV": {
+      "presion_total": 0,
+      "dominante": null,
+      "detalle": {
+        "Paggo": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "105294361957860",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=105294361957860"
+        },
+        "Recurrente": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "100735292254927",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO disputa el territorio de gestion de negocio. Juega un angulo distinto: recepcion de pagos en oro digital y USDT. Todos sus anuncios activos se crearon el mismo dia (2026-07-24).",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=100735292254927"
+        },
+        "Square": {
+          "rol": "referente",
+          "categorias": [
+            "hardware",
+            "software"
+          ],
+          "page_id": "1689602518029813",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=1689602518029813"
+        },
+        "GuatePOS": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "593092353887127",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales y trafico dirigido a WhatsApp en lugar de a una pagina de destino. Los 3 anuncios se crearon el mismo dia (2026-08-14).",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=593092353887127"
+        },
+        "Banco Industrial (BI)": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "135136309831436",
+          "activos_declarados": 11,
+          "anuncios_en_muestra": 11,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 2,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-13",
+              "anuncios": 6
+            },
+            {
+              "fecha": "2026-07-09",
+              "anuncios": 5
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00 | Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00 | Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00 | Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00 | Envía dinero desde Guatemala | Visita tu Agencia Bi | Tarifa de Q75.00",
+              "repeticiones": 3,
+              "cuota": 0.2727272727272727,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 22,
+              "dias_desde_el_ultimo": 22,
+              "primer_lanzamiento": "2026-08-13"
+            },
+            {
+              "titular": "Consulta aquí para más información",
+              "repeticiones": 3,
+              "cuota": 0.2727272727272727,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 22,
+              "dias_desde_el_ultimo": 22,
+              "primer_lanzamiento": "2026-08-13"
+            },
+            {
+              "titular": "Banco Industrial",
+              "repeticiones": 2,
+              "cuota": 0.18181818181818182,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 57,
+              "dias_desde_el_ultimo": 57,
+              "primer_lanzamiento": "2026-07-09"
+            },
+            {
+              "titular": "Banco Industrial | Realiza tu envío de manera segura y rápida.​ ​ | Realiza tu envío de manera segura y rápida.​ ​",
+              "repeticiones": 1,
+              "cuota": 0.09090909090909091,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 9,
+              "dias_vivo": 57,
+              "dias_desde_el_ultimo": 57,
+              "primer_lanzamiento": "2026-07-09"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=135136309831436"
+        },
+        "Shopify": {
+          "rol": "referente",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "20409006880",
+          "activos_declarados": 16,
+          "anuncios_en_muestra": 16,
+          "metodo": null,
+          "presion_real": 16,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": null,
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 2,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-08-07",
+              "anuncios": 9
+            },
+            {
+              "fecha": "2026-07-16",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-06-15",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-03-25",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Comienza a vender más rápido",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 9,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Pon en marcha tu negocio con Shopify",
+              "repeticiones": 2,
+              "cuota": 0.125,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 28,
+              "primer_lanzamiento": "2026-08-07"
+            },
+            {
+              "titular": "Vende más con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 163,
+              "dias_desde_el_ultimo": 163,
+              "primer_lanzamiento": "2026-03-25"
+            },
+            {
+              "titular": "Haz lo que amas con Shopify",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 81,
+              "dias_desde_el_ultimo": 81,
+              "primer_lanzamiento": "2026-06-15"
+            },
+            {
+              "titular": "Impulsa tu idea con Shopify.",
+              "repeticiones": 1,
+              "cuota": 0.0625,
+              "sobre_anuncios": 16,
+              "con_titular_legible": 13,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 28,
+              "primer_lanzamiento": "2026-08-07"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=20409006880"
+        }
+      },
+      "sin_medir": []
+    }
+  },
+  "competencia_registro": {
+    "categorias": {
+      "software": {
+        "descripcion": "Pasarela de pagos, tienda en linea, links de pago, QR, APIs, gestion de negocio",
+        "productos_qpaypro_equivalentes": [
+          "POS virtual",
+          "links de pago",
+          "QR",
+          "pasarela",
+          "APIs"
+        ]
+      },
+      "hardware": {
+        "descripcion": "Punto de venta fisico, terminal POS, lectores de tarjeta",
+        "productos_qpaypro_equivalentes": [
+          "POS fisico"
+        ]
+      }
+    },
+    "roles": {
+      "_nota": "Rol frente a QPayPro. Son cosas distintas y el tablero las separa: un referente se mira para aprender, un competidor se mide porque disputa el mismo espacio. Square tiene 0 anuncios en GT: tratarlo como competidor seria inventar una amenaza que no existe.",
+      "competidor": "Pauta en nuestros mercados y disputa nuestro espacio de mensaje o de publico.",
+      "referente": "No disputa nuestros mercados. Se observa como referencia creativa."
+    }
+  },
+  "referencias": {
+    "contraste": [
+      {
+        "dimension": "Interacciones orgánicas en el periodo",
+        "qpaypro": "118 interacciones en 10 publicaciones",
+        "referentes": "no disponible",
+        "competencia": "no disponible",
+        "lectura": "La Ad Library solo expone pauta pagada. El orgánico de competidores y referentes no está disponible por API y no se simula: la comparación de orgánico contra ellos no se puede hacer."
+      },
+      {
+        "dimension": "Vistas de video orgánico",
+        "qpaypro": "3 vistas (TikTok y YouTube)",
+        "referentes": "no disponible",
+        "competencia": "no disponible",
+        "lectura": "Solo TikTok y YouTube devuelven vistas. Facebook, Instagram y LinkedIn no las dan por este conector, así que el total NO es 'todas las vistas': es el de dos redes."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · GT",
+        "qpaypro": "1 campañas con entrega, 107 leads",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "Banco Industrial (BI): 117, Paggo: 38, Shopify: 16, Recurrente: 6, GuatePOS: 3",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      },
+      {
+        "dimension": "Anuncios activos disputando pagos · SV",
+        "qpaypro": "1 campañas con entrega, 87 leads",
+        "referentes": "0 (ninguno pauta en este mercado)",
+        "competencia": "Shopify: 16",
+        "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
+      }
+    ],
+    "territorios": {
+      "saturados": [
+        {
+          "mercado": "GT",
+          "de": "Paggo",
+          "mensaje": "Gestiona tu Negocio Fácil",
+          "cuota": 0.947,
+          "repeticiones": 36,
+          "dias_vivo": 109,
+          "lectura": "Paggo concentra 95% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
+        },
+        {
+          "mercado": "GT",
+          "de": "Recurrente",
+          "mensaje": "Recibe pagos con oro digital",
+          "cuota": 0.5,
+          "repeticiones": 3,
+          "dias_vivo": 42,
+          "lectura": "Recurrente concentra 50% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
+        }
+      ],
+      "libres": [
+        {
+          "mercado": "SV",
+          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
+        }
+      ]
+    },
+    "busquedas": [
+      {
+        "tema": "Lo que mejor rindió en facebook",
+        "consulta": "ecommerce integration announcement social post design",
+        "formato": "arte",
+        "motivo": "«La importancia de la resiliencia junto a ByAnaCeci » fue el mejor de facebook con 2 interacciones. Buscar referencia visual para repetir el tema, no el arte.",
+        "url": "https://www.pinterest.com/search/pins/?q=ecommerce+integration+announcement+social+post+design",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Contra-ángulo frente a Paggo",
+        "consulta": "payments brand differentiation poster minimal",
+        "formato": "arte",
+        "motivo": "Paggo ocupa «Gestiona tu Negocio Fácil» en 95% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+        "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Contra-ángulo frente a Recurrente",
+        "consulta": "payments brand differentiation poster minimal",
+        "formato": "arte",
+        "motivo": "Recurrente ocupa «Recibe pagos con oro digital» en 50% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+        "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      },
+      {
+        "tema": "Creativo propio para SV",
+        "consulta": "local market payments campaign key visual",
+        "formato": "arte",
+        "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+        "_estado": "BUSQUEDA_NO_CURADA"
+      }
+    ],
+    "limites": [
+      {
+        "que": "referencias concretas de Pinterest",
+        "estado": "NO DISPONIBLE",
+        "detalle": "No hay conector de Pinterest en la sesión, y Pinterest tampoco figura entre los canales conectados del portal de Zoho Social (verificado 2026-08-27: facebookpage, linkedinpage, instagram, youtube, tiktok). Lo que entrega esta sección son BÚSQUEDAS, no pines curados. Ningún pin fue visto ni verificado por el sistema.",
+        "remedio": "Una persona abre la búsqueda, elige los pines que sirven y los pega en la tarea. O se habilita un conector de Pinterest y entonces sí se puede curar automáticamente."
+      },
+      {
+        "que": "orgánico de competidores y referentes",
+        "estado": "NO DISPONIBLE",
+        "detalle": "La Ad Library expone únicamente publicidad pagada. El contenido orgánico de otras marcas no viene por API. El contraste de orgánico contra ellos no se puede hacer y no se estima."
+      }
+    ]
+  },
+  "recomendaciones": {
+    "_fuente": null,
+    "dossier": [
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "GT",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 28,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 9,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10,
+            "cuota": 0.714
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3,
+            "cuota": 0.214
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1,
+            "cuota": 0.071
+          }
+        ],
+        "audiencia_clasificaciones": 14,
+        "mensajes_lista": [
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende más con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 163,
+            "desde": "2026-03-25",
+            "ultima": "2026-03-25"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 81,
+            "desde": "2026-06-15",
+            "ultima": "2026-06-15"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Tu idea de negocio, lista para crecer",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Todo lo que necesitas para empezar",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda rápido con IA",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende en todas partes.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda gratis",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 9,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Vende más con Shopify",
+            "dias_vivo": 163,
+            "desde": "2026-03-25",
+            "url": "https://www.facebook.com/ads/library/?id=889599310806471"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "dias_vivo": 81,
+            "desde": "2026-06-15",
+            "url": "https://www.facebook.com/ads/library/?id=2679318102468690"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1358998209538323"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=2217143392369589"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1337669978536648"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1066441425835107"
+          },
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2121980418413329"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1047885671291107"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1749243509418880"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2316269725444335"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 28,
+        "lectura": [
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 12% del inventario, con 11 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Comienza a vender más rápido», va en 2 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «retail y tienda»: 71% de sus anuncios clasificables.",
+            "evidencia": "10 de 14 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Sostiene un goteo: 0.7 creativos por semana a lo largo de 154 días.",
+            "evidencia": "25% en ráfaga · el resto repartido"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 56% de sus anuncios, hasta 4 tarjetas.",
+            "evidencia": "9 de 16 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          },
+          {
+            "frase": "Tiene una apuesta que no retira: «Vende más con Shopify» lleva 163 días al aire.",
+            "evidencia": "desde 2026-03-25 · nadie deja pagando meses un creativo que no le devuelve nada, pero la fuente no dice cuánto"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "SV",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 28,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 9,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10,
+            "cuota": 0.714
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3,
+            "cuota": 0.214
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1,
+            "cuota": 0.071
+          }
+        ],
+        "audiencia_clasificaciones": 14,
+        "mensajes_lista": [
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-26"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "creativos": 2,
+            "cuota": 0.125,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende más con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 163,
+            "desde": "2026-03-25",
+            "ultima": "2026-03-25"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 81,
+            "desde": "2026-06-15",
+            "ultima": "2026-06-15"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Tu idea de negocio, lista para crecer",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Todo lo que necesitas para empezar",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda rápido con IA",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Vende en todas partes.",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "ultima": "2026-08-07"
+          },
+          {
+            "mensaje": "Crea tu tienda gratis",
+            "creativos": 1,
+            "cuota": 0.062,
+            "dias_vivo": 9,
+            "desde": "2026-08-26",
+            "ultima": "2026-08-26"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Vende más con Shopify",
+            "dias_vivo": 163,
+            "desde": "2026-03-25",
+            "url": "https://www.facebook.com/ads/library/?id=889599310806471"
+          },
+          {
+            "mensaje": "Haz lo que amas con Shopify",
+            "dias_vivo": 81,
+            "desde": "2026-06-15",
+            "url": "https://www.facebook.com/ads/library/?id=2679318102468690"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1358998209538323"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=2217143392369589"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 50,
+            "desde": "2026-07-16",
+            "url": "https://www.facebook.com/ads/library/?id=1337669978536648"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1066441425835107"
+          },
+          {
+            "mensaje": "Comienza a vender más rápido",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2121980418413329"
+          },
+          {
+            "mensaje": "Pon en marcha tu negocio con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1047885671291107"
+          },
+          {
+            "mensaje": "Dale vida a tu idea con Shopify",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=1749243509418880"
+          },
+          {
+            "mensaje": "Impulsa tu idea con Shopify.",
+            "dias_vivo": 28,
+            "desde": "2026-08-07",
+            "url": "https://www.facebook.com/ads/library/?id=2316269725444335"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 28,
+        "lectura": [
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 12% del inventario, con 11 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Comienza a vender más rápido», va en 2 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «retail y tienda»: 71% de sus anuncios clasificables.",
+            "evidencia": "10 de 14 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Sostiene un goteo: 0.7 creativos por semana a lo largo de 154 días.",
+            "evidencia": "25% en ráfaga · el resto repartido"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 56% de sus anuncios, hasta 4 tarjetas.",
+            "evidencia": "9 de 16 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          },
+          {
+            "frase": "Tiene una apuesta que no retira: «Vende más con Shopify» lleva 163 días al aire.",
+            "evidencia": "desde 2026-03-25 · nadie deja pagando meses un creativo que no le devuelve nada, pero la fuente no dice cuánto"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "paggo",
+        "page_id": "105294361957860",
+        "idioma": "es",
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 38,
+        "activos_declarados": 38,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Gestiona tu Negocio Fácil",
+        "mensaje_top_cuota": 0.947,
+        "mensaje_top_dias": 109,
+        "mensajes_distintos": 2,
+        "concentracion": 0.947,
+        "carrusel": 2,
+        "carrusel_cuota": 0.053,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 8,
+        "creativos_por_semana": 2.6,
+        "span_dias": 101,
+        "cuota_en_rafaga": 0.789,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 36
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36,
+            "cuota": 1.0
+          }
+        ],
+        "audiencia_clasificaciones": 36,
+        "mensajes_lista": [
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "creativos": 36,
+            "cuota": 0.947,
+            "dias_vivo": 109,
+            "desde": "2026-05-18",
+            "ultima": "2026-08-27"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "creativos": 2,
+            "cuota": 0.053,
+            "dias_vivo": 79,
+            "desde": "2026-06-17",
+            "ultima": "2026-06-17"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 109,
+            "desde": "2026-05-18",
+            "url": "https://www.facebook.com/ads/library/?id=26620958677575099"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 109,
+            "desde": "2026-05-18",
+            "url": "https://www.facebook.com/ads/library/?id=1293243899679840"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 79,
+            "desde": "2026-06-17",
+            "url": "https://www.facebook.com/ads/library/?id=1357926956250285"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 79,
+            "desde": "2026-06-17",
+            "url": "https://www.facebook.com/ads/library/?id=1562389372112505"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 16,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1887802498872348"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 16,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1554289652858568"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 16,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1347303467477998"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 16,
+            "desde": "2026-08-19",
+            "url": "https://www.facebook.com/ads/library/?id=1378385277588743"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 15,
+            "desde": "2026-08-20",
+            "url": "https://www.facebook.com/ads/library/?id=935765245534989"
+          },
+          {
+            "mensaje": "Gestiona tu Negocio Fácil",
+            "dias_vivo": 11,
+            "desde": "2026-08-24",
+            "url": "https://www.facebook.com/ads/library/?id=1371547778459181"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 11,
+        "lectura": [
+          {
+            "frase": "2 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Apuesta a un solo mensaje: «Gestiona tu Negocio Fácil» carga 95% de todo lo que tiene al aire.",
+            "evidencia": "36 de 38 creativos · 1 mensajes distintos en total"
+          },
+          {
+            "frase": "Le habla casi solo a «gestión del negocio»: 100% de sus anuncios clasificables.",
+            "evidencia": "36 de 36 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Despliega en lote: 79% de sus creativos entraron en cargas del mismo segundo.",
+            "evidencia": "varios anuncios con el mismo instante de creación son una subida en lote, no piezas pensadas una por una"
+          },
+          {
+            "frase": "Casi no usa carrusel: 5% de sus anuncios. Todo pieza única.",
+            "evidencia": "2 de 38 anuncios"
+          },
+          {
+            "frase": "Tiene una apuesta que no retira: «Gestiona tu Negocio Fácil» lleva 109 días al aire.",
+            "evidencia": "desde 2026-05-18 · nadie deja pagando meses un creativo que no le devuelve nada, pero la fuente no dice cuánto"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 25,
+        "activos_declarados": 598,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 25 de 598 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Démosle con Música: Alux Nahual",
+        "mensaje_top_cuota": 0.12,
+        "mensaje_top_dias": 0,
+        "mensajes_distintos": 16,
+        "concentracion": 0.12,
+        "carrusel": 7,
+        "carrusel_cuota": 0.28,
+        "tarjetas_max": 14,
+        "dias_sin_lanzar": 0,
+        "creativos_por_semana": null,
+        "span_dias": 1,
+        "cuota_en_rafaga": 0.08,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 5
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "crédito y financiamiento": 5,
+          "promoción y precio": 2,
+          "punto de venta / hardware": 1
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 5,
+            "cuota": 0.625
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2,
+            "cuota": 0.25
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1,
+            "cuota": 0.125
+          }
+        ],
+        "audiencia_clasificaciones": 8,
+        "mensajes_lista": [
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "creativos": 3,
+            "cuota": 0.273,
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "ultima": "2026-08-13"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "creativos": 3,
+            "cuota": 0.273,
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "ultima": "2026-08-13"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "creativos": 2,
+            "cuota": 0.182,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "creativos": 2,
+            "cuota": 0.182,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          },
+          {
+            "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
+            "creativos": 1,
+            "cuota": 0.091,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2822928661439948"
+          },
+          {
+            "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2221435242044558"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=1014745758077615"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2084321612150432"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=1397521175612942"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1069919342152893"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1452002793429735"
+          },
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=4429319267334722"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=28098318826429161"
+          },
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1735453967654546"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 22,
+        "lectura": [
+          {
+            "frase": "2 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 27% del inventario, con 4 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00», va en 3 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «crédito y financiamiento»: 62% de sus anuncios clasificables.",
+            "evidencia": "5 de 8 anuncios con titular clasificable"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "SV",
+        "leidos": 11,
+        "activos_declarados": 11,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+        "mensaje_top_cuota": 0.273,
+        "mensaje_top_dias": 22,
+        "mensajes_distintos": 5,
+        "concentracion": 0.273,
+        "carrusel": 7,
+        "carrusel_cuota": 0.636,
+        "tarjetas_max": 15,
+        "dias_sin_lanzar": 22,
+        "creativos_por_semana": 2.2,
+        "span_dias": 35,
+        "cuota_en_rafaga": 0.364,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0,
+        "audiencia": [],
+        "audiencia_clasificaciones": 1,
+        "mensajes_lista": [
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "creativos": 3,
+            "cuota": 0.273,
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "ultima": "2026-08-13"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "creativos": 3,
+            "cuota": 0.273,
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "ultima": "2026-08-13"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "creativos": 2,
+            "cuota": 0.182,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "creativos": 2,
+            "cuota": 0.182,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          },
+          {
+            "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
+            "creativos": 1,
+            "cuota": 0.091,
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "ultima": "2026-07-09"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2822928661439948"
+          },
+          {
+            "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2221435242044558"
+          },
+          {
+            "mensaje": "{{product.name}}",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=1014745758077615"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=2084321612150432"
+          },
+          {
+            "mensaje": "Banco Industrial",
+            "dias_vivo": 57,
+            "desde": "2026-07-09",
+            "url": "https://www.facebook.com/ads/library/?id=1397521175612942"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1069919342152893"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1452002793429735"
+          },
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=4429319267334722"
+          },
+          {
+            "mensaje": "Consulta aquí para más información",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=28098318826429161"
+          },
+          {
+            "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+            "dias_vivo": 22,
+            "desde": "2026-08-13",
+            "url": "https://www.facebook.com/ads/library/?id=1735453967654546"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 22,
+        "lectura": [
+          {
+            "frase": "2 de sus anuncios traen un titular que no dice nada (un dominio o una palabra sola) y quedan fuera de la lectura.",
+            "evidencia": "un titular sin promesa no es un territorio de mensaje"
+          },
+          {
+            "frase": "Cartera repartida: ningún mensaje pasa de 27% del inventario, con 4 mensajes distintos al aire.",
+            "evidencia": "el más repetido, «Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00», va en 3 creativos"
+          },
+          {
+            "frase": "No se puede decir a quién le habla: ninguno de sus titulares clasifica en una vertical.",
+            "evidencia": "11 anuncios leídos, 0 con titular clasificable"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 64% de sus anuncios, hasta 15 tarjetas.",
+            "evidencia": "7 de 11 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "recurrente",
+        "page_id": "100735292254927",
+        "idioma": "es",
+        "marca": "Recurrente",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 6,
+        "activos_declarados": 6,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Recibe pagos con oro digital",
+        "mensaje_top_cuota": 0.5,
+        "mensaje_top_dias": 42,
+        "mensajes_distintos": 2,
+        "concentracion": 0.5,
+        "carrusel": 6,
+        "carrusel_cuota": 1.0,
+        "tarjetas_max": 3,
+        "dias_sin_lanzar": 42,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 6
+          }
+        ],
+        "verticales_todas": {
+          "cobros y pagos": 6
+        },
+        "cobranding_cuota": 0.0,
+        "audiencia": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 6,
+            "cuota": 1.0
+          }
+        ],
+        "audiencia_clasificaciones": 6,
+        "mensajes_lista": [
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "creativos": 3,
+            "cuota": 0.5,
+            "dias_vivo": 42,
+            "desde": "2026-07-24",
+            "ultima": "2026-07-24"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "creativos": 3,
+            "cuota": 0.5,
+            "dias_vivo": 42,
+            "desde": "2026-07-24",
+            "ultima": "2026-07-24"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 42,
+            "desde": "2026-07-24",
+            "url": "https://www.facebook.com/ads/library/?id=37834302472820619"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 42,
+            "desde": "2026-07-24",
+            "url": "https://www.facebook.com/ads/library/?id=1385097710250258"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 41,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1743357080341279"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 41,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=28137499115868209"
+          },
+          {
+            "mensaje": "Recibe pagos con oro digital",
+            "dias_vivo": 41,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1037128235730742"
+          },
+          {
+            "mensaje": "Recibe pagos con USDT en Guatemala",
+            "dias_vivo": 41,
+            "desde": "2026-07-25",
+            "url": "https://www.facebook.com/ads/library/?id=1755819768903559"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 41,
+        "lectura": [
+          {
+            "frase": "Concentra sin apostarlo todo: «Recibe pagos con oro digital» lleva 50% y hay 2 mensajes más.",
+            "evidencia": "3 de 6 creativos"
+          },
+          {
+            "frase": "Le habla casi solo a «cobros y pagos»: 100% de sus anuncios clasificables.",
+            "evidencia": "6 de 6 anuncios con titular clasificable"
+          },
+          {
+            "frase": "Dejó de producir: su último creativo nuevo entró hace 42 días, aunque sus anuncios siguen activos.",
+            "evidencia": "última creación registrada en la consulta del 2026-09-04"
+          },
+          {
+            "frase": "Usa carrusel de forma sistemática: 100% de sus anuncios, hasta 3 tarjetas.",
+            "evidencia": "6 de 6 anuncios · el tipo de medio (video o imagen) no lo devuelve la fuente"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      },
+      {
+        "clave": "guatepos",
+        "page_id": "593092353887127",
+        "idioma": "es",
+        "marca": "Guatepos",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 3,
+        "activos_declarados": 3,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "api.whatsapp.com",
+        "mensaje_top_cuota": 0.667,
+        "mensaje_top_dias": 21,
+        "mensajes_distintos": 1,
+        "concentracion": 0.667,
+        "carrusel": 0,
+        "carrusel_cuota": 0.0,
+        "tarjetas_max": 1,
+        "dias_sin_lanzar": 21,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0,
+        "audiencia": [],
+        "audiencia_clasificaciones": 1,
+        "mensajes_lista": [
+          {
+            "mensaje": "api.whatsapp.com",
+            "creativos": 2,
+            "cuota": 0.667,
+            "dias_vivo": 21,
+            "desde": "2026-08-14",
+            "ultima": "2026-08-14"
+          }
+        ],
+        "top_anuncios": [
+          {
+            "mensaje": "api.whatsapp.com",
+            "dias_vivo": 21,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=2096308025102930"
+          },
+          {
+            "mensaje": "api.whatsapp.com",
+            "dias_vivo": 21,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=1952340028778354"
+          },
+          {
+            "mensaje": "(sin titular)",
+            "dias_vivo": 21,
+            "desde": "2026-08-14",
+            "url": "https://www.facebook.com/ads/library/?id=3250839388449338"
+          }
+        ],
+        "top_respondible": true,
+        "top_por_que_no": null,
+        "dias_vivo_mediana": 21,
+        "lectura": [
+          {
+            "frase": "No hay mensaje que leer: sus 2 anuncios con titular traen un dominio o una sola palabra, no una promesa.",
+            "evidencia": "titulares observados: api.whatsapp.com"
+          },
+          {
+            "frase": "No se puede decir a quién le habla: ninguno de sus titulares clasifica en una vertical.",
+            "evidencia": "3 anuncios leídos, 0 con titular clasificable"
+          },
+          {
+            "frase": "Casi no usa carrusel: 0% de sus anuncios. Todo pieza única.",
+            "evidencia": "0 de 3 anuncios"
+          }
+        ],
+        "cobranding": {
+          "anuncios_con_tercero": 0,
+          "terceros_nombrados": [],
+          "cuota": 0.0,
+          "ejemplos": [],
+          "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+        }
+      }
+    ],
+    "_fecha_consulta": "2026-09-04",
+    "_limite": "La Ad Library no publica rendimiento de anunciantes comerciales. Estas recomendaciones dicen DÓNDE APUESTAN las marcas medidas —qué repiten, qué no matan, con qué formato y a qué ritmo—, no qué les funcionó. Es una foto del día de la consulta, no una serie.",
+    "por_marca": [
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "GT",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 28,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 9,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "shopify",
+        "page_id": "20409006880",
+        "idioma": "es",
+        "marca": "Shopify",
+        "rol": "referente",
+        "mercado": "SV",
+        "leidos": 16,
+        "activos_declarados": 16,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Comienza a vender más rápido",
+        "mensaje_top_cuota": 0.125,
+        "mensaje_top_dias": 28,
+        "mensajes_distintos": 11,
+        "concentracion": 0.125,
+        "carrusel": 9,
+        "carrusel_cuota": 0.562,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 9,
+        "creativos_por_semana": 0.7,
+        "span_dias": 154,
+        "cuota_en_rafaga": 0.25,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "retail y tienda",
+            "anuncios": 10
+          },
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 3
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "retail y tienda": 10,
+          "gestión del negocio": 3,
+          "promoción y precio": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "paggo",
+        "page_id": "105294361957860",
+        "idioma": "es",
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 38,
+        "activos_declarados": 38,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Gestiona tu Negocio Fácil",
+        "mensaje_top_cuota": 0.947,
+        "mensaje_top_dias": 109,
+        "mensajes_distintos": 2,
+        "concentracion": 0.947,
+        "carrusel": 2,
+        "carrusel_cuota": 0.053,
+        "tarjetas_max": 4,
+        "dias_sin_lanzar": 8,
+        "creativos_por_semana": 2.6,
+        "span_dias": 101,
+        "cuota_en_rafaga": 0.789,
+        "modo": "ráfaga",
+        "verticales": [
+          {
+            "vertical": "gestión del negocio",
+            "anuncios": 36
+          }
+        ],
+        "verticales_todas": {
+          "gestión del negocio": 36
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 25,
+        "activos_declarados": 598,
+        "muestra_completa": false,
+        "advertencia_muestra": "Se leyeron 25 de 598 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+        "mensaje_top": "Démosle con Música: Alux Nahual",
+        "mensaje_top_cuota": 0.12,
+        "mensaje_top_dias": 0,
+        "mensajes_distintos": 16,
+        "concentracion": 0.12,
+        "carrusel": 7,
+        "carrusel_cuota": 0.28,
+        "tarjetas_max": 14,
+        "dias_sin_lanzar": 0,
+        "creativos_por_semana": null,
+        "span_dias": 1,
+        "cuota_en_rafaga": 0.08,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "crédito y financiamiento",
+            "anuncios": 5
+          },
+          {
+            "vertical": "promoción y precio",
+            "anuncios": 2
+          },
+          {
+            "vertical": "punto de venta / hardware",
+            "anuncios": 1
+          }
+        ],
+        "verticales_todas": {
+          "crédito y financiamiento": 5,
+          "promoción y precio": 2,
+          "punto de venta / hardware": 1
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "bi",
+        "page_id": "135136309831436",
+        "idioma": "es",
+        "marca": "Banco Industrial",
+        "rol": "competidor",
+        "mercado": "SV",
+        "leidos": 11,
+        "activos_declarados": 11,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
+        "mensaje_top_cuota": 0.273,
+        "mensaje_top_dias": 22,
+        "mensajes_distintos": 5,
+        "concentracion": 0.273,
+        "carrusel": 7,
+        "carrusel_cuota": 0.636,
+        "tarjetas_max": 15,
+        "dias_sin_lanzar": 22,
+        "creativos_por_semana": 2.2,
+        "span_dias": 35,
+        "cuota_en_rafaga": 0.364,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "recurrente",
+        "page_id": "100735292254927",
+        "idioma": "es",
+        "marca": "Recurrente",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 6,
+        "activos_declarados": 6,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "Recibe pagos con oro digital",
+        "mensaje_top_cuota": 0.5,
+        "mensaje_top_dias": 42,
+        "mensajes_distintos": 2,
+        "concentracion": 0.5,
+        "carrusel": 6,
+        "carrusel_cuota": 1.0,
+        "tarjetas_max": 3,
+        "dias_sin_lanzar": 42,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [
+          {
+            "vertical": "cobros y pagos",
+            "anuncios": 6
+          }
+        ],
+        "verticales_todas": {
+          "cobros y pagos": 6
+        },
+        "cobranding_cuota": 0.0
+      },
+      {
+        "clave": "guatepos",
+        "page_id": "593092353887127",
+        "idioma": "es",
+        "marca": "Guatepos",
+        "rol": "competidor",
+        "mercado": "GT",
+        "leidos": 3,
+        "activos_declarados": 3,
+        "muestra_completa": true,
+        "advertencia_muestra": null,
+        "mensaje_top": "api.whatsapp.com",
+        "mensaje_top_cuota": 0.667,
+        "mensaje_top_dias": 21,
+        "mensajes_distintos": 1,
+        "concentracion": 0.667,
+        "carrusel": 0,
+        "carrusel_cuota": 0.0,
+        "tarjetas_max": 1,
+        "dias_sin_lanzar": 21,
+        "creativos_por_semana": null,
+        "span_dias": 0,
+        "cuota_en_rafaga": 0.0,
+        "modo": "goteo",
+        "verticales": [],
+        "verticales_todas": {},
+        "cobranding_cuota": 0.0
+      }
+    ],
+    "comparativo": {
+      "referentes": [
+        "Shopify",
+        "Shopify"
+      ],
+      "competidores": [
+        "Paggo Guatemala",
+        "Banco Industrial",
+        "Banco Industrial",
+        "Recurrente",
+        "Guatepos"
+      ],
+      "carrusel": {
+        "referentes": {
+          "carruseles": 18,
+          "anuncios": 32,
+          "cuota": 0.562
+        },
+        "competidores": {
+          "carruseles": 22,
+          "anuncios": 83,
+          "cuota": 0.265
+        }
+      },
+      "concentracion": {
+        "referentes": {
+          "mediana": 0.125,
+          "marcas": 2
+        },
+        "competidores": {
+          "mediana": 0.5,
+          "marcas": 5
+        }
+      },
+      "verticales_referentes": {
+        "retail y tienda": 20,
+        "gestión del negocio": 6,
+        "promoción y precio": 2
+      },
+      "verticales_competidores": {
+        "gestión del negocio": 36,
+        "crédito y financiamiento": 5,
+        "promoción y precio": 2,
+        "punto de venta / hardware": 1,
+        "cobros y pagos": 6
+      },
+      "_como_leer_verticales": "Las verticales salen de clasificar el TITULAR de cada anuncio. Un anuncio cuyo titular no dice a quién le habla queda fuera del conteo en vez de repartirse: es un hueco, no una vertical."
+    },
+    "territorios_ocupados": [
+      {
+        "mensaje": "Gestiona tu Negocio Fácil",
+        "de": "Paggo Guatemala",
+        "cuota": 0.947,
+        "creativos": 36,
+        "dias_vivo": 109,
+        "desde": "2026-05-18",
+        "mercado": "GT",
+        "sobre": 38
+      }
+    ],
+    "sobrevivientes": [
+      {
+        "marca": "Shopify",
+        "rol": "referente",
+        "mensaje": "Vende más con Shopify",
+        "dias_vivo": 163,
+        "desde": "2026-03-25",
+        "url": "https://www.facebook.com/ads/library/?id=889599310806471"
+      },
+      {
+        "marca": "Paggo Guatemala",
+        "rol": "competidor",
+        "mensaje": "Gestiona tu Negocio Fácil",
+        "dias_vivo": 109,
+        "desde": "2026-05-18",
+        "url": "https://www.facebook.com/ads/library/?id=26620958677575099"
+      }
+    ],
+    "recomendaciones": [
+      {
+        "id": "evitar-gestiona-tu-negocio-fácil",
+        "tipo": "evitar",
+        "titulo": "No usar la promesa «Gestiona tu Negocio Fácil»",
+        "que_hacer": "Buscar otra promesa para el mismo producto. Si hay que competir ahí, tiene que ser con un ángulo distinto, no con una versión mejor de la suya.",
+        "porque": "Paggo Guatemala ya es dueña de ese territorio: carga 95% de los 38 anuncios de su GT, y lo lleva sosteniendo 109 días.",
+        "evidencia": [
+          "36 de 38 anuncios con ese titular",
+          "95% · universo: GT",
+          "vivo desde 2026-05-18 · 109 días"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "pauta-vertical-propia",
+        "tipo": "copiar",
+        "titulo": "Pautar en Ecommerce y Retail: ya tenemos el producto, falta el anuncio",
+        "que_hacer": "Producir piezas para Ecommerce y Retail esta semana. No hay que construir nada nuevo: la página del sector ya existe, así que el anuncio tiene a dónde llevar.",
+        "porque": "Es la única recomendación de la lista donde ya está todo puesto menos la pauta. Los referentes trabajan «retail y tienda» y NINGÚN competidor medido la toca. Y ya hay cliente en el sector: ByAnaCeci.",
+        "evidencia": [
+          "retail y tienda · 20 anuncios de referentes, 0 de competidores",
+          "sector propio con página: Ecommerce",
+          "sector propio con página: Retail",
+          "testimonio en el sector: «Cuando comencé mi negocio necesitaba una plataforma para gestionar mis…» — ByAnaCeci"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "formato-carrusel",
+        "tipo": "copiar",
+        "titulo": "Producir en carrusel de varias tarjetas",
+        "que_hacer": "Meter carrusel en la producción de la semana. En los referentes llegan hasta 4 tarjetas, así que hay margen para contar algo por pasos en lugar de una sola imagen.",
+        "porque": "Los referentes usan carrusel casi el doble que los competidores locales: 56% de sus anuncios contra 26%.",
+        "evidencia": [
+          "referentes · 18 de 32 anuncios",
+          "competidores · 22 de 83 anuncios",
+          "el tipo de medio (video o imagen) no lo devuelve la fuente"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      },
+      {
+        "id": "repartir-mensaje",
+        "tipo": "copiar",
+        "titulo": "Repartir el mensaje: que ninguna promesa cargue toda la semana",
+        "que_hacer": "Que la promesa más repetida no pase de 1 de cada 8 piezas producidas, y que cada una apunte a una vertical distinta. Es una cuota, así que aplica igual con capacidad de 5 que de 50.",
+        "porque": "Los referentes reparten y los competidores locales concentran. En un referente el mensaje más repetido carga 12% del inventario — 1 de cada 8 anuncios. En un competidor local, 50%: 1 de cada 2.",
+        "evidencia": [
+          "mediana de concentración · referentes 0.125",
+          "mediana de concentración · competidores 0.5",
+          "2 referentes y 5 competidores medidos"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "cadencia-goteo",
+        "tipo": "copiar",
+        "titulo": "Sostener un goteo semanal en vez de una ráfaga y luego nada",
+        "que_hacer": "Repartir la producción de la semana a lo largo de la semana. 0.7 creativos por semana sostenidos mantienen presencia; una carga de golpe la concentra en un día.",
+        "porque": "Shopify mantiene presencia 154 días con 0.7 creativos por semana. Paggo Guatemala sube 79% de sus creativos en lotes del mismo segundo.",
+        "evidencia": [
+          "Shopify · span 154 días, 0.7/semana, 25% en ráfaga",
+          "Paggo Guatemala · 79% en ráfaga"
+        ],
+        "confianza": "alta",
+        "advertencia": null
+      },
+      {
+        "id": "sobrevivientes",
+        "tipo": "probar",
+        "titulo": "Leer los 2 titulares que nadie ha retirado",
+        "que_hacer": "Antes de escribir el titular de la semana, leer estos. No para copiarlos: para ver qué forma tiene un titular que su dueño deja pagando más de 90 días.",
+        "porque": "La Ad Library no dice qué funcionó, pero nadie deja vivo 90 días un creativo que no le devuelve nada. Es el sustituto declarado del ranking por impresiones, que no existe para anunciantes comerciales.",
+        "evidencia": [
+          "«Vende más con Shopify» · Shopify · 163 días",
+          "«Gestiona tu Negocio Fácil» · Paggo Guatemala · 109 días"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      },
+      {
+        "id": "ventana-recurrente",
+        "tipo": "probar",
+        "titulo": "Recurrente lleva 42 días sin lanzar nada",
+        "que_hacer": "Si hay algo que se le quiera disputar a Recurrente, esta es la ventana. Verificar antes de producir: la lectura es una foto de un día.",
+        "porque": "Su último creativo nuevo entró hace 42 días. Sus anuncios siguen activos, pero no está produciendo nuevos.",
+        "evidencia": [
+          "último creativo · hace 42 días",
+          "6 anuncios activos leídos",
+          "toda su carga cayó en un solo día"
+        ],
+        "confianza": "media",
+        "advertencia": null
+      }
+    ],
+    "no_respondible": [
+      {
+        "pregunta": "Formatos: video, imagen estática, carrusel y su distribución",
+        "estado": "PARCIAL",
+        "que_si": "Se distingue tarjeta única de carrusel contando los separadores del titular, y se reporta el promedio y el máximo de tarjetas.",
+        "que_no": "Video vs. imagen estática. La API no devuelve ningún campo de tipo de medio para los anuncios de la Ad Library.",
+        "como_se_desbloquearia": "Habría que abrir el `ad_snapshot_url` de cada anuncio y mirarlo. Se intentó: facebook.com está bloqueado por la política de red del entorno, así que desde aquí no hay vía."
+      },
+      {
+        "pregunta": "Partnerships vs. brand ads: los que llevan «with» + handle",
+        "estado": "PARCIAL",
+        "que_si": "Se detecta co-branding en el titular: el patrón «Negocio + Marca» y las historias de un negocio con nombre propio.",
+        "que_no": "El rótulo «with @handle» que identifica a un creador pagado. Vive en el anuncio renderizado, no en los campos de la API. Desde aquí, un caso de cliente y una colaboración pagada son indistinguibles.",
+        "como_se_desbloquearia": "Mismo camino que los formatos: ver el anuncio renderizado."
+      },
+      {
+        "pregunta": "Top 10 anuncios con más impresiones",
+        "estado": "IMPOSIBLE",
+        "que_si": "Un sustituto declarado: el ranking por CANTIDAD DE CREATIVOS que cargan el mismo mensaje, y el ranking por días vivo. Los dos dicen dónde apuesta el anunciante. Ninguno es impresiones.",
+        "que_no": "Impresiones. Meta NO publica métricas de entrega de anunciantes comerciales en la Ad Library — solo los anuncios políticos y de asuntos sociales traen rangos. Es una decisión de Meta, no una limitación del conector, y no hay manera de sortearla.",
+        "como_se_desbloquearia": "No se desbloquea. Ningún permiso ni herramienta lo expone para un anunciante comercial ajeno."
+      }
+    ]
+  },
+  "copys": {
+    "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
+    "_estado_de_todos": "PROPUESTA · requiere aprobacion humana",
+    "lista": [
+      {
+        "id": "copy-sv-liquidacion-a",
+        "angulo": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+        "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
+        "mercado": "SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "etapa": "descubrimiento",
+        "titular": "Tu dinero cada 24 horas",
+        "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
+        "cta": "Empezar ahora",
+        "porque": "Cero anuncios activos de las seis marcas medidas en SV, y es el único mercado donde Qpaypro promete liquidación en 24 horas. El lead de SV cuesta $1.89 contra $2.89 en GT.",
+        "no_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02.",
+        "pieza": "video",
+        "solucion": "Pasarela de Pagos"
+      },
+      {
+        "id": "copy-sv-liquidacion-b",
+        "angulo": "Liquidación diaria · con el patrón de fricción primero",
+        "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
+        "mercado": "SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Cobraste el lunes. ¿Cuándo lo ves?",
+        "cuerpo": "Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.",
+        "cta": "Calcula tu cobro",
+        "porque": "Usa el patrón de las landings de Qpaypro —nombrar la fricción y después resolverla— y cierra con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
+        "no_dice": "No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.",
+        "bloqueada_en": [
+          "GT"
+        ],
+        "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala.",
+        "pieza": "arte",
+        "solucion": "Pasarela de Pagos"
+      },
+      {
+        "id": "copy-belleza-anticipo",
+        "angulo": "Salones y barberías · nicho libre donde ya hay producto y cliente",
+        "de_la_recomendacion": "Pautar en Belleza: ya tenemos el producto, falta el anuncio",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "etapa": "descubrimiento",
+        "titular": "El anticipo asegura la cita",
+        "cuerpo": "Manda un link por WhatsApp al agendar. Tu clienta paga desde su celular y las ausencias bajan.",
+        "cta": "Comenzar ahora",
+        "porque": "Los referentes trabajan «belleza y citas» con 11 anuncios y ningún competidor medido la toca. Qpaypro ya tiene la página del sector y un testimonio: NayeNails.",
+        "no_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
+        "bloqueada_en": [],
+        "_apoyo": "En Instagram el carrusel rinde 5.65% de tasa y el reel 3.80%; el reel alcanza más gente. Vale probar los dos formatos con el mismo texto.",
+        "pieza": "video",
+        "solucion": "Pasarela de Pagos",
+        "tambien_toca": "Punto de Venta"
+      },
+      {
+        "id": "copy-belleza-propina",
+        "angulo": "Salones y barberías · el detalle que nadie más menciona",
+        "de_la_recomendacion": "Pautar en Belleza: ya tenemos el producto, falta el anuncio",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Cobra rápido, incluso la propina",
+        "cuerpo": "Tarjeta en recepción, con propina y sin depender del efectivo. La clienta sale y la caja cuadra sola.",
+        "cta": "Hablar con ventas",
+        "porque": "«Propina» es un detalle de mostrador que solo aparece en la landing de belleza de Qpaypro. Ningún competidor ni referente medido lo menciona.",
+        "no_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
+        "bloqueada_en": [],
+        "pieza": "arte",
+        "solucion": "Punto de Venta"
+      },
+      {
+        "id": "copy-inventario-descuadre",
+        "angulo": "Un solo inventario · territorio propio que nadie usa",
+        "de_la_recomendacion": "Territorios propios sin disputa",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "etapa": "consideración",
+        "titular": "Vendiste algo que ya no tenías",
+        "cuerpo": "Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.",
+        "cta": "Comenzar ahora",
+        "porque": "Ni Paggo, ni Recurrente, ni BI, ni Square, ni Shopify usan el inventario único como mensaje en los mercados medidos. Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
+        "no_dice": "No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.",
+        "bloqueada_en": [],
+        "pieza": "arte",
+        "solucion": "Tienda en Línea",
+        "tambien_toca": "Punto de Venta"
+      },
+      {
+        "id": "copy-soporte-tecnico",
+        "angulo": "Soporte local y técnico presencial · lo único que un referente global no puede decir",
+        "de_la_recomendacion": "Territorios propios sin disputa",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "reel",
+        "etapa": "consideración",
+        "titular": "Un técnico llega y lo instala",
+        "cuerpo": "El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.",
+        "cta": "Hablar con ventas",
+        "porque": "Square y Shopify venden autoservicio: no pueden decir esto. Las tres frases salen literales de la landing de punto de venta y del sello «Certificada PCI-DSS · Aprobación rápida · Soporte local».",
+        "no_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
+        "bloqueada_en": [],
+        "pieza": "video",
+        "solucion": "Punto de Venta"
+      },
+      {
+        "id": "copy-pdv-video-cierre",
+        "angulo": "Punto de Venta · la fricción del cierre de caja, en video",
+        "de_la_recomendacion": "Territorios propios sin disputa · un solo inventario",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "pieza": "video",
+        "solucion": "Punto de Venta",
+        "etapa": "consideración",
+        "titular": "Cerrar caja no debería tomar media hora",
+        "cuerpo": "El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.",
+        "cta": "Ver Punto de Venta",
+        "porque": "Las dos frases son literales de la landing de punto de venta. En Instagram el reel alcanza 292 personas en promedio, más que cualquier otro formato propio.",
+        "no_dice": "No nombra el modelo: en GT es POS Cute y en SV es POS A920.",
+        "bloqueada_en": []
+      },
+      {
+        "id": "copy-pasarela-arte-whatsapp",
+        "angulo": "Pasarela de Pagos · cobrar sin web ni local, en arte",
+        "de_la_recomendacion": "Nichos libres · servicios sin local",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "pieza": "arte",
+        "solucion": "Pasarela de Pagos",
+        "etapa": "descubrimiento",
+        "titular": "Cobra con tarjeta sin tener local",
+        "cuerpo": "Manda un link de pago por WhatsApp. Tu cliente paga desde su celular y a ti te llega la confirmación.",
+        "cta": "Comenzar ahora",
+        "porque": "Es la pregunta frecuente textual de su landing de servicios: «¿Puedo cobrar con tarjeta si no tengo un local?». Y en Facebook el carrusel tiene la mejor tasa: 0.82% contra 0.52% de la imagen.",
+        "no_dice": "No promete tiempo de acreditación: la liquidación diaria solo aplica en SV.",
+        "bloqueada_en": []
+      },
+      {
+        "id": "copy-tienda-video-sinweb",
+        "angulo": "Tienda en Línea · empezar sin web, en video",
+        "de_la_recomendacion": "Territorios propios sin disputa · empezar sin comprar equipo",
+        "mercado": "GT y SV",
+        "red": "Instagram",
+        "formato": "reel",
+        "pieza": "video",
+        "solucion": "Tienda en Línea",
+        "etapa": "descubrimiento",
+        "titular": "¿No tienes web? Crea tu Qpayshop",
+        "cuerpo": "Publica tu catálogo, conecta tu dominio y configura envíos. Sin programar.",
+        "cta": "Comenzar ahora",
+        "porque": "Titular y cuerpo son literales de la landing de ecommerce. Ningún competidor ni referente medido usa «empezar sin web» como mensaje en los mercados medidos.",
+        "no_dice": "No dice «en minutos» aunque el sitio lo diga en una FAQ: como promesa de titular necesitaría que Qpaypro lo confirme.",
+        "bloqueada_en": []
+      },
+      {
+        "id": "copy-tienda-arte-integraciones",
+        "angulo": "Tienda en Línea · conectar la que ya tienen, en arte",
+        "de_la_recomendacion": "Territorios propios sin disputa · un solo inventario",
+        "mercado": "GT y SV",
+        "red": "Facebook",
+        "formato": "carrusel",
+        "pieza": "arte",
+        "solucion": "Tienda en Línea",
+        "etapa": "consideración",
+        "titular": "Ya tienes tienda. Conéctala",
+        "cuerpo": "Instala el plugin y cobra con tarjeta en Shopify, WooCommerce, VTEX, PrestaShop o Ecwid.",
+        "cta": "Más información",
+        "porque": "Las cinco plataformas son las que el sitio lista. Shopify es un REFERENTE del análisis, no un competidor: integrarse con él no es competir con él.",
+        "no_dice": "No dice «en minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo.",
+        "bloqueada_en": []
+      }
+    ]
+  },
+  "estrategia": {
+    "estrategias": [
+      {
+        "id": "mercado-sin-disputa",
+        "nombre": "Empujar SV, que hoy no se le disputa a nadie",
+        "en_pocas_palabras": "Concentrar la producción de la semana en SV en lugar de repartirla entre los dos mercados. Creativo hecho para SV, no reciclado del otro.",
+        "por_que": "Es el único mercado donde se juntan las dos cosas: el costo por resultado más bajo ($2.68 contra GT $3.35) y cero anuncios activos entre los competidores medidos. Cuando nadie más compra esa atención, el creativo no compite por ella.",
+        "evidencia": [
+          "meta_campanas_por_pais.json · SV · $2.68 por resultado",
+          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
+        ],
+        "cuando_no_conviene": "Si el equipo comercial de SV no puede atender más leads. Y hay un techo que no se puede medir desde aquí: SV concentra solo el 39% de la inversión del periodo ($233.12), así que duplicar ahí mueve menos dinero en términos absolutos que un punto de mejora en el mercado grande.",
+        "tareas": [
+          "arte-mercado-libre-SV"
+        ],
+        "recomendada": true,
+        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto."
+      },
+      {
+        "id": "disputar-el-flanco",
+        "nombre": "Ocupar el flanco que Paggo deja libre",
+        "en_pocas_palabras": "No repetir la promesa que la competencia ya paga. Producir el mismo público con otra promesa, la que ellos no están cubriendo.",
+        "por_que": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 109 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
+        "evidencia": [
+          "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
+          "Registro de competencia · mensajes saturados detectados: Paggo, Recurrente"
+        ],
+        "cuando_no_conviene": "Si el mensaje que ellos repiten es el que de verdad describe nuestro producto. Ceder el territorio correcto por no chocar sería peor que chocar. Eso no lo dice el dato: lo decide la mesa.",
+        "tareas": [
+          "arte-contra-paggo-GT",
+          "arte-contra-recurrente-GT"
+        ],
+        "recomendada": false,
+        "_por_que_recomendada": null
+      },
+      {
+        "id": "repetir-lo-propio",
+        "nombre": "Repetir el tema que ya enganchó con la audiencia propia",
+        "en_pocas_palabras": "Tomar el contenido que mejor rindió en orgánico y llevarlo a otro formato y otra red, en lugar de estrenar temas sin validar.",
+        "por_que": "«Lo que no se puede medir no se puede modificar…» hizo 70 interacciones en instagram el 2026-09-02: es el techo de lo medido en el periodo. El tema ya está probado con nuestra propia audiencia, así que lo que se repite es el tema, no el arte.",
+        "evidencia": [
+          "social_normalizado.json · instagram · «Lo que no se puede medir no se puede modificar…» · 70 interacciones · 2026-09-02"
+        ],
+        "cuando_no_conviene": "Si lo que hizo funcionar esa pieza fue algo que no se puede repetir — una colaboración, una fecha, un anuncio de producto. El dato dice que rindió, no por qué rindió.",
+        "tareas": [
+          "arte-repetir-lo-que-rinde"
+        ],
+        "recomendada": false,
+        "_por_que_recomendada": null
+      }
+    ],
+    "recomendada": "mercado-sin-disputa",
+    "tareas": [
+      {
+        "id": "arte-contra-paggo-GT",
+        "tipo": "arte",
+        "titulo": "Contra-ángulo frente a Paggo en GT",
+        "porque": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "evidencia": [
+          "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
+          "Ad Library · foto del periodo, 36 anuncios con ese titular"
+        ],
+        "angulo": "Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.",
+        "no_decir": "Gestiona tu Negocio Fácil",
+        "formato": "arte estático + variante para historia",
+        "rol_sugerido": "diseño",
+        "piezas": 2,
+        "piezas_motivo": "2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "referencias": [
+          {
+            "tema": "Contra-ángulo frente a Paggo",
+            "consulta": "payments brand differentiation poster minimal",
+            "formato": "arte",
+            "motivo": "Paggo ocupa «Gestiona tu Negocio Fácil» en 95% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+            "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::arte::contra-Paggo-GT",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-contra-recurrente-GT",
+        "tipo": "arte",
+        "titulo": "Contra-ángulo frente a Recurrente en GT",
+        "porque": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "evidencia": [
+          "Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT",
+          "Ad Library · foto del periodo, 3 anuncios con ese titular"
+        ],
+        "angulo": "Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.",
+        "no_decir": "Recibe pagos con oro digital",
+        "formato": "arte estático + variante para historia",
+        "rol_sugerido": "diseño",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "referencias": [
+          {
+            "tema": "Contra-ángulo frente a Recurrente",
+            "consulta": "payments brand differentiation poster minimal",
+            "formato": "arte",
+            "motivo": "Recurrente ocupa «Recibe pagos con oro digital» en 50% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+            "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::arte::contra-Recurrente-GT",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-mercado-libre-SV",
+        "tipo": "arte",
+        "titulo": "Creativo propio para SV: nadie más está pautando ahí",
+        "porque": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.",
+        "evidencia": [
+          "meta_campanas_por_pais.json · SV · costo por resultado $2.68",
+          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
+        ],
+        "angulo": "Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.",
+        "no_decir": null,
+        "formato": "arte estático + video corto",
+        "rol_sugerido": "diseño",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "referencias": [
+          {
+            "tema": "Creativo propio para SV",
+            "consulta": "local market payments campaign key visual",
+            "formato": "arte",
+            "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
+            "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "estrategias": [
+          "mercado-sin-disputa"
+        ],
+        "siempre": false,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::arte::mercado-libre-SV",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "arte-repetir-lo-que-rinde",
+        "tipo": "arte",
+        "titulo": "Repetir el tema que mejor rindió: «Lo que no se puede medir no se puede modificar…»",
+        "porque": "Es la pieza orgánica con más interacciones del periodo medido (70 en instagram, 2026-09-02). El tema está validado con audiencia propia; lo que se repite es el tema, no el arte.",
+        "evidencia": [
+          "social_normalizado.json · instagram · 70 interacciones · 2026-09-02"
+        ],
+        "angulo": "Tomar el tema que ya funcionó y llevarlo a otro formato y otra red, en lugar de estrenar un tema sin validar.",
+        "no_decir": null,
+        "formato": "arte estático + adaptación vertical",
+        "rol_sugerido": "diseño",
+        "piezas": 1,
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "referencias": [
+          {
+            "tema": "Lo que mejor rindió en facebook",
+            "consulta": "ecommerce integration announcement social post design",
+            "formato": "arte",
+            "motivo": "«La importancia de la resiliencia junto a ByAnaCeci » fue el mejor de facebook con 2 interacciones. Buscar referencia visual para repetir el tema, no el arte.",
+            "url": "https://www.pinterest.com/search/pins/?q=ecommerce+integration+announcement+social+post+design",
+            "_estado": "BUSQUEDA_NO_CURADA"
+          }
+        ],
+        "requiere_humano": false,
+        "instruccion_exacta": null,
+        "estrategias": [
+          "repetir-lo-propio"
+        ],
+        "siempre": false,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::arte::repetir-instagram",
+        "_estado_inicial": "propuesta"
+      },
+      {
+        "id": "pauta-excluir-HN",
+        "tipo": "pauta",
+        "titulo": "Quitar HN de la segmentación: sigue gastando en un mercado que ya no es objetivo",
+        "porque": "HN está excluido de los mercados declarados y aun así registró $0.02 y 10 impresiones en el periodo.",
+        "evidencia": [
+          "meta_campanas_por_pais.json · HN · $0.02 de gasto",
+          "config/convenciones.json · HN excluido: Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con hon"
+        ],
+        "angulo": "No es creativo: es higiene de segmentación.",
+        "no_decir": null,
+        "formato": "",
+        "rol_sugerido": "pauta",
+        "piezas": null,
+        "piezas_motivo": "No aplica: es un cambio de configuración, no producción.",
+        "referencias": [],
+        "requiere_humano": true,
+        "instruccion_exacta": "En Meta Ads Manager, abrir el conjunto de anuncios de: Campaña Punto de Venta SV. En Audiencia → Ubicaciones, quitar HN de la lista de países. Guardar. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. El sistema no lo hace porque Meta Ads es solo lectura (ADR-012).",
+        "estrategias": [],
+        "siempre": true,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::pauta::excluir-HN",
+        "_estado_inicial": "propuesta"
+      }
+    ],
+    "conteo": {
+      "creativas": 4,
+      "de_pauta": 1,
+      "total": 5
+    },
+    "asignacion": {
+      "habilitada": true,
+      "personas": [
+        {
+          "nombre": "Dulce Anaí Galindo Escobar",
+          "id_sprint": "21897000001319001",
+          "rol": "diseño",
+          "_zuid": "911930552"
+        },
+        {
+          "nombre": "Jeremy Sterlin Manuel Hernández",
+          "id_sprint": "21897000001317019",
+          "rol": "video",
+          "_zuid": "911929838"
+        },
+        {
+          "nombre": "Elizabeth Sierra",
+          "id_sprint": "21897000001144001",
+          "rol": "coordinación",
+          "_zuid": "895503553"
+        }
+      ],
+      "proyecto_sprint": {
+        "team_id": "667151262",
+        "project_id": "21897000000139001",
+        "sprint_id": "21897000000139025",
+        "item_type_id": "21897000000139035",
+        "priority_id": "21897000000139007",
+        "nombre": "Diseño y MK",
+        "_es_de_prueba": false,
+        "_nota": "CreateItem exige team_id, project_id y sprint_id en la ruta, y projitemtypeid y projpriorityid como parametros obligatorios. Con el team_id, los otros cuatro SI se pueden leer por API: GetProjects -> project_id, GetSprints -> sprint_id, GetProjectPriorities -> priority_id. El team_id es el unico que tiene que venir de una persona.",
+        "_workspace_slug": "qpaypro",
+        "_url_observada": "https://sprints.zoho.com/workspace/qpaypro#P8/board/SP49",
+        "_claves_visibles": {
+          "proyecto": "P8",
+          "sprint": "SP49",
+          "_nombre_proyecto": "Diseño y MK",
+          "_nota": "Son las claves de PRESENTACION que muestra la interfaz, no los IDs internos que pide la API (numericos y largos). Se guardan porque identifican sin ambiguedad el proyecto y el sprint destino en cuanto se pueda leer GetProjects/GetSprints."
+        },
+        "_team_id_verificado": "2026-08-28. Confirmado con las llamadas que hace la propia aplicacion, leidas desde la consola del navegador: https://sprints.zoho.com/zsapi/team/667151262/tabs/?action=data (y dos mas). No es una hipotesis: es el ID que Sprints usa contra su propia API.",
+        "_project_id_verificado": "2026-08-28. Leido de las llamadas de la propia aplicacion: /zsapi/team/667151262/projects/21897000000139001/uipreference/. La misma pantalla llama a /projects/no-8/?action=details, que confirma que este ID numerico corresponde a la clave visible P8.",
+        "_autorizacion_produccion": {
+          "otorgada": true,
+          "por": "mercadeo@qpaypro.com",
+          "fecha": "2026-08-28",
+          "texto_del_usuario": "luego en la desicion dale a la 2, tienes mi autorizacion",
+          "_contexto": "Se le ofrecieron dos opciones: (1) crear un proyecto de prueba --recomendada-- o (2) autorizar escritura en el proyecto real 'Diseno y MK' (P8). Eligio la 2 de forma explicita.",
+          "_alcance": "SOLO el proyecto 21897000000139001 de este espacio de trabajo. No es una autorizacion general de escritura y no se extiende a Meta Ads, que sigue siendo de solo lectura por instruccion aparte (regla 8, ADR-012).",
+          "_sigue_vigente": "La compuerta de --dry-run NO se levanta. Toda escritura se muestra completa antes de ejecutarse; la autorizacion permite escribir en produccion, no escribir sin revision."
+        },
+        "_destino": "EL BACKLOG DEL PROYECTO, no un sprint. sprint_id lleva el backlogId (21897000000139025) a proposito: CreateItem acepta un sprint O el backlog en la misma variable de ruta. El sprint activo 'AGOSTO 2026' (SP49) termina el 2026-08-31, asi que escribir ahi metia las tareas en un sprint que cierra el mismo dia. El backlog no caduca y es donde corresponde el trabajo que aun no se planifico: la mesa lo arrastra al sprint cuando decide.",
+        "_ids_leidos_por_api": {
+          "_fecha": "2026-08-31",
+          "_como": "GetProjects -> GetSprints -> GetProjectPriorities -> GetItems, con el team_id 667151262. Ninguno se invento ni se dedujo.",
+          "sprint_id": "backlogId, de GetProjectDetails action=details y confirmado por GetSprints",
+          "item_type_id": "de GetItems: el tipo 'Task' que ya usan los items del proyecto",
+          "priority_id": "de GetProjectPriorities: 'Medium'"
+        },
+        "_catalogos_leidos": {
+          "_nota": "Los catalogos completos, para no volver a preguntarlos. Los nombres de tipo y prioridad estan en INGLES; los de estado en ESPANOL.",
+          "tipos_de_item": {
+            "Task": "21897000000139035",
+            "Story": "21897000000139039"
+          },
+          "prioridades": {
+            "None": "21897000000139003",
+            "Low": "21897000000139005",
+            "Medium": "21897000000139007",
+            "High": "21897000000139009"
+          },
+          "estados_observados": {
+            "Por Hacer": "21897000000156037",
+            "Para Programar": "21897000001181007",
+            "Completado": "21897000000051049"
+          },
+          "sprints": {
+            "AGOSTO 2026 (SP49, activo, termina 2026-08-31)": "21897000001520034",
+            "ReMarketing (SP45, proximo)": "21897000001443016"
+          },
+          "_convencion_del_equipo": "El equipo usa 'Story' para las piezas de contenido (Post 2, Post 3, Video Pauta 1) y 'Task' para lo demas. La importacion del CSV creo 'Task'."
+        },
+        "_import_csv_verificado": {
+          "_fecha": "2026-08-28, confirmado por API el 2026-08-31",
+          "_que_paso": "Mercadeo subio el CSV y las tres tareas ACEPTADAS entraron al backlog: itemNo 1140 'Contra-angulo frente a Recurrente en GT', 1141 'Brecha de eficiencia entre campanas' y 1142 'Punto de venta'. addedVia=3 (importacion).",
+          "_lo_que_confirma": "Las tres columnas en ingles del CSV las traduce Zoho sola: Status 'Open' -> 'Por Hacer', Item Type 'Task' -> Task, Priority 'Medium' -> Medium. Era una duda abierta y quedo resuelta con evidencia.",
+          "_lo_que_falto": "Entraron sin responsable, porque la columna Assignee iba vacia: no habia lista de personas. Es el unico dato que sigue faltando."
+        }
+      },
+      "motivo_bloqueo": null,
+      "_como_desbloquear": null,
+      "_flujo": "Aceptar una tarea NO la crea en Sprint. El tablero registra la decisión; el botón «Copiar decisiones» las entrega como JSON, y ese JSON lo consume `python -m modulo1.sprint --dry-run`, que imprime la llamada exacta antes de hacer nada. La escritura la ejecuta el agente orquestador, único con permiso (regla 4)."
+    },
+    "limites": [
+      {
+        "que": "copy publicable",
+        "estado": "BLOQUEADO",
+        "detalle": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+        "remedio": "Llenar .claude/skills/contexto-marca/SKILL.md con los 5 insumos que lista."
+      },
+      {
+        "que": "cantidad de piezas por tarea",
+        "estado": "DECLARADA",
+        "detalle": "Cuántos artes o videos caben en una semana es capacidad del equipo. No existe en Meta ni en Ad Library, así que no se estima.",
+        "remedio": "Declarar capacidad_semanal en config/equipo.json."
+      },
+      {
+        "que": "ejecución de cambios en Meta Ads",
+        "estado": "PROHIBIDA",
+        "detalle": "Meta Ads es solo lectura por instrucción explícita del usuario (ADR-012). Ni siquiera en estado pausado.",
+        "remedio": "Las tareas de pauta salen con la instrucción exacta para que una persona la aplique a mano."
+      }
+    ]
+  },
+  "hallazgos": [
+    {
+      "titulo": "Brecha de eficiencia entre campañas",
+      "afirmacion": "Dentro del indicador 'actions:lead', la campaña más costosa paga 1.24x lo que paga la más eficiente.",
+      "evidencia": [
+        {
+          "dato": "Más eficiente",
+          "valor": "Campaña Punto de Venta SV · $2.68",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        },
+        {
+          "dato": "Menos eficiente",
+          "valor": "Campaña Punto de Venta GT · $3.33",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        }
+      ],
+      "tipo": "observacion",
+      "calculo": "$3.33 ÷ $2.68 = 1.24x",
+      "advertencia": null
+    },
+    {
+      "titulo": "El mayor presupuesto no está en la campaña más eficiente",
+      "afirmacion": "'Campaña Punto de Venta GT' concentra el mayor gasto pero ocupa el puesto 2 de 2 en eficiencia.",
+      "evidencia": [
+        {
+          "dato": "Mayor gasto",
+          "valor": "Campaña Punto de Venta GT · $356.37 · $3.33 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        },
+        {
+          "dato": "Mejor costo",
+          "valor": "Campaña Punto de Venta SV · $233.12 · $2.68 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Costo de oportunidad del periodo",
+      "afirmacion": "Las demás campañas del indicador gastaron $356.37 y obtuvieron 107 resultados. Al costo de 'Campaña Punto de Venta SV' ese mismo dinero equivale a 133.",
+      "evidencia": [
+        {
+          "dato": "Costo de referencia",
+          "valor": "Campaña Punto de Venta SV · $2.68",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        },
+        {
+          "dato": "Gasto y resultados del resto",
+          "valor": "$356.37 · 107 resultados",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": "$356.37 ÷ $2.68 = 133 vs 107 reales = 26 de diferencia",
+      "advertencia": "Es aritmética sobre el periodo medido, NO un pronóstico. La diferencia de costo puede venir de público, creativo, producto o etapa del embudo. Sirve para dimensionar la pregunta, no para prometer el resultado."
+    },
+    {
+      "titulo": "Paggo concentra su mensaje",
+      "afirmacion": "95% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de Paggo",
+          "valor": "\"Gestiona tu Negocio Fácil\" en 36 de 38 anuncios",
+          "fuente": "adlibrary_paggo_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Recurrente concentra su mensaje",
+      "afirmacion": "50% de los anuncios observados de Recurrente usan el titular \"Recibe pagos con oro digital\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de Recurrente",
+          "valor": "\"Recibe pagos con oro digital\" en 3 de 6 anuncios",
+          "fuente": "adlibrary_recurrente_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "GuatePOS concentra su mensaje",
+      "afirmacion": "67% de los anuncios observados de GuatePOS usan el titular \"api.whatsapp.com\".",
+      "evidencia": [
+        {
+          "dato": "Titular dominante de GuatePOS",
+          "valor": "\"api.whatsapp.com\" en 2 de 3 anuncios",
+          "fuente": "adlibrary_guatepos_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
+    },
+    {
+      "titulo": "Banco Industrial (BI) está escalando ahora",
+      "afirmacion": "100% del inventario activo observado de Banco Industrial (BI) se lanzó en los últimos 10 días. No es un estado estable.",
+      "evidencia": [
+        {
+          "dato": "Lanzamientos recientes de Banco Industrial (BI)",
+          "valor": "25 de 25 anuncios en los últimos 10 días",
+          "fuente": "adlibrary_bi_GT.json"
+        },
+        {
+          "dato": "Cohorte más grande",
+          "valor": "10 anuncios creados el 2026-09-04 (hace 0 días)",
+          "fuente": "adlibrary_bi_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": "los titulares son muestra del 4.2% (25 de 598): el tope de 50 sin paginación impide enumerar el universo"
+    },
+    {
+      "titulo": "SV sin disputa medida",
+      "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
+      "evidencia": [
+        {
+          "dato": "Competencia activa en SV",
+          "valor": "0 anuncios",
+          "fuente": "Ad Library, SV, foto del 2026-09-04"
+        },
+        {
+          "dato": "Inversión propia en SV",
+          "valor": "$233.12 · 87 resultados · $2.68 por resultado",
+          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+        }
+      ],
+      "tipo": "oportunidad",
+      "calculo": null,
+      "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
+    }
+  ],
+  "verificacion_semana_anterior": "No aplicable: no existe corrida de la semana anterior. No es un dato faltante, es la primera corrida.",
+  "plan": {
+    "periodo": "2026-08-25 a 2026-09-03",
+    "recomendaciones": [
+      {
+        "titulo": "Cantidades de producción por formato",
+        "accion": "Pendiente. No se puede repartir la producción entre video y arte estática sin rendimiento por formato.",
+        "evidencia": [],
+        "cantidad": null,
+        "no_cuantificable": "El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.",
+        "dato_que_falta": "Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.",
+        "advertencia": null
+      },
+      {
+        "titulo": "Decidir posición frente al mensaje dominante del competidor",
+        "accion": "95% de los anuncios observados de Paggo usan el titular \"Gestiona tu Negocio Fácil\". Decidir en la mesa si se disputa ese territorio de frente o se ocupa uno distinto.",
+        "evidencia": [
+          {
+            "dato": "Titular dominante de Paggo",
+            "valor": "\"Gestiona tu Negocio Fácil\" en 36 de 38 anuncios",
+            "fuente": "adlibrary_paggo_GT.json"
+          }
+        ],
+        "cantidad": null,
+        "no_cuantificable": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
+        "dato_que_falta": "Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.",
+        "advertencia": null
+      },
+      {
+        "titulo": "SV sin disputa medida",
+        "accion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.",
+        "evidencia": [
+          {
+            "dato": "Competencia activa en SV",
+            "valor": "0 anuncios",
+            "fuente": "Ad Library, SV, foto del 2026-09-04"
+          },
+          {
+            "dato": "Inversión propia en SV",
+            "valor": "$233.12 · 87 resultados · $2.68 por resultado",
+            "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+          }
+        ],
+        "cantidad": null,
+        "no_cuantificable": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
+        "dato_que_falta": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
+        "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
+      }
+    ],
+    "fuentes_usadas": [
+      "Ad Library, SV, foto del 2026-09-04",
+      "adlibrary_paggo_GT.json",
+      "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+    ]
+  },
+  "tareas_propuestas": [
+    {
+      "titulo": "Obtener el dato que falta: Cantidades de producción por formato",
+      "descripcion": "Consulta a nivel de anuncio (level='ad') incluyendo los campos de creativo, para poder agrupar por tipo de formato y comparar su costo por resultado dentro del mismo indicador.",
+      "tipo": "obtener_dato",
+      "justificacion": "El rendimiento por formato no está en los datos de esta corrida. Se leyó a nivel de campaña, y el formato del creativo vive a nivel de anuncio.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W35::dato::Cantidades de producción por formato"
+    },
+    {
+      "titulo": "Obtener el dato que falta: Decidir posición frente al mensaje dominante del competidor",
+      "descripcion": "Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.",
+      "tipo": "obtener_dato",
+      "justificacion": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W35::dato::Decidir posición frente al mensaje dominante del competidor"
+    },
+    {
+      "titulo": "Obtener el dato que falta: SV sin disputa medida",
+      "descripcion": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
+      "tipo": "obtener_dato",
+      "justificacion": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
+      "origen": "recomendación sin dato suficiente",
+      "idempotencia": "2026-W35::dato::SV sin disputa medida"
+    },
+    {
+      "titulo": "Quitar HN de la segmentación geográfica",
+      "descripcion": "Quitar HN de la segmentacion de esa campana. Requiere escritura en Meta, asi que la aplica un humano (ADR-012). Se registra como instruccion, no como accion.",
+      "tipo": "integridad",
+      "justificacion": "HN está excluido de los mercados del proyecto pero registró $0.02 y 10 impresiones en: Campaña Punto de Venta SV.",
+      "origen": "verificación de integridad",
+      "idempotencia": "2026-W35::integridad::HN"
+    }
+  ],
+  "huecos_declarados": [
+    {
+      "fuente": "alcance e impresiones orgánicas",
+      "descripcion": "NO DISPONIBLE",
+      "impacto": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+    },
+    {
+      "fuente": "desglose por mercado (GT / SV)",
+      "descripcion": "FALTA CONECTAR UNA PÁGINA",
+      "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
+      "detalle": "El portal de Zoho Social tiene UNA marca conectada, así que por esta fuente GT y SV comparten audiencia y repartir las interacciones entre los dos sería inventarlo. Pero el corte SÍ existe del lado de Meta: hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» (829032443626700).",
+      "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
+    },
+    {
+      "fuente": "alcance del organico",
+      "descripcion": "SIN EXPORTACIONES DE ZOHO ANALYTICS",
+      "impacto": "Se reportan interacciones absolutas sin tasa, como antes del 2026-09-02. La tasa de interaccion no se calcula: sin denominador seria un numero inventado.",
+      "remedio": "Exportar las cuatro vistas de Zoho Analytics a `crudo/analytics/`. Los ids y la receta estan en docs/09-alcance-por-zoho-analytics.md."
+    }
+  ]
+}

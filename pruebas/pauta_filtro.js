@@ -8,7 +8,21 @@ const { chromium } = require("../node_modules/playwright");
 const fs = require("fs");
 
 const ARCHIVO = process.argv[2] || "/home/user/ChallengeIA/salidas/tablero-mesa-creativa.html";
-const ESPERADO = JSON.parse(fs.readFileSync("/tmp/kpi/esperado.json", "utf8"));
+/* Los esperados los calcula `pruebas/esperado_pauta.py` sobre el desglose
+   diario reconciliado, y traen las VENTANAS adentro: derivadas del dato de la
+   corrida, no escritas a mano. Antes vivían en /tmp con fechas de agosto fijas
+   —al cambiar el periodo quedaron fuera del rango disponible y el tablero las
+   ignoró, correctamente, con 31 comprobaciones en rojo señalando un defecto
+   inexistente. Una fecha escrita a mano en una prueba caduca sola. */
+const FIXT = process.argv[3] ||
+  (process.env.CORRIDA || "data/historico/2026-09-04_25ago_a_03sep") +
+  "/analisis/esperado_filtro.json";
+if (!fs.existsSync(FIXT)) {
+  console.error("faltan los esperados: " + FIXT +
+    "\n  correr: python3 pruebas/esperado_pauta.py <dir_corrida>");
+  process.exit(2);
+}
+const ESPERADO = JSON.parse(fs.readFileSync(FIXT, "utf8"));
 
 const envuelve = f => '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
   '<meta name="viewport" content="width=device-width,initial-scale=1">' +
@@ -81,18 +95,47 @@ const money = x => x == null ? "—" :
     await pg.waitForTimeout(600);
   };
 
-  const VENTANAS = [
-    ["todo", null, null],
-    ["1-10 ago", "2026-08-01", "2026-08-10"],
-    ["11-24 ago", "2026-08-11", "2026-08-24"],
-    ["solo 08-16", "2026-08-16", "2026-08-16"],
-    ["junio (vacia)", "2026-06-01", "2026-06-30"],
-  ];
+  const TOPE = ESPERADO._corrida.tope;
+  console.log("corrida: " + ESPERADO._corrida.periodo +
+              " · tope " + ESPERADO._corrida.tope.desde + ".." +
+              ESPERADO._corrida.tope.hasta +
+              " · " + ESPERADO._corrida.dias_con_dato + " días con dato");
 
-  for (const [nom, a, b] of VENTANAS) {
-    console.log("\n══ ventana: " + nom);
+  for (const V of ESPERADO.ventanas) {
+    const nom = V.nombre, a = V.desde, b = V.hasta;
+    console.log("\n══ ventana: " + nom + "  (" + (a || "—") + ".." + (b || "—") + ")");
+    console.log("   " + V.nota);
+    /* Foto de antes: para una ventana ignorada, «no pasó nada» solo se puede
+       comprobar contra el estado inmediatamente anterior. */
+    const antes = V.ignorada ? await pg.evaluate(`(() => {
+      const h = document.querySelector("#resumen h3");
+      return { titular: h ? h.textContent.trim() : null,
+               desde: (document.getElementById("fDesde") || {}).value || null,
+               hasta: (document.getElementById("fHasta") || {}).value || null };
+    })()`) : null;
     await pon(a, b);
-    const E = ESPERADO[nom];
+    /* Una ventana entera fuera del dato se ignora —tiene que ignorarse, o
+       teclear con un rango corto es imposible—. Lo que NO puede pasar es que
+       el campo se quede mostrando la fecha rechazada mientras las cifras son
+       otras: campo y cifras diciendo cosas distintas es el engaño que este
+       filtro venía a quitar, con el campo del lado equivocado.
+
+       Así que aquí no se comparan números. Se comprueba que nada se movió y
+       que los campos volvieron a la ventana aplicada. */
+    if (V.ignorada) {
+      const campos = await pg.evaluate(`(() => ({
+        desde: (document.getElementById("fDesde") || {}).value || null,
+        hasta: (document.getElementById("fHasta") || {}).value || null }))()`);
+      const t2 = await pg.evaluate(TITULAR);
+      ok("el titular no se movió", t2.titular, antes.titular);
+      ok("el campo Desde volvió al dato", campos.desde, antes.desde);
+      ok("el campo Hasta volvió al dato", campos.hasta, antes.hasta);
+      ok("ningún campo quedó fuera del tope",
+         campos.desde >= TOPE.desde && campos.hasta <= TOPE.hasta, true);
+      continue;
+    }
+
+    const E = V.esperado;
     const L = E.total["actions:lead"];
 
     if (!L) {

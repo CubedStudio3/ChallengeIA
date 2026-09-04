@@ -1082,8 +1082,24 @@
   }
 
   /* El rango elegido, o el completo si no se eligió nada. */
+  /* El rango disponible es la UNIÓN de lo que se puede recortar, no solo lo del
+     orgánico. Antes salía únicamente de `alcance.rango_disponible`, así que una
+     corrida sin las exportaciones de Zoho Analytics no renderizaba el control
+     de fechas EN ABSOLUTO: sin filtro, aunque la pauta diaria estuviera ahí
+     entera. Lo encontró la corrida del 2026-09-04, que no llevaba Analytics.
+
+     Un control que desaparece cuando falta una de sus dos fuentes es peor que
+     uno con menos alcance: el equipo no ve que le falta algo, ve que no existe. */
   function rango() {
-    var A = alcance(), r = (A && A.rango_disponible) || null;
+    var A = alcance(), ra = (A && A.rango_disponible) || null;
+    var PD = pautaDia(), rp = (PD && PD.rango_disponible) || null;
+    var r = null;
+    if (ra && rp) {
+      r = { desde: ra.desde < rp.desde ? ra.desde : rp.desde,
+            hasta: ra.hasta > rp.hasta ? ra.hasta : rp.hasta };
+    } else {
+      r = ra || rp;
+    }
     if (!r) return null;
     var desde = V.desde || r.desde, hasta = V.hasta || r.hasta;
     /* Dos fechas definen una ventana sin importar en qué casilla quedó cada
@@ -1154,9 +1170,11 @@
      leads sin explicar por qué haría pensar que el dato está mal, y el
      siguiente paso sería dejar de creerle a todo el tablero. */
   function controlFechas() {
-    var A = alcance();
-    if (!A || !A.rango_disponible) return "";
+    /* La compuerta es `rango()`, no `alcance()`: el control existe si hay ALGO
+       que recortar —pauta diaria, orgánico, o los dos—. Preguntar por alcance
+       hacía desaparecer el filtro entero en una corrida sin Zoho Analytics. */
     var R = rango();
+    if (!R) return "";
     return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra flex ' +
       'flex-wrap items-end gap-4">' +
       '<div><span class="micro-et">Desde</span>' +
@@ -3093,7 +3111,11 @@
          cuentan desde la última pieza que hay, no desde hoy: contar desde hoy
          daría una ventana vacía en una corrida retroactiva. */
       if (d.rango) {
-        var A = alcance(), tope = A && A.rango_disponible;
+        /* El tope sale de rango(), no de alcance(): estos atajos también se
+           quedaban muertos en una corrida sin Zoho Analytics. Es el mismo
+           error que tenía controlFechas() y aparece dos veces porque la
+           dependencia estaba copiada, no compartida. */
+        var Rp = rango(), tope = Rp && Rp.tope;
         if (!tope) return;
         if (d.rango === "todo") { V.desde = null; V.hasta = null; }
         else if (d.rango === "periodo") {
@@ -3161,17 +3183,47 @@
       }
     });
 
+    /* Un campo de fecha NUNCA puede mostrar algo distinto de lo que se está
+       calculando. El `change` de arriba ignora las fechas fuera del dato —tiene
+       que hacerlo, o teclear con un rango corto es imposible—, pero el input se
+       queda en pantalla con el valor tecleado: la persona lee junio en el campo
+       y agosto en las cifras. Es exactamente el engaño que este filtro venía a
+       quitar, con el campo del lado equivocado.
+
+       Al salir del campo se reconcilia contra la ventana que de verdad está
+       aplicada, y se dice por qué. Vaciar el campo no es un error —es «sin
+       tope por este lado»— así que ahí vuelve callado. */
+    r.addEventListener("focusout", function (ev) {
+      var s = ev.target;
+      if (!s || (s.id !== "fDesde" && s.id !== "fHasta")) return;
+      var R = rango();
+      if (!R || !R.tope) return;
+      var quiere = s.value || null;
+      var vale = s.id === "fDesde" ? R.desde : R.hasta;
+      if (quiere === vale) return;
+      s.value = vale || "";
+      if (!quiere) return;
+      avisar("Del " + R.tope.desde + " al " + R.tope.hasta + " es lo que hay " +
+             "medido. El campo volvió al " + vale + ".");
+    });
+
     r.addEventListener("change", function (ev) {
       var s = ev.target;
       if (s.id === "fDesde" || s.id === "fHasta") {
-        var A = alcance(), tope = A && A.rango_disponible;
+        var Rt = rango(), tope = Rt && Rt.tope;
         var v = s.value || null;
-        /* Se recorta al rango del dato en lugar de aceptar cualquier fecha:
-           una ventana fuera del dato mostraria ceros que parecerian medidos. */
-        if (v && tope) {
-          if (v < tope.desde) v = tope.desde;
-          if (v > tope.hasta) v = tope.hasta;
-        }
+        /* Una fecha fuera del rango del dato se IGNORA, no se recorta al borde.
+           Recortarla parecía prudente y era destructivo: al teclear el año, los
+           valores intermedios son 0002-08-30, 0020-08-30, 0202-08-30… todos
+           fuera de rango, y cada uno movía el estado al borde. Con un rango
+           ancho casi no se notaba; con el de esta corrida —diez días— teclear
+           una fecha era imposible: siempre terminaba en el tope.
+
+           Ignorarla es lo correcto y además es lo que el navegador ya hace: el
+           input lleva min y max, así que marca el valor como inválido por su
+           cuenta. Si la persona insiste en una fecha fuera del dato, el último
+           valor bueno se queda, y no aparecen ceros que parecerían medidos. */
+        if (v && tope && (v < tope.desde || v > tope.hasta)) return;
         /* Cada campo escribe SOLO lo suyo. Antes, si el rango quedaba
            invertido, este handler corregía machacando el OTRO campo — y con
            las fechas basura que dispara el tecleo por segmentos eso destruía
