@@ -46,6 +46,42 @@ junto con los parámetros usados. Ese archivo es la evidencia auditable.
 
 **No infieras el mercado del nombre de la campaña.** Está comprobado que falla.
 
+### La segunda llamada, día por día — obligatoria
+
+El filtro de fechas del tablero recalcula Resumen y Rendimiento —incluido el
+corte GT/SV— desde el desglose diario. **Sin ese archivo el filtro no tiene con
+qué recortar y el control ni se dibuja.** Así que la misma consulta va otra vez,
+con dos parámetros más:
+
+- `time_increment: "1"` y `breakdowns: ["country"]` **juntos** (sí se combinan);
+- `object_ids` con los ids de las campañas del paso anterior, que **devuelve
+  todo en una sola respuesta y sin cursor**.
+
+Volcá el crudo a `crudo/meta_campanas_por_pais_por_dia.json` con los mismos
+parámetros al lado, y **después corré la compuerta**:
+
+    PYTHONPATH=src python3 pruebas/pauta_diaria.py
+
+Reconcilia el desglose diario contra el agregado ya verificado en V0 —gasto,
+resultados e impresiones, por campaña Y por país, al centavo—. **Si un valor no
+cuadra, la corrida se detiene ahí.** No es un test de una vez: corre en cada
+corrida.
+
+Cuatro reglas al usar ese archivo, todas nacidas de un error real:
+
+1. El **costo nunca se pide por día**. Se piden inversión y resultados, y se
+   divide una sola vez sobre lo que queda dentro del filtro.
+2. Se **agrupa por indicador antes de sumar**, en cada punto (ADR-013).
+3. Un `Not available` con gasto es hueco, **no cero** — pero su gasto SÍ suma,
+   o se tira inversión real (`gasto_sin_resultado`).
+4. Una campaña con gasto en el agregado y **ausente** del desglose detiene la
+   corrida.
+
+Y después de generar el tablero, los esperados de la prueba del filtro salen del
+mismo dato, no de fechas escritas a mano:
+
+    python3 pruebas/esperado_pauta.py data/historico/<id>
+
 ## Paso 3 · Competencia (agente `analista-competencia`)
 
 Por cada competidor de `config/competidores.json` con `page_id` validado, y por
@@ -123,6 +159,27 @@ defecto real.
 ```bash
 node src/modulo1/tablero.js data/historico/<id>/analisis/resultado.json \
   salidas/tablero-mesa-creativa.html
+```
+
+**Antes de publicar, fusionar el estado.** El equipo decide DENTRO de la página y
+la versión publicada va adelante de la del disco: publicar el fragmento recién
+generado borra esas decisiones. Ya pasó una vez (v48).
+
+```bash
+# 1. bajar la versión EN VIVO (acción read del artefacto, se guarda a archivo)
+# 2. traer su #estado al fragmento nuevo
+node src/modulo1/fusiona_estado.js <en-vivo.html> salidas/tablero-mesa-creativa.html
+```
+
+El script valida los dos JSON antes de escribir y avisa si el periodo cambió.
+
+Y antes de dar por bueno el tablero, las tres suites del navegador:
+
+```bash
+python3 pruebas/esperado_pauta.py data/historico/<id>   # esperados del filtro
+npm run prueba:filtro    # el filtro recorta bien, y declara la ventana vacía
+npm run prueba:raton     # el filtro USADO CON EL RATÓN, que es el único camino real
+npm run prueba:tablero   # 1440/834/390 y el detector de markup crudo
 ```
 
 Luego se publica como artefacto **con la misma URL** para no crear uno nuevo cada
