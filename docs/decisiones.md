@@ -2410,3 +2410,98 @@ más interacciones» y «2.5x menos tasa» describen la misma muestra y llevan a
 decisiones distintas. El proyecto llevaba semanas negándose a calcular la tasa
 por falta de alcance —bien— y publicó el absoluto sin marcar que no era lo
 mismo.
+
+---
+
+## ADR-045 · La carta aprobada sí llega a Sprints, y no hace falta Flow
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### La pregunta
+
+Mercadeo: «¿y si conecto Flow, sí habría manera desde este proyecto de poder
+crear la tarea en Sprint?»
+
+### La respuesta corta: ya se puede, y Flow no cambia nada de eso
+
+`ZohoSprints_CreateItem` está disponible en esta sesión y el ciclo completo
+—crear, verificar y borrar— se ejecutó contra producción el 2026-08-31
+(ADR-029). La autorización de escritura existe y está acotada al proyecto
+`21897000000139001`. Nada de eso pasa por Flow.
+
+### Lo que sí estaba roto, y no era Flow
+
+Al probarlo hoy con una carta aceptada, el plan salió **vacío**. Desde ADR-042
+la unidad que la mesa aprueba es la **carta**, y el paso 9 solo entendía las
+tareas viejas: aprobar una carta en el tablero no producía nada. Se veía como un
+botón roto y era una familia de ids sin camino.
+
+Arreglado: `sprint.py` ahora recorre las cartas además de las tareas. Y como una
+carta trae más que una tarea, el work item se lleva todo lo que necesita quien
+produce:
+
+- qué hacer y para quién;
+- en qué enfocarse y cómo hablarlo;
+- **los porqués con el número de esta corrida**;
+- el copy completo, marcado *pendiente de aprobación* (regla 5);
+- la estructura, qué mostrar y qué NO;
+- la referencia medida con su cifra y su enlace a la Ad Library;
+- lo que la corrida no pudo confirmar;
+- y el mercado donde la carta está bloqueada, si lo está.
+
+La marca de idempotencia toma el id de semana **del prefijo que ya traen las
+tareas**, no de un cálculo nuevo: dos implementaciones de la misma convención es
+como se desincronizan.
+
+De paso salió que la descripción decía «Copy: BLOQUEADO» —cierto cuando el copy
+no existía y falso desde ADR-042—. Ahora, si hay texto, va el texto.
+
+### Por qué Flow tampoco arreglaría el botón de la página
+
+El botón del tablero no llama a Zoho por una razón que no es de Zoho: **la
+página publicada corre en un sandbox que bloquea toda salida de red** salvo unos
+CDN concretos. No puede llamar a `zoho.com` **ni a un webhook de Flow**. Poner
+Flow en medio no abre esa puerta.
+
+Y hay una tercera razón, medida hoy: `flow.zoho.com` devuelve **403 en el
+CONNECT** por la política de egreso de este entorno, igual que
+`sprints.zoho.com`. Los conectores MCP entran por otra puerta.
+
+### El camino real para el botón, si algún día se quiere
+
+La capacidad `mcp` del runtime de artefactos **existe para esta cuenta**: una
+página publicada puede llamar a los conectores de claude.ai *del que la abre*,
+con sus credenciales. Eso sí haría funcionar el botón sin Flow y sin CSV.
+
+No se implementó hoy, y por razones concretas:
+
+1. La guía prohíbe publicar una página que llame a una herramienta de conector
+   **sin haber observado un par petición/respuesta real** de esa herramienta. Y
+   observar `CreateItem` significa crear un work item de verdad en producción.
+2. Declarar `mcp` es un permiso que el visitante consiente y **bloquea el
+   compartido público** del artefacto.
+3. La herramienta aparece aquí como `mcp__Zoho_Sprints__*`, no con el prefijo
+   `mcp__claude_ai_*` que la capacidad espera. Es muy probable que resuelva
+   —`ListConnectors` lo da como conector de la organización— pero **no está
+   verificado de punta a punta**, y publicar una forma adivinada es justo lo que
+   la guía prohíbe.
+
+Mientras eso no se verifique, el camino bueno sigue siendo el de hoy: la mesa
+aprueba en el tablero, y la escritura la hace este proyecto con `--dry-run`
+primero. El CSV queda como respaldo.
+
+### La guardia
+
+`npm run prueba:cartas` comprueba ahora que una carta aceptada produzca un work
+item con el copy, la dirección visual, la referencia y los porqués dentro; que
+el copy salga marcado como pendiente de aprobación; que la marca lleve el id de
+semana; y que **sin decisiones de la mesa no se escriba nada**, que es el punto
+entero de la compuerta humana (ADR-002).
+
+### La lección
+
+**Un camino nuevo deja huérfanos los caminos viejos.** Convertir la carta en la
+unidad de aprobación fue correcto y silenciosamente desconectó el paso que
+convierte una aprobación en trabajo. No lo encontró una revisión de código: lo
+encontró intentar usarlo.

@@ -169,5 +169,39 @@ ok("sin alcance la carta se degrada y lo dice",
    bool(sin) and all("ABSOLUTAS" in x for x in sin) and
    not any("alcance contra" in x for x in sin))
 
+print("\n== la carta aprobada llega a Sprints ==")
+# El hueco que abrio ADR-042: la mesa aprueba CARTAS y el paso 9 solo entendia
+# las tareas viejas, asi que aprobar una carta no producia nada. Se veia como un
+# boton roto y era una familia de ids sin camino.
+from modulo1 import sprint as S  # noqa: E402
+
+equipo = json.loads(Path("config/equipo.json").read_text(encoding="utf-8"))
+R2 = dict(R)
+R2["cartas"] = out
+una = out["cartas"][0]
+dec = {"decisiones": {una["id"]: {"estado": "aceptada",
+                                  "responsable": "21897000001319001"}}}
+esc, _ = S.plan(R2, dec, equipo)
+ok("una carta aceptada produce un work item", len(esc) == 1, len(esc))
+if esc:
+    e = esc[0]
+    d = e.parametros["description"]
+    ok("el work item lleva el copy completo",
+       all(x in d for x in (una["copy"]["titular"], una["copy"]["cuerpo"],
+                            una["copy"]["cta"])))
+    ok("y la direccion visual", "QUÉ MOSTRAR" in d and "QUE NO VAYA" in d)
+    ok("y la referencia medida",
+       (una["referencia"] or {}).get("marca", "\0") in d)
+    ok("y los porques con el numero de la corrida",
+       all(x in d for x in una["porque"]))
+    ok("el copy sale marcado como pendiente de aprobacion (regla 5)",
+       "pendiente de aprobación" in d)
+    ok("la marca de idempotencia lleva el id de semana",
+       e.idempotencia.startswith("2026-W") and una["id"] in e.idempotencia,
+       e.idempotencia)
+# Y sin decision NO se escribe nada: la compuerta humana es el punto.
+esc0, _ = S.plan(R2, {}, equipo)
+ok("sin decisiones de la mesa, cero escrituras", not esc0, len(esc0))
+
 print("\n" + (f">>> {fallos} FALLA(S)" if fallos else ">>> TODO OK"))
 sys.exit(1 if fallos else 0)

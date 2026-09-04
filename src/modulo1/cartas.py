@@ -97,8 +97,11 @@ def _nadie_toca(ref, F):
     total = sum((comp.get("verticales_competidores") or {}).values())
     if not total:
         return None
+    # «solo 1 tocan» no concuerda. El verbo se conjuga con el número, y el
+    # número lo pone el dato: no se puede dejar fijo en plural.
+    verbo = "toca" if k == 1 else "tocan"
     return {"frase": (f"De los {total} anuncios de competidores con titular "
-                      f"clasificable, solo {k} tocan «{v}»."),
+                      f"clasificable, solo {k} {verbo} «{v}»."),
             "evidencia": [f"Ad Library · competidores · {v} · {k} de {total}"]}
 
 
@@ -285,7 +288,7 @@ def _referencia(cfg, F):
                     "medido": ((f"Su titular más repetido es «{msg}» "
                                 f"({_pct(m.get('mensaje_top_cuota') or 0)} de "
                                 f"{m.get('leidos')} anuncios leídos, "
-                                f"{m.get('mensaje_top_dias')} dias vivo). "
+                                f"{m.get('mensaje_top_dias')} días vivo). "
                                 f"Carrusel en {_pct(m.get('carrusel_cuota') or 0)} "
                                 f"de sus piezas, hasta {m.get('tarjetas_max')} "
                                 f"tarjetas. Sube en modo {m.get('modo')}.")

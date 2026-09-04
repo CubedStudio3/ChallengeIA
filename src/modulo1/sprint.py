@@ -253,6 +253,18 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             "projectId": str(proy.get("project_id") or ""),
             "sprintId": str(proy.get("sprint_id") or "")}
 
+    # El id de semana, de una sola fuente: el prefijo de la idempotencia que ya
+    # traen las tareas de la corrida. Recalcularlo aquí sería una segunda
+    # implementación de la misma convención, que es como se desincronizan.
+    semana = ""
+    for t in (est.get("tareas") or []):
+        pref = (t.get("idempotencia") or "").split("::")[0]
+        if pref:
+            semana = pref
+            break
+    if not semana:
+        semana = ((resultado.get("corrida") or {}).get("rango") or "sin-periodo")
+
     escrituras = []
     for t in tareas:
         d = _acepta(decisiones, t["id"])
@@ -269,8 +281,14 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
         if t.get("evidencia"):
             cuerpo.append("\nEVIDENCIA:\n" +
                           "\n".join(f"  · {_evidencia(e)}" for e in t["evidencia"]))
-        cuerpo.append(f"\nCopy: {(t.get('copy') or {}).get('estado', '')} — "
-                      f"{(t.get('copy') or {}).get('motivo', '')}")
+        cp = t.get("copy") or {}
+        if cp.get("titular"):
+            cuerpo.append(f"\nCOPY PROPUESTO (pendiente de aprobación):\n"
+                          f"  Titular: {cp['titular']}\n"
+                          f"  Cuerpo: {cp.get('cuerpo', '')}\n"
+                          f"  CTA: {cp.get('cta', '')}")
+        elif cp.get("estado"):
+            cuerpo.append(f"\nCopy: {cp.get('estado', '')} — {cp.get('motivo', '')}")
         cuerpo.append(f"\nGenerado por Mesa Creativa · corrida "
                       f"{(resultado.get('corrida') or {}).get('rango', '')}")
 
@@ -310,6 +328,76 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             id_tarea=pid, nombre=pt["titulo"], descripcion=params["description"],
             tipo=pt.get("tipo", "arte"), responsable=pt.get("responsable"),
             idempotencia="equipo::" + pid, ruta=ruta, parametros=params))
+
+    # --- Las cartas de producción ------------------------------------------
+    # Desde ADR-042 la unidad que la mesa aprueba es la CARTA, no la tarea. El
+    # paso 9 solo entendía las tareas, así que aprobar una carta en el tablero
+    # no producía nada: se veía como que el botón no servía. Una carta trae más
+    # que una tarea —el copy completo, la dirección visual y la referencia— y
+    # todo eso va al work item, porque es lo que necesita quien produce.
+    for c in ((resultado.get("cartas") or {}).get("cartas") or []):
+        d = _acepta(decisiones, c["id"])
+        if not d:
+            continue
+        cuerpo = [c.get("que_hacer", "")]
+        if c.get("de_que_hablar"):
+            cuerpo.append(f"\nENFOCARSE EN: {c['de_que_hablar']}")
+        if c.get("como_hablarlo"):
+            cuerpo.append(f"\nCÓMO HABLARLO: {c['como_hablarlo']}")
+        if c.get("porque"):
+            cuerpo.append("\nLO QUE DICE EL ANÁLISIS:\n" +
+                           "\n".join(f"  · {x}" for x in c["porque"]))
+        cp = c.get("copy") or {}
+        if cp.get("titular"):
+            cuerpo.append(f"\nCOPY (pendiente de aprobación · regla 5):\n"
+                          f"  Titular: {cp['titular']}\n"
+                          f"  Cuerpo: {cp.get('cuerpo', '')}\n"
+                          f"  CTA: {cp.get('cta', '')}")
+        if c.get("lo_que_no_se_dice"):
+            cuerpo.append(f"\nNO DICE: {c['lo_que_no_se_dice']}")
+        vis = c.get("visual") or {}
+        est = vis.get("estructura") or {}
+        if est.get("que"):
+            cuerpo.append(f"\nESTRUCTURA: {est['que']} — {est.get('porque', '')}")
+        if vis.get("mostrar"):
+            cuerpo.append("\nQUÉ MOSTRAR:\n" +
+                           "\n".join(f"  · {x}" for x in vis["mostrar"]))
+        if vis.get("no_mostrar"):
+            cuerpo.append("\nQUE NO VAYA:\n" +
+                           "\n".join(f"  · {x}" for x in vis["no_mostrar"]))
+        ref = c.get("referencia") or {}
+        if ref.get("marca"):
+            cuerpo.append(f"\nREFERENCIA · {ref['marca']} ({ref.get('rol', '')})"
+                          f"\n  {ref.get('que_hace', '')}"
+                          f"\n  Medido: {ref.get('medido', '')}"
+                          f"\n  {ref.get('url', '')}")
+        if c.get("bloqueada_en"):
+            cuerpo.append(f"\nNO USAR EN: {', '.join(c['bloqueada_en'])} — "
+                          f"{c.get('_por_que_bloqueada', '')}")
+        if c.get("faltantes"):
+            cuerpo.append("\nLO QUE ESTA CORRIDA NO PUDO CONFIRMAR:\n" +
+                           "\n".join(f"  · {x}" for x in c["faltantes"]))
+        cuerpo.append(f"\nGenerado por Mesa Creativa · corrida "
+                      f"{(resultado.get('corrida') or {}).get('rango', '')}")
+
+        # La marca de idempotencia lleva el id de semana, igual que las tareas.
+        # No se recalcula aquí: se toma del prefijo que las tareas ya traen, para
+        # que las dos familias usen LA MISMA convención. Si no hay tareas en la
+        # corrida, cae al periodo, que también es estable por corrida.
+        idem = f"{semana}::{c['pieza']}::{c['id']}"
+        params = {
+            "name": f"{c['titulo']} · {c.get('mercado', '')} {_marca(idem)}".strip(),
+            "description": "\n".join(cuerpo).strip(),
+            "projitemtypeid": str(proy.get("item_type_id") or ""),
+            "projpriorityid": str(proy.get("priority_id") or ""),
+        }
+        if d.get("responsable"):
+            params["users"] = _usuarios(d["responsable"])
+        escrituras.append(Escritura(
+            id_tarea=c["id"], nombre=params["name"],
+            descripcion=params["description"], tipo=c["pieza"],
+            responsable=d.get("responsable"), idempotencia=idem,
+            ruta=ruta, parametros=params))
 
     if not decisiones.get("decisiones") and not decisiones.get("propias"):
         avisos.append(
