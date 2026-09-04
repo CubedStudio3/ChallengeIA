@@ -1085,8 +1085,20 @@
   function rango() {
     var A = alcance(), r = (A && A.rango_disponible) || null;
     if (!r) return null;
-    return { desde: V.desde || r.desde, hasta: V.hasta || r.hasta,
-             tope: r, propio: !!(V.desde || V.hasta) };
+    var desde = V.desde || r.desde, hasta = V.hasta || r.hasta;
+    /* Dos fechas definen una ventana sin importar en qué casilla quedó cada
+       una. Se ordenan aquí, al leer, y no al escribir: así ningún tecleo
+       intermedio puede corromper la otra casilla. El repintado devuelve los
+       campos ya ordenados. */
+    if (desde > hasta) { var t = desde; desde = hasta; hasta = t; }
+    /* `propio` es «esta ventana recorta algo», NO «alguien tocó el control».
+       Con `!!(V.desde || V.hasta)` una fecha que quedaba igual al tope del dato
+       encendía la ventana propia sin filtrar nada, y la página escribía «22
+       días en la ventana» al lado del total completo de agosto. Eso fue lo que
+       Mercadeo vio y leyó, con razón, como «lee la fecha para el texto pero no
+       para calcular». */
+    return { desde: desde, hasta: hasta, tope: r,
+             propio: desde !== r.desde || hasta !== r.hasta };
   }
 
   /* RECALCULA los agregados sobre las piezas del rango, no oculta filas de una
@@ -2866,6 +2878,18 @@
       });
   }
 
+  /* Repintado diferido para los campos de fecha. 350 ms: suficiente para que
+     no corte a quien teclea segmento por segmento, y corto como para que elegir
+     en el calendario se sienta inmediato. Cada evento reinicia la cuenta. */
+  var tempRepintar = null;
+  function repintarLuego() {
+    if (tempRepintar) clearTimeout(tempRepintar);
+    tempRepintar = setTimeout(function () {
+      tempRepintar = null;
+      pintar(true);
+    }, 350);
+  }
+
   function pintar(preservar) {
     var det = preservar ? estadoDetalles() : null;
     var y = preservar ? window.scrollY : 0;
@@ -3148,12 +3172,30 @@
           if (v < tope.desde) v = tope.desde;
           if (v > tope.hasta) v = tope.hasta;
         }
+        /* Cada campo escribe SOLO lo suyo. Antes, si el rango quedaba
+           invertido, este handler corregía machacando el OTRO campo — y con
+           las fechas basura que dispara el tecleo por segmentos eso destruía
+           la fecha ya elegida: al teclear en «Hasta», un 0008-08-31 intermedio
+           se recortaba al mínimo, quedaba menor que «Desde», y el handler
+           ponía V.desde en el mínimo. El resultado era el que reportó
+           Mercadeo: se elige una fecha y las cifras no la reflejan.
+
+           El rango invertido se resuelve al LEERLO, en rango(), donde no hay
+           ningún estado intermedio que romper. */
         if (s.id === "fDesde") V.desde = v; else V.hasta = v;
-        /* Si el rango queda invertido se corrige en vez de mostrar vacio. */
-        if (V.desde && V.hasta && V.desde > V.hasta) {
-          if (s.id === "fDesde") V.hasta = V.desde; else V.desde = V.hasta;
-        }
-        guardarVista(); pintar(true); return;
+        guardarVista();
+        /* NO se repinta de una. Un input[type=date] que ya tiene valor dispara
+           `change` en CADA segmento: al teclear el mes, el valor ya es una
+           fecha válida y el evento sale. Y `pintar()` reescribe todo con
+           innerHTML, así que el input en el que la persona está escribiendo se
+           destruye y se recrea con el segmento al principio; los dígitos que
+           siguen caen en un campo nuevo y sale una fecha que nadie escribió
+           —medido: teclear 08/16/2026 en «Hasta» producía 2026-06-01—.
+
+           Se espera a que deje de escribir. Con el calendario del navegador,
+           que dispara un solo `change`, el redibujo se siente inmediato. */
+        repintarLuego();
+        return;
       }
       if (!s.dataset) return;
       if (s.dataset.asignar) { asignar(s.dataset.asignar, s.value || null); return; }
