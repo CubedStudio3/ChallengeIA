@@ -135,11 +135,39 @@ if t:
        any(esperado in x and t["de"] in x
            for c in out["cartas"] for x in c["porque"]), esperado)
 
-# 6 · El ratio de formato de la carta es el que midio el modulo, no otro.
-ratio = ((FMT or {}).get("comparacion") or {}).get("ratio")
-if ratio:
-    ok("el ratio de formato coincide con lo medido",
-       any(f"{ratio}x" in x for c in out["cartas"] for x in c["porque"]), ratio)
+# 6 · El numero de formato de la carta es el que midio el modulo, no otro. Y
+#     cuando hay alcance, el que manda es el de ALCANCE: citar solo el ratio de
+#     interacciones absolutas fue un error publicado el 2026-09-04, porque ese
+#     ratio es casi entero un efecto de alcance disfrazado de calidad creativa.
+ver = ((FMT or {}).get("alcance") or {}).get("veredicto") or {}
+absoluto = ((FMT or {}).get("comparacion") or {}).get("ratio")
+frases_formato = [x for c in out["cartas"] for x in c["porque"]
+                  if x.startswith("En nuestra cuenta")]
+if ver.get("ratio_alcance"):
+    ok("con alcance, la carta cita el ratio de ALCANCE",
+       any(f"{ver['ratio_alcance']}x" in x for x in frases_formato),
+       ver["ratio_alcance"])
+    ok("y cita las dos tasas, no solo una",
+       all(("%" in x) for x in frases_formato) and bool(frases_formato))
+    # La guardia contra el error corregido: el ratio absoluto NO puede salir en
+    # la carta cuando hay alcance para calcular la tasa.
+    ok("con alcance, la carta NO cita el ratio absoluto solo",
+       not any(f"{absoluto}x" in x for x in frases_formato), absoluto)
+elif absoluto:
+    ok("sin alcance, la carta cita el absoluto Y dice que le falta el denominador",
+       any(f"{absoluto}x" in x and "ABSOLUTAS" in x for x in frases_formato), absoluto)
+
+# 7 · Sabotaje: si se borra el alcance, la carta tiene que CAMBIAR de frase y
+#     declarar que sin denominador no hay tasa. No puede quedarse con la buena.
+import copy as _c
+fmt_sin = _c.deepcopy(FMT)
+fmt_sin.pop("alcance", None)
+o6 = C.arma(CFG, R["recomendaciones"], R["por_mercado"], R["competencia"], fmt_sin, None)
+sin = [x for c in o6["cartas"] for x in c["porque"]
+       if x.startswith("En nuestra cuenta")]
+ok("sin alcance la carta se degrada y lo dice",
+   bool(sin) and all("ABSOLUTAS" in x for x in sin) and
+   not any("alcance contra" in x for x in sin))
 
 print("\n" + (f">>> {fallos} FALLA(S)" if fallos else ">>> TODO OK"))
 sys.exit(1 if fallos else 0)

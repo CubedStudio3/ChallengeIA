@@ -23,12 +23,20 @@ Las cuatro trampas de este dato, todas declaradas en la salida:
 """
 from __future__ import annotations
 
+import csv
 import json
 import statistics as st
 from datetime import date, datetime
 from pathlib import Path
 
 ARCHIVO = "ig_media.json"
+# El alcance no viene por esta fuente: viene de Zoho Analytics, que es una
+# TERCERA fuente distinta de Meta y de Zoho Social. Sin el, «rinde 4.87x» es una
+# frase sobre alcance disfrazada de frase sobre calidad del creativo.
+# Los MISMOS archivos que lee alcance.py. Tener dos convenciones de nombre para
+# el mismo dato es como se desincronizan dos módulos sin que nadie lo note.
+ALCANCE = (("analytics/ig_media_insights.csv", "Media ID"),
+           ("analytics/ig_reels_insights.csv", "Reel ID"))
 
 # Si las dos cohortes difieren mas que esto en edad promedio, la diferencia de
 # interacciones puede ser antiguedad y no formato: no se publica el ratio.
@@ -39,6 +47,22 @@ MINIMO_POR_COHORTE = 4
 
 def _edad(sello: str, hoy: date) -> int:
     return (hoy - datetime.fromisoformat(sello).date()).days
+
+
+def _lee_alcance(crudo: Path) -> dict[str, int]:
+    """Alcance por publicacion, de Zoho Analytics. {} si no hay exportaciones."""
+    out: dict[str, int] = {}
+    for archivo, llave in ALCANCE:
+        f = Path(crudo) / archivo
+        if not f.exists():
+            continue
+        for fila in csv.DictReader(f.open(encoding="utf-8-sig")):
+            try:
+                out[fila[llave]] = int(fila["Reach"])
+            except (KeyError, TypeError, ValueError):
+                # Una fila sin alcance legible es un hueco, no un cero.
+                continue
+    return out
 
 
 def _resumen(piezas: list[dict], hoy: date) -> dict:
@@ -57,7 +81,12 @@ def _resumen(piezas: list[dict], hoy: date) -> dict:
 
 
 def arma(crudo: Path, hoy: date) -> dict | None:
-    """Mide reel contra feed. Devuelve None si no hay el archivo."""
+    """Mide reel contra feed. Devuelve None si no hay el archivo.
+
+    Si hay alcance, la comparacion que MANDA es la de tasa; el ratio de
+    interacciones absolutas se sigue calculando pero queda marcado como lo que
+    es: en buena parte, un efecto de alcance.
+    """
     f = Path(crudo) / ARCHIVO
     if not f.exists():
         return None
@@ -148,6 +177,78 @@ def arma(crudo: Path, hoy: date) -> dict | None:
         "texto": (p.get("caption") or "").split("\n")[0][:90] or "(sin texto)",
         "url": p.get("permalink"),
     } for p in todo[:5]]
+
+    # --- El alcance, que cambia la conclusion -----------------------------
+    # Numerador CONSISTENTE en las dos cohortes: likes + comentarios de
+    # ads_get_ig_media. La columna `Engagement` de Analytics no sirve para esto:
+    # cruzada contra ads_get_ig_media es MAYOR en 4 de 15 casos, asi que incluye
+    # algo mas (shares o saves) y usarla de un lado y no del otro compararia
+    # cosas distintas.
+    al = _lee_alcance(crudo)
+    if al:
+        porc = {}
+        for k, v in cohortes.items():
+            con = [(p["like_count"] + p["comments_count"], al[p["id"]])
+                   for p in v if p["id"] in al]
+            if not con:
+                continue
+            i = sum(a for a, _ in con)
+            a_ = sum(b for _, b in con)
+            porc[k] = {
+                "publicaciones_con_alcance": len(con),
+                "de": len(v),
+                "interacciones": i,
+                "alcance": a_,
+                "tasa": round(i / a_ * 100, 2) if a_ else None,
+                "alcance_mediano": int(st.median([b for _, b in con])),
+            }
+        out["alcance"] = {
+            "_fuente": "Zoho Analytics · Media Insights y Reels Insights (Perfil de Instagram)",
+            "_por_que_una_tercera_fuente": ("Ni Meta ni Zoho Social devuelven "
+                "alcance. Sin denominador este proyecto se negaba a calcular la "
+                "tasa, con razon: era el hueco declarado mas viejo."),
+            "_numerador": ("likes + comentarios de ads_get_ig_media, el mismo en "
+                           "las dos cohortes"),
+            "_columnas_descartadas": [
+                "`Saved` de Media Insights: valores hasta 5 veces mayores que el "
+                "alcance. Guardar exige haber visto; es casi seguro impresiones "
+                "mal rotulado.",
+                "`Total Interactions` de Reels Insights: 2854 para un reel con "
+                "2036 de alcance y 69 interacciones reales. No son interacciones.",
+                "`Engagement` de Media Insights: cruzado contra ads_get_ig_media "
+                "es mayor en 4 de 15 casos, asi que incluye algo mas.",
+            ],
+            "cohortes": porc,
+        }
+        r_, f_ = porc.get("REELS"), porc.get("FEED")
+        if r_ and f_ and r_["tasa"] and f_["tasa"]:
+            gana_alcance = "REELS" if r_["alcance"] > f_["alcance"] else "FEED"
+            gana_tasa = "REELS" if r_["tasa"] > f_["tasa"] else "FEED"
+            out["alcance"]["veredicto"] = {
+                "gana_en_alcance": gana_alcance,
+                "ratio_alcance": round(max(r_["alcance"], f_["alcance"]) /
+                                       min(r_["alcance"], f_["alcance"]), 1),
+                "gana_en_tasa": gana_tasa,
+                "ratio_tasa": round(max(r_["tasa"], f_["tasa"]) /
+                                    min(r_["tasa"], f_["tasa"]), 2),
+                "se_contradicen": gana_alcance != gana_tasa,
+                "_como_leerlo": (
+                    "Las dos cosas son ciertas y contestan preguntas distintas. "
+                    "El reel llega a mucha mas gente; de la que alcanza, el feed "
+                    "engancha a una fraccion mayor. Para descubrimiento, reel."
+                    if gana_alcance != gana_tasa else
+                    "Alcance y tasa apuntan al mismo formato, asi que la "
+                    "recomendacion no depende de cual se mire."),
+            }
+            # Y se marca el ratio absoluto por lo que es, para que nadie lo
+            # vuelva a citar solo. Es la correccion del 2026-09-04.
+            if out.get("comparacion", {}).get("publicable"):
+                out["comparacion"]["_ojo_alcance"] = (
+                    f"Este ratio es de interacciones ABSOLUTAS y con el alcance "
+                    f"a la vista se explica casi entero por el: el reel llega a "
+                    f"{out['alcance']['veredicto']['ratio_alcance']}x mas "
+                    f"personas. No citarlo solo.")
+                out["comparacion"]["_manda_la_tasa"] = True
 
     # --- Colaboraciones: aparecio buscando formato ------------------------
     # Un @ en el texto no prueba que sea una colaboracion pagada; prueba que la

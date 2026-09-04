@@ -124,16 +124,47 @@ def _formato_propio(ref, F):
         return {"frase": None, "evidencia": [],
                 "no_resuelto": ("el corte por formato no es publicable en esta "
                                 "corrida: " + str(c.get("motivo")))}
+
+    # Con alcance a la vista, la frase que MANDA es la de tasa. Citar solo el
+    # ratio de interacciones absolutas fue un error publicado el 2026-09-04: la
+    # carta decia «el reel rinde 4.87x el feed» y eso era, casi entero, efecto
+    # de que el reel llega a 8.1x mas gente. Las dos cosas son ciertas y
+    # contestan preguntas distintas, asi que la carta dice las dos.
+    al = f.get("alcance") or {}
+    v = al.get("veredicto") or {}
+    coh = al.get("cohortes") or {}
+    if v and coh.get("REELS") and coh.get("FEED"):
+        r, fe = coh["REELS"], coh["FEED"]
+        return {"frase": (f"En nuestra cuenta el reel llega a {v['ratio_alcance']}x "
+                          f"más personas que la pieza de feed ({r['alcance']:,} de "
+                          f"alcance contra {fe['alcance']:,}). De los que alcanza "
+                          f"engancha a menos: {r['tasa']}% contra {fe['tasa']}% del "
+                          f"feed. Para que lo vea gente nueva, reel."),
+                "evidencia": [
+                    (f"ads_get_ig_media + Zoho Analytics · "
+                     f"{r['publicaciones_con_alcance']} reels y "
+                     f"{fe['publicaciones_con_alcance']} piezas de feed con alcance"),
+                    f"numerador consistente: {al.get('_numerador')}",
+                    v.get("_como_leerlo") or "",
+                    ("dato PROPIO: la Ad Library no publica el tipo de medio de un "
+                     "anuncio ajeno"),
+                ]}
+
+    # Sin alcance no hay tasa, y el ratio absoluto se rotula por lo que es. No
+    # se calla: se dice que le falta el denominador.
     gana = "el reel" if c["gana"] == "REELS" else "la pieza de feed"
-    pierde = "el feed" if c["gana"] == "REELS" else "el reel"
-    return {"frase": (f"En nuestra cuenta {gana} rinde {c['ratio']}x lo que "
-                      f"{pierde}: {c['promedio_reels']} interacciones de promedio "
-                      f"contra {c['promedio_feed']}. Y los {c['comentarios_reels']} "
-                      f"comentarios de la muestra están todos en reels; el feed "
-                      f"tiene cero en {c['feed_sin_comentarios']}."),
+    # «de el feed» no existe: la contraccion va aqui, no en el llamador.
+    pierde = "del feed" if c["gana"] == "REELS" else "del reel"
+    return {"frase": (f"En nuestra cuenta {gana} junta {c['ratio']}x las "
+                      f"interacciones {pierde} ({c['promedio_reels']} contra "
+                      f"{c['promedio_feed']} de promedio). Son interacciones "
+                      f"ABSOLUTAS: sin alcance no se sabe cuánto de eso es mejor "
+                      f"creativo y cuánto es más gente alcanzada."),
             "evidencia": [f"ads_get_ig_media · {c['_control_de_edad']}",
-                          "dato PROPIO: la Ad Library no publica el tipo de medio "
-                          "de un anuncio ajeno"]}
+                          ("sin exportaciones de Zoho Analytics en esta corrida: no "
+                           "hay alcance, así que no hay tasa"),
+                          ("dato PROPIO: la Ad Library no publica el tipo de medio "
+                           "de un anuncio ajeno")]}
 
 
 def _carrusel(ref, F):
@@ -215,9 +246,17 @@ def _estructura(pieza: str, F) -> dict | None:
                     "porque": ("El corte reel contra feed no es publicable en esta "
                                "corrida, así que el formato va por convención de la "
                                "red, no por dato: " + str(c.get("motivo")))}
+        v = (f.get("alcance") or {}).get("veredicto") or {}
+        if v.get("ratio_alcance"):
+            return {"que": "Reel vertical 9:16, no video de feed",
+                    "porque": (f"El reel llega a {v['ratio_alcance']}x más personas "
+                               f"que la pieza de feed en la cuenta propia. Esa es la "
+                               f"razón para usarlo: alcance, no tasa.")}
         return {"que": "Reel vertical 9:16, no video de feed",
-                "porque": (f"El reel rinde {c['ratio']}x el feed en la cuenta propia "
-                           f"y es donde estan todos los comentarios de la muestra.")}
+                "porque": (f"El reel junta {c['ratio']}x las interacciones del feed "
+                           f"en la cuenta propia y es donde están todos los "
+                           f"comentarios de la muestra. Sin alcance no se puede "
+                           f"separar cuánto es creativo y cuánto es audiencia.")}
     car = (F["comparativo"] or {}).get("carrusel") or {}
     ref = car.get("referentes") or {}
     tope = F.get("tarjetas_max")

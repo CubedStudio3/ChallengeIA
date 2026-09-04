@@ -422,6 +422,12 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     # Tercera fuente: Zoho Analytics. Zoho Social da interacciones sin
     # denominador; esta da el denominador. Ver docs/09-alcance-por-zoho-analytics.md.
     alc = ALC.arma(crudo, rango.desde, rango.hasta)
+    # El formato propio se calcula ANTES del bloque de alcance porque el hueco de
+    # alcance necesita saber si el corte por formato SI tiene su tasa. Al
+    # principio estaba mas abajo y la corrida moria con UnboundLocalError, que es
+    # exactamente como tiene que morir: ruidosamente y en el sitio.
+    fmt = FMT.arma(carpeta / "crudo", hoy)
+
     if alc:
         # Ojo: `redes_resumen` es None cuando Zoho Social no devolvio nada. El
         # alcance viene de OTRA fuente y no puede depender de esa: si se
@@ -435,15 +441,31 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                                                "alcance de Zoho Analytics.")}
         redes_resumen["alcance"] = alc
     else:
+        # OJO: este hueco es PARCIAL, y decirlo entero seria falso. El corte de
+        # formato (reel contra feed) SI puede tener alcance con solo dos de las
+        # cuatro vistas, y `formato.py` lo usa. Lo que falta sin las otras dos es
+        # el bloque de alcance POR RED del tablero. Un hueco declarado de mas es
+        # tan malo como uno de menos: el 2026-09-04 la corrida decia «no hay
+        # alcance» mientras el alcance estaba en la misma pagina.
+        tiene_formato = bool((fmt or {}).get("alcance"))
         huecos.append({
-            "fuente": "alcance del organico",
-            "descripcion": "SIN EXPORTACIONES DE ZOHO ANALYTICS",
-            "impacto": ("Se reportan interacciones absolutas sin tasa, como antes del "
-                        "2026-09-02. La tasa de interaccion no se calcula: sin "
-                        "denominador seria un numero inventado."),
-            "remedio": ("Exportar las cuatro vistas de Zoho Analytics a "
-                        "`crudo/analytics/`. Los ids y la receta estan en "
-                        "docs/09-alcance-por-zoho-analytics.md."),
+            "fuente": "alcance del organico por red",
+            "descripcion": ("SIN LAS EXPORTACIONES COMPLETAS DE ZOHO ANALYTICS"
+                            if tiene_formato else
+                            "SIN EXPORTACIONES DE ZOHO ANALYTICS"),
+            "impacto": (("El corte reel contra feed SI tiene alcance y su tasa se "
+                         "calcula. Lo que no hay es el bloque de alcance por red: "
+                         "faltan la vista de publicaciones de Instagram (fecha, "
+                         "formato y texto) y la de Facebook (Impressions).")
+                        if tiene_formato else
+                        ("Se reportan interacciones absolutas sin tasa. La tasa de "
+                         "interaccion no se calcula: sin denominador seria un "
+                         "numero inventado.")),
+            "remedio": ("Exportar a `crudo/analytics/`: `ig_media.csv` (vista "
+                        "«Media» del perfil de Instagram) y `fb_post_insights.csv` "
+                        "(vista `1909408000026703149`, Post Insights de Paginas de "
+                        "Facebook). Las dos de alcance de Instagram ya estan. Los "
+                        "ids y la receta, en docs/09-alcance-por-zoho-analytics.md."),
         })
 
     redes_para_secciones = redes_resumen or {"detalle": {}, "totales": {}}
@@ -493,7 +515,6 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     # No sale de la competencia a proposito: la Ad Library devuelve OCHO campos y
     # ninguno dice si un anuncio es video o imagen (ADR-032). La pregunta
     # «¿arte o video?» solo se puede contestar con dato propio.
-    fmt = FMT.arma(carpeta / "crudo", hoy)
     if fmt is None:
         huecos.append({
             "fuente": "formato propio (reel contra feed)",

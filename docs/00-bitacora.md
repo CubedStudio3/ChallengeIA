@@ -786,3 +786,28 @@ y con eso se fue la única decisión que había (`copy-belleza-anticipo`, del
 periodo anterior). Las dos ideas del equipo se habían quitado el 1 de septiembre,
 también desde la página. `fusiona_estado.js` trajo cada estado como estaba: no
 hubo publicación que borrara trabajo.
+
+### Sesión 5 · cuarta parte · la auditoría de accesos
+
+Mercadeo preguntó por Zoho Flow y pidió el estado real de todos los conectores.
+Se midió con `ListConnectors` y se probó cada uno con una lectura, no con la
+documentación (ADR-044).
+
+Dos correcciones al inventario: **Zoho CRM y Zoho Cliq están conectados,
+encendidos y responden**. La documentación decía que CRM no estaba habilitado y
+que Cliq no estaba instalado. Los dos se probaron hoy contra producción.
+
+Zoho Flow no sirve hoy por dos razones medidas: no hay conector MCP, y
+`flow.zoho.com` devuelve 403 en el CONNECT igual que `sprints.zoho.com` — los
+conectores entran por otra puerta.
+
+Y la auditoría encontró un error propio ya publicado: con el alcance de Zoho
+Analytics a la vista, el «el reel rinde 4.87x el feed» de las cartas era casi
+entero un efecto de alcance. El reel llega a 8.1x más gente; de la que alcanza,
+el feed engancha 2.5x más. La carta ahora dice las dos cosas.
+
+Dos hallazgos operativos que no son de código y que van al reporte para
+Mercadeo: la licencia de Zoho One marca renovación el **5 de septiembre a las
+18:00 GT** —el día antes del cierre de desarrollo y cuatro antes del Demo Day— y
+la Rutina del lunes sigue sin conectores adjuntos, que es lo único que impide
+que la corrida semanal se haga sola.

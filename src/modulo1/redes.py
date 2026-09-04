@@ -356,10 +356,15 @@ def resumen(redes: dict[str, Red], hoy: date, *,
         },
         "limites": [
             {"que": "alcance e impresiones orgánicas",
-             "estado": "NO DISPONIBLE",
-             "detalle": ("Ninguna de las cinco redes lo devuelve por este conector. "
-                         "Sin alcance no se puede calcular tasa de engagement, así "
-                         "que no se calcula. Requiere captura manual en Business Suite.")},
+             "estado": "NO POR ESTA FUENTE",
+             "detalle": ("Zoho Social no devuelve alcance en ninguna de las cinco "
+                         "redes, así que las interacciones de este bloque son "
+                         "ABSOLUTAS y no llevan tasa. El alcance sí existe en una "
+                         "tercera fuente —Zoho Analytics—, y cuando sus "
+                         "exportaciones están en la corrida el corte por formato "
+                         "de Instagram sí trae su tasa. Este bloque no la usa "
+                         "porque no puede repartirla por red sin las otras dos "
+                         "vistas.")},
             {"que": "desglose por mercado (GT / SV)",
              "estado": "FALTA CONECTAR UNA PÁGINA",
              "detalle": ("El portal de Zoho Social tiene UNA marca conectada, así "

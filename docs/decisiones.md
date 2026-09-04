@@ -2287,3 +2287,126 @@ declarados.
 **Un bloque que necesita un descargo para leerse es un bloque de más.** Y al
 revés: quitar algo obliga a comprobar dónde queda cada cosa que traía, y esa
 revisión encontró un rótulo falso que llevaba una corrida entera publicado.
+
+---
+
+## ADR-044 · Auditoría de accesos, y el 4.87x que medía otra cosa
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### El inventario, medido hoy contra `ListConnectors` y probado con una lectura
+
+| Conector | Instalado | Encendido aquí | Auth probada hoy |
+|---|---|---|---|
+| Meta MCP | ✅ | ✅ | ✅ pauta, Ad Library y `ads_get_ig_media` |
+| Zoho Sprints | ✅ | ✅ | ✅ `GetProjects` contra producción |
+| Zoho Social MK | ✅ | ✅ | ✅ tres redes en la corrida |
+| Zoho Analytics Gerencia | ✅ | ✅ | ✅ `getOrganizations` y **dos exports** |
+| **Zoho CRM** | ✅ | ✅ | ✅ **`getOrganization` · nunca se había probado** |
+| **Zoho Cliq MK** | ✅ | ✅ | ✅ **`list_departments` · la doc decía «no instalado»** |
+| Zoho Books · Desk · Desk Artículos · Mail Gerencia | ✅ | ❌ | — |
+| CRM-WORKDRIVE-NN · RRHH-ZOHO-MCP | ✅ | ❌ | — |
+| **Zoho Flow** | ❌ **no existe como conector** | — | — |
+
+**Dos correcciones a la documentación del proyecto:** CRM estaba anotado como no
+habilitado y Cliq como no instalado. Los dos están conectados, encendidos y
+responden. La lección de método del 2026-08-27 —ausencia de evidencia no es
+evidencia de ausencia— vuelve a aplicar, ahora al revés: una nota de estado
+caduca sola y hay que volver a medirla.
+
+### Zoho Flow: por qué no sirve hoy, con la medición
+
+Dos cosas, las dos verificadas:
+
+1. **No hay conector MCP de Zoho Flow** en la organización, así que no hay
+   herramientas para manejarlo desde aquí.
+2. **`flow.zoho.com` está bloqueado por la política de egreso del entorno**:
+   403 en el CONNECT, registrado en
+   `curl "$HTTPS_PROXY/__agentproxy/status"` como
+   `connect_rejected · gateway answered 403`. Igual que `www.qpaypro.com`,
+   `business.facebook.com`, `api.pinterest.com`, `www.pinterest.com` y —dato
+   nuevo— **`sprints.zoho.com`**. Los conectores MCP entran por otra puerta
+   (`mcp-proxy.anthropic.com` está en `no_proxy`), y por eso Sprints funciona
+   por MCP y no por HTTP.
+
+Es política, no límite técnico: se puede cambiar al configurar el entorno.
+
+### La Rutina del lunes
+
+`connectors` de `create_trigger` sigue **cerrado para esta organización**,
+reconfirmado hoy con el error textual. La Rutina hermana SÍ tiene conectores
+adjuntos (Meta_MCP y Claude_Code_Remote), lo que prueba que el adjunto existe:
+se hace desde la interfaz, no por API. Lo que sí se pudo hacer fue **actualizar
+su prompt** para que, cuando le adjunten los conectores, la corrida haga la
+llamada diaria de pauta, la de `ads_get_ig_media`, las cinco suites y la fusión
+de estado.
+
+### El error que encontró la auditoría: el 4.87x
+
+Con el alcance de Zoho Analytics a la vista, la carta publicada esta mañana
+estaba mal. Decía:
+
+> «En nuestra cuenta el reel rinde **4.87x** lo que el feed: 19.0 interacciones
+> de promedio contra 3.9.»
+
+Eso es cierto y es **interacciones absolutas**, que resultó ser casi entero un
+efecto de alcance:
+
+| | Publicaciones | Interacciones | Alcance | Tasa |
+|---|---|---|---|---|
+| Reels | 10 | 190 | **7,192** | 2.64% |
+| Feed | 15 | 59 | 890 | **6.63%** |
+
+**El reel llega a 8.1x más personas. De las que alcanza, el feed engancha a
+2.5x más.** Las dos cosas son ciertas y contestan preguntas distintas, y la
+carta ahora dice las dos, con la conclusión que se sostiene: *para que lo vea
+gente nueva, reel.*
+
+El numerador es el mismo en las dos cohortes —likes + comentarios de
+`ads_get_ig_media`— a propósito. La columna `Engagement` de Analytics no sirve
+para esto: cruzada contra `ads_get_ig_media` coincide en 11 de 15 y en 4 casos
+es **mayor**, así que incluye algo más. Usarla de un lado y no del otro habría
+comparado cosas distintas.
+
+**El control cruzado que sí pasó:** 21 de 25 publicaciones coinciden
+exactamente en likes + comentarios entre `ads_get_ig_media` y Zoho Analytics.
+Dos fuentes independientes midiendo lo mismo y llegando al mismo número es la
+única razón por la que este alcance se puede usar.
+
+### Columnas que siguen descartadas
+
+- **`Saved` de Media Insights**: hasta 5 veces mayor que `Reach` (real: Reach
+  601, Saved 31525). Guardar exige haber visto. Es casi seguro impresiones mal
+  rotulado. En la vista de Reels, en cambio, `Saved` se ve plausible.
+- **`Total Interactions` de Reels Insights**: 2854 para un reel con 2036 de
+  alcance y 69 interacciones reales. No son interacciones.
+
+### Y un hueco declarado que se había vuelto falso
+
+La corrida seguía diciendo «SIN EXPORTACIONES DE ZOHO ANALYTICS · la tasa no se
+calcula» **mientras la tasa estaba calculada en la misma página**. Un hueco
+declarado de más es tan dañino como uno de menos: enseña a no creerle a los
+sellos. Ahora el hueco es parcial y preciso: el corte por formato sí tiene su
+tasa; lo que falta para el bloque de alcance POR RED son dos vistas más,
+nombradas con su id.
+
+También se unificó el nombre de los archivos: `formato.py` leía
+`media_insights_instagram.csv` y `alcance.py` lee `ig_media_insights.csv`. Dos
+convenciones para el mismo dato es como se desincronizan dos módulos sin que
+nadie lo note.
+
+### La guardia
+
+`npm run prueba:cartas` ahora falla si, **habiendo alcance**, la carta cita el
+ratio de interacciones absolutas. Y un sabotaje comprueba lo contrario: si se
+borra el alcance, la carta tiene que degradarse y decir que sin denominador no
+hay tasa, en vez de quedarse con la frase buena.
+
+### La lección
+
+**Un ratio sin denominador no es un dato incompleto: es otro dato.** «4.87x
+más interacciones» y «2.5x menos tasa» describen la misma muestra y llevan a
+decisiones distintas. El proyecto llevaba semanas negándose a calcular la tasa
+por falta de alcance —bien— y publicó el absoluto sin marcar que no era lo
+mismo.

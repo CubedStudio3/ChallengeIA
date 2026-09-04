@@ -928,8 +928,8 @@
     "limites": [
       {
         "que": "alcance e impresiones orgánicas",
-        "estado": "NO DISPONIBLE",
-        "detalle": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+        "estado": "NO POR ESTA FUENTE",
+        "detalle": "Zoho Social no devuelve alcance en ninguna de las cinco redes, así que las interacciones de este bloque son ABSOLUTAS y no llevan tasa. El alcance sí existe en una tercera fuente —Zoho Analytics—, y cuando sus exportaciones están en la corrida el corte por formato de Instagram sí trae su tasa. Este bloque no la usa porque no puede repartirla por red sin las otras dos vistas."
       },
       {
         "que": "desglose por mercado (GT / SV)",
@@ -3409,7 +3409,9 @@
       "_control_de_edad": "29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
       "comentarios_reels": 9,
       "comentarios_feed": 0,
-      "feed_sin_comentarios": "15 de 15"
+      "feed_sin_comentarios": "15 de 15",
+      "_ojo_alcance": "Este ratio es de interacciones ABSOLUTAS y con el alcance a la vista se explica casi entero por el: el reel llega a 8.1x mas personas. No citarlo solo.",
+      "_manda_la_tasa": true
     },
     "mejores": [
       {
@@ -3448,6 +3450,42 @@
         "url": "https://www.instagram.com/reel/DbKAQ5tM85I/"
       }
     ],
+    "alcance": {
+      "_fuente": "Zoho Analytics · Media Insights y Reels Insights (Perfil de Instagram)",
+      "_por_que_una_tercera_fuente": "Ni Meta ni Zoho Social devuelven alcance. Sin denominador este proyecto se negaba a calcular la tasa, con razon: era el hueco declarado mas viejo.",
+      "_numerador": "likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+      "_columnas_descartadas": [
+        "`Saved` de Media Insights: valores hasta 5 veces mayores que el alcance. Guardar exige haber visto; es casi seguro impresiones mal rotulado.",
+        "`Total Interactions` de Reels Insights: 2854 para un reel con 2036 de alcance y 69 interacciones reales. No son interacciones.",
+        "`Engagement` de Media Insights: cruzado contra ads_get_ig_media es mayor en 4 de 15 casos, asi que incluye algo mas."
+      ],
+      "cohortes": {
+        "REELS": {
+          "publicaciones_con_alcance": 10,
+          "de": 10,
+          "interacciones": 190,
+          "alcance": 7192,
+          "tasa": 2.64,
+          "alcance_mediano": 324
+        },
+        "FEED": {
+          "publicaciones_con_alcance": 15,
+          "de": 15,
+          "interacciones": 59,
+          "alcance": 890,
+          "tasa": 6.63,
+          "alcance_mediano": 60
+        }
+      },
+      "veredicto": {
+        "gana_en_alcance": "REELS",
+        "ratio_alcance": 8.1,
+        "gana_en_tasa": "FEED",
+        "ratio_tasa": 2.51,
+        "se_contradicen": true,
+        "_como_leerlo": "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel."
+      }
+    },
     "con_mencion": {
       "reels_con_mencion": 2,
       "promedio_con": 53.5,
@@ -3475,7 +3513,7 @@
         "porque": [
           "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
           "En SV el lead cuesta $2.68 · GT $3.35.",
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor."
         ],
         "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
@@ -3488,7 +3526,7 @@
         "visual": {
           "estructura": {
             "que": "Reel vertical 9:16, no video de feed",
-            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+            "porque": "El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa."
           },
           "mostrar": [
             "Una pantalla de banca con el saldo del día siguiente, no un billete genérico",
@@ -3513,7 +3551,9 @@
         "evidencia": [
           "Ad Library · SV · 0 anuncios activos de 6 marcas",
           "pauta de Meta · SV · 87 leads · $233.12 · $2.68 por lead",
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+          "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
+          "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+          "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · Paggo Guatemala · 36 de 38 anuncios con ese titular"
         ],
@@ -3602,7 +3642,7 @@
         "de_que_hablar": "Salones y barberías · nicho libre donde ya hay producto y cliente",
         "como_hablarlo": "Con la palabra de su propia landing: «ausencias», no «cancelaciones» ni «no-shows». La escena antes que el producto: primero el problema del día, después el link.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "Los reels que mencionan a alguien promedian 53.5 interacciones contra 10.4 de los que no (5.14x) — con 2 piezas, es una pista para probar, no un hallazgo."
         ],
         "lo_que_no_se_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
@@ -3615,7 +3655,7 @@
         "visual": {
           "estructura": {
             "que": "Reel vertical 9:16, no video de feed",
-            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+            "porque": "El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa."
           },
           "mostrar": [
             "La recepción del salón con el celular en mano, no un estudio",
@@ -3638,7 +3678,9 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+          "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
+          "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+          "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "ads_get_ig_media · Una mención no prueba una colaboración pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
         ],
@@ -3786,7 +3828,7 @@
         "de_que_hablar": "Soporte local y técnico presencial · lo único que un referente global no puede decir",
         "como_hablarlo": "Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
           "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona."
         ],
@@ -3800,7 +3842,7 @@
         "visual": {
           "estructura": {
             "que": "Reel vertical 9:16, no video de feed",
-            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+            "porque": "El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa."
           },
           "mostrar": [
             "El técnico llegando al local, con caja en mano",
@@ -3823,7 +3865,9 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+          "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
+          "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+          "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · competidores · punto de venta / hardware · 1 de 50",
           "Ad Library · Shopify · vivo desde 2026-03-25"
@@ -3847,7 +3891,7 @@
         "de_que_hablar": "Punto de Venta · la fricción del cierre de caja, en video",
         "como_hablarlo": "Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
           "En GT el lead cuesta $3.35 · SV $2.68."
         ],
@@ -3861,7 +3905,7 @@
         "visual": {
           "estructura": {
             "que": "Reel vertical 9:16, no video de feed",
-            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+            "porque": "El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa."
           },
           "mostrar": [
             "El mostrador al cierre, no el equipo en estudio",
@@ -3884,7 +3928,9 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+          "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
+          "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+          "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · competidores · punto de venta / hardware · 1 de 50",
           "pauta de Meta · GT · 107 leads · $358.30 · $3.35 por lead"
@@ -3968,7 +4014,7 @@
         "de_que_hablar": "Tienda en Línea · empezar sin web, en video",
         "como_hablarlo": "Video con los tres pasos en pantalla, uno por corte, y «sin programar» al final. Titular y cuerpo son literales de la landing de ecommerce.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos está ahí.",
           "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona."
         ],
@@ -3982,7 +4028,7 @@
         "visual": {
           "estructura": {
             "que": "Reel vertical 9:16, no video de feed",
-            "porque": "El reel rinde 4.87x el feed en la cuenta propia y es donde estan todos los comentarios de la muestra."
+            "porque": "El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa."
           },
           "mostrar": [
             "El catálogo llenándose desde el celular",
@@ -4005,7 +4051,9 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+          "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
+          "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
+          "Las dos cosas son ciertas y contestan preguntas distintas. El reel llega a mucha mas gente; de la que alcanza, el feed engancha a una fraccion mayor. Para descubrimiento, reel.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · titulares clasificados · retail y tienda · referentes 20 · competidores 0",
           "Ad Library · Shopify · vivo desde 2026-03-25"
@@ -5177,8 +5225,8 @@
   "huecos_declarados": [
     {
       "fuente": "alcance e impresiones orgánicas",
-      "descripcion": "NO DISPONIBLE",
-      "impacto": "Ninguna de las cinco redes lo devuelve por este conector. Sin alcance no se puede calcular tasa de engagement, así que no se calcula. Requiere captura manual en Business Suite."
+      "descripcion": "NO POR ESTA FUENTE",
+      "impacto": "Zoho Social no devuelve alcance en ninguna de las cinco redes, así que las interacciones de este bloque son ABSOLUTAS y no llevan tasa. El alcance sí existe en una tercera fuente —Zoho Analytics—, y cuando sus exportaciones están en la corrida el corte por formato de Instagram sí trae su tasa. Este bloque no la usa porque no puede repartirla por red sin las otras dos vistas."
     },
     {
       "fuente": "desglose por mercado (GT / SV)",
@@ -5188,10 +5236,10 @@
       "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
     },
     {
-      "fuente": "alcance del organico",
-      "descripcion": "SIN EXPORTACIONES DE ZOHO ANALYTICS",
-      "impacto": "Se reportan interacciones absolutas sin tasa, como antes del 2026-09-02. La tasa de interaccion no se calcula: sin denominador seria un numero inventado.",
-      "remedio": "Exportar las cuatro vistas de Zoho Analytics a `crudo/analytics/`. Los ids y la receta estan en docs/09-alcance-por-zoho-analytics.md."
+      "fuente": "alcance del organico por red",
+      "descripcion": "SIN LAS EXPORTACIONES COMPLETAS DE ZOHO ANALYTICS",
+      "impacto": "El corte reel contra feed SI tiene alcance y su tasa se calcula. Lo que no hay es el bloque de alcance por red: faltan la vista de publicaciones de Instagram (fecha, formato y texto) y la de Facebook (Impressions).",
+      "remedio": "Exportar a `crudo/analytics/`: `ig_media.csv` (vista «Media» del perfil de Instagram) y `fb_post_insights.csv` (vista `1909408000026703149`, Post Insights de Paginas de Facebook). Las dos de alcance de Instagram ya estan. Los ids y la receta, en docs/09-alcance-por-zoho-analytics.md."
     }
   ]
 }
