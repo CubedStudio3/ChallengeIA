@@ -162,6 +162,40 @@ function envuelve(frag) {
       });
       await pag.waitForTimeout(600);
 
+      /* Lo que Mercadeo pidió QUITAR el 2026-09-04. Va como prueba y no como
+         acuerdo: un bloque que se quita a mano vuelve solo en la siguiente
+         regeneración y nadie lo nota hasta que está publicado. */
+      const RETIRADOS = [
+        "Nosotros contra ellos", "Solo se compara lo comparable",
+        "Periodo leído", "Consultado el", "Campañas leídas",
+        "Redes en el informe", "Todo número de esta página sale de una consulta",
+        "Huecos declarados de la corrida",
+      ];
+      /* Y lo que NO se puede perder al quitarlos: los límites del orgánico
+         tienen que seguir declarados EN SITIO, y HN tiene que seguir saliendo
+         como tarea para que un humano la aplique en Meta. */
+      const IRRENUNCIABLES = [
+        "Lo que este bloque no puede decir", "Cambios en Meta Ads",
+        "Cartas de producción",
+      ];
+      const texto = await pag.evaluate(() =>
+        document.getElementById("raiz").innerText);
+      const pieHtml = await pag.evaluate(() => !!document.querySelector("footer"));
+      for (const x of RETIRADOS) {
+        if (texto.includes(x)) {
+          console.log("  FALLO volvió un bloque retirado: " + x); fallos++;
+        }
+      }
+      if (pieHtml) { console.log("  FALLO volvió el <footer> del pie"); fallos++; }
+      for (const x of IRRENUNCIABLES) {
+        if (!texto.includes(x)) {
+          console.log("  FALLO se perdió algo que no se podía perder: " + x);
+          fallos++;
+        }
+      }
+      console.log("  ok bloques retirados fuera (" + RETIRADOS.length +
+                  ") y lo irrenunciable en su lugar (" + IRRENUNCIABLES.length + ")");
+
       for (const s of ["resumen", "rendimiento", "competencia", "referencias",
                        "estrategia"]) {
         await pag.evaluate((id) => document.getElementById(id)

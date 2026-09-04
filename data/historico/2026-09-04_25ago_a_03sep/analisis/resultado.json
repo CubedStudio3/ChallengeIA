@@ -8,12 +8,15 @@
     "campanas_leidas": 6,
     "paises_con_entrega": [
       "GT",
-      "SV",
+      "SV"
+    ],
+    "paises_en_segmentacion_sin_entrega": [
       "US"
     ],
-    "paises_fuera_de_mercados_declarados": [
+    "paises_fuera_de_mercados_sin_entrega": [
       "US"
     ],
+    "paises_fuera_de_mercados_declarados": [],
     "campanas_incoherentes": [],
     "mercados_excluidos_con_gasto": {
       "HN": {
@@ -3367,9 +3370,9 @@
       "topada_en": 25
     },
     "_limites": [
-      "Los contadores son el acumulado al dia de la consulta, no lo que paso en la semana de cada publicacion.",
-      "Son interacciones absolutas: esta fuente no trae alcance, asi que no hay tasa de interaccion.",
-      "La lectura viene topada en 25 publicaciones: no es el historico."
+      "Los contadores son el acumulado al día de la consulta, no lo que pasó en la semana de cada publicación.",
+      "Son interacciones absolutas: esta fuente no trae alcance, así que no hay tasa de interacción.",
+      "La lectura viene topada en 25 publicaciones: no es el histórico."
     ],
     "cohortes": {
       "REELS": {
@@ -3403,7 +3406,7 @@
       "promedio_feed": 3.9,
       "mediana_reels": 11.0,
       "mediana_feed": 3,
-      "_control_de_edad": "29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+      "_control_de_edad": "29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
       "comentarios_reels": 9,
       "comentarios_feed": 0,
       "feed_sin_comentarios": "15 de 15"
@@ -3451,12 +3454,12 @@
       "reels_sin_mencion": 8,
       "promedio_sin": 10.4,
       "ratio": 5.14,
-      "_que_no_prueba": "Una mencion no prueba una colaboracion pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
+      "_que_no_prueba": "Una mención no prueba una colaboración pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
     }
   },
   "cartas": {
     "_registro": "Tono verificado contra 9 landings de qpaypro.com. Ninguna cifra de precio incluida: las que la necesiten van con la letra chica literal y marcadas REVISION LEGAL.",
-    "_como_se_arma": "El texto y la direccion creativa vienen de config/copys_propuestos.json, que es trabajo humano. Los numeros se resuelven contra ESTA corrida: el config declara que evidencia sostiene cada carta, nunca cuanto vale.",
+    "_como_se_arma": "El texto y la dirección creativa vienen de config/copys_propuestos.json, que es trabajo humano. Los números se resuelven contra ESTA corrida: el config declara QUÉ evidencia sostiene cada carta, nunca cuánto vale.",
     "cartas": [
       {
         "id": "copy-sv-liquidacion-a",
@@ -3470,12 +3473,12 @@
         "de_que_hablar": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
         "como_hablarlo": "Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.",
         "porque": [
-          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atencion no se le compra a nadie.",
+          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
           "En SV el lead cuesta $2.68 · GT $3.35.",
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
-          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 dias vivo. Ahi no se entra con una version mejor."
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor."
         ],
-        "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
+        "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
         "copy": {
           "titular": "Tu dinero cada 24 horas",
           "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
@@ -3503,14 +3506,14 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · SV · 0 anuncios activos de 6 marcas",
           "pauta de Meta · SV · 87 leads · $233.12 · $2.68 por lead",
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · Paggo Guatemala · 36 de 38 anuncios con ese titular"
         ],
@@ -3521,7 +3524,7 @@
         ],
         "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2026-09-02.",
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-sv-liquidacion-b",
@@ -3535,7 +3538,7 @@
         "de_que_hablar": "Liquidación diaria · con el patrón de fricción primero",
         "como_hablarlo": "El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
         "porque": [
-          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atencion no se le compra a nadie.",
+          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
           "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
           "Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%)."
         ],
@@ -3567,9 +3570,9 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Contar por pasos en varias tarjetas en vez de meter todo en una imagen.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · SV · 0 anuncios activos de 6 marcas",
@@ -3585,7 +3588,7 @@
         ],
         "_por_que_bloqueada": "La liquidación diaria NO aplica en Guatemala.",
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-belleza-anticipo",
@@ -3599,7 +3602,7 @@
         "de_que_hablar": "Salones y barberías · nicho libre donde ya hay producto y cliente",
         "como_hablarlo": "Con la palabra de su propia landing: «ausencias», no «cancelaciones» ni «no-shows». La escena antes que el producto: primero el problema del día, después el link.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
           "Los reels que mencionan a alguien promedian 53.5 interacciones contra 10.4 de los que no (5.14x) — con 2 piezas, es una pista para probar, no un hallazgo."
         ],
         "lo_que_no_se_dice": "Usa «ausencias», la palabra de su propia landing, no «cancelaciones» ni «no-shows».",
@@ -3630,14 +3633,14 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Hablarle al oficio del cliente —su día, su mostrador— y no a la categoría de software.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
-          "ads_get_ig_media · Una mencion no prueba una colaboracion pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
+          "ads_get_ig_media · Una mención no prueba una colaboración pagada, y la muestra son 2 piezas. Es una pista para probar, no un hallazgo."
         ],
         "faltantes": [
           "Los titulares leídos en ESTA corrida no clasifican «belleza y citas»: la premisa del nicho libre viene de otra corrida y hay que re-verificarla antes de apoyarse en ella."
@@ -3646,7 +3649,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-belleza-propina",
@@ -3662,7 +3665,7 @@
         "porque": [
           "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
           "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
-          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 dias vivo. Ahi no se entra con una version mejor."
+          "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor."
         ],
         "lo_que_no_se_dice": "No nombra el modelo del POS: en GT es POS Cute y en SV es POS A920, así que decirlo obligaría a dos versiones.",
         "copy": {
@@ -3691,9 +3694,9 @@
           "rol": "competidor",
           "mercado": "GT",
           "que_hace": "NADA de su promesa. Lo que sí se le copia es la disciplina de repetir un solo mensaje hasta que se pegue; el mensaje tiene que ser otro.",
-          "medido": "Su titular mas repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leidos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
+          "medido": "Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · competidores · punto de venta / hardware · 1 de 50",
@@ -3707,7 +3710,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-inventario-descuadre",
@@ -3753,9 +3756,9 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "El carrusel para contar una secuencia: problema, causa, arreglo.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · referentes 18 de 32",
@@ -3769,7 +3772,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-soporte-tecnico",
@@ -3783,9 +3786,9 @@
         "de_que_hablar": "Soporte local y técnico presencial · lo único que un referente global no puede decir",
         "como_hablarlo": "Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
           "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
-          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona."
         ],
         "lo_que_no_se_dice": "No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.",
         "copy": {
@@ -3815,12 +3818,12 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · competidores · punto de venta / hardware · 1 de 50",
           "Ad Library · Shopify · vivo desde 2026-03-25"
@@ -3830,7 +3833,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-pdv-video-cierre",
@@ -3844,7 +3847,7 @@
         "de_que_hablar": "Punto de Venta · la fricción del cierre de caja, en video",
         "como_hablarlo": "Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
           "De los 50 anuncios de competidores con titular clasificable, solo 1 tocan «punto de venta / hardware».",
           "En GT el lead cuesta $3.35 · SV $2.68."
         ],
@@ -3876,12 +3879,12 @@
           "rol": "competidor",
           "mercado": "GT",
           "que_hace": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido.",
-          "medido": "Su titular mas repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leidos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
+          "medido": "Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 dias vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · competidores · punto de venta / hardware · 1 de 50",
           "pauta de Meta · GT · 107 leads · $358.30 · $3.35 por lead"
@@ -3891,7 +3894,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-pasarela-arte-whatsapp",
@@ -3936,9 +3939,9 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Prometer el resultado del cliente —cobrar— y no la herramienta.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · referentes 18 de 32",
@@ -3951,7 +3954,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-tienda-video-sinweb",
@@ -3965,9 +3968,9 @@
         "de_que_hablar": "Tienda en Línea · empezar sin web, en video",
         "como_hablarlo": "Video con los tres pasos en pantalla, uno por corte, y «sin programar» al final. Titular y cuerpo son literales de la landing de ecommerce.",
         "porque": [
-          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra estan todos en reels; el feed tiene cero en 15 de 15.",
-          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos esta ahi.",
-          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+          "En nuestra cuenta el reel rinde 4.87x lo que el feed: 19.0 interacciones de promedio contra 3.9. Y los 9 comentarios de la muestra están todos en reels; el feed tiene cero en 15 de 15.",
+          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos está ahí.",
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona."
         ],
         "lo_que_no_se_dice": "No dice «en minutos» aunque el sitio lo diga en una FAQ: como promesa de titular necesitaría que Qpaypro lo confirme.",
         "copy": {
@@ -3997,12 +4000,12 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Es el referente del sector y su promesa es «pon en marcha tu negocio». Aquí se juega el escalón anterior: el que todavía no tiene web.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 dias, asi que la diferencia no es antiguedad.",
+          "ads_get_ig_media · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
           "dato PROPIO: la Ad Library no publica el tipo de medio de un anuncio ajeno",
           "Ad Library · titulares clasificados · retail y tienda · referentes 20 · competidores 0",
           "Ad Library · Shopify · vivo desde 2026-03-25"
@@ -4012,7 +4015,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       },
       {
         "id": "copy-tienda-arte-integraciones",
@@ -4026,9 +4029,9 @@
         "de_que_hablar": "Tienda en Línea · conectar la que ya tienen, en arte",
         "como_hablarlo": "Reconocer primero lo que ya tienen —«ya tienes tienda»— y pedir una sola acción. Las cinco plataformas son las que el sitio lista, ni una más.",
         "porque": [
-          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos esta ahi.",
+          "«retail y tienda» la trabajan los referentes con 20 anuncios y los competidores medidos con 0. Nadie a quien le compitamos está ahí.",
           "Los referentes usan carrusel en 56% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
-          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 dias vivo. Un anuncio que no se retira es lo mas cerca que da esta fuente de decir que funciona."
+          "Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona."
         ],
         "lo_que_no_se_dice": "No dice «en minutos»: el sitio lo dice, pero como promesa de titular hace falta confirmarlo.",
         "copy": {
@@ -4058,9 +4061,9 @@
           "rol": "referente",
           "mercado": "GT",
           "que_hace": "Su propio ecosistema de integraciones es el argumento: aquí somos la pieza que le falta, no su reemplazo.",
-          "medido": "Su titular mas repetido es «Comienza a vender más rápido» (12% de 16 anuncios leidos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
+          "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 dias vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
-          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es que repite y que no retira."
+          "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
           "Ad Library · titulares clasificados · retail y tienda · referentes 20 · competidores 0",
@@ -4074,7 +4077,7 @@
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
-        "_por_que_pendiente": "Ningun copy se publica sin aprobacion humana (regla 5). La carta propone; la mesa decide."
+        "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide."
       }
     ],
     "sin_evidencia": [],
@@ -4100,7 +4103,7 @@
         "titular": "Tu dinero cada 24 horas",
         "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
         "cta": "Empezar ahora",
-        "no_dice": "Nada de «gestiona tu negocio»: ese territorio es de Paggo, con 84% de su inventario y 105 días vivo.",
+        "no_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
         "bloqueada_en": [
           "GT"
         ],

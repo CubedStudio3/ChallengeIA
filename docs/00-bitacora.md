@@ -762,3 +762,27 @@ Al publicar, el artefacto rechazó la publicación: alguien había guardado desd
 dentro de la página a las 18:32. Se trajo su estado (v63) y se publicó encima.
 El mecanismo de `fusiona_estado.js` funcionó como se diseñó — sin él, esa
 decisión se habría borrado.
+
+### Sesión 5 · tercera parte · quitar y comprobar
+
+Mercadeo pidió quitar la tarjeta «Nosotros contra ellos» y el pie de
+trazabilidad completo. Antes de quitarlos se revisó, uno por uno, dónde quedaba
+cada cosa que el pie traía: los dos huecos del orgánico se declaran en sitio, HN
+sale como tarea donde un humano la aplica, y el párrafo de método sigue en
+`resultado.json`. Nada quedó sin declarar (ADR-043).
+
+Los dos retiros quedaron clavados en `npm run prueba:tablero`, junto con los
+tres bloques que no se pueden perder al quitarlos.
+
+Y la revisión encontró un defecto propio: `paises_con_entrega` incluía **US con
+0 impresiones y $0 de gasto**. Estaba en la segmentación sin entregar nada, y
+además levantaba la alerta de mercado no declarado sobre una fila vacía. Ahora
+un país entra a esa lista solo si entregó, y los segmentados sin entrega salen
+aparte con su propia frase.
+
+Sobre el estado del tablero: nadie perdió nada. El historial de versiones
+guardadas dice que a las 18:32 alguien pulsó «Limpiar» desde dentro de la página
+y con eso se fue la única decisión que había (`copy-belleza-anticipo`, del
+periodo anterior). Las dos ideas del equipo se habían quitado el 1 de septiembre,
+también desde la página. `fusiona_estado.js` trajo cada estado como estaba: no
+hubo publicación que borrara trabajo.

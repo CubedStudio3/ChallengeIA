@@ -2216,3 +2216,74 @@ encuentre eso: hace falta que el dato no pueda estar en dos lugares a la vez.
 Y el corolario del ADR-032: **cuando la fuente no puede contestar la pregunta,
 la respuesta no es rendirse, es buscar otra fuente.** «¿Arte o video?» era
 imposible con la Ad Library y era una llamada de distancia con dato propio.
+
+---
+
+## ADR-043 · Lo que se quitó del tablero, y por qué no se perdió nada
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### Lo que pidió Mercadeo quitar
+
+**1 · La tarjeta «Nosotros contra ellos · Solo se compara lo comparable».**
+Era una tabla de contraste que ponía nuestras interacciones al lado del conteo
+de anuncios del competidor. El subtítulo tenía que aclarar que esas dos cosas no
+se comparan, que es la señal de que la tarjeta no debía existir: si hace falta
+un descargo para leerla, el problema es el bloque, no el descargo. Lo
+accionable de esa sección —las recomendaciones y los territorios de mensaje—
+queda.
+
+**2 · El pie de trazabilidad completo**, con «Periodo leído», «Consultado el»,
+«Campañas leídas», «Redes en el informe», el párrafo de método y «Huecos
+declarados de la corrida · 4».
+
+### Por qué el pie se podía quitar sin romper la definición de terminado
+
+La definición de terminado pide que **la salida sea trazable hasta las consultas
+de origen** y que los huecos se declaren en vez de rellenarse. No pide
+imprimirlo al pie del tablero. Se verificó, uno por uno, dónde queda cada cosa:
+
+| Lo que traía el pie | Dónde está ahora |
+|---|---|
+| Periodo leído · Consultado el | Arriba, en el control de fechas y en la leyenda de periodo de cada bloque derivado |
+| Campañas leídas | En Rendimiento, por indicador, que es donde significa algo |
+| Alcance orgánico no disponible | **En sitio**, en «Lo que este bloque no puede decir» de la sección de redes |
+| Sin corte GT/SV en orgánico | **En sitio**, en el mismo plegado |
+| Sin exportaciones de Zoho Analytics | Mismo tema que el anterior: el lector igual se entera de que no hay tasa |
+| HN con gasto | Como **tarea** en Pendientes y en «Cambios en Meta Ads», que es donde un humano la puede aplicar |
+| El párrafo de método y los huecos con su remedio | `analisis/resultado.json` · `huecos_declarados`, que es la salida auditable |
+
+Ese es además el patrón del proyecto: **cada bloque declara su propio límite
+donde se lee**, no en una nota al pie que nadie abre. El pie era la excepción.
+
+Los huecos siguen calculándose y siguen deteniendo la corrida cuando
+corresponde. Se dejó de **pintar** el pie, no de declararlos.
+
+### La guardia
+
+`npm run prueba:tablero` ahora falla si vuelve cualquiera de los ocho textos
+retirados o el `<footer>`, **y también si se pierde alguno de los tres
+irrenunciables**: el plegado de límites del orgánico, «Cambios en Meta Ads» y
+las cartas de producción. Va como prueba y no como acuerdo: un bloque quitado a
+mano vuelve solo en la siguiente regeneración y nadie lo nota hasta que está
+publicado.
+
+### El defecto que apareció al revisar esto
+
+Al comprobar qué se perdía, salió que `paises_con_entrega` traía **US** — con
+**0 impresiones y $0 de gasto**. Estaba en la segmentación y no entregó nada.
+Llamarlo «país con entrega» es un rótulo falso, y encima levantaba la alerta de
+mercado no declarado sobre una fila vacía.
+
+Ahora un país entra a `paises_con_entrega` solo si tiene impresiones o gasto
+mayores que cero; los demás salen en `paises_en_segmentacion_sin_entrega`, con
+su propia frase. La alerta de mercado no declarado se levanta **solo sobre lo
+que sí entregó**. Países con entrega en esta corrida: GT y SV, los dos
+declarados.
+
+### La lección
+
+**Un bloque que necesita un descargo para leerse es un bloque de más.** Y al
+revés: quitar algo obliga a comprobar dónde queda cada cosa que traía, y esa
+revisión encontró un rótulo falso que llevaba una corrida entera publicado.

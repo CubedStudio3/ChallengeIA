@@ -225,8 +225,28 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         }
     campanas = [c for c in campanas
                 if c.desglose_dict.get("country") not in excluidos]
-    paises = valores_de_desglose(campanas, "country")
+    # Un pais que aparece en el desglose NO es un pais con entrega. Esta corrida
+    # devolvio US con 0 impresiones y 0 de gasto: esta en la segmentacion y no
+    # entrego nada. Llamarlo «pais con entrega» es un rotulo falso, del tipo
+    # exacto que este proyecto no acepta, y ademas convertia una fila vacia en
+    # una alerta de mercado no declarado.
+    todos_los_paises = valores_de_desglose(campanas, "country")
+    def _entrego(p: str) -> bool:
+        for c in campanas:
+            if c.desglose_dict.get("country") != p:
+                continue
+            if (not c.impresiones.hueco and (c.impresiones.numero or 0) > 0):
+                return True
+            if (not c.gasto.hueco and (c.gasto.numero or 0) > 0):
+                return True
+        return False
+
+    paises = [p for p in todos_los_paises if _entrego(p)]
+    paises_sin_entrega = [p for p in todos_los_paises if p not in paises]
+    # La alerta de mercado no declarado se levanta solo sobre lo que SI entrego.
+    # Un pais segmentado y sin una sola impresion no es un mercado nuevo.
     fuera_de_mercado = [p for p in paises if p not in declarados]
+    fuera_sin_entrega = [p for p in paises_sin_entrega if p not in declarados]
 
     # --- Paso 3 · competencia ---
     registro = cargar("competidores")
@@ -511,6 +531,10 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         "integridad": {
             "campanas_leidas": len(campanas),
             "paises_con_entrega": paises,
+            # Segmentados y sin una sola impresion. Se declaran aparte para no
+            # confundir «esta en la segmentacion» con «entrego ahi».
+            "paises_en_segmentacion_sin_entrega": paises_sin_entrega,
+            "paises_fuera_de_mercados_sin_entrega": fuera_sin_entrega,
             "paises_fuera_de_mercados_declarados": fuera_de_mercado,
             "campanas_incoherentes": incoherentes,
             "mercados_excluidos_con_gasto": gasto_excluido,
@@ -567,6 +591,10 @@ def imprime(r: dict) -> None:
     print(f"\nINTEGRIDAD\n{L}")
     print(f"  Filas de campaña×país leídas: {i['campanas_leidas']}")
     print(f"  Países con entrega: {', '.join(i['paises_con_entrega'])}")
+    if i.get("paises_en_segmentacion_sin_entrega"):
+        print("  En la segmentación, SIN entrega: " +
+              ", ".join(i["paises_en_segmentacion_sin_entrega"]) +
+              "  (0 impresiones y $0: no son mercados nuevos)")
     if i["paises_fuera_de_mercados_declarados"]:
         print(f"  ⚠ FUERA DE MERCADOS DECLARADOS: "
               f"{', '.join(i['paises_fuera_de_mercados_declarados'])}")

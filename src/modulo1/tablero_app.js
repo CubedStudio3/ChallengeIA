@@ -2514,21 +2514,9 @@
     if (!R) return seccion("referencias", "Contraste", "Referencias", "", "",
       nota("Sin datos de referencias en esta corrida."));
 
-    var filasC = (R.contraste || []).map(function (f) {
-      return '<div class="py-5">' +
-        '<div class="text-[13.5px] font-semibold text-slate-700 mb-3">' +
-        esc(f.dimension) + "</div>" +
-        '<div class="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr))] mb-3">' +
-        [["QPayPro", f.qpaypro], ["Competencia", f.competencia],
-         ["Referentes", f.referentes]].map(function (par) {
-          return "<div><div class=\"text-[10.5px] font-bold tracking-wider " +
-            'text-slate-300 uppercase mb-1">' + esc(par[0]) + "</div>" +
-            '<div class="text-[12.5px] text-slate-600 leading-snug">' +
-            esc(par[1]) + "</div></div>";
-        }).join("") + "</div>" +
-        '<p class="text-[11.5px] text-slate-400 leading-relaxed">' +
-        esc(f.lectura) + "</p></div>";
-    }).join("");
+    /* La tabla de contraste se quitó con la tarjeta «Nosotros contra
+       ellos» (2026-09-04). `R.contraste` sigue en resultado.json por si
+       vuelve a hacer falta; aquí ya no se pinta. */
 
     var t = R.territorios || {};
     var terr = (t.saturados || []).map(function (s) {
@@ -2617,9 +2605,11 @@
          navegación. Lo que se va a usar en la mesa no puede estar a dos
          scrolls de distancia. */
       (bloqueRecs ? bloqueRecs + '<div class="mt-12"></div>' : "") +
-      '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mb-6">' +
-      cardCab("Nosotros contra ellos", "Solo se compara lo comparable") +
-      '<div class="divide-y divide-slate-50">' + filasC + "</div></div>" +
+      /* Quitada la tarjeta «Nosotros contra ellos» (2026-09-04, a pedido de
+         Mercadeo). Era una tabla de contraste que ponía nuestras interacciones
+         al lado del conteo de anuncios del competidor: dos cosas que la propia
+         tarjeta tenía que aclarar que no se comparan. Lo accionable de esta
+         sección son las recomendaciones y los territorios, que quedan. */
       (terr ? '<h3 class="text-[17px] font-bold text-slate-800 mb-5 mt-10">' +
         'Territorios de mensaje</h3>' +
         '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
@@ -2963,44 +2953,28 @@
         : "") +
       plegado("Los límites de esta sección", est.limites || []));
   }
-  /* -- 6 · Pie: la trazabilidad ------------------------------------------- */
+  /* -- 6 · El pie de trazabilidad: QUITADO ------------------------------- */
 
-  /* No es decoracion. La definicion de terminado del proyecto exige que la
-     salida sea trazable hasta las consultas de origen, y que los huecos se
-     declaren en vez de rellenarse. Van al final porque no se leen primero,
-     pero van. */
-  function pie() {
-    var c = D.corrida || {}, ig = D.integridad || {};
-    var hu = D.huecos_declarados || [];
-    var ex = ig.mercados_excluidos_con_gasto || {};
-    var exl = Object.keys(ex).map(function (k) {
-      return { que: k + " excluido", detalle: ex[k].motivo_de_exclusion,
-               impacto: "Gasto detectado: " + dinero(ex[k].gasto) + " en " +
-                        (ex[k].campanas || []).join(", ") + ".",
-               remedio: ex[k].accion_pendiente };
-    });
+  /* Quitado del tablero el 2026-09-04, a pedido de Mercadeo. Lo que traía y
+     dónde está ahora, para que no se lea como que la trazabilidad se perdió:
 
-    return '<footer class="mt-4 mb-6">' +
-      '<div class="bg-white rounded-3xl p-8 tarjeta-sombra">' +
-      '<div class="grid gap-7 [grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr))]">' +
-      [["Periodo leído", esc(c.rango || "—")],
-       ["Consultado el", esc(c.hoy || "—")],
-       ["Campañas leídas", ent(ig.campanas_leidas)],
-       ["Redes en el informe", "Facebook · Instagram · YouTube"]].map(function (p) {
-        return '<div><div class="micro-et">' + p[0] + "</div>" +
-          '<div class="text-[13.5px] font-semibold text-slate-700">' + p[1] +
-          "</div></div>";
-      }).join("") + "</div>" +
-      '<p class="text-[12px] text-slate-400 leading-relaxed mt-7 pt-6 ' +
-      'border-t border-slate-50 max-w-[80ch]">' +
-      "Todo número de esta página sale de una consulta a la API de Meta Ads, a la " +
-      "Meta Ad Library o a Zoho Social en las fechas de arriba. " +
-      "<b class=\"text-slate-600 font-semibold\">Donde no hubo dato no se puso un " +
-      "cero</b>: se dice que falta y por qué. Un reporte con un número inventado " +
-      "es peor que un reporte que no se generó.</p>" +
-      plegado("Huecos declarados de la corrida", hu.concat(exl)) +
-      "</footer>";
-  }
+     · «Periodo leído» y «Consultado el» → ya están arriba, en el control de
+       fechas y en la leyenda de periodo de cada bloque derivado.
+     · «Campañas leídas» → el conteo por indicador vive en Rendimiento, que es
+       donde significa algo.
+     · Los dos huecos del orgánico —alcance no disponible y sin corte por
+       mercado— se declaran EN SITIO, en «Lo que este bloque no puede decir» de
+       la sección de redes. Ese es el patrón del proyecto: cada bloque dice su
+       propio límite donde se lee, no en una nota al pie.
+     · HN con $0.02 → sale como tarea en «Cambios en Meta Ads» de Estrategia,
+       que es donde un humano la puede aplicar. Meta Ads es de solo lectura.
+     · El párrafo de trazabilidad completo y los huecos con su remedio siguen
+       en `analisis/resultado.json` (`huecos_declarados`), que es la salida
+       auditable. La definición de terminado pide que la salida sea trazable
+       hasta las consultas de origen; no pide imprimirlo en el tablero.
+
+     Los huecos siguen calculándose y siguen deteniendo la corrida cuando
+     corresponde: se dejó de PINTAR el pie, no de declararlos. */
 
   /* ============ pintado ============ */
 
@@ -3064,7 +3038,7 @@
       '<div class="mx-auto w-full max-w-[1240px] px-5 sm:px-7 md:px-10 ' +
       'py-9 md:py-12">' +
       encabezado() + resumen() + rendimiento() + competencia() +
-      referencias() + estrategia() + pie() +
+      referencias() + estrategia() +
       "</div></main>";
 
     if (det) restauraDetalles(det);
