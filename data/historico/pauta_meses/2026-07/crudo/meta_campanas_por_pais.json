@@ -1,0 +1,199 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-07",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-07-01",
+    "until": "2026-07-31"
+   },
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "sort": "spend_descending",
+   "limit": 100
+  },
+  "_paginacion": "Dos paginas: la primera trajo 10 filas y la segunda volvio vacia. Muestra completa.",
+  "_nota": "Agregado por campana x pais de JULIO 2026. Referencia de la compuerta del mismo mes."
+ },
+ "ad_entities": [
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11424"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$154,94 USD",
+   "impressions": "868857",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "43"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,91 USD (Leads)"
+   },
+   "amount_spent": "$168,01 USD",
+   "impressions": "37696",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245898463250783",
+   "name": "Campaña Qpayshop e Integraciones"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "mixed",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (mixed)"
+   },
+   "amount_spent": "$421,50 USD",
+   "impressions": "75964",
+   "id": "120245978928870783",
+   "name": "Campaña Qpaypro GT 2026 - Copia"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "mixed",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (mixed)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120245978928870783",
+   "name": "Campaña Qpaypro GT 2026 - Copia"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "316"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,93 USD (actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead)"
+   },
+   "amount_spent": "$295,07 USD",
+   "impressions": "127705",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead)"
+   },
+   "amount_spent": "$1,33 USD",
+   "impressions": "665",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120247696546180783",
+   "name": "SV | POS Físico | Leads Directos - Copia"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "118"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,45 USD (Leads)"
+   },
+   "amount_spent": "$643,46 USD",
+   "impressions": "108015",
+   "id": "120249292740850783",
+   "name": "Campaña Qpaypro Guatemala Nueva"
+  }
+ ]
+}
