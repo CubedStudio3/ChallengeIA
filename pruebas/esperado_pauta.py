@@ -79,9 +79,22 @@ def bloque(desde, hasta):
 
 # --- Las ventanas, derivadas ---------------------------------------------
 medio = DIAS[len(DIAS) // 2]
+# `sin ventana` YA NO es «todo el dato». Desde que hay meses historicos
+# cargados (ADR-050) el tablero abre en la ventana de la corrida, asi que el
+# caso «no toque nada» tiene que esperar la SEMANA, no los tres meses. La
+# ventana se lee del dato —nunca escrita a mano— y si la corrida no la trae
+# (una corrida vieja) se cae a todo el rango, que es lo que hacia antes.
+_vc = (R.get("pauta_diaria") or {}).get("ventana_de_la_corrida") or {}
+CORR_INI = _vc.get("desde") or DIAS[0]
+CORR_FIN = _vc.get("hasta") or DIAS[-1]
+
 ventanas = [
-    {"nombre": "todo", "desde": None, "hasta": None,
-     "nota": "sin ventana propia: el periodo completo de la corrida"},
+    {"nombre": "sin ventana (abre en la corrida)",
+     "desde": CORR_INI, "hasta": CORR_FIN,
+     "_sin_tocar": True,
+     "nota": "nadie toca el filtro: tiene que dar el periodo de la corrida"},
+    {"nombre": "todo el dato", "desde": DIAS[0], "hasta": DIAS[-1],
+     "nota": "el rango completo, elegido a proposito"},
     {"nombre": "primera mitad", "desde": DIAS[0], "hasta": medio,
      "nota": "del primer dia con dato a la mitad"},
     {"nombre": "segunda mitad", "desde": medio, "hasta": DIAS[-1],

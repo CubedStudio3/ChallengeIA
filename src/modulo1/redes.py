@@ -357,6 +357,12 @@ def resumen(redes: dict[str, Red], hoy: date, *,
         "limites": [
             {"que": "alcance e impresiones orgánicas",
              "estado": "NO POR ESTA FUENTE",
+             # `corto` es lo UNICO que se pinta en pantalla. El `detalle` se
+             # queda en resultado.json, que es el documento del repositorio:
+             # en una reunion nadie lee un parrafo, y borrarlo escondería un
+             # hueco (regla 1). Se declara en una linea y se puede rastrear.
+             "corto": "Zoho Social no lo da, así que no hay tasa: "
+                      "las interacciones van absolutas",
              "detalle": ("Zoho Social no devuelve alcance en ninguna de las cinco "
                          "redes, así que las interacciones de este bloque son "
                          "ABSOLUTAS y no llevan tasa. El alcance sí existe en una "
@@ -367,6 +373,12 @@ def resumen(redes: dict[str, Red], hoy: date, *,
                          "vistas.")},
             {"que": "desglose por mercado (GT / SV)",
              "estado": "FALTA CONECTAR UNA PÁGINA",
+             "corto": "el portal tiene una sola marca, así que GT y SV "
+                      "comparten audiencia",
+             # `accion` sobrevive al recorte a proposito: es lo unico de este
+             # bloque que alguien puede ARREGLAR hoy, y no esta en la lista de
+             # tareas. Si se fuera con el detalle, se perderia de vista.
+             "accion": "conectar «Qpaypro El Salvador» en Zoho Social",
              "detalle": ("El portal de Zoho Social tiene UNA marca conectada, así "
                          "que por esta fuente GT y SV comparten audiencia y "
                          "repartir las interacciones entre los dos sería "

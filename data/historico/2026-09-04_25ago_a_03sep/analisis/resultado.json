@@ -4781,11 +4781,14 @@
       {
         "que": "alcance e impresiones orgánicas",
         "estado": "NO POR ESTA FUENTE",
+        "corto": "Zoho Social no lo da, así que no hay tasa: las interacciones van absolutas",
         "detalle": "Zoho Social no devuelve alcance en ninguna de las cinco redes, así que las interacciones de este bloque son ABSOLUTAS y no llevan tasa. El alcance sí existe en una tercera fuente —Zoho Analytics—, y cuando sus exportaciones están en la corrida el corte por formato de Instagram sí trae su tasa. Este bloque no la usa porque no puede repartirla por red sin las otras dos vistas."
       },
       {
         "que": "desglose por mercado (GT / SV)",
         "estado": "FALTA CONECTAR UNA PÁGINA",
+        "corto": "el portal tiene una sola marca, así que GT y SV comparten audiencia",
+        "accion": "conectar «Qpaypro El Salvador» en Zoho Social",
         "detalle": "El portal de Zoho Social tiene UNA marca conectada, así que por esta fuente GT y SV comparten audiencia y repartir las interacciones entre los dos sería inventarlo. Pero el corte SÍ existe del lado de Meta: hay dos páginas, «Qpaypro» y «Qpaypro El Salvador» (829032443626700).",
         "impacto": "Hoy el orgánico se reporta sin partir por mercado, mientras la pauta sí se parte. Esa asimetría es real y queda declarada.",
         "remedio": "Conectar la página «Qpaypro El Salvador» como segunda marca en el portal de Zoho Social. Es configuración, no desarrollo. Se creyó imposible hasta el 2026-08-31; era una página sin conectar."
@@ -5512,12 +5515,15 @@
       {
         "que": "referencias concretas de Pinterest",
         "estado": "NO DISPONIBLE",
+        "corto": "sin conector: lo que hay son búsquedas, no pines vistos",
+        "accion": "una persona abre la búsqueda y pega los pines en la tarea",
         "detalle": "No hay conector de Pinterest en la sesión, y Pinterest tampoco figura entre los canales conectados del portal de Zoho Social (verificado 2026-08-27: facebookpage, linkedinpage, instagram, youtube, tiktok). Lo que entrega esta sección son BÚSQUEDAS, no pines curados. Ningún pin fue visto ni verificado por el sistema.",
         "remedio": "Una persona abre la búsqueda, elige los pines que sirven y los pega en la tarea. O se habilita un conector de Pinterest y entonces sí se puede curar automáticamente."
       },
       {
         "que": "orgánico de competidores y referentes",
         "estado": "NO DISPONIBLE",
+        "corto": "Meta solo publica la pauta de otra marca, no su orgánico",
         "detalle": "La Ad Library expone únicamente publicidad pagada. El contenido orgánico de otras marcas no viene por API. El contraste de orgánico contra ellos no se puede hacer y no se estima."
       }
     ]
@@ -8916,11 +8922,13 @@
       {
         "que": "copy publicable",
         "estado": "BLOQUEADO",
+        "corto": "ningún copy se publica sin aprobación humana (regla 5)",
         "detalle": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
         "remedio": "Llenar .claude/skills/contexto-marca/SKILL.md con los 5 insumos que lista."
       },
       {
         "que": "cantidad de piezas por tarea",
+        "corto": "es capacidad del equipo, no sale de ninguna API",
         "estado": "DECLARADA",
         "detalle": "Cuántos artes o videos caben en una semana es capacidad del equipo. No existe en Meta ni en Ad Library, así que no se estima.",
         "remedio": "Declarar capacidad_semanal en config/equipo.json."
@@ -8928,6 +8936,7 @@
       {
         "que": "ejecución de cambios en Meta Ads",
         "estado": "PROHIBIDA",
+        "corto": "Meta Ads es solo lectura; las tareas salen con la instrucción para aplicarla a mano",
         "detalle": "Meta Ads es solo lectura por instrucción explícita del usuario (ADR-012). Ni siquiera en estado pausado.",
         "remedio": "Las tareas de pauta salen con la instrucción exacta para que una persona la aplique a mano."
       }

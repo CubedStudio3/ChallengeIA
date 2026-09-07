@@ -116,7 +116,13 @@ const money = x => x == null ? "—" :
                desde: (document.getElementById("fDesde") || {}).value || null,
                hasta: (document.getElementById("fHasta") || {}).value || null };
     })()`) : null;
-    await pon(a, b);
+    /* «sin ventana» se prueba SIN TOCAR el filtro. Escribirle las fechas
+       probaría que aplicar la semana da la semana, que es otra cosa: lo que
+       hay que comprobar es que el tablero ABRA ahí con tres meses cargados. */
+    /* Y «sin tocar» es literal: no se pulsa ni el atajo que limpia. Es el
+       primer caso, con la página recién cargada, así que lo que se mide es
+       con qué ventana ABRE. */
+    if (!V._sin_tocar) await pon(a, b);
     /* Una ventana entera fuera del dato se ignora —tiene que ignorarse, o
        teclear con un rango corto es imposible—. Lo que NO puede pasar es que
        el campo se quede mostrando la fecha rechazada mientras las cifras son

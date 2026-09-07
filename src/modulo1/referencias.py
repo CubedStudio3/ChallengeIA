@@ -202,6 +202,8 @@ def arma(redes: dict, panoramas: dict, por_mercado: dict, categorias: dict) -> d
         "limites": [
             {"que": "referencias concretas de Pinterest",
              "estado": "NO DISPONIBLE",
+             "corto": "sin conector: lo que hay son búsquedas, no pines vistos",
+             "accion": "una persona abre la búsqueda y pega los pines en la tarea",
              "detalle": ("No hay conector de Pinterest en la sesión, y Pinterest "
                          "tampoco figura entre los canales conectados del portal de "
                          "Zoho Social (verificado 2026-08-27: facebookpage, "
@@ -213,6 +215,7 @@ def arma(redes: dict, panoramas: dict, por_mercado: dict, categorias: dict) -> d
                          "y entonces sí se puede curar automáticamente.")},
             {"que": "orgánico de competidores y referentes",
              "estado": "NO DISPONIBLE",
+             "corto": "Meta solo publica la pauta de otra marca, no su orgánico",
              "detalle": ("La Ad Library expone únicamente publicidad pagada. El "
                          "contenido orgánico de otras marcas no viene por API. El "
                          "contraste de orgánico contra ellos no se puede hacer y no "

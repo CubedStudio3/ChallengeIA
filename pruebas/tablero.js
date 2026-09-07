@@ -176,7 +176,7 @@ function envuelve(frag) {
          tienen que seguir declarados EN SITIO, y HN tiene que seguir saliendo
          como tarea para que un humano la aplique en Meta. */
       const IRRENUNCIABLES = [
-        "Lo que este bloque no puede decir", "Cambios en Meta Ads",
+        "Qué no incluye", "Cambios en Meta Ads",
         "Cartas de producción",
       ];
       const texto = await pag.evaluate(() =>

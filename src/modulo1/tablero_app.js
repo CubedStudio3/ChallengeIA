@@ -388,26 +388,86 @@
      Por eso la leyenda no es un sello de «no cambia»: es la declaración de qué
      periodo miró el análisis. Se muestra siempre, porque es contexto útil, y
      se pone ámbar solo cuando la ventana elegida difiere de ese periodo. */
+  /* ═════════════ fechas en formato de acá ═════════════
+
+     «lun 25 ago», no «2026-08-25». Pedido de Mercadeo (2026-09-07) para la
+     reunión: una fecha ISO obliga a traducirla mentalmente, y el día de la
+     semana es lo que de verdad ubica —«el lunes» dice más que «el 25»—.
+
+     El año NO se escribe salvo que haga falta para distinguir: en un tablero
+     de una semana es ruido en cada línea. Se agrega solo si los dos extremos
+     de un rango caen en años distintos, o si el año no es el de la corrida.
+
+     Se parsea en UTC a propósito. `new Date("2026-08-25")` ya es UTC, pero
+     `getDay()` local puede devolver el día ANTERIOR al oeste de Greenwich —GT
+     es UTC-6— y el tablero diría «dom 24 ago» donde el dato dice el 25. Es un
+     error de un día que nadie audita porque se ve plausible. */
+  var DIA_SEM = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+  var MES_AB = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago",
+                "sep", "oct", "nov", "dic"];
+
+  function _anioDeLaCorrida() {
+    var r = String((D.corrida || {}).rango || "");
+    var m = /(\d{4})-\d{2}-\d{2}/.exec(r);
+    return m ? m[1] : null;
+  }
+
+  /* «lun 25 ago». Con `conAnio` agrega « 2026». Si el ISO no tiene forma de
+     fecha se devuelve tal cual: es mejor mostrar el crudo que inventar. */
+  function fecha(iso, conAnio) {
+    var t = String(iso || "");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(t)) return t;
+    var d = new Date(t + "T00:00:00Z");
+    if (isNaN(d.getTime())) return t;
+    var txt = DIA_SEM[d.getUTCDay()] + " " + d.getUTCDate() + " " +
+              MES_AB[d.getUTCMonth()];
+    return conAnio ? txt + " " + t.slice(0, 4) : txt;
+  }
+
+  /* «lun 25 ago – mié 3 sep». Un solo día no se repite: «lun 25 ago». */
+  function rangoFecha(a, b) {
+    var x = String(a || ""), y = String(b || "");
+    if (!x && !y) return "";
+    if (!y || x === y) return fecha(x || y, _anioHace(x || y));
+    var ax = x.slice(0, 4), ay = y.slice(0, 4);
+    var hace = ax !== ay || _anioHace(x) || _anioHace(y);
+    return fecha(x, hace) + " – " + fecha(y, hace);
+  }
+
+  /* ¿Hace falta el año? Solo si no es el de la corrida. */
+  function _anioHace(iso) {
+    var a = _anioDeLaCorrida();
+    return !!(a && String(iso || "").slice(0, 4) !== a);
+  }
+
+  /* Un rango escrito «2026-08-25 a 2026-09-03» —como viene `corrida.rango`—
+     pasado al formato de acá. Si no calza el patrón se devuelve igual. */
+  function rangoTexto(txt) {
+    var m = /^(\d{4}-\d{2}-\d{2})\s*a\s*(\d{4}-\d{2}-\d{2})$/
+      .exec(String(txt || "").trim());
+    return m ? rangoFecha(m[1], m[2]) : String(txt || "");
+  }
+
   /* `que` trae el sujeto Y el verbo conjugado: «Las recomendaciones salen»,
      «La lista de pendientes sale». Concatenar un verbo fijo dejaba «Las
      recomendaciones sale del análisis», que lo vio la prueba. */
-  function leyendaPeriodo(que) {
+  /* Una LINEA, no un parrafo. El texto largo se corto el 2026-09-07 a pedido
+     de Mercadeo: en una reunion nadie lo lee y ocupa el lugar de lo que si se
+     mira. Lo que declaraba sigue estando —de que periodo son estas cifras—
+     porque sin eso una recomendacion del 25 de agosto al lado de un KPI de
+     junio es el engano del +105.6% otra vez.
+
+     `que` ya no se usa: la linea no necesita sujeto ni verbo. Se acepta el
+     argumento para no tocar las siete llamadas, y se ignora. */
+  function leyendaPeriodo() {
     var per = (D.corrida || {}).rango || "";
     if (!per) return "";
     var R = rango();
     var difiere = !!(R && R.propio);
-    return '<div class="rounded-2xl px-4 py-3 text-[12px] leading-relaxed ' +
-      'mb-5 ' + (difiere
-        ? "bg-amber-50 text-amber-900"
-        : "bg-slate-50 text-slate-500") + '">' +
-      (difiere ? '<b class="font-semibold">Ojo con el rango.</b> ' : "") +
-      esc(que) + " del análisis del periodo " +
-      '<b class="font-semibold">' + esc(per) + "</b>" +
-      (difiere
-        ? ", que no es la ventana que tenés elegida arriba. Las cifras que cita " +
-          "son de ese periodo; los números de pauta de Resumen y Rendimiento sí " +
-          "siguen tu ventana."
-        : ".") + "</div>";
+    return '<div class="text-[11.5px] mb-4 ' + (difiere
+        ? "text-amber-700 font-semibold" : "text-slate-400") + '">' +
+      (difiere ? "Ojo: el análisis es de " : "Análisis: ") +
+      esc(rangoTexto(per)) + (difiere ? ", no de tu ventana." : "") + "</div>";
   }
 
   /* Una ventana puede no tocar ningún día de pauta. Eso NO es cero gasto: es
@@ -419,7 +479,7 @@
     return '<div class="text-[13px] text-slate-400 py-6 text-center ' +
       'leading-relaxed">Ningún día de pauta cae en el rango elegido.' +
       (t.desde ? '<span class="block mt-1.5 text-[12px]">La pauta de esta ' +
-        "corrida va del " + esc(t.desde) + " al " + esc(t.hasta) +
+        "corrida va del " + esc(rangoFecha(t.desde, t.hasta)) +
         ".</span>" : "") + "</div>";
   }
 
@@ -532,7 +592,7 @@
       '<h1 class="text-[28px] sm:text-[32px] leading-tight font-bold ' +
       'text-slate-800 tracking-[-0.02em]">Hola, Merca</h1>' +
       '<p class="text-slate-400 mt-1.5 text-[13.5px] sm:text-[14px]">' +
-      "Reunión creativa de la semana del " + esc(c.rango || "") + "</p></div>" +
+      "Reunión creativa · " + esc(rangoTexto(c.rango || "")) + "</p></div>" +
       '<div class="flex items-center gap-3 flex-wrap">' +
       '<div class="relative">' +
       '<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300">' +
@@ -619,11 +679,19 @@
   function selloSinRango(motivo) {
     var R = rango();
     var activo = !!(R && R.propio);
+    /* El PÁRRAFO se fue el 2026-09-07: en la reunión era un textote en la
+       cabecera de dos secciones. La etiqueta se queda —es la advertencia— y
+       ahora dice el porqué en cuatro palabras, dentro de ella misma.
+
+       El `motivo` largo sigue llegando y se pone en el `title`. No es que el
+       tooltip alcance —ya se aprendió que en pantalla táctil no existe—, es
+       que la etiqueta ya no depende de él: «solo lo activo hoy» ES el motivo,
+       dicho corto. El texto largo queda como detalle para quien pase el ratón,
+       no como la única forma de enterarse. */
     return '<span class="' + (activo ? "etiqueta-ambar" : "etiqueta-gris") +
-      ' ml-2 align-middle">no cambia con el rango</span>' +
-      '<span class="block mt-1.5 text-[12px] ' +
-      (activo ? "text-amber-700" : "text-slate-400") + ' leading-relaxed">' +
-      esc(motivo) + "</span>";
+      ' ml-2 align-middle" title="' + esc(motivo) + '">' +
+      (activo ? "solo lo activo hoy · no sigue tu ventana"
+              : "solo lo activo hoy") + "</span>";
   }
 
   /* `sello` va aparte del titulo A PROPOSITO: el titulo pasa por esc(), asi que
@@ -1466,22 +1534,53 @@
      Decirlo es obligatorio. Un filtro global que dejara quieto el número de
      leads sin explicar por qué haría pensar que el dato está mal, y el
      siguiente paso sería dejar de creerle a todo el tablero. */
+  /* Los límites NATIVOS del input, que NO son los límites del dato.
+
+     Medido el 2026-09-07, aislado en un input pelado sin nada de esta página:
+     con `min` y `max` dentro del MISMO año, Chromium no deja escribir el año
+     —solo puede ser uno— y los dígitos que se tecleen para él caen sobre el
+     DÍA y lo pisan. Tecleando 07/15/2026 quedaba el 26 de julio: el 1 y el 5
+     entraban bien y después el «2026» arrasaba con ellos (152→31, 0→20, 2→02,
+     6→26). Con un rango que cruce años, la misma prueba da 15 de julio.
+
+         sin min/max              -> 2026-07-15   ok
+         2026-06-01 .. 2026-09-03 -> 2026-07-26   MAL
+         2026-01-01 .. 2026-12-31 -> 2026-07-26   MAL
+         2025-01-01 .. 2027-12-31 -> 2026-07-15   ok
+
+     Por eso los límites nativos se abren a un año por lado. NO es aflojar la
+     protección: el límite de verdad nunca estuvo aquí, está en el `change`
+     —que ignora una fecha fuera del dato— y en el `focusout`, que devuelve el
+     campo y dice en voz alta cuál es el rango medido. Eso ya estaba y está
+     probado. Lo único que hacían min/max era pintar el campo de inválido, y a
+     cambio hacían imposible teclear. */
+  function topeNativo(tope) {
+    if (!tope) return null;
+    var a = parseInt(String(tope.desde).slice(0, 4), 10);
+    var b = parseInt(String(tope.hasta).slice(0, 4), 10);
+    if (isNaN(a) || isNaN(b)) return tope;
+    return { desde: (a - 1) + "-01-01", hasta: (b + 1) + "-12-31" };
+  }
+
   function controlFechas() {
     /* La compuerta es `rango()`, no `alcance()`: el control existe si hay ALGO
        que recortar —pauta diaria, orgánico, o los dos—. Preguntar por alcance
        hacía desaparecer el filtro entero en una corrida sin Zoho Analytics. */
     var R = rango();
     if (!R) return "";
-    return '<div class="bg-white rounded-3xl p-6 tarjeta-sombra flex ' +
-      'flex-wrap items-end gap-4">' +
-      '<div><span class="micro-et">Desde</span>' +
-      '<input type="date" id="fDesde" class="campo w-[168px]" value="' +
-      esc(R.desde) + '" min="' + esc(R.tope.desde) + '" max="' +
-      esc(R.tope.hasta) + '"></div>' +
-      '<div><span class="micro-et">Hasta</span>' +
-      '<input type="date" id="fHasta" class="campo w-[168px]" value="' +
-      esc(R.hasta) + '" min="' + esc(R.tope.desde) + '" max="' +
-      esc(R.tope.hasta) + '"></div>' +
+    return '<div id="ctlFechas" class="bg-white rounded-3xl p-6 ' +
+      'tarjeta-sombra flex flex-wrap items-end gap-4">' +
+      (function () {
+        var tn = topeNativo(R.tope) || R.tope;
+        return '<div><span class="micro-et">Desde</span>' +
+          '<input type="date" id="fDesde" class="campo w-[168px]" value="' +
+          esc(R.desde) + '" min="' + esc(tn.desde) + '" max="' +
+          esc(tn.hasta) + '"></div>' +
+          '<div><span class="micro-et">Hasta</span>' +
+          '<input type="date" id="fHasta" class="campo w-[168px]" value="' +
+          esc(R.hasta) + '" min="' + esc(tn.desde) + '" max="' +
+          esc(tn.hasta) + '"></div>';
+      })() +
       '<div class="flex gap-2 flex-wrap">' +
       /* Tres atajos, decididos con Mercadeo el 2026-09-04. Fuera «90 días»
          —con nueve días de dato no significaba nada— y fuera «Todo», que
@@ -1494,7 +1593,7 @@
           'class="np-tipo">' + esc(a[1]) + "</button>";
       }).join("") + "</div>" +
       '<div class="text-[11.5px] text-slate-400 leading-snug flex-1 ' +
-      'min-w-[220px]">' +
+      'min-w-[160px]">' +
       (R.propio ? "<b class=\"text-slate-600 font-semibold\">Ventana " +
                   "elegida.</b> " : "") +
       /* Este texto decía que la pauta de Meta NO obedecía la ventana. Era
@@ -1509,10 +1608,13 @@
          la cabecera de Competencia y de Referencias —con `selloSinRango`—, y
          la de Estrategia en su leyenda de periodo. Lo único que se queda aquí
          es lo que aplica AL FILTRO MISMO: qué recalcula y qué fechas admite. */
-      "Recalcula la <b>pauta de Meta</b> —el total y el corte GT/SV— y el " +
-      "<b>orgánico</b> con sus gráficas. Solo admite fechas <b>dentro del " +
-      "dato</b>: " + esc(R.tope.desde) + " a " + esc(R.tope.hasta) +
-      ".</div></div>";
+      /* La frase de qué recalcula se quitó el 2026-09-07: era relleno en una
+         reunión —quien mueve el filtro ve moverse los números—. Lo que NO se
+         pierde es el rango que se admite, porque un campo que rechaza una
+         fecha sin decir hasta dónde llega el dato es un callejón. Sale del
+         dato (`R.tope`), nunca escrito a mano: cambia con cada corrida. */
+      "Dato disponible: <b>" + esc(rangoFecha(R.tope.desde, R.tope.hasta)) +
+      "</b>.</div></div>";
   }
 
   function tarjetaAlcance(r) {
@@ -1912,7 +2014,7 @@
     if (!lista.length) return "";
     return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
       cardCab("Lo que nadie ha retirado",
-        "No es un ranking de efectividad: es qué dejan pagando") +
+        "") +
       '<div class="divide-y divide-slate-50">' +
       lista.slice(0, 5).map(function (a) {
         return fila(a.rol === "referente" ? "REF" : "COM", "«" + a.mensaje + "»",
@@ -1971,20 +2073,41 @@
       'text-slate-600 leading-relaxed">' + texto + "</div>";
   }
 
+  /* Lo que el sistema NO puede decir. Plegado, cerrado, y una LINEA por punto.
+
+     Se recortó el 2026-09-07 a pedido de Mercadeo. La instrucción fue precisa y
+     vale repetirla: «lo que el sistema no puede medir no se borra, se pliega».
+     Así que no desaparece —es la regla 1— pero deja de ser un textote que en
+     una reunión nadie lee y que por eso mismo no informa a nadie.
+
+     En pantalla van tres cosas y nada más: QUÉ falta, POR QUÉ en pocas palabras
+     (`corto`), y la ACCIÓN si existe (`accion`). El `detalle`, el `impacto` y el
+     `remedio` largos siguen en `resultado.json`, que es el documento del
+     repositorio: no se pierden, se dejan de pintar.
+
+     `corto` y `accion` se escriben en el módulo de Python que declara cada
+     límite, no aquí. Recortar el `detalle` con JavaScript habría cortado frases
+     a la mitad y, peor, habría puesto la redacción del hueco en la vista en vez
+     de en la fuente que lo conoce. */
   function plegado(titulo, items) {
     if (!items || !items.length) return "";
     return '<details class="sec-lavado rounded-3xl px-7 py-5 mt-5">' +
       '<summary class="text-[12.5px] font-semibold text-slate-600 cursor-pointer ' +
       'hover:text-slate-900">' + esc(titulo) + " · " + items.length + "</summary>" +
-      '<ul class="mt-5 space-y-3 text-[12.5px] text-slate-500 leading-relaxed ' +
+      '<ul class="mt-4 space-y-2 text-[12px] text-slate-500 leading-snug ' +
       'list-disc pl-5">' + items.map(function (l) {
         if (typeof l === "string") return "<li>" + l + "</li>";
+        /* Sin `corto` se cae al `estado`, que ya es breve. NUNCA al `detalle`:
+           si un límite nuevo llega sin su línea corta, es mejor que se vea
+           escueto que volver al párrafo por la puerta de atrás. */
+        var por = l.corto || (l.estado ? l.estado.toLowerCase() : "");
         return '<li><b class="text-slate-700 font-semibold">' +
-          esc(l.que || l.fuente || "") + (l.estado ? " · " + esc(l.estado) : "") +
-          ".</b> " + esc(l.detalle || l.descripcion || "") +
-          (l.impacto ? " " + esc(l.impacto) : "") +
-          (l.remedio ? ' <i class="text-slate-400">' + esc(l.remedio) + "</i>" : "") +
-          "</li>";
+          esc(l.que || l.fuente || "") + "</b>" +
+          (por ? " · " + esc(por) : "") +
+          (l.accion
+            ? ' <span class="etiqueta-ambar ml-1 align-middle">' +
+              esc(l.accion) + "</span>"
+            : "") + "</li>";
       }).join("") + "</ul></details>";
   }
 
@@ -2069,7 +2192,7 @@
          dato ahí, y la frase de la semana no se escribe sobre un hueco. */
       titular = "Ningún día de pauta cae en el rango elegido.";
       apoyo = P.tope
-        ? "La pauta de esta corrida va del " + P.tope.desde + " al " + P.tope.hasta
+        ? "La pauta de esta corrida va del " + rangoFecha(P.tope.desde, P.tope.hasta)
         : "Sin días de pauta en la ventana.";
     } else if (L && L.resultados) {
       titular = 'La pauta trajo <b class="font-bold">' + ent(L.resultados) +
@@ -2093,7 +2216,7 @@
     var heroe = '<div class="rounded-3xl p-8 sm:p-9 flex flex-col" ' +
       'style="background:var(--sec-resumen);color:var(--sec-resumen-tinta)">' +
       '<div class="text-[10.5px] font-bold tracking-[0.14em] uppercase ' +
-      'opacity-50">Semana del ' + esc((D.corrida || {}).rango || "") + "</div>" +
+      'opacity-50">' + esc(rangoTexto((D.corrida || {}).rango || "")) + "</div>" +
       '<h3 class="text-[25px] sm:text-[29px] font-bold leading-[1.18] ' +
       'tracking-[-0.02em] mt-4 max-w-[24ch]">' + titular + "</h3>" +
       '<p class="text-[12.5px] opacity-60 mt-3">' + esc(apoyo) + "</p>" +
@@ -2285,7 +2408,7 @@
     };
 
     return seccion("resumen", "La semana", "Resumen",
-      "Los datos, y qué decidir con eso.", "",
+      "", "",
       /* Una sola columna hasta xl: por debajo de eso el heroe a media pantalla
          deja las tres tarjetas en 170 px y el titulo se parte en cinco lineas.
          Medido en la prueba, no supuesto: con 1.05fr_1fr desde tableta las
@@ -2438,9 +2561,9 @@
        de ser «del periodo de la corrida», y decir el periodo viejo ahí sería
        justo el error que el filtro vino a arreglar. */
     var deQue = (PM && PM.recortada && !PM.vacia && PM.primer)
-      ? "</b>, del " + esc(PM.primer) + " al " + esc(PM.ultimo) +
+      ? "</b>, " + esc(rangoFecha(PM.primer, PM.ultimo)) +
         " · " + PM.dias + (PM.dias === 1 ? " día con entrega" : " días con entrega")
-      : "</b>, del periodo " + esc((D.corrida || {}).rango || "");
+      : "</b>, " + esc(rangoTexto((D.corrida || {}).rango || ""));
 
     return seccion("rendimiento", "Pauta y orgánico", "Rendimiento",
       "Meta Ads en <b class=\"text-slate-600 font-semibold\">" + esc(m) +
@@ -2480,11 +2603,18 @@
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mt-10">' +
       cardCab("Redes sociales", "Sin corte por país: una sola marca para GT y SV") +
       '<div class="divide-y divide-slate-50">' + redes + "</div></div>" +
-      plegado("Lo que este bloque no puede decir",
+      /* Los dos avisos de la serie semanal entran al plegado con su línea
+         CORTA. Sus textos largos —`_que_mide` y `_por_que_arrancan_distinto`—
+         se quedan en resultado.json; acá van resumidos, porque son los dos que
+         de verdad cambian cómo se lee la gráfica y no pueden desaparecer. */
+      plegado("Qué no incluye",
         ((D.redes_sociales || {}).limites || []).concat(
-          se ? [{ que: "qué mide cada punto", detalle: se._que_mide },
-                { que: "por qué las líneas arrancan distinto",
-                  detalle: se._por_que_arrancan_distinto }] : [])));
+          se ? [{ que: "la serie semanal no es histórica",
+                  corto: "cada punto es lo que HOY acumulan las piezas de esa " +
+                         "semana, no lo que pasó esa semana" },
+                { que: "antes de la muestra hay hueco, no ceros",
+                  corto: "la lectura viene topada en ~25 publicaciones por red" }]
+             : [])));
   }
 
   /* ── 3 · Competencia ─────────────────────────────────────────────────────── */
@@ -2659,13 +2789,11 @@
       pastillas("grupo", [{ v: "competencia", n: "Competencia" },
                           { v: "referentes", n: "Referentes" }], V.grupo),
       (sub ? '<div class="mb-6">' + sub + "</div>" : "") +
-      nota("<b class=\"text-slate-700 font-semibold\">No es un ranking de " +
-        "efectividad</b>: es dónde apuestan." +
-        '<details class="inline"><summary class="inline cursor-pointer ' +
-        'font-semibold"> Por qué</summary><span class="block mt-2">La Ad ' +
-        "Library no publica rendimiento de anunciantes comerciales: no hay " +
-        "impresiones, ni gasto, ni conversiones. Lo medible es cuánto repiten " +
-        "un mensaje y cuánto lo dejan vivo.</span></details>") +
+      /* Las dos notas de «esto no es efectividad» se quitaron el 2026-09-07.
+         No se perdió la advertencia: la etiqueta de la cabecera ya dice «solo
+         lo activo hoy», y cada tarjeta rotula lo que muestra —repeticiones y
+         días vivo—, que es justamente lo medible. Repetirlo tres veces en la
+         misma pantalla era lo que hacía perder tiempo en la reunión. */
       '<div class="grid gap-6 mt-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">' +
       (tarjetas + avisos ||
         '<div class="bg-white rounded-3xl p-7 tarjeta-sombra text-[13px] ' +
@@ -2730,9 +2858,7 @@
         '<div class="flex items-start justify-between gap-4 mb-5">' +
         '<div><h3 class="text-[17px] font-bold text-slate-800">Qué hacer con ' +
         'esto</h3>' +
-        '<p class="text-[12.5px] text-slate-400 mt-1.5">De cruzar lo que la ' +
-        "competencia ocupa con lo que los referentes hacen y aquí nadie " +
-        "hace.</p></div>" +
+        "</div>" +
         (recs.length > 3
           ? '<button type="button" data-vertodo="recs" class="text-[12.5px] ' +
             'font-semibold shrink-0 hover:underline mt-1" ' +
@@ -2741,11 +2867,7 @@
             "</button>"
           : "") + "</div>" +
         leyendaPeriodo("Las recomendaciones salen") +
-        nota("<b class=\"text-slate-700 font-semibold\">No dice qué le " +
-          "funcionó a la competencia</b>, dice dónde apuesta." +
-          '<details class="inline"><summary class="inline cursor-pointer ' +
-          'font-semibold"> Detalle</summary><span class="block mt-2">' +
-          esc(RC._limite || "") + "</span></details>") +
+
         (recs.length
           ? '<div class="grid gap-6 mt-6 ' +
             '[grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr))]">' +
@@ -2808,7 +2930,7 @@
         : "") + "</div>" +
       '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))]">' +
       busq + "</div>" +
-      plegado("Lo que esta sección no puede dar", R.limites || []));
+      plegado("Qué no incluye", R.limites || []));
   }
 
   /* ── 5 · Estrategia ──────────────────────────────────────────────────────── */
@@ -3063,7 +3185,7 @@
     var G = '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr))]">';
 
     return seccion("estrategia", "Para decidir", "Estrategia",
-      "Primero la apuesta, después las tareas. Elegir es de la mesa.",
+      "",
       '<div class="flex gap-2 flex-wrap">' +
       '<button type="button" id="bTodas" class="btn-oscuro"' +
       (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
@@ -3137,7 +3259,7 @@
                 return "<li>" + esc(p) + "</li>"; }).join("") + "</ol>"
             : "") + "</div>"
         : "") +
-      plegado("Los límites de esta sección", est.limites || []));
+      plegado("Qué no incluye", est.limites || []));
   }
   /* -- 6 · El pie de trazabilidad: QUITADO ------------------------------- */
 
@@ -3149,7 +3271,7 @@
      · «Campañas leídas» → el conteo por indicador vive en Rendimiento, que es
        donde significa algo.
      · Los dos huecos del orgánico —alcance no disponible y sin corte por
-       mercado— se declaran EN SITIO, en «Lo que este bloque no puede decir» de
+       mercado— se declaran EN SITIO, en «Qué no incluye» de
        la sección de redes. Ese es el patrón del proyecto: cada bloque dice su
        propio límite donde se lee, no en una nota al pie.
      · HN con $0.02 → sale como tarea en «Cambios en Meta Ads» de Estrategia,
@@ -3218,6 +3340,24 @@
     var cursor = null;
     if (idFoco) { try { cursor = act.selectionStart; } catch (e) {} }
 
+    /* ── el control de fechas SOBREVIVE al repintado ─────────────────────
+       Un `input type=date` que se recrea pierde en qué SEGMENTO estaba la
+       persona. Devolverle el foco no alcanza: el navegador vuelve al mes, y
+       los dígitos siguientes caen en el segmento equivocado. Medido el
+       2026-09-07: teclear 07/15/2026 en «Desde» dejaba el 26 de julio, y
+       después «Hasta» se comía el tecleo entero y quedaba igual que «Desde».
+
+       El debounce que había no podía arreglarlo —solo hacía el destrozo más
+       tarde—. Lo que hay que hacer es NO destruir el nodo: se guarda el
+       control vivo antes de reescribir el HTML y se vuelve a poner en el
+       lugar del recién generado. El input conserva su estado de edición y las
+       cifras se recalculan igual, que es lo que se quería de los dos lados. */
+    var vivo = null;
+    if (idFoco === "fDesde" || idFoco === "fHasta") {
+      var ctl = document.getElementById("ctlFechas");
+      if (ctl && ctl.parentNode) { vivo = ctl; ctl.parentNode.removeChild(ctl); }
+    }
+
     raiz().innerHTML =
       rail() +
       '<main class="md:ml-[76px] pb-28 md:pb-0">' +
@@ -3227,6 +3367,28 @@
       referencias() + estrategia() +
       "</div></main>";
 
+    if (vivo) {
+      var nuevo = document.getElementById("ctlFechas");
+      if (nuevo && nuevo.parentNode) {
+        nuevo.parentNode.replaceChild(vivo, nuevo);
+        /* El TOPE sí puede haber cambiado con la ventana, y los min/max del
+           input son lo que hace que el navegador marque una fecha inválida.
+           Se actualizan sobre el nodo vivo, sin recrearlo. Los `value` NO se
+           tocan: son lo que la persona está escribiendo. */
+        var Rv = rango();
+        var tn = Rv && topeNativo(Rv.tope);
+        if (tn) {
+          ["fDesde", "fHasta"].forEach(function (id) {
+            var n = vivo.querySelector("#" + id);
+            if (n) { n.min = tn.desde; n.max = tn.hasta; }
+          });
+        }
+      } else {
+        /* No se volvió a generar —el filtro dejó de tener sentido— así que el
+           nodo vivo se descarta en vez de quedar huérfano. */
+        vivo = null;
+      }
+    }
     if (det) restauraDetalles(det);
     conectarGraficos();
     observa();
@@ -3523,8 +3685,8 @@
       if (quiere === vale) return;
       s.value = vale || "";
       if (!quiere) return;
-      avisar("Del " + R.tope.desde + " al " + R.tope.hasta + " es lo que hay " +
-             "medido. El campo volvió al " + vale + ".");
+      avisar(rangoFecha(R.tope.desde, R.tope.hasta) + " es lo que hay " +
+             "medido. El campo volvió al " + fecha(vale) + ".");
     });
 
     r.addEventListener("change", function (ev) {

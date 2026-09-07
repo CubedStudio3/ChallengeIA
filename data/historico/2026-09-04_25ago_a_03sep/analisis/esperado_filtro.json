@@ -11,10 +11,65 @@
  "_fuente": "pauta diaria reconciliada al centavo (V8)",
  "ventanas": [
   {
-   "nombre": "todo",
-   "desde": null,
-   "hasta": null,
-   "nota": "sin ventana propia: el periodo completo de la corrida",
+   "nombre": "sin ventana (abre en la corrida)",
+   "desde": "2026-08-25",
+   "hasta": "2026-09-03",
+   "_sin_tocar": true,
+   "nota": "nadie toca el filtro: tiene que dar el periodo de la corrida",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 591.42,
+      "resultados": 194.0,
+      "campanas": 2,
+      "dias": 9,
+      "gasto_sin_resultado": 1.93,
+      "costo": 3.0485567010309276
+     },
+     "actions:link_click": {
+      "gasto": 56.82,
+      "resultados": 14324.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.003966769058922089
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 358.3,
+      "resultados": 107.0,
+      "campanas": 2,
+      "dias": 9,
+      "gasto_sin_resultado": 1.93,
+      "costo": 3.3485981308411215
+     },
+     "actions:link_click": {
+      "gasto": 56.82,
+      "resultados": 14324.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.003966769058922089
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 233.12,
+      "resultados": 87.0,
+      "campanas": 1,
+      "dias": 9,
+      "gasto_sin_resultado": 0.0,
+      "costo": 2.6795402298850575
+     }
+    }
+   }
+  },
+  {
+   "nombre": "todo el dato",
+   "desde": "2026-06-01",
+   "hasta": "2026-09-03",
+   "nota": "el rango completo, elegido a proposito",
    "esperado": {
     "total": {
      "mixed": {

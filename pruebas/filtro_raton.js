@@ -124,12 +124,16 @@ async function teclea(pg, id, iso) {
   await pg.waitForTimeout(900);
   // El tope real del control, leído de la página: es contra esto que se juzga
   // si una ventana recorta o no.
-  const tope0 = await pg.evaluate(`(() => {
-    const d = document.getElementById("fDesde");
-    return d ? { min: d.min, max: d.max } : null;
-  })()`);
-  const PRIMERO_TOPE = tope0 ? tope0.min : PRIMERO;
-  const ULTIMO_TOPE = tope0 ? tope0.max : ULTIMO;
+  /* El tope del DATO sale del dato, no de los `min`/`max` del input.
+
+     Eran lo mismo hasta el 2026-09-07, cuando los límites nativos se abrieron
+     un año por lado para que se pueda teclear el año —con min y max dentro del
+     mismo año Chromium no deja escribirlo—. Desde entonces el input dice
+     2025-01-01..2027-12-31 y el dato va de junio a septiembre: leer el tope del
+     input hacía que la prueba esperara el 25 de diciembre de 2027. */
+  const RD = (RES.pauta_diaria || {}).rango_disponible || {};
+  const PRIMERO_TOPE = RD.desde || PRIMERO;
+  const ULTIMO_TOPE = RD.hasta || ULTIMO;
   console.log("tope del control: " + PRIMERO_TOPE + " .. " + ULTIMO_TOPE + "\n");
 
   console.log("═══ 0 · el orden de segmentos del widget es el que la prueba supone ═══");
@@ -277,6 +281,46 @@ async function teclea(pg, id, iso) {
 
   console.log("\nerrores de consola: " + (errs.length ? errs.join(" | ") : "ninguno"));
   console.log(fallos || errs.length ? "\n>>> " + fallos + " FALLA(S)" : "\n>>> TODO OK");
+  /* ── 8 · TECLEAR la fecha completa, en los dos campos seguidos ─────────
+
+     Lo reportó Mercadeo tres veces y las dos primeras se arreglaron por el
+     lado equivocado. Medido el 2026-09-07, aislado en un input pelado: con
+     `min` y `max` dentro del MISMO año, Chromium no deja escribir el año y sus
+     dígitos caen sobre el DÍA. 07/15/2026 quedaba en 26 de julio.
+
+     Esta prueba teclea la fecha ENTERA —mes, día y año— con eventos de tecla
+     reales, en los dos campos uno tras otro sin salir en medio, y exige que
+     cada campo quede en lo que se escribió y que las cifras sean las de ESE
+     rango. Es el único camino que no estaba cubierto: las comprobaciones
+     anteriores tecleaban con `teclea()`, que asigna el valor. */
+  console.log("\n═══ 8 · teclear la fecha COMPLETA en los dos campos ═══");
+  {
+    const DES = DIAS[Math.floor(DIAS.length * 0.25)];
+    const HAS = DIAS[Math.floor(DIAS.length * 0.75)];
+    const iso2us = d => d.slice(5, 7) + d.slice(8, 10) + d.slice(0, 4);
+    const tecla = async (id, iso) => {
+      await pg.focus("#" + id);
+      for (const ch of iso2us(iso)) {
+        await pg.keyboard.press(ch);
+        await pg.waitForTimeout(60);
+      }
+      await pg.waitForTimeout(400);
+    };
+    await tecla("fDesde", DES);
+    ok("«Desde» quedó en lo que se tecleó",
+       await pg.$eval("#fDesde", e => e.value), DES);
+    await tecla("fHasta", HAS);
+    ok("«Hasta» quedó en lo que se tecleó",
+       await pg.$eval("#fHasta", e => e.value), HAS);
+    ok("y «Desde» NO se movió al teclear «Hasta»",
+       await pg.$eval("#fDesde", e => e.value), DES);
+    await pg.waitForTimeout(500);
+    const f8 = await pg.evaluate(FOTO);
+    const E8 = suma(DES, HAS);
+    ok("inversión del rango tecleado", f8.inversion, money(E8.gasto));
+    ok("leads del rango tecleado", f8.leads, E8.resultados.toLocaleString("en-US"));
+  }
+
   await nav.close();
   process.exit(fallos || errs.length ? 1 : 0);
 })();

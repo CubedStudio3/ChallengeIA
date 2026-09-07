@@ -618,9 +618,11 @@ def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
         "limites": [
             {"que": "copy publicable",
              "estado": "BLOQUEADO",
+             "corto": "ningún copy se publica sin aprobación humana (regla 5)",
              "detalle": COPY_BLOQUEADO["motivo"],
              "remedio": f"Llenar {COPY_BLOQUEADO['donde']} con los 5 insumos que lista."},
             {"que": "cantidad de piezas por tarea",
+             "corto": "es capacidad del equipo, no sale de ninguna API",
              "estado": ("DECLARADA" if not bloqueado else "LA DECIDE LA MESA"),
              "detalle": ("Cuántos artes o videos caben en una semana es capacidad "
                          "del equipo. No existe en Meta ni en Ad Library, así que "
@@ -628,6 +630,8 @@ def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
              "remedio": "Declarar capacidad_semanal en config/equipo.json."},
             {"que": "ejecución de cambios en Meta Ads",
              "estado": "PROHIBIDA",
+             "corto": "Meta Ads es solo lectura; las tareas salen con la "
+                      "instrucción para aplicarla a mano",
              "detalle": ("Meta Ads es solo lectura por instrucción explícita del "
                          "usuario (ADR-012). Ni siquiera en estado pausado."),
              "remedio": ("Las tareas de pauta salen con la instrucción exacta para "
