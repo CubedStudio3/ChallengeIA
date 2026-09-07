@@ -584,14 +584,27 @@
      Sobre pastel la escala sube a slate-700, que da entre 6.0:1 y 7.8:1 en los
      cuatro colores. Se pasa como parametro en lugar de sobrescribir la cascada
      con !important, que es como se rompen los estilos sin darse cuenta. */
-  /* Sello para un bloque que el filtro de fechas NO puede recalcular. Solo
-     aparece cuando hay una ventana elegida: sin filtro activo no hay nada que
-     aclarar y sería ruido. */
+  /* Sello para un bloque que el filtro de fechas NO puede recalcular.
+
+     Antes solo aparecía con una ventana elegida, y la explicación completa
+     vivía en un plegado del filtro, arriba. Mercadeo pidió quitarla de ahí sin
+     perderla: ahora la advertencia vive DONDE IMPORTA, en la cabecera de la
+     sección que no se filtra.
+
+     Y aparece SIEMPRE, no solo con ventana propia: quien abre la sección de
+     Competencia necesita saber que esos números son de hoy aunque no haya
+     tocado el filtro. Lo que cambia es el peso —gris de fondo, ámbar cuando
+     hay una ventana puesta, que es cuando de verdad puede confundir—. El
+     motivo va VISIBLE y no solo en el `title`: un tooltip no existe en una
+     pantalla táctil, que es donde el equipo abre esto. */
   function selloSinRango(motivo) {
     var R = rango();
-    if (!R || !R.propio) return "";
-    return '<span class="etiqueta-ambar ml-2 align-middle" title="' +
-      esc(motivo) + '">no cambia con el rango</span>';
+    var activo = !!(R && R.propio);
+    return '<span class="' + (activo ? "etiqueta-ambar" : "etiqueta-gris") +
+      ' ml-2 align-middle">no cambia con el rango</span>' +
+      '<span class="block mt-1.5 text-[12px] ' +
+      (activo ? "text-amber-700" : "text-slate-400") + ' leading-relaxed">' +
+      esc(motivo) + "</span>";
   }
 
   /* `sello` va aparte del titulo A PROPOSITO: el titulo pasa por esc(), asi que
@@ -1399,21 +1412,16 @@
          publicado diciéndole al equipo que el filtro no hacía algo que sí
          hacía: un sello que sobrevive a su propia verdad engaña más que no
          poner ninguno. */
+      /* El plegado «Qué no filtra» se quitó de aquí el 2026-09-04, a pedido de
+         Mercadeo: ocupaba espacio arriba para explicar algo que solo importa
+         al llegar a la sección que no se filtra. Esa advertencia vive ahora en
+         la cabecera de Competencia y de Referencias —con `selloSinRango`—, y
+         la de Estrategia en su leyenda de periodo. Lo único que se queda aquí
+         es lo que aplica AL FILTRO MISMO: qué recalcula y qué fechas admite. */
       "Recalcula la <b>pauta de Meta</b> —el total y el corte GT/SV— y el " +
-      "<b>orgánico</b> con sus gráficas." +
-      '<details class="inline ml-1.5"><summary class="inline ' +
-      'cursor-pointer font-semibold hover:text-slate-600">Qué no ' +
-      'filtra</summary>' +
-      '<span class="block mt-2">La <b>competencia</b> y las ' +
-      "<b>referencias</b>: la Ad Library solo responde qué está activo hoy y " +
-      "no acepta rango de fechas, así que esos números son de hoy con " +
-      "cualquier ventana puesta. La <b>estrategia</b> y las <b>cartas</b> " +
-      "salen del análisis del periodo completo de la corrida (" +
-      esc((D.corrida || {}).rango || "") + ") y lo dicen en su leyenda. Los " +
-      "bloques que no cambian lo dicen en su cabecera. " +
-      "Solo se pueden elegir fechas <b>dentro del dato</b>: " +
-      esc(R.tope.desde) + " a " + esc(R.tope.hasta) +
-      ". Una fecha fuera de ahí se ignora.</span></details></div></div>";
+      "<b>orgánico</b> con sus gráficas. Solo admite fechas <b>dentro del " +
+      "dato</b>: " + esc(R.tope.desde) + " a " + esc(R.tope.hasta) +
+      ".</div></div>";
   }
 
   function tarjetaAlcance(r) {
@@ -2550,15 +2558,16 @@
           esc(x.como_obtenerlo) + "</div>" : "") + "</div>";
     }).join("");
 
-    return seccion("competencia", "Ad Library", "Competencia", explica,
+    return seccion("competencia", "Ad Library", "Competencia",
+      explica + selloSinRango(
+        "La Ad Library solo responde qué está activo el día de la consulta y " +
+        "no acepta rango de fechas, así que estos números son de hoy con " +
+        "cualquier ventana puesta arriba."),
       pastillas("grupo", [{ v: "competencia", n: "Competencia" },
                           { v: "referentes", n: "Referentes" }], V.grupo),
       (sub ? '<div class="mb-6">' + sub + "</div>" : "") +
       nota("<b class=\"text-slate-700 font-semibold\">No es un ranking de " +
-        "efectividad</b>: es dónde apuestan." + selloSinRango(
-          "La Ad Library no acepta rango de fechas: solo responde qué está " +
-          "activo el día de la consulta. Esta sección no se puede filtrar por " +
-          "fecha.") +
+        "efectividad</b>: es dónde apuestan." +
         '<details class="inline"><summary class="inline cursor-pointer ' +
         'font-semibold"> Por qué</summary><span class="block mt-2">La Ad ' +
         "Library no publica rendimiento de anunciantes comerciales: no hay " +
@@ -2675,7 +2684,10 @@
     }).join("");
 
     return seccion("referencias", "Qué hacer", "Referencias",
-      "Las recomendaciones, y de dónde salen.", "",
+      "Las recomendaciones, y de dónde salen." + selloSinRango(
+        "Salen de la Ad Library, que solo responde qué está activo el día de " +
+        "la consulta: no acepta rango de fechas. Las recomendaciones se " +
+        "calcularon sobre el periodo completo de la corrida."), "",
       /* Lo ACCIONABLE va primero. Estaba debajo de la tabla de contraste y
          Mercadeo no lo encontró: en una sección larga, el orden es la
          navegación. Lo que se va a usar en la mesa no puede estar a dos
