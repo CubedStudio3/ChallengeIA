@@ -397,9 +397,23 @@ const leeCarta = (id) => `(() => {
   console.log("\n══ un item que ya existía sin dueño no se declara asignado");
   {
     /* «Unassigned» es un id real. Si se tomara por persona, la tarjeta diría
-       que el item tiene dueño cuando no lo tiene. */
+       que el item tiene dueño cuando no lo tiene.
+
+       La marca tiene que ser la DE VERDAD: con una inventada, `buscaEnSprints`
+       no reconoce el item, el flujo sigue a CreateItem y lo que se acaba
+       probando es otra cosa. Pasó en la primera corrida de esta prueba. */
+    const { pg: pgm } = await abre(nav, {});
+    const marca2 = await pgm.evaluate(`(() => {
+      const cs = JSON.parse(document.getElementById("datos").textContent)
+        .cartas.cartas;
+      const bs = [...document.querySelectorAll(
+        '#estrategia [data-decidir][data-estado="aceptada"]')];
+      const id = bs.find(x => !x.disabled).getAttribute("data-decidir");
+      return (cs.filter(x => x.id === id)[0] || {}).idempotencia;
+    })()`);
+    await pgm.close();
     const { pg, errs } = await abre(nav, {
-      ZohoSprints_GetItems: [YA("x"), YA("x")],
+      ZohoSprints_GetItems: [YA(marca2), YA(marca2)],
       ZohoSprints_UpdateItem: [REASIGNADO(DULCE)] });
     const id = await apruebaPrimera(pg);
     const t = await pg.evaluate(leeCarta(id));
