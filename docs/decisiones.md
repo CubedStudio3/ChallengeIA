@@ -2931,3 +2931,75 @@ La estimación venía de extrapolar piezas por mes desde nueve días; lo real so
    dato disponible.
 2. **El periodo del análisis se escribe siempre desde la corrida**, nunca desde
    el rango de dato disponible. Son dos campos distintos y no se unifican.
+
+---
+
+## ADR-051 · Borrar las fechas es lo que devuelve la vista completa
+
+**Fecha:** 2026-09-07
+**Estado:** implementado
+
+### Lo que pidió Mercadeo
+
+> «No quiero más botones. Quitá "El periodo de la corrida" y no pongas nada en
+> su lugar. […] si alguien quiere volver a ver todo, que borre las fechas y
+> listo. Confirmame que borrar los campos devuelve la vista completa. Si no lo
+> hace hoy, que lo haga.»
+
+**No lo hacía.** Borrar los campos devolvía la SEMANA, no todo. Se comprobó
+antes de tocar nada, y la respuesta honesta era «hoy no, y hay que arreglarlo».
+
+### Por qué no lo hacía: dos estados que eran uno
+
+`V.desde` tenía dos valores posibles y hacían falta tres:
+
+| valor | significa | ventana |
+|---|---|---|
+| `null` / ausente | nadie lo tocó | la ventana de la corrida |
+| `""` | se **vació** | sin tope por ese lado: todo |
+| `"2026-07-15"` | se eligió | eso |
+
+Vaciar producía `null`, el mismo estado que no haber tocado nada, así que caía
+en el defecto —la semana— en vez de abrirse a todo el dato.
+
+Se distinguen sin ambigüedad porque **el tablero abre con los campos LLENOS**,
+en la ventana de la corrida: un campo vacío solo se alcanza vaciándolo a
+propósito. Y cada lado va por su cuenta: vaciar solo «Desde» es «sin tope por
+abajo», no «volvé a la semana».
+
+### Lo que arrastró el cambio
+
+- **Los campos se pintan desde el par CRUDO**, no desde la ventana calculada.
+  Si no, el campo recién vaciado se volvía a llenar solo en el siguiente
+  repintado.
+- **La reconciliación del `focusout` compara contra el crudo** por lo mismo:
+  comparaba contra la ventana aplicada y refillaba el campo vacío, de modo que
+  pedir la vista completa era literalmente imposible.
+- **Fuera «El periodo de la corrida».** Existía para deshacer una ventana
+  manual; eso ahora lo hace la tecla de borrar, y además devuelve la vista
+  completa, que es lo que se quería. Quedan dos atajos.
+- **Una pista de cinco palabras** junto al rango disponible: «vaciá los campos
+  para verlo todo». Es la única forma que queda de volver, así que no puede
+  quedar sin decir — y es una frase, no un párrafo.
+
+### Medido
+
+```
+al abrir          25 ago – 3 sep      $591.42      (la semana)
+tras vaciar       (vacío) – (vacío)   $2,942.35    (todo el dato)
+Últimos 7 días    28 ago – 3 sep      $431.13
+vaciar otra vez   (vacío) – (vacío)   $2,942.35
+```
+
+### Septiembre, partido a propósito
+
+Del 1 al 3 lo trae la corrida del 4 de septiembre; del 4 al 6, un par nuevo. No
+hay solape ni hueco, y el tope pasa a `1 jun – 6 sep`.
+
+**El 7 —hoy— no se pide.** Un día en curso da datos parciales y se vería como
+una caída que no existe.
+
+Y la causa de que faltaran esos días no era técnica: la última corrida es del 4
+y la Rutina semanal se disparó hoy y se detuvo en su Compuerta 0 por no tener
+conectores adjuntos. El hueco de datos era el síntoma; la Rutina sin conectores,
+la causa.

@@ -1472,11 +1472,27 @@
       ? { desde: vi.desde < r.desde ? r.desde : vi.desde,
           hasta: vi.hasta > r.hasta ? r.hasta : vi.hasta }
       : r;
-    var desde = V.desde || pre.desde, hasta = V.hasta || pre.hasta;
-    /* El par tal como está elegido, SIN ordenar. Los campos muestran esto; el
-       cálculo usa el ordenado. Separarlos es lo que permite que un campo
-       muestre lo que la persona escribió sin que las cifras se vuelvan locas. */
-    var crudo = { desde: desde, hasta: hasta };
+    /* Tres estados por lado, no dos:
+
+         null / undefined  · nadie lo tocó  -> la ventana de la corrida
+         ""                · se VACIÓ       -> sin tope por ese lado: todo
+         "2026-07-15"      · se eligió      -> eso
+
+       Vaciar y no haber tocado eran el mismo estado hasta el 2026-09-07, y por
+       eso borrar los campos devolvía la semana en vez de todo. Se distinguen
+       porque el tablero abre con los campos LLENOS —en la ventana de la
+       corrida—, así que un campo vacío solo se llega vaciándolo a propósito.
+
+       Es lo que pidió Mercadeo: «si alguien quiere volver a ver todo, que
+       borre las fechas y listo». Y cada lado va por su cuenta: vaciar solo
+       «Desde» es «sin tope por abajo», no «volvé a la semana». */
+    var desde = V.desde ? V.desde : (V.desde === "" ? r.desde : pre.desde);
+    var hasta = V.hasta ? V.hasta : (V.hasta === "" ? r.hasta : pre.hasta);
+    /* El par tal como está elegido, SIN ordenar, y con el vacío INTACTO: es lo
+       que se pinta en los campos. Si aquí se pusiera la fecha calculada, el
+       campo que la persona acaba de borrar se volvería a llenar solo. */
+    var crudo = { desde: V.desde == null ? desde : V.desde,
+                  hasta: V.hasta == null ? hasta : V.hasta };
     /* Dos fechas definen una ventana sin importar en qué casilla quedó cada
        una. Se ordenan aquí, al leer, y no al escribir: así ningún tecleo
        intermedio puede corromper la otra casilla. El repintado devuelve los
@@ -1623,23 +1639,23 @@
       'tarjeta-sombra flex flex-wrap items-end gap-4">' +
       (function () {
         var tn = topeNativo(R.tope) || R.tope;
+        var cr = R.crudo || R;
         return '<div><span class="micro-et">Desde</span>' +
           '<input type="date" id="fDesde" class="campo w-[168px]" value="' +
-          esc(R.desde) + '" min="' + esc(tn.desde) + '" max="' +
+          esc(cr.desde || "") + '" min="' + esc(tn.desde) + '" max="' +
           esc(tn.hasta) + '"></div>' +
           '<div><span class="micro-et">Hasta</span>' +
           '<input type="date" id="fHasta" class="campo w-[168px]" value="' +
-          esc(R.hasta) + '" min="' + esc(tn.desde) + '" max="' +
+          esc(cr.hasta || "") + '" min="' + esc(tn.desde) + '" max="' +
           esc(tn.hasta) + '"></div>';
       })() +
       '<div class="flex gap-2 flex-wrap">' +
-      /* Tres atajos, decididos con Mercadeo el 2026-09-04. Fuera «90 días»
-         —con nueve días de dato no significaba nada— y fuera «Todo», que
-         hacía lo mismo que «El periodo de la corrida» y sonaba a otra cosa.
-         «El periodo de la corrida» se queda porque es el único que LIMPIA una
-         ventana manual. */
-      [["periodo", "El periodo de la corrida"], ["7", "Últimos 7 días"],
-       ["30", "Últimos 30 días"]].map(function (a) {
+      /* DOS atajos y nada más (Mercadeo, 2026-09-07: «no quiero más botones»).
+         «El periodo de la corrida» se fue: existía para deshacer una ventana
+         manual, y eso ahora se hace BORRANDO los campos —que además devuelve
+         la vista completa, que es lo que se quería—. Un botón que hace lo que
+         ya hace la tecla de borrar es un botón de más. */
+      [["7", "Últimos 7 días"], ["30", "Últimos 30 días"]].map(function (a) {
         return '<button type="button" data-rango="' + a[0] + '" ' +
           'class="np-tipo">' + esc(a[1]) + "</button>";
       }).join("") + "</div>" +
@@ -1664,8 +1680,12 @@
          pierde es el rango que se admite, porque un campo que rechaza una
          fecha sin decir hasta dónde llega el dato es un callejón. Sale del
          dato (`R.tope`), nunca escrito a mano: cambia con cada corrida. */
+      /* La pista de cómo volver a verlo todo. Es la ÚNICA forma que queda
+         —el botón se quitó a pedido de Mercadeo— así que no puede quedar sin
+         decir; y son cinco palabras, no un párrafo. */
       "Dato disponible: <b>" + esc(rangoFecha(R.tope.desde, R.tope.hasta)) +
-      '</b>.<span id="avisoFuera" class="block mt-1 text-amber-700 ' +
+      "</b> · vaciá los campos para verlo todo" +
+      '<span id="avisoFuera" class="block mt-1 text-amber-700 ' +
       'font-semibold"></span></div></div>';
   }
 
@@ -3656,14 +3676,7 @@
            dependencia estaba copiada, no compartida. */
         var Rp = rango(), tope = Rp && Rp.tope;
         if (!tope) return;
-        if (d.rango === "periodo") {
-          /* Se VACIA la ventana en vez de escribir el periodo a mano. Desde que
-             el tablero abre en la ventana de la corrida, vaciar y escribir el
-             periodo dan lo mismo, y vaciar dice la verdad: «no hay ventana
-             elegida». Escribirlo a mano ademas lo copiaba de un texto
-             (`D.corrida.rango`), y ese texto no es la fuente del defecto. */
-          V.desde = null; V.hasta = null;
-        } else {
+        {
           var dias = parseInt(d.rango, 10);
           /* `dias - 1` porque el rango es CERRADO: los dos extremos cuentan.
              Restar 7 días del último con dato daba OCHO días —del 27 de agosto
@@ -3759,10 +3772,14 @@
       if (repintando) return;
       var R = rango();
       if (!R || !R.tope) return;
-      var quiere = s.value || null;
-      var vale = s.id === "fDesde" ? R.desde : R.hasta;
+      /* Contra el CRUDO, no contra la ventana calculada: si no, un campo
+         vaciado a propósito se volvía a llenar con la fecha que el cálculo
+         usa por ese lado, y la vista completa era imposible de pedir. */
+      var cr = R.crudo || R;
+      var quiere = s.value || "";
+      var vale = (s.id === "fDesde" ? cr.desde : cr.hasta) || "";
       if (quiere === vale) return;
-      s.value = vale || "";
+      s.value = vale;
       if (!quiere) return;
       avisar(rangoFecha(R.tope.desde, R.tope.hasta) + " es lo que hay " +
              "medido. El campo volvió al " + fecha(vale) + ".");
@@ -3772,7 +3789,9 @@
       var s = ev.target;
       if (s.id === "fDesde" || s.id === "fHasta") {
         var Rt = rango(), tope = Rt && Rt.tope;
-        var v = s.value || null;
+        /* Cadena vacía, NO null: vaciar el campo es una elección —«sin tope por
+           este lado»— y tiene que distinguirse de no haberlo tocado. */
+        var v = s.value || "";
         /* Una fecha fuera del rango del dato se IGNORA, no se recorta al borde.
            Recortarla parecía prudente y era destructivo: al teclear el año, los
            valores intermedios son 0002-08-30, 0020-08-30, 0202-08-30… todos

@@ -174,28 +174,39 @@ async function teclea(pg, id, iso) {
   ok("inversión", f.inversion, money(E2.gasto));
   ok("costo", f.costo, money(Math.round(E2.costo * 100) / 100));
 
-  console.log("\n═══ 3 · CLIC en «El periodo de la corrida» ═══");
-  await pg.click('[data-rango="periodo"]');
-  await pg.waitForTimeout(ESPERA);
+  /* VACIAR los campos es lo que devuelve la vista completa. «El periodo de la
+     corrida» se quitó el 2026-09-07 —«no quiero más botones»— y esta es la
+     única forma que queda de volver, así que es la que hay que probar. */
+  const vacia = async () => {
+    for (const id of ["fDesde", "fHasta"]) {
+      await pg.focus("#" + id);
+      for (let i = 0; i < 3; i++) await pg.keyboard.press("Delete");
+      await pg.waitForTimeout(150);
+    }
+    await pg.click("#resumen h3");
+    await pg.waitForTimeout(ESPERA);
+  };
+
+  console.log("\n═══ 3 · VACIAR los campos devuelve TODO el dato ═══");
+  await vacia();
   f = await pg.evaluate(FOTO);
-  const E3 = suma(CORR_INI, CORR_FIN);
-  ok("inversión", f.inversion, money(E3.gasto));
+  const E3 = suma(PRIMERO_TOPE, ULTIMO_TOPE);
+  ok("los campos quedan vacíos", (f.desde || "") + (f.hasta || ""), "");
+  ok("inversión = todo el dato", f.inversion, money(E3.gasto));
+  ok("leads = todo el dato", f.leads, E3.resultados.toLocaleString("en-US"));
   /* «días en la ventana» solo debe salir si el periodo de la corrida RECORTA
      algo. Cuando el rango disponible es exactamente el periodo —una corrida sin
      Zoho Analytics, donde el único dato con fecha es la pauta— elegirlo no
      recorta nada y el rótulo no corresponde. La prueba lo pedía siempre y esa
      expectativa era la equivocada, no el tablero. */
-  const recorta = f.desde !== PRIMERO_TOPE || f.hasta !== ULTIMO_TOPE;
-  ok("«días en la ventana» aparece si y solo si recorta",
-     /\d+ días? en la ventana/.test(f.apoyo || ""), recorta);
-  console.log("    apoyo: " + JSON.stringify(f.apoyo) +
-              (recorta ? "" : "   (el periodo es todo el rango: no recorta)"));
+  /* Con los campos vacíos se está viendo TODO, así que no hay nada más
+     ancho detrás y el rótulo «N días en la ventana» no corresponde. */
+  ok("sin «días en la ventana» viendo todo",
+     /\d+ días? en la ventana/.test(f.apoyo || ""), false);
 
-  /* «Todo» se quitó el 2026-09-04: hacía lo mismo que «El periodo de la
-     corrida» y sonaba a otra cosa. Ahora los atajos son tres, y lo que hay que
-     comprobar es que sean EXACTAMENTE esos tres: si mañana vuelve un cuarto
-     botón, esto lo dice. */
-  console.log("\n═══ 4 · los atajos son tres, y son los acordados ═══");
+  /* DOS atajos, y son los acordados. Si mañana vuelve un tercero, esto lo
+     dice: la lista de botones es una decisión de producto, no un detalle. */
+  console.log("\n═══ 4 · los atajos son dos, y son los acordados ═══");
   const atajos = await pg.evaluate(`(() => [...document.querySelectorAll(
     "[data-rango]")].map(b => [b.getAttribute("data-rango"),
                                b.textContent.trim()]))()`);
@@ -230,23 +241,20 @@ async function teclea(pg, id, iso) {
   ok("leads", f.leads, E7.resultados.toLocaleString("en-US"));
   ok("costo", f.costo, money(Math.round(E7.costo * 100) / 100));
 
-  console.log("\n═══ 6 · «El periodo de la corrida» limpia la ventana ═══");
-  /* Es el único atajo que queda capaz de deshacer una ventana manual, y por eso
-     Mercadeo lo dejó: sin él, quien teclea una fecha corta no tiene vuelta. */
-  await pg.click('[data-rango="periodo"]');
-  await pg.waitForTimeout(ESPERA);
+  console.log("\n═══ 6 · vaciar deshace una ventana manual ═══");
+  /* Es la única forma que queda de volver, y por eso se prueba DESPUÉS de una
+     ventana estrecha: quien teclea una fecha corta tiene que poder salir. */
+  await vacia();
   f = await pg.evaluate(FOTO);
-  ok("inversión", f.inversion, money(E3.gasto));
-  ok("los campos vuelven al periodo de la corrida",
-     f.desde + ".." + f.hasta, CORR_INI + ".." + CORR_FIN);
+  ok("inversión = todo el dato", f.inversion, money(E3.gasto));
+  ok("los campos quedan vacíos", (f.desde || "") + (f.hasta || ""), "");
   /* El rótulo «N días en la ventana» sale si esta vista es más ANGOSTA que el
      dato disponible, que con tres meses cargados es cierto incluso mirando la
      semana. Antes esta prueba pedía su ausencia, y estaba bien mientras el
      periodo de la corrida FUERA todo el dato. Lo que prueba que la ventana
      manual se limpió es la línea de arriba: los campos vuelven al periodo. */
-  const angosta3 = CORR_INI !== PRIMERO_TOPE || CORR_FIN !== ULTIMO_TOPE;
-  ok("«días en la ventana» sigue la regla de siempre",
-     /\d+ días? en la ventana/.test(f.apoyo || ""), angosta3);
+  ok("y sin «días en la ventana», porque se ve todo",
+     /\d+ días? en la ventana/.test(f.apoyo || ""), false);
 
   console.log("\n═══ 7 · el invariante: las cifras SIEMPRE cuadran con los campos ═══");
   /* A prueba de idioma y de orden de segmentos: se teclea, se lee lo que

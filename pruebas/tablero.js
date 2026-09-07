@@ -156,10 +156,13 @@ function envuelve(frag) {
       await pag.waitForTimeout(700);
       await crudo("con ventana propia");
       await pag.evaluate(() => {
-        // «Todo» se quitó el 2026-09-04: «periodo» es el que limpia la ventana.
-        const b = [...document.querySelectorAll("[data-rango]")]
-          .find(x => x.getAttribute("data-rango") === "periodo");
-        if (b) b.click();
+        // Vaciar los campos es lo que limpia la ventana desde el 2026-09-07.
+        ["fDesde", "fHasta"].forEach(id => {
+          const n = document.getElementById(id);
+          if (!n) return;
+          n.value = "";
+          n.dispatchEvent(new Event("change", { bubbles: true }));
+        });
       });
       await pag.waitForTimeout(600);
 

@@ -4305,15 +4305,135 @@
         "g": 4.72,
         "r": 1989.0,
         "i": 4857.0
+      },
+      {
+        "f": "2026-09-04",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 27.36,
+        "r": 21.0,
+        "i": 4909.0
+      },
+      {
+        "f": "2026-09-04",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.08,
+        "r": null,
+        "i": 46.0
+      },
+      {
+        "f": "2026-09-04",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 19.49,
+        "r": 13.0,
+        "i": 4549.0
+      },
+      {
+        "f": "2026-09-04",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 3.7,
+        "r": 1531.0,
+        "i": 4035.0
+      },
+      {
+        "f": "2026-09-05",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 26.64,
+        "r": 16.0,
+        "i": 4736.0
+      },
+      {
+        "f": "2026-09-05",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": null,
+        "i": 52.0
+      },
+      {
+        "f": "2026-09-05",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 15.73,
+        "r": 3.0,
+        "i": 4120.0
+      },
+      {
+        "f": "2026-09-05",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.44,
+        "r": 1662.0,
+        "i": 4025.0
+      },
+      {
+        "f": "2026-09-06",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 33.44,
+        "r": 5.0,
+        "i": 5529.0
+      },
+      {
+        "f": "2026-09-06",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.13,
+        "r": null,
+        "i": 37.0
+      },
+      {
+        "f": "2026-09-06",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 21.15,
+        "r": 8.0,
+        "i": 4833.0
+      },
+      {
+        "f": "2026-09-06",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.2,
+        "r": 1891.0,
+        "i": 5108.0
       }
     ],
     "rango_disponible": {
       "desde": "2026-06-01",
-      "hasta": "2026-09-03"
+      "hasta": "2026-09-06"
     },
-    "dias_con_dato": 92,
+    "dias_con_dato": 95,
     "primer_dia": "2026-06-01",
-    "ultimo_dia": "2026-09-03",
+    "ultimo_dia": "2026-09-06",
     "mercados": [
       "GT",
       "SV"
@@ -4321,8 +4441,8 @@
     "fuera_de_mercado": {
       "HN": {
         "gasto": 0.06,
-        "impresiones": 24.0,
-        "dias": 14,
+        "impresiones": 25.0,
+        "dias": 15,
         "campanas": [
           "Campaña Punto de Venta SV"
         ],
@@ -4501,15 +4621,29 @@
             "actions:lead",
             "actions:link_click"
           ]
+        },
+        {
+          "mes": "2026-09",
+          "entra": true,
+          "piezas": 12,
+          "dias_con_dato": 3,
+          "campanas_comparadas": 5,
+          "valores_comparados": 13,
+          "dias_quitados_por_solape": 0,
+          "indicadores": [
+            "actions:lead",
+            "actions:link_click"
+          ]
         }
       ],
       "entran": [
         "2026-06",
         "2026-07",
-        "2026-08"
+        "2026-08",
+        "2026-09"
       ],
       "rechazados": [],
-      "piezas": 378,
+      "piezas": 390,
       "_que_es": "Meses anteriores de pauta, día por día. Sirven SOLO para que el filtro de fechas y las gráficas puedan mirar atrás. El análisis, la estrategia y las cartas son de la corrida de la semana y no se recalculan con estos días: es un requisito de Mercadeo (2026-09-07), no un efecto lateral.",
       "_la_compuerta": "Cada mes se reconcilió contra SU PROPIO agregado, al centavo, por campaña y por país. Un mes que no cuadra no entra y queda declarado en `meses_rechazados`."
     },

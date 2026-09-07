@@ -80,11 +80,11 @@ const money = x => x == null ? "—" :
 
   const pon = async (desde, hasta) => {
     if (!desde) {
-      /* «Todo» se quitó el 2026-09-04. Lo que limpia una ventana manual ahora
-         es «El periodo de la corrida», que pone el rango completo de la
-         corrida: mismo resultado, un botón menos. */
-      await pg.evaluate(`(() => { const b=[...document.querySelectorAll("[data-rango]")]
-        .find(x=>x.getAttribute("data-rango")==="periodo"); if(b) b.click(); })()`);
+      /* Lo que devuelve la vista completa es VACIAR los campos: el botón que
+         limpiaba se quitó el 2026-09-07. */
+      await pg.evaluate(`(() => { ["fDesde","fHasta"].forEach(id => {
+        const n = document.getElementById(id); if (!n) return;
+        n.value = ""; n.dispatchEvent(new Event("change", {bubbles:true})); }); })()`);
     } else {
       await pg.fill("#fDesde", desde);
       await pg.fill("#fHasta", hasta);

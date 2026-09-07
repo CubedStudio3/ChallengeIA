@@ -919,3 +919,28 @@ inventa costo por lead, avisa que no se suman—; la prueba estaba mal.
 
 El peso, medido: **716 KB, de 672. +6.5%.** Se había estimado 1.8 MB; el error
 fue de 2.4x en la dirección segura. Detalle en ADR-050.
+
+### Sesión 5 · novena parte · el tablero para la reunión
+
+Mercadeo pidió limpiar el tablero con una regla: «lo que el sistema no puede
+medir no se borra, se pliega». Nueve textos de relleno fuera, las leyendas de
+periodo reducidas a una línea, los cuatro bloques de huecos plegados con un
+renglón por punto —«Qué no incluye · N»— y el detalle largo en el repositorio.
+Las fechas pasan a «mar 25 ago – jue 3 sep».
+
+El error del teclado resultaron ser TRES, y dos los abrí yo al arreglar el
+primero. (1) Con `min` y `max` dentro del mismo año, Chromium no deja escribir
+el año y sus dígitos caen sobre el día. (2) Al preservar el control para no
+romper el tecleo, desprenderlo del DOM disparaba `focusout` y la reconciliación
+sobrescribía lo tecleado —`activeElement` seguía diciendo «fDesde» mientras el
+valor cambiaba solo—. (3) El campo sin foco quedaba congelado mostrando la
+ventana anterior. Los tres medidos y cerrados, con la secuencia de dos campos
+como comprobación permanente.
+
+Después Mercadeo cambió el punto 4: sin botón de reemplazo, y borrar las fechas
+tiene que devolver la vista completa. **No lo hacía** —vaciar y no haber tocado
+eran el mismo estado— y se arregló separándolos (ADR-051).
+
+Y se trajo del 4 al 6 de septiembre, que faltaban porque la última corrida es
+del 4 y la Rutina se detuvo hoy en su compuerta por no tener conectores. El
+tope llega a 1 jun – 6 sep, con los cuatro meses cuadrando al centavo.
