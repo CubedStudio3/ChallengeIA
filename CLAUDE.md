@@ -379,6 +379,25 @@ cometidos; no hay tiempo de repetirlos.
   día se valida contra el agregado ya verificado —por campaña Y por país, al
   centavo— en **cada corrida**, y si no cuadra la corrida se detiene.
 
+- **`Unassigned` es un id de verdad, no un hueco.** El `ownerId` de un item de
+  Sprints trae `21897000000002005` cuando nadie lo tiene. Tomarlo por persona
+  pone «Unassigned» donde va un nombre y, peor, hace creer que el item está
+  asignado. Se filtra explícitamente (ADR-049).
+- **`users` solo viaja en la creación.** Para cambiar el responsable de un item
+  que ya existe va `UpdateItem` con `newusers` y `delusers` —los dos, arreglo
+  JSON como texto— en una sola llamada. Sin `delusers` el anterior se queda: el
+  item termina con dos dueños.
+- **Un selector que aparece después de la escritura no puede alimentarla.** El
+  de responsable se pintaba solo tras decidir, y la escritura sale del mismo
+  clic que la decisión: ningún item podía nacer con dueño y elegirlo después no
+  salía de la página. La tarjeta mostraba un nombre que Sprints no tenía.
+- **La respuesta de la escritura es la autoridad, no la petición.** `UpdateItem`
+  devuelve `ownerIds` con lo que quedó. Pintar el nombre que se pidió sería
+  afirmar algo sin comprobarlo.
+- **Contar por la presencia de la llave se rompe en cuanto hay estados
+  parciales.** Guardar un responsable antes de decidir crea un registro con
+  `estado` en null, y tres contadores lo leían como una decisión tomada.
+
 - **Un texto correcto puede estar podrido por dentro.** Los copys traían su
   justificación con el número escrito a mano: uno decía «SV cuesta $1.89 contra
   $2.89» cuando la corrida decía $2.68 contra $3.35. El texto se leía bien, la
@@ -443,6 +462,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/formato.py` | Reel contra feed en la cuenta propia. Es la ÚNICA fuente que contesta «¿arte o video?». Se niega a publicar el ratio si la antigüedad lo explica |
 | `src/modulo1/corre_profundo.py` | Arranque del análisis profundo de la Ad Library. Declara las marcas sin perfil en vez de saltarlas |
 | `pruebas/cartas.py` | 7 sabotajes. El que importa: cambiar el costo en la corrida y comprobar que la carta cambia. `npm run prueba:cartas` |
+| `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado: 57 comprobaciones, incluido que el item **nazca** con su responsable y que reasignar mande `delusers`. `npm run prueba:boton` |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |

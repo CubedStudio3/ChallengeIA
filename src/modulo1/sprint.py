@@ -415,7 +415,13 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
             idempotencia=c.get("idempotencia") or f"{c['pieza']}::{c['id']}",
             ruta=ruta, parametros=params))
 
-    if not decisiones.get("decisiones") and not decisiones.get("propias"):
+    # Un registro SIN estado no es una decision: desde que el tablero permite
+    # elegir el responsable antes de aprobar, `decisiones` puede traer entradas
+    # con `estado` en null. Contarlas como decisiones haria callar el aviso de
+    # abajo justo cuando la mesa todavia no decidio nada.
+    con_estado = any((v or {}).get("estado")
+                     for v in (decisiones.get("decisiones") or {}).values())
+    if not con_estado and not decisiones.get("propias"):
         avisos.append(
             "No se recibieron decisiones de la mesa, así que el plan está vacío. "
             "NO se asume que todo está aceptado: la compuerta humana existe "

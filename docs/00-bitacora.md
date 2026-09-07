@@ -844,3 +844,37 @@ abierto desde ADR-045.
 En el mismo publish entró el cambio del aviso de «no se filtra», que se había
 dejado sin publicar a la espera de confirmación: ahora vive en la cabecera de
 Competencia y de Referencias en vez del plegado de arriba (ADR-047).
+
+### Sesión 5 · séptima parte · el responsable
+
+Mercadeo reportó que el botón ya funcionaba —«me encanto que ya se pudiera»— y
+que solo faltaba una cosa: «no me deja asignar a dulce, solo a jeremy».
+
+Lo primero fue medir en lugar de interpretar. Las dos explicaciones cómodas —el
+id de Dulce está mal, Dulce no es usuaria del proyecto— se descartaron con
+evidencia: su id aparece en el mapa de usuarios que devuelve `GetItems` sobre
+SP49, y un item de prueba creado con su id (I1174) quedó con `ownerId` en Dulce
+y se borró. **La API la acepta sin objeción.** El defecto era del tablero.
+
+Y era peor que el síntoma. El selector de responsable solo se pintaba después
+de decidir, y `users` solo viaja en la creación, que ocurre en el mismo clic:
+ningún item podía nacer con responsable, y elegirlo después no salía de la
+página. Comprobado contra el estado en vivo (v80) y el backlog real: la carta
+de Tienda en Línea decía Dulce y el item I1172 estaba sin dueño. **La página
+afirmando algo que el sistema no tiene**, que es justo lo que la regla 3 llama
+peor que no reportar.
+
+El arreglo tiene tres piezas: el selector se pinta antes de decidir, así el
+item nace con su dueño; `UpdateItem` reasigna lo que ya existe, con `newusers`
+y `delusers` en una sola llamada —verificado en producción con I1175, creado
+con Jeremy, reasignado a Dulce y borrado—; y la tarjeta declara el responsable
+que **Sprints** tiene, escrito con el `ownerIds` que devuelve la respuesta y no
+con lo que se pidió. Si los dos no coinciden, se ve la diferencia.
+
+Dos trampas nuevas al arreglarlo. `Unassigned` es un id de verdad
+(`21897000000002005`): tomarlo por persona haría creer que un item sin dueño
+está asignado. Y contar decisiones por la presencia de la llave se rompió en
+tres contadores, porque ahora existe un registro con `estado` en null —el que
+guarda un responsable elegido antes de decidir—.
+
+`npm run prueba:boton` pasa de 30 a 57 comprobaciones. Detalle en ADR-049.

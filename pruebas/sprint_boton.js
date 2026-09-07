@@ -64,9 +64,15 @@ const VACIO = { payload: { status: "success", data: { items: [] } } };
 const CREADO = { payload: { status: "success",
   data: { addedItemId: "21897000009999001", itemNo: "I9999",
           statusId: "21897000000156037", status: "success" } } };
-const YA = (marca) => ({ payload: { status: "success", data: { items: [
+const YA = (marca, duenio) => ({ payload: { status: "success", data: { items: [
   { itemNo: "1163", itemId: "21897000001566072",
+    sprintId: "21897000000139025",
+    /* «Unassigned» es un id de verdad —21897000000002005, medido en
+       producción—, no un hueco. El doble lo devuelve así a propósito. */
+    ownerId: [duenio || "21897000000002005"],
     itemName: "Una carta cualquiera [MC:" + marca + "]" }] } } });
+const REASIGNADO = (id) => ({ payload: { status: "success",
+  data: { followers: [], ownerIds: [id], status: "success" } } });
 
 const abre = async (nav, guion) => {
   const pg = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
@@ -259,6 +265,147 @@ const leeCarta = (id) => `(() => {
     ok("la carta queda aceptada", /Aceptada/.test(t.txt || ""));
     ok("y no promete nada de Sprints",
        !/Crear en Sprints|Creada en Sprints/.test(t.txt || ""));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  /* ── 6 · el responsable ──────────────────────────────────────────────
+
+     Lo reportó Mercadeo el 2026-09-07: «no me deja asignar a dulce desde el
+     tablero, solo a jeremy». Medido contra producción, la API acepta a
+     cualquiera de los tres —se creó y se borró un item con Dulce como dueño—,
+     así que el defecto estaba de este lado: el selector solo aparecía DESPUÉS
+     de aprobar y `users` solo viaja en la creación, así que ningún item podía
+     nacer con responsable y elegirlo después no llegaba a ningún lado. La
+     tarjeta mostraba un nombre que Sprints no tenía. */
+  const DULCE = "21897000001319001";
+  const JEREMY = "21897000001317019";
+
+  console.log("\n══ el responsable se elige ANTES de aprobar");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] });
+    const id = await pg.evaluate(primeraAprobable);
+    const sel = 'select[data-asignar="' + id + '"]';
+    const hay = await pg.$(sel);
+    ok("el selector está antes de decidir", !!hay);
+    const ops = await pg.evaluate(`[...document.querySelectorAll('${sel} option')]
+      .map(o => o.value)`);
+    ok("ofrece a las tres personas", ops.length === 4, ops);
+    ok("Dulce está entre las opciones", ops.indexOf(DULCE) >= 0);
+
+    await pg.selectOption(sel, DULCE);
+    await pg.waitForTimeout(400);
+    ok("el selector se queda en Dulce",
+       (await pg.$eval(sel, e => e.value)) === DULCE);
+    ok("elegir responsable NO crea nada en Sprints todavía",
+       (await pg.evaluate("window.__llamadas")).length === 0);
+
+    await pg.click('#estrategia [data-decidir="' + id + '"][data-estado="aceptada"]');
+    await pg.waitForTimeout(900);
+    const ll = await pg.evaluate("window.__llamadas");
+    const cre = ll.find(x => x.tool === "ZohoSprints_CreateItem");
+    ok("el item nace CON el responsable", !!cre &&
+       cre.input.query_params.users === JSON.stringify([DULCE]),
+       cre && cre.input.query_params.users);
+    const t = await pg.evaluate(leeCarta(id));
+    ok("y la tarjeta dice que quedó asignada a Dulce",
+       /Asignada a Dulce/.test(t.txt || ""), (t.txt || "").slice(0, 0));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ cambiar el responsable después llega a Sprints");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO],
+      ZohoSprints_UpdateItem: [REASIGNADO(DULCE)] });
+    const id = await apruebaPrimera(pg);
+    const sel = 'select[data-asignar="' + id + '"]';
+    ok("el item se creó sin responsable",
+       (await pg.evaluate("window.__llamadas"))
+         .find(x => x.tool === "ZohoSprints_CreateItem")
+         .input.query_params.users === undefined);
+    let t = await pg.evaluate(leeCarta(id));
+    ok("y la tarjeta lo dice, no lo esconde",
+       /Sin responsable en Sprints/.test(t.txt || ""));
+
+    await pg.selectOption(sel, DULCE);
+    await pg.waitForTimeout(900);
+    const up = (await pg.evaluate("window.__llamadas"))
+      .find(x => x.tool === "ZohoSprints_UpdateItem");
+    ok("se llama a UpdateItem", !!up);
+    ok("con newusers = Dulce", up &&
+       up.input.query_params.newusers === JSON.stringify([DULCE]),
+       up && up.input.query_params.newusers);
+    ok("y SIN delusers, porque no había nadie antes",
+       up && up.input.query_params.delusers === undefined,
+       up && up.input.query_params.delusers);
+    ok("el itemId es el del item creado", up &&
+       up.input.path_variables.itemId === "21897000009999001",
+       up && up.input.path_variables.itemId);
+    t = await pg.evaluate(leeCarta(id));
+    ok("la tarjeta pasa a decir que está asignada a Dulce",
+       /Asignada a Dulce/.test(t.txt || ""));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ reasignar saca al anterior");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO],
+      ZohoSprints_UpdateItem: [REASIGNADO(JEREMY), REASIGNADO(DULCE)] });
+    const id = await pg.evaluate(primeraAprobable);
+    const sel = 'select[data-asignar="' + id + '"]';
+    await pg.selectOption(sel, JEREMY);
+    await pg.click('#estrategia [data-decidir="' + id + '"][data-estado="aceptada"]');
+    await pg.waitForTimeout(900);
+    await pg.selectOption(sel, DULCE);
+    await pg.waitForTimeout(900);
+    const ups = (await pg.evaluate("window.__llamadas"))
+      .filter(x => x.tool === "ZohoSprints_UpdateItem");
+    ok("una sola llamada de reasignación", ups.length === 1, ups.length);
+    ok("entra Dulce", ups[0] &&
+       ups[0].input.query_params.newusers === JSON.stringify([DULCE]));
+    ok("y sale Jeremy", ups[0] &&
+       ups[0].input.query_params.delusers === JSON.stringify([JEREMY]),
+       ups[0] && ups[0].input.query_params.delusers);
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ si Sprints deja otro dueño, se dice");
+  {
+    /* La respuesta es la autoridad, no la petición. Se pide Dulce y Sprints
+       contesta que quedó Jeremy: pintar «Asignada a Dulce» ahí sería la página
+       afirmando algo que el sistema no tiene. */
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO],
+      ZohoSprints_UpdateItem: [REASIGNADO(JEREMY)] });
+    const id = await apruebaPrimera(pg);
+    await pg.selectOption('select[data-asignar="' + id + '"]', DULCE);
+    await pg.waitForTimeout(900);
+    const t = await pg.evaluate(leeCarta(id));
+    ok("no dice que quedó Dulce", !/Asignada a Dulce/.test(t.txt || ""));
+    ok("dice que Sprints dejó otro responsable",
+       /otro responsable/.test(t.txt || ""));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ un item que ya existía sin dueño no se declara asignado");
+  {
+    /* «Unassigned» es un id real. Si se tomara por persona, la tarjeta diría
+       que el item tiene dueño cuando no lo tiene. */
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [YA("x"), YA("x")],
+      ZohoSprints_UpdateItem: [REASIGNADO(DULCE)] });
+    const id = await apruebaPrimera(pg);
+    const t = await pg.evaluate(leeCarta(id));
+    ok("dice que no hay responsable en Sprints",
+       /Sin responsable en Sprints/.test(t.txt || ""));
+    ok("y no nombra a Unassigned", !/Unassigned|21897000000002005/.test(t.txt || ""));
     ok("sin errores de JavaScript", !errs.length, errs);
     await pg.close();
   }

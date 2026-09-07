@@ -2726,3 +2726,97 @@ idempotencia se consulta antes de crear, un fallo ambiguo vuelve a LEER en vez
 de reintentar, y el responsable solo se asigna si la mesa lo elige. Sin conector
 en la cuenta del visitante, `use("mcp")` resuelve `null`, el botón no aparece y
 la carta no promete nada.
+
+---
+
+## ADR-049 · El responsable llega a Sprints, y la tarjeta no afirma lo que Sprints no tiene
+
+**Fecha:** 2026-09-07
+**Estado:** implementado y verificado contra producción
+
+### Lo que reportó Mercadeo
+
+> «solo arregla que no me deja asignar a dulce desde el tablero de la mesa
+> creativa) solo a jeremy me deja por ahora pero me encanto que ya se pudiera»
+
+### Lo primero fue medir, no interpretar
+
+La lectura fácil era «el id de Dulce está mal» o «Dulce no es usuaria del
+proyecto». Las dos se descartaron con evidencia, no con razonamiento:
+
+- `GetItems` sobre el sprint SP49 devuelve el mapa de usuarios del proyecto y
+  Dulce está ahí: `21897000001319001` → «Dulce Anaí Galindo Escobar`, con
+  ZUID `911930552`. Su id es correcto.
+- Se creó un work item de prueba con `users: ["21897000001319001"]` en el
+  backlog real (**I1174**), se leyó su `ownerId` —`["21897000001319001"]`,
+  Dulce— y se borró. **La API la acepta sin ninguna objeción.**
+
+Así que el defecto estaba de este lado. Buscarlo en Zoho habría sido buscarlo
+donde no estaba.
+
+### El defecto, que era peor que el síntoma
+
+Dos piezas que por separado parecían razonables y juntas hacían imposible
+asignar a nadie:
+
+1. El selector de responsable se pintaba **solo si la carta ya tenía
+   decisión** (`estado ? selectorResponsable(...) : ""`).
+2. `users` viaja **solo en `CreateItem`**, y `crearEnSprints` se dispara desde
+   `decidir()`, en el mismo clic que crea la decisión.
+
+Consecuencia: cuando el `users` se armaba, `d.responsable` era necesariamente
+`null`, porque el selector para elegirlo aún no existía. **Ningún item podía
+nacer con responsable.** Y elegirlo después no mandaba nada a ninguna parte: no
+había ninguna llamada de actualización. El nombre se quedaba dentro de la
+página.
+
+Eso es lo grave, y no es «no se puede asignar»: es que **la tarjeta mostraba un
+nombre que Sprints no tenía**. Se comprobó en el estado en vivo (v80) contra el
+backlog real: `copy-tienda-arte-integraciones` decía Dulce y el item I1172
+estaba `Unassigned`. La página afirmando algo que el sistema no tiene es
+exactamente lo que la regla 3 llama peor que no reportar.
+
+Que a Mercadeo «solo Jeremy» le funcionara no contradice esto: el estado en vivo
+tiene tres cartas con responsable y los items en Sprints no coinciden con
+ninguna lectura consistente —uno incluso está movido a SP49 y con otro dueño—,
+así que hubo edición a mano en Sprints. Se arregla el defecto medido; no se
+inventa una reconstrucción de los clics.
+
+### Lo que se hizo
+
+- **El selector se pinta siempre**, antes de decidir. Así el item nace con su
+  responsable en la primera llamada, que es donde `users` sirve.
+- **`UpdateItem` para reasignar** lo que ya existe. Una sola llamada:
+  `newusers` con quien entra, `delusers` con quien sale. Verificado contra
+  producción el 2026-09-07: item **I1175** creado con Jeremy, reasignado a
+  Dulce —la respuesta devolvió `ownerIds: ["21897000001319001"]`— y borrado.
+- **El estado guarda qué responsable tiene Sprints**, no solo el que eligió la
+  mesa. Sin ese dato no hay con qué comparar, y `delusers` no se puede armar.
+- **La respuesta es la autoridad.** El estado se escribe con el `ownerIds` que
+  devuelve Sprints, no con lo que se pidió. Si Sprints deja otro dueño, la
+  tarjeta lo dice en ámbar en vez de pintar el nombre pedido.
+- **La tarjeta declara el responsable que hay en Sprints**, con su propia
+  línea. «Asignada a X en Sprints» o «Sin responsable en Sprints todavía»: ya
+  no hay manera de que el selector tape el hueco.
+- Un fallo **ambiguo** de la reasignación marca el responsable como **sin
+  confirmar**. Una escritura rechazada no prueba que no se aplicó.
+
+### Dos trampas que aparecieron al arreglarlo
+
+- **`Unassigned` es un id de verdad.** `ownerId` viene como arreglo y trae
+  `21897000000002005` cuando el item no tiene dueño. Tomarlo por persona
+  pondría «Unassigned» donde va un nombre y, peor, haría creer que el item está
+  asignado. Se filtra explícitamente.
+- **Contar decisiones por la presencia de la llave se rompió.** Elegir
+  responsable antes de decidir crea el registro con `estado` en `null`, y tres
+  contadores («N de M decididas», el aviso de plan vacío en `sprint.py`)
+  contaban llaves. Ahora cuentan estados.
+
+### La prueba
+
+`npm run prueba:boton` sube de 30 a **57 comprobaciones**. Las nuevas cubren el
+caso reportado de punta a punta: que Dulce esté entre las opciones antes de
+aprobar, que el item **nazca** con su id en `users`, que cambiarlo después
+llame a `UpdateItem` con `newusers` y sin `delusers`, que reasignar mande al
+anterior en `delusers`, que un `ownerIds` distinto al pedido **no** se pinte
+como éxito, y que un item preexistente sin dueño no se declare asignado.

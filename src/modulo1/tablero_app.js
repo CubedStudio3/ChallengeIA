@@ -42,6 +42,7 @@
      cargar— y los tres casos son indistinguibles a propósito: se diseña para
      la ausencia. Sin él la página funciona igual y el camino sigue siendo el
      CSV, que es lo que hubo hasta hoy. */
+  var SIN_DUENIO = "21897000000002005";
   var sprints = null;
   var SERVIDOR = "Zoho Sprints";
 
@@ -951,21 +952,59 @@
 
   /* Qué pasó con esta carta en Sprints. Se muestra dentro de la carta y no en
      un aviso suelto: el estado pertenece a la pieza, no a la página. */
+  /* Cómo se llama la persona detrás de un id de Sprints. Si el id no está en
+     la lista del equipo se devuelve el id: inventarle un nombre a un id
+     desconocido sería peor que mostrarlo crudo. */
+  function nombrePersona(id) {
+    if (!id) return null;
+    var ps = (((D.estrategia || {}).asignacion) || {}).personas || [];
+    for (var i = 0; i < ps.length; i++) {
+      if (String(ps[i].id_sprint) === String(id)) return ps[i].nombre;
+    }
+    return String(id);
+  }
+
+  /* La línea del responsable DENTRO del sello de Sprints. Dice lo que el item
+     tiene según Sprints, no lo que eligió la mesa: si los dos no coinciden se
+     ve la diferencia, en vez de que el nombre del selector tape el hueco. */
+  function lineaResponsable(c, s0) {
+    if (s0.sincronizando) return "Enviando el responsable a Sprints…";
+    if (s0.detalle_resp) return s0.detalle_resp;
+    var d = E.decisiones[c.id] || {};
+    var quiere = d.responsable ? String(d.responsable) : null;
+    var tiene = s0.responsable ? String(s0.responsable) : null;
+    if (quiere === tiene) {
+      return tiene ? "Asignada a " + nombrePersona(tiene) + " en Sprints."
+                   : "Sin responsable en Sprints todavía.";
+    }
+    if (!sprints) {
+      return "El responsable elegido acá (" + nombrePersona(quiere) + ") no " +
+        "está en Sprints: hace falta el conector para mandarlo.";
+    }
+    return "En Sprints " + (tiene ? "está " + nombrePersona(tiene)
+                                  : "no hay responsable") + ".";
+  }
+
   function tramoSprint(c, estado) {
     var s0 = (E.sprint || {})[c.id];
     var puede = !!sprints && !!c.sprint;
 
     if (s0 && (s0.estado === "creado" || s0.estado === "existia")) {
-      return '<div class="mt-4 rounded-2xl p-4" ' +
-        'style="background:var(--bien-suave)">' +
-        '<p class="text-[12px] font-semibold" style="color:var(--bien-tex)">' +
+      var mal = !!s0.detalle_resp || !!s0.resp_sin_confirmar;
+      return '<div class="mt-4 rounded-2xl p-4" style="background:' +
+        (mal ? "var(--falta-suave)" : "var(--bien-suave)") + '">' +
+        '<p class="text-[12px] font-semibold" style="color:' +
+        (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
         (s0.estado === "existia" ? "Ya estaba en Sprints" : "Creada en Sprints") +
         " · I" + esc(String(s0.itemNo || "")) + "</p>" +
-        '<p class="text-[11.5px] mt-1 leading-relaxed" ' +
-        'style="color:var(--bien-tex)">En el backlog de ' +
+        '<p class="text-[11.5px] mt-1 leading-relaxed" style="color:' +
+        (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">En el backlog de ' +
         esc((destinoSprint() || {}).proyecto || "el proyecto") +
         ", con el copy, la dirección visual y la referencia adentro." +
-        (s0._nota ? " " + esc(s0._nota) : "") + "</p></div>";
+        (s0._nota ? " " + esc(s0._nota) : "") + "</p>" +
+        '<p class="text-[11.5px] mt-1.5 leading-relaxed" style="color:' +
+        (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
+        esc(lineaResponsable(c, s0)) + "</p></div>";
     }
     if (s0 && s0.estado === "creando") {
       return '<div class="mt-4 rounded-2xl bg-slate-50 p-4">' +
@@ -998,8 +1037,9 @@
     return '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
       "Al aprobar se crea el work item en el backlog de " +
       esc((destinoSprint() || {}).proyecto || "Sprints") +
-      ", con tu conector de " + esc(SERVIDOR) + ". El responsable se asigna " +
-      "solo si lo elegís abajo.</p>";
+      ", con tu conector de " + esc(SERVIDOR) + ". Si elegís el responsable " +
+      "abajo antes de aprobar, el item nace con él; si lo cambiás después, " +
+      "se manda a Sprints en ese momento.</p>";
   }
 
   function tarjetaCarta(c, asig) {
@@ -1155,7 +1195,7 @@
       'data-estado="rechazada" class="btn-rojo"' +
       (soloLectura ? " disabled" : "") + ">" +
       svg(ico.x, "w-4 h-4") + "Rechazar</button>" +
-      (estado ? selectorResponsable(c.id, d && d.responsable, asig) : "") +
+      selectorResponsable(c.id, d && d.responsable, asig) +
       "</div></div>";
   }
 
@@ -1226,7 +1266,9 @@
     var m = mercadoActivo();
     var asig = ((D.estrategia || {}).asignacion) || {};
     var sinCarta = ((D.cartas || {}).sin_evidencia) || [];
-    var decid = cs.filter(function (c) { return E.decisiones[c.id]; }).length;
+    var decid = cs.filter(function (c) {
+      var d = E.decisiones[c.id]; return d && d.estado;
+    }).length;
     return '<div class="flex items-start justify-between gap-4 mb-5 mt-10">' +
       '<div><h3 class="text-[17px] font-bold text-slate-800">Cartas de ' +
       'producción</h3>' +
@@ -1963,7 +2005,9 @@
     var vari = variacionOrganico();
     var act = estrategiaActiva();
     var vis = tareasVisibles();
-    var decid = vis.filter(function (x) { return E.decisiones[x.id]; }).length;
+    var decid = vis.filter(function (x) {
+      var d = E.decisiones[x.id]; return d && d.estado;
+    }).length;
 
     /* ── la tarjeta oscura ───────────────────────────────────────────────── */
 
@@ -2772,13 +2816,18 @@
       return '<select disabled class="campo w-full max-w-[220px] opacity-50">' +
         "<option>Sin lista de personas</option></select>";
     }
+    /* La comparación va con String() en los dos lados. El estado se publica y
+       se relee como JSON, y un id que vuelva como número no sería `===` a la
+       cadena del config: el nombre elegido quedaría sin `selected` y el
+       selector diría «Sin asignar» junto a un item que sí tiene dueño. */
+    var act = actual === null || actual === undefined ? "" : String(actual);
     return '<select data-asignar="' + esc(id) + '" class="campo w-full ' +
       'max-w-[220px]"' + (soloLectura ? " disabled" : "") +
       '><option value="">Sin asignar</option>' +
       (asig.personas || []).map(function (p) {
         return '<option value="' + esc(p.id_sprint) + '"' +
-          (actual === p.id_sprint ? " selected" : "") + ">" + esc(p.nombre) +
-          "</option>";
+          (act === String(p.id_sprint) ? " selected" : "") + ">" +
+          esc(p.nombre) + "</option>";
       }).join("") + "</select>";
   }
 
@@ -3594,7 +3643,9 @@
       decisiones: E.decisiones,
       propias: E.propias,
     };
-    var n = Object.keys(E.decisiones).length + Object.keys(E.propias).length;
+    var n = Object.keys(E.decisiones).filter(function (k) {
+      return E.decisiones[k] && E.decisiones[k].estado;
+    }).length + Object.keys(E.propias).length;
     copiar(JSON.stringify(payload, null, 2), n
       ? "Decisiones copiadas · " + n + " en total. Pégalas en un .json"
       : "No hay ninguna decisión todavía; se copió la plantilla vacía");
@@ -3743,7 +3794,17 @@
       if (!its || !its.length) return null;
       for (var i = 0; i < its.length; i++) {
         if ((its[i].itemName || "").indexOf(carta.idempotencia) >= 0) {
-          return { itemNo: its[i].itemNo, itemId: its[i].itemId };
+          /* `ownerId` viene como arreglo y trae 21897000000002005 —«Unassigned»,
+             medido en producción— cuando el item no tiene dueño. Ese id NO es
+             una persona: tratarlo como tal pondría «Unassigned» donde va un
+             nombre y, peor, haría creer que el item está asignado. */
+          var ow = its[i].ownerId || [];
+          var duenio = null;
+          for (var j = 0; j < ow.length; j++) {
+            if (String(ow[j]) !== SIN_DUENIO) { duenio = String(ow[j]); break; }
+          }
+          return { itemNo: its[i].itemNo, itemId: its[i].itemId,
+                   sprintId: its[i].sprintId || null, responsable: duenio };
         }
       }
       return null;
@@ -3771,14 +3832,27 @@
     var params = {};
     for (var k in carta.sprint) params[k] = carta.sprint[k];
     /* El responsable SOLO si la mesa lo eligió. Asignarle trabajo a alguien no
-       es una consecuencia de un análisis: es una decisión de una persona. */
-    if (d.responsable) params.users = JSON.stringify([String(d.responsable)]);
+       es una consecuencia de un análisis: es una decisión de una persona.
+
+       Y se GUARDA cuál se envió. Sin eso no hay manera de saber si el nombre
+       que muestra la tarjeta es el que Sprints tiene: era exactamente el
+       agujero que reportó Mercadeo —el tablero decía Dulce y el item estaba
+       sin dueño— y para reasignar hace falta el anterior, porque UpdateItem
+       pide `delusers` con el que sale además de `newusers` con el que entra. */
+    var resp = d.responsable ? String(d.responsable) : null;
+    if (resp) params.users = JSON.stringify([resp]);
 
     buscaEnSprints(carta).then(function (ya) {
       if (ya) {
+        /* El item ya estaba. Su dueño lo dice Sprints, no esta página: se
+           toma de la lectura (`ownerId`) y no del estado local, que no
+           participó en su creación. */
         marcaSprint(id, { estado: "existia", itemNo: ya.itemNo,
-                          itemId: ya.itemId, en: new Date().toISOString() });
+                          itemId: ya.itemId, sprintId: ya.sprintId || null,
+                          responsable: ya.responsable || null,
+                          en: new Date().toISOString() });
         persistir("Ya existía en Sprints: I" + ya.itemNo);
+        if (resp && resp !== (ya.responsable || null)) sincronizaResponsable(id);
         return;
       }
       return sprints.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
@@ -3794,7 +3868,8 @@
           persistir("Sprints respondió sin id de item"); return;
         }
         marcaSprint(id, { estado: "creado", itemNo: dd.itemNo,
-                          itemId: dd.addedItemId,
+                          itemId: dd.addedItemId, sprintId: dst.sprintId,
+                          responsable: resp,
                           en: new Date().toISOString() });
         persistir("Creado en Sprints: I" + dd.itemNo);
       });
@@ -3809,7 +3884,9 @@
       buscaEnSprints(carta).then(function (ya) {
         if (ya) {
           marcaSprint(id, { estado: "creado", itemNo: ya.itemNo,
-                            itemId: ya.itemId, en: new Date().toISOString(),
+                            itemId: ya.itemId, sprintId: ya.sprintId || null,
+                            responsable: ya.responsable || null,
+                            en: new Date().toISOString(),
                             _nota: "La llamada falló pero el item sí quedó." });
           persistir("Sí quedó creado: I" + ya.itemNo);
         } else {
@@ -3827,12 +3904,93 @@
     });
   }
 
+  /* Reasignar un item que YA existe en Sprints.
+
+     Es la mitad que faltaba, y es la que reportó Mercadeo: elegir a alguien en
+     la tarjeta guardaba el nombre en la página y no lo mandaba a ningún lado,
+     porque el `users` solo viaja en la creación. El item quedaba sin dueño
+     mientras la tarjeta mostraba un nombre — la página afirmando algo que el
+     sistema no tenía, que es la clase de error que este proyecto trata como
+     grave (regla 3).
+
+     `UpdateItem` lo hace en UNA llamada: `newusers` con quien entra y
+     `delusers` con quien sale. Verificado contra producción el 2026-09-07
+     (item I1175, creado con Jeremy, reasignado a Dulce y borrado): la
+     respuesta devuelve `ownerIds` con el resultado, así que el estado se
+     escribe con lo que Sprints DICE que quedó, no con lo que se pidió. */
+  function sincronizaResponsable(id) {
+    var s0 = (E.sprint || {})[id];
+    if (!sprints || !s0 || !s0.itemId) return;
+    if (s0.estado !== "creado" && s0.estado !== "existia") return;
+    var dst = destinoSprint();
+    if (!dst || !dst.teamId) return;
+
+    var d = E.decisiones[id] || {};
+    var quiere = d.responsable ? String(d.responsable) : null;
+    var tiene = s0.responsable ? String(s0.responsable) : null;
+    if (quiere === tiene) return;
+
+    var q = {};
+    if (quiere) q.newusers = JSON.stringify([quiere]);
+    if (tiene) q.delusers = JSON.stringify([tiene]);
+
+    s0.sincronizando = true;
+    pintar(true);
+    sprints.callTool(SERVIDOR, "ZohoSprints_UpdateItem", {
+      headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
+      path_variables: { teamId: dst.teamId, projectId: dst.projectId,
+                        /* El item puede haberse movido a un sprint en Sprints;
+                           entonces su sprintId ya no es el backlog. Se usa el
+                           que trajo la lectura, y solo si no hay, el destino. */
+                        sprintId: s0.sprintId || dst.sprintId,
+                        itemId: s0.itemId },
+      query_params: q
+    }).then(function (r) {
+      var dd = r && r.payload && r.payload.data;
+      var ow = (dd && dd.ownerIds) || [];
+      var real = null;
+      for (var i = 0; i < ow.length; i++) {
+        if (String(ow[i]) !== SIN_DUENIO) { real = String(ow[i]); break; }
+      }
+      delete s0.sincronizando;
+      s0.responsable = real;
+      delete s0.detalle_resp;
+      if (real === quiere) {
+        persistir(quiere ? "Responsable enviado a Sprints"
+                         : "Responsable quitado en Sprints");
+      } else {
+        /* Sprints aceptó la llamada y dejó otro dueño. No se pinta como éxito:
+           se dice qué quedó, que es lo único comprobado. */
+        s0.detalle_resp = "Sprints dejó otro responsable. Revisá I" +
+          String(s0.itemNo || "") + " en el proyecto.";
+        persistir(s0.detalle_resp);
+      }
+    }).catch(function (e) {
+      var x = explicaError(e);
+      delete s0.sincronizando;
+      /* Un fallo AMBIGUO en una escritura no prueba que no se aplicó. El
+         responsable local se marca como no confirmado en vez de darlo por
+         bueno o por perdido. */
+      s0.detalle_resp = x.ambiguo
+        ? "No se pudo confirmar si Sprints tomó el responsable. " + x.txt
+        : x.txt;
+      s0.resp_sin_confirmar = true;
+      persistir(s0.detalle_resp);
+    });
+  }
+
   function asignar(id, responsable) {
     if (soloLectura) return;
+    /* Antes exigía que la decisión ya existiera, y el selector solo aparecía
+       DESPUÉS de aprobar: por eso ningún item podía nacer con responsable.
+       Ahora se puede elegir antes, así que el registro se crea sin estado. */
     var d = E.decisiones[id];
-    if (!d) return;
+    if (!d) { d = { estado: null, en: new Date().toISOString() };
+              E.decisiones[id] = d; }
     d.responsable = responsable;
     persistir(responsable ? "Responsable asignado" : "Sin asignar");
+    /* Si el item ya está en Sprints, el cambio tiene que llegar allá. */
+    sincronizaResponsable(id);
   }
 
   function persistir(mensaje) {
