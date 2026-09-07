@@ -42,6 +42,18 @@
      cargar— y los tres casos son indistinguibles a propósito: se diseña para
      la ausencia. Sin él la página funciona igual y el camino sigue siendo el
      CSV, que es lo que hubo hasta hoy. */
+  /* Verdadero mientras `pintar()` está reescribiendo el DOM.
+
+     Existe por un efecto que no se ve venir: desprender del DOM un nodo que
+     contiene al elemento ENFOCADO hace que ese elemento emita `focusout`. Y el
+     handler de `focusout` de las fechas reconcilia el campo contra la ventana
+     aplicada —para eso está—, así que al preservar el control vivo se pisaba
+     justo lo que la persona acababa de teclear.
+
+     Costó verlo porque `document.activeElement` seguía diciendo «fDesde»
+     mientras el valor cambiaba solo. El `focusout` de un repintado no es una
+     persona saliendo del campo, y no puede tratarse igual. */
+  var repintando = false;
   var SIN_DUENIO = "21897000000002005";
   var sprints = null;
   var SERVIDOR = "Zoho Sprints";
@@ -3352,6 +3364,7 @@
        control vivo antes de reescribir el HTML y se vuelve a poner en el
        lugar del recién generado. El input conserva su estado de edición y las
        cifras se recalculan igual, que es lo que se quería de los dos lados. */
+    repintando = true;
     var vivo = null;
     if (idFoco === "fDesde" || idFoco === "fHasta") {
       var ctl = document.getElementById("ctlFechas");
@@ -3383,6 +3396,10 @@
             if (n) { n.min = tn.desde; n.max = tn.hasta; }
           });
         }
+        /* Y se le devuelve el foco: reinsertar no lo restituye, y sin foco el
+           siguiente dígito no llega a ningún lado. */
+        var f = vivo.querySelector("#" + idFoco);
+        if (f && f.focus) f.focus();
       } else {
         /* No se volvió a generar —el filtro dejó de tener sentido— así que el
            nodo vivo se descarta en vez de quedar huérfano. */
@@ -3404,6 +3421,7 @@
         }
       }
     }
+    repintando = false;
   }
 
   function observa() {
@@ -3678,6 +3696,10 @@
     r.addEventListener("focusout", function (ev) {
       var s = ev.target;
       if (!s || (s.id !== "fDesde" && s.id !== "fHasta")) return;
+      /* Un `focusout` disparado por el repintado NO es alguien saliendo del
+         campo: es el nodo saliendo del DOM. Reconciliar ahí sobrescribe lo que
+         se está tecleando. */
+      if (repintando) return;
       var R = rango();
       if (!R || !R.tope) return;
       var quiere = s.value || null;
