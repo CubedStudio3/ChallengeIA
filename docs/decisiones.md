@@ -2684,3 +2684,45 @@ ventana. Si mañana vuelve un cuarto botón, la prueba lo dice.
 levanta.** Dos veces el mismo día. Lo que no caduca es un texto que se deriva
 del estado; el que se escribe una vez hay que ir a buscarlo cuando el estado
 cambia, y nadie se acuerda.
+
+---
+
+## ADR-048 · La capacidad `mcp` declarada: el botón quedó vivo
+
+**Fecha:** 2026-09-04
+**Estado:** implementada y publicada
+
+Cierra el pendiente de ADR-045 y ADR-046. La declaración quedó publicada:
+
+```
+capabilities mcp: Zoho Sprints[2 tools]; artifact · sharing org
+```
+
+Las dos herramientas son `ZohoSprints_GetItems` (la compuerta de idempotencia) y
+`ZohoSprints_CreateItem`. El manifiesto es mínimo a propósito: es un permiso que
+el visitante consiente, y pedir más de lo que se usa es pedir de más.
+
+### Lo que cambió para quien abre el tablero
+
+Al pulsar **Aprobar** en una carta, la página crea el work item en el backlog de
+«Diseño y MK» **con el conector de esa persona y sus credenciales**. El item
+aparece creado por ella, no por quien publicó el tablero — que es mejor que los
+siete items de la tarde, todos a nombre del conector.
+
+**La primera llamada pide consentimiento.** Eso no es un error: es cómo
+funciona el permiso, y llega en la llamada, nunca en `use()`.
+
+### Lo que esto cuesta
+
+Declarar `mcp` **bloquea el compartido público** del artefacto. Sigue en
+«organización», que es donde estaba, así que en la práctica no cambia nada para
+Mercadeo — pero queda anotado: si algún día se quiere un enlace público, hay que
+quitar la capacidad y volver al CSV.
+
+### Lo que sigue siendo cierto
+
+Nada de la maquinaria cambió: la decisión se guarda antes de escribir, la
+idempotencia se consulta antes de crear, un fallo ambiguo vuelve a LEER en vez
+de reintentar, y el responsable solo se asigna si la mesa lo elige. Sin conector
+en la cuenta del visitante, `use("mcp")` resuelve `null`, el botón no aparece y
+la carta no promete nada.

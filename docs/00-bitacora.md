@@ -834,3 +834,13 @@ originó el pedido —«los últimos 7 días salen vacíos»— ya no ocurre: co
 de hoy esa ventana da 143 leads a $3.01.
 
 Seis suites en verde. **Sin publicar**: Mercadeo pidió avisar antes.
+
+### Sesión 5 · sexta parte · el botón vivo
+
+Se declaró la capacidad `mcp` y el publish pasó: el botón de Sprints quedó
+activo en el tablero publicado (ADR-048). Cierra el pendiente que llevaba
+abierto desde ADR-045.
+
+En el mismo publish entró el cambio del aviso de «no se filtra», que se había
+dejado sin publicar a la espera de confirmación: ahora vive en la cabecera de
+Competencia y de Referencias en vez del plegado de arriba (ADR-047).
