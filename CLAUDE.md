@@ -379,6 +379,35 @@ cometidos; no hay tiempo de repetirlos.
   día se valida contra el agregado ya verificado —por campaña Y por país, al
   centavo— en **cada corrida**, y si no cuadra la corrida se detiene.
 
+- **`limit` por defecto TRUNCA en 200 filas, en silencio y sin cursor.** La
+  consulta de junio a agosto día por día devolvió 200 filas cuando junio solo ya
+  daba 165; con `limit=1000` devuelve 416. Con `object_ids` no hay paginación
+  que avise: **un truncamiento se ve igual de completo que el dato completo.**
+  Lo agarraron las tres compuertas de reconciliación a la vez — la primera vez
+  que detuvieron algo real y no un sabotaje de prueba (ADR-050).
+- **Un día que está en dos periodos entra dos veces.** La semana del 25 de
+  agosto al 3 de septiembre pisa siete días del mes de agosto. Sin quitar el
+  solape, ese gasto se duplica: no rompe nada, solo infla, y es el descuadre más
+  fácil de no ver.
+- **«Todo el dato» y «el periodo de la corrida» dejaron de ser lo mismo.** Con
+  meses históricos cargados, una ventana vacía sumaba tres meses y los mostraba
+  como si fueran la semana. El tablero abre en `ventana_de_la_corrida`, y
+  `propio` —lo que enciende el ámbar— se mide contra ESA ventana, no contra el
+  tope del dato: ámbar significa «alguien acotó esto» y tiene que seguir
+  significándolo.
+- **El periodo del análisis se escribe SIEMPRE desde la corrida**, nunca desde
+  el rango de dato disponible. Son dos campos distintos y no se unifican
+  «por limpieza». Compromiso escrito con Mercadeo, 2026-09-07.
+- **Junio a agosto de 2026 NO tienen un solo indicador.** Se predijo que sí y
+  fue falso: hay `actions:lead`, `actions:link_click`, `QualifiedLead`,
+  `actions:leadgen.other` y **`mixed`**. En junio, `mixed` son **$805.40 con
+  CERO resultados atribuidos** —el mayor gasto del mes—. Agrupar por indicador
+  antes de sumar no es una precaución teórica en estos meses (ADR-013).
+- **Honduras tampoco desapareció en agosto.** $0.04 en 8 días. La exclusión lo
+  saca del análisis y reporta su gasto, que es lo correcto — pero la predicción
+  de que «junio a agosto no toca ninguna de las tres trampas» era falsa en dos
+  de tres.
+
 - **`Unassigned` es un id de verdad, no un hueco.** El `ownerId` de un item de
   Sprints trae `21897000000002005` cuando nadie lo tiene. Tomarlo por persona
   pone «Unassigned» donde va un nombre y, peor, hace creer que el item está
@@ -462,6 +491,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/formato.py` | Reel contra feed en la cuenta propia. Es la ÚNICA fuente que contesta «¿arte o video?». Se niega a publicar el ratio si la antigüedad lo explica |
 | `src/modulo1/corre_profundo.py` | Arranque del análisis profundo de la Ad Library. Declara las marcas sin perfil en vez de saltarlas |
 | `pruebas/cartas.py` | 7 sabotajes. El que importa: cambiar el costo en la corrida y comprobar que la carta cambia. `npm run prueba:cartas` |
+| `src/modulo1/pauta_historica.py` | Los meses anteriores de pauta, día por día, **solo para que el filtro pueda mirar atrás**. Compuerta por mes: uno que no cuadra no entra y se declara. `python -m modulo1.pauta_historica` |
+| `data/historico/pauta_meses/` | Un par por mes —agregado + desglose diario— cada uno reconciliado contra sí mismo |
 | `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado: 57 comprobaciones, incluido que el item **nazca** con su responsable y que reasignar mande `delusers`. `npm run prueba:boton` |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |

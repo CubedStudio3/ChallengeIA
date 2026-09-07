@@ -247,13 +247,19 @@
      seguía diciendo «+105.6% contra la semana anterior», que eran el 17 y el 24
      de agosto. Una misma función no puede discrepar consigo misma.
 
-     Devuelve null cuando no hay nada que recortar —sin ventana propia, o sin
-     fechas de inicio en la serie— para que quien llama use la serie completa.
-     `hay:false` significa que la ventana existe y ninguna semana cae dentro,
-     que NO es lo mismo. */
+     Devuelve null solo cuando no hay con qué recortar —sin rango, o sin fechas
+     de inicio en la serie—. `hay:false` significa que la ventana existe y
+     ninguna semana cae dentro, que NO es lo mismo.
+
+     OJO: recorta SIEMPRE, no solo con ventana propia. Antes se saltaba el
+     recorte cuando `propio` era falso, y estaba bien mientras «sin ventana»
+     significara «el periodo de la corrida». Desde que hay meses historicos
+     cargados (ADR-050), «sin ventana» es la ventana de la corrida y el dato
+     de atras son tres meses: saltarse el recorte mostraba junio a septiembre.
+     `propio` decide el COLOR y el texto; el recorte no se negocia. */
   function semanasEnRango(semanas) {
     var R = rango();
-    if (!R || !R.propio || !semanas || !semanas.length || !semanas[0].inicio) {
+    if (!R || !semanas || !semanas.length || !semanas[0].inicio) {
       return null;
     }
     var dentro = semanas.map(function (w) {
@@ -302,7 +308,10 @@
     var PD = pautaDia();
     if (!PD || !PD.piezas) return null;
     var R = rango();
-    var recorta = !!(R && R.propio);
+    /* Se recorta SIEMPRE que haya rango. `propio` es para el color y el texto,
+       no para decidir si se filtra: con los meses historicos cargados, no
+       filtrar significa sumar tres meses y presentarlos como la semana. */
+    var recorta = !!R;
     var ps = PD.piezas.filter(function (p) {
       if (mercado && p.p !== mercado) return false;
       if (recorta && !(p.f >= R.desde && p.f <= R.hasta)) return false;
@@ -346,7 +355,7 @@
       indicadores: ind,
       principal: ind[k] || null,
       indicador_principal: k,
-      recortada: recorta,
+      recortada: !!(R && R.propio),
       vacia: !ps.length,
       filas: ps.length,
       dias: fs.length,
@@ -1338,6 +1347,24 @@
 
      Un control que desaparece cuando falta una de sus dos fuentes es peor que
      uno con menos alcance: el equipo no ve que le falta algo, ve que no existe. */
+  /* La ventana con la que ABRE el tablero: el periodo de la corrida, no todo
+     el dato disponible.
+
+     Nace con los meses historicos (2026-09-07). Antes daba igual —el unico
+     dato de pauta era el de la corrida, asi que «todo el dato» y «la semana»
+     eran lo mismo—. Con junio, julio y agosto cargados dejan de serlo: sin
+     este arranque, abrir el tablero sumaria tres meses y los mostraria como si
+     fueran la semana, al lado de cartas calculadas sobre la semana. Es el
+     mismo engano del +105.6%, con el filtro del lado equivocado.
+
+     Si la corrida no lo trae —una corrida vieja— se cae al tope del dato, que
+     es lo que hacia antes. */
+  function ventanaInicial() {
+    var PD = pautaDia();
+    var v = PD && PD.ventana_de_la_corrida;
+    return v && v.desde && v.hasta ? v : null;
+  }
+
   function rango() {
     var A = alcance(), ra = (A && A.rango_disponible) || null;
     var PD = pautaDia(), rp = (PD && PD.rango_disponible) || null;
@@ -1349,7 +1376,14 @@
       r = ra || rp;
     }
     if (!r) return null;
-    var desde = V.desde || r.desde, hasta = V.hasta || r.hasta;
+    var vi = ventanaInicial();
+    /* El defecto es la ventana de la corrida; el TOPE sigue siendo todo el
+       dato, porque es hasta donde se puede elegir. */
+    var pre = vi
+      ? { desde: vi.desde < r.desde ? r.desde : vi.desde,
+          hasta: vi.hasta > r.hasta ? r.hasta : vi.hasta }
+      : r;
+    var desde = V.desde || pre.desde, hasta = V.hasta || pre.hasta;
     /* Dos fechas definen una ventana sin importar en qué casilla quedó cada
        una. Se ordenan aquí, al leer, y no al escribir: así ningún tecleo
        intermedio puede corromper la otra casilla. El repintado devuelve los
@@ -1361,8 +1395,14 @@
        días en la ventana» al lado del total completo de agosto. Eso fue lo que
        Mercadeo vio y leyó, con razón, como «lee la fecha para el texto pero no
        para calcular». */
-    return { desde: desde, hasta: hasta, tope: r,
-             propio: desde !== r.desde || hasta !== r.hasta };
+    /* `propio` se mide contra la VENTANA DE LA CORRIDA, no contra el tope del
+       dato. Con los meses historicos el tope es junio-septiembre, asi que
+       medirlo contra el tope encenderia la ventana propia al abrir, sin que
+       nadie toque nada: los sellos saldrian en ambar y los bloques dirian
+       «ventana propia» de entrada. Ambar significa «alguien acoto esto», y
+       tiene que seguir significando eso. */
+    return { desde: desde, hasta: hasta, tope: r, base: pre,
+             propio: desde !== pre.desde || hasta !== pre.hasta };
   }
 
   /* RECALCULA los agregados sobre las piezas del rango, no oculta filas de una
@@ -3371,8 +3411,12 @@
         var Rp = rango(), tope = Rp && Rp.tope;
         if (!tope) return;
         if (d.rango === "periodo") {
-          var pr = String((D.corrida || {}).rango || "").split(" a ");
-          if (pr.length === 2) { V.desde = pr[0].trim(); V.hasta = pr[1].trim(); }
+          /* Se VACIA la ventana en vez de escribir el periodo a mano. Desde que
+             el tablero abre en la ventana de la corrida, vaciar y escribir el
+             periodo dan lo mismo, y vaciar dice la verdad: «no hay ventana
+             elegida». Escribirlo a mano ademas lo copiaba de un texto
+             (`D.corrida.rango`), y ese texto no es la fuente del defecto. */
+          V.desde = null; V.hasta = null;
         } else {
           var dias = parseInt(d.rango, 10);
           /* `dias - 1` porque el rango es CERRADO: los dos extremos cuentan.

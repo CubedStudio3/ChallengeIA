@@ -2,7 +2,7 @@
   "corrida": {
     "rango": "2026-08-25 a 2026-09-03",
     "hoy": "2026-09-04",
-    "dry_run": true
+    "dry_run": false
   },
   "integridad": {
     "campanas_leidas": 6,
@@ -166,6 +166,3786 @@
   },
   "pauta_diaria": {
     "piezas": [
+      {
+        "f": "2026-06-01",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 27.35,
+        "r": null,
+        "i": 8077.0
+      },
+      {
+        "f": "2026-06-01",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 12.58,
+        "r": 3.0,
+        "i": 2906.0
+      },
+      {
+        "f": "2026-06-01",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 13.16,
+        "r": 4.0,
+        "i": 2813.0
+      },
+      {
+        "f": "2026-06-01",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.55,
+        "r": 318.0,
+        "i": 12347.0
+      },
+      {
+        "f": "2026-06-01",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.13,
+        "r": 1.0,
+        "i": 114.0
+      },
+      {
+        "f": "2026-06-01",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 18.93,
+        "r": 51.0,
+        "i": 11279.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 27.98,
+        "r": null,
+        "i": 11229.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.85,
+        "r": 1.0,
+        "i": 1807.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 11.35,
+        "r": 6.0,
+        "i": 2016.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.98,
+        "r": 267.0,
+        "i": 4874.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": null,
+        "i": 90.0
+      },
+      {
+        "f": "2026-06-02",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 14.49,
+        "r": 47.0,
+        "i": 8588.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 23.91,
+        "r": null,
+        "i": 7326.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.32,
+        "r": 2.0,
+        "i": 1960.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 10.91,
+        "r": 6.0,
+        "i": 1995.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.19,
+        "r": 244.0,
+        "i": 4905.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": 1.0,
+        "i": 71.0
+      },
+      {
+        "f": "2026-06-03",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 13.15,
+        "r": 29.0,
+        "i": 7132.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 19.8,
+        "r": null,
+        "i": 5016.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 8.17,
+        "r": null,
+        "i": 1228.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 9.13,
+        "r": 2.0,
+        "i": 1661.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.86,
+        "r": 198.0,
+        "i": 3630.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.16,
+        "r": null,
+        "i": 53.0
+      },
+      {
+        "f": "2026-06-04",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 10.0,
+        "r": 18.0,
+        "i": 5489.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 18.91,
+        "r": null,
+        "i": 5781.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.81,
+        "r": 3.0,
+        "i": 1107.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 8.66,
+        "r": 1.0,
+        "i": 1531.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.74,
+        "r": 196.0,
+        "i": 3246.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.12,
+        "r": null,
+        "i": 55.0
+      },
+      {
+        "f": "2026-06-05",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 10.58,
+        "r": 13.0,
+        "i": 4424.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 23.99,
+        "r": null,
+        "i": 5072.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 7.33,
+        "r": 1.0,
+        "i": 748.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 8.86,
+        "r": null,
+        "i": 1362.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.56,
+        "r": 182.0,
+        "i": 2759.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.07,
+        "r": null,
+        "i": 19.0
+      },
+      {
+        "f": "2026-06-06",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 9.79,
+        "r": 18.0,
+        "i": 2876.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 29.1,
+        "r": null,
+        "i": 6081.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 11.54,
+        "r": 2.0,
+        "i": 1284.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 11.2,
+        "r": null,
+        "i": 1503.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.57,
+        "r": 230.0,
+        "i": 3099.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.12,
+        "r": null,
+        "i": 92.0
+      },
+      {
+        "f": "2026-06-07",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 17.95,
+        "r": 37.0,
+        "i": 7176.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 26.38,
+        "r": null,
+        "i": 5942.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.36,
+        "r": 2.0,
+        "i": 1400.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120245971494870783",
+        "n": "Campaña Qpayshop e Integraciones - El Salvador",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 2.88,
+        "r": 1.0,
+        "i": 433.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.52,
+        "r": 208.0,
+        "i": 4334.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.11,
+        "r": null,
+        "i": 71.0
+      },
+      {
+        "f": "2026-06-08",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 15.49,
+        "r": 32.0,
+        "i": 7118.0
+      },
+      {
+        "f": "2026-06-09",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.26,
+        "r": null,
+        "i": 7326.0
+      },
+      {
+        "f": "2026-06-09",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 11.44,
+        "r": 6.0,
+        "i": 1752.0
+      },
+      {
+        "f": "2026-06-09",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 3.95,
+        "r": 177.0,
+        "i": 3260.0
+      },
+      {
+        "f": "2026-06-09",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.12,
+        "r": null,
+        "i": 71.0
+      },
+      {
+        "f": "2026-06-09",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 14.56,
+        "r": 26.0,
+        "i": 5639.0
+      },
+      {
+        "f": "2026-06-10",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 22.93,
+        "r": null,
+        "i": 4760.0
+      },
+      {
+        "f": "2026-06-10",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 8.43,
+        "r": 2.0,
+        "i": 1257.0
+      },
+      {
+        "f": "2026-06-10",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.87,
+        "r": 205.0,
+        "i": 4289.0
+      },
+      {
+        "f": "2026-06-10",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.05,
+        "r": null,
+        "i": 45.0
+      },
+      {
+        "f": "2026-06-10",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 13.31,
+        "r": 19.0,
+        "i": 5325.0
+      },
+      {
+        "f": "2026-06-11",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 21.33,
+        "r": null,
+        "i": 4112.0
+      },
+      {
+        "f": "2026-06-11",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.3,
+        "r": 1.0,
+        "i": 1331.0
+      },
+      {
+        "f": "2026-06-11",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.13,
+        "r": 241.0,
+        "i": 4408.0
+      },
+      {
+        "f": "2026-06-11",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.13,
+        "r": null,
+        "i": 69.0
+      },
+      {
+        "f": "2026-06-11",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 14.57,
+        "r": 16.0,
+        "i": 5980.0
+      },
+      {
+        "f": "2026-06-12",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 20.9,
+        "r": null,
+        "i": 4370.0
+      },
+      {
+        "f": "2026-06-12",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.16,
+        "r": 1.0,
+        "i": 1077.0
+      },
+      {
+        "f": "2026-06-12",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.01,
+        "r": 245.0,
+        "i": 5938.0
+      },
+      {
+        "f": "2026-06-12",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.05,
+        "r": 1.0,
+        "i": 43.0
+      },
+      {
+        "f": "2026-06-12",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 13.63,
+        "r": 20.0,
+        "i": 5169.0
+      },
+      {
+        "f": "2026-06-13",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 20.06,
+        "r": null,
+        "i": 3241.0
+      },
+      {
+        "f": "2026-06-13",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.66,
+        "r": 2.0,
+        "i": 1052.0
+      },
+      {
+        "f": "2026-06-13",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.89,
+        "r": 259.0,
+        "i": 7855.0
+      },
+      {
+        "f": "2026-06-13",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.2,
+        "r": null,
+        "i": 47.0
+      },
+      {
+        "f": "2026-06-13",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 14.7,
+        "r": 13.0,
+        "i": 4633.0
+      },
+      {
+        "f": "2026-06-14",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 25.61,
+        "r": null,
+        "i": 4630.0
+      },
+      {
+        "f": "2026-06-14",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 11.16,
+        "r": 4.0,
+        "i": 1139.0
+      },
+      {
+        "f": "2026-06-14",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.06,
+        "r": 234.0,
+        "i": 6838.0
+      },
+      {
+        "f": "2026-06-14",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.06,
+        "r": null,
+        "i": 51.0
+      },
+      {
+        "f": "2026-06-14",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 15.81,
+        "r": 9.0,
+        "i": 4763.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 21.63,
+        "r": null,
+        "i": 3743.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.67,
+        "r": 1.0,
+        "i": 1012.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.63,
+        "r": 224.0,
+        "i": 10352.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.05,
+        "r": null,
+        "i": 6.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120240092477970783",
+        "n": "SV | POS Físico | Leads Directos",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 1.42,
+        "r": 5.0,
+        "i": 409.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.18,
+        "r": null,
+        "i": 49.0
+      },
+      {
+        "f": "2026-06-15",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 7.68,
+        "r": 3.0,
+        "i": 3213.0
+      },
+      {
+        "f": "2026-06-16",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 23.45,
+        "r": null,
+        "i": 4283.0
+      },
+      {
+        "f": "2026-06-16",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.64,
+        "r": 5.0,
+        "i": 1036.0
+      },
+      {
+        "f": "2026-06-16",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.58,
+        "r": 222.0,
+        "i": 9948.0
+      },
+      {
+        "f": "2026-06-16",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.31,
+        "r": null,
+        "i": 72.0
+      },
+      {
+        "f": "2026-06-16",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 14.33,
+        "r": 5.0,
+        "i": 4054.0
+      },
+      {
+        "f": "2026-06-17",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 23.16,
+        "r": null,
+        "i": 4698.0
+      },
+      {
+        "f": "2026-06-17",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 8.68,
+        "r": 3.0,
+        "i": 758.0
+      },
+      {
+        "f": "2026-06-17",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.05,
+        "r": 293.0,
+        "i": 7085.0
+      },
+      {
+        "f": "2026-06-17",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.21,
+        "r": null,
+        "i": 62.0
+      },
+      {
+        "f": "2026-06-17",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 15.7,
+        "r": 5.0,
+        "i": 4855.0
+      },
+      {
+        "f": "2026-06-18",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 26.11,
+        "r": null,
+        "i": 6537.0
+      },
+      {
+        "f": "2026-06-18",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.47,
+        "r": null,
+        "i": 967.0
+      },
+      {
+        "f": "2026-06-18",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.88,
+        "r": 277.0,
+        "i": 5202.0
+      },
+      {
+        "f": "2026-06-18",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.06,
+        "r": null,
+        "i": 40.0
+      },
+      {
+        "f": "2026-06-18",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 9.07,
+        "r": 1.0,
+        "i": 2634.0
+      },
+      {
+        "f": "2026-06-19",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 29.65,
+        "r": null,
+        "i": 6187.0
+      },
+      {
+        "f": "2026-06-19",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 8.59,
+        "r": 1.0,
+        "i": 1002.0
+      },
+      {
+        "f": "2026-06-19",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.23,
+        "r": 295.0,
+        "i": 5356.0
+      },
+      {
+        "f": "2026-06-19",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.09,
+        "r": null,
+        "i": 29.0
+      },
+      {
+        "f": "2026-06-19",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.63,
+        "r": 6.0,
+        "i": 2392.0
+      },
+      {
+        "f": "2026-06-20",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 27.44,
+        "r": null,
+        "i": 5070.0
+      },
+      {
+        "f": "2026-06-20",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.76,
+        "r": 1.0,
+        "i": 1239.0
+      },
+      {
+        "f": "2026-06-20",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.47,
+        "r": 332.0,
+        "i": 9448.0
+      },
+      {
+        "f": "2026-06-20",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.06,
+        "r": null,
+        "i": 21.0
+      },
+      {
+        "f": "2026-06-20",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.55,
+        "r": 2.0,
+        "i": 2835.0
+      },
+      {
+        "f": "2026-06-21",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 33.09,
+        "r": null,
+        "i": 5783.0
+      },
+      {
+        "f": "2026-06-21",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 12.39,
+        "r": 2.0,
+        "i": 1502.0
+      },
+      {
+        "f": "2026-06-21",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.22,
+        "r": 317.0,
+        "i": 13121.0
+      },
+      {
+        "f": "2026-06-21",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.07,
+        "r": null,
+        "i": 37.0
+      },
+      {
+        "f": "2026-06-21",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 12.33,
+        "r": 6.0,
+        "i": 3412.0
+      },
+      {
+        "f": "2026-06-22",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 33.01,
+        "r": null,
+        "i": 6172.0
+      },
+      {
+        "f": "2026-06-22",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 7.73,
+        "r": null,
+        "i": 680.0
+      },
+      {
+        "f": "2026-06-22",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.75,
+        "r": 272.0,
+        "i": 10255.0
+      },
+      {
+        "f": "2026-06-22",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.27,
+        "r": null,
+        "i": 79.0
+      },
+      {
+        "f": "2026-06-22",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 20.43,
+        "r": 14.0,
+        "i": 6410.0
+      },
+      {
+        "f": "2026-06-23",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 30.57,
+        "r": null,
+        "i": 5886.0
+      },
+      {
+        "f": "2026-06-23",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.46,
+        "r": 2.0,
+        "i": 523.0
+      },
+      {
+        "f": "2026-06-23",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.81,
+        "r": 277.0,
+        "i": 7078.0
+      },
+      {
+        "f": "2026-06-23",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.23,
+        "r": null,
+        "i": 58.0
+      },
+      {
+        "f": "2026-06-23",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 14.47,
+        "r": 10.0,
+        "i": 3735.0
+      },
+      {
+        "f": "2026-06-24",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 29.07,
+        "r": null,
+        "i": 5022.0
+      },
+      {
+        "f": "2026-06-24",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.76,
+        "r": 1.0,
+        "i": 758.0
+      },
+      {
+        "f": "2026-06-24",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.9,
+        "r": 242.0,
+        "i": 5375.0
+      },
+      {
+        "f": "2026-06-24",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.22,
+        "r": null,
+        "i": 75.0
+      },
+      {
+        "f": "2026-06-24",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 17.09,
+        "r": 6.0,
+        "i": 5101.0
+      },
+      {
+        "f": "2026-06-25",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 29.69,
+        "r": null,
+        "i": 4825.0
+      },
+      {
+        "f": "2026-06-25",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.54,
+        "r": 5.0,
+        "i": 1462.0
+      },
+      {
+        "f": "2026-06-25",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.87,
+        "r": 305.0,
+        "i": 14335.0
+      },
+      {
+        "f": "2026-06-25",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.34,
+        "r": null,
+        "i": 36.0
+      },
+      {
+        "f": "2026-06-25",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.78,
+        "r": 2.0,
+        "i": 3354.0
+      },
+      {
+        "f": "2026-06-26",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 28.84,
+        "r": null,
+        "i": 4383.0
+      },
+      {
+        "f": "2026-06-26",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 9.78,
+        "r": 3.0,
+        "i": 1070.0
+      },
+      {
+        "f": "2026-06-26",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.07,
+        "r": 266.0,
+        "i": 6125.0
+      },
+      {
+        "f": "2026-06-26",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.08,
+        "r": null,
+        "i": 24.0
+      },
+      {
+        "f": "2026-06-26",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.12,
+        "r": 3.0,
+        "i": 1823.0
+      },
+      {
+        "f": "2026-06-27",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 25.67,
+        "r": null,
+        "i": 4557.0
+      },
+      {
+        "f": "2026-06-27",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 8.75,
+        "r": 3.0,
+        "i": 1042.0
+      },
+      {
+        "f": "2026-06-27",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.32,
+        "r": 317.0,
+        "i": 14652.0
+      },
+      {
+        "f": "2026-06-27",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.06,
+        "r": null,
+        "i": 34.0
+      },
+      {
+        "f": "2026-06-27",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.54,
+        "r": 2.0,
+        "i": 2570.0
+      },
+      {
+        "f": "2026-06-28",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.04,
+        "r": null,
+        "i": 6371.0
+      },
+      {
+        "f": "2026-06-28",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 13.78,
+        "r": 2.0,
+        "i": 1447.0
+      },
+      {
+        "f": "2026-06-28",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.94,
+        "r": 298.0,
+        "i": 10878.0
+      },
+      {
+        "f": "2026-06-28",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.16,
+        "r": null,
+        "i": 70.0
+      },
+      {
+        "f": "2026-06-28",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.79,
+        "r": 2.0,
+        "i": 4334.0
+      },
+      {
+        "f": "2026-06-29",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 33.11,
+        "r": null,
+        "i": 6406.0
+      },
+      {
+        "f": "2026-06-29",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.56,
+        "r": 1.0,
+        "i": 1226.0
+      },
+      {
+        "f": "2026-06-29",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.17,
+        "r": 305.0,
+        "i": 8363.0
+      },
+      {
+        "f": "2026-06-29",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.18,
+        "r": null,
+        "i": 55.0
+      },
+      {
+        "f": "2026-06-29",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.6,
+        "r": 12.0,
+        "i": 3968.0
+      },
+      {
+        "f": "2026-06-30",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.35,
+        "r": null,
+        "i": 7255.0
+      },
+      {
+        "f": "2026-06-30",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 16.85,
+        "r": null,
+        "i": 2458.0
+      },
+      {
+        "f": "2026-06-30",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.33,
+        "r": 267.0,
+        "i": 4688.0
+      },
+      {
+        "f": "2026-06-30",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.18,
+        "r": null,
+        "i": 73.0
+      },
+      {
+        "f": "2026-06-30",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 13.94,
+        "r": 16.0,
+        "i": 5047.0
+      },
+      {
+        "f": "2026-07-01",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 27.45,
+        "r": null,
+        "i": 6196.0
+      },
+      {
+        "f": "2026-07-01",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 11.61,
+        "r": 6.0,
+        "i": 2194.0
+      },
+      {
+        "f": "2026-07-01",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.49,
+        "r": 318.0,
+        "i": 5601.0
+      },
+      {
+        "f": "2026-07-01",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.17,
+        "r": null,
+        "i": 76.0
+      },
+      {
+        "f": "2026-07-01",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.39,
+        "r": 15.0,
+        "i": 5288.0
+      },
+      {
+        "f": "2026-07-02",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.43,
+        "r": null,
+        "i": 6744.0
+      },
+      {
+        "f": "2026-07-02",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 10.49,
+        "r": 1.0,
+        "i": 2678.0
+      },
+      {
+        "f": "2026-07-02",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.76,
+        "r": 301.0,
+        "i": 4750.0
+      },
+      {
+        "f": "2026-07-02",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.06,
+        "r": null,
+        "i": 34.0
+      },
+      {
+        "f": "2026-07-02",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 6.43,
+        "r": 5.0,
+        "i": 2685.0
+      },
+      {
+        "f": "2026-07-03",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.54,
+        "r": null,
+        "i": 6110.0
+      },
+      {
+        "f": "2026-07-03",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 7.17,
+        "r": 1.0,
+        "i": 1683.0
+      },
+      {
+        "f": "2026-07-03",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.04,
+        "r": 328.0,
+        "i": 8434.0
+      },
+      {
+        "f": "2026-07-03",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.1,
+        "r": null,
+        "i": 55.0
+      },
+      {
+        "f": "2026-07-03",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 7.33,
+        "r": 7.0,
+        "i": 3474.0
+      },
+      {
+        "f": "2026-07-04",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 27.83,
+        "r": null,
+        "i": 4567.0
+      },
+      {
+        "f": "2026-07-04",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.38,
+        "r": 2.0,
+        "i": 1193.0
+      },
+      {
+        "f": "2026-07-04",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.22,
+        "r": 336.0,
+        "i": 5913.0
+      },
+      {
+        "f": "2026-07-04",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.1,
+        "r": null,
+        "i": 31.0
+      },
+      {
+        "f": "2026-07-04",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 6.57,
+        "r": 11.0,
+        "i": 2872.0
+      },
+      {
+        "f": "2026-07-05",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 37.15,
+        "r": null,
+        "i": 6415.0
+      },
+      {
+        "f": "2026-07-05",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.87,
+        "r": 1.0,
+        "i": 1663.0
+      },
+      {
+        "f": "2026-07-05",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.33,
+        "r": 455.0,
+        "i": 21038.0
+      },
+      {
+        "f": "2026-07-05",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.12,
+        "r": null,
+        "i": 71.0
+      },
+      {
+        "f": "2026-07-05",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.45,
+        "r": 10.0,
+        "i": 4708.0
+      },
+      {
+        "f": "2026-07-06",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 37.09,
+        "r": null,
+        "i": 7398.0
+      },
+      {
+        "f": "2026-07-06",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.85,
+        "r": 1.0,
+        "i": 1175.0
+      },
+      {
+        "f": "2026-07-06",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.98,
+        "r": 323.0,
+        "i": 7021.0
+      },
+      {
+        "f": "2026-07-06",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.06,
+        "r": null,
+        "i": 50.0
+      },
+      {
+        "f": "2026-07-06",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.63,
+        "r": 9.0,
+        "i": 4235.0
+      },
+      {
+        "f": "2026-07-07",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 6.88,
+        "r": null,
+        "i": 2072.0
+      },
+      {
+        "f": "2026-07-07",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.61,
+        "r": null,
+        "i": 101.0
+      },
+      {
+        "f": "2026-07-07",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 1.04,
+        "r": 62.0,
+        "i": 1572.0
+      },
+      {
+        "f": "2026-07-07",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0,
+        "r": null,
+        "i": 1.0
+      },
+      {
+        "f": "2026-07-07",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.52,
+        "r": 1.0,
+        "i": 205.0
+      },
+      {
+        "f": "2026-07-08",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 44.0,
+        "r": null,
+        "i": 9298.0
+      },
+      {
+        "f": "2026-07-08",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.14,
+        "r": 1.0,
+        "i": 1012.0
+      },
+      {
+        "f": "2026-07-08",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.87,
+        "r": 346.0,
+        "i": 7601.0
+      },
+      {
+        "f": "2026-07-08",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.13,
+        "r": null,
+        "i": 78.0
+      },
+      {
+        "f": "2026-07-08",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 13.7,
+        "r": 15.0,
+        "i": 5188.0
+      },
+      {
+        "f": "2026-07-09",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 34.44,
+        "r": null,
+        "i": 6387.0
+      },
+      {
+        "f": "2026-07-09",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.8,
+        "r": 1.0,
+        "i": 1110.0
+      },
+      {
+        "f": "2026-07-09",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.91,
+        "r": 341.0,
+        "i": 6146.0
+      },
+      {
+        "f": "2026-07-09",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.16,
+        "r": null,
+        "i": 71.0
+      },
+      {
+        "f": "2026-07-09",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.21,
+        "r": 3.0,
+        "i": 4476.0
+      },
+      {
+        "f": "2026-07-10",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 43.43,
+        "r": null,
+        "i": 7329.0
+      },
+      {
+        "f": "2026-07-10",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 6.12,
+        "r": 2.0,
+        "i": 1191.0
+      },
+      {
+        "f": "2026-07-10",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.49,
+        "r": 363.0,
+        "i": 9537.0
+      },
+      {
+        "f": "2026-07-10",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.11,
+        "r": null,
+        "i": 52.0
+      },
+      {
+        "f": "2026-07-10",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.38,
+        "r": 12.0,
+        "i": 4590.0
+      },
+      {
+        "f": "2026-07-11",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 42.01,
+        "r": null,
+        "i": 6449.0
+      },
+      {
+        "f": "2026-07-11",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 6.55,
+        "r": 1.0,
+        "i": 1178.0
+      },
+      {
+        "f": "2026-07-11",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 6.09,
+        "r": 402.0,
+        "i": 8511.0
+      },
+      {
+        "f": "2026-07-11",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.05,
+        "r": null,
+        "i": 46.0
+      },
+      {
+        "f": "2026-07-11",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.46,
+        "r": 4.0,
+        "i": 3841.0
+      },
+      {
+        "f": "2026-07-12",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 40.09,
+        "r": null,
+        "i": 5112.0
+      },
+      {
+        "f": "2026-07-12",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 7.09,
+        "r": 3.0,
+        "i": 1280.0
+      },
+      {
+        "f": "2026-07-12",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.25,
+        "r": 468.0,
+        "i": 23234.0
+      },
+      {
+        "f": "2026-07-12",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.19,
+        "r": null,
+        "i": 56.0
+      },
+      {
+        "f": "2026-07-12",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 13.69,
+        "r": 15.0,
+        "i": 5109.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120245978928870783",
+        "n": "Campaña Qpaypro GT 2026 - Copia",
+        "p": "GT",
+        "k": "mixed",
+        "g": 12.16,
+        "r": null,
+        "i": 1887.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 17.74,
+        "r": 2.0,
+        "i": 4324.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.01,
+        "r": null,
+        "i": 1105.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.34,
+        "r": 426.0,
+        "i": 38598.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.05,
+        "r": null,
+        "i": 30.0
+      },
+      {
+        "f": "2026-07-13",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.5,
+        "r": 9.0,
+        "i": 4711.0
+      },
+      {
+        "f": "2026-07-14",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 35.13,
+        "r": 5.0,
+        "i": 8886.0
+      },
+      {
+        "f": "2026-07-14",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.66,
+        "r": 1.0,
+        "i": 1126.0
+      },
+      {
+        "f": "2026-07-14",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.78,
+        "r": 413.0,
+        "i": 59197.0
+      },
+      {
+        "f": "2026-07-14",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "GT",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 0.03,
+        "r": null,
+        "i": 14.0
+      },
+      {
+        "f": "2026-07-14",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.49,
+        "r": 6.0,
+        "i": 4493.0
+      },
+      {
+        "f": "2026-07-15",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 36.44,
+        "r": 13.0,
+        "i": 7075.0
+      },
+      {
+        "f": "2026-07-15",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.71,
+        "r": null,
+        "i": 1041.0
+      },
+      {
+        "f": "2026-07-15",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.95,
+        "r": 445.0,
+        "i": 56392.0
+      },
+      {
+        "f": "2026-07-15",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.36,
+        "r": 9.0,
+        "i": 4914.0
+      },
+      {
+        "f": "2026-07-16",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 34.96,
+        "r": 5.0,
+        "i": 4903.0
+      },
+      {
+        "f": "2026-07-16",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.43,
+        "r": 1.0,
+        "i": 883.0
+      },
+      {
+        "f": "2026-07-16",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.93,
+        "r": 478.0,
+        "i": 60389.0
+      },
+      {
+        "f": "2026-07-16",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.42,
+        "r": 9.0,
+        "i": 4514.0
+      },
+      {
+        "f": "2026-07-17",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 38.79,
+        "r": 4.0,
+        "i": 5479.0
+      },
+      {
+        "f": "2026-07-17",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.4,
+        "r": null,
+        "i": 1200.0
+      },
+      {
+        "f": "2026-07-17",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.77,
+        "r": 504.0,
+        "i": 60111.0
+      },
+      {
+        "f": "2026-07-17",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.49,
+        "r": 10.0,
+        "i": 3973.0
+      },
+      {
+        "f": "2026-07-18",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 29.92,
+        "r": 6.0,
+        "i": 4284.0
+      },
+      {
+        "f": "2026-07-18",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 3.66,
+        "r": null,
+        "i": 835.0
+      },
+      {
+        "f": "2026-07-18",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.86,
+        "r": 409.0,
+        "i": 47287.0
+      },
+      {
+        "f": "2026-07-18",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 5.77,
+        "r": 6.0,
+        "i": 2048.0
+      },
+      {
+        "f": "2026-07-19",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 37.38,
+        "r": 6.0,
+        "i": 5536.0
+      },
+      {
+        "f": "2026-07-19",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.8,
+        "r": 2.0,
+        "i": 1193.0
+      },
+      {
+        "f": "2026-07-19",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.28,
+        "r": 525.0,
+        "i": 66158.0
+      },
+      {
+        "f": "2026-07-19",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.84,
+        "r": 11.0,
+        "i": 5460.0
+      },
+      {
+        "f": "2026-07-20",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 33.66,
+        "r": 5.0,
+        "i": 5763.0
+      },
+      {
+        "f": "2026-07-20",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.09,
+        "r": 1.0,
+        "i": 1297.0
+      },
+      {
+        "f": "2026-07-20",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.19,
+        "r": 530.0,
+        "i": 67750.0
+      },
+      {
+        "f": "2026-07-20",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 9.61,
+        "r": 18.0,
+        "i": 5109.0
+      },
+      {
+        "f": "2026-07-21",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 41.88,
+        "r": 8.0,
+        "i": 7245.0
+      },
+      {
+        "f": "2026-07-21",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.77,
+        "r": 1.0,
+        "i": 1237.0
+      },
+      {
+        "f": "2026-07-21",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.49,
+        "r": 287.0,
+        "i": 16932.0
+      },
+      {
+        "f": "2026-07-21",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.97,
+        "r": 13.0,
+        "i": 5554.0
+      },
+      {
+        "f": "2026-07-22",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 35.98,
+        "r": 8.0,
+        "i": 5486.0
+      },
+      {
+        "f": "2026-07-22",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.03,
+        "r": 2.0,
+        "i": 1117.0
+      },
+      {
+        "f": "2026-07-22",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.04,
+        "r": 310.0,
+        "i": 7145.0
+      },
+      {
+        "f": "2026-07-22",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 11.32,
+        "r": 18.0,
+        "i": 4809.0
+      },
+      {
+        "f": "2026-07-23",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 33.58,
+        "r": 8.0,
+        "i": 5158.0
+      },
+      {
+        "f": "2026-07-23",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.9,
+        "r": 1.0,
+        "i": 995.0
+      },
+      {
+        "f": "2026-07-23",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.98,
+        "r": 306.0,
+        "i": 8167.0
+      },
+      {
+        "f": "2026-07-23",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 9.69,
+        "r": 15.0,
+        "i": 4226.0
+      },
+      {
+        "f": "2026-07-24",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 33.44,
+        "r": 5.0,
+        "i": 5444.0
+      },
+      {
+        "f": "2026-07-24",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.37,
+        "r": 1.0,
+        "i": 1007.0
+      },
+      {
+        "f": "2026-07-24",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.19,
+        "r": 288.0,
+        "i": 10225.0
+      },
+      {
+        "f": "2026-07-24",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.64,
+        "r": 13.0,
+        "i": 4275.0
+      },
+      {
+        "f": "2026-07-25",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 29.05,
+        "r": 5.0,
+        "i": 3786.0
+      },
+      {
+        "f": "2026-07-25",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.96,
+        "r": 4.0,
+        "i": 954.0
+      },
+      {
+        "f": "2026-07-25",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.66,
+        "r": 288.0,
+        "i": 9635.0
+      },
+      {
+        "f": "2026-07-25",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 7.91,
+        "r": 3.0,
+        "i": 3334.0
+      },
+      {
+        "f": "2026-07-26",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 37.84,
+        "r": 8.0,
+        "i": 5541.0
+      },
+      {
+        "f": "2026-07-26",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.19,
+        "r": null,
+        "i": 908.0
+      },
+      {
+        "f": "2026-07-26",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.22,
+        "r": 502.0,
+        "i": 44340.0
+      },
+      {
+        "f": "2026-07-26",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 10.62,
+        "r": 13.0,
+        "i": 4429.0
+      },
+      {
+        "f": "2026-07-27",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 43.24,
+        "r": 9.0,
+        "i": 7449.0
+      },
+      {
+        "f": "2026-07-27",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.96,
+        "r": 1.0,
+        "i": 1296.0
+      },
+      {
+        "f": "2026-07-27",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.79,
+        "r": 417.0,
+        "i": 35432.0
+      },
+      {
+        "f": "2026-07-27",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 12.58,
+        "r": 15.0,
+        "i": 5545.0
+      },
+      {
+        "f": "2026-07-28",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 24.15,
+        "r": 4.0,
+        "i": 3169.0
+      },
+      {
+        "f": "2026-07-28",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 3.69,
+        "r": 3.0,
+        "i": 722.0
+      },
+      {
+        "f": "2026-07-28",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 2.51,
+        "r": 202.0,
+        "i": 28826.0
+      },
+      {
+        "f": "2026-07-28",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 7.29,
+        "r": 12.0,
+        "i": 3033.0
+      },
+      {
+        "f": "2026-07-29",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 34.95,
+        "r": 6.0,
+        "i": 6494.0
+      },
+      {
+        "f": "2026-07-29",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.19,
+        "r": 4.0,
+        "i": 1646.0
+      },
+      {
+        "f": "2026-07-29",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.46,
+        "r": 254.0,
+        "i": 22158.0
+      },
+      {
+        "f": "2026-07-29",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 12.18,
+        "r": 18.0,
+        "i": 5463.0
+      },
+      {
+        "f": "2026-07-30",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 31.11,
+        "r": 4.0,
+        "i": 6254.0
+      },
+      {
+        "f": "2026-07-30",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.63,
+        "r": 1.0,
+        "i": 1358.0
+      },
+      {
+        "f": "2026-07-30",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.87,
+        "r": 394.0,
+        "i": 65013.0
+      },
+      {
+        "f": "2026-07-30",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 8.85,
+        "r": 10.0,
+        "i": 4269.0
+      },
+      {
+        "f": "2026-07-31",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 34.22,
+        "r": 7.0,
+        "i": 5739.0
+      },
+      {
+        "f": "2026-07-31",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.88,
+        "r": null,
+        "i": 1318.0
+      },
+      {
+        "f": "2026-07-31",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 6.16,
+        "r": 403.0,
+        "i": 55744.0
+      },
+      {
+        "f": "2026-07-31",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 2.78,
+        "r": 1.0,
+        "i": 875.0
+      },
+      {
+        "f": "2026-08-01",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 39.49,
+        "r": 9.0,
+        "i": 8079.0
+      },
+      {
+        "f": "2026-08-01",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.4,
+        "r": 1.0,
+        "i": 1197.0
+      },
+      {
+        "f": "2026-08-01",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.91,
+        "r": 408.0,
+        "i": 34186.0
+      },
+      {
+        "f": "2026-08-02",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 40.49,
+        "r": 10.0,
+        "i": 8418.0
+      },
+      {
+        "f": "2026-08-02",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.38,
+        "r": null,
+        "i": 1179.0
+      },
+      {
+        "f": "2026-08-02",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.54,
+        "r": 474.0,
+        "i": 47271.0
+      },
+      {
+        "f": "2026-08-03",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 37.43,
+        "r": 11.0,
+        "i": 7403.0
+      },
+      {
+        "f": "2026-08-03",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.08,
+        "r": 2.0,
+        "i": 1039.0
+      },
+      {
+        "f": "2026-08-03",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.85,
+        "r": 446.0,
+        "i": 65886.0
+      },
+      {
+        "f": "2026-08-04",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 31.02,
+        "r": 12.0,
+        "i": 6197.0
+      },
+      {
+        "f": "2026-08-04",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.78,
+        "r": 3.0,
+        "i": 1351.0
+      },
+      {
+        "f": "2026-08-04",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.1,
+        "r": 293.0,
+        "i": 10967.0
+      },
+      {
+        "f": "2026-08-05",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 32.77,
+        "r": 5.0,
+        "i": 6648.0
+      },
+      {
+        "f": "2026-08-05",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.05,
+        "r": 1.0,
+        "i": 1339.0
+      },
+      {
+        "f": "2026-08-05",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.94,
+        "r": 306.0,
+        "i": 34543.0
+      },
+      {
+        "f": "2026-08-06",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 34.91,
+        "r": 5.0,
+        "i": 7044.0
+      },
+      {
+        "f": "2026-08-06",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.37,
+        "r": null,
+        "i": 1499.0
+      },
+      {
+        "f": "2026-08-06",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.48,
+        "r": 399.0,
+        "i": 32289.0
+      },
+      {
+        "f": "2026-08-07",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 32.54,
+        "r": 6.0,
+        "i": 7128.0
+      },
+      {
+        "f": "2026-08-07",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.29,
+        "r": null,
+        "i": 1073.0
+      },
+      {
+        "f": "2026-08-07",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.44,
+        "r": 407.0,
+        "i": 42587.0
+      },
+      {
+        "f": "2026-08-08",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 35.84,
+        "r": 11.0,
+        "i": 8462.0
+      },
+      {
+        "f": "2026-08-08",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.93,
+        "r": 1.0,
+        "i": 1235.0
+      },
+      {
+        "f": "2026-08-08",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.6,
+        "r": 351.0,
+        "i": 11687.0
+      },
+      {
+        "f": "2026-08-09",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 40.35,
+        "r": 6.0,
+        "i": 10995.0
+      },
+      {
+        "f": "2026-08-09",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 4.53,
+        "r": null,
+        "i": 1069.0
+      },
+      {
+        "f": "2026-08-09",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.35,
+        "r": 416.0,
+        "i": 51714.0
+      },
+      {
+        "f": "2026-08-10",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 37.99,
+        "r": 15.0,
+        "i": 12574.0
+      },
+      {
+        "f": "2026-08-10",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 5.32,
+        "r": null,
+        "i": 1590.0
+      },
+      {
+        "f": "2026-08-10",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.45,
+        "r": 394.0,
+        "i": 52458.0
+      },
+      {
+        "f": "2026-08-11",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 24.29,
+        "r": 11.0,
+        "i": 4568.0
+      },
+      {
+        "f": "2026-08-11",
+        "c": "120249292740850783",
+        "n": "Campaña Qpaypro Guatemala Nueva",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 17.85,
+        "r": 5.0,
+        "i": 5292.0
+      },
+      {
+        "f": "2026-08-11",
+        "c": "120245898463250783",
+        "n": "Campaña Qpayshop e Integraciones",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 3.02,
+        "r": 4.0,
+        "i": 777.0
+      },
+      {
+        "f": "2026-08-11",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.96,
+        "r": 367.0,
+        "i": 33508.0
+      },
+      {
+        "f": "2026-08-11",
+        "c": "120247696546180783",
+        "n": "SV | POS Físico | Leads Directos - Copia",
+        "p": "SV",
+        "k": "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+        "g": 3.23,
+        "r": 1.0,
+        "i": 1150.0
+      },
+      {
+        "f": "2026-08-12",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 31.12,
+        "r": 15.0,
+        "i": 5232.0
+      },
+      {
+        "f": "2026-08-12",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": null,
+        "i": 31.0
+      },
+      {
+        "f": "2026-08-12",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 16.99,
+        "r": 12.0,
+        "i": 3936.0
+      },
+      {
+        "f": "2026-08-12",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.35,
+        "r": 341.0,
+        "i": 17543.0
+      },
+      {
+        "f": "2026-08-13",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 25.95,
+        "r": 6.0,
+        "i": 3725.0
+      },
+      {
+        "f": "2026-08-13",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0,
+        "r": null,
+        "i": 11.0
+      },
+      {
+        "f": "2026-08-13",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 18.2,
+        "r": 17.0,
+        "i": 4412.0
+      },
+      {
+        "f": "2026-08-13",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.41,
+        "r": 281.0,
+        "i": 2809.0
+      },
+      {
+        "f": "2026-08-14",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 26.29,
+        "r": 11.0,
+        "i": 3692.0
+      },
+      {
+        "f": "2026-08-14",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.02,
+        "r": null,
+        "i": 4.0
+      },
+      {
+        "f": "2026-08-14",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 15.1,
+        "r": 6.0,
+        "i": 3044.0
+      },
+      {
+        "f": "2026-08-14",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.74,
+        "r": 301.0,
+        "i": 1339.0
+      },
+      {
+        "f": "2026-08-15",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 31.72,
+        "r": 15.0,
+        "i": 4869.0
+      },
+      {
+        "f": "2026-08-15",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.02,
+        "r": null,
+        "i": 20.0
+      },
+      {
+        "f": "2026-08-15",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 20.85,
+        "r": 9.0,
+        "i": 4256.0
+      },
+      {
+        "f": "2026-08-15",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.66,
+        "r": 379.0,
+        "i": 1615.0
+      },
+      {
+        "f": "2026-08-16",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 41.95,
+        "r": 23.0,
+        "i": 6736.0
+      },
+      {
+        "f": "2026-08-16",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.14,
+        "r": null,
+        "i": 28.0
+      },
+      {
+        "f": "2026-08-16",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 25.89,
+        "r": 16.0,
+        "i": 5070.0
+      },
+      {
+        "f": "2026-08-16",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.39,
+        "r": 405.0,
+        "i": 1099.0
+      },
+      {
+        "f": "2026-08-17",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 33.38,
+        "r": 10.0,
+        "i": 5975.0
+      },
+      {
+        "f": "2026-08-17",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.13,
+        "r": null,
+        "i": 31.0
+      },
+      {
+        "f": "2026-08-17",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 18.73,
+        "r": 11.0,
+        "i": 4427.0
+      },
+      {
+        "f": "2026-08-17",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 7.08,
+        "r": 1301.0,
+        "i": 3971.0
+      },
+      {
+        "f": "2026-08-18",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.33,
+        "r": 21.0,
+        "i": 4957.0
+      },
+      {
+        "f": "2026-08-18",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.2,
+        "r": null,
+        "i": 47.0
+      },
+      {
+        "f": "2026-08-18",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 19.85,
+        "r": 8.0,
+        "i": 4724.0
+      },
+      {
+        "f": "2026-08-18",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 5.45,
+        "r": 1402.0,
+        "i": 4872.0
+      },
+      {
+        "f": "2026-08-19",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 29.4,
+        "r": 18.0,
+        "i": 5793.0
+      },
+      {
+        "f": "2026-08-19",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.27,
+        "r": null,
+        "i": 59.0
+      },
+      {
+        "f": "2026-08-19",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 21.22,
+        "r": 8.0,
+        "i": 5865.0
+      },
+      {
+        "f": "2026-08-19",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.31,
+        "r": 1269.0,
+        "i": 4146.0
+      },
+      {
+        "f": "2026-08-20",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.06,
+        "r": 16.0,
+        "i": 5504.0
+      },
+      {
+        "f": "2026-08-20",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.23,
+        "r": null,
+        "i": 52.0
+      },
+      {
+        "f": "2026-08-20",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 19.71,
+        "r": 12.0,
+        "i": 4979.0
+      },
+      {
+        "f": "2026-08-20",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 1.79,
+        "r": 322.0,
+        "i": 4323.0
+      },
+      {
+        "f": "2026-08-21",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 24.19,
+        "r": 6.0,
+        "i": 4978.0
+      },
+      {
+        "f": "2026-08-21",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.15,
+        "r": null,
+        "i": 46.0
+      },
+      {
+        "f": "2026-08-21",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 16.5,
+        "r": 5.0,
+        "i": 4258.0
+      },
+      {
+        "f": "2026-08-21",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.41,
+        "r": 419.0,
+        "i": 17200.0
+      },
+      {
+        "f": "2026-08-22",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 6.98,
+        "r": 6.0,
+        "i": 1305.0
+      },
+      {
+        "f": "2026-08-22",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0,
+        "r": null,
+        "i": 10.0
+      },
+      {
+        "f": "2026-08-22",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 4.93,
+        "r": 1.0,
+        "i": 1015.0
+      },
+      {
+        "f": "2026-08-22",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 0.82,
+        "r": 90.0,
+        "i": 946.0
+      },
       {
         "f": "2026-08-26",
         "c": "120249908467400783",
@@ -528,11 +4308,11 @@
       }
     ],
     "rango_disponible": {
-      "desde": "2026-08-25",
+      "desde": "2026-06-01",
       "hasta": "2026-09-03"
     },
-    "dias_con_dato": 9,
-    "primer_dia": "2026-08-26",
+    "dias_con_dato": 92,
+    "primer_dia": "2026-06-01",
     "ultimo_dia": "2026-09-03",
     "mercados": [
       "GT",
@@ -540,13 +4320,23 @@
     ],
     "fuera_de_mercado": {
       "HN": {
-        "gasto": 0.02,
-        "impresiones": 10.0,
-        "dias": 6,
+        "gasto": 0.06,
+        "impresiones": 24.0,
+        "dias": 14,
         "campanas": [
           "Campaña Punto de Venta SV"
         ],
         "motivo": "Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con honduras descartalo, eso fue anos antes que se intento pero ahora ya no'."
+      },
+      "unknown": {
+        "gasto": 0.01,
+        "impresiones": 3.0,
+        "dias": 2,
+        "campanas": [
+          "Campaña Qpaypro GT 2026 - Copia",
+          "Plan Free Tráfico 2026"
+        ],
+        "motivo": "no está en los mercados declarados"
       }
     },
     "reconciliacion": {
@@ -665,7 +4455,69 @@
     "_el_indicador": "Cada fila trae el suyo. Hay que agrupar por indicador antes de sumar: 158 leads y 10,771 clics en enlace no se suman.",
     "_los_huecos": "`r` en null es un día con gasto y sin resultado atribuido. Para sumar aporta cero, y eso está medido, no supuesto: los días con número de Qpayshop dan 12, su total agregado exacto.",
     "_el_corte_por_mercado": "Cada pieza trae su país, así que GT y SV se recalculan dentro de la ventana igual que el total. Es un requisito de Mercadeo (2026-09-03), no un efecto lateral: sin país no se pueden aplicar las exclusiones y el total volvería a incluir Honduras.",
-    "_gasto_sin_resultado": "Un día con gasto y `r` en null cuenta su gasto. El agregado por periodo lo descartaba entero por no ser «utilizable», y así se perdían $1.30 reales. Esa regla sirve para una fila agregada; aplicada por día borraría inversión de verdad."
+    "_gasto_sin_resultado": "Un día con gasto y `r` en null cuenta su gasto. El agregado por periodo lo descartaba entero por no ser «utilizable», y así se perdían $1.30 reales. Esa regla sirve para una fila agregada; aplicada por día borraría inversión de verdad.",
+    "meses_historicos": {
+      "meses": [
+        {
+          "mes": "2026-06",
+          "entra": true,
+          "piezas": 160,
+          "dias_con_dato": 30,
+          "campanas_comparadas": 10,
+          "valores_comparados": 26,
+          "dias_quitados_por_solape": 0,
+          "indicadores": [
+            "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+            "actions:lead",
+            "actions:link_click",
+            "mixed"
+          ]
+        },
+        {
+          "mes": "2026-07",
+          "entra": true,
+          "piezas": 139,
+          "dias_con_dato": 31,
+          "campanas_comparadas": 6,
+          "valores_comparados": 16,
+          "dias_quitados_por_solape": 0,
+          "indicadores": [
+            "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+            "actions:lead",
+            "actions:link_click",
+            "mixed"
+          ]
+        },
+        {
+          "mes": "2026-08",
+          "entra": true,
+          "piezas": 79,
+          "dias_con_dato": 28,
+          "campanas_comparadas": 8,
+          "valores_comparados": 22,
+          "dias_quitados_por_solape": 24,
+          "indicadores": [
+            "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+            "actions:lead",
+            "actions:link_click"
+          ]
+        }
+      ],
+      "entran": [
+        "2026-06",
+        "2026-07",
+        "2026-08"
+      ],
+      "rechazados": [],
+      "piezas": 378,
+      "_que_es": "Meses anteriores de pauta, día por día. Sirven SOLO para que el filtro de fechas y las gráficas puedan mirar atrás. El análisis, la estrategia y las cartas son de la corrida de la semana y no se recalculan con estos días: es un requisito de Mercadeo (2026-09-07), no un efecto lateral.",
+      "_la_compuerta": "Cada mes se reconcilió contra SU PROPIO agregado, al centavo, por campaña y por país. Un mes que no cuadra no entra y queda declarado en `meses_rechazados`."
+    },
+    "ventana_de_la_corrida": {
+      "desde": "2026-08-25",
+      "hasta": "2026-09-03",
+      "_por_que": "El tablero abre en el periodo de la corrida, no en todo el dato disponible. El periodo del analisis se escribe SIEMPRE desde la corrida y nunca desde el rango de dato: son dos campos distintos y no se unifican (compromiso escrito con Mercadeo, 2026-09-07)."
+    }
   },
   "redes_sociales": {
     "detalle": {

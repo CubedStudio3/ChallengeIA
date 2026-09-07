@@ -2820,3 +2820,114 @@ aprobar, que el item **nazca** con su id en `users`, que cambiarlo después
 llame a `UpdateItem` con `newusers` y sin `delusers`, que reasignar mande al
 anterior en `delusers`, que un `ownerIds` distinto al pedido **no** se pinte
 como éxito, y que un item preexistente sin dueño no se declare asignado.
+
+---
+
+## ADR-050 · Tres meses de dato para mirar, sin mover una sola recomendación
+
+**Fecha:** 2026-09-07
+**Estado:** implementado, con compuerta por mes
+
+### Lo que pidió Mercadeo
+
+> «yo quiero más meses de dato para poder mirar, pero el análisis, la
+> estrategia y las recomendaciones tienen que seguir siendo de la semana. No
+> quiero recomendaciones sacadas de un promedio de tres meses.»
+
+Y, sobre el método:
+
+> «en cuatro pares como propusiste: cada mes se reconcilia contra sí mismo y si
+> uno no cuadra, ese mes no entra y se declara. Los otros sí.»
+
+### La separación no se construyó: ya estaba
+
+Vale la pena decirlo porque cambia lo que había que hacer. El tablero ya tenía
+dos caminos distintos:
+
+- **Resumen y Rendimiento** recalculan en el navegador sobre las PIEZAS de la
+  ventana → obedecen el filtro.
+- **Estrategia, cartas, tareas y recomendaciones** leen los agregados que
+  calculó Python sobre el periodo de la corrida → no se mueven con el filtro. Y
+  ya llevaban la leyenda que declara de qué periodo son.
+
+Así que cargar meses solo tenía que aportar **piezas**. Se comprobó midiendo:
+después de cargar los tres meses, `consolidados_detalle["actions:lead"]` sigue
+en 194 resultados, $591.42 y $3.0486 — **idéntico** al valor de antes.
+
+### La trampa que costó una corrida entera
+
+`limit`, sin especificar, **trunca en 200 filas: en silencio, sin cursor y sin
+aviso**. La consulta de los tres meses día por día devolvió exactamente 200
+filas cuando la de junio sola ya había devuelto 165. Con `limit=1000` la misma
+llamada devuelve 416.
+
+Con `object_ids` no hay paginación que lo delate: el esquema dice que devuelve
+todo en una respuesta, y lo cumple —solo que recortado—. **Un truncamiento se ve
+igual de completo que el dato completo.**
+
+Lo agarraron **las tres compuertas de reconciliación a la vez**. Es la primera
+vez en el proyecto que la compuerta detiene un dato real y no un sabotaje de
+prueba; hasta hoy era una precaución teórica.
+
+### Lo que cambió en el tablero, y por qué había que cambiarlo
+
+Con un solo periodo de pauta, «todo el dato» y «el periodo de la corrida» eran
+lo mismo, así que una ventana vacía era inofensiva. Con tres meses cargados
+dejan de serlo: abrir el tablero sin ventana sumaba junio a septiembre y lo
+mostraba como si fuera la semana, al lado de cartas calculadas sobre la semana.
+Es el mismo engaño del +105.6%, con el filtro del lado equivocado.
+
+- `ventana_de_la_corrida` en el dato, y el tablero **abre ahí**. El TOPE sigue
+  siendo todo el dato, porque es hasta donde se puede elegir.
+- `propio` —lo que enciende el ámbar— se mide contra esa ventana, **no** contra
+  el tope. Medirlo contra el tope encendería el ámbar al abrir, sin que nadie
+  toque nada: ámbar significa «alguien acotó esto» y tiene que seguir
+  significándolo.
+- «El periodo de la corrida» ahora **vacía** la ventana en vez de escribir el
+  periodo copiándolo de un texto. Dan lo mismo, y vaciar dice la verdad.
+- El solape se quita: la semana del 25 de agosto al 3 de septiembre pisa siete
+  días de agosto. Sin quitarlos ese gasto entra dos veces — no rompe nada, solo
+  infla, y es el descuadre más fácil de no ver.
+
+### Dos predicciones propias que resultaron falsas
+
+Se eligieron junio, julio y agosto sobre enero de 2025 con este argumento:
+«en esos meses el indicador ya es el mismo de hoy y no hay Honduras, así que no
+toca ninguna de las tres trampas». **Era falso en dos de tres.**
+
+- **El indicador NO es uno.** Junio trae cinco: `actions:lead`,
+  `actions:link_click`, `QualifiedLead`, `actions:leadgen.other` y **`mixed`**.
+  Y `mixed` no es marginal: son **$805.40 con cero resultados atribuidos**, el
+  mayor gasto del mes.
+- **Honduras tampoco desapareció.** $0.04 en 8 días de agosto.
+
+Lo que sostiene la decisión igual no es que la predicción fuera buena, es que
+la maquinaria ya agrupaba por indicador (ADR-013) y ya excluía Honduras
+declarando su gasto. La conclusión se salvó por el diseño, no por el
+pronóstico.
+
+### Un hallazgo que la prueba destapó
+
+`pruebas/pauta_filtro.js` daba por hecho que «este mercado no tiene
+`actions:lead` en esta ventana» equivale a «este mercado no tiene pauta». Con
+solo la semana de la corrida era cierto; con junio a agosto no: **el 17 de julio
+SV solo trae `QualifiedLead`**.
+
+El producto se portó bien —muestra «Leads calificados · 10 resultados», no
+inventa un costo por lead y avisa que los indicadores no se suman—. La que
+estaba mal era la prueba. Ahora comprueba lo que importa: que no aparezca un
+costo por lead donde no hay leads, y que el indicador que sí hay salga nombrado.
+
+### El peso, medido y no estimado
+
+Se estimó que tres meses llevarían el tablero de 656 KB a ~1.8 MB. **Medido:
+716 KB, de 672 — +44 KB, +6.5%.** El error fue de 2.4x, en la dirección segura.
+La estimación venía de extrapolar piezas por mes desde nueve días; lo real son
+~150 piezas por mes, no ~450. 414 piezas en total, 153 bytes cada una.
+
+### Compromisos escritos, a pedido de Mercadeo
+
+1. **La ventana por defecto al abrir es la semana de la corrida**, no todo el
+   dato disponible.
+2. **El periodo del análisis se escribe siempre desde la corrida**, nunca desde
+   el rango de dato disponible. Son dos campos distintos y no se unifican.

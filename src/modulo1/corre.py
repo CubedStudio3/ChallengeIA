@@ -28,6 +28,7 @@ from . import formato as FMT
 from . import redes as R
 from . import alcance as ALC
 from . import pauta_diaria as PDIA
+from . import pauta_historica as PHIST
 from . import recomendaciones as RECO
 from . import referencias as REF
 from .competencia import PanoramaCompetitivo, normaliza_adlibrary
@@ -204,6 +205,66 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     # al centavo, la corrida se detiene y no se analiza nada.
     pauta_dia = PDIA.arma(crudo, rango.desde.isoformat(), rango.hasta.isoformat(),
                           declarados=declarados, excluidos=excluidos)
+
+    # ── los meses anteriores, SOLO para que el filtro pueda mirar atras ─────
+    #
+    # Pedido literal de Mercadeo (2026-09-07): «yo quiero mas meses de dato
+    # para poder mirar, pero el analisis, la estrategia y las recomendaciones
+    # tienen que seguir siendo de la semana».
+    #
+    # Por eso se mezclan las PIEZAS y nada mas. `consolidados_*`, `por_mercado`
+    # y las cartas siguen calculandose sobre `campanas`, que es el agregado de
+    # ESTA corrida. Ensanchar el rango de la corrida habria movido todos esos
+    # numeros a la vez, que es justo lo que no se quiere.
+    #
+    # `excluir_periodo` quita los dias que la corrida ya trae: la semana del 25
+    # de agosto al 3 de septiembre pisa siete dias de agosto, y sin quitarlos
+    # ese gasto entraria dos veces. Es el descuadre mas facil de no ver, porque
+    # no rompe nada: solo infla.
+    hist = PHIST.arma(declarados=declarados, excluidos=excluidos,
+                      excluir_periodo=(rango.desde.isoformat(),
+                                       rango.hasta.isoformat()))
+    if hist["piezas"]:
+        pauta_dia["piezas"] = sorted(
+            pauta_dia["piezas"] + hist["piezas"],
+            key=lambda p: (p["f"], p["n"], p["p"]))
+        dias = sorted({p["f"] for p in pauta_dia["piezas"]})
+        tope = pauta_dia["rango_disponible"]
+        pauta_dia["rango_disponible"] = {
+            "desde": min(tope["desde"], dias[0]),
+            "hasta": max(tope["hasta"], dias[-1])}
+        pauta_dia["dias_con_dato"] = len(dias)
+        pauta_dia["primer_dia"] = dias[0]
+        pauta_dia["ultimo_dia"] = dias[-1]
+        pauta_dia["mercados"] = sorted({p["p"] for p in pauta_dia["piezas"]})
+        for pais, e in (hist.get("fuera_de_mercado") or {}).items():
+            acc = pauta_dia["fuera_de_mercado"].setdefault(
+                pais, {"gasto": 0.0, "impresiones": 0, "dias": 0,
+                       "campanas": [], "motivo": e.get("motivo", "")})
+            acc["gasto"] = round(acc["gasto"] + e.get("gasto", 0), 2)
+            acc["impresiones"] += e.get("impresiones", 0)
+            acc["dias"] += e.get("dias", 0)
+            acc["campanas"] = sorted(set(acc["campanas"]) | set(e.get("campanas") or []))
+    pauta_dia["meses_historicos"] = {
+        "meses": hist["meses"],
+        "entran": hist["meses_que_entran"],
+        "rechazados": hist["meses_rechazados"],
+        "piezas": len(hist["piezas"]),
+        "_que_es": hist["_que_es"],
+        "_la_compuerta": hist["_la_compuerta"],
+    }
+    # La ventana con la que ABRE el tablero. NO es el rango del dato: es el
+    # periodo de la corrida. Sin este campo, abrir el tablero con tres meses
+    # cargados sumaria junio a septiembre de una y lo mostraria como si fuera
+    # la semana, que es exactamente el engano que el filtro vino a quitar.
+    pauta_dia["ventana_de_la_corrida"] = {
+        "desde": rango.desde.isoformat(), "hasta": rango.hasta.isoformat(),
+        "_por_que": (
+            "El tablero abre en el periodo de la corrida, no en todo el dato "
+            "disponible. El periodo del analisis se escribe SIEMPRE desde la "
+            "corrida y nunca desde el rango de dato: son dos campos distintos "
+            "y no se unifican (compromiso escrito con Mercadeo, 2026-09-07)."),
+    }
 
     incoherentes = [c.etiqueta() for c in campanas if c.coherente() is False]
     paises_crudos = valores_de_desglose(campanas, "country")

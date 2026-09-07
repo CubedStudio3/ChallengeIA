@@ -878,3 +878,44 @@ tres contadores, porque ahora existe un registro con `estado` en null —el que
 guarda un responsable elegido antes de decidir—.
 
 `npm run prueba:boton` pasa de 30 a 57 comprobaciones. Detalle en ADR-049.
+
+### Sesión 5 · octava parte · tres meses para mirar
+
+Mercadeo pidió más meses de dato con una condición explícita: «el análisis, la
+estrategia y las recomendaciones tienen que seguir siendo de la semana. No
+quiero recomendaciones sacadas de un promedio de tres meses.» Y el método:
+cuatro pares, cada mes reconciliado contra sí mismo, y el mes que no cuadre no
+entra y se declara.
+
+Junio, julio y agosto de 2026, en pares agregado + desglose diario. Los tres
+cuadran al centavo: 26, 16 y 22 valores comparados. 402 piezas históricas, 414
+en total con la semana.
+
+**La trampa del día:** `limit` sin especificar trunca en 200 filas, en silencio
+y sin cursor. La consulta de los tres meses devolvió 200 cuando junio sola ya
+daba 165. Con `limit=1000`, 416. Con `object_ids` no hay paginación que avise: un
+truncamiento se ve igual de completo que el dato completo. **Lo agarraron las
+tres compuertas a la vez** — primera vez que detienen un dato real y no un
+sabotaje de prueba.
+
+Del lado del tablero hubo que cambiar algo que antes no importaba. Con un solo
+periodo de pauta, «todo el dato» y «la semana» eran lo mismo; con tres meses
+cargados, abrir sin ventana sumaba junio a septiembre y lo mostraba como si
+fuera la semana, al lado de cartas calculadas sobre la semana. Ahora el tablero
+abre en `ventana_de_la_corrida`, y el ámbar se mide contra esa ventana y no
+contra el tope del dato: ámbar significa «alguien acotó esto».
+
+**Dos predicciones propias resultaron falsas.** Se eligieron estos meses
+argumentando que «el indicador ya es el mismo de hoy y no hay Honduras». Junio
+trae cinco indicadores, y `mixed` son $805.40 con cero resultados atribuidos —el
+mayor gasto del mes—; agosto trae Honduras, $0.04 en 8 días. La decisión se
+sostiene igual, pero por el diseño —agrupar por indicador ya era obligatorio
+(ADR-013), Honduras ya se excluía declarando su gasto— no por el pronóstico.
+
+La prueba del filtro destapó un tercer hallazgo: daba por hecho que «este
+mercado no tiene `actions:lead`» equivalía a «no tiene pauta». El 17 de julio SV
+solo trae `QualifiedLead`. El producto se portó bien —nombra el indicador, no
+inventa costo por lead, avisa que no se suman—; la prueba estaba mal.
+
+El peso, medido: **716 KB, de 672. +6.5%.** Se había estimado 1.8 MB; el error
+fue de 2.4x en la dirección segura. Detalle en ADR-050.

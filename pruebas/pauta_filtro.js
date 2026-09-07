@@ -170,8 +170,32 @@ const money = x => x == null ? "—" :
       await mercado(m);
       const q = E[m]["actions:lead"];
       if (!q) {
-        ok("rendimiento " + m + " declara vacío",
-           await pg.evaluate(VACIA("rendimiento")), true);
+        /* OJO: «este mercado no tiene actions:lead en esta ventana» NO es lo
+           mismo que «este mercado no tiene pauta». Esta prueba las confundía,
+           y con solo la semana de la corrida daba igual: SV nunca tenía otro
+           indicador. Con junio a agosto cargados sí los tiene —el 17 de julio
+           SV solo trae `QualifiedLead`— y el bloque, correctamente, muestra
+           ese indicador con su nombre en vez de declararse vacío.
+
+           Así que se comprueba lo que de verdad importa: que no aparezca un
+           costo por LEAD donde no hay leads, y que el indicador que sí hay
+           salga nombrado. */
+        const otros = Object.keys(E[m]).length;
+        if (!otros) {
+          ok("rendimiento " + m + " declara vacío",
+             await pg.evaluate(VACIA("rendimiento")), true);
+          continue;
+        }
+        const txt = await pg.evaluate(`(() => {
+          const s = document.getElementById("rendimiento");
+          return s ? s.innerText : "";
+        })()`);
+        ok("rendimiento " + m + " NO inventa costo por lead",
+           !/Costo por lead/.test(txt), true);
+        ok("rendimiento " + m + " nombra el indicador que sí tiene",
+           /Leads calificados|Clics en el enlace|indicador/i.test(txt), true);
+        ok("rendimiento " + m + " avisa que no se suman",
+           /no se suman/.test(txt), true);
         continue;
       }
       const kv = await pg.evaluate(LEE("rendimiento", "Inversión"));
