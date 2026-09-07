@@ -811,3 +811,26 @@ Mercadeo: la licencia de Zoho One marca renovación el **5 de septiembre a las
 18:00 GT** —el día antes del cierre de desarrollo y cuatro antes del Demo Day— y
 la Rutina del lunes sigue sin conectores adjuntos, que es lo único que impide
 que la corrida semanal se haga sola.
+
+### Sesión 5 · quinta parte · el filtro terminado
+
+Mercadeo pidió el estado antes de tocar nada, y la revisión encontró que
+**ninguno** de los tres cambios al filtro estaba hecho —venían de otra
+conversación— y que había un texto **falso publicado**: el plegado decía que la
+pauta de Meta no obedecía la ventana, cierto por la mañana y falso desde la
+tarde del mismo día (ADR-047).
+
+Se corrigió el texto, se dejaron tres atajos —El periodo de la corrida ·
+Últimos 7 días · Últimos 30 días— y se conservó el límite que ya existía, que
+es más estricto que el piso de 2025 que se había pedido: solo se pueden elegir
+fechas dentro del rango con dato.
+
+Al implementarlo apareció un error de cuenta viejo: los atajos restaban los días
+sin contar que el rango es cerrado, así que «7 días» daba ocho. El de 30 lo
+tenía desde el principio.
+
+La corrida fresca ya estaba: 2026-08-25 → 2026-09-03, publicada. El síntoma que
+originó el pedido —«los últimos 7 días salen vacíos»— ya no ocurre: con el dato
+de hoy esa ventana da 143 leads a $3.01.
+
+Seis suites en verde. **Sin publicar**: Mercadeo pidió avisar antes.

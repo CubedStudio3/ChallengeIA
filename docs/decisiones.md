@@ -2590,3 +2590,97 @@ usa el doble de la prueba.
 **Una escritura que falla no es una escritura que no ocurrió.** Es la única
 parte de esto que no se puede resolver con cuidado al escribir el código: hay
 que diseñar el estado «no sé qué pasó» y darle una salida que no sea reintentar.
+
+---
+
+## ADR-047 · Tres atajos, y el sello que sobrevivió a su propia verdad
+
+**Fecha:** 2026-09-04
+**Estado:** aceptada
+
+### El texto que engañaba
+
+El plegado «Qué no filtra» del control de fechas decía:
+
+> «La **pauta de Meta**: la corrida la agrega por periodo y no trae desglose
+> diario, así que sus números son los del periodo … **sin importar esta
+> ventana**.»
+
+Era **cierto hasta la mañana del 2026-09-04 y falso desde esa misma tarde**,
+cuando la pauta pasó a recortarse día por día con su corte GT/SV (ADR-039 y la
+compuerta de reconciliación). Quedó publicado diciéndole al equipo que el filtro
+no hacía algo que sí hacía.
+
+Es el mismo defecto que el hueco de Zoho Analytics de esta misma tarde: **un
+sello que sobrevive a su propia verdad engaña más que no poner ninguno**, porque
+enseña a no creerle a los sellos. Y los dos aparecieron por lo mismo: el texto
+describía una limitación en prosa, a mano, en vez de derivarse de si la
+limitación existe.
+
+Ahora dice qué **sí** recalcula —pauta con su corte GT/SV, y orgánico con sus
+gráficas—, y en «Qué no filtra» quedan solo las dos que de verdad no se filtran:
+competencia y referencias, porque la Ad Library no acepta rango de fechas.
+
+### Los atajos, decididos con Mercadeo
+
+| Antes | Ahora |
+|---|---|
+| El periodo de la corrida | **El periodo de la corrida** |
+| Últimos 30 días | **Últimos 7 días** |
+| Últimos 90 días | **Últimos 30 días** |
+| Todo | — |
+
+- **«90 días» fuera:** con nueve días de dato no significaba nada.
+- **«Todo» fuera:** hacía lo mismo que «El periodo de la corrida» y sonaba a
+  otra cosa.
+- **«El periodo de la corrida» se queda** porque es el único que **limpia una
+  ventana manual**. Sin él, quien teclea una fecha corta no tiene vuelta. Estaba
+  fuera de la lista de tres que pidió Mercadeo y él mismo lo repuso al verlo.
+
+### El límite de fechas: lo que ya había, y por qué es mejor
+
+Mercadeo había pedido un piso fijo en 2025. Al medirlo resultó que lo que ya
+existía es **más estricto**: los campos llevan `min` y `max` en el rango del
+dato de la corrida, y una fecha fuera de ahí **se ignora**. Su decisión:
+dejarlo así. *«Prefiero que no se pueda elegir una fecha vacía a que se pueda y
+muestre nada.»*
+
+Y esa regla ahora está **escrita donde el equipo la lee**, no solo implementada:
+«Solo se pueden elegir fechas dentro del dato: … Una fecha fuera de ahí se
+ignora.»
+
+### El error de cuenta que apareció al hacerlo
+
+El atajo restaba los días **sin contar que el rango es cerrado**: los dos
+extremos cuentan. «Últimos 7 días» habría dado del 27 de agosto al 3 de
+septiembre, que son **ocho**. El de 30 días tenía el mismo error desde el
+principio y nadie lo notó porque nadie cuenta los días de una ventana de
+treinta.
+
+Corregido a `dias - 1`. Y el atajo **se recorta al tope del dato**: un atajo que
+pone una fecha fuera del rango deja el campo marcado como inválido por el
+navegador y mostrando algo que no se está calculando — exactamente el defecto
+que se arregló hoy en el camino del teclado. Con menos días de dato que los del
+atajo, «30 días» y «el periodo» dan lo mismo, y eso es correcto y se ve.
+
+### Lo que se sabe y no se toca todavía
+
+`min`/`max` sale de la **unión** del rango de la pauta y del rango del orgánico.
+Hoy coinciden. Cuando entren las exportaciones completas de Zoho Analytics el
+orgánico llega hasta 2020, y el tope se abriría hasta ahí: se podría elegir un
+2021 donde no hay pauta. Queda anotado para decidir entonces si el piso lo pone
+la pauta o la unión.
+
+### La guardia
+
+`npm run prueba:raton` comprueba ahora que los atajos sean **exactamente esos
+tres y en ese orden**, que ninguno diga «Todo» ni «90», que «Últimos 7 días» dé
+siete días de calendario y no ocho, y que «El periodo de la corrida» limpie la
+ventana. Si mañana vuelve un cuarto botón, la prueba lo dice.
+
+### La lección
+
+**Un texto escrito a mano sobre una limitación caduca cuando la limitación se
+levanta.** Dos veces el mismo día. Lo que no caduca es un texto que se deriva
+del estado; el que se escribe una vez hay que ir a buscarlo cuando el estado
+cambia, y nadie se acuerda.

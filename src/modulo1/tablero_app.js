@@ -1379,8 +1379,13 @@
       esc(R.hasta) + '" min="' + esc(R.tope.desde) + '" max="' +
       esc(R.tope.hasta) + '"></div>' +
       '<div class="flex gap-2 flex-wrap">' +
-      [["periodo", "El periodo de la corrida"], ["30", "Últimos 30 días"],
-       ["90", "Últimos 90 días"], ["todo", "Todo"]].map(function (a) {
+      /* Tres atajos, decididos con Mercadeo el 2026-09-04. Fuera «90 días»
+         —con nueve días de dato no significaba nada— y fuera «Todo», que
+         hacía lo mismo que «El periodo de la corrida» y sonaba a otra cosa.
+         «El periodo de la corrida» se queda porque es el único que LIMPIA una
+         ventana manual. */
+      [["periodo", "El periodo de la corrida"], ["7", "Últimos 7 días"],
+       ["30", "Últimos 30 días"]].map(function (a) {
         return '<button type="button" data-rango="' + a[0] + '" ' +
           'class="np-tipo">' + esc(a[1]) + "</button>";
       }).join("") + "</div>" +
@@ -1388,17 +1393,27 @@
       'min-w-[220px]">' +
       (R.propio ? "<b class=\"text-slate-600 font-semibold\">Ventana " +
                   "elegida.</b> " : "") +
-      "Recalcula el orgánico y sus gráficas." +
+      /* Este texto decía que la pauta de Meta NO obedecía la ventana. Era
+         cierto hasta el 2026-09-04 y falso desde ese mismo día, cuando la
+         pauta pasó a recortarse día por día con su corte GT/SV. Quedó
+         publicado diciéndole al equipo que el filtro no hacía algo que sí
+         hacía: un sello que sobrevive a su propia verdad engaña más que no
+         poner ninguno. */
+      "Recalcula la <b>pauta de Meta</b> —el total y el corte GT/SV— y el " +
+      "<b>orgánico</b> con sus gráficas." +
       '<details class="inline ml-1.5"><summary class="inline ' +
       'cursor-pointer font-semibold hover:text-slate-600">Qué no ' +
       'filtra</summary>' +
-      '<span class="block mt-2">La <b>pauta de Meta</b>: la corrida la agrega ' +
-      "por periodo y no trae desglose diario, así que sus números son los del " +
-      "periodo " + esc((D.corrida || {}).rango || "") + " sin importar esta " +
-      "ventana. Y la <b>competencia</b>: la Ad Library solo responde qué está " +
-      "activo hoy, no acepta rango de fechas. Los bloques que no cambian lo " +
-      "dicen en su cabecera. Dato disponible: " + esc(R.tope.desde) + " a " +
-      esc(R.tope.hasta) + ".</span></details></div></div>";
+      '<span class="block mt-2">La <b>competencia</b> y las ' +
+      "<b>referencias</b>: la Ad Library solo responde qué está activo hoy y " +
+      "no acepta rango de fechas, así que esos números son de hoy con " +
+      "cualquier ventana puesta. La <b>estrategia</b> y las <b>cartas</b> " +
+      "salen del análisis del periodo completo de la corrida (" +
+      esc((D.corrida || {}).rango || "") + ") y lo dicen en su leyenda. Los " +
+      "bloques que no cambian lo dicen en su cabecera. " +
+      "Solo se pueden elegir fechas <b>dentro del dato</b>: " +
+      esc(R.tope.desde) + " a " + esc(R.tope.hasta) +
+      ". Una fecha fuera de ahí se ignora.</span></details></div></div>";
   }
 
   function tarjetaAlcance(r) {
@@ -3294,15 +3309,25 @@
            dependencia estaba copiada, no compartida. */
         var Rp = rango(), tope = Rp && Rp.tope;
         if (!tope) return;
-        if (d.rango === "todo") { V.desde = null; V.hasta = null; }
-        else if (d.rango === "periodo") {
+        if (d.rango === "periodo") {
           var pr = String((D.corrida || {}).rango || "").split(" a ");
           if (pr.length === 2) { V.desde = pr[0].trim(); V.hasta = pr[1].trim(); }
         } else {
           var dias = parseInt(d.rango, 10);
+          /* `dias - 1` porque el rango es CERRADO: los dos extremos cuentan.
+             Restar 7 días del último con dato daba OCHO días —del 27 de agosto
+             al 3 de septiembre— y el botón decía siete. El de 30 tenía el
+             mismo error desde el principio y nadie lo notó porque nadie contó
+             los días de una ventana de treinta. */
           var fin = new Date(tope.hasta + "T00:00:00Z");
-          var ini = new Date(fin.getTime() - dias * 86400000);
-          V.desde = ini.toISOString().slice(0, 10);
+          var ini = new Date(fin.getTime() - (dias - 1) * 86400000);
+          var desde = ini.toISOString().slice(0, 10);
+          /* Y se recorta al dato. Un atajo que pone una fecha fuera del rango
+             deja el campo marcado como inválido por el navegador y mostrando
+             algo que no se está calculando, que es justo lo que se arregló
+             hoy en el otro camino. Con menos días de dato que los del atajo,
+             «30 días» y «el periodo» dan lo mismo: es correcto y se ve. */
+          V.desde = desde < tope.desde ? tope.desde : desde;
           V.hasta = tope.hasta;
         }
         guardarVista(); pintar(true); return;

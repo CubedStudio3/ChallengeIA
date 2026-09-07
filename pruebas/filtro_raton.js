@@ -161,14 +161,55 @@ async function teclea(pg, id, iso) {
   console.log("    apoyo: " + JSON.stringify(f.apoyo) +
               (recorta ? "" : "   (el periodo es todo el rango: no recorta)"));
 
-  console.log("\n═══ 4 · CLIC en «Todo»: no debe quedar ventana propia ═══");
-  await pg.click('[data-rango="todo"]');
+  /* «Todo» se quitó el 2026-09-04: hacía lo mismo que «El periodo de la
+     corrida» y sonaba a otra cosa. Ahora los atajos son tres, y lo que hay que
+     comprobar es que sean EXACTAMENTE esos tres: si mañana vuelve un cuarto
+     botón, esto lo dice. */
+  console.log("\n═══ 4 · los atajos son tres, y son los acordados ═══");
+  const atajos = await pg.evaluate(`(() => [...document.querySelectorAll(
+    "[data-rango]")].map(b => [b.getAttribute("data-rango"),
+                               b.textContent.trim()]))()`);
+  ok("hay tres atajos", String(atajos.length), "3");
+  ok("y son periodo · 7 · 30",
+     atajos.map(a => a[0]).join(","), "periodo,7,30");
+  console.log("    " + JSON.stringify(atajos.map(a => a[1])));
+  ok("ninguno dice «Todo» ni «90»",
+     /Todo|90/.test(atajos.map(a => a[1]).join(" ")), false);
+
+  /* «Últimos 7 días» cuenta desde el último día CON DATO, no desde hoy, y el
+     rango es cerrado: siete días son siete, no ocho. El esperado se calcula
+     aquí a mano y no con la misma cuenta del tablero. */
+  console.log("\n═══ 5 · CLIC en «Últimos 7 días» ═══");
+  await pg.click('[data-rango="7"]');
+  await pg.waitForTimeout(ESPERA);
+  f = await pg.evaluate(FOTO);
+  const sieteIni = (() => {
+    const d = new Date(ULTIMO_TOPE + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() - 6);
+    const x = d.toISOString().slice(0, 10);
+    return x < PRIMERO_TOPE ? PRIMERO_TOPE : x;   // recortado al dato
+  })();
+  ok("el campo Desde es el día correcto", f.desde, sieteIni);
+  ok("el campo Hasta es el último con dato", f.hasta, ULTIMO_TOPE);
+  ok("son 7 días de calendario, no 8",
+     String(Math.round((new Date(f.hasta) - new Date(f.desde)) / 86400000) + 1),
+     sieteIni === PRIMERO_TOPE ? String(Math.round(
+       (new Date(ULTIMO_TOPE) - new Date(PRIMERO_TOPE)) / 86400000) + 1) : "7");
+  const E7 = suma(sieteIni, ULTIMO_TOPE);
+  ok("inversión", f.inversion, money(E7.gasto));
+  ok("leads", f.leads, E7.resultados.toLocaleString("en-US"));
+  ok("costo", f.costo, money(Math.round(E7.costo * 100) / 100));
+
+  console.log("\n═══ 6 · «El periodo de la corrida» limpia la ventana ═══");
+  /* Es el único atajo que queda capaz de deshacer una ventana manual, y por eso
+     Mercadeo lo dejó: sin él, quien teclea una fecha corta no tiene vuelta. */
+  await pg.click('[data-rango="periodo"]');
   await pg.waitForTimeout(ESPERA);
   f = await pg.evaluate(FOTO);
   ok("inversión", f.inversion, money(E3.gasto));
   ok("sin «días en la ventana»", /días en la ventana/.test(f.apoyo || ""), false);
 
-  console.log("\n═══ 5 · el invariante: las cifras SIEMPRE cuadran con los campos ═══");
+  console.log("\n═══ 7 · el invariante: las cifras SIEMPRE cuadran con los campos ═══");
   /* A prueba de idioma y de orden de segmentos: se teclea, se lee lo que
      quedó en los campos, y se exige que las cifras sean las de ESE rango.
      Aquí es donde se veía el error: los campos decían una cosa y las cifras

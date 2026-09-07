@@ -156,8 +156,9 @@ function envuelve(frag) {
       await pag.waitForTimeout(700);
       await crudo("con ventana propia");
       await pag.evaluate(() => {
+        // «Todo» se quitó el 2026-09-04: «periodo» es el que limpia la ventana.
         const b = [...document.querySelectorAll("[data-rango]")]
-          .find(x => x.getAttribute("data-rango") === "todo");
+          .find(x => x.getAttribute("data-rango") === "periodo");
         if (b) b.click();
       });
       await pag.waitForTimeout(600);
