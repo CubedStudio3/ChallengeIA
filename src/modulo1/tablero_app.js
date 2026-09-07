@@ -1473,6 +1473,10 @@
           hasta: vi.hasta > r.hasta ? r.hasta : vi.hasta }
       : r;
     var desde = V.desde || pre.desde, hasta = V.hasta || pre.hasta;
+    /* El par tal como está elegido, SIN ordenar. Los campos muestran esto; el
+       cálculo usa el ordenado. Separarlos es lo que permite que un campo
+       muestre lo que la persona escribió sin que las cifras se vuelvan locas. */
+    var crudo = { desde: desde, hasta: hasta };
     /* Dos fechas definen una ventana sin importar en qué casilla quedó cada
        una. Se ordenan aquí, al leer, y no al escribir: así ningún tecleo
        intermedio puede corromper la otra casilla. El repintado devuelve los
@@ -1490,7 +1494,8 @@
        nadie toque nada: los sellos saldrian en ambar y los bloques dirian
        «ventana propia» de entrada. Ambar significa «alguien acoto esto», y
        tiene que seguir significando eso. */
-    return { desde: desde, hasta: hasta, tope: r, base: pre,
+    return { desde: desde, hasta: hasta, tope: r, base: pre, crudo: crudo,
+             invertido: crudo.desde > crudo.hasta,
              propio: desde !== pre.desde || hasta !== pre.hasta };
   }
 
@@ -1574,6 +1579,40 @@
     return { desde: (a - 1) + "-01-01", hasta: (b + 1) + "-12-31" };
   }
 
+  /* Un campo puede mostrar una fecha FUERA del dato: los límites nativos se
+     abrieron un año por lado para que se pueda teclear el año, así que el
+     navegador ya no la rechaza, y el `change` la ignora a propósito —si no,
+     teclear con un rango corto es imposible—.
+
+     Ignorarla en silencio dejaría el campo diciendo una cosa y las cifras
+     otra. Así que se dice, en el momento, junto al control. La reconciliación
+     del `focusout` sigue estando: esto es el aviso mientras se escribe. */
+  function avisaFuera() {
+    var n = document.getElementById("avisoFuera");
+    if (!n) return;
+    var R = rango();
+    if (!R || !R.tope) { n.textContent = ""; return; }
+    var malas = [];
+    [["fDesde", "Desde"], ["fHasta", "Hasta"]].forEach(function (par) {
+      var c = document.getElementById(par[0]);
+      var v = c && c.value;
+      if (v && (v < R.tope.desde || v > R.tope.hasta)) malas.push(par[1]);
+    });
+    if (malas.length) {
+      n.textContent =
+        (malas.length === 1 ? "«" + malas[0] + "» está" : "«Desde» y «Hasta» están") +
+        " fuera del dato: esa fecha se ignora, las cifras siguen la ventana " +
+        "anterior.";
+      return;
+    }
+    /* Un par invertido tampoco se calla. No se corrige solo —corregirlo movería
+       una fecha que nadie tocó— pero se dice qué ventana se está usando. */
+    n.textContent = R.invertido
+      ? "Las fechas están al revés: se está usando " +
+        rangoFecha(R.desde, R.hasta) + "."
+      : "";
+  }
+
   function controlFechas() {
     /* La compuerta es `rango()`, no `alcance()`: el control existe si hay ALGO
        que recortar —pauta diaria, orgánico, o los dos—. Preguntar por alcance
@@ -1626,7 +1665,8 @@
          fecha sin decir hasta dónde llega el dato es un callejón. Sale del
          dato (`R.tope`), nunca escrito a mano: cambia con cada corrida. */
       "Dato disponible: <b>" + esc(rangoFecha(R.tope.desde, R.tope.hasta)) +
-      "</b>.</div></div>";
+      '</b>.<span id="avisoFuera" class="block mt-1 text-amber-700 ' +
+      'font-semibold"></span></div></div>';
   }
 
   function tarjetaAlcance(r) {
@@ -3393,7 +3433,23 @@
         if (tn) {
           ["fDesde", "fHasta"].forEach(function (id) {
             var n = vivo.querySelector("#" + id);
-            if (n) { n.min = tn.desde; n.max = tn.hasta; }
+            if (!n) return;
+            n.min = tn.desde; n.max = tn.hasta;
+            /* El campo que NO se está tecleando SÍ se refresca desde la
+               ventana aplicada. Preservar el control entero dejaba al otro
+               campo congelado: se teclea «Desde», se pasa a «Hasta», y «Desde»
+               se quedaba mostrando la ventana anterior mientras las cifras ya
+               eran otras. Los campos y las cifras diciendo cosas distintas es
+               exactamente lo que este filtro vino a quitar. */
+            if (id !== idFoco) {
+              /* El valor CRUDO, no el ordenado: si el par quedó invertido, el
+                 campo tiene que mostrar lo que se eligió, no lo que `rango()`
+                 reordenó para calcular. Poner el ordenado movía una fecha que
+                 nadie tocó. La inversión se avisa aparte. */
+              var cr = Rv.crudo || Rv;
+              var v = id === "fDesde" ? cr.desde : cr.hasta;
+              if (v && n.value !== v) n.value = v;
+            }
           });
         }
         /* Y se le devuelve el foco: reinsertar no lo restituye, y sin foco el
@@ -3422,6 +3478,7 @@
       }
     }
     repintando = false;
+    avisaFuera();
   }
 
   function observa() {
@@ -3740,6 +3797,7 @@
            ningún estado intermedio que romper. */
         if (s.id === "fDesde") V.desde = v; else V.hasta = v;
         guardarVista();
+        avisaFuera();
         /* NO se repinta de una. Un input[type=date] que ya tiene valor dispara
            `change` en CADA segmento: al teclear el mes, el valor ya es una
            fecha válida y el evento sale. Y `pintar()` reescribe todo con

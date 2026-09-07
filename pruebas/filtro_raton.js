@@ -260,6 +260,22 @@ async function teclea(pg, id, iso) {
     await teclea(pg, "fHasta", iso);
     await pg.waitForTimeout(ESPERA);
     f = await pg.evaluate(FOTO);
+    /* Una fecha FUERA del dato ya no la rechaza el navegador —los límites
+       nativos se abrieron para que se pueda teclear el año— así que el campo
+       la muestra y el `change` la ignora. Eso no puede quedar mudo: el control
+       lo dice mientras se escribe, y aquí se exige que lo diga. Comparar
+       cifras contra un campo que la página declara ignorado no tendría
+       sentido. */
+    if (iso < PRIMERO_TOPE || iso > ULTIMO_TOPE) {
+      const av = await pg.evaluate(`(() => {
+        const n = document.getElementById("avisoFuera");
+        return n ? n.textContent.trim() : "";
+      })()`);
+      ok("avisa que la fecha está fuera del dato",
+         /fuera del dato/.test(av), true);
+      ok("y dice que se ignora", /se ignora/.test(av), true);
+      continue;
+    }
     // La verdad se calcula sobre lo que los CAMPOS muestran, no sobre lo tecleado.
     const dias = PIEZAS.filter(p => p.f >= f.desde && p.f <= f.hasta);
     const lead = dias.filter(p => p.k === "actions:lead");
