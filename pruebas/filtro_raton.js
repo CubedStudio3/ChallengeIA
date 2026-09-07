@@ -23,13 +23,39 @@ const fs = require("fs");
 
 const ARCHIVO = process.argv[2] ||
   "/home/user/ChallengeIA/salidas/tablero-mesa-creativa.html";
-const ESPERADO = JSON.parse(fs.readFileSync("/tmp/kpi/esperado.json", "utf8"));
-const PIEZAS = ESPERADO.__piezas || [];
+/* Las piezas salen del RESULTADO DE LA CORRIDA, en el repositorio.
+
+   Antes salían de `/tmp/kpi/esperado.json`, un archivo fuera del repositorio
+   escrito a mano el 4 de septiembre. Al cargar junio, julio y agosto quedó
+   viejo —36 piezas del 26 de agosto al 3 de septiembre— y con él todas las
+   fechas que esta prueba deriva: PRIMERO, ULTIMO, MEDIO y las sumas. Reportó
+   un fallo que era suyo.
+
+   Es EXACTAMENTE la trampa que ya se había arreglado para `prueba:filtro`
+   creando `pruebas/esperado_pauta.py` dentro del repositorio; esta prueba
+   se quedó con el fixture de /tmp y volvió a caer en lo mismo. Un esperado
+   que vive fuera del repositorio no se regenera con el dato: caduca en
+   silencio y después acusa al producto. */
+const CORRIDA = process.argv[3] ||
+  "/home/user/ChallengeIA/data/historico/2026-09-04_25ago_a_03sep/analisis/resultado.json";
+const RES = JSON.parse(fs.readFileSync(CORRIDA, "utf8"));
+const PIEZAS = ((RES.pauta_diaria || {}).piezas) || [];
+if (!PIEZAS.length) {
+  console.error("La corrida no trae piezas de pauta diaria: " + CORRIDA);
+  process.exit(1);
+}
 /* Las ventanas se DERIVAN de las piezas de esta corrida. Escritas a mano,
    caducaban en cuanto el periodo cambiaba: la corrida del 4 de septiembre las
    recortaba todas al tope y la prueba reportaba doce fallos que eran suyos. */
 const DIAS = [...new Set(PIEZAS.map(p => p.f))].sort();
 const PRIMERO = DIAS[0], ULTIMO = DIAS[DIAS.length - 1];
+/* La VENTANA DE LA CORRIDA no es el primer y el último día con dato: desde que
+   hay meses históricos cargados (ADR-050) el dato empieza en junio y la corrida
+   es la semana. El botón «El periodo de la corrida» lleva a ESTA ventana, no al
+   tope del dato, así que la prueba tiene que compararla contra ella. */
+const VC = (RES.pauta_diaria || {}).ventana_de_la_corrida || null;
+const CORR_INI = VC ? VC.desde : PRIMERO;
+const CORR_FIN = VC ? VC.hasta : ULTIMO;
 const MEDIO = DIAS[Math.floor(DIAS.length / 2)];
 const FUERA = (Number(PRIMERO.slice(0, 4)) - 1) + PRIMERO.slice(4);  // un año antes
 const suma = (a, b, m) => {
@@ -148,7 +174,7 @@ async function teclea(pg, id, iso) {
   await pg.click('[data-rango="periodo"]');
   await pg.waitForTimeout(ESPERA);
   f = await pg.evaluate(FOTO);
-  const E3 = suma(PRIMERO, ULTIMO);
+  const E3 = suma(CORR_INI, CORR_FIN);
   ok("inversión", f.inversion, money(E3.gasto));
   /* «días en la ventana» solo debe salir si el periodo de la corrida RECORTA
      algo. Cuando el rango disponible es exactamente el periodo —una corrida sin
@@ -207,7 +233,16 @@ async function teclea(pg, id, iso) {
   await pg.waitForTimeout(ESPERA);
   f = await pg.evaluate(FOTO);
   ok("inversión", f.inversion, money(E3.gasto));
-  ok("sin «días en la ventana»", /días en la ventana/.test(f.apoyo || ""), false);
+  ok("los campos vuelven al periodo de la corrida",
+     f.desde + ".." + f.hasta, CORR_INI + ".." + CORR_FIN);
+  /* El rótulo «N días en la ventana» sale si esta vista es más ANGOSTA que el
+     dato disponible, que con tres meses cargados es cierto incluso mirando la
+     semana. Antes esta prueba pedía su ausencia, y estaba bien mientras el
+     periodo de la corrida FUERA todo el dato. Lo que prueba que la ventana
+     manual se limpió es la línea de arriba: los campos vuelven al periodo. */
+  const angosta3 = CORR_INI !== PRIMERO_TOPE || CORR_FIN !== ULTIMO_TOPE;
+  ok("«días en la ventana» sigue la regla de siempre",
+     /\d+ días? en la ventana/.test(f.apoyo || ""), angosta3);
 
   console.log("\n═══ 7 · el invariante: las cifras SIEMPRE cuadran con los campos ═══");
   /* A prueba de idioma y de orden de segmentos: se teclea, se lee lo que
@@ -222,7 +257,7 @@ async function teclea(pg, id, iso) {
     await pg.waitForTimeout(ESPERA);
     f = await pg.evaluate(FOTO);
     // La verdad se calcula sobre lo que los CAMPOS muestran, no sobre lo tecleado.
-    const dias = ESPERADO.__piezas.filter(p => p.f >= f.desde && p.f <= f.hasta);
+    const dias = PIEZAS.filter(p => p.f >= f.desde && p.f <= f.hasta);
     const lead = dias.filter(p => p.k === "actions:lead");
     const gasto = Math.round(lead.reduce((a, p) => a + p.g, 0) * 100) / 100;
     const res = lead.reduce((a, p) => a + (p.r || 0), 0);

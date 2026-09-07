@@ -379,6 +379,18 @@ cometidos; no hay tiempo de repetirlos.
   día se valida contra el agregado ya verificado —por campaña Y por país, al
   centavo— en **cada corrida**, y si no cuadra la corrida se detiene.
 
+- **Un esperado que vive fuera del repositorio caduca en silencio y después
+  acusa al producto.** `prueba:raton` seguía leyendo `/tmp/kpi/esperado.json`,
+  escrito a mano el 4 de septiembre. Al cargar tres meses quedó viejo y con él
+  todas las fechas que la prueba deriva. **Es la SEGUNDA vez que pasa lo
+  mismo:** ya se había arreglado para `prueba:filtro` creando
+  `pruebas/esperado_pauta.py` dentro del repositorio, y esta prueba se quedó con
+  el fixture viejo. Ahora lee `analisis/resultado.json`.
+- **Dos señales parecidas no son la misma señal.** «Esta vista es más angosta
+  que el dato que hay» (`recortada`) y «alguien la acotó a mano» (`propio`)
+  coincidían mientras el único dato fuera el de la corrida. Al colapsarlas
+  desapareció el rótulo «N días en la ventana» justo cuando más hace falta:
+  mirando la semana con tres meses disponibles detrás.
 - **`limit` por defecto TRUNCA en 200 filas, en silencio y sin cursor.** La
   consulta de junio a agosto día por día devolvió 200 filas cuando junio solo ya
   daba 165; con `limit=1000` devuelve 416. Con `object_ids` no hay paginación

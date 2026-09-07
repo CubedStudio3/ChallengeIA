@@ -355,7 +355,16 @@
       indicadores: ind,
       principal: ind[k] || null,
       indicador_principal: k,
-      recortada: !!(R && R.propio),
+      /* `recortada` = «esta vista es mas angosta que el dato que hay», que NO
+         es lo mismo que `propio` = «alguien la acoto a mano». Antes coincidian
+         porque sin ventana se veia todo el dato; con los meses historicos
+         cargados dejan de coincidir, y las dos senales siguen siendo ciertas y
+         utiles por separado: el rotulo «N dias en la ventana» avisa que hay mas
+         dato detras, y el ambar avisa que alguien acoto. Colapsarlas quitaba el
+         rotulo justo cuando mas hace falta —mirando la semana con tres meses
+         disponibles—. Lo agarro prueba:raton. */
+      recortada: !!(R && R.tope &&
+                    (R.desde !== R.tope.desde || R.hasta !== R.tope.hasta)),
       vacia: !ps.length,
       filas: ps.length,
       dias: fs.length,
