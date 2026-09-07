@@ -210,12 +210,15 @@ async function teclea(pg, id, iso) {
   const atajos = await pg.evaluate(`(() => [...document.querySelectorAll(
     "[data-rango]")].map(b => [b.getAttribute("data-rango"),
                                b.textContent.trim()]))()`);
-  ok("hay tres atajos", String(atajos.length), "3");
-  ok("y son periodo · 7 · 30",
-     atajos.map(a => a[0]).join(","), "periodo,7,30");
+  ok("hay dos atajos", String(atajos.length), "2");
+  ok("y son 7 · 30", atajos.map(a => a[0]).join(","), "7,30");
   console.log("    " + JSON.stringify(atajos.map(a => a[1])));
-  ok("ninguno dice «Todo» ni «90»",
-     /Todo|90/.test(atajos.map(a => a[1]).join(" ")), false);
+  /* «El periodo de la corrida» se fue el 2026-09-07: lo que deshace una
+     ventana manual es borrar los campos, y eso además devuelve la vista
+     completa. Un botón que hace lo que ya hace la tecla de borrar es un botón
+     de más (ADR-051). */
+  ok("ninguno dice «Todo», «90» ni «periodo»",
+     /Todo|90|periodo/i.test(atajos.map(a => a.join(" ")).join(" ")), false);
 
   /* «Últimos 7 días» cuenta desde el último día CON DATO, no desde hoy, y el
      rango es cerrado: siete días son siete, no ocho. El esperado se calcula
