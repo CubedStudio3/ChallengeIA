@@ -473,16 +473,17 @@
 
      `que` ya no se usa: la linea no necesita sujeto ni verbo. Se acepta el
      argumento para no tocar las siete llamadas, y se ignora. */
-  function leyendaPeriodo() {
-    var per = (D.corrida || {}).rango || "";
-    if (!per) return "";
-    var R = rango();
-    var difiere = !!(R && R.propio);
-    return '<div class="text-[11.5px] mb-4 ' + (difiere
-        ? "text-amber-700 font-semibold" : "text-slate-400") + '">' +
-      (difiere ? "Ojo: el análisis es de " : "Análisis: ") +
-      esc(rangoTexto(per)) + (difiere ? ", no de tu ventana." : "") + "</div>";
-  }
+  /* `leyendaPeriodo()` se retiró el 2026-09-07. Declaraba de qué periodo eran
+     las cifras derivadas —estrategia, tareas, recomendaciones— y salía cuatro
+     veces en la página, una por sección.
+
+     Mercadeo pidió quitarlas todas. Lo que declaraban NO se pierde: la
+     cabecera dice «Reunión creativa · <periodo>» y ese texto no se mueve con
+     el filtro a propósito, así que el periodo del análisis sigue escrito una
+     vez en la página en vez de cuatro. Si algún día las cifras derivadas
+     empiezan a moverse con la ventana, esta declaración tiene que volver: era
+     la que evitaba leer una recomendación de agosto al lado de un KPI de
+     junio. */
 
   /* Una ventana puede no tocar ningún día de pauta. Eso NO es cero gasto: es
      que no hay dato ahí, y decirlo es la diferencia entre un hueco declarado y
@@ -607,15 +608,10 @@
       'text-slate-800 tracking-[-0.02em]">Hola, Merca</h1>' +
       '<p class="text-slate-400 mt-1.5 text-[13.5px] sm:text-[14px]">' +
       "Reunión creativa · " + esc(rangoTexto(c.rango || "")) + "</p></div>" +
+      /* El buscador se quitó el 2026-09-07 a pedido de Mercadeo. `V.busqueda`
+         y todo lo que filtra por ella siguen en pie: si mañana vuelve, vuelve
+         completo. Arrancar en cadena vacía deja los filtros inertes. */
       '<div class="flex items-center gap-3 flex-wrap">' +
-      '<div class="relative">' +
-      '<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300">' +
-      svg(ico.lupa, "w-[18px] h-[18px]") + "</span>" +
-      '<input id="buscar" type="search" value="' + esc(V.busqueda) + '" ' +
-      'aria-label="Buscar" placeholder="Buscar campaña, marca o tarea" ' +
-      'class="w-full sm:w-[280px] bg-white rounded-full pl-11 pr-4 py-3 ' +
-      'text-[13.5px] text-slate-700 placeholder:text-slate-300 outline-none ' +
-      'focus:ring-2 focus:ring-slate-200 tarjeta-sombra"></div>' +
       '<button type="button" id="bCsv" class="btn-oscuro">' +
       svg(ico.copiar, "w-4 h-4") + "Copiar para Sprint</button>" +
       '<button type="button" id="bDecisiones" class="btn-claro" ' +
@@ -1663,8 +1659,10 @@
       }).join("") + "</div>" +
       '<div class="text-[11.5px] text-slate-400 leading-snug flex-1 ' +
       'min-w-[160px]">' +
-      (R.propio ? "<b class=\"text-slate-600 font-semibold\">Ventana " +
-                  "elegida.</b> " : "") +
+      /* «Ventana elegida.» se quitó el 2026-09-07. No se pierde la señal: los
+         dos campos muestran la ventana, y el rótulo de la tarjeta grande la
+         repite —eso se arregló hoy mismo—. Decirlo una tercera vez en negrita
+         era ruido. */
       /* Este texto decía que la pauta de Meta NO obedecía la ventana. Era
          cierto hasta el 2026-09-04 y falso desde ese mismo día, cuando la
          pauta pasó a recortarse día por día con su corte GT/SV. Quedó
@@ -1923,7 +1921,7 @@
         recorta(d.mensajes_lista, "msg-" + k).map(function (m) {
           return barraCuota("«" + m.mensaje + "»",
             m.creativos + " creativos · " + m.dias_vivo + " d vivo · desde " +
-            m.desde, m.cuota, "--pastel-azul");
+            fecha(m.desde), m.cuota, "--pastel-azul");
         }).join("");
     }
 
@@ -1938,7 +1936,7 @@
             '<div class="min-w-0 flex-1">' +
             '<div class="text-[12.5px] font-semibold text-slate-800 truncate">' +
             "«" + esc(a.mensaje) + "»</div>" +
-            '<div class="text-[11px] text-slate-400">desde ' + esc(a.desde) +
+            '<div class="text-[11px] text-slate-400">desde ' + esc(fecha(a.desde)) +
             "</div></div>" +
             '<div class="text-[12.5px] font-bold text-slate-800 tabular-nums ' +
             'shrink-0">' + a.dias_vivo + " d</div>" +
@@ -2074,7 +2072,7 @@
       '<div class="divide-y divide-slate-50">' +
       lista.slice(0, 5).map(function (a) {
         return fila(a.rol === "referente" ? "REF" : "COM", "«" + a.mensaje + "»",
-          a.marca + " · desde " + a.desde, a.dias_vivo + " d", "vivo",
+          a.marca + " · desde " + fecha(a.desde), a.dias_vivo + " d", "vivo",
           a.rol === "referente" ? null : "ambar");
       }).join("") + "</div>" +
       '<p class="text-[11px] text-slate-400 mt-5 leading-relaxed">' +
@@ -2507,8 +2505,11 @@
       '<div class="grid gap-6 ' +
       '[grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))]">' +
       kpis + "</div>" +
-      rotulo("Pendientes") +
-      leyendaPeriodo("La lista de pendientes sale") + lista);
+      /* «Pendientes» se quitó entero el 2026-09-07 a pedido de Mercadeo, con
+         su leyenda de periodo. Las tareas de la corrida siguen en Estrategia,
+         que es donde se deciden; acá eran una segunda lista de lo mismo con
+         una advertencia encima. */
+      "");
   }
 
   /* La advertencia de que los indicadores no se suman, con los numeros del
@@ -2741,14 +2742,13 @@
     var lista, explica, sub = "";
     if (V.grupo === "referentes") {
       lista = todas.filter(function (b) { return b.rol === "referente"; });
-      explica = "Marcas que <b class=\"text-slate-600 font-semibold\">no disputan" +
-        "</b> nuestros mercados. Se miran para aprender.";
+      explica = "";
     } else {
       lista = todas.filter(function (b) {
         return b.rol === "competidor" &&
           (b.categorias || []).indexOf(V.categoria) >= 0;
       });
-      explica = "Marcas que pautan en nuestros mercados y disputan nuestro espacio.";
+      explica = "";
       sub = pastillas("categoria", [{ v: "software", n: "Software" },
                                     { v: "hardware", n: "Punto de venta" }],
                       V.categoria);
@@ -2852,7 +2852,7 @@
               : "Consulta " + esc(dos.mercado)) + " · " + dos.leidos +
             " anuncios" +
             (dos.muestra_completa ? "" : " de " + ent(dos.activos_declarados)) +
-            (recoFecha() ? " · " + esc(recoFecha()) : "") + "</div>"
+            (recoFecha() ? " · " + esc(fecha(recoFecha())) : "") + "</div>"
           : '<div class="text-[10.5px] font-bold tracking-wider ' +
             'text-slate-300 uppercase mt-5 mb-1">Lo que repite</div>' +
             '<div class="divide-y divide-slate-50">' + msgs + "</div>") +
@@ -2998,7 +2998,7 @@
             (V.verTodo.recs ? "Ver menos" : "Ver todo (" + recs.length + ")") +
             "</button>"
           : "") + "</div>" +
-        leyendaPeriodo("Las recomendaciones salen") +
+
 
         (recs.length
           ? '<div class="grid gap-6 mt-6 ' +
@@ -3323,8 +3323,6 @@
       (soloLectura ? " disabled" : "") + ">Aceptar todas</button>" +
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
-      leyendaPeriodo("Todo lo de esta sección —la estrategia, las tareas y las " +
-        "cartas de producción— sale") +
       selectorEstrategia() +
       nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
         "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +
