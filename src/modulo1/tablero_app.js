@@ -121,7 +121,8 @@
 
   var SECCIONES = [
     { id: "resumen", n: "Resumen", i: "cuadros" },
-    { id: "rendimiento", n: "Rendimiento", i: "grafico" },
+    { id: "rendimiento", n: "Pauta", i: "grafico" },
+    { id: "organico", n: "Orgánico", i: "corazon" },
     { id: "competencia", n: "Competencia", i: "objetivo" },
     { id: "referencias", n: "Referencias", i: "brujula" },
     { id: "estrategia", n: "Estrategia", i: "chispa" }
@@ -130,6 +131,7 @@
   var ico = {
     cuadros: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
     grafico: '<path d="M4 19V5M4 19h16M8 15l4-5 3 3 4-6"/>',
+    corazon: '<path d="M12 20s-7-4.4-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.6-7 9-7 9z"/>',
     objetivo: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
     brujula: '<circle cx="12" cy="12" r="8"/><path d="M15 9l-2.5 5.5L7 17l2.5-5.5z"/>',
     chispa: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>' +
@@ -1955,29 +1957,11 @@
             "No se guardó muestra suficiente para responderlo.") + "</p>";
     }
 
-    /* 4 · La lectura. Cada frase es la traducción de un umbral cruzado, y trae
-       su número al lado. Ninguna es una interpretación libre. */
-    if ((d.lectura || []).length) {
-      /* Las frases a la vista; su evidencia en el título del elemento y en un
-         pliegue. La lectura es lo accionable; el aparato que la sostiene se
-         consulta, no se lee de corrido. */
-      out += rotuloBloque("Lectura estratégica") +
-        '<ul class="space-y-2">' + d.lectura.map(function (l) {
-          return '<li class="text-[12.5px] text-slate-700 leading-relaxed"' +
-            (l.evidencia ? ' title="' + esc(l.evidencia) + '"' : "") + ">" +
-            esc(l.frase) + "</li>";
-        }).join("") + "</ul>" +
-        (d.lectura.some(function (l) { return l.evidencia; })
-          ? '<details class="mt-2"><summary class="text-[11.5px] ' +
-            'font-semibold text-slate-400 cursor-pointer ' +
-            'hover:text-slate-600">De dónde sale cada frase</summary>' +
-            '<ul class="mt-2 space-y-1 text-[10.5px] text-slate-400 font-mono ' +
-            'leading-relaxed list-disc pl-5">' +
-            d.lectura.filter(function (l) { return l.evidencia; })
-              .map(function (l) { return "<li>" + esc(l.evidencia) + "</li>"; })
-              .join("") + "</ul></details>"
-          : "");
-    }
+    /* «Lectura estratégica» se quitó de las tarjetas el 2026-09-07 a pedido de
+       Mercadeo. Las frases seguían en `resultado.json` —se pueden rastrear—
+       pero en la tarjeta eran un bloque de texto que competía con lo medible:
+       qué repite la marca, cuántos anuncios y cuántos días vivo. Eso es lo que
+       se mira en la reunión. */
     return out;
   }
 
@@ -2522,7 +2506,7 @@
   /* ── 2 · Rendimiento ─────────────────────────────────────────────────────── */
   function rendimiento() {
     var m = mercadoActivo(), ms = mercados();
-    if (!m) return seccion("rendimiento", "Pauta y orgánico", "Rendimiento", "", "",
+    if (!m) return seccion("rendimiento", "Meta Ads", "Pauta", "", "",
       nota("Sin datos por mercado en esta corrida."));
     var d = D.por_mercado[m] || {};
     /* La pauta del mercado activo, recalculada sobre la ventana. `d.principal`
@@ -2531,7 +2515,9 @@
     // Mismo cuidado que en resumen(): el respaldo es por falta de desglose, no
     // por ventana vacía.
     var p = PM ? PM.principal : d.principal;
-    var s = serieTotal(), se = s && s.crudo;
+    /* La serie semanal de orgánico se fue con la sección de Orgánico
+       (2026-09-07): acá ya no se usa y dejarla declarada invitaba a volver a
+       mezclar las dos fuentes. */
     var costoP = p ? (p.costo != null ? p.costo : p.costo_por_resultado) : null;
 
     var kpis = (PM && PM.vacia) ? "" : (p ? [
@@ -2589,46 +2575,6 @@
         cc != null && cc <= 2.6 ? "verde" : null);
     }).join("");
 
-    /* Cada serie va con DOS colores del mismo tono: el trazo (oscuro, para la
-       linea) y el pastel (para el area). Los dos salen de config/tema.json. */
-    var COL = ["var(--trazo-azul)", "var(--trazo-rosa)", "var(--trazo-verde)"];
-    var REL = ["var(--pastel-azul)", "var(--pastel-rosa)", "var(--pastel-verde)"];
-    var orden = ["facebook", "instagram", "youtube"];
-    var gInt = "", gVis = "";
-    if (se) {
-      gInt = grafico("gInt", {
-        titulo: "Interacciones por semana", semanas: se.semanas, area: true,
-        series: orden.filter(function (r) { return se.interacciones[r]; })
-          .map(function (r, i) {
-            return { nombre: RED[r] || r, valores: se.interacciones[r],
-                     color: COL[i], relleno: REL[i] };
-          }),
-      });
-      var conVistas = orden.filter(function (r) { return se.vistas[r]; });
-      gVis = conVistas.length ? grafico("gVis", {
-        titulo: "Vistas de video por semana", semanas: se.semanas, area: true,
-        series: conVistas.map(function (r) {
-          return { nombre: RED[r] || r, valores: se.vistas[r],
-                   color: COL[orden.indexOf(r)],
-                   relleno: REL[orden.indexOf(r)],
-                   patron: orden.indexOf(r) + 1 };
-        }),
-      }) : "";
-    }
-
-    var det = (D.redes_sociales || {}).detalle || {};
-    var redes = Object.keys(det).sort().map(function (n) {
-      var r = det[n];
-      if (r.silenciosa) {
-        return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
-          r.dias_de_silencio + " días sin publicar", "0", "publicaciones", "rojo");
-      }
-      return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
-        r.publicaciones + " publicaciones" +
-        (r.vistas != null ? " · " + ent(r.vistas) + " vistas" : ""),
-        ent(r.interacciones), "interacciones");
-    }).join("");
-
     /* El subtítulo dice de qué ventana son los números. Con ventana propia deja
        de ser «del periodo de la corrida», y decir el periodo viejo ahí sería
        justo el error que el filtro vino a arreglar. */
@@ -2637,7 +2583,7 @@
         " · " + PM.dias + (PM.dias === 1 ? " día con entrega" : " días con entrega")
       : "</b>, " + esc(rangoTexto((D.corrida || {}).rango || ""));
 
-    return seccion("rendimiento", "Pauta y orgánico", "Rendimiento",
+    return seccion("rendimiento", "Meta Ads", "Pauta",
       "Meta Ads en <b class=\"text-slate-600 font-semibold\">" + esc(m) +
       deQue + ".",
       pastillas("mercado", ms.map(function (x) {
@@ -2662,7 +2608,83 @@
         : '<p class="text-[13px] text-slate-400 py-2">Ninguna campaña del ' +
           "periodo coincide con la búsqueda.</p>") +
       '<p class="text-[11.5px] text-slate-400 mt-5" title="' + esc(noSeSuman(d)) +
-      '">Los indicadores no se suman entre campañas distintas.</p></div>' +
+      '">Los indicadores no se suman entre campañas distintas.</p></div>');
+  }
+
+  /* ── 2b · Orgánico ────────────────────────────────────────────────────────
+
+     Vivía dentro de Rendimiento, pegado a la pauta. Mercadeo lo pidió aparte el
+     2026-09-07: «en lugar que de pauta y organico esten juntos los necesito por
+     separado porque no se entiende cual es cual».
+
+     Y tenía razón por una razón de fondo, no de gusto: **los dos números no se
+     pueden sumar ni comparar**. La pauta trae leads y costo por lead, con su
+     corte GT/SV y obedeciendo el filtro de fechas. El orgánico trae
+     interacciones absolutas, SIN corte por país —una sola marca conectada— y
+     con una serie que es acumulada, no histórica. Tenerlos en la misma sección
+     invitaba justo a la operación que este proyecto no permite.
+
+     Comparten el azul de identidad a propósito: son las dos mitades de la
+     misma pregunta —cómo nos fue— medidas en dos fuentes distintas. */
+  /* Cada serie va con DOS colores del mismo tono: el trazo (oscuro, para la
+     linea) y el pastel (para el area). Los dos salen de config/tema.json. */
+  var COL_SERIE = ["var(--trazo-azul)", "var(--trazo-rosa)", "var(--trazo-verde)"];
+  var REL_SERIE = ["var(--pastel-azul)", "var(--pastel-rosa)", "var(--pastel-verde)"];
+  var ORDEN_RED = ["facebook", "instagram", "youtube"];
+
+  function organico() {
+    var s = serieTotal(), se = s && s.crudo;
+    var gInt = "", gVis = "";
+    if (se) {
+      gInt = grafico("gInt", {
+        titulo: "Interacciones por semana", semanas: se.semanas, area: true,
+        series: ORDEN_RED.filter(function (r) { return se.interacciones[r]; })
+          .map(function (r, i) {
+            return { nombre: RED[r] || r, valores: se.interacciones[r],
+                     color: COL_SERIE[i], relleno: REL_SERIE[i] };
+          }),
+      });
+      var conVistas = ORDEN_RED.filter(function (r) { return se.vistas[r]; });
+      gVis = conVistas.length ? grafico("gVis", {
+        titulo: "Vistas de video por semana", semanas: se.semanas, area: true,
+        series: conVistas.map(function (r) {
+          return { nombre: RED[r] || r, valores: se.vistas[r],
+                   color: COL_SERIE[ORDEN_RED.indexOf(r)],
+                   relleno: REL_SERIE[ORDEN_RED.indexOf(r)],
+                   patron: ORDEN_RED.indexOf(r) + 1 };
+        }),
+      }) : "";
+    }
+    var det = (D.redes_sociales || {}).detalle || {};
+    var redes = Object.keys(det).sort().map(function (n) {
+      var r = det[n];
+      if (r.silenciosa) {
+        return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
+          r.dias_de_silencio + " días sin publicar", "0", "publicaciones", "rojo");
+      }
+      return fila(n.slice(0, 2).toUpperCase(), RED[n] || n,
+        r.publicaciones + " publicaciones" +
+        (r.vistas != null ? " · " + ent(r.vistas) + " vistas" : ""),
+        ent(r.interacciones), "interacciones");
+    }).join("");
+    var tot = (D.redes_sociales || {}).totales || {};
+
+    return seccion("organico", "Redes sociales", "Orgánico",
+      "Interacciones de lo publicado, <b class=\"text-slate-600 " +
+      "font-semibold\">sin pauta detrás</b>. No se suman con los leads: son " +
+      "otra medición y no llevan tasa, porque el alcance no viene por red.",
+      "",
+      ((tot.interacciones != null || tot.publicaciones != null)
+        ? '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,' +
+          'minmax(min(230px,100%),1fr))] mb-6">' +
+          kpi("Interacciones", ent(tot.interacciones || 0),
+              "reacciones más comentarios") +
+          kpi("Publicaciones", ent(tot.publicaciones || 0),
+              (tot.redes_contadas || []).length + " redes en el informe") +
+          (tot.vistas != null
+            ? kpi("Vistas de video", ent(tot.vistas), "solo YouTube las reporta")
+            : "") + "</div>"
+        : "") +
       (gInt ? '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))] mb-6">' +
         '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
         cardCab("Interacciones por semana",
@@ -2673,12 +2695,8 @@
           : "") + "</div>" : "") +
       bloqueAlcance() +
       '<div class="bg-white rounded-3xl p-7 tarjeta-sombra mt-10">' +
-      cardCab("Redes sociales", "Sin corte por país: una sola marca para GT y SV") +
+      cardCab("Por red", "Sin corte por país: una sola marca para GT y SV") +
       '<div class="divide-y divide-slate-50">' + redes + "</div></div>" +
-      /* Los dos avisos de la serie semanal entran al plegado con su línea
-         CORTA. Sus textos largos —`_que_mide` y `_por_que_arrancan_distinto`—
-         se quedan en resultado.json; acá van resumidos, porque son los dos que
-         de verdad cambian cómo se lee la gráfica y no pueden desaparecer. */
       plegado("Qué no incluye",
         ((D.redes_sociales || {}).limites || []).concat(
           se ? [{ que: "la serie semanal no es histórica",
@@ -2717,15 +2735,31 @@
     faltan = faltan.filter(function (x) { return coincide(x.nombre); });
 
     var tarjetas = lista.map(function (b) {
-      var pres = Object.keys(b.mercados).sort().map(function (m) {
+      /* Un REFERENTE no disputa nada: por definición no pauta en nuestros
+         mercados (ADR-017). Square se leyó sin filtro de país justamente por
+         eso, y su inventario global aparecía bajo GT y bajo SV rotulado
+         «anuncios que disputan» — la afirmación exactamente contraria a la
+         razón por la que se leyó así. El rótulo depende del ROL.
+
+         Y para un referente global no se repite el número por mercado: es UN
+         inventario, no dos. Repetirlo daba «123» dos veces y sumaba a 246 en
+         la cabeza de cualquiera que los viera lado a lado. */
+      var esRef = b.rol === "referente";
+      var mks = Object.keys(b.mercados).sort();
+      var global_ = esRef && mks.length > 1 &&
+        mks.every(function (m) {
+          return b.mercados[m].presion_real === b.mercados[mks[0]].presion_real;
+        });
+      var pres = (global_ ? [mks[0]] : mks).map(function (m) {
         var c = b.mercados[m];
         return '<div class="flex-1 min-w-[104px]">' +
           '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
-          'uppercase">' + esc(m) + "</div>" +
+          'uppercase">' + esc(global_ ? "Global" : m) + "</div>" +
           '<div class="text-[26px] font-bold text-slate-800 tabular-nums ' +
           'leading-tight mt-0.5">' + ent(c.presion_real) + "</div>" +
-          '<div class="text-[11px] text-slate-400 leading-tight">anuncios que ' +
-          "disputan" + (c.activos_declarados !== c.presion_real
+          '<div class="text-[11px] text-slate-400 leading-tight">' +
+          (esRef ? "anuncios activos" : "anuncios que disputan") +
+          (c.activos_declarados !== c.presion_real
             ? "<br>de " + ent(c.activos_declarados) + " activos" : "") + "</div></div>";
       }).join("");
 
@@ -2797,12 +2831,10 @@
         /* El análisis profundo de esta marca, si la corrida lo trae. Una marca
            puede tener varias páginas y cada una es un perfil aparte: Square
            tiene la de EE.UU. y la de Reino Unido. */
-        (dos
-          ? '<div class="mt-6 pt-5 border-t border-slate-50">' +
-            '<div class="text-[10.5px] font-bold tracking-wider text-slate-300 ' +
-            'uppercase mb-4">Cómo apuesta</div>' + perfilProfundo(dos) +
-            "</div>"
-          : "") +
+        /* «Cómo apuesta» se quitó el 2026-09-07 con el mismo criterio que
+           «Lectura estratégica»: era prosa donde la tarjeta ya muestra los
+           números. El perfil profundo sigue en el dato y en el reporte de Ad
+           Library, que es donde se consulta con calma. */
         /* Una marca con varias páginas: las demás van plegadas, para que la
            tarjeta no se duplique. Square tiene la de EE.UU. y la de Reino
            Unido, con inventarios distintos. */
@@ -3436,7 +3468,7 @@
       '<main class="md:ml-[76px] pb-28 md:pb-0">' +
       '<div class="mx-auto w-full max-w-[1240px] px-5 sm:px-7 md:px-10 ' +
       'py-9 md:py-12">' +
-      encabezado() + resumen() + rendimiento() + competencia() +
+      encabezado() + resumen() + rendimiento() + organico() + competencia() +
       referencias() + estrategia() +
       "</div></main>";
 

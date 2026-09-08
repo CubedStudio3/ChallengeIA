@@ -3003,3 +3003,81 @@ Y la causa de que faltaran esos días no era técnica: la última corrida es del
 y la Rutina semanal se disparó hoy y se detuvo en su Compuerta 0 por no tener
 conectores adjuntos. El hueco de datos era el síntoma; la Rutina sin conectores,
 la causa.
+
+---
+
+## ADR-052 · Pauta y Orgánico aparte, Square por su inventario global
+
+**Fecha:** 2026-09-07
+**Estado:** implementado
+
+### Tres pedidos de Mercadeo, y por qué los tres eran correctos
+
+> «en las cartas elimines Lectura estratégica, Cómo apuesta y sus textos. y en
+> referentes de square no me estas dando nada, tu dame lo que tiene a nivel
+> internacional igual que con shopify porque en guate no tienen mercado. ahora
+> necesito que en lugar que de pauta y organico esten juntos los necesito por
+> separado porque no se entiende cual es cual»
+
+### 1 · Los dos bloques de prosa
+
+«Lectura estratégica» y «Cómo apuesta» eran texto interpretado donde la tarjeta
+ya muestra lo medible: qué repite la marca, cuántos creativos, cuántos días
+vivo. Siguen en `resultado.json` y en el reporte de Ad Library — se rastrean,
+dejan de competir por el espacio de la reunión.
+
+Se dejó **«Cómo apuestan unos y otros»**, que es una tarjeta distinta —las
+barras que comparan referentes contra competidores— y no uno de esos bloques.
+
+### 2 · Square: la causa era la consulta, no la marca
+
+Se le preguntaba por GT y SV, donde tiene **cero**. Sin el parámetro
+`countries` la Ad Library devuelve el inventario global: **123 activos, 50
+leídos**, con audiencia (gestión del negocio 36%, belleza y citas 20%),
+titulares repetidos y una señal fuerte — el 100% de lo observado se lanzó en
+los últimos 10 días.
+
+La regla quedó en código y es estrecha a propósito:
+
+- **Solo referentes** usan el corte global, y solo si el archivo `_GLOBAL`
+  existe. Un COMPETIDOR con cero anuncios acá es información —no disputa el
+  territorio— y cambiarla por su inventario global **inventaría una amenaza**
+  que no existe (ADR-017).
+
+Y dos trampas del corte global que había que cerrar en la vista:
+
+- **El rótulo decía «anuncios que disputan».** Para un referente eso es la
+  afirmación exactamente contraria a la razón por la que se leyó global. Ahora
+  el rótulo depende del ROL: «anuncios activos».
+- **El número se repetía por mercado.** El mismo inventario aparecía bajo GT y
+  bajo SV: 123 y 123, que lado a lado suman 246 en la cabeza de cualquiera. Es
+  UN inventario, y ahora se muestra una sola vez, rotulado «Global».
+
+### 3 · Pauta y Orgánico: no es estética, es que no se suman
+
+Estaban en una sección, y el pedido fue de legibilidad —«no se entiende cuál es
+cuál»—. Pero la razón de fondo es más fuerte que eso:
+
+| | Pauta | Orgánico |
+|---|---|---|
+| Mide | leads y costo por lead | interacciones absolutas |
+| Corte por país | sí, GT / SV | **no**: una sola marca conectada |
+| Filtro de fechas | obedece | la serie es acumulada, no histórica |
+| Tasa | costo por resultado | **no hay**: falta alcance por red |
+
+Cuatro diferencias, y ninguna permite sumar ni comparar de frente. Tenerlos en
+la misma sección invitaba justo a la operación que este proyecto no permite. El
+subtítulo de Orgánico lo dice en la propia página.
+
+Comparten el azul de identidad a propósito: son las dos mitades de la misma
+pregunta —cómo nos fue— medidas en dos fuentes que no se pueden sumar. La
+paleta sigue teniendo cinco colores; hay seis secciones y dos comparten uno.
+Se dio de alta `organico` en `config/tema.json` en vez de dejar que el CSS
+pidiera una variable inexistente: eso no avisa, solo sale sin color.
+
+### Pendiente declarado, no causado por este cambio
+
+El validador del tema reporta dos fallas de contraste previas —`#1A5B93` a
+2.59:1 y `#931A68` a 2.27:1 contra la superficie, mínimo 3—. Se comprobó que
+son idénticas antes y después de este cambio. Afectan los trazos de las
+gráficas y quedan reportadas a Mercadeo, sin tocar.

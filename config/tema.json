@@ -149,6 +149,12 @@
         "tinta": "#000000",
         "_contraste": "12.19:1"
       },
+      "organico": {
+        "relleno": "#a1caed",
+        "tinta": "#000000",
+        "_contraste": "12.19:1",
+        "_por_que_el_mismo_azul": "Pauta y Organico son las DOS MITADES de Rendimiento, que estaban en una sola seccion y Mercadeo pidio separarlas el 2026-09-07 porque no se entendia cual numero era de cual fuente. Comparten identidad de color a proposito: son la misma pregunta —como nos fue— medida en dos fuentes que no se pueden sumar. La paleta sigue teniendo CINCO colores; lo que hay son seis secciones y dos comparten uno."
+      },
       "competencia": {
         "relleno": "#f3d7e9",
         "tinta": "#000000",

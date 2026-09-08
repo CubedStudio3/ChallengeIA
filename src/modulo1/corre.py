@@ -80,6 +80,20 @@ def carga_competencia(
                 remedio="Agregarla en config/competidores.json. Derivarla del "
                         "nombre es fragil: 'Banco Industrial (BI)' no da 'bi'.")
         archivo = crudo / f"adlibrary_{clave}_{mercado}.json"
+        # Un REFERENTE que no pauta aqui se lee GLOBAL. Square devolvia cero en
+        # GT y en SV —no pauta en la region— y la tarjeta salia vacia, que es lo
+        # que reporto Mercadeo. Sin `countries` la Ad Library da el inventario
+        # completo, y para un referente ese es el corte correcto: se mira para
+        # aprender, no para medir presion competitiva (ADR-017).
+        #
+        # Solo aplica a referentes, y solo si el archivo global existe: un
+        # COMPETIDOR con cero anuncios aqui es informacion —no disputa el
+        # territorio— y sustituirla por su inventario global inventaria una
+        # amenaza que no existe.
+        global_ = crudo / f"adlibrary_{clave}_GLOBAL.json"
+        es_ref = entrada.get("_rol") == "referente"
+        if es_ref and global_.exists():
+            archivo = global_
         if not archivo.exists():
             no_leidos.append({
                 "nombre": entrada["nombre"],
@@ -117,7 +131,17 @@ def carga_competencia(
             categorias=entrada.get("categorias", []), mercado=mercado,
             solapamiento=solap, origen=archivo.name,
             rol=entrada.get("_rol", "competidor"),
-            nota_estrategica=medicion.get("_nota_estrategica", "")))
+            # Cuando el inventario se leyó SIN filtro de país, el mismo dato
+            # aparece bajo GT y bajo SV. Sin decirlo, la tarjeta parecería
+            # afirmar que la marca pauta acá — que es lo contrario de por qué
+            # se leyó global. La nota lo dice en la propia tarjeta.
+            nota_estrategica=(
+                ("Inventario GLOBAL, no de este mercado: no pauta en GT ni en "
+                 "SV, así que se lee sin filtro de país. Es un referente —se "
+                 "mira para aprender— y no cuenta como presión competitiva. ")
+                + medicion.get("_nota_estrategica", "")
+                if archivo.name.endswith("_GLOBAL.json")
+                else medicion.get("_nota_estrategica", ""))))
     return PanoramaCompetitivo(mercado=mercado, competidores=comps), no_leidos
 
 

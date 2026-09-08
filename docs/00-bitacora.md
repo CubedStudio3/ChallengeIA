@@ -944,3 +944,23 @@ eran el mismo estado— y se arregló separándolos (ADR-051).
 Y se trajo del 4 al 6 de septiembre, que faltaban porque la última corrida es
 del 4 y la Rutina se detuvo hoy en su compuerta por no tener conectores. El
 tope llega a 1 jun – 6 sep, con los cuatro meses cuadrando al centavo.
+
+### Sesión 5 · décima parte · Square global, y las dos mitades aparte
+
+Tres cambios pedidos por Mercadeo. Los dos bloques de prosa de las tarjetas
+—«Lectura estratégica» y «Cómo apuesta»— fuera: la tarjeta ya muestra lo
+medible y el texto interpretado competía con él.
+
+Square aparecía vacío y la causa era la consulta, no la marca: se le preguntaba
+por GT y SV, donde tiene cero. Sin `countries`, 123 anuncios activos y un perfil
+completo. Dos trampas del corte global se cerraron en la vista: el rótulo decía
+«anuncios que disputan» —lo contrario de por qué se leyó global— y el número se
+repetía bajo GT y bajo SV, 123 y 123, que lado a lado suman 246 en la cabeza de
+cualquiera.
+
+Y Pauta y Orgánico quedaron en dos secciones. El pedido fue de legibilidad, pero
+la razón de fondo es que los dos números no se pueden sumar: uno trae leads con
+corte por país y el otro interacciones absolutas sin corte, con serie acumulada
+y sin tasa. Tenerlos juntos invitaba a la operación que este proyecto no permite.
+
+Detalle en ADR-052.

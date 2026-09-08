@@ -1,0 +1,521 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-07",
+  "parametros": {
+   "page_ids": [
+    "200925806590732"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50,
+   "_countries": "SIN countries A PROPOSITO"
+  },
+  "_por_que_sin_countries": "Square NO pauta en GT ni en SV: preguntando por esos paises devuelve CERO y la tarjeta salia vacia. Sin el parametro `countries` la Ad Library devuelve el inventario GLOBAL, que es lo que interesa de un REFERENTE: se mira para aprender, no para medir presion competitiva. Pedido de Mercadeo el 2026-09-07: «en referentes de square no me estas dando nada, tu dame lo que tiene a nivel internacional igual que con shopify porque en guate no tienen mercado».",
+  "_pagina": "Square (US), 200925806590732. Square opera una pagina por region; la de Reino Unido (1689602518029813) tiene su propio inventario y no se pidio en esta corrida.",
+  "_campos_constantes": "page_id, page_name y currency son iguales en las 50 filas de la respuesta, y ad_snapshot_url es '?id=' + el id en todas: se reconstruyen aqui a partir de los cuatro campos que varian (id, titular, creacion, entrega). No es un resumen: es la respuesta completa con los constantes factorizados.",
+  "_nota": "La Ad Library es una FOTO DEL DIA: no acepta rango de fechas."
+ },
+ "estimated_total_count": 123,
+ "ads": [
+  {
+   "id": "1485748456907405",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863581,
+   "ad_delivery_start_time": 1787875041,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1485748456907405",
+   "currency": "USD"
+  },
+  {
+   "id": "1102147435581094",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863574,
+   "ad_delivery_start_time": 1787869029,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1102147435581094",
+   "currency": "USD"
+  },
+  {
+   "id": "1369999695266593",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863574,
+   "ad_delivery_start_time": 1787875408,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1369999695266593",
+   "currency": "USD"
+  },
+  {
+   "id": "1365939751887545",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Up to $200 Off Hardware",
+   "ad_creation_time": 1787863570,
+   "ad_delivery_start_time": 1787868715,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1365939751887545",
+   "currency": "USD"
+  },
+  {
+   "id": "1626012805755897",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774667,
+   "ad_delivery_start_time": 1787876117,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1626012805755897",
+   "currency": "USD"
+  },
+  {
+   "id": "1037857179236601",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774667,
+   "ad_delivery_start_time": 1788226461,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1037857179236601",
+   "currency": "USD"
+  },
+  {
+   "id": "1783170776355390",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774657,
+   "ad_delivery_start_time": 1787999033,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1783170776355390",
+   "currency": "USD"
+  },
+  {
+   "id": "2517262758697589",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Start selling today",
+   "ad_creation_time": 1787774653,
+   "ad_delivery_start_time": 1787843052,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2517262758697589",
+   "currency": "USD"
+  },
+  {
+   "id": "1830129241667173",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774650,
+   "ad_delivery_start_time": 1787882691,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1830129241667173",
+   "currency": "USD"
+  },
+  {
+   "id": "1049815487654857",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Grow with Square",
+   "ad_creation_time": 1787774650,
+   "ad_delivery_start_time": 1787850927,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1049815487654857",
+   "currency": "USD"
+  },
+  {
+   "id": "1970821323601887",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774648,
+   "ad_delivery_start_time": 1788142635,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1970821323601887",
+   "currency": "USD"
+  },
+  {
+   "id": "1566274031656535",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Grow with Square",
+   "ad_creation_time": 1787774646,
+   "ad_delivery_start_time": 1788324655,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1566274031656535",
+   "currency": "USD"
+  },
+  {
+   "id": "1709046927059430",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774637,
+   "ad_delivery_start_time": 1787828040,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1709046927059430",
+   "currency": "USD"
+  },
+  {
+   "id": "1054142223880373",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787774625,
+   "ad_delivery_start_time": 1787836324,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1054142223880373",
+   "currency": "USD"
+  },
+  {
+   "id": "2102202597044107",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Get started with Square",
+   "ad_creation_time": 1787774576,
+   "ad_delivery_start_time": 1787784167,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2102202597044107",
+   "currency": "USD"
+  },
+  {
+   "id": "1742098170432374",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Grow with Square",
+   "ad_creation_time": 1787774575,
+   "ad_delivery_start_time": 1787783561,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1742098170432374",
+   "currency": "USD"
+  },
+  {
+   "id": "1079890981226463",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Start selling today",
+   "ad_creation_time": 1787774572,
+   "ad_delivery_start_time": 1787784257,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1079890981226463",
+   "currency": "USD"
+  },
+  {
+   "id": "1435408974682460",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787773847,
+   "ad_delivery_start_time": 1787778601,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1435408974682460",
+   "currency": "USD"
+  },
+  {
+   "id": "4036744539962381",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773828,
+   "ad_delivery_start_time": 1788008635,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4036744539962381",
+   "currency": "USD"
+  },
+  {
+   "id": "1029363119937688",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773823,
+   "ad_delivery_start_time": 1787849063,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1029363119937688",
+   "currency": "USD"
+  },
+  {
+   "id": "1657608909264141",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Save time and get paid faster.",
+   "ad_creation_time": 1787773761,
+   "ad_delivery_start_time": 1787775691,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1657608909264141",
+   "currency": "USD"
+  },
+  {
+   "id": "1646346353943920",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787773736,
+   "ad_delivery_start_time": 1787775548,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1646346353943920",
+   "currency": "USD"
+  },
+  {
+   "id": "1779259926743826",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Built to grow with you",
+   "ad_creation_time": 1787773465,
+   "ad_delivery_start_time": 1788014693,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1779259926743826",
+   "currency": "USD"
+  },
+  {
+   "id": "2145679486327237",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square Register | Complete POS System | Square Reader | Tap & Chip Card Machine | Square Stand POS For iPad | 2nd Generation, USB-C | Square Handheld | Portable POS & Barcode Scanner | Square Kiosk for iPad | Self Service USB-C Kiosk | Square Terminal | All-In-One Credit Card Machine",
+   "ad_creation_time": 1787773459,
+   "ad_delivery_start_time": 1787782213,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2145679486327237",
+   "currency": "USD"
+  },
+  {
+   "id": "1626098755785996",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | Square | Square | Square | Square | Square",
+   "ad_creation_time": 1787773321,
+   "ad_delivery_start_time": 1787778120,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1626098755785996",
+   "currency": "USD"
+  },
+  {
+   "id": "2070962046853478",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Built to grow with you",
+   "ad_creation_time": 1787772802,
+   "ad_delivery_start_time": 1787777727,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2070962046853478",
+   "currency": "USD"
+  },
+  {
+   "id": "1730761828220815",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | For do-it-all businesses | For do-it-all businesses | For do-it-all businesses",
+   "ad_creation_time": 1787690724,
+   "ad_delivery_start_time": 1787727200,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1730761828220815",
+   "currency": "USD"
+  },
+  {
+   "id": "1774963396847594",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Square | For do-it-all businesses | For do-it-all businesses | For do-it-all businesses",
+   "ad_creation_time": 1787690716,
+   "ad_delivery_start_time": 1787707998,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1774963396847594",
+   "currency": "USD"
+  },
+  {
+   "id": "28007285875603105",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Appointments that work with everything else.",
+   "ad_creation_time": 1787690705,
+   "ad_delivery_start_time": 1787810574,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28007285875603105",
+   "currency": "USD"
+  },
+  {
+   "id": "2177060106205845",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Appointments that work with everything else.",
+   "ad_creation_time": 1787690705,
+   "ad_delivery_start_time": 1788039205,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2177060106205845",
+   "currency": "USD"
+  },
+  {
+   "id": "1089061606838877",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Payment security — built in.",
+   "ad_creation_time": 1787690703,
+   "ad_delivery_start_time": 1788746187,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1089061606838877",
+   "currency": "USD"
+  },
+  {
+   "id": "1703244104697273",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Your bookings, your payments, your sales — one dashboard.",
+   "ad_creation_time": 1787690701,
+   "ad_delivery_start_time": 1787735872,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1703244104697273",
+   "currency": "USD"
+  },
+  {
+   "id": "1818034946041017",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Why sellers choose Square.",
+   "ad_creation_time": 1787690700,
+   "ad_delivery_start_time": 1788837583,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1818034946041017",
+   "currency": "USD"
+  },
+  {
+   "id": "3989416261363471",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Payment security — built in.",
+   "ad_creation_time": 1787690699,
+   "ad_delivery_start_time": 1787696041,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=3989416261363471",
+   "currency": "USD"
+  },
+  {
+   "id": "1092147796792134",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787774365,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1092147796792134",
+   "currency": "USD"
+  },
+  {
+   "id": "1047372824554802",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Why sellers choose Square.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1788035853,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1047372824554802",
+   "currency": "USD"
+  },
+  {
+   "id": "1177481321269009",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Your bookings, your payments, your sales — one dashboard.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787709435,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1177481321269009",
+   "currency": "USD"
+  },
+  {
+   "id": "28011132625214725",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Payment security — built in.",
+   "ad_creation_time": 1787690698,
+   "ad_delivery_start_time": 1787857309,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28011132625214725",
+   "currency": "USD"
+  },
+  {
+   "id": "2143173286616155",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690697,
+   "ad_delivery_start_time": 1787695469,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2143173286616155",
+   "currency": "USD"
+  },
+  {
+   "id": "1749050759702845",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Smart tools. Smart choices.",
+   "ad_creation_time": 1787690695,
+   "ad_delivery_start_time": 1787697287,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1749050759702845",
+   "currency": "USD"
+  },
+  {
+   "id": "944617551259878",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "See the client picture most booking apps miss.",
+   "ad_creation_time": 1787690693,
+   "ad_delivery_start_time": 1787695706,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=944617551259878",
+   "currency": "USD"
+  },
+  {
+   "id": "1797227854609917",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "All-in-One Payments and Receipts",
+   "ad_creation_time": 1787690692,
+   "ad_delivery_start_time": 1787957090,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1797227854609917",
+   "currency": "USD"
+  },
+  {
+   "id": "1684894115941107",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Smart tools. Smart choices.",
+   "ad_creation_time": 1787690689,
+   "ad_delivery_start_time": 1787704876,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1684894115941107",
+   "currency": "USD"
+  },
+  {
+   "id": "1702405630979714",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690682,
+   "ad_delivery_start_time": 1787768571,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1702405630979714",
+   "currency": "USD"
+  },
+  {
+   "id": "2403962683460117",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "One system. Counter to kitchen.",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1787771492,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2403962683460117",
+   "currency": "USD"
+  },
+  {
+   "id": "2000364003945455",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1788037424,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2000364003945455",
+   "currency": "USD"
+  },
+  {
+   "id": "2124009018492161",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1788231316,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2124009018492161",
+   "currency": "USD"
+  },
+  {
+   "id": "1614386096911732",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787690681,
+   "ad_delivery_start_time": 1787711553,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1614386096911732",
+   "currency": "USD"
+  },
+  {
+   "id": "1711229276658796",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Run your whole beauty business on Square",
+   "ad_creation_time": 1787690680,
+   "ad_delivery_start_time": 1787881230,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1711229276658796",
+   "currency": "USD"
+  },
+  {
+   "id": "1604504014406105",
+   "page_id": 200925806590732,
+   "page_name": "Square",
+   "ad_creative_link_title": "Stop juggling tools to run your business",
+   "ad_creation_time": 1787690678,
+   "ad_delivery_start_time": 1787777936,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1604504014406105",
+   "currency": "USD"
+  }
+ ]
+}

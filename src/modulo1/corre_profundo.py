@@ -23,7 +23,12 @@ marcas = []
 saltadas = []   # nunca en silencio: un hueco no declarado es peor que un cero
 for e in reg["competidores"]:
     clave = e["_clave_archivo"]
-    for mercado in ("GT", "SV"):
+    # Un referente que no pauta aqui se perfila sobre su inventario GLOBAL:
+    # con GT/SV daba cero anuncios y la marca quedaba sin perfil.
+    es_ref = e.get("_rol") == "referente"
+    glob = crudo / f"adlibrary_{clave}_GLOBAL.json"
+    mercados = ("GLOBAL",) if (es_ref and glob.exists()) else ("GT", "SV")
+    for mercado in mercados:
         f = crudo / f"adlibrary_{clave}_{mercado}.json"
         if not f.exists():
             saltadas.append({"marca": e["nombre"], "mercado": mercado,

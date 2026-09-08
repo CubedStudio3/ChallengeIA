@@ -338,6 +338,331 @@
    "idioma": "es"
   },
   {
+   "clave": "square",
+   "pagina": "Square",
+   "page_id": "1689602518029813",
+   "moneda": "USD",
+   "pais_consultado": "GLOBAL",
+   "activos_declarados": 123,
+   "leidos": 50,
+   "muestra_completa": false,
+   "_advertencia_muestra": "Se leyeron 50 de 123 activos. El tope del conector es 50 y no expone cursor, así que la muestra son los MÁS RECIENTES. Todo porcentaje de esta marca es sobre la muestra, no sobre el inventario completo.",
+   "estructura": {
+    "tarjeta_unica": 42,
+    "carrusel": 8,
+    "sin_titular": 0,
+    "_sin_titular_significa": "El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.",
+    "tarjetas_max": 12,
+    "tarjetas_promedio": 1.8,
+    "_que_mide": "Cuántas tarjetas tiene el creativo, derivado de los separadores del titular. NO es el tipo de medio: la API no dice si es video o imagen, y esa pregunta queda sin responder."
+   },
+   "cobranding": {
+    "anuncios_con_tercero": 0,
+    "terceros_nombrados": [],
+    "cuota": 0.0,
+    "ejemplos": [],
+    "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+   },
+   "mensajes": [
+    {
+     "mensaje": "Get started with Square",
+     "creativos": 5,
+     "cuota": 0.1,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 3,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1626012805755897"
+    },
+    {
+     "mensaje": "Square",
+     "creativos": 5,
+     "cuota": 0.1,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 7,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1830129241667173"
+    },
+    {
+     "mensaje": "Stop juggling tools to run your business",
+     "creativos": 5,
+     "cuota": 0.1,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 6,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "4036744539962381"
+    },
+    {
+     "mensaje": "Run your whole beauty business on Square",
+     "creativos": 4,
+     "cuota": 0.08,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 3,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1702405630979714"
+    },
+    {
+     "mensaje": "Up to $200 Off Hardware",
+     "creativos": 4,
+     "cuota": 0.08,
+     "dias_vivo_max": 8,
+     "dias_vivo_min": 7,
+     "primera_creacion": "2026-08-27",
+     "ultima_creacion": "2026-08-27",
+     "ejemplo_id": "1485748456907405"
+    },
+    {
+     "mensaje": "Payment security — built in.",
+     "creativos": 3,
+     "cuota": 0.06,
+     "dias_vivo_max": 10,
+     "dias_vivo_min": -3,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1089061606838877"
+    },
+    {
+     "mensaje": "See the client picture most booking apps miss.",
+     "creativos": 3,
+     "cuota": 0.06,
+     "dias_vivo_max": 10,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1092147796792134"
+    },
+    {
+     "mensaje": "Grow with Square",
+     "creativos": 3,
+     "cuota": 0.06,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 2,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1049815487654857"
+    },
+    {
+     "mensaje": "Smart tools. Smart choices.",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 10,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1749050759702845"
+    },
+    {
+     "mensaje": "Start selling today",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 8,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "2517262758697589"
+    },
+    {
+     "mensaje": "Built to grow with you",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 6,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1779259926743826"
+    },
+    {
+     "mensaje": "Square · For do-it-all businesses",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1730761828220815"
+    },
+    {
+     "mensaje": "Your bookings, your payments, your sales — one dashboard.",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1703244104697273"
+    },
+    {
+     "mensaje": "Appointments that work with everything else.",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 8,
+     "dias_vivo_min": 6,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "28007285875603105"
+    },
+    {
+     "mensaje": "Why sellers choose Square.",
+     "creativos": 2,
+     "cuota": 0.04,
+     "dias_vivo_max": 6,
+     "dias_vivo_min": -4,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1818034946041017"
+    },
+    {
+     "mensaje": "Save time and get paid faster.",
+     "creativos": 1,
+     "cuota": 0.02,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1657608909264141"
+    },
+    {
+     "mensaje": "Square Register · Complete POS System · Square Reader",
+     "creativos": 1,
+     "cuota": 0.02,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "2145679486327237"
+    },
+    {
+     "mensaje": "One system. Counter to kitchen.",
+     "creativos": 1,
+     "cuota": 0.02,
+     "dias_vivo_max": 9,
+     "dias_vivo_min": 9,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "2403962683460117"
+    },
+    {
+     "mensaje": "All-in-One Payments and Receipts",
+     "creativos": 1,
+     "cuota": 0.02,
+     "dias_vivo_max": 7,
+     "dias_vivo_min": 7,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "1797227854609917"
+    }
+   ],
+   "concentracion": 0.1,
+   "_concentracion_significa": "Cuota del inventario leído que carga el mensaje más repetido. Alta concentración = una sola apuesta; baja = cartera repartida.",
+   "audiencia_inferida": [
+    {
+     "vertical": "gestión del negocio",
+     "anuncios": 20,
+     "cuota_del_total_clasificado": 0.364
+    },
+    {
+     "vertical": "belleza y citas",
+     "anuncios": 11,
+     "cuota_del_total_clasificado": 0.2
+    },
+    {
+     "vertical": "cobros y pagos",
+     "anuncios": 7,
+     "cuota_del_total_clasificado": 0.127
+    },
+    {
+     "vertical": "punto de venta / hardware",
+     "anuncios": 5,
+     "cuota_del_total_clasificado": 0.091
+    },
+    {
+     "vertical": "promoción y precio",
+     "anuncios": 4,
+     "cuota_del_total_clasificado": 0.073
+    },
+    {
+     "vertical": "retail y tienda",
+     "anuncios": 4,
+     "cuota_del_total_clasificado": 0.073
+    },
+    {
+     "vertical": "seguridad",
+     "anuncios": 3,
+     "cuota_del_total_clasificado": 0.055
+    },
+    {
+     "vertical": "restaurante",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 0.018
+    },
+    {
+     "vertical": "no clasificable por el titular",
+     "anuncios": 10,
+     "cuota_del_total_clasificado": null,
+     "_nota": "El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia."
+    }
+   ],
+   "longevidad": {
+    "_respondible": false,
+    "_por_que_no": "La muestra son los 50 anuncios MÁS RECIENTES de un inventario mayor. El conector topa en 50 y no expone cursor de paginación, así que los anuncios más antiguos —que son justo los que esta pregunta busca— quedan fuera. Responder con la muestra daría el más viejo DE LOS NUEVOS, que no es lo mismo y engañaría.",
+    "top": []
+   },
+   "velocidad": {
+    "primera_creacion": "2026-08-25",
+    "ultima_creacion": "2026-08-27",
+    "dias_desde_la_ultima": 8,
+    "dias_de_actividad": 3,
+    "span_dias": 2,
+    "creativos_por_semana": null,
+    "_cadencia": "NO se calcula. Las creaciones observadas caben en 2 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 50 creativos leidos se crearon en 3 dia(s) distintos.",
+    "dia_mas_activo": [
+     "2026-08-25",
+     24
+    ],
+    "rafagas": [
+     {
+      "instante": "2026-08-25",
+      "creativos": 4
+     },
+     {
+      "instante": "2026-08-25",
+      "creativos": 4
+     },
+     {
+      "instante": "2026-08-25",
+      "creativos": 2
+     },
+     {
+      "instante": "2026-08-26",
+      "creativos": 2
+     },
+     {
+      "instante": "2026-08-26",
+      "creativos": 2
+     },
+     {
+      "instante": "2026-08-27",
+      "creativos": 2
+     }
+    ],
+    "creativos_en_rafaga": 16,
+    "cuota_en_rafaga": 0.32,
+    "por_dia": {
+     "2026-08-25": 24,
+     "2026-08-26": 22,
+     "2026-08-27": 4
+    },
+    "_que_es_una_rafaga": "Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una."
+   },
+   "marca": "Square",
+   "rol": "referente",
+   "mercado": "GLOBAL",
+   "idioma": "es"
+  },
+  {
    "clave": "guatepos",
    "pagina": "Guatepos",
    "page_id": "593092353887127",
@@ -1448,16 +1773,6 @@
   },
   {
    "marca": "Recurrente",
-   "mercado": "SV",
-   "motivo": "leida, cero anuncios activos"
-  },
-  {
-   "marca": "Square",
-   "mercado": "GT",
-   "motivo": "leida, cero anuncios activos"
-  },
-  {
-   "marca": "Square",
    "mercado": "SV",
    "motivo": "leida, cero anuncios activos"
   },
