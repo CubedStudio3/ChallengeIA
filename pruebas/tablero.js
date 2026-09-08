@@ -110,8 +110,22 @@ function envuelve(frag) {
                 overflow ? "<<< DESBORDE HORIZONTAL" : "ok");
     if (info.desborde.length) console.log("  se salen:", info.desborde);
     if (errores.length) console.log("  ERRORES JS:", errores);
+    /* Las secciones se comprueban POR NOMBRE, no por cuántas son. El conteo
+       venía en 5 y al separar Pauta de Orgánico pasó a 6: la prueba falló tres
+       veces —una por tamaño de pantalla— y en SILENCIO, porque el conteo no
+       imprimía nada. Falló bien: la lista de secciones es una decisión de
+       producto y no debe cambiar sin que algo lo diga. Pero decía «son otras»
+       sin decir cuáles. */
+    const ESPERADAS = ["resumen", "rendimiento", "organico", "competencia",
+                       "referencias", "estrategia"];
+    const faltan = ESPERADAS.filter(x => info.secciones.indexOf(x) < 0);
+    const sobran = info.secciones.filter(x => ESPERADAS.indexOf(x) < 0);
+    if (faltan.length || sobran.length) {
+      console.log("  FALLO secciones · faltan: " + JSON.stringify(faltan) +
+                  " · sobran: " + JSON.stringify(sobran));
+    }
     if (overflow || errores.length || !info.pintado ||
-        info.secciones.length !== 5) fallos++;
+        faltan.length || sobran.length) fallos++;
 
     await pag.screenshot({ path: path.join(SALIDA, nombre + "-completo.png"),
                            fullPage: true });
