@@ -269,17 +269,23 @@ function envuelve(frag) {
                   propias >= 2 ? "ok" : "<<< la idea no se pinto");
       if (propias < 2) fallos++;
 
-      await prueba("buscar 'punto'", async () => {
-        await pag.fill("#buscar", "punto");
-        await pag.waitForTimeout(450);
-      });
-      const trasBusq = await pag.evaluate(() => ({
-        chip: !!document.getElementById("limpiarBusqueda"),
-        camp: document.querySelectorAll("[data-vertodo='camp']").length,
-      }));
-      console.log("  chip de filtro:", trasBusq.chip ? "ok" : "<<< no aparecio");
-      if (!trasBusq.chip) fallos++;
-      await prueba("limpiar busqueda", () => pag.click("#limpiarBusqueda"));
+      /* El buscador se quitó de la página el 2026-09-07 a pedido de Mercadeo,
+         así que estas tres comprobaciones —teclear, que aparezca el chip de
+         filtro, y limpiarlo— ya no tienen por dónde entrar. Fallaron bien: el
+         buscador es parte de la interfaz y no debía desaparecer sin que algo
+         lo dijera.
+
+         El código que filtra por `V.busqueda` sigue en el tablero, inerte
+         porque `V.busqueda` arranca vacío y nada la escribe. No se comprueba
+         aquí porque una prueba de interfaz no puede llegar a un control que no
+         existe; si el buscador vuelve, estas tres vuelven con él.
+
+         Se comprueba lo que sí importa hoy: que NO haya buscador. Si reaparece
+         por accidente en una regeneración, esto lo dice. */
+      const hayBuscador = await pag.evaluate(
+        () => !!document.getElementById("buscar"));
+      console.log("  sin buscador arriba:", hayBuscador ? "<<< VOLVIÓ" : "ok");
+      if (hayBuscador) fallos++;
 
       await prueba("tooltip de la grafica", async () => {
         await pag.evaluate(() => document.getElementById("gInt")
