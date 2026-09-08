@@ -2271,8 +2271,36 @@
     var pcDec = vis.length ? Math.round(decid / vis.length * 100) : 0;
     var heroe = '<div class="rounded-3xl p-8 sm:p-9 flex flex-col" ' +
       'style="background:var(--sec-resumen);color:var(--sec-resumen-tinta)">' +
+      /* El rótulo dice LA VENTANA QUE SE ESTÁ CALCULANDO, no el periodo de la
+         corrida.
+
+         Estaba clavado en `corrida.rango` y las cifras de abajo salen del
+         filtro, así que con una ventana propia la tarjeta mostraba «mar 25 ago
+         – jue 3 sep» encima de «483 leads» —que son del 7 de agosto al 2 de
+         septiembre— y de «24 días en la ventana», que no son diez. Lo vio
+         Mercadeo en pantalla el 2026-09-07: tres fechas y ninguna cuadraba con
+         la de al lado.
+
+         Es el mismo error del +105.6% y del sello que sobrevivió a su verdad:
+         un rótulo de un periodo encima de números de otro. Ahora sale de los
+         días con dato de la ventana, y solo cae al periodo de la corrida
+         cuando NO hay ventana propia —que es cuando de verdad coinciden—. */
       '<div class="text-[10.5px] font-bold tracking-[0.14em] uppercase ' +
-      'opacity-50">' + esc(rangoTexto((D.corrida || {}).rango || "")) + "</div>" +
+      'opacity-50">' +
+      esc((function () {
+        var R = rango();
+        /* Con ventana elegida, el rótulo es LA VENTANA —lo que dicen los dos
+           campos— y no los días con dato que hay dentro. Al medirlo salían
+           «mié 26 ago» encima de una ventana que empieza el 25: cierto, porque
+           el 25 no hubo pauta, pero es una TERCERA fecha al lado de las otras
+           dos y obliga a adivinar cuál es cuál. Cuántos días traen dato ya lo
+           dice la línea de apoyo: «24 días en la ventana».
+
+           Sin ventana elegida es el periodo de la corrida, que es lo mismo que
+           dice la cabecera. */
+        return (R && R.propio) ? rangoFecha(R.desde, R.hasta)
+                               : rangoTexto((D.corrida || {}).rango || "");
+      })()) + "</div>" +
       '<h3 class="text-[25px] sm:text-[29px] font-bold leading-[1.18] ' +
       'tracking-[-0.02em] mt-4 max-w-[24ch]">' + titular + "</h3>" +
       '<p class="text-[12.5px] opacity-60 mt-3">' + esc(apoyo) + "</p>" +

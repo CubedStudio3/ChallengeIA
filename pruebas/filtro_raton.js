@@ -104,6 +104,7 @@ const ok = (t, real, esp) => {
   console.log("    " + (bien ? "ok  " : "FALLA ") + t +
     (bien ? " = " + real : "   esperaba " + esp + " · vino " + real));
 };
+const rangoTextoDia = iso => String(Number(iso.slice(8, 10)));
 const money = x => x == null ? "—" : "$" + x.toLocaleString("en-US",
   { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -346,6 +347,41 @@ async function teclea(pg, id, iso) {
     const E8 = suma(DES, HAS);
     ok("inversión del rango tecleado", f8.inversion, money(E8.gasto));
     ok("leads del rango tecleado", f8.leads, E8.resultados.toLocaleString("en-US"));
+  }
+
+  /* ── 9 · el RÓTULO de la tarjeta grande dice la ventana, no otra cosa ───
+
+     Lo vio Mercadeo en pantalla el 2026-09-07: el rótulo estaba clavado en el
+     periodo de la corrida mientras las cifras de abajo salían del filtro, así
+     que decía «mar 25 ago – jue 3 sep» encima de 483 leads que son del 7 de
+     agosto al 2 de septiembre, y de «24 días en la ventana», que no son diez.
+     Tres fechas en la misma tarjeta y ninguna cuadraba con la de al lado. */
+  console.log("\n═══ 9 · el rótulo de la tarjeta sigue la ventana ═══");
+  {
+    const rot = () => pg.evaluate(`(() => {
+      const h = document.querySelector("#resumen h3");
+      const c = h ? h.parentElement : null;
+      return c ? (c.querySelector("div") || {}).textContent.trim() : null;
+    })()`);
+    const A = DIAS[Math.floor(DIAS.length * 0.3)];
+    const B = DIAS[Math.floor(DIAS.length * 0.8)];
+    await teclea(pg, "fDesde", A);
+    await pg.waitForTimeout(ESPERA);
+    await teclea(pg, "fHasta", B);
+    await pg.waitForTimeout(ESPERA);
+    const r = await rot();
+    const f9 = await pg.evaluate(FOTO);
+    /* No se compara contra un texto escrito a mano: se comprueba que el rótulo
+       nombre EL MISMO mes y día que los campos. Escribir «vie 7 ago» aquí
+       ataría la prueba al formato en vez de al hecho. */
+    const dia = iso => String(Number(iso.slice(8, 10)));
+    ok("el rótulo nombra el día inicial de la ventana",
+       r.indexOf(dia(f9.desde)) >= 0, true, r);
+    ok("y el día final", r.indexOf(dia(f9.hasta)) >= 0, true, r);
+    ok("y NO nombra el periodo de la corrida cuando difiere",
+       CORR_INI === f9.desde || r.indexOf(rangoTextoDia(CORR_INI)) < 0, true);
+    console.log("    campos " + f9.desde + ".." + f9.hasta + "  rótulo: " + r);
+    await vacia();
   }
 
   await nav.close();
