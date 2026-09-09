@@ -61,6 +61,13 @@ const DOBLE = (guion) => `(() => {
 })()`;
 
 const VACIO = { payload: { status: "success", data: { items: [] } } };
+/* `itemNo` LLEVA la «I» aqui y NO la lleva en GetItems. Los dos dobles se
+   veian en desacuerdo —«I9999» contra «1163»— y parecia que uno mentia. No:
+   los dos endpoints de Zoho devuelven el MISMO campo con forma distinta,
+   medido el 2026-09-09 sobre un solo item (21897000001572012) creado y leido
+   contra produccion: CreateItem respondio «I1180» y GetItems «1180».
+   Los dobles estaban bien; el que estaba mal era el tablero, que ponia su
+   propia «I» delante de las dos y escribia «II1180» despues de crear. */
 const CREADO = { payload: { status: "success",
   data: { addedItemId: "21897000009999001", itemNo: "I9999",
           statusId: "21897000000156037", status: "success" } } };
@@ -154,7 +161,12 @@ const leeCarta = (id) => `(() => {
     ok("sin responsable elegido NO se asigna a nadie",
        env.users === undefined, env.users);
     const t = await pg.evaluate(leeCarta(id));
-    ok("la carta muestra el número de item", /I9999/.test(t.txt || ""));
+    /* Con LOS BORDES. `/I9999/` tambien casa dentro de «II9999», que es lo que
+       la pantalla renderizaba con el doble malo: la comprobacion existia y no
+       vio nada. La pantalla pone la «I»; el conector NO la manda. */
+    ok("la carta muestra el número de item, con UNA sola I",
+       /(^|[^A-Za-z])I9999([^0-9]|$)/.test(t.txt || ""),
+       (t.txt || "").match(/I+9999/g));
     ok("sin errores de JavaScript", !errs.length, errs);
     await pg.close();
   }
@@ -421,6 +433,112 @@ const leeCarta = (id) => `(() => {
        /Sin responsable en Sprints/.test(t.txt || ""));
     ok("y no nombra a Unassigned", !/Unassigned|21897000000002005/.test(t.txt || ""));
     ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  /* ── 7 · la TAREA de estrategia también crea el item ──────────────────
+
+     El hueco que reportó Mercadeo el 2026-09-09: «revisa si las tareas
+     aceptadas se crean en sprint inmediatamente, tal como las otras tareas se
+     crean al darle aceptar». No se creaban. En la pantalla las cartas y las
+     tareas se aceptan con el MISMO botón, pero `decidir()` preguntaba
+     `cartaPorId(id)` y una tarea no está en esa lista: guardaba «Aceptada» y no
+     llamaba a nada. Sin aviso.
+
+     Esta sección existía solo para cartas, y por eso el hueco pasó: una prueba
+     que cubre un camino de dos no dice nada del otro. */
+  console.log("\n══ aceptar una TAREA de estrategia crea su item");
+  {
+    /* La primera tarea aceptable, distinguida por su ORIGEN: las tareas y las
+       cartas comparten el atributo `data-decidir`, así que el selector solo no
+       las separa. El bloque de capacidad viene plegado; se abre, como haría
+       una persona. */
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] });
+    await pg.evaluate(
+      `document.querySelectorAll('#estrategia details').forEach(d => d.open = true)`);
+    await pg.waitForTimeout(300);
+    const id = await pg.evaluate(`(() => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      const it = new Set((((D.estrategia || {}).tareas) || []).map(t => t.id));
+      const b = [...document.querySelectorAll(
+        '#estrategia [data-decidir][data-estado="aceptada"]')]
+        .find(x => !x.disabled && it.has(x.getAttribute("data-decidir")));
+      return b ? b.getAttribute("data-decidir") : null;
+    })()`);
+    ok("hay una tarea de estrategia que aceptar", !!id, id);
+    if (id) {
+      /* Toda tarea tiene que traer su payload de Python. Si no lo trae, el
+         botón no puede crear nada y el arreglo sería solo aparente. */
+      const faltan = await pg.evaluate(`(() => {
+        const ts = (((JSON.parse(document.getElementById("datos").textContent)
+          .estrategia) || {}).tareas) || [];
+        return ts.filter(t => !t.sprint || !t.sprint.name || !t.idempotencia)
+                 .map(t => t.id);
+      })()`);
+      ok("TODAS las tareas traen su payload y su marca", faltan.length === 0, faltan);
+
+      await pg.click('#estrategia [data-decidir="' + id + '"][data-estado="aceptada"]');
+      await pg.waitForTimeout(1000);
+      const ll = await pg.evaluate("window.__llamadas");
+      ok("consulta la idempotencia y después crea",
+         ll.length === 2 && ll[0].tool === "ZohoSprints_GetItems" &&
+         ll[1].tool === "ZohoSprints_CreateItem",
+         ll.map(x => x.tool));
+      /* EL GUARDIA QUE IMPORTA: el payload enviado es el que armó Python, no
+         uno que la página se inventa. Es la misma regla que para las cartas. */
+      const esperado = await pg.evaluate(`(() => {
+        const ts = (((JSON.parse(document.getElementById("datos").textContent)
+          .estrategia) || {}).tareas) || [];
+        return (ts.filter(t => t.id === ${JSON.stringify(id)})[0] || {}).sprint;
+      })()`);
+      const env = ll[1] ? ll[1].input.query_params : {};
+      ok("manda EXACTAMENTE el payload de Python",
+         env.name === esperado.name && env.description === esperado.description,
+         { name: env.name === esperado.name,
+           description: env.description === esperado.description });
+      ok("va al backlog del proyecto de la corrida",
+         ll[1].input.path_variables.projectId === "21897000000139001");
+      ok("sin responsable elegido NO se asigna a nadie", env.users === undefined);
+      const t = await pg.evaluate(leeCarta(id));
+      ok("la TARJETA DE LA TAREA confirma el item, con una sola I",
+         /(^|[^A-Za-z])I9999([^0-9]|$)/.test(t.txt || ""),
+         (t.txt || "").match(/I+9999/g));
+      /* Y no le miente sobre qué lleva adentro: una tarea no tiene dirección
+         visual ni referencia medida; describirle las de una carta sería
+         describir un item que no es ese. */
+      ok("describe lo que la TAREA lleva, no lo de una carta",
+         /el ángulo, la evidencia y la instrucción exacta/.test(t.txt || "") &&
+         !/la dirección visual/.test(t.txt || ""));
+    }
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  /* ── 8 · las DOS formas de `itemNo` dan el mismo nombre ───────────────
+
+     La trampa que solo contesta produccion: CreateItem devuelve «I1180» y
+     GetItems, para ESE MISMO item, «1180». Medido el 2026-09-09. La pagina
+     ponia su propia «I» delante de las dos, asi que el mismo item se llamaba
+     «II1180» si se acababa de crear y «I1180» si se habia leido.
+
+     Se prueba con los dos caminos, porque un solo camino pasa sin ver nada. */
+  console.log("\n══ el número de item lleva UNA sola I, venga como venga");
+  for (const caso of [
+    { etq: "recién creado (CreateItem manda «I9999»)",
+      guion: { ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] } },
+    { etq: "creado sin la I (por si Zoho la quita)",
+      guion: { ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [
+        { payload: { status: "success", data: { addedItemId: "21897000009999001",
+            itemNo: "9999", statusId: "21897000000156037",
+            status: "success" } } }] } },
+  ]) {
+    const { pg } = await abre(nav, caso.guion);
+    const id = await apruebaPrimera(pg);
+    const t = await pg.evaluate(leeCarta(id));
+    const hall = (t.txt || "").match(/I+9999/g) || [];
+    ok("  " + caso.etq,
+       hall.length > 0 && hall.every(x => x === "I9999"), hall);
     await pg.close();
   }
 

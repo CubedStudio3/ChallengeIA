@@ -282,6 +282,59 @@ def cuerpo_de_carta(c: dict, rango: str = "") -> str:
     return "\n".join(cuerpo).strip()
 
 
+def cuerpo_de_tarea(t: dict, rango: str = "") -> str:
+    """La descripción del work item de una tarea de estrategia.
+
+    Estaba escrita EN LÍNEA dentro de `plan()`, así que el paso 9 sabía armarla
+    y el botón del tablero no: aceptar una tarea guardaba la decisión y no
+    creaba nada, en silencio. Vive aquí por la misma razón que
+    `cuerpo_de_carta`: dos caminos para la misma acción tienen que producir el
+    mismo item.
+    """
+    cuerpo = [t.get("porque", "")]
+    if t.get("angulo"):
+        cuerpo.append(f"\nÁNGULO: {t['angulo']}")
+    if t.get("no_decir"):
+        cuerpo.append(f"\nNO DECIR: «{t['no_decir']}» — ese terreno ya lo paga "
+                      f"la competencia.")
+    if t.get("instruccion_exacta"):
+        cuerpo.append(f"\nINSTRUCCIÓN EXACTA: {t['instruccion_exacta']}")
+    if t.get("requiere_humano"):
+        # Meta Ads es solo lectura (regla 8). El item ES la instrucción para que
+        # una persona la aplique a mano; decirlo dentro del item evita que
+        # alguien espere que el sistema ya lo hizo.
+        cuerpo.append("\nLO APLICA UNA PERSONA: el sistema no escribe en Meta "
+                      "Ads (regla 8, ADR-012). Esta tarea es la instrucción.")
+    if t.get("evidencia"):
+        cuerpo.append("\nEVIDENCIA:\n" +
+                      "\n".join(f"  · {_evidencia(e)}" for e in t["evidencia"]))
+    cp = t.get("copy") or {}
+    if cp.get("titular"):
+        cuerpo.append(f"\nCOPY PROPUESTO (pendiente de aprobación · regla 5):\n"
+                      f"  Titular: {cp['titular']}\n"
+                      f"  Cuerpo: {cp.get('cuerpo', '')}\n"
+                      f"  CTA: {cp.get('cta', '')}")
+    elif cp.get("estado"):
+        cuerpo.append(f"\nCopy: {cp.get('estado', '')} — {cp.get('motivo', '')}")
+    if t.get("piezas"):
+        cuerpo.append(f"\nPIEZAS: {t['piezas']} — {t.get('piezas_motivo', '')}")
+    if rango:
+        cuerpo.append(f"\nGenerado por Mesa Creativa · corrida {rango}")
+    return "\n".join(cuerpo).strip()
+
+
+def params_de_tarea(t: dict, resultado: dict, proy: dict) -> dict:
+    """Los parámetros de CreateItem para una tarea, SIN el responsable."""
+    rango = (resultado.get("corrida") or {}).get("rango", "")
+    marca = t.get("marca") or _marca(t.get("idempotencia") or t["id"])
+    return {
+        "name": f"{t['titulo']} {marca}".strip(),
+        "description": cuerpo_de_tarea(t, rango),
+        "projitemtypeid": str(proy.get("item_type_id") or ""),
+        "projpriorityid": str(proy.get("priority_id") or ""),
+    }
+
+
 def params_de_carta(c: dict, resultado: dict, proy: dict) -> dict:
     """Los parámetros de CreateItem para una carta, SIN el responsable.
 
@@ -338,34 +391,7 @@ def plan(resultado: dict, decisiones: dict, equipo: dict) -> tuple[list[Escritur
         d = _acepta(decisiones, t["id"])
         if not d:
             continue
-        cuerpo = [t.get("porque", "")]
-        if t.get("angulo"):
-            cuerpo.append(f"\nÁNGULO: {t['angulo']}")
-        if t.get("no_decir"):
-            cuerpo.append(f"\nNO DECIR: «{t['no_decir']}» — ese terreno ya lo paga "
-                          f"la competencia.")
-        if t.get("instruccion_exacta"):
-            cuerpo.append(f"\nINSTRUCCIÓN EXACTA: {t['instruccion_exacta']}")
-        if t.get("evidencia"):
-            cuerpo.append("\nEVIDENCIA:\n" +
-                          "\n".join(f"  · {_evidencia(e)}" for e in t["evidencia"]))
-        cp = t.get("copy") or {}
-        if cp.get("titular"):
-            cuerpo.append(f"\nCOPY PROPUESTO (pendiente de aprobación):\n"
-                          f"  Titular: {cp['titular']}\n"
-                          f"  Cuerpo: {cp.get('cuerpo', '')}\n"
-                          f"  CTA: {cp.get('cta', '')}")
-        elif cp.get("estado"):
-            cuerpo.append(f"\nCopy: {cp.get('estado', '')} — {cp.get('motivo', '')}")
-        cuerpo.append(f"\nGenerado por Mesa Creativa · corrida "
-                      f"{(resultado.get('corrida') or {}).get('rango', '')}")
-
-        params = {
-            "name": f"{t['titulo']} {_marca(t['idempotencia'])}",
-            "description": "\n".join(cuerpo).strip(),
-            "projitemtypeid": str(proy.get("item_type_id") or ""),
-            "projpriorityid": str(proy.get("priority_id") or ""),
-        }
+        params = params_de_tarea(t, resultado, proy)
         if d.get("responsable"):
             params["users"] = _usuarios(d["responsable"])
 

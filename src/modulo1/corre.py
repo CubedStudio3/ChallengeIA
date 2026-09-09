@@ -652,6 +652,22 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                     por_mercado, refs, equipo, _serializa(hallazgos),
                     {"mercados_excluidos_con_gasto": gasto_excluido})
 
+    # Y cada TAREA de estrategia se lleva su payload de CreateItem, igual que
+    # las cartas. Sin esto, el boton del tablero guardaba «Aceptada» y no creaba
+    # nada: `decidir()` solo sabia crear cartas, y una tarea sin payload no
+    # tenia con que. Fallaba en silencio, que es el peor modo de fallar.
+    if estrat.get("tareas"):
+        from .sprint import params_de_tarea, _marca
+        proy_t = (cargar("equipo", permitir_bloqueado=True)
+                  .get("proyecto_sprint") or {})
+        base_t = {"corrida": {"rango": rango.etiqueta()}}
+        for t in estrat["tareas"]:
+            # La marca va en el nombre del item porque Sprints no expone un
+            # campo propio para la idempotencia. Es la misma convencion que las
+            # cartas, y se escribe aqui para que las dos la compartan.
+            t["marca"] = _marca(t.get("idempotencia") or t["id"])
+            t["sprint"] = params_de_tarea(t, base_t, proy_t)
+
     return {
         "corrida": {"rango": rango.etiqueta(), "hoy": hoy.isoformat(),
                     "dry_run": dry_run},

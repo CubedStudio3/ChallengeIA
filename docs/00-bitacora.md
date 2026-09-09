@@ -1003,3 +1003,39 @@ anotadas como trampas.
 porque se quitó su tarjeta habría vaciado las tareas.
 
 Detalle en ADR-053.
+
+### Sesión 5 · duodécima parte · Las tareas también llegan a Sprints
+
+Mercadeo preguntó si las tareas aceptadas se crean en Sprints igual que las
+cartas. La respuesta era **no, y en silencio**: se pulsó el botón con el
+conector simulado y la tarea no hacía ni una llamada. Guardaba «Aceptada» y
+nada más.
+
+Dos causas reales, no una: `decidir()` preguntaba solo por cartas, y las tareas
+no traían payload porque ese constructor **no existía** —el cuerpo de una tarea
+se armaba en línea dentro del paso 9, así que la línea de comandos sabía
+crearlas y el botón no—. Ahora vive en su propia función y los dos caminos la
+usan; comprobado campo por campo que producen el mismo item.
+
+La tarjeta de tarea también muestra qué pasó en Sprints. Sin eso, el arreglo
+habría cambiado un fallo callado por un acierto callado.
+
+Y buscando confirmar la forma del número de item apareció una trampa que solo
+contesta producción: **`CreateItem` devuelve «I1180» y `GetItems`, para ese
+mismo item, «1180»**. Los dos endpoints de Zoho, el mismo campo, dos formas. La
+página ponía su propia «I» delante de las dos y escribía «II1180» después de
+crear. Estaba en cuatro llamadas repetidas; ahora se normaliza en una.
+
+En el camino me equivoqué: con solo `GetItems` medido concluí que el doble de la
+prueba mentía y cambié el doble. Era al revés. Un endpoint no dice la forma del
+otro, y medio dato dio un diagnóstico invertido.
+
+El hueco duró porque la prueba del botón cubría las cartas desde ADR-046 y las
+cartas funcionaban. Una prueba que cubre un camino de dos no dice nada del otro,
+y su verde se lee como si dijera algo.
+
+Verificado contra producción con el ciclo crear / comprobar / borrar: item
+I1180 creado con su responsable (Elizabeth Sierra), leído y borrado. El backlog
+quedó limpio.
+
+Detalle en ADR-054.

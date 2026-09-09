@@ -9315,7 +9315,14 @@
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
         "idempotencia": "2026-W35::arte::contra-Paggo-GT",
-        "_estado_inicial": "propuesta"
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::arte::contra-Paggo-GT]",
+        "sprint": {
+          "name": "Contra-ángulo frente a Paggo en GT [MC:2026-W35::arte::contra-Paggo-GT]",
+          "description": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Gestiona tu Negocio Fácil» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT\n  · Ad Library · foto del periodo, 36 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 2 — 2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       },
       {
         "id": "arte-contra-recurrente-GT",
@@ -9362,7 +9369,14 @@
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
         "idempotencia": "2026-W35::arte::contra-Recurrente-GT",
-        "_estado_inicial": "propuesta"
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::arte::contra-Recurrente-GT]",
+        "sprint": {
+          "name": "Contra-ángulo frente a Recurrente en GT [MC:2026-W35::arte::contra-Recurrente-GT]",
+          "description": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT\n  · Ad Library · foto del periodo, 3 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       },
       {
         "id": "arte-mercado-libre-SV",
@@ -9409,7 +9423,14 @@
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
         "idempotencia": "2026-W35::arte::mercado-libre-SV",
-        "_estado_inicial": "propuesta"
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::arte::mercado-libre-SV]",
+        "sprint": {
+          "name": "Creativo propio para SV: nadie más está pautando ahí [MC:2026-W35::arte::mercado-libre-SV]",
+          "description": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.\n\nÁNGULO: Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.\n\nEVIDENCIA:\n  · meta_campanas_por_pais.json · SV · costo por resultado $2.68\n  · Ad Library · SV · 0 anuncios activos entre los competidores medidos\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       },
       {
         "id": "arte-repetir-lo-que-rinde",
@@ -9455,7 +9476,14 @@
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
         "idempotencia": "2026-W35::arte::repetir-instagram",
-        "_estado_inicial": "propuesta"
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::arte::repetir-instagram]",
+        "sprint": {
+          "name": "Repetir el tema que mejor rindió: «Lo que no se puede medir no se puede modificar…» [MC:2026-W35::arte::repetir-instagram]",
+          "description": "Es la pieza orgánica con más interacciones del periodo medido (70 en instagram, 2026-09-02). El tema está validado con audiencia propia; lo que se repite es el tema, no el arte.\n\nÁNGULO: Tomar el tema que ya funcionó y llevarlo a otro formato y otra red, en lugar de estrenar un tema sin validar.\n\nEVIDENCIA:\n  · social_normalizado.json · instagram · 70 interacciones · 2026-09-02\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       },
       {
         "id": "pauta-excluir-HN",
@@ -9491,7 +9519,14 @@
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
         "idempotencia": "2026-W35::pauta::excluir-HN",
-        "_estado_inicial": "propuesta"
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::pauta::excluir-HN]",
+        "sprint": {
+          "name": "Quitar HN de la segmentación: sigue gastando en un mercado que ya no es objetivo [MC:2026-W35::pauta::excluir-HN]",
+          "description": "HN está excluido de los mercados declarados y aun así registró $0.02 y 10 impresiones en el periodo.\n\nÁNGULO: No es creativo: es higiene de segmentación.\n\nINSTRUCCIÓN EXACTA: En Meta Ads Manager, abrir el conjunto de anuncios de: Campaña Punto de Venta SV. En Audiencia → Ubicaciones, quitar HN de la lista de países. Guardar. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. El sistema no lo hace porque Meta Ads es solo lectura (ADR-012).\n\nLO APLICA UNA PERSONA: el sistema no escribe en Meta Ads (regla 8, ADR-012). Esta tarea es la instrucción.\n\nEVIDENCIA:\n  · meta_campanas_por_pais.json · HN · $0.02 de gasto\n  · config/convenciones.json · HN excluido: Instruccion explicita del usuario 2026-08-27: 'todo lo que tenga que ver con hon\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       }
     ],
     "conteo": {

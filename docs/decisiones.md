@@ -3199,3 +3199,108 @@ origen —la lista de la que salió cada id—, que es la única distinción rea
 sigue con las dos fallas de contraste previas —`#1A5B93` 2.59:1 y `#931A68`
 2.27:1, mínimo 3—, idénticas antes y después de este cambio, reportadas a
 Mercadeo y sin tocar.
+
+---
+
+## ADR-054 · Aceptar una tarea también crea su item, y el número de item lleva UNA sola I
+
+**Fecha:** 2026-09-09
+**Estado:** implementada, verificada contra producción
+**Pedido de Mercadeo (literal):** «revisa si las tareas aceptadas se crean en
+sprint inmediatamente, tal como las otras tareas se crean al darle aceptar».
+
+### La respuesta era NO, y en silencio
+
+Se midió con el conector simulado, pulsando el botón, no leyendo el código:
+
+| Se pulsa ACEPTAR en… | Llamadas a Sprints | La tarjeta decía |
+|---|---|---|
+| una **carta** de producción | `GetItems` + `CreateItem` | «Creada en Sprints · I…» |
+| una **tarea** de estrategia | **NINGUNA** | «Aceptada», y nada más |
+
+Dos causas, las dos reales:
+
+1. **`decidir()` preguntaba `cartaPorId(id)`.** Una tarea no está en la lista de
+   cartas, así que la función devolvía null y no se llamaba a nada. En la
+   pantalla las dos se aceptan con el **mismo botón** (`data-decidir`), así que
+   nada distinguía un camino del otro para quien lo usa.
+2. **Las tareas no traían payload.** 0 de 5 tenían `sprint`; las 10 cartas lo
+   tenían. `corre.py` llamaba a `params_de_carta` y a nada equivalente para las
+   tareas, porque **ese constructor no existía**: el cuerpo de una tarea se
+   armaba EN LÍNEA dentro de `plan()`, así que el paso 9 por línea de comandos
+   sabía crearlas y el botón no.
+
+Guardaba «Aceptada» y no pasaba nada más. Ningún error, ningún aviso: el modo de
+falla que este proyecto no acepta (regla 3).
+
+### El arreglo
+
+- `cuerpo_de_tarea()` y `params_de_tarea()` salen de dentro de `plan()` a
+  funciones propias, al lado de las de carta. `plan()` las usa: **una sola
+  implementación**, o los dos caminos divergen sin que nadie lo note hasta
+  comparar dos items en Sprints. Comprobado campo por campo: el paso 9 y el
+  botón producen `name`, `description`, `projitemtypeid` y `projpriorityid`
+  idénticos.
+- `corre.py` le pega `marca` + `sprint` a cada tarea, igual que a las cartas.
+- `cartaPorId()` pasa a ser `piezaPorId()` y busca en las dos listas. Las
+  **ideas del equipo** siguen fuera a propósito: las escribe una persona en la
+  página, así que Python no pudo armarles payload; se llevan por el CSV.
+- La tarjeta de tarea ahora pinta `tramoSprint()`, el mismo tramo que las
+  cartas. Sin eso el arreglo habría cambiado **un fallo callado por un acierto
+  callado**, que en una mesa de trabajo es casi igual de malo.
+- Y el texto de ese tramo dice lo que el item lleva **de verdad**: una carta
+  lleva «el copy, la dirección visual y la referencia»; una tarea, «el ángulo,
+  la evidencia y la instrucción exacta». Una frase única para las dos habría
+  descrito un item que no es ese.
+
+El item de la tarea de pauta (`pauta-excluir-HN`) además dice dentro que **lo
+aplica una persona**, porque Meta Ads es solo lectura (regla 8, ADR-012). El
+item ES la instrucción; sin decirlo, alguien podría suponer que el sistema ya lo
+hizo.
+
+### La trampa que solo contesta producción
+
+Buscando confirmar la forma del número de item apareció esto, medido **sobre un
+solo item** creado y leído contra producción el 2026-09-09
+(`itemId 21897000001572012`, creado y borrado en el ciclo de ADR-029):
+
+    CreateItem  →  itemNo: "I1180"     ← CON la I
+    GetItems    →  itemNo: "1180"      ← SIN la I, el MISMO item
+
+**Los dos endpoints de Zoho devuelven el mismo campo con forma distinta.** La
+página ponía su propia «I» delante de las dos, así que el mismo item se llamaba
+**«II1180»** si se acababa de crear y «I1180» si se había leído. Cuatro
+llamadas repetían el `"I" + itemNo`, así que el error estaba en cuatro lados a
+la vez; ahora se normaliza en `nroItem()`, en un solo lugar.
+
+**Y me equivoqué en el diagnóstico intermedio.** Con solo `GetItems` medido
+concluí que el doble de la prueba mentía y que el tablero estaba bien, y cambié
+el doble. Era al revés: los dos dobles estaban bien —cada uno para su
+endpoint— y el que estaba mal era el tablero. Un endpoint no dice la forma del
+otro. Se revirtió el doble a su valor medido.
+
+### Las pruebas
+
+`npm run prueba:boton` sube a dos secciones nuevas:
+
+- **La tarea crea su item**: consulta la idempotencia antes de crear, manda
+  EXACTAMENTE el payload de Python, va al backlog del proyecto de la corrida, no
+  asigna a nadie sin que la mesa lo elija, la tarjeta confirma el item, y el
+  texto describe lo que la tarea lleva y no lo de una carta. Más un guardia de
+  que **TODAS** las tareas traigan payload y marca: si una no lo trae, el botón
+  no puede crear nada y el arreglo sería solo aparente.
+- **El número de item con las DOS formas** de `itemNo`, con la I y sin ella. Un
+  solo camino pasa sin ver nada.
+
+La comprobación vieja del número era `/I9999/`, que **también casa dentro de
+«II9999»**: la comprobación existía y no vio el error. Ahora va con los bordes.
+
+Sabotaje comprobado: deshacer la normalización levanta 3 fallas, con `II9999`
+en la evidencia.
+
+### Por qué el hueco duró
+
+Esta sección de la prueba cubría el botón de las **cartas** desde ADR-046, y las
+cartas funcionaban. Una prueba que cubre un camino de dos no dice nada del otro,
+y su verde se lee como si dijera algo. Es el mismo patrón de ADR-053: dos listas
+que contestan la misma pregunta, una probada y la otra no.

@@ -1110,11 +1110,17 @@
         '<p class="text-[12px] font-semibold" style="color:' +
         (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
         (s0.estado === "existia" ? "Ya estaba en Sprints" : "Creada en Sprints") +
-        " · I" + esc(String(s0.itemNo || "")) + "</p>" +
+        " · " + esc(nroItem(s0.itemNo)) + "</p>" +
         '<p class="text-[11.5px] mt-1 leading-relaxed" style="color:' +
         (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">En el backlog de ' +
         esc((destinoSprint() || {}).proyecto || "el proyecto") +
-        ", con el copy, la dirección visual y la referencia adentro." +
+        /* Lo que el item trae adentro es distinto en cada uno, y decir de una
+           tarea que lleva «la dirección visual y la referencia» sería
+           describir un item que no es ese. El texto sale de lo que la pieza
+           es, no de una frase única para las dos. */
+        (esCarta(c.id)
+          ? ", con el copy, la dirección visual y la referencia adentro."
+          : ", con el ángulo, la evidencia y la instrucción exacta adentro.") +
         (s0._nota ? " " + esc(s0._nota) : "") + "</p>" +
         '<p class="text-[11.5px] mt-1.5 leading-relaxed" style="color:' +
         (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
@@ -1149,7 +1155,8 @@
     }
     if (!puede) return "";
     return '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
-      "Al aprobar se crea el work item en el backlog de " +
+      (esCarta(c.id) ? "Al aprobar" : "Al aceptar") +
+      " se crea el work item en el backlog de " +
       esc((destinoSprint() || {}).proyecto || "Sprints") +
       ", con tu conector de " + esc(SERVIDOR) + ". Si elegís el responsable " +
       "abajo antes de aprobar, el item nace con él; si lo cambiás después, " +
@@ -3242,7 +3249,13 @@
       "Rechazar</button></div>" +
       (estado === "aceptada"
         ? selectorResponsable(t.id, d && d.responsable, asig) : "") +
-      "</div></div>";
+      "</div>" +
+      /* El mismo tramo que las cartas: qué pasó en Sprints, con su reintento y
+         su línea de responsable. Sin esto la tarea creaba el item EN SILENCIO
+         —el arreglo de hoy habría cambiado un fallo callado por un acierto
+         callado, que en una mesa de trabajo es casi igual de malo—. */
+      tramoSprint(t, estado) +
+      "</div>";
   }
 
   function tarjetaPropia(t, asig) {
@@ -4125,7 +4138,11 @@
     var ya = (E.sprint || {})[id];
     if (ya && (ya.estado === "creado" || ya.estado === "existia")) return;
     if (ya && ya.estado === "creando") return;
-    if (cartaPorId(id)) crearEnSprints(id);
+    /* CARTA O TAREA. Antes preguntaba solo por cartas, así que aceptar una
+       tarea de estrategia guardaba «Aceptada» y no creaba nada —sin aviso, que
+       es el peor modo—. Lo reportó Mercadeo el 2026-09-09: en la pantalla las
+       dos se aceptan con el mismo botón, así que las dos tienen que escribir. */
+    if (piezaPorId(id)) crearEnSprints(id);
   }
 
   /* ═════════════ crear el work item en Zoho Sprints ═════════════
@@ -4143,9 +4160,22 @@
 
   function destinoSprint() { return (D.cartas || {})._sprint_destino || null; }
 
-  function cartaPorId(id) {
+  /* Lo que se puede crear en Sprints: una carta de producción o una tarea de
+     estrategia. Las dos traen `idempotencia` y `sprint` —el payload que armó
+     Python—, que es todo lo que necesitan `buscaEnSprints` y `crearEnSprints`.
+     Las ideas del equipo NO están acá a propósito: las escribe una persona en
+     la página, así que Python no pudo armarles payload; se llevan por el CSV. */
+  function esCarta(id) {
+    var cs = ((D.cartas || {}).cartas) || [];
+    for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return true;
+    return false;
+  }
+
+  function piezaPorId(id) {
     var cs = ((D.cartas || {}).cartas) || [];
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
+    var ts = ((D.estrategia || {}).tareas) || [];
+    for (var j = 0; j < ts.length; j++) if (ts[j].id === id) return ts[j];
     return null;
   }
 
@@ -4219,13 +4249,29 @@
     });
   }
 
+  /* El número de item, con UNA sola «I».
+
+     Los dos endpoints de Zoho devuelven el MISMO campo con forma distinta:
+     medido el 2026-09-09 sobre un solo item creado y leído contra producción,
+     `CreateItem` respondió `itemNo: "I1180"` y `GetItems`, para ese mismo
+     item, `"1180"`. La página ponía su propia «I» delante de las dos, así que
+     después de crear escribía «II1180» y después de una lectura «I1180»: el
+     mismo item con dos nombres, según por dónde se hubiera enterado.
+
+     Se normaliza en UN lugar. Cuatro llamadas repetían el `"I" + itemNo` y por
+     eso el error estaba en cuatro lados a la vez. */
+  function nroItem(n) {
+    var t = String(n == null ? "" : n).replace(/^I+/, "");
+    return t ? "I" + t : "";
+  }
+
   function marcaSprint(id, datos) {
     E.sprint = E.sprint || {};
     E.sprint[id] = datos;
   }
 
   function crearEnSprints(id) {
-    var carta = cartaPorId(id);
+    var carta = piezaPorId(id);
     if (!sprints || !carta || !carta.sprint) return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) {
@@ -4259,7 +4305,7 @@
                           itemId: ya.itemId, sprintId: ya.sprintId || null,
                           responsable: ya.responsable || null,
                           en: new Date().toISOString() });
-        persistir("Ya existía en Sprints: I" + ya.itemNo);
+        persistir("Ya existía en Sprints: " + nroItem(ya.itemNo));
         if (resp && resp !== (ya.responsable || null)) sincronizaResponsable(id);
         return;
       }
@@ -4279,7 +4325,7 @@
                           itemId: dd.addedItemId, sprintId: dst.sprintId,
                           responsable: resp,
                           en: new Date().toISOString() });
-        persistir("Creado en Sprints: I" + dd.itemNo);
+        persistir("Creado en Sprints: " + nroItem(dd.itemNo));
       });
     }).catch(function (e) {
       var x = explicaError(e);
@@ -4296,7 +4342,7 @@
                             responsable: ya.responsable || null,
                             en: new Date().toISOString(),
                             _nota: "La llamada falló pero el item sí quedó." });
-          persistir("Sí quedó creado: I" + ya.itemNo);
+          persistir("Sí quedó creado: " + nroItem(ya.itemNo));
         } else {
           marcaSprint(id, { estado: "error", detalle: x.txt + " Se releyó el " +
                             "backlog y no está: se puede volver a intentar.",
