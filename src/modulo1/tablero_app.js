@@ -3129,51 +3129,97 @@
           ent(techo) + " que caben</span>") + "</div></div>";
   }
 
-  function tramoCanal(cn) {
-    /* Pauta y orgánico NO se suman: una carta con evidencia de los dos cuenta
-       en los dos. El texto lo dice donde está el número, no en una nota al pie
-       que nadie lee antes de sumar. */
-    var filas = [
-      ["Pauta de Meta", cn.pauta, "Su evidencia se midió en Meta Ads o en la " +
-        "Ad Library, que solo muestra anuncios pagados"],
-      ["Orgánico", cn.organico, "Su evidencia se midió en la cuenta propia: " +
-        "formato y menciones"],
-    ];
-    return '<div class="mt-5"><div class="micro-et">De qué canal sale su ' +
-      "evidencia</div>" +
-      '<div class="space-y-2">' + filas.map(function (f) {
-        var d = f[1] || {};
-        return '<div class="flex items-baseline gap-2.5">' +
-          '<span class="text-[15px] font-bold text-slate-800 tabular-nums ' +
-          'min-w-[22px]">' + ent(d.cuantas || 0) + "</span>" +
-          '<span class="text-[12.5px] text-slate-600 font-semibold">' +
-          esc(f[0]) + "</span>" +
-          (d.solo ? '<span class="text-[11.5px] text-slate-400">' +
-            ent(d.solo) + " solo aquí</span>" : "") + "</div>";
-      }).join("") + "</div>" +
-      ((cn.ambos || {}).cuantas
-        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-2.5">' +
-          "<b>" + ent(cn.ambos.cuantas) + "</b> sirven en los dos, por razones " +
-          "distintas: los dos números no se suman.</p>" : "") +
-      ((cn.solo_ejecucion || {}).cuantas
-        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-1">' +
-          "<b>" + ent(cn.solo_ejecucion.cuantas) + "</b> sin canal medido: su " +
-          "evidencia dice cómo producirla, no dónde apostar.</p>" : "") +
-      "</div>";
+  function lineaCanal(cn) {
+    /* UN renglón. Eran cinco filas más dos párrafos, y encima el paso 3
+       («Repartir las piezas») repetía los mismos números palabra por palabra:
+       tres bloques para una sola pregunta. El paso se quitó de Python y aquí
+       queda la línea; la explicación de cómo se cuenta vive en el pliegue.
+
+       Pauta y orgánico NO se suman —una carta con evidencia de los dos cuenta
+       en los dos— y eso hay que decirlo donde está el número, no en una nota
+       al pie. Por eso «en los dos» aparece como su propio trozo: quien lee la
+       línea ve por qué 3 + 2 no da 4. */
+    var t = [];
+    if ((cn.pauta || {}).cuantas) t.push(ent(cn.pauta.cuantas) + " pauta");
+    if ((cn.organico || {}).cuantas) t.push(ent(cn.organico.cuantas) + " orgánico");
+    if ((cn.ambos || {}).cuantas) t.push(ent(cn.ambos.cuantas) + " en los dos");
+    if ((cn.solo_ejecucion || {}).cuantas)
+      t.push(ent(cn.solo_ejecucion.cuantas) + " sin canal medido");
+    if (!t.length) return "";
+    return '<div class="mt-4 flex items-baseline gap-2 flex-wrap">' +
+      '<span class="micro-et !mb-0 shrink-0">Canal</span>' +
+      '<span class="text-[12.5px] text-slate-600 font-semibold">' +
+      esc(t.join(" · ")) + "</span></div>";
   }
 
-  /* `on` es «esta es la estrategia elegida».
+  /* El sustento completo, en UN pliegue.
 
-     Los pasos y la base de medición van ABIERTOS en la elegida y PLEGADOS en
-     las alternativas. Las tres abiertas daban una sección de casi 8000 px: en
-     la mesa eso es rodar en vez de decidir. Y el orden de la reunión es ese
-     —se comparan las premisas, se elige una, y de ahí se siguen los pasos—,
-     así que lo que se compara (piezas, veredicto, canal) queda a la vista en
-     las tres, y lo que se ejecuta se abre solo en la que se va a ejecutar.
+     Antes había dos: uno con la premisa («Por qué, cuándo no, y la evidencia»)
+     y el «por qué» + el dato de cada paso metidos en la lista de pasos, en
+     párrafos de 100 a 317 caracteres. En una reunión eso no se lee: se salta,
+     y al saltarlo se pierde también el paso.
 
-     Mismo patrón que pidió Mercadeo para el resto del tablero: lo que no es
-     relevante ahora no se borra, se pliega. */
-  function tramoPlan(e, on) {
+     Nada se borra —es la regla que pidió Mercadeo para todo el tablero: lo que
+     no es relevante ahora se pliega—. Y sigue habiendo un solo lugar donde
+     mirar cuando alguien en la mesa pregunta «¿de dónde sale ese número?». */
+  function pliegueSustento(e) {
+    var pl = e.plan || {};
+    var bl = function (rot, cuerpo, clase) {
+      if (!cuerpo) return "";
+      return '<div><div class="micro-et">' + esc(rot) + "</div>" +
+        '<p class="text-[12.5px] leading-relaxed ' + (clase || "text-slate-500") +
+        '">' + cuerpo + "</p></div>";
+    };
+    return '<details class="mt-5 pt-5 border-t border-slate-100">' +
+      '<summary class="micro-et !mb-0 cursor-pointer hover:text-slate-600">' +
+      "El sustento: por qué, cuándo no, y el dato de cada paso</summary>" +
+      '<div class="mt-4 space-y-4">' +
+      bl("Por qué es buena idea", esc(e.por_que)) +
+      bl("Cuándo NO conviene", esc(e.cuando_no_conviene), "text-amber-700") +
+      bl("Por qué la recomienda el análisis", e._por_que_recomendada
+         ? esc(e._por_que_recomendada) : "") +
+      ((e.evidencia || []).length
+        ? '<div><div class="micro-et">Evidencia de la premisa</div>' +
+          '<ul class="text-[12px] text-slate-500 leading-relaxed list-disc ' +
+          'pl-5 space-y-1.5">' + e.evidencia.map(function (x) {
+            return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>"
+        : "") +
+      ((pl.pasos || []).length
+        ? '<div><div class="micro-et">El dato detrás de cada paso</div>' +
+          '<ol class="space-y-3">' + pl.pasos.map(function (x) {
+            return '<li><div class="text-[12.5px] text-slate-700 ' +
+              'font-semibold leading-snug">' + ent(x.orden) + ". " +
+              esc(x.que) + "</div>" +
+              (x.porque ? '<p class="text-[12px] text-slate-500 ' +
+                'leading-relaxed mt-1">' + esc(x.porque) + "</p>" : "") +
+              (x.dato ? '<p class="text-[11px] text-slate-400 leading-relaxed ' +
+                'mt-1 font-mono break-words">' + esc(x.dato) + "</p>" : "") +
+              "</li>";
+          }).join("") + "</ol></div>"
+        : "") +
+      bl("Cómo se cuenta el canal", esc((pl.canal || {})._como_se_cuenta || "")) +
+      bl("Qué produce la semana", esc(pl.veredicto_texto || "")) +
+      ((pl.medir || {}).base
+        ? '<div><div class="micro-et">La base, completa</div>' +
+          '<ul class="text-[11.5px] text-slate-500 leading-relaxed space-y-1 ' +
+          'font-mono">' + pl.medir.base.map(function (b) {
+            return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" +
+          '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-2">' +
+          esc(pl.medir._como_leerlo || "") + "</p></div>"
+        : "") +
+      bl("Cómo se cuentan las piezas", esc(pl._la_unidad || "")) +
+      "</div></details>";
+  }
+
+  /* Ya NO recibe «es la elegida».
+
+     Cuando los pasos traían su «por qué» y su dato, la tarjeta era tan larga
+     que había que plegar los pasos de las alternativas. Con el imperativo
+     solo, la tarjeta entera cabe de un vistazo, así que las TRES se muestran
+     completas — y eso es mejor para lo que hace la mesa: comparar las tres y
+     elegir. El pliegue quedó para el sustento, que es lo que de verdad no se
+     lee mientras se decide. */
+  function tramoPlan(e) {
     var pl = e.plan;
     if (!pl) {
       /* Sin cartas resueltas no hay piezas que planificar, y eso se dice: un
@@ -3183,34 +3229,19 @@
     }
     var pz = pl.piezas || {};
     var v = VEREDICTO[pl.veredicto] || VEREDICTO.sin_capacidad;
-    var pasos = '<ol class="space-y-3 mt-3">' + (pl.pasos || []).map(function (x) {
-      return '<li class="flex gap-2.5">' +
+    /* Los pasos, solo el imperativo (`corto`). El «por qué» y el dato de cada
+       uno bajan al pliegue: con ellos, cada paso ocupaba tres párrafos y la
+       lista dejaba de ser una lista. */
+    var pasos = '<ol class="space-y-1.5 mt-2">' + (pl.pasos || []).map(function (x) {
+      return '<li class="flex gap-2.5 items-baseline">' +
         '<span class="shrink-0 w-5 h-5 rounded-full bg-slate-100 ' +
         'text-[11px] font-bold text-slate-500 grid place-items-center ' +
-        'mt-0.5 tabular-nums">' + ent(x.orden) + "</span>" +
-        '<div class="min-w-0">' +
-        '<div class="text-[13px] text-slate-800 font-semibold leading-snug">' +
-        esc(x.que) +
-        (x.humano ? ' <span class="etiqueta-ambar ml-1">lo aplica una ' +
-          "persona</span>" : "") + "</div>" +
-        (x.porque ? '<p class="text-[12px] text-slate-500 leading-relaxed ' +
-          'mt-1">' + esc(x.porque) + "</p>" : "") +
-        (x.dato ? '<p class="text-[11px] text-slate-400 leading-relaxed ' +
-          'mt-1 font-mono break-words">' + esc(x.dato) + "</p>" : "") +
-        "</div></li>";
+        'tabular-nums">' + ent(x.orden) + "</span>" +
+        '<span class="text-[13px] text-slate-800 leading-snug">' +
+        esc(x.corto || x.que) +
+        (x.humano ? ' <span class="etiqueta-ambar ml-1">una persona</span>'
+                  : "") + "</span></li>";
     }).join("") + "</ol>";
-
-    var medir = !((pl.medir || {}).base) ? "" :
-      '<div class="mt-4 rounded-2xl p-4" style="background:var(--pista)">' +
-      '<div class="micro-et">Contra qué se sabrá si funcionó</div>' +
-      (pl.medir.apuesta
-        ? '<p class="text-[12.5px] text-slate-700 leading-relaxed mb-2.5">' +
-          esc(pl.medir.apuesta) + "</p>" : "") +
-      '<ul class="text-[11.5px] text-slate-500 leading-relaxed space-y-1 ' +
-      'font-mono">' + pl.medir.base.map(function (b) {
-        return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" +
-      '<p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">' +
-      esc(pl.medir._como_leerlo || "") + "</p></div>";
 
     return '<div class="mt-5 pt-5 border-t border-slate-100">' +
       '<div class="flex items-center gap-2 flex-wrap mb-3">' +
@@ -3220,16 +3251,23 @@
       contador((pz.arte || {}).cuantas || 0, (pz.arte || {}).capacidad, "Artes") +
       contador((pz.video || {}).cuantas || 0, (pz.video || {}).capacidad, "Videos") +
       "</div>" +
-      '<p class="text-[12px] text-slate-500 leading-relaxed mt-2.5">' +
-      esc(pl.veredicto_texto || "") + "</p>" +
-      tramoCanal(pl.canal || {}) +
-      (on
-        ? '<div class="mt-5"><div class="micro-et">Pasos, en orden</div>' +
-          pasos + medir + "</div>"
-        : '<details class="mt-5"><summary class="micro-et cursor-pointer ' +
-          'hover:text-slate-600">Ver los ' + ent((pl.pasos || []).length) +
-          " pasos y contra qué se mide</summary>" + pasos + medir +
-          "</details>") +
+      /* Solo el DELTA. «Cabe en la semana» ya lo dice la etiqueta de arriba;
+         repetirlo gastaba el renglón que la mesa de verdad lee. */
+      (pl.veredicto_corto
+        ? '<p class="text-[12px] text-slate-500 mt-2">' +
+          esc(pl.veredicto_corto) + "</p>" : "") +
+      lineaCanal(pl.canal || {}) +
+      '<div class="mt-4"><div class="micro-et !mb-0">Pasos</div>' + pasos +
+      "</div>" +
+      ((pl.medir || {}).base_corta
+        ? '<div class="mt-4 rounded-2xl px-4 py-3" style="background:var(--pista)">' +
+          '<div class="micro-et !mb-0">Se sabrá por</div>' +
+          ((pl.medir.apuesta)
+            ? '<p class="text-[12.5px] text-slate-700 leading-snug mt-1">' +
+              esc(pl.medir.apuesta) + "</p>" : "") +
+          '<p class="text-[11.5px] text-slate-500 font-mono mt-1.5 ' +
+          'break-words">' + esc(pl.medir.base_corta) + "</p></div>"
+        : "") +
       "</div>";
   }
 
@@ -3257,29 +3295,11 @@
           esc(e.nombre) + "</h3>" +
           '<p class="text-[13px] text-slate-500 leading-relaxed mb-5">' +
           esc(e.en_pocas_palabras) + "</p>" +
-          '<details class="mb-5"><summary class="text-[12px] font-semibold ' +
-          'text-slate-400 cursor-pointer hover:text-slate-600">Por qué, cuándo no, ' +
-          'y la evidencia</summary>' +
-          '<div class="mt-4 space-y-4">' +
-          '<div><div class="micro-et">Por qué es buena idea</div>' +
-          '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
-          esc(e.por_que) + "</p></div>" +
-          '<div><div class="micro-et">Cuándo NO conviene</div>' +
-          '<p class="text-[12.5px] text-amber-700 leading-relaxed">' +
-          esc(e.cuando_no_conviene) + "</p></div>" +
-          (e._por_que_recomendada
-            ? '<div><div class="micro-et">Por qué la recomienda el análisis</div>' +
-              '<p class="text-[12.5px] text-slate-500 leading-relaxed">' +
-              esc(e._por_que_recomendada) + "</p></div>" : "") +
-          '<div><div class="micro-et">Evidencia</div><ul class="text-[12px] ' +
-          'text-slate-500 leading-relaxed list-disc pl-5 space-y-1.5">' +
-          (e.evidencia || []).map(function (x) {
-            return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
-          "</div></details>" +
           /* El PLAN, no plegado. Es lo que Mercadeo pidió que se viera:
              cuántas piezas, de qué canal y en qué orden. Lo plegable de arriba
              es el sustento de la premisa; esto es lo que se hace el lunes. */
-          tramoPlan(e, on) +
+          tramoPlan(e) +
+          pliegueSustento(e) +
           '<div class="mt-auto pt-5 border-t border-slate-50 flex items-center ' +
           'justify-between gap-3">' +
           /* Los dos números salen de `sirveA`, el MISMO predicado que pinta

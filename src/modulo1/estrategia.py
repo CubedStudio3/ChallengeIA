@@ -468,6 +468,7 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
         }
 
     techos = [v["capacidad"] for v in piezas.values() if v["capacidad"] is not None]
+    corto = ""            # el delta, sin repetir lo que ya dice la etiqueta
     if not techos:
         veredicto = "sin_capacidad"
         veredicto_txt = ((
@@ -485,10 +486,14 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
             "NO cabe en la semana: " + " y ".join(exceso) +
             ". La mesa tiene que descartar cartas o subir la capacidad; el "
             "sistema no elige cuáles.")
+        corto = "Sobran " + " y ".join(
+            _cuenta(v["cuantas"] - v["capacidad"], k) for k, v in piezas.items()
+            if v["cabe"] is False) + " que no caben."
     elif all(v["holgura"] == 0 for v in piezas.values() if v["capacidad"]):
         veredicto = "justo"
         veredicto_txt = ("Llena la semana exacta: no queda holgura para nada "
                          "que salga de la mesa.")
+        corto = "Sin holgura para nada que salga de la mesa."
     else:
         veredicto = "cabe"
         sobra = [f"{_cuenta(v['holgura'], k)}" for k, v in piezas.items()
@@ -504,6 +509,14 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
                          + (" Los " + " y ".join(tope) + " quedan al tope exacto: "
                             "ahí no entra nada que salga de la mesa."
                             if tope else ""))
+        # La etiqueta ya dice «Cabe en la semana». Repetirlo en la línea de
+        # abajo gasta el renglón que la mesa lee de verdad, que es el delta.
+        # «Sobran 1 arte» estaba mal conjugado. Singular solo si la lista es
+        # UNA cosa de cantidad uno; «3 artes y 3 videos» es plural igual.
+        uno = len(sobra) == 1 and sobra[0].startswith("1 ")
+        corto = " · ".join(
+            ([("Sobra " if uno else "Sobran ") + " y ".join(sobra)] if sobra else [])
+            + ([" y ".join(tope) + " al tope"] if tope else []))
 
     # --- 2 · el corte por canal, contado de la evidencia -------------------
     def _de(pred):
@@ -535,6 +548,7 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
         "total": len(sirve),
         "veredicto": veredicto,
         "veredicto_texto": veredicto_txt,
+        "veredicto_corto": corto,
         "canal": canal,
         "pasos": _pasos(est, sirve, piezas, canal, fmt, redes, por_mercado),
         "medir": _que_medir(est, por_mercado, redes, fmt),
@@ -562,6 +576,7 @@ def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
     if cuantos:
         pasos.append({
             "orden": len(pasos) + 1,
+            "corto": f"Producir {cuantos}.",
             "que": f"Producir {cuantos}.",
             "porque": ("Son las cartas que esta estrategia activa. Cada una trae "
                        "su copy, qué mostrar y su referencia medida."),
@@ -590,6 +605,9 @@ def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
                 f"a quien te conoce, no está dicho.")
         pasos.append({
             "orden": len(pasos) + 1,
+            "corto": ("Los videos, como reel 9:16"
+                      + (f" (al menos {'el' if desc == 1 else 'los ' + str(desc)} "
+                         f"de descubrimiento)" if desc else "") + "."),
             "que": ("Los videos van como reel vertical 9:16, no como pieza de feed"
                     + ((f" — al menos el de descubrimiento." if desc == 1
                          else f" — al menos los {desc} de descubrimiento.")
@@ -606,28 +624,12 @@ def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
                     + (cmp_.get("_control_de_edad") or ""),
         })
 
-    # 3 · el corte de canal. Es el paso que contesta «meta u orgánico».
-    p, o, a = canal["pauta"], canal["organico"], canal["ambos"]
-    if p["cuantas"] or o["cuantas"]:
-        trozos = []
-        if p["solo"]:
-            trozos.append(f"{p['solo']} solo para pauta")
-        if o["solo"]:
-            trozos.append(f"{o['solo']} solo para orgánico")
-        if a["cuantas"]:
-            trozos.append(f"{a['cuantas']} para los dos")
-        if canal["solo_ejecucion"]["cuantas"]:
-            trozos.append(f"{canal['solo_ejecucion']['cuantas']} sin canal "
-                          f"medido (evidencia de ejecución)")
-        pasos.append({
-            "orden": len(pasos) + 1,
-            "que": "Repartir las piezas: " + ", ".join(trozos) + ".",
-            "porque": ("El canal sale de dónde se midió la evidencia de cada "
-                       "carta, no de una predicción. Meta Ads y la Ad Library "
-                       "son pauta; la cuenta propia es orgánico."),
-            "dato": ("los subtotales no suman el total: una carta con evidencia "
-                     "de los dos canales cuenta en los dos"),
-        })
+    # 3 · (vacante) El reparto por canal ERA un paso, y repetía palabra por
+    #     palabra el bloque «De qué canal sale su evidencia» de la tarjeta.
+    #     Dos bloques que contestan la misma pregunta es el error que este
+    #     proyecto lleva repitiendo; en una tarjeta de reunión además gastaba
+    #     tres renglones. El corte sigue en `plan["canal"]`, que es de donde
+    #     lo pinta la tarjeta: se quitó el duplicado, no el dato.
 
     # 4 · la red donde publicar lo organico, si hay una callada que rinde.
     det = (redes or {}).get("detalle") or {}
@@ -638,6 +640,7 @@ def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
             continue
         pasos.append({
             "orden": len(pasos) + 1,
+            "corto": f"Publicar en {nombre.capitalize()}, que está callada.",
             "que": f"Publicar en {nombre.capitalize()}, que está callada.",
             "porque": ("Devuelve resultado y no se está usando. Reactivar una red "
                        "que ya rinde cuesta menos que estrenar una."),
@@ -654,6 +657,7 @@ def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
     # 6 · la compuerta humana del copy (regla 5). Siempre aplica.
     pasos.append({
         "orden": len(pasos) + 1,
+        "corto": "Aprobar los copys antes de publicar.",
         "que": "Aprobar los copys en la mesa antes de publicar nada.",
         "porque": ("Ningún copy se publica sin aprobación humana. Es una decisión "
                    "de diseño en contexto de fintech, no un paso administrativo."),
@@ -685,6 +689,7 @@ def _instruccion_de_pauta(est: dict, por_mercado: dict) -> dict | None:
     cuota = gastos.get(barato, 0) / total if total else 0
     dif = (costos[caro] - costos[barato]) / costos[caro]
     return {
+        "corto": f"¿Mover presupuesto a {barato}? Lo decide la mesa.",
         "que": (f"Poner a la mesa si mueve presupuesto hacia {barato}. "
                 f"El sistema NO lo mueve."),
         "porque": (f"Hoy {barato} trae el lead {dif:.0%} más barato que {caro} y "
@@ -709,7 +714,10 @@ def _que_medir(est: dict, por_mercado: dict, redes: dict,
     No lleva meta ni pronóstico. Poner «bajar a $2.40» sería inventar un
     número: nadie midió qué pasa si se mueve el presupuesto.
     """
-    base = []
+    # Dos formas del mismo dato: `corta` para el renglón que se lee en la mesa
+    # y `base` para el sustento plegado. Son la misma medición formateada
+    # distinto —no dos cuentas—, así que no pueden divergir.
+    base, corta = [], []
     for m, v in sorted((por_mercado or {}).items()):
         pr = v.get("principal") or {}
         if pr.get("costo_por_resultado") and pr.get("resultados"):
@@ -717,13 +725,16 @@ def _que_medir(est: dict, por_mercado: dict, redes: dict,
             # numero pasó por un float y no le da precision, le quita crédito.
             base.append(f"{m} · {int(round(pr['resultados']))} leads a "
                         f"${pr['costo_por_resultado']:.2f}")
+            corta.append(f"{m} ${pr['costo_por_resultado']:.2f}")
     t = (redes or {}).get("totales") or {}
     if t.get("interacciones") is not None:
         base.append(f"orgánico · {t['interacciones']} interacciones en "
                     f"{t.get('publicaciones', 0)} publicaciones")
+        corta.append(f"orgánico {t['interacciones']} inter.")
     cmp_ = ((fmt or {}).get("comparacion") or {})
     if cmp_.get("publicable"):
         base.append(f"reel contra feed · {cmp_['ratio']}x")
+        corta.append(f"reel {cmp_['ratio']}x")
     if not base:
         return None
     # Cuál de esos números apuesta a mover ESTA estrategia. Sin eso, las tres
@@ -731,19 +742,16 @@ def _que_medir(est: dict, por_mercado: dict, redes: dict,
     # Sale de la premisa de cada una, que es lo mismo de lo que sale su
     # evidencia: no es una asignación aparte.
     apuesta = {
-        "mercado-sin-disputa": (
-            "El costo por lead del mercado sin disputa, y su cuota de la "
-            "inversión si la mesa mueve presupuesto."),
-        "disputar-el-flanco": (
-            "El costo por lead del mercado donde está el competidor saturado. Si "
-            "entrar por el flanco cuesta menos atención, tiene que verse ahí."),
-        "repetir-lo-propio": (
-            "Las interacciones del orgánico y el ratio reel contra feed. Es la "
-            "única de las tres cuya premisa se midió en la cuenta propia."),
+        "mercado-sin-disputa": "El costo por lead del mercado sin disputa.",
+        "disputar-el-flanco": ("El costo por lead donde está el competidor "
+                               "saturado."),
+        "repetir-lo-propio": ("Las interacciones del orgánico y el ratio "
+                              "reel contra feed."),
     }.get(est["id"])
 
     return {
         "base": base,
+        "base_corta": " · ".join(corta),
         "apuesta": apuesta,
         "_como_leerlo": (
             "Es la BASE de esta corrida, no una meta. La corrida de la semana que "
@@ -791,9 +799,7 @@ def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
             "id": "mercado-sin-disputa",
             "nombre": f"Empujar {m}, que hoy no se le disputa a nadie",
             "en_pocas_palabras": (
-                f"Concentrar la producción de la semana en {m} en lugar de "
-                f"repartirla entre los dos mercados. Creativo hecho para {m}, no "
-                f"reciclado del otro."),
+                f"Concentrar la semana en {m}, con creativo hecho para {m}."),
             "por_que": (
                 f"Es el único mercado donde se juntan las dos cosas: el costo por "
                 f"resultado más bajo (${cpr:.2f}"
@@ -828,8 +834,8 @@ def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
             "id": "disputar-el-flanco",
             "nombre": f"Ocupar el flanco que {top['de']} deja libre",
             "en_pocas_palabras": (
-                f"No repetir la promesa que la competencia ya paga. Producir el "
-                f"mismo público con otra promesa, la que ellos no están cubriendo."),
+                "Ir al mismo público con la promesa que la competencia no "
+                "cubre."),
             "por_que": (
                 f"{top['de']} concentra {top['cuota']:.0%} de sus anuncios activos "
                 f"en un solo mensaje ({top['repeticiones']} anuncios, "
@@ -844,7 +850,7 @@ def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
             ],
             "cuando_no_conviene": (
                 "Si el mensaje que ellos repiten es el que de verdad describe "
-                "nuestro producto. Ceder el territorio correcto por no chocar "
+                "nuestro producto. Ceder el argumento correcto por no chocar "
                 "sería peor que chocar. Eso no lo dice el dato: lo decide la mesa."),
             "tareas": [t.id for t in tareas_list
                        if "disputar-el-flanco" in t.estrategias],
@@ -879,8 +885,8 @@ def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
             "id": "repetir-lo-propio",
             "nombre": "Repetir el tema que ya enganchó con la audiencia propia",
             "en_pocas_palabras": (
-                "Tomar el contenido que mejor rindió en orgánico y llevarlo a otro "
-                "formato y otra red, en lugar de estrenar temas sin validar."),
+                "Llevar lo que ya rindió en orgánico a otro formato y otra "
+                "red."),
             "por_que": (
                 f"«{m['titulo'][:70]}» hizo {marca} {unidad} en {red} el "
                 f"{m['fecha']}: es el techo de lo medido en el periodo. El tema ya "

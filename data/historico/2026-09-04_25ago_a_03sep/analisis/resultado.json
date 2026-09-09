@@ -9265,7 +9265,7 @@
       {
         "id": "mercado-sin-disputa",
         "nombre": "Empujar SV, que hoy no se le disputa a nadie",
-        "en_pocas_palabras": "Concentrar la producción de la semana en SV en lugar de repartirla entre los dos mercados. Creativo hecho para SV, no reciclado del otro.",
+        "en_pocas_palabras": "Concentrar la semana en SV, con creativo hecho para SV.",
         "por_que": "Es el único mercado donde se juntan las dos cosas: el costo por resultado más bajo ($2.68 contra GT $3.35) y cero anuncios activos entre los competidores medidos. Cuando nadie más compra esa atención, el creativo no compite por ella.",
         "evidencia": [
           "meta_campanas_por_pais.json · SV · $2.68 por resultado",
@@ -9295,6 +9295,7 @@
           "total": 4,
           "veredicto": "cabe",
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 3 artes y 3 videos más.",
+          "veredicto_corto": "Sobran 3 artes y 3 videos",
           "canal": {
             "pauta": {
               "cuantas": 3,
@@ -9326,31 +9327,29 @@
           "pasos": [
             {
               "orden": 1,
+              "corto": "Producir 2 artes y 2 videos.",
               "que": "Producir 2 artes y 2 videos.",
               "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
               "dato": "4 cartas de esta corrida sirven a esta estrategia"
             },
             {
               "orden": 2,
+              "corto": "Los videos, como reel 9:16 (al menos el de descubrimiento).",
               "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos el de descubrimiento.",
               "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
               "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
             },
             {
-              "orden": 3,
-              "que": "Repartir las piezas: 1 solo para pauta, 2 para los dos, 1 sin canal medido (evidencia de ejecución).",
-              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
-              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
-            },
-            {
+              "corto": "¿Mover presupuesto a SV? Lo decide la mesa.",
               "que": "Poner a la mesa si mueve presupuesto hacia SV. El sistema NO lo mueve.",
               "porque": "Hoy SV trae el lead 20% más barato que GT y concentra solo el 39% de la inversión. Que sea más barato hoy no garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una pregunta para la mesa y no una recomendación del sistema.",
               "dato": "SV $2.68 por lead · GT $3.35 · SV tiene $233.12 de $591.42",
               "humano": true,
-              "orden": 4
+              "orden": 3
             },
             {
-              "orden": 5,
+              "orden": 4,
+              "corto": "Aprobar los copys antes de publicar.",
               "que": "Aprobar los copys en la mesa antes de publicar nada.",
               "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
               "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
@@ -9363,7 +9362,8 @@
               "orgánico · 118 interacciones en 10 publicaciones",
               "reel contra feed · 4.87x"
             ],
-            "apuesta": "El costo por lead del mercado sin disputa, y su cuota de la inversión si la mesa mueve presupuesto.",
+            "base_corta": "GT $3.35 · SV $2.68 · orgánico 118 inter. · reel 4.87x",
+            "apuesta": "El costo por lead del mercado sin disputa.",
             "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
             "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
           },
@@ -9373,13 +9373,13 @@
       {
         "id": "disputar-el-flanco",
         "nombre": "Ocupar el flanco que Paggo deja libre",
-        "en_pocas_palabras": "No repetir la promesa que la competencia ya paga. Producir el mismo público con otra promesa, la que ellos no están cubriendo.",
+        "en_pocas_palabras": "Ir al mismo público con la promesa que la competencia no cubre.",
         "por_que": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 109 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
         "evidencia": [
           "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
           "Registro de competencia · mensajes saturados detectados: Paggo, Recurrente"
         ],
-        "cuando_no_conviene": "Si el mensaje que ellos repiten es el que de verdad describe nuestro producto. Ceder el territorio correcto por no chocar sería peor que chocar. Eso no lo dice el dato: lo decide la mesa.",
+        "cuando_no_conviene": "Si el mensaje que ellos repiten es el que de verdad describe nuestro producto. Ceder el argumento correcto por no chocar sería peor que chocar. Eso no lo dice el dato: lo decide la mesa.",
         "tareas": [
           "arte-contra-paggo-GT",
           "arte-contra-recurrente-GT"
@@ -9404,6 +9404,7 @@
           "total": 9,
           "veredicto": "cabe",
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 1 arte más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
+          "veredicto_corto": "Sobra 1 arte · videos al tope",
           "canal": {
             "pauta": {
               "cuantas": 8,
@@ -9440,24 +9441,21 @@
           "pasos": [
             {
               "orden": 1,
+              "corto": "Producir 4 artes y 5 videos.",
               "que": "Producir 4 artes y 5 videos.",
               "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
               "dato": "9 cartas de esta corrida sirven a esta estrategia"
             },
             {
               "orden": 2,
+              "corto": "Los videos, como reel 9:16 (al menos los 3 de descubrimiento).",
               "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
               "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
               "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
             },
             {
               "orden": 3,
-              "que": "Repartir las piezas: 3 solo para pauta, 5 para los dos, 1 sin canal medido (evidencia de ejecución).",
-              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
-              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
-            },
-            {
-              "orden": 4,
+              "corto": "Aprobar los copys antes de publicar.",
               "que": "Aprobar los copys en la mesa antes de publicar nada.",
               "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
               "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
@@ -9470,7 +9468,8 @@
               "orgánico · 118 interacciones en 10 publicaciones",
               "reel contra feed · 4.87x"
             ],
-            "apuesta": "El costo por lead del mercado donde está el competidor saturado. Si entrar por el flanco cuesta menos atención, tiene que verse ahí.",
+            "base_corta": "GT $3.35 · SV $2.68 · orgánico 118 inter. · reel 4.87x",
+            "apuesta": "El costo por lead donde está el competidor saturado.",
             "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
             "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
           },
@@ -9480,7 +9479,7 @@
       {
         "id": "repetir-lo-propio",
         "nombre": "Repetir el tema que ya enganchó con la audiencia propia",
-        "en_pocas_palabras": "Tomar el contenido que mejor rindió en orgánico y llevarlo a otro formato y otra red, en lugar de estrenar temas sin validar.",
+        "en_pocas_palabras": "Llevar lo que ya rindió en orgánico a otro formato y otra red.",
         "por_que": "«Lo que no se puede medir no se puede modificar…» hizo 70 interacciones en instagram el 2026-09-02: es el techo de lo medido en el periodo. El tema ya está probado con nuestra propia audiencia, así que lo que se repite es el tema, no el arte.",
         "evidencia": [
           "social_normalizado.json · instagram · «Lo que no se puede medir no se puede modificar…» · 70 interacciones · 2026-09-02"
@@ -9509,6 +9508,7 @@
           "total": 6,
           "veredicto": "cabe",
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 4 artes más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
+          "veredicto_corto": "Sobran 4 artes · videos al tope",
           "canal": {
             "pauta": {
               "cuantas": 5,
@@ -9541,24 +9541,21 @@
           "pasos": [
             {
               "orden": 1,
+              "corto": "Producir 1 arte y 5 videos.",
               "que": "Producir 1 arte y 5 videos.",
               "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
               "dato": "6 cartas de esta corrida sirven a esta estrategia"
             },
             {
               "orden": 2,
+              "corto": "Los videos, como reel 9:16 (al menos los 3 de descubrimiento).",
               "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
               "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
               "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
             },
             {
               "orden": 3,
-              "que": "Repartir las piezas: 5 para los dos, 1 sin canal medido (evidencia de ejecución).",
-              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
-              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
-            },
-            {
-              "orden": 4,
+              "corto": "Aprobar los copys antes de publicar.",
               "que": "Aprobar los copys en la mesa antes de publicar nada.",
               "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
               "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
@@ -9571,7 +9568,8 @@
               "orgánico · 118 interacciones en 10 publicaciones",
               "reel contra feed · 4.87x"
             ],
-            "apuesta": "Las interacciones del orgánico y el ratio reel contra feed. Es la única de las tres cuya premisa se midió en la cuenta propia.",
+            "base_corta": "GT $3.35 · SV $2.68 · orgánico 118 inter. · reel 4.87x",
+            "apuesta": "Las interacciones del orgánico y el ratio reel contra feed.",
             "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
             "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
           },

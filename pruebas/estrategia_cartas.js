@@ -314,6 +314,56 @@ const VISIBLE = `(() => {
        rot.map(r => r.rotulo));
   }
 
+  console.log("\n══ la tarjeta se lee de un vistazo (pliegue cerrado)");
+  {
+    /* El pedido de Mercadeo (2026-09-09): «es para una reunión y la idea es
+       poder leerlo rápido y estratégicamente. quita cosas innecesarias y
+       textos largos».
+
+       Eso no es una opinión que se pueda dejar a la vista de nadie: es una
+       medida. Antes de recortar, la tarjeta tenía párrafos de 100, 138, 247 y
+       317 caracteres, y un paso que repetía palabra por palabra el bloque de
+       canal. Este guardia existe para que no vuelvan: cualquier texto largo
+       que alguien agregue arriba pone la prueba roja.
+
+       Se mide con el pliegue CERRADO, que es lo que se ve al abrir. Dentro del
+       pliegue el texto largo es correcto: ahí vive el sustento. */
+    const TOPE = 72;      // el renglon mas largo hoy mide 60
+    const RENGLONES = 32; // hoy son 26
+    const tarjetas = await pg.evaluate(`(() => {
+      document.querySelectorAll('#estrategia details').forEach(d => d.open = false);
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      const ids = new Set((((D.estrategia || {}).estrategias) || []).map(e => e.nombre));
+      return [...document.querySelectorAll('#estrategia div.bg-white')]
+        .map(c => c.innerText.split("\\n").map(x => x.trim()).filter(Boolean))
+        .filter(ls => ls.some(l => ids.has(l)))
+        .map(ls => ({ nombre: ls.filter(l => ids.has(l))[0], renglones: ls.length,
+                      largos: ls.filter(l => l.length > ${TOPE}) }));
+    })()`);
+    ok("se midieron las tres tarjetas", tarjetas.length === 3, tarjetas.length);
+    for (const t of tarjetas) {
+      ok("  «" + t.nombre + "» sin textos largos a la vista",
+         t.largos.length === 0,
+         t.largos.map(l => l.length + ": " + l.slice(0, 70)));
+      ok("  «" + t.nombre + "» cabe de un vistazo",
+         t.renglones <= RENGLONES, t.renglones);
+    }
+    /* Y que el paso de canal no vuelva: repetía el bloque de canal entero. */
+    const dup = await pg.evaluate(`(() => {
+      const ps = (((JSON.parse(document.getElementById("datos").textContent)
+        .estrategia) || {}).estrategias || []);
+      return ps.map(e => ({ id: e.id,
+        repiten: ((e.plan || {}).pasos || [])
+          .filter(x => /solo para pauta|para los dos|Repartir las piezas/
+            .test(x.corto || x.que || "")).map(x => x.orden) }))
+        .filter(x => x.repiten.length);
+    })()`);
+    ok("ningún paso repite el bloque de canal", dup.length === 0, dup);
+    // Se vuelven a abrir: las secciones siguientes cuentan con lo que estaba.
+    await pg.evaluate(
+      `document.querySelectorAll('#estrategia details').forEach(d => d.open = true)`);
+  }
+
   console.log("\n══ dos estrategias no muestran la MISMA lista");
   {
     /* El síntoma exacto que se reportó: la lista no cambiaba al cambiar de
@@ -327,9 +377,23 @@ const VISIBLE = `(() => {
 
   console.log("\n══ «territorios de mensaje» ya no está en la pantalla");
   {
+    /* Se busca el BLOQUE, no la palabra. Lo que Mercadeo pidió quitar fue la
+       sección «Territorios de mensaje»; «territorio» como sustantivo común
+       puede aparecer en prosa —y aparecía dentro de «cuándo NO conviene»—
+       sin que haya nada que quitar. La versión anterior buscaba la palabra y
+       se puso roja al abrir un pliegue: acusaba al producto de algo que no
+       era. */
     const t = await pg.evaluate(`document.body.innerText`);
-    ok("ni el título ni el bloque", !/territorio/i.test(t),
-       (t.match(/.{0,40}[Tt]erritorio.{0,40}/g) || []).slice(0, 3));
+    const bloque = /territorios?\s+de\s+mensaje/i;
+    ok("ni el título ni el bloque", !bloque.test(t),
+       (t.match(/.{0,40}[Tt]erritorios? de mensaje.{0,40}/g) || []).slice(0, 3));
+    /* Y en el HTML, no solo en el texto visible: un bloque plegado o con
+       `display:none` no aparece en innerText y pasaría sin verse. */
+    const enHtml = await pg.evaluate(`(() => {
+      const n = document.getElementById("estrategia");
+      return /territorios?[ \\t\\n]+de[ \\t\\n]+mensaje/i.test(n ? n.innerHTML : "");
+    })()`);
+    ok("y tampoco en el HTML de la sección", enHtml === false, enHtml);
   }
 
   ok("sin errores de JavaScript", errs.length === 0, errs);

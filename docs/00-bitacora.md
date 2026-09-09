@@ -1104,3 +1104,36 @@ alternativas plegadas: se comparan las premisas, se elige, y de ahí se siguen
 los pasos.
 
 Detalle en ADR-055.
+
+### Sesión 5 · decimoquinta parte · La estrategia, recortada para la mesa
+
+Mercadeo dijo que la tarjeta ganó estructura pero se llenó de cosas, y que es
+para leerla rápido en una reunión. Se midió antes de recortar: había párrafos de
+317, 247, 216 y 102 caracteres, y la frase de arriba tenía 137.
+
+La medición destapó dos duplicaciones que a ojo no se veían. El paso «Repartir
+las piezas» repetía **palabra por palabra** el bloque de canal que ya está
+arriba —tres bloques para una pregunta—, y «Cabe en la semana» salía dos veces,
+en la etiqueta y otra vez en la línea de abajo. El paso se quitó y la línea
+quedó con el delta, que es lo que se lee.
+
+Arriba quedó lo que se decide: nombre, una frase, los contadores con su techo,
+el delta, una línea de canal, los pasos como imperativos y la apuesta con la
+base compacta. Todo el sustento —premisa, cuándo no conviene, evidencia, el por
+qué y el dato de cada paso— bajó a **un solo** pliegue. No se borró nada: es la
+misma regla de siempre, lo que no es relevante ahora se pliega.
+
+Y las tres tarjetas volvieron a mostrarse iguales. Con los párrafos dentro de
+los pasos había que plegar las alternativas; con el imperativo solo, la tarjeta
+cabe de un vistazo y comparar las tres es justo lo que hace la mesa.
+
+De ~7.900 px a ~2.400 px de sección, y el renglón más largo de 317 a 60
+caracteres. La brevedad quedó como medida, no como opinión: la prueba mide la
+tarjeta con el pliegue cerrado y se pone roja si un renglón pasa de 72
+caracteres.
+
+Dos errores propios: «Sobran 1 arte» mal conjugado, y mi propia prueba acusando
+al producto de un «territorio» que era el sustantivo común en prosa, no el
+bloque que se quitó. Buscaba la palabra donde debía buscar el bloque.
+
+Detalle en ADR-056.

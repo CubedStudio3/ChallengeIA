@@ -3485,3 +3485,100 @@ que el paso 9 y el botón del tablero siguen produciendo el mismo item.
    una comprobación seguía buscando la palabra «tarea» después de que el rótulo
    pasó a decir «ángulo». Distinguir defecto de prueba de defecto de producto
    antes de tocar el código es lo que evita arreglar lo que no está roto.
+
+---
+
+## ADR-056 · La tarjeta de estrategia, recortada a lo que se lee en una reunión
+
+**Fecha:** 2026-09-09
+**Estado:** implementada, verificada en navegador
+**Pedido de Mercadeo (literal):** «me gusta, creo que tiene más estructura solo
+que ahora tiene muchas cosas. recuerda que es para una reunión y la idea es
+poder leerlo rápido y estratégicamente. quita cosas innecesarias y textos
+largos, resumelos para que quede solo lo esencial.»
+
+### Se midió antes de recortar
+
+No se recortó a ojo. Se leyó el texto de la tarjeta renderizada y se midió
+renglón por renglón. Lo que había:
+
+| Renglón | Largo |
+|---|---|
+| `porque` del paso del formato | **317** |
+| `porque` del paso de pauta | **247** |
+| `dato` del paso del formato | **216** |
+| `porque` del paso de producir | 102 |
+| `en_pocas_palabras` | 137 |
+
+Y **dos duplicaciones reales**, que la medición hizo obvias:
+
+1. **El paso 3 «Repartir las piezas» repetía palabra por palabra el bloque «De
+   qué canal sale su evidencia»** — «1 solo para pauta, 2 para los dos, 1 sin
+   canal medido». Tres bloques para una sola pregunta: es el error que este
+   proyecto lleva repitiendo, y aquí gastaba tres renglones de una tarjeta de
+   reunión. El paso se quitó de Python; el corte sigue en `plan["canal"]`, que
+   es de donde lo pinta la tarjeta. **Se quitó el duplicado, no el dato.**
+2. **«Cabe en la semana» salía dos veces**: en la etiqueta y otra vez al
+   principio de la línea de abajo. La línea ahora lleva solo el **delta**
+   («Sobran 3 artes y 3 videos»), que es lo que la mesa de verdad lee.
+
+### Lo que quedó arriba, y lo que bajó al pliegue
+
+Nada se borró. Es la misma regla que Mercadeo pidió para el resto del tablero:
+**lo que no es relevante ahora no se borra, se pliega.**
+
+Arriba, a la vista: el nombre, una frase, los dos contadores con su techo, el
+delta, **una línea** de canal, los pasos como **imperativos** (campo `corto`
+nuevo, uno por paso), y una caja con la apuesta y la base compacta.
+
+Abajo, en **un solo pliegue** («El sustento: por qué, cuándo no, y el dato de
+cada paso»): la premisa, el cuándo NO conviene, la evidencia, el `porque` y el
+`dato` de cada paso, cómo se cuenta el canal, el veredicto completo, la base
+completa y cómo se cuentan las piezas.
+
+Antes eran **dos** pliegues y los párrafos largos estaban **dentro de la lista
+de pasos**, que es lo que hacía que la lista dejara de ser una lista. Ahora hay
+un solo lugar donde mirar cuando alguien pregunta «¿de dónde sale ese número?».
+
+### Las tres tarjetas se muestran completas
+
+`tramoPlan` ya no recibe «es la elegida». Cuando cada paso traía tres párrafos,
+había que plegar los pasos de las alternativas (ADR-055). Con el imperativo
+solo, la tarjeta entera cabe de un vistazo, así que **las tres se muestran
+iguales** — y eso es mejor para lo que hace la mesa: comparar y elegir. Un
+parámetro que ya no se usa es una mentira sobre el contrato de la función, así
+que se quitó.
+
+Medido: la sección pasó de **~7.900 px a ~2.400 px**, y el renglón más largo de
+**317 a 60** caracteres.
+
+### El guardia: la brevedad es una medida, no una opinión
+
+`npm run prueba:estrategia` mide la tarjeta **con el pliegue cerrado**, que es
+lo que se ve al abrir, y exige que ningún renglón pase de **72 caracteres** (el
+más largo hoy mide 60) y que la tarjeta no pase de **32 renglones** (hoy 27-29).
+Cualquier texto largo que alguien agregue arriba pone la prueba roja. Dentro del
+pliegue el texto largo es correcto y no se mide: ahí vive el sustento.
+
+Más un guardia contra la duplicación que se quitó: **ningún paso puede volver a
+repetir el bloque de canal.**
+
+Sabotaje comprobado: devolver el párrafo largo al texto del paso levanta 3
+fallas, con los largos (130, 408, 325, 175) en la evidencia.
+
+### Dos errores propios, los dos de la prueba y no del producto
+
+1. **«Sobran 1 arte»**, mal conjugado. Singular solo si la lista es una cosa de
+   cantidad uno; «3 artes y 3 videos» es plural igual.
+2. **Mi propia prueba puso roja la comprobación de «territorios».** La nueva
+   sección deja los pliegues abiertos al terminar, y eso expuso la palabra
+   «territorio» usada como sustantivo común dentro de «cuándo NO conviene» —
+   texto que llevaba ahí desde siempre, solo que plegado. La comprobación
+   buscaba la **palabra** y debía buscar el **bloque**: acusaba al producto de
+   algo que no era. Se corrigió a `/territorios? de mensaje/` y además se
+   reescribió esa frase a «argumento», por consistencia con el resto. Y se
+   agregó la comprobación sobre el HTML, no solo sobre el texto visible: un
+   bloque plegado no aparece en `innerText` y pasaría sin verse.
+
+Y una que me pasó al escribir la prueba: **un comentario con backticks dentro
+de un template literal termina el literal.** Ya había pasado hoy; van dos.
