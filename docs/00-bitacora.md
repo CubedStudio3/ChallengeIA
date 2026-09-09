@@ -1039,3 +1039,28 @@ I1180 creado con su responsable (Elizabeth Sierra), leído y borrado. El backlog
 quedó limpio.
 
 Detalle en ADR-054.
+
+### Sesión 5 · decimotercera parte · Lo que el estado en vivo delató
+
+Al fusionar el estado para publicar aparecieron dos cosas.
+
+La doble «I» no era teórica: el estado de la versión en vivo la tiene grabada
+con las dos formas a la vez —«I1170» en los items creados, «1171» en los
+encontrados—. En la página que el equipo usó el 7 de septiembre, unas tarjetas
+decían «II1170» y otras «I1171». La normalización al pintar arregla también lo
+ya guardado, sin migrar nada.
+
+Y seis items que el estado declara creados **no están en el backlog de
+Sprints**. Se borraron a mano, probablemente después de probar. La página no lo
+sabe: sigue diciendo «Creada en Sprints» de un item que no existe, porque solo
+vuelve a leer cuando se acepta otra vez. Queda declarado, sin tocar: borrarle
+el estado a Mercadeo por decisión propia sería peor que el desajuste.
+
+Lo tercero es un defecto de método, y es el que más vale: las suites corrían
+contra el archivo publicado, que lleva el estado del equipo dentro. Dos se
+pusieron rojas sin un error de código —la página abría en la estrategia que
+alguien eligió, y el botón pulsaba una carta ya aceptada, que es un toggle—.
+El caso simétrico es el peligroso: un estado en vivo puede poner una suite
+verde por la razón equivocada y eso no avisa. Ahora las pruebas blanquean el
+estado antes de cargar la página. Misma clase de error que el fixture en /tmp,
+en forma nueva.

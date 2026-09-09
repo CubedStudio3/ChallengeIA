@@ -15,6 +15,7 @@
 */
 const { chromium } = require("../node_modules/playwright");
 const fs = require("fs");
+const { sinEstado } = require("./estado_limpio");
 
 const ARCHIVO = process.argv[2] ||
   "/home/user/ChallengeIA/salidas/tablero-mesa-creativa.html";
@@ -89,7 +90,7 @@ const VISIBLE = `(() => {
     '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
     '<style>body{margin:0;font:14px system-ui;background:#fbfbfa}</style>' +
     "</head><body><script>" + RUNTIME + "<\/script>" +
-    fs.readFileSync(ARCHIVO, "utf8") + "</body></html>",
+    sinEstado(fs.readFileSync(ARCHIVO, "utf8")) + "</body></html>",
     { waitUntil: "load" });
   await pg.waitForTimeout(1400);
 

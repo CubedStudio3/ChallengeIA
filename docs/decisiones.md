@@ -3304,3 +3304,40 @@ Esta sección de la prueba cubría el botón de las **cartas** desde ADR-046, y 
 cartas funcionaban. Una prueba que cubre un camino de dos no dice nada del otro,
 y su verde se lee como si dijera algo. Es el mismo patrón de ADR-053: dos listas
 que contestan la misma pregunta, una probada y la otra no.
+
+### Apéndice de ADR-054 · dos hallazgos del estado en vivo (2026-09-09)
+
+**1 · El error de la doble I estaba pasando en producción.** El `#estado` de la
+versión en vivo (v121) lo tiene grabado, y con las dos formas a la vez:
+
+    estado "creado"   → itemNo "I1170", "I1176", "I1177"   ← de CreateItem
+    estado "existia"  → itemNo "1171", "1172", "1173"      ← de GetItems
+
+En la página que el equipo usó el 2026-09-07, unas tarjetas decían **«II1170»**
+y otras «I1171»: el mismo tipo de item con dos nombres, según por dónde se
+hubiera enterado la página. `nroItem()` normaliza al PINTAR, así que arregla
+también el estado ya guardado: no hace falta migrar nada.
+
+**2 · Seis items grabados como creados NO están en Sprints.** Los `I1170` a
+`I1177` que el estado declara `creado`/`existia` no aparecen en el backlog del
+proyecto, que hoy tiene tres items (1140, 1141, 1142) más el del ciclo de
+verificación de hoy, ya borrado. Lo más probable es que se hayan borrado a mano
+después de probar. **La página no lo sabe**: sigue mostrando «Creada en
+Sprints» para un item que ya no existe, porque solo vuelve a leer cuando se
+acepta otra vez. Queda declarado y sin tocar: borrarle el estado a Mercadeo por
+iniciativa propia sería peor que el desajuste.
+
+**Y el defecto de método que esto destapó.** Las suites corren contra
+`salidas/tablero-mesa-creativa.html`, que es el mismo archivo que se publica y
+que —después de `fusiona_estado.js`— lleva dentro el estado en vivo. Eso puso
+rojas dos suites sin un solo error de código: la página abría en
+`disputar-el-flanco` porque una persona la eligió, y `prueba:boton` pulsaba
+ACEPTAR sobre una carta ya aceptada, que es un toggle y no llama a nada. Los dos
+eran comportamiento correcto.
+
+Lo grave es el caso simétrico: **un estado en vivo puede poner una suite VERDE
+por la razón equivocada, y eso no avisa.** `pruebas/estado_limpio.js` blanquea
+el `#estado` antes de cargar la página y conserva solo `periodo`, que no es
+decisión de nadie. Una prueba tiene que controlar su estado de partida; leerlo
+de un archivo que otras personas editan es la misma clase de error que el
+fixture en `/tmp` (ADR-050), en una forma nueva.
