@@ -1064,3 +1064,43 @@ El caso simétrico es el peligroso: un estado en vivo puede poner una suite
 verde por la razón equivocada y eso no avisa. Ahora las pruebas blanquean el
 estado antes de cargar la página. Misma clase de error que el fixture en /tmp,
 en forma nueva.
+
+### Sesión 5 · decimocuarta parte · La estrategia con plan
+
+Mercadeo pidió que la tarjeta de estrategia dejara de ser solo la premisa y
+trajera el plan: cuántos artes y videos, por qué funciona, y qué es de pauta y
+qué de orgánico.
+
+Las piezas se cuentan de las **cartas** que cada estrategia activa —la unidad
+que la mesa aprueba— contra la capacidad declarada. Medido: 2+2 para empujar SV,
+4+5 para el flanco de Paggo, 1+5 para repetir lo propio. Las dos últimas dejan
+los videos al tope exacto, y el veredicto lo dice: decir solo «sobra 1 arte»
+habría dejado creer que había margen en los dos.
+
+El corte pauta/orgánico sale de **dónde se midió** la evidencia de cada carta, no
+de una predicción. Meta Ads y la Ad Library son pauta —la Ad Library solo
+publica anuncios pagados—; la cuenta propia es orgánico. No es una distinción
+inventada: los dos canales traen recomendaciones distintas y medidas por
+separado, y una carta con las dos sirve en los dos por razones distintas. Los
+subtotales no suman el total, y eso se dice donde está el número.
+
+El paso que más cuidado necesitó fue el del formato. El reel gana en alcance
+8.1x pero el feed gana en tasa 2.51x: el análisis marca que se contradicen.
+Citar solo la mitad que conviene era el uso más fácil del dato y el más
+deshonesto. El paso dice las dos y se limita a las piezas de descubrimiento, que
+es la lectura del análisis.
+
+Cada plan deja además contra qué se sabrá si funcionó: la base de esta corrida y
+cuál de esos números apuesta a mover cada estrategia. Sin meta: escribir «bajar
+a $2.40» sería un pronóstico con cara de dato.
+
+Y el bloque de ángulos quedó alineado sin abrir una segunda cuenta de la misma
+semana: el rótulo dice «ángulos» y no «tareas», y tanto la cabecera como el
+motivo de cada tarea dicen que no son piezas adicionales. Reestructurar esa capa
+es más grande que el pedido y hoy es Demo Day; queda como deuda declarada.
+
+Las tres tarjetas abiertas daban 8000 px de sección. La elegida va abierta y las
+alternativas plegadas: se comparan las premisas, se elige, y de ahí se siguen
+los pasos.
+
+Detalle en ADR-055.

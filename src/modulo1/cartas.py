@@ -286,6 +286,38 @@ ESTRATEGIA_DE_EVIDENCIA = {
 EVIDENCIA_NEUTRA = {"carrusel", "concentracion"}
 
 
+# En que CANAL se midio la evidencia que sostiene la carta.
+#
+# Esto NO es un pronostico de donde va a funcionar la pieza: es un hecho sobre
+# de donde salio el numero. La distincion importa porque los dos canales traen
+# recomendaciones DISTINTAS y medidas por separado:
+#
+#   · pauta     — Meta Ads (costo por lead por mercado) y la Ad Library (los
+#                 anuncios PAGADOS de la competencia). Si la evidencia dice que
+#                 un mercado sale mas barato o que un competidor satura un
+#                 mensaje, eso se disputa comprando atencion: es pauta.
+#   · organico  — la cuenta propia (reel contra feed, menciones). Si la
+#                 evidencia dice que un formato rinde en nuestra audiencia, eso
+#                 se aprovecha publicando: es organico.
+#
+# Una carta puede tener las dos, y entonces sirve en los dos canales por
+# razones distintas — que es justo lo que hay que decir, no promediar.
+#
+# La evidencia de EJECUCION no elige canal: dice como producir la pieza.
+CANAL_DE_EVIDENCIA = {
+    "costo_mercado": "pauta",
+    "sin_competencia": "pauta",
+    "territorio_ocupado": "pauta",
+    "vertical_libre": "pauta",
+    "nadie_toca": "pauta",
+    "sobreviviente": "pauta",
+    "formato_propio": "organico",
+    "con_mencion": "organico",
+}
+
+CANAL_NOMBRE = {"pauta": "pauta de Meta", "organico": "orgánico"}
+
+
 # ---------------------------------------------------------------------------
 
 def _estructura(pieza: str, F) -> dict | None:
@@ -387,7 +419,7 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
         porques, evidencia, faltantes, premisa_movida = [], [], [], False
         # Solo cuenta la evidencia que SI se resolvio: una premisa que la
         # corrida no pudo confirmar no puede elegir la estrategia de la carta.
-        ests, neutras = [], 0
+        ests, neutras, canales = [], 0, []
         for ref in (c.get("porque_de") or []):
             fn = RESOLVEDORES.get(ref.get("tipo"))
             if not fn:
@@ -413,6 +445,12 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
                 e = ESTRATEGIA_DE_EVIDENCIA[tipo]
                 if e not in ests:
                     ests.append(e)
+            # El canal se acumula aparte: una carta puede tener evidencia de
+            # pauta Y de organico, y entonces sirve en los dos por razones
+            # distintas. Solo cuenta la evidencia que SI se resolvio.
+            cn = CANAL_DE_EVIDENCIA.get(tipo)
+            if cn and cn not in canales:
+                canales.append(cn)
 
         if not porques:
             # Una carta sin un solo numero vivo no se publica como si lo tuviera.
@@ -431,6 +469,19 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
             # producible sin que nada avisara.
             "estrategias": ests,
             "siempre": not ests,
+            # En que canal se MIDIO lo que sostiene esta carta. Ver
+            # CANAL_DE_EVIDENCIA: es de donde salio el numero, no una
+            # prediccion de donde va a rendir.
+            "canales": canales,
+            "_por_que_ese_canal": (
+                ("La evidencia que la sostiene se midió en "
+                 + " y en ".join(CANAL_NOMBRE[c] for c in canales) + ". "
+                 + ("Sirve en los dos canales, por razones distintas."
+                    if len(canales) > 1 else
+                    "Ahí es donde está el número que la justifica."))
+                if canales else
+                "Su evidencia es de ejecución: dice cómo producirla, no en qué "
+                "canal apostar. Sirve en los dos."),
             "_por_que_esa_estrategia": (
                 "Derivado de la evidencia declarada, no escrito a mano. "
                 + (", ".join(sorted(ests)) if ests

@@ -198,7 +198,9 @@ def reparte_capacidad(tareas_list: list, equipo: dict) -> None:
                 + (" (la capacidad es un promedio declarado por el equipo, no un "
                    "tope duro)" if promedio else "")
                 + ". Si la mesa descarta alguna, las que queden pueden absorber "
-                  "lo que libera.")
+                  "lo que libera. Es la MISMA capacidad que cuenta el plan de la "
+                  "estrategia: un ángulo agrupa cartas, así que estas piezas no "
+                  "se suman con las de las cartas.")
 
 
 def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
@@ -406,6 +408,353 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
 
 
 
+PIEZA_PL = {"arte": ("arte", "artes"), "video": ("video", "videos")}
+
+
+def _cuenta(n: int, clave: str) -> str:
+    uno, varios = PIEZA_PL.get(clave, (clave, clave + "s"))
+    return f"{n} {uno if n == 1 else varios}"
+
+
+def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
+                       fmt: dict | None, redes: dict,
+                       por_mercado: dict) -> dict:
+    """Qué producir esta semana si la mesa elige ESTA estrategia.
+
+    Existe por un pedido de Mercadeo (2026-09-09): «que sea una estrategia
+    realista basada en el análisis de los datos del dashboard y que tenga pasos
+    concretos a seguir: cuantos artes y videos crear, por qué la estrategia es
+    efectiva, diferenciar entre contenido de meta/orgánico».
+
+    Todo lo que devuelve se CUENTA o se DERIVA de la corrida. Ningún número se
+    escribe a mano, por la misma razón que las cartas resuelven su evidencia
+    contra el dato (ADR-042): un plan con un número viejo se lee igual de bien
+    que uno correcto.
+
+    ## La unidad son las CARTAS, no las tareas
+
+    Desde ADR-042 la pieza que la mesa aprueba es la carta. Así que «cuántos
+    artes y videos» se cuenta de las cartas que esta estrategia activa, y la
+    capacidad declarada es el techo contra el que se comparan.
+
+    El bloque de ángulos («Cómo se reparte la capacidad») describe la MISMA
+    capacidad a un grano más grueso: un ángulo agrupa cartas. **No son piezas
+    adicionales**, y el plan lo dice en voz alta para que nadie las sume.
+
+    ## Pauta y orgánico no se promedian
+
+    Cada carta declara en qué canal se MIDIÓ su evidencia (`canales`). No es un
+    pronóstico: es de dónde salió el número. Los dos canales traen
+    recomendaciones distintas —la pauta sabe qué mercado sale más barato, el
+    orgánico sabe qué formato engancha— y juntarlas en una sola cifra perdería
+    las dos.
+    """
+    sirve = [c for c in cartas
+             if c.get("siempre") or est["id"] in (c.get("estrategias") or [])]
+    cap = equipo.get("capacidad_semanal") or {}
+    bloqueado = bool(equipo.get("_lock"))
+
+    # --- 1 · cuántas piezas, por tipo, contra el techo declarado -----------
+    piezas = {}
+    for clave in ("arte", "video"):
+        n = len([c for c in sirve if c.get("pieza") == clave])
+        techo = None if bloqueado else cap.get(clave + "s")
+        cabe = None if techo is None else n <= techo
+        piezas[clave] = {
+            "cuantas": n,
+            "capacidad": techo,
+            "cabe": cabe,
+            "holgura": None if techo is None else techo - n,
+        }
+
+    techos = [v["capacidad"] for v in piezas.values() if v["capacidad"] is not None]
+    if not techos:
+        veredicto = "sin_capacidad"
+        veredicto_txt = ((
+            "config/equipo.json está bloqueado: nadie declaró la capacidad "
+            "semanal, así que no se puede decir si estas piezas caben. El "
+            "número lo pone la mesa.") if bloqueado else (
+            "No hay capacidad semanal declarada, así que no se puede decir si "
+            "estas piezas caben. Cuántas piezas entran en una semana es "
+            "capacidad del equipo: no existe en Meta ni en Ad Library."))
+    elif any(v["cabe"] is False for v in piezas.values()):
+        veredicto = "no_cabe"
+        exceso = [f"{_cuenta(v['cuantas'], k)} contra una capacidad de {v['capacidad']}"
+                  for k, v in piezas.items() if v["cabe"] is False]
+        veredicto_txt = (
+            "NO cabe en la semana: " + " y ".join(exceso) +
+            ". La mesa tiene que descartar cartas o subir la capacidad; el "
+            "sistema no elige cuáles.")
+    elif all(v["holgura"] == 0 for v in piezas.values() if v["capacidad"]):
+        veredicto = "justo"
+        veredicto_txt = ("Llena la semana exacta: no queda holgura para nada "
+                         "que salga de la mesa.")
+    else:
+        veredicto = "cabe"
+        sobra = [f"{_cuenta(v['holgura'], k)}" for k, v in piezas.items()
+                 if v["holgura"]]
+        # Un tipo al tope EXACTO no es holgura, y decir solo lo que sobra lo
+        # esconde: con 4 artes de 5 y 5 videos de 5, «sobra 1 arte» es cierto y
+        # deja creer que hay margen en los dos.
+        tope = [PIEZA_PL[k][1] for k, v in piezas.items()
+                if v["capacidad"] and v["holgura"] == 0 and v["cuantas"]]
+        veredicto_txt = ("Cabe en la semana" +
+                         (", y sobra capacidad para " + " y ".join(sobra) +
+                          " más" if sobra else "") + "."
+                         + (" Los " + " y ".join(tope) + " quedan al tope exacto: "
+                            "ahí no entra nada que salga de la mesa."
+                            if tope else ""))
+
+    # --- 2 · el corte por canal, contado de la evidencia -------------------
+    def _de(pred):
+        return [c for c in sirve if pred(c.get("canales") or [])]
+    solo_p = _de(lambda cs: cs == ["pauta"])
+    solo_o = _de(lambda cs: cs == ["organico"])
+    ambos = _de(lambda cs: len(cs) > 1)
+    ninguno = _de(lambda cs: not cs)
+
+    canal = {
+        "pauta": {"cuantas": len(solo_p) + len(ambos),
+                  "solo": len(solo_p), "titulos": [c["titulo"] for c in solo_p]},
+        "organico": {"cuantas": len(solo_o) + len(ambos),
+                     "solo": len(solo_o), "titulos": [c["titulo"] for c in solo_o]},
+        "ambos": {"cuantas": len(ambos), "titulos": [c["titulo"] for c in ambos]},
+        "solo_ejecucion": {"cuantas": len(ninguno),
+                           "titulos": [c["titulo"] for c in ninguno]},
+        "_como_se_cuenta": (
+            "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una "
+            "predicción de dónde va a rendir. Meta Ads y la Ad Library son "
+            "pauta —la Ad Library solo muestra anuncios pagados—; la cuenta "
+            "propia es orgánico. Una carta con las dos sirve en los dos, por "
+            "razones distintas, y se cuenta en los dos: los subtotales NO "
+            "suman el total."),
+    }
+
+    return {
+        "piezas": piezas,
+        "total": len(sirve),
+        "veredicto": veredicto,
+        "veredicto_texto": veredicto_txt,
+        "canal": canal,
+        "pasos": _pasos(est, sirve, piezas, canal, fmt, redes, por_mercado),
+        "medir": _que_medir(est, por_mercado, redes, fmt),
+        "_la_unidad": (
+            "Las piezas se cuentan de las CARTAS que esta estrategia activa: es "
+            "la unidad que la mesa aprueba (ADR-042). El bloque de ángulos de "
+            "abajo reparte la MISMA capacidad a un grano más grueso —un ángulo "
+            "agrupa cartas—, así que no son piezas adicionales y no se suman."),
+    }
+
+
+def _pasos(est: dict, sirve: list[dict], piezas: dict, canal: dict,
+           fmt: dict | None, redes: dict, por_mercado: dict) -> list[dict]:
+    """Los pasos, en el orden en que se ejecutan. Cada uno con el dato detrás.
+
+    Un paso sin dato detrás es una ocurrencia, así que cada uno lleva `dato`
+    con la medición que lo sostiene. Si la corrida no trae con qué sostener un
+    paso, el paso NO se escribe.
+    """
+    pasos = []
+
+    # 1 · producir. Es el paso que contesta «cuántos artes y videos».
+    cuantos = " y ".join(_cuenta(v["cuantas"], k) for k, v in piezas.items()
+                         if v["cuantas"])
+    if cuantos:
+        pasos.append({
+            "orden": len(pasos) + 1,
+            "que": f"Producir {cuantos}.",
+            "porque": ("Son las cartas que esta estrategia activa. Cada una trae "
+                       "su copy, qué mostrar y su referencia medida."),
+            "dato": f"{len(sirve)} cartas de esta corrida sirven a esta estrategia",
+        })
+
+    # 2 · el formato del video, SOLO si la comparación es publicable.
+    #
+    # Y con la contradicción a la vista. El reel gana en ALCANCE (8.1x) y el
+    # feed gana en TASA (2.51x): las dos cosas son ciertas y contestan preguntas
+    # distintas. Citar solo la mitad que conviene sería el uso más fácil de
+    # hacer de este dato y el más deshonesto. La lectura del análisis es «para
+    # descubrimiento, reel», así que el paso se limita a eso y dice el resto.
+    cmp_ = ((fmt or {}).get("comparacion") or {})
+    ver = (((fmt or {}).get("alcance") or {}).get("veredicto") or {})
+    if piezas["video"]["cuantas"] and cmp_.get("publicable") and cmp_.get("gana") == "REELS":
+        desc = len([c for c in sirve
+                    if c.get("pieza") == "video" and c.get("etapa") == "descubrimiento"])
+        peros = []
+        if ver.get("se_contradicen") and ver.get("gana_en_tasa"):
+            peros.append(
+                f"El {ver['gana_en_tasa'].lower()} gana en TASA "
+                f"({ver.get('ratio_tasa')}x): de la gente que alcanza, engancha a "
+                f"una fracción mayor. Las dos cosas son ciertas. Para "
+                f"descubrimiento manda el alcance; para una pieza que ya le habla "
+                f"a quien te conoce, no está dicho.")
+        pasos.append({
+            "orden": len(pasos) + 1,
+            "que": ("Los videos van como reel vertical 9:16, no como pieza de feed"
+                    + ((f" — al menos el de descubrimiento." if desc == 1
+                         else f" — al menos los {desc} de descubrimiento.")
+                       if desc else ".")),
+            "porque": ("Es el único corte de formato medido en la cuenta propia, y "
+                       "el margen no lo explica la antigüedad. "
+                       + (peros[0] if peros else "")),
+            "dato": (f"reel contra feed · {ver.get('ratio_alcance')}x en alcance "
+                     f"({ver.get('gana_en_alcance', 'REELS')})"
+                     if ver.get("ratio_alcance") else
+                     f"reel contra feed · {cmp_['ratio']}x en interacciones")
+                    + f" · {cmp_['ratio']}x en interacciones "
+                      f"({cmp_['promedio_reels']} contra {cmp_['promedio_feed']}) · "
+                    + (cmp_.get("_control_de_edad") or ""),
+        })
+
+    # 3 · el corte de canal. Es el paso que contesta «meta u orgánico».
+    p, o, a = canal["pauta"], canal["organico"], canal["ambos"]
+    if p["cuantas"] or o["cuantas"]:
+        trozos = []
+        if p["solo"]:
+            trozos.append(f"{p['solo']} solo para pauta")
+        if o["solo"]:
+            trozos.append(f"{o['solo']} solo para orgánico")
+        if a["cuantas"]:
+            trozos.append(f"{a['cuantas']} para los dos")
+        if canal["solo_ejecucion"]["cuantas"]:
+            trozos.append(f"{canal['solo_ejecucion']['cuantas']} sin canal "
+                          f"medido (evidencia de ejecución)")
+        pasos.append({
+            "orden": len(pasos) + 1,
+            "que": "Repartir las piezas: " + ", ".join(trozos) + ".",
+            "porque": ("El canal sale de dónde se midió la evidencia de cada "
+                       "carta, no de una predicción. Meta Ads y la Ad Library "
+                       "son pauta; la cuenta propia es orgánico."),
+            "dato": ("los subtotales no suman el total: una carta con evidencia "
+                     "de los dos canales cuenta en los dos"),
+        })
+
+    # 4 · la red donde publicar lo organico, si hay una callada que rinde.
+    det = (redes or {}).get("detalle") or {}
+    for nombre, r in det.items():
+        if not r.get("confiable", True) or not r.get("silenciosa"):
+            continue
+        if r.get("dias_de_silencio") is None:
+            continue
+        pasos.append({
+            "orden": len(pasos) + 1,
+            "que": f"Publicar en {nombre.capitalize()}, que está callada.",
+            "porque": ("Devuelve resultado y no se está usando. Reactivar una red "
+                       "que ya rinde cuesta menos que estrenar una."),
+            "dato": (f"{nombre} · {r['dias_de_silencio']} días sin publicar · "
+                     f"última {r.get('ultima_publicacion', 'desconocida')}"),
+        })
+        break
+
+    # 5 · la instruccion de pauta. NUNCA la ejecuta el sistema (regla 8).
+    ins = _instruccion_de_pauta(est, por_mercado)
+    if ins:
+        pasos.append(ins | {"orden": len(pasos) + 1})
+
+    # 6 · la compuerta humana del copy (regla 5). Siempre aplica.
+    pasos.append({
+        "orden": len(pasos) + 1,
+        "que": "Aprobar los copys en la mesa antes de publicar nada.",
+        "porque": ("Ningún copy se publica sin aprobación humana. Es una decisión "
+                   "de diseño en contexto de fintech, no un paso administrativo."),
+        "dato": "regla 5 del proyecto · los copys salen marcados para aprobación",
+    })
+    return pasos
+
+
+def _instruccion_de_pauta(est: dict, por_mercado: dict) -> dict | None:
+    """El movimiento de pauta que esta estrategia implica, como INSTRUCCIÓN.
+
+    Meta Ads es solo lectura (regla 8, ADR-012). El sistema no mueve
+    presupuesto ni segmentación: redacta lo que habría que hacer y la mesa
+    decide. Y la decisión de mover dinero **no la dice el dato**: el dato dice
+    qué cuesta cada lead hoy.
+    """
+    if est["id"] != "mercado-sin-disputa":
+        return None
+    costos = {m: ((v.get("principal") or {}).get("costo_por_resultado"))
+              for m, v in (por_mercado or {}).items()}
+    costos = {m: c for m, c in costos.items() if c}
+    if len(costos) < 2:
+        return None
+    barato = min(costos, key=costos.get)
+    caro = max(costos, key=costos.get)
+    gastos = {m: ((v.get("principal") or {}).get("gasto") or 0)
+              for m, v in por_mercado.items()}
+    total = sum(gastos.values())
+    cuota = gastos.get(barato, 0) / total if total else 0
+    dif = (costos[caro] - costos[barato]) / costos[caro]
+    return {
+        "que": (f"Poner a la mesa si mueve presupuesto hacia {barato}. "
+                f"El sistema NO lo mueve."),
+        "porque": (f"Hoy {barato} trae el lead {dif:.0%} más barato que {caro} y "
+                   f"concentra solo el {cuota:.0%} de la inversión. Que sea más "
+                   f"barato hoy no garantiza que aguante más volumen: eso no lo "
+                   f"dice el dato, y por eso es una pregunta para la mesa y no "
+                   f"una recomendación del sistema."),
+        "dato": (f"{barato} ${costos[barato]:.2f} por lead · {caro} "
+                 f"${costos[caro]:.2f} · {barato} tiene ${gastos[barato]:,.2f} "
+                 f"de ${total:,.2f}"),
+        "humano": True,
+    }
+
+
+def _que_medir(est: dict, por_mercado: dict, redes: dict,
+               fmt: dict | None) -> dict | None:
+    """Contra qué número se sabrá la semana que viene si esto funcionó.
+
+    Una estrategia que no se puede desmentir no es una estrategia. Así que se
+    deja escrita la BASE de esta corrida: el número con el que se compara.
+
+    No lleva meta ni pronóstico. Poner «bajar a $2.40» sería inventar un
+    número: nadie midió qué pasa si se mueve el presupuesto.
+    """
+    base = []
+    for m, v in sorted((por_mercado or {}).items()):
+        pr = v.get("principal") or {}
+        if pr.get("costo_por_resultado") and pr.get("resultados"):
+            # Entero: los resultados son un conteo. «107.0 leads» delata que el
+            # numero pasó por un float y no le da precision, le quita crédito.
+            base.append(f"{m} · {int(round(pr['resultados']))} leads a "
+                        f"${pr['costo_por_resultado']:.2f}")
+    t = (redes or {}).get("totales") or {}
+    if t.get("interacciones") is not None:
+        base.append(f"orgánico · {t['interacciones']} interacciones en "
+                    f"{t.get('publicaciones', 0)} publicaciones")
+    cmp_ = ((fmt or {}).get("comparacion") or {})
+    if cmp_.get("publicable"):
+        base.append(f"reel contra feed · {cmp_['ratio']}x")
+    if not base:
+        return None
+    # Cuál de esos números apuesta a mover ESTA estrategia. Sin eso, las tres
+    # muestran la misma base y ninguna dice qué tendría que cambiar si funcionó.
+    # Sale de la premisa de cada una, que es lo mismo de lo que sale su
+    # evidencia: no es una asignación aparte.
+    apuesta = {
+        "mercado-sin-disputa": (
+            "El costo por lead del mercado sin disputa, y su cuota de la "
+            "inversión si la mesa mueve presupuesto."),
+        "disputar-el-flanco": (
+            "El costo por lead del mercado donde está el competidor saturado. Si "
+            "entrar por el flanco cuesta menos atención, tiene que verse ahí."),
+        "repetir-lo-propio": (
+            "Las interacciones del orgánico y el ratio reel contra feed. Es la "
+            "única de las tres cuya premisa se midió en la cuenta propia."),
+    }.get(est["id"])
+
+    return {
+        "base": base,
+        "apuesta": apuesta,
+        "_como_leerlo": (
+            "Es la BASE de esta corrida, no una meta. La corrida de la semana que "
+            "viene compara contra estos números. No se escribe un objetivo porque "
+            "nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico "
+            "con cara de dato."),
+        "_ojo": ("El orgánico no se puede partir por mercado con una sola marca "
+                 "conectada en Zoho Social, así que su base es de los dos juntos."),
+    }
+
+
 def estrategias(redes: dict, panoramas: dict, por_mercado: dict,
                 refs: dict, tareas_list: list[Tarea]) -> list[dict]:
     """Las estrategias candidatas, cada una con su premisa medida.
@@ -589,11 +938,21 @@ def motivo_de_bloqueo(equipo: dict) -> str:
 
 
 def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
-         refs: dict, equipo: dict, hallazgos: list[dict], integridad: dict) -> dict:
+         refs: dict, equipo: dict, hallazgos: list[dict], integridad: dict,
+         cartas: list[dict] | None = None, fmt: dict | None = None) -> dict:
     creativas = tareas(periodo, redes, panoramas, por_mercado, refs, equipo)
     de_pauta = cambios_en_pauta(hallazgos, integridad, periodo)
     todas = creativas + de_pauta
     ests = estrategias(redes, panoramas, por_mercado, refs, todas)
+
+    # El plan de produccion de CADA estrategia. Va aqui y no en el tablero
+    # porque cuenta cartas contra capacidad, y eso es analisis: el tablero
+    # pinta, no calcula. `cartas` es opcional para no romper a quien llame sin
+    # ellas —una corrida sin copys resueltos no tiene piezas que planificar—,
+    # y en ese caso el plan queda en None y la tarjeta lo dice.
+    for e in ests:
+        e["plan"] = (plan_de_produccion(e, cartas, equipo, fmt, redes, por_mercado)
+                     if cartas else None)
 
     bloqueado = bool(equipo.get("_lock"))
     return {

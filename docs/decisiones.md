@@ -3341,3 +3341,147 @@ el `#estado` antes de cargar la página y conserva solo `periodo`, que no es
 decisión de nadie. Una prueba tiene que controlar su estado de partida; leerlo
 de un archivo que otras personas editan es la misma clase de error que el
 fixture en `/tmp` (ADR-050), en una forma nueva.
+
+---
+
+## ADR-055 · La tarjeta de estrategia trae el plan: cuántas piezas, de qué canal y en qué orden
+
+**Fecha:** 2026-09-09
+**Estado:** implementada, verificada en navegador
+**Pedido de Mercadeo (literal):** «Quiero que sea una estrategia realista basada
+en el análisis de los datos del dashboard y que tenga pasos concretos a seguir:
+cuantos artes y videos crear, por qué la estrategia es efectiva, diferenciar
+entre contenido de meta/orgánico. y lo que consideres que sea útil de acuerdo a
+lo que ya tenemos. ajusta las tarjetas para que muestren esta información por
+estrategia y que las tareas estén alineadas a ello.»
+
+### Qué faltaba
+
+La tarjeta ya traía la premisa con su número y el «cuándo NO conviene». Lo que
+no traía era **qué hacer el lunes**: cuántas piezas, de qué tipo, para qué canal
+y en qué orden. Un rótulo decía «Activa 2 tareas · 4 cartas» y ahí terminaba.
+
+### Las piezas se CUENTAN, no se escriben
+
+`plan_de_produccion()` cuenta las **cartas** que la estrategia activa —la unidad
+que la mesa aprueba (ADR-042)— partidas por tipo, contra la capacidad declarada
+en `config/equipo.json`. Medido en esta corrida:
+
+| Estrategia | artes | videos | veredicto |
+|---|---|---|---|
+| Empujar SV (recomendada) | 2 de 5 | 2 de 5 | cabe, sobran 3 y 3 |
+| Ocupar el flanco de Paggo | 4 de 5 | 5 de 5 | cabe, **videos al tope exacto** |
+| Repetir lo propio | 1 de 5 | 5 de 5 | cabe, **videos al tope exacto** |
+
+El veredicto tiene cuatro ramas y las cuatro se ejecutaron a mano antes de
+publicar (`cabe`, `justo`, `no_cabe`, `sin_capacidad`): un camino que nunca
+corrió no está probado, está apagado (ADR-030).
+
+**El veredicto no puede mentir sobre la capacidad.** Un «cabe» con más piezas
+que techo es peor que no tener veredicto: la mesa produciría de más creyendo que
+estaba avisada. Es el guardia principal de la prueba, y el sabotaje —bajar la
+capacidad a 1 dejando el veredicto en «cabe»— levanta 3 fallas.
+
+### El corte pauta / orgánico es un HECHO, no un pronóstico
+
+Cada carta declara ahora `canales`: **en qué canal se midió la evidencia que la
+sostiene** (`CANAL_DE_EVIDENCIA` en `cartas.py`).
+
+- **pauta** — Meta Ads (costo por lead por mercado) y la Ad Library, que solo
+  publica anuncios **pagados**. Si el dato dice que un mercado sale más barato o
+  que un competidor satura un mensaje, eso se disputa comprando atención.
+- **orgánico** — la cuenta propia: reel contra feed, menciones. Si el dato dice
+  que un formato engancha a nuestra audiencia, eso se aprovecha publicando.
+
+La distinción no es arbitraria: **los dos canales traen recomendaciones
+distintas y medidas por separado.** La pauta sabe qué mercado cuesta menos; el
+orgánico sabe qué formato rinde. Promediarlas perdería las dos.
+
+Una carta con evidencia de los dos sirve en los dos, por razones distintas, y se
+cuenta en los dos: **los subtotales NO suman el total**, y el texto lo dice
+donde está el número, no en una nota al pie que nadie lee antes de sumar.
+
+### Los pasos: cada uno con su dato, o no se escribe
+
+Un paso sin medición detrás es una ocurrencia, así que cada paso lleva `dato`.
+Y si la corrida no trae con qué sostenerlo, **el paso no aparece** — el paso de
+«publicar en la red callada» no salió en esta corrida porque ninguna red está
+marcada como silenciosa. La prueba exige que todo paso traiga su dato.
+
+**El paso del formato es el que más cuidado necesitaba.** El reel gana en
+alcance 8.1x, pero el **feed gana en tasa 2.51x**: el propio análisis marca
+`se_contradicen: true`. Citar solo la mitad que conviene habría sido el uso más
+fácil de este dato y el más deshonesto. El paso dice las dos, se limita a las
+piezas de **descubrimiento** —que es la lectura del análisis, «para
+descubrimiento, reel»— y deja escrito que para una pieza que le habla a quien ya
+te conoce, no está dicho.
+
+**El paso de pauta nunca lo ejecuta el sistema.** Meta Ads es solo lectura
+(regla 8, ADR-012), así que el movimiento de presupuesto sale como pregunta para
+la mesa, con etiqueta «lo aplica una persona», y con el límite escrito: que SV
+sea más barato hoy no garantiza que aguante más volumen, y eso **no lo dice el
+dato**.
+
+### «Contra qué se sabrá si funcionó»
+
+Una estrategia que no se puede desmentir no es una estrategia. Cada plan deja la
+**base** de esta corrida —GT 107 leads a $3.35, SV 87 a $2.68, 118 interacciones
+orgánicas, reel/feed 4.87x— más `apuesta`: cuál de esos números apuesta a mover
+ESTA estrategia. Sin `apuesta`, las tres mostraban la misma base y ninguna decía
+qué tendría que cambiar.
+
+**No lleva meta.** Escribir «bajar a $2.40» sería un pronóstico con cara de
+dato: nadie midió qué pasa si se mueve el presupuesto.
+
+### Los ángulos alineados, sin una segunda cuenta de lo mismo
+
+El bloque «Cómo se reparte la capacidad» reparte la **misma** capacidad a un
+grano más grueso: un ángulo agrupa cartas. Dos cuentas de la misma semana es el
+error que este proyecto lleva repitiendo, así que:
+
+- el rótulo dice «Activa 2 **ángulos** · 4 cartas», no «2 tareas»: llamarlos
+  igual invitaba a sumarlos;
+- la cabecera del bloque y el `piezas_motivo` de cada tarea dicen en voz alta
+  que **no son piezas adicionales y no se suman con las cartas**.
+
+Se declaró en vez de reestructurar la capa de ángulos, que es un cambio mayor
+que el pedido y hoy es Demo Day. Queda anotado como deuda: la resolución
+definitiva es que la capacidad se reparta en un solo lugar.
+
+### La elegida abierta, las alternativas plegadas
+
+Las tres tarjetas con los pasos abiertos daban una sección de casi **8000 px**:
+en la mesa eso es rodar en vez de decidir. Y el orden de la reunión es ese —se
+comparan las premisas, se elige una, se siguen los pasos—, así que lo que se
+compara (piezas, veredicto, canal) queda a la vista en las tres y lo que se
+ejecuta se abre solo en la que se va a ejecutar. Mismo patrón que Mercadeo pidió
+para el resto del tablero: lo que no es relevante ahora no se borra, se pliega.
+
+La rejilla subió de 340 a `min(380px, 100%)`: a 340 cada paso se rompía en tres
+líneas. Con piso duro desbordaría a 390 px, que es la trampa ya anotada.
+Comprobado sin desborde horizontal a 1440 y a 390.
+
+### Las pruebas
+
+`npm run prueba:estrategia` sube a dos secciones nuevas: que los artes y videos
+del plan sean **las cartas que la estrategia activa** (contado aparte, igual que
+Python), que el veredicto no mienta sobre la capacidad, que el corte de canal
+salga de la evidencia, que cada paso traiga su dato, y que **las tres tarjetas
+muestren cada una lo suyo** leyéndolo de la PANTALLA —si la tarjeta pintara el
+plan de otra estrategia, los conteos del JSON seguirían bien y la pantalla
+estaría mal—.
+
+Suites: `prueba:cartas`, `prueba:pauta`, `prueba:tablero`, `prueba:filtro`,
+`prueba:raton`, `prueba:boton` y `prueba:estrategia` en verde. Comprobado además
+que el paso 9 y el botón del tablero siguen produciendo el mismo item.
+
+### Dos errores propios en el camino
+
+1. Un comentario con **backticks dentro de un template literal** terminó el
+   literal: `SyntaxError: Unexpected identifier 'div'`. Lo agarró node, no una
+   prueba.
+2. Dos comprobaciones nuevas fallaron por defecto **de la prueba**, no del
+   producto: el selector `div.bg-white` casaba también las tarjetas de carta, y
+   una comprobación seguía buscando la palabra «tarea» después de que el rótulo
+   pasó a decir «ángulo». Distinguir defecto de prueba de defecto de producto
+   antes de tocar el código es lo que evita arreglar lo que no está roto.

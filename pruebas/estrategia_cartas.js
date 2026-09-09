@@ -168,6 +168,124 @@ const VISIBLE = `(() => {
     vistos.push({ id: e.id, cartas: v.cartas.slice().sort().join(",") });
   }
 
+  console.log("\n══ el plan de producción de cada estrategia");
+  {
+    /* Lo esperado se CUENTA de las cartas, igual que Python. Si las dos cuentas
+       coinciden, la de la pantalla no es una tercera cuenta que pueda derivar.
+       Y si Python cambia el criterio, esta prueba se pone roja: es el punto. */
+    const planes = await pg.evaluate(`(() => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      const cs = ((D.cartas || {}).cartas) || [];
+      const sirve = (x, id) => x.siempre || (x.estrategias || []).indexOf(id) >= 0;
+      return (((D.estrategia || {}).estrategias) || []).map(e => {
+        const mias = cs.filter(c => sirve(c, e.id));
+        const pl = e.plan || {};
+        return {
+          id: e.id, plan: !!e.plan,
+          artes: (pl.piezas || {}).arte, videos: (pl.piezas || {}).video,
+          contadas: { arte: mias.filter(c => c.pieza === "arte").length,
+                      video: mias.filter(c => c.pieza === "video").length },
+          total: pl.total, cartas: mias.length,
+          pasos: (pl.pasos || []).length,
+          veredicto: pl.veredicto,
+          canal: pl.canal,
+          // Lo que la evidencia dice de canal, contado aparte.
+          canalContado: {
+            pauta: mias.filter(c => (c.canales || []).indexOf("pauta") >= 0).length,
+            organico: mias.filter(c => (c.canales || []).indexOf("organico") >= 0).length,
+            sin: mias.filter(c => !(c.canales || []).length).length,
+          },
+          sinDato: (pl.pasos || []).filter(x => !x.dato || !x.que).map(x => x.orden),
+        };
+      });
+    })()`);
+    ok("las tres estrategias traen plan", planes.every(p => p.plan),
+       planes.map(p => p.id + ":" + p.plan));
+    for (const p of planes) {
+      ok("  " + p.id + " · los artes y videos son las CARTAS que activa",
+         p.artes.cuantas === p.contadas.arte &&
+         p.videos.cuantas === p.contadas.video && p.total === p.cartas,
+         { plan: [p.artes.cuantas, p.videos.cuantas, p.total],
+           contado: [p.contadas.arte, p.contadas.video, p.cartas] });
+      /* EL GUARDIA QUE IMPORTA: el veredicto tiene que decir la verdad sobre la
+         capacidad. Un «cabe» con más piezas que capacidad es peor que no tener
+         veredicto: la mesa produciría de más creyendo que estaba avisada. */
+      const techos = [p.artes, p.videos].filter(x => x.capacidad != null);
+      const excede = techos.some(x => x.cuantas > x.capacidad);
+      ok("  " + p.id + " · el veredicto no miente sobre la capacidad",
+         techos.length === 0 ? p.veredicto === "sin_capacidad"
+                             : (excede ? p.veredicto === "no_cabe"
+                                       : p.veredicto !== "no_cabe"),
+         { veredicto: p.veredicto, excede: excede,
+           techos: techos.map(x => x.cuantas + "/" + x.capacidad) });
+      ok("  " + p.id + " · el corte de canal sale de la evidencia",
+         p.canal.pauta.cuantas === p.canalContado.pauta &&
+         p.canal.organico.cuantas === p.canalContado.organico &&
+         p.canal.solo_ejecucion.cuantas === p.canalContado.sin,
+         { plan: [p.canal.pauta.cuantas, p.canal.organico.cuantas,
+                  p.canal.solo_ejecucion.cuantas],
+           contado: [p.canalContado.pauta, p.canalContado.organico,
+                     p.canalContado.sin] });
+      /* Un paso sin dato detrás es una ocurrencia. */
+      ok("  " + p.id + " · cada paso trae su dato", p.sinDato.length === 0,
+         p.sinDato);
+      ok("  " + p.id + " · hay pasos que seguir", p.pasos >= 3, p.pasos);
+    }
+  }
+
+  console.log("\n══ el plan de la PANTALLA cambia al cambiar de estrategia");
+  {
+    /* Los números del plan se leen de la pantalla, no del JSON: es lo que la
+       mesa va a leer. Si la tarjeta pintara el plan de otra estrategia, los
+       conteos del JSON seguirían bien y la pantalla estaría mal. */
+    /* Sin expresiones regulares dentro del literal: el escapado de `\b` se
+       rompió al pasar por dos capas de comillas y la página tiró
+       «Invalid regular expression». Partir el texto en líneas hace lo mismo y
+       no tiene nada que escapar. */
+    const leePlan = `(() => {
+      return [...document.querySelectorAll('#estrategia div.bg-white')].map(c => {
+        const ls = c.innerText.split("\\n").map(x => x.trim());
+        const tras = (rot) => {
+          const i = ls.indexOf(rot);
+          return i >= 0 && /^[0-9]+$/.test(ls[i + 1] || "") ? +ls[i + 1] : null;
+        };
+        return { artes: tras("ARTES"), videos: tras("VIDEOS"),
+                 elegida: ls.indexOf("Elegida") >= 0 };
+      /* El selector div.bg-white tambien casa las tarjetas de carta y de
+         angulo, que no traen contadores: se quedan las que si, que son las de
+         estrategia. (Sin backticks: esto vive dentro de un template literal.) */
+      }).filter(x => x.artes !== null || x.videos !== null);
+    })()`;
+    const esperadoPorId = {};
+    for (const p of await pg.evaluate(`(() => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      return (((D.estrategia || {}).estrategias) || []).map(e => ({
+        id: e.id, nombre: e.nombre,
+        artes: ((e.plan || {}).piezas || {}).arte.cuantas,
+        videos: ((e.plan || {}).piezas || {}).video.cuantas }));
+    })()`)) esperadoPorId[p.id] = p;
+
+    for (const id of Object.keys(esperadoPorId)) {
+      const btn = '#estrategia [data-estrategia="' + id + '"]';
+      if (await pg.$(btn)) { await pg.click(btn); await pg.waitForTimeout(700); }
+      const tarjetas = await pg.evaluate(leePlan);
+      const eleg = tarjetas.filter(t => t.elegida)[0];
+      const exp = esperadoPorId[id];
+      ok("  la tarjeta elegida (" + id + ") muestra sus propias piezas",
+         !!eleg && eleg.artes === exp.artes && eleg.videos === exp.videos,
+         { pantalla: eleg && [eleg.artes, eleg.videos],
+           esperado: [exp.artes, exp.videos] });
+      /* Y las tres tarjetas tienen que mostrar SUS números, no los de la
+         elegida: la comparación es la razón de que se vean las tres. */
+      const setPantalla = tarjetas.map(t => t.artes + "/" + t.videos).sort();
+      const setDato = Object.values(esperadoPorId)
+        .map(p => p.artes + "/" + p.videos).sort();
+      ok("  las tres muestran cada una lo suyo",
+         JSON.stringify(setPantalla) === JSON.stringify(setDato),
+         { pantalla: setPantalla, dato: setDato });
+    }
+  }
+
   console.log("\n══ la tarjeta dice cuánto mueve elegirla");
   {
     /* El rótulo es una frase que la página escribe sobre su propio estado, y
@@ -188,8 +306,11 @@ const VISIBLE = `(() => {
          r.rotulo.indexOf(String(e.cartas)) >= 0,
          { rotulo: r.rotulo, tareas: e.tareas, cartas: e.cartas });
     }
-    ok("los rótulos nombran cartas y tareas, no solo tareas",
-       rot.every(r => /carta/.test(r.rotulo || "") && /tarea/.test(r.rotulo || "")),
+    /* Dice «ángulos» y no «tareas» desde que el plan cuenta las CARTAS: las
+       cartas son las piezas y los ángulos las agrupan, así que llamarlos igual
+       invitaba a sumar dos cuentas de la misma capacidad. */
+    ok("los rótulos nombran cartas y ángulos, no solo una de las dos",
+       rot.every(r => /carta/.test(r.rotulo || "") && /ángulo/.test(r.rotulo || "")),
        rot.map(r => r.rotulo));
   }
 

@@ -3094,12 +3094,155 @@
   }
 
   /* ── 5 · Estrategia ──────────────────────────────────────────────────────── */
+
+  /* El plan de producción de una estrategia, tal como lo calculó Python.
+
+     NADA se cuenta aquí. Los artes, los videos, el reparto pauta/orgánico y
+     los pasos vienen en `e.plan`, resueltos contra la corrida en
+     `estrategia.plan_de_produccion()`. Si el tablero recontara, habría dos
+     cuentas de lo mismo — el error que este proyecto lleva repitiendo — y la
+     que se ve ganaría sin tener razón.
+
+     Pedido de Mercadeo (2026-09-09): «que sea una estrategia realista basada en
+     el análisis de los datos del dashboard y que tenga pasos concretos a
+     seguir: cuantos artes y videos crear, por qué la estrategia es efectiva,
+     diferenciar entre contenido de meta/orgánico». */
+
+  var VEREDICTO = {
+    cabe: { et: "etiqueta-verde", txt: "Cabe en la semana" },
+    justo: { et: "etiqueta-ambar", txt: "Llena la semana exacta" },
+    no_cabe: { et: "etiqueta-rojo", txt: "No cabe en la semana" },
+    sin_capacidad: { et: "etiqueta-ambar", txt: "Sin capacidad declarada" },
+  };
+
+  function contador(n, techo, rotulo) {
+    /* El número grande es lo producible; el techo va al lado y más chico,
+       porque son dos cosas distintas: uno sale del análisis y el otro lo
+       declaró el equipo. Fundirlos en «2/5» los hace parecer del mismo tipo. */
+    return '<div class="rounded-2xl bg-slate-50 px-4 py-3">' +
+      '<div class="micro-et !mb-0">' + esc(rotulo) + "</div>" +
+      '<div class="flex items-baseline gap-1.5 mt-1">' +
+      '<span class="text-[27px] font-bold text-slate-900 tabular-nums ' +
+      'leading-none">' + ent(n) + "</span>" +
+      (techo == null ? ""
+        : '<span class="text-[12px] text-slate-400 tabular-nums">de ' +
+          ent(techo) + " que caben</span>") + "</div></div>";
+  }
+
+  function tramoCanal(cn) {
+    /* Pauta y orgánico NO se suman: una carta con evidencia de los dos cuenta
+       en los dos. El texto lo dice donde está el número, no en una nota al pie
+       que nadie lee antes de sumar. */
+    var filas = [
+      ["Pauta de Meta", cn.pauta, "Su evidencia se midió en Meta Ads o en la " +
+        "Ad Library, que solo muestra anuncios pagados"],
+      ["Orgánico", cn.organico, "Su evidencia se midió en la cuenta propia: " +
+        "formato y menciones"],
+    ];
+    return '<div class="mt-5"><div class="micro-et">De qué canal sale su ' +
+      "evidencia</div>" +
+      '<div class="space-y-2">' + filas.map(function (f) {
+        var d = f[1] || {};
+        return '<div class="flex items-baseline gap-2.5">' +
+          '<span class="text-[15px] font-bold text-slate-800 tabular-nums ' +
+          'min-w-[22px]">' + ent(d.cuantas || 0) + "</span>" +
+          '<span class="text-[12.5px] text-slate-600 font-semibold">' +
+          esc(f[0]) + "</span>" +
+          (d.solo ? '<span class="text-[11.5px] text-slate-400">' +
+            ent(d.solo) + " solo aquí</span>" : "") + "</div>";
+      }).join("") + "</div>" +
+      ((cn.ambos || {}).cuantas
+        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-2.5">' +
+          "<b>" + ent(cn.ambos.cuantas) + "</b> sirven en los dos, por razones " +
+          "distintas: los dos números no se suman.</p>" : "") +
+      ((cn.solo_ejecucion || {}).cuantas
+        ? '<p class="text-[11.5px] text-slate-400 leading-relaxed mt-1">' +
+          "<b>" + ent(cn.solo_ejecucion.cuantas) + "</b> sin canal medido: su " +
+          "evidencia dice cómo producirla, no dónde apostar.</p>" : "") +
+      "</div>";
+  }
+
+  /* `on` es «esta es la estrategia elegida».
+
+     Los pasos y la base de medición van ABIERTOS en la elegida y PLEGADOS en
+     las alternativas. Las tres abiertas daban una sección de casi 8000 px: en
+     la mesa eso es rodar en vez de decidir. Y el orden de la reunión es ese
+     —se comparan las premisas, se elige una, y de ahí se siguen los pasos—,
+     así que lo que se compara (piezas, veredicto, canal) queda a la vista en
+     las tres, y lo que se ejecuta se abre solo en la que se va a ejecutar.
+
+     Mismo patrón que pidió Mercadeo para el resto del tablero: lo que no es
+     relevante ahora no se borra, se pliega. */
+  function tramoPlan(e, on) {
+    var pl = e.plan;
+    if (!pl) {
+      /* Sin cartas resueltas no hay piezas que planificar, y eso se dice: un
+         plan ausente en silencio se lee como «no hay nada que hacer». */
+      return nota("Esta corrida no resolvió cartas, así que no hay plan de " +
+                  "producción que contar para esta estrategia.");
+    }
+    var pz = pl.piezas || {};
+    var v = VEREDICTO[pl.veredicto] || VEREDICTO.sin_capacidad;
+    var pasos = '<ol class="space-y-3 mt-3">' + (pl.pasos || []).map(function (x) {
+      return '<li class="flex gap-2.5">' +
+        '<span class="shrink-0 w-5 h-5 rounded-full bg-slate-100 ' +
+        'text-[11px] font-bold text-slate-500 grid place-items-center ' +
+        'mt-0.5 tabular-nums">' + ent(x.orden) + "</span>" +
+        '<div class="min-w-0">' +
+        '<div class="text-[13px] text-slate-800 font-semibold leading-snug">' +
+        esc(x.que) +
+        (x.humano ? ' <span class="etiqueta-ambar ml-1">lo aplica una ' +
+          "persona</span>" : "") + "</div>" +
+        (x.porque ? '<p class="text-[12px] text-slate-500 leading-relaxed ' +
+          'mt-1">' + esc(x.porque) + "</p>" : "") +
+        (x.dato ? '<p class="text-[11px] text-slate-400 leading-relaxed ' +
+          'mt-1 font-mono break-words">' + esc(x.dato) + "</p>" : "") +
+        "</div></li>";
+    }).join("") + "</ol>";
+
+    var medir = !((pl.medir || {}).base) ? "" :
+      '<div class="mt-4 rounded-2xl p-4" style="background:var(--pista)">' +
+      '<div class="micro-et">Contra qué se sabrá si funcionó</div>' +
+      (pl.medir.apuesta
+        ? '<p class="text-[12.5px] text-slate-700 leading-relaxed mb-2.5">' +
+          esc(pl.medir.apuesta) + "</p>" : "") +
+      '<ul class="text-[11.5px] text-slate-500 leading-relaxed space-y-1 ' +
+      'font-mono">' + pl.medir.base.map(function (b) {
+        return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" +
+      '<p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">' +
+      esc(pl.medir._como_leerlo || "") + "</p></div>";
+
+    return '<div class="mt-5 pt-5 border-t border-slate-100">' +
+      '<div class="flex items-center gap-2 flex-wrap mb-3">' +
+      '<span class="micro-et !mb-0">Qué producir</span>' +
+      '<span class="' + v.et + ' ml-auto">' + esc(v.txt) + "</span></div>" +
+      '<div class="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr))]">' +
+      contador((pz.arte || {}).cuantas || 0, (pz.arte || {}).capacidad, "Artes") +
+      contador((pz.video || {}).cuantas || 0, (pz.video || {}).capacidad, "Videos") +
+      "</div>" +
+      '<p class="text-[12px] text-slate-500 leading-relaxed mt-2.5">' +
+      esc(pl.veredicto_texto || "") + "</p>" +
+      tramoCanal(pl.canal || {}) +
+      (on
+        ? '<div class="mt-5"><div class="micro-et">Pasos, en orden</div>' +
+          pasos + medir + "</div>"
+        : '<details class="mt-5"><summary class="micro-et cursor-pointer ' +
+          'hover:text-slate-600">Ver los ' + ent((pl.pasos || []).length) +
+          " pasos y contra qué se mide</summary>" + pasos + medir +
+          "</details>") +
+      "</div>";
+  }
+
   function selectorEstrategia() {
     var est = D.estrategia || {};
     var es = est.estrategias || [];
     if (!es.length) return "";
     var act = estrategiaActiva();
-    return '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
+    /* 380 y no 340: la tarjeta ahora lleva el plan adentro —contadores, el
+       corte de canal y los pasos numerados— y a 340 cada paso se rompía en
+       tres líneas. `min(380px, 100%)` y no `380px` a secas: un piso duro
+       desborda en una pantalla de 390 (trampa ya anotada). */
+    return '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr))] mb-6">' +
       es.map(function (e) {
         var on = e.id === act.id;
         return '<div class="bg-white rounded-3xl p-7 flex flex-col ' +
@@ -3133,22 +3276,23 @@
           (e.evidencia || []).map(function (x) {
             return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
           "</div></details>" +
+          /* El PLAN, no plegado. Es lo que Mercadeo pidió que se viera:
+             cuántas piezas, de qué canal y en qué orden. Lo plegable de arriba
+             es el sustento de la premisa; esto es lo que se hace el lunes. */
+          tramoPlan(e, on) +
           '<div class="mt-auto pt-5 border-t border-slate-50 flex items-center ' +
           'justify-between gap-3">' +
-          /* Cuántas piezas mueve elegir esta. Decía solo las tareas, y desde
-             que las cartas también filtran (2026-09-09) eso subvaloraba el
-             cambio: la sección grande de la pantalla es la de cartas. Los dos
-             números se CUENTAN sobre el mismo predicado que pinta la lista, no
-             se escriben aparte: un conteo propio se desincroniza. */
           /* Los dos números salen de `sirveA`, el MISMO predicado que pinta
-             las listas. Antes las tareas se contaban con `e.tareas.length`
-             —la lista que arma Python— y decía «1 tarea» donde se ven 2: esa
-             lista no incluye la tarea `siempre`, que sí se activa con
-             cualquier estrategia. El rótulo tiene que contar lo que la persona
-             va a ver, o es una frase que contradice la pantalla. */
+             las listas, y no de `e.tareas.length` —la lista que arma Python—,
+             que no incluye la tarea `siempre` y decía «1 tarea» donde se ven 2.
+             El rótulo tiene que contar lo que la persona va a ver.
+
+             Dice «ángulos» y no «tareas» desde que el plan cuenta las CARTAS:
+             las cartas son las piezas y los ángulos las agrupan, así que
+             llamarlos igual invitaba a sumarlos. */
           '<span class="text-[12px] text-slate-400">Activa ' +
           cuenta(((est.tareas) || []).filter(function (t) {
-            return sirveA(t, e); }).length, "tarea", "tareas") + " · " +
+            return sirveA(t, e); }).length, "ángulo", "ángulos") + " · " +
           cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
                  "carta", "cartas") + "</span>" +
           (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
@@ -3400,8 +3544,11 @@
           '<p class="text-[12.5px] text-slate-400 mt-1.5 mb-6 pl-5">' +
           (act ? "Los que activa <b class=\"text-slate-600 font-semibold\">" +
             esc(act.nombre) + "</b>. " : "") +
-          "Cuántas piezas caben en la semana y quién las hace. De aquí sale el " +
-          "CSV de Sprint.</p>" +
+          "Un ángulo AGRUPA cartas: es la misma capacidad que cuenta el plan de " +
+          "arriba, a un grano más grueso. <b class=\"text-slate-600 " +
+          "font-semibold\">No son piezas adicionales y no se suman con las " +
+          "cartas.</b> De aquí sale el CSV de Sprint y el reparto por persona." +
+          "</p>" +
           G + creativas.map(function (t) { return tarjetaTarea(t, asig); }).join("") +
           "</div></details>"
         : nota(buscando()

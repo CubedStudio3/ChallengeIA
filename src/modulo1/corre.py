@@ -650,7 +650,14 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
     equipo = cargar("equipo", permitir_bloqueado=True)
     estrat = E.arma(id_semana(rango), redes_para_secciones, competencia,
                     por_mercado, refs, equipo, _serializa(hallazgos),
-                    {"mercados_excluidos_con_gasto": gasto_excluido})
+                    {"mercados_excluidos_con_gasto": gasto_excluido},
+                    # Las cartas y el corte de formato entran para que cada
+                    # estrategia pueda calcular SU plan: cuantos artes y videos,
+                    # y el reparto pauta/organico. Se pasan las ya construidas
+                    # arriba; recontarlas aqui seria una segunda cuenta de lo
+                    # mismo.
+                    cartas=(cartas or {}).get("cartas") or [],
+                    fmt=fmt)
 
     # Y cada TAREA de estrategia se lleva su payload de CreateItem, igual que
     # las cartas. Sin esto, el boton del tablero guardaba «Aceptada» y no creaba

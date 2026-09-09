@@ -7983,6 +7983,11 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "pauta",
+          "organico"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en pauta de Meta y en orgánico. Sirve en los dos canales, por razones distintas.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, mercado-sin-disputa, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-sv-liquidacion-a",
         "marca": "[MC:2026-W35::video::copy-sv-liquidacion-a]",
@@ -8063,6 +8068,10 @@
           "mercado-sin-disputa"
         ],
         "siempre": false,
+        "canales": [
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en pauta de Meta. Ahí es donde está el número que la justifica.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. mercado-sin-disputa",
         "idempotencia": "2026-W35::arte::copy-sv-liquidacion-b",
         "marca": "[MC:2026-W35::arte::copy-sv-liquidacion-b]",
@@ -8141,6 +8150,11 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "organico",
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en orgánico y en pauta de Meta. Sirve en los dos canales, por razones distintas.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-belleza-anticipo",
         "marca": "[MC:2026-W35::video::copy-belleza-anticipo]",
@@ -8217,6 +8231,10 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en pauta de Meta. Ahí es donde está el número que la justifica.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-belleza-propina",
         "marca": "[MC:2026-W35::arte::copy-belleza-propina]",
@@ -8291,6 +8309,10 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en pauta de Meta. Ahí es donde está el número que la justifica.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-inventario-descuadre",
         "marca": "[MC:2026-W35::arte::copy-inventario-descuadre]",
@@ -8367,6 +8389,11 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "organico",
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en orgánico y en pauta de Meta. Sirve en los dos canales, por razones distintas.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-soporte-tecnico",
         "marca": "[MC:2026-W35::video::copy-soporte-tecnico]",
@@ -8445,6 +8472,11 @@
           "mercado-sin-disputa"
         ],
         "siempre": false,
+        "canales": [
+          "organico",
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en orgánico y en pauta de Meta. Sirve en los dos canales, por razones distintas.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, mercado-sin-disputa, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-pdv-video-cierre",
         "marca": "[MC:2026-W35::video::copy-pdv-video-cierre]",
@@ -8519,6 +8551,8 @@
         "id": "copy-pasarela-arte-whatsapp",
         "estrategias": [],
         "siempre": true,
+        "canales": [],
+        "_por_que_ese_canal": "Su evidencia es de ejecución: dice cómo producirla, no en qué canal apostar. Sirve en los dos.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. Sin evidencia que elija estrategia (2 de ejecucion): sirve a las tres.",
         "idempotencia": "2026-W35::arte::copy-pasarela-arte-whatsapp",
         "marca": "[MC:2026-W35::arte::copy-pasarela-arte-whatsapp]",
@@ -8593,6 +8627,11 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "organico",
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en orgánico y en pauta de Meta. Sirve en los dos canales, por razones distintas.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-tienda-video-sinweb",
         "marca": "[MC:2026-W35::video::copy-tienda-video-sinweb]",
@@ -8669,6 +8708,10 @@
           "disputar-el-flanco"
         ],
         "siempre": false,
+        "canales": [
+          "pauta"
+        ],
+        "_por_que_ese_canal": "La evidencia que la sostiene se midió en pauta de Meta. Ahí es donde está el número que la justifica.",
         "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-tienda-arte-integraciones",
         "marca": "[MC:2026-W35::arte::copy-tienda-arte-integraciones]",
@@ -9233,7 +9276,99 @@
           "arte-mercado-libre-SV"
         ],
         "recomendada": true,
-        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto."
+        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto.",
+        "plan": {
+          "piezas": {
+            "arte": {
+              "cuantas": 2,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 3
+            },
+            "video": {
+              "cuantas": 2,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 3
+            }
+          },
+          "total": 4,
+          "veredicto": "cabe",
+          "veredicto_texto": "Cabe en la semana, y sobra capacidad para 3 artes y 3 videos más.",
+          "canal": {
+            "pauta": {
+              "cuantas": 3,
+              "solo": 1,
+              "titulos": [
+                "Arte · Pasarela de Pagos"
+              ]
+            },
+            "organico": {
+              "cuantas": 2,
+              "solo": 0,
+              "titulos": []
+            },
+            "ambos": {
+              "cuantas": 2,
+              "titulos": [
+                "Video · Pasarela de Pagos",
+                "Video · Punto de Venta"
+              ]
+            },
+            "solo_ejecucion": {
+              "cuantas": 1,
+              "titulos": [
+                "Arte · Pasarela de Pagos"
+              ]
+            },
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+          },
+          "pasos": [
+            {
+              "orden": 1,
+              "que": "Producir 2 artes y 2 videos.",
+              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
+              "dato": "4 cartas de esta corrida sirven a esta estrategia"
+            },
+            {
+              "orden": 2,
+              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos el de descubrimiento.",
+              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
+              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
+            },
+            {
+              "orden": 3,
+              "que": "Repartir las piezas: 1 solo para pauta, 2 para los dos, 1 sin canal medido (evidencia de ejecución).",
+              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
+              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
+            },
+            {
+              "que": "Poner a la mesa si mueve presupuesto hacia SV. El sistema NO lo mueve.",
+              "porque": "Hoy SV trae el lead 20% más barato que GT y concentra solo el 39% de la inversión. Que sea más barato hoy no garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una pregunta para la mesa y no una recomendación del sistema.",
+              "dato": "SV $2.68 por lead · GT $3.35 · SV tiene $233.12 de $591.42",
+              "humano": true,
+              "orden": 4
+            },
+            {
+              "orden": 5,
+              "que": "Aprobar los copys en la mesa antes de publicar nada.",
+              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
+              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
+            }
+          ],
+          "medir": {
+            "base": [
+              "GT · 107 leads a $3.35",
+              "SV · 87 leads a $2.68",
+              "orgánico · 118 interacciones en 10 publicaciones",
+              "reel contra feed · 4.87x"
+            ],
+            "apuesta": "El costo por lead del mercado sin disputa, y su cuota de la inversión si la mesa mueve presupuesto.",
+            "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
+            "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
+          },
+          "_la_unidad": "Las piezas se cuentan de las CARTAS que esta estrategia activa: es la unidad que la mesa aprueba (ADR-042). El bloque de ángulos de abajo reparte la MISMA capacidad a un grano más grueso —un ángulo agrupa cartas—, así que no son piezas adicionales y no se suman."
+        }
       },
       {
         "id": "disputar-el-flanco",
@@ -9250,7 +9385,97 @@
           "arte-contra-recurrente-GT"
         ],
         "recomendada": false,
-        "_por_que_recomendada": null
+        "_por_que_recomendada": null,
+        "plan": {
+          "piezas": {
+            "arte": {
+              "cuantas": 4,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 1
+            },
+            "video": {
+              "cuantas": 5,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 0
+            }
+          },
+          "total": 9,
+          "veredicto": "cabe",
+          "veredicto_texto": "Cabe en la semana, y sobra capacidad para 1 arte más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
+          "canal": {
+            "pauta": {
+              "cuantas": 8,
+              "solo": 3,
+              "titulos": [
+                "Arte · Punto de Venta",
+                "Arte · Tienda en Línea",
+                "Arte · Tienda en Línea"
+              ]
+            },
+            "organico": {
+              "cuantas": 5,
+              "solo": 0,
+              "titulos": []
+            },
+            "ambos": {
+              "cuantas": 5,
+              "titulos": [
+                "Video · Pasarela de Pagos",
+                "Video · Pasarela de Pagos",
+                "Video · Punto de Venta",
+                "Video · Punto de Venta",
+                "Video · Tienda en Línea"
+              ]
+            },
+            "solo_ejecucion": {
+              "cuantas": 1,
+              "titulos": [
+                "Arte · Pasarela de Pagos"
+              ]
+            },
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+          },
+          "pasos": [
+            {
+              "orden": 1,
+              "que": "Producir 4 artes y 5 videos.",
+              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
+              "dato": "9 cartas de esta corrida sirven a esta estrategia"
+            },
+            {
+              "orden": 2,
+              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
+              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
+              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
+            },
+            {
+              "orden": 3,
+              "que": "Repartir las piezas: 3 solo para pauta, 5 para los dos, 1 sin canal medido (evidencia de ejecución).",
+              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
+              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
+            },
+            {
+              "orden": 4,
+              "que": "Aprobar los copys en la mesa antes de publicar nada.",
+              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
+              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
+            }
+          ],
+          "medir": {
+            "base": [
+              "GT · 107 leads a $3.35",
+              "SV · 87 leads a $2.68",
+              "orgánico · 118 interacciones en 10 publicaciones",
+              "reel contra feed · 4.87x"
+            ],
+            "apuesta": "El costo por lead del mercado donde está el competidor saturado. Si entrar por el flanco cuesta menos atención, tiene que verse ahí.",
+            "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
+            "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
+          },
+          "_la_unidad": "Las piezas se cuentan de las CARTAS que esta estrategia activa: es la unidad que la mesa aprueba (ADR-042). El bloque de ángulos de abajo reparte la MISMA capacidad a un grano más grueso —un ángulo agrupa cartas—, así que no son piezas adicionales y no se suman."
+        }
       },
       {
         "id": "repetir-lo-propio",
@@ -9265,7 +9490,93 @@
           "arte-repetir-lo-que-rinde"
         ],
         "recomendada": false,
-        "_por_que_recomendada": null
+        "_por_que_recomendada": null,
+        "plan": {
+          "piezas": {
+            "arte": {
+              "cuantas": 1,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 4
+            },
+            "video": {
+              "cuantas": 5,
+              "capacidad": 5,
+              "cabe": true,
+              "holgura": 0
+            }
+          },
+          "total": 6,
+          "veredicto": "cabe",
+          "veredicto_texto": "Cabe en la semana, y sobra capacidad para 4 artes más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
+          "canal": {
+            "pauta": {
+              "cuantas": 5,
+              "solo": 0,
+              "titulos": []
+            },
+            "organico": {
+              "cuantas": 5,
+              "solo": 0,
+              "titulos": []
+            },
+            "ambos": {
+              "cuantas": 5,
+              "titulos": [
+                "Video · Pasarela de Pagos",
+                "Video · Pasarela de Pagos",
+                "Video · Punto de Venta",
+                "Video · Punto de Venta",
+                "Video · Tienda en Línea"
+              ]
+            },
+            "solo_ejecucion": {
+              "cuantas": 1,
+              "titulos": [
+                "Arte · Pasarela de Pagos"
+              ]
+            },
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+          },
+          "pasos": [
+            {
+              "orden": 1,
+              "que": "Producir 1 arte y 5 videos.",
+              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
+              "dato": "6 cartas de esta corrida sirven a esta estrategia"
+            },
+            {
+              "orden": 2,
+              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
+              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
+              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
+            },
+            {
+              "orden": 3,
+              "que": "Repartir las piezas: 5 para los dos, 1 sin canal medido (evidencia de ejecución).",
+              "porque": "El canal sale de dónde se midió la evidencia de cada carta, no de una predicción. Meta Ads y la Ad Library son pauta; la cuenta propia es orgánico.",
+              "dato": "los subtotales no suman el total: una carta con evidencia de los dos canales cuenta en los dos"
+            },
+            {
+              "orden": 4,
+              "que": "Aprobar los copys en la mesa antes de publicar nada.",
+              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
+              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
+            }
+          ],
+          "medir": {
+            "base": [
+              "GT · 107 leads a $3.35",
+              "SV · 87 leads a $2.68",
+              "orgánico · 118 interacciones en 10 publicaciones",
+              "reel contra feed · 4.87x"
+            ],
+            "apuesta": "Las interacciones del orgánico y el ratio reel contra feed. Es la única de las tres cuya premisa se midió en la cuenta propia.",
+            "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
+            "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
+          },
+          "_la_unidad": "Las piezas se cuentan de las CARTAS que esta estrategia activa: es la unidad que la mesa aprueba (ADR-042). El bloque de ángulos de abajo reparte la MISMA capacidad a un grano más grueso —un ángulo agrupa cartas—, así que no son piezas adicionales y no se suman."
+        }
       }
     ],
     "recomendada": "mercado-sin-disputa",
@@ -9284,7 +9595,7 @@
         "formato": "arte estático + variante para historia",
         "rol_sugerido": "diseño",
         "piezas": 2,
-        "piezas_motivo": "2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "piezas_motivo": "2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.",
         "referencias": [
           {
             "tema": "Contra-ángulo frente a Paggo",
@@ -9319,7 +9630,7 @@
         "marca": "[MC:2026-W35::arte::contra-Paggo-GT]",
         "sprint": {
           "name": "Contra-ángulo frente a Paggo en GT [MC:2026-W35::arte::contra-Paggo-GT]",
-          "description": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Gestiona tu Negocio Fácil» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT\n  · Ad Library · foto del periodo, 36 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 2 — 2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Gestiona tu Negocio Fácil» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT\n  · Ad Library · foto del periodo, 36 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 2 — 2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -9338,7 +9649,7 @@
         "formato": "arte estático + variante para historia",
         "rol_sugerido": "diseño",
         "piezas": 1,
-        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.",
         "referencias": [
           {
             "tema": "Contra-ángulo frente a Recurrente",
@@ -9373,7 +9684,7 @@
         "marca": "[MC:2026-W35::arte::contra-Recurrente-GT]",
         "sprint": {
           "name": "Contra-ángulo frente a Recurrente en GT [MC:2026-W35::arte::contra-Recurrente-GT]",
-          "description": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT\n  · Ad Library · foto del periodo, 3 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT\n  · Ad Library · foto del periodo, 3 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -9392,7 +9703,7 @@
         "formato": "arte estático + video corto",
         "rol_sugerido": "diseño",
         "piezas": 1,
-        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.",
         "referencias": [
           {
             "tema": "Creativo propio para SV",
@@ -9427,7 +9738,7 @@
         "marca": "[MC:2026-W35::arte::mercado-libre-SV]",
         "sprint": {
           "name": "Creativo propio para SV: nadie más está pautando ahí [MC:2026-W35::arte::mercado-libre-SV]",
-          "description": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.\n\nÁNGULO: Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.\n\nEVIDENCIA:\n  · meta_campanas_por_pais.json · SV · costo por resultado $2.68\n  · Ad Library · SV · 0 anuncios activos entre los competidores medidos\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.\n\nÁNGULO: Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.\n\nEVIDENCIA:\n  · meta_campanas_por_pais.json · SV · costo por resultado $2.68\n  · Ad Library · SV · 0 anuncios activos entre los competidores medidos\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -9445,7 +9756,7 @@
         "formato": "arte estático + adaptación vertical",
         "rol_sugerido": "diseño",
         "piezas": 1,
-        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.",
+        "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.",
         "referencias": [
           {
             "tema": "Lo que mejor rindió en facebook",
@@ -9480,7 +9791,7 @@
         "marca": "[MC:2026-W35::arte::repetir-instagram]",
         "sprint": {
           "name": "Repetir el tema que mejor rindió: «Lo que no se puede medir no se puede modificar…» [MC:2026-W35::arte::repetir-instagram]",
-          "description": "Es la pieza orgánica con más interacciones del periodo medido (70 en instagram, 2026-09-02). El tema está validado con audiencia propia; lo que se repite es el tema, no el arte.\n\nÁNGULO: Tomar el tema que ya funcionó y llevarlo a otro formato y otra red, en lugar de estrenar un tema sin validar.\n\nEVIDENCIA:\n  · social_normalizado.json · instagram · 70 interacciones · 2026-09-02\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Es la pieza orgánica con más interacciones del periodo medido (70 en instagram, 2026-09-02). El tema está validado con audiencia propia; lo que se repite es el tema, no el arte.\n\nÁNGULO: Tomar el tema que ya funcionó y llevarlo a otro formato y otra red, en lugar de estrenar un tema sin validar.\n\nEVIDENCIA:\n  · social_normalizado.json · instagram · 70 interacciones · 2026-09-02\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
