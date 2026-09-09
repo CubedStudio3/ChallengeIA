@@ -238,6 +238,55 @@ RESOLVEDORES = {
 
 
 # ---------------------------------------------------------------------------
+# A QUE ESTRATEGIA SIRVE CADA CARTA
+#
+# Mercadeo reporto el 2026-09-09 que al cambiar de estrategia las tareas no
+# cambiaban. Medido: las TAREAS si obedecen —cada una declara sus `estrategias`
+# y el tablero las filtra— pero las CARTAS llegaban con `estrategias` en null,
+# asi que se veian las mismas diez con cualquier estrategia elegida.
+#
+# La estrategia de una carta NO se escribe a mano por carta: se DERIVA de la
+# evidencia que la carta ya declara, igual que su numero. Si manana un copy
+# cambia de evidencia, cambia de estrategia con ella; y nadie tiene que
+# acordarse de mantener dos cosas sincronizadas.
+#
+# El mapeo va por lo que la evidencia AFIRMA, no por como se llama:
+#
+#   · «en SV el lead cuesta $2.68» y «SV esta sin disputa» dicen DONDE apostar
+#     -> mercado-sin-disputa
+#   · «este mensaje ya tiene dueno», «apuestan todo a un mensaje», «nadie toca
+#     esta vertical», «esto no lo retiran» dicen por donde NO entrar, y por lo
+#     tanto por donde si -> disputar-el-flanco
+#   · «los reels rinden 4.87x el feed en NUESTRA cuenta» y «nuestros reels con
+#     mencion promedian mas» son medicion propia -> repetir-lo-propio
+#
+# Dos quedan FUERA a proposito, y por la misma razon: no dicen DONDE apostar.
+#
+#   · `carrusel` —«los referentes usan carrusel en 56%»— dice como EJECUTAR.
+#   · `concentracion` —«los competidores apuestan a un solo mensaje, la mediana
+#     concentra 50%»— es contexto de mercado: no senala ningun flanco concreto.
+#     Se mapeo primero a disputar-el-flanco y se midio el efecto: con ella, esa
+#     estrategia se llevaba las DIEZ cartas y elegirla no cambiaba nada, que es
+#     justo el sintoma que habia que arreglar. La evidencia que si senala un
+#     flanco es la que nombra un mensaje o una vertical concreta.
+#
+# Las dos sirven a las tres estrategias por igual y no deben inclinar la carta.
+ESTRATEGIA_DE_EVIDENCIA = {
+    "costo_mercado": "mercado-sin-disputa",
+    "sin_competencia": "mercado-sin-disputa",
+    "territorio_ocupado": "disputar-el-flanco",
+    "vertical_libre": "disputar-el-flanco",
+    "nadie_toca": "disputar-el-flanco",
+    "sobreviviente": "disputar-el-flanco",
+    "formato_propio": "repetir-lo-propio",
+    "con_mencion": "repetir-lo-propio",
+}
+
+# Evidencia de EJECUCION: dice como producir, no donde apostar.
+EVIDENCIA_NEUTRA = {"carrusel", "concentracion"}
+
+
+# ---------------------------------------------------------------------------
 
 def _estructura(pieza: str, F) -> dict | None:
     """Con que forma producirlo. Sale de lo medido, no del gusto."""
@@ -336,6 +385,9 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
     for c in copys:
         pieza = c.get("pieza")
         porques, evidencia, faltantes, premisa_movida = [], [], [], False
+        # Solo cuenta la evidencia que SI se resolvio: una premisa que la
+        # corrida no pudo confirmar no puede elegir la estrategia de la carta.
+        ests, neutras = [], 0
         for ref in (c.get("porque_de") or []):
             fn = RESOLVEDORES.get(ref.get("tipo"))
             if not fn:
@@ -354,6 +406,13 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
             evidencia += r.get("evidencia") or []
             if r.get("cambio_de_premisa"):
                 premisa_movida = True
+            tipo = ref.get("tipo")
+            if tipo in EVIDENCIA_NEUTRA:
+                neutras += 1
+            elif tipo in ESTRATEGIA_DE_EVIDENCIA:
+                e = ESTRATEGIA_DE_EVIDENCIA[tipo]
+                if e not in ests:
+                    ests.append(e)
 
         if not porques:
             # Una carta sin un solo numero vivo no se publica como si lo tuviera.
@@ -365,6 +424,18 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
         idem = f"{semana}::{pieza}::{c['id']}" if semana else f"{pieza}::{c['id']}"
         cartas.append({
             "id": c["id"],
+            # A que estrategias sirve. Una carta puede servir a varias: su
+            # evidencia lo dice. `siempre` es para la que SOLO tiene evidencia
+            # de ejecucion —el carrusel de los referentes— que sirve a las tres
+            # por igual: esconderla al elegir una estrategia perderia una pieza
+            # producible sin que nada avisara.
+            "estrategias": ests,
+            "siempre": not ests,
+            "_por_que_esa_estrategia": (
+                "Derivado de la evidencia declarada, no escrito a mano. "
+                + (", ".join(sorted(ests)) if ests
+                   else f"Sin evidencia que elija estrategia ({neutras} de "
+                        f"ejecucion): sirve a las tres.")),
             "idempotencia": idem,
             # La marca va en el nombre del work item porque Sprints no expone un
             # campo de clave externa: es la unica forma de reconocer un item ya

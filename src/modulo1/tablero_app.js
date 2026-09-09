@@ -246,10 +246,28 @@
     return es.filter(function (e) { return e.id === E.estrategia; })[0] ||
            es.filter(function (e) { return e.recomendada; })[0] || es[0];
   }
+  /* ¿Esta pieza sirve a la estrategia elegida?
+
+     Vive UNA sola vez y la usan las tareas y las cartas. Estaban separadas y
+     por eso el error que reportó Mercadeo el 2026-09-09: las tareas filtraban
+     y las cartas no, así que al cambiar de estrategia se veían las mismas diez
+     cartas. Dos listas que responden la misma pregunta terminan divergiendo.
+
+     `siempre` gana sobre todo: es la pieza que sirve a las tres. */
+  function sirveA(x, act) {
+    if (x.siempre) return true;
+    if (!act) return true;
+    return (x.estrategias || []).indexOf(act.id) >= 0;
+  }
+
+  function cuenta(n, uno, varios) {
+    return ent(n) + " " + (n === 1 ? uno : varios);
+  }
+
   function tareasVisibles() {
     var act = estrategiaActiva();
     return (((D.estrategia || {}).tareas) || []).filter(function (t) {
-      return t.siempre || !act || (t.estrategias || []).indexOf(act.id) >= 0;
+      return sirveA(t, act);
     });
   }
 
@@ -1299,8 +1317,23 @@
      habla. Un copy sin taxonomía no se puede filtrar —se vería siempre, que es
      peor que no verse—, así que se cuenta aparte y se avisa. */
   function bloqueCartas() {
-    var todos = cartas();
-    if (!todos.length) return "";
+    /* Las cartas se recortan por la estrategia elegida ANTES de cualquier otro
+       filtro: los contadores de las pastillas de pieza y solución tienen que
+       contar sobre lo que la estrategia deja, no sobre las diez. */
+    var act = estrategiaActiva();
+    var todosSinFiltrar = cartas();
+    var todos = todosSinFiltrar.filter(function (c) { return sirveA(c, act); });
+    if (!todos.length) {
+      /* Cero cartas para esta estrategia NO es una sección vacía en silencio:
+         se dice, con el nombre de la estrategia y cuántas hay en total. */
+      if (!todosSinFiltrar.length) return "";
+      return rotuloBloque("Cartas de producción") +
+        nota("Ninguna de las <b class=\"text-slate-700 font-semibold\">" +
+          ent(todosSinFiltrar.length) + " cartas</b> de esta corrida tiene " +
+          "evidencia que sostenga la estrategia elegida" +
+          (act && act.titulo ? " —" + esc(act.titulo) + "—" : "") +
+          ". Elegí otra estrategia para verlas, o producí las tareas de arriba.");
+    }
     var sinEtiqueta = todos.filter(function (c) {
       return !c.pieza || !c.solucion;
     }).length;
@@ -2077,7 +2110,7 @@
       }).join("") + "</div>" +
       '<p class="text-[11px] text-slate-400 mt-5 leading-relaxed">' +
       "Los de la competencia salen en ámbar a propósito: son los que hay que " +
-      "leer y NO repetir — ese territorio ya tiene dueño.</p></div>";
+      "leer y NO repetir — ese mensaje ya tiene dueño.</p></div>";
   }
 
   /* ═════════════ secciones ═════════════ */
@@ -2387,11 +2420,13 @@
         ent(rs.length), "recomendaciones con evidencia",
         { parte: altas, total: rs.length },
         altas + " de confianza alta" +
-        (evitar ? " · " + evitar + " territorio" + (evitar === 1 ? "" : "s") +
+        /* Se dice «mensaje», no «territorio»: la palabra salió del tablero el
+           2026-09-09 con su sección. El conteo es el mismo. */
+        (evitar ? " · " + evitar + " mensaje" + (evitar === 1 ? "" : "s") +
           " que no tocar" : ""));
     } else {
       c03 = cardNum("03", "referencias", ico.brujula, "Referencias",
-        ent(ocup + libres), "territorios de mensaje leídos",
+        ent(ocup + libres), "mensajes de competencia leídos",
         ocup + libres ? { parte: ocup, total: ocup + libres } : null,
         ocup + " ocupado" + (ocup === 1 ? "" : "s") + " · " + libres +
         " sin disputa");
@@ -2956,25 +2991,14 @@
        ellos» (2026-09-04). `R.contraste` sigue en resultado.json por si
        vuelve a hacer falta; aquí ya no se pinta. */
 
-    var t = R.territorios || {};
-    var terr = (t.saturados || []).map(function (s) {
-      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
-        '<div class="etiqueta-rojo mb-4">Territorio ocupado</div>' +
-        '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">«' +
-        esc(s.mensaje) + "»</h3>" +
-        '<p class="text-[13px] text-slate-500 leading-relaxed mb-4">' +
-        esc(s.lectura) + "</p>" +
-        '<div class="text-[11.5px] text-slate-400">' + esc(s.de) + " · " +
-        esc(s.mercado) + " · " + s.repeticiones + " anuncios · " + s.dias_vivo +
-        " días vivo</div></div>";
-    }).concat((t.libres || []).map(function (l) {
-      return '<div class="bg-white rounded-3xl p-7 tarjeta-sombra">' +
-        '<div class="etiqueta-verde mb-4">Territorio sin disputa</div>' +
-        '<h3 class="text-[17px] font-bold text-slate-800 mb-3">' + esc(l.mercado) +
-        "</h3>" +
-        '<p class="text-[13px] text-slate-500 leading-relaxed">' + esc(l.lectura) +
-        "</p></div>";
-    })).join("");
+    /* «Territorios de mensaje» se quitó ENTERO el 2026-09-09 a pedido de
+       Mercadeo. `R.territorios` sigue en resultado.json y sigue alimentando lo
+       que de verdad se usa: las TAREAS de estrategia salen de ahí —un mensaje
+       saturado da la tarea de contra-ángulo, un mercado libre da la de creativo
+       propio— y las cartas resuelven su evidencia contra esos mismos datos.
+
+       O sea: se quitó la VISTA, no el dato ni su uso. Borrar el campo habría
+       vaciado media sección de Estrategia sin que nada avisara. */
 
     /* ── Qué hacer con todo esto ──────────────────────────────────────────
        Es el puente entre «qué hacen ellos» y «qué producimos nosotros». Va en
@@ -3045,10 +3069,7 @@
          al lado del conteo de anuncios del competidor: dos cosas que la propia
          tarjeta tenía que aclarar que no se comparan. Lo accionable de esta
          sección son las recomendaciones y los territorios, que quedan. */
-      (terr ? '<h3 class="text-[17px] font-bold text-slate-800 mb-5 mt-10">' +
-        'Territorios de mensaje</h3>' +
-        '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
-        terr + "</div>" : "") +
+
       '<div class="flex items-end justify-between gap-4 mb-5 mt-10">' +
       '<div><h3 class="text-[17px] font-bold text-slate-800">Dónde buscar ' +
       'referencia visual</h3>' +
@@ -3067,7 +3088,8 @@
 
   /* ── 5 · Estrategia ──────────────────────────────────────────────────────── */
   function selectorEstrategia() {
-    var es = ((D.estrategia || {}).estrategias) || [];
+    var est = D.estrategia || {};
+    var es = est.estrategias || [];
     if (!es.length) return "";
     var act = estrategiaActiva();
     return '<div class="grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))] mb-6">' +
@@ -3106,8 +3128,22 @@
           "</div></details>" +
           '<div class="mt-auto pt-5 border-t border-slate-50 flex items-center ' +
           'justify-between gap-3">' +
-          '<span class="text-[12px] text-slate-400">Activa ' + e.tareas.length +
-          (e.tareas.length === 1 ? " tarea" : " tareas") + "</span>" +
+          /* Cuántas piezas mueve elegir esta. Decía solo las tareas, y desde
+             que las cartas también filtran (2026-09-09) eso subvaloraba el
+             cambio: la sección grande de la pantalla es la de cartas. Los dos
+             números se CUENTAN sobre el mismo predicado que pinta la lista, no
+             se escriben aparte: un conteo propio se desincroniza. */
+          /* Los dos números salen de `sirveA`, el MISMO predicado que pinta
+             las listas. Antes las tareas se contaban con `e.tareas.length`
+             —la lista que arma Python— y decía «1 tarea» donde se ven 2: esa
+             lista no incluye la tarea `siempre`, que sí se activa con
+             cualquier estrategia. El rótulo tiene que contar lo que la persona
+             va a ver, o es una frase que contradice la pantalla. */
+          '<span class="text-[12px] text-slate-400">Activa ' +
+          cuenta(((est.tareas) || []).filter(function (t) {
+            return sirveA(t, e); }).length, "tarea", "tareas") + " · " +
+          cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+                 "carta", "cartas") + "</span>" +
           (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
             'class="btn-claro"' + (soloLectura ? " disabled" : "") +
             ">Usar esta</button>") + "</div></div>";
@@ -3346,8 +3382,8 @@
       (creativas.length
         ? '<details class="mt-12">' +
           '<summary class="text-[17px] font-bold text-slate-800 ' +
-          'cursor-pointer">Cómo se reparte la capacidad · ' + creativas.length +
-          " ángulos</summary>" +
+          'cursor-pointer">Cómo se reparte la capacidad · ' +
+          cuenta(creativas.length, "ángulo", "ángulos") + "</summary>" +
           '<p class="text-[12.5px] text-slate-400 mt-1.5 mb-6 pl-5">' +
           (act ? "Los que activa <b class=\"text-slate-600 font-semibold\">" +
             esc(act.nombre) + "</b>. " : "") +

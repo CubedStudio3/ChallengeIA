@@ -3081,3 +3081,121 @@ El validador del tema reporta dos fallas de contraste previas —`#1A5B93` a
 2.59:1 y `#931A68` a 2.27:1 contra la superficie, mínimo 3—. Se comprobó que
 son idénticas antes y después de este cambio. Afectan los trazos de las
 gráficas y quedan reportadas a Mercadeo, sin tocar.
+
+---
+
+## ADR-053 · Elegir una estrategia cambia las cartas, y la estrategia se deriva de la evidencia
+
+**Fecha:** 2026-09-09
+**Estado:** implementada, verificada en navegador
+**Pedido de Mercadeo (literal):** «actualemente si está bien que da varias
+estrategias pero lo que no funciona es que cuando se selecciona una diferente no
+cambia las tareas, deja las mismas que las de la primera estrategia, la idea es
+que al seleccionar una estrategia nueva, las tareas vayan a corde a ella».
+En el mismo mensaje: «Elimina por completo toda la parte de "territorios de
+mensaje"».
+
+### Qué estaba pasando de verdad
+
+Lo primero fue medir, no arreglar. Las **tareas SÍ obedecían**: cada una declara
+`estrategias` y `tareasVisibles()` filtra por la elegida. Lo que no filtraba
+eran las **diez cartas de producción**, que llegaban con `estrategias: null` y
+`siempre: null`, así que se veían las diez con cualquier estrategia.
+
+La sección de cartas es la grande de la pantalla —diez tarjetas contra dos o
+tres tareas—, así que la impresión correcta era «no cambia nada» aunque las
+tareas de arriba sí cambiaran. El reporte de Mercadeo apuntaba al síntoma justo;
+la causa estaba en la lista de al lado.
+
+### La estrategia de una carta NO se escribe a mano
+
+Una carta ya declara **qué evidencia la sostiene** (ADR-042): es el mecanismo que
+impide que su número se desincronice de la corrida. La misma declaración alcanza
+para saber a qué estrategia sirve, porque cada tipo de evidencia AFIRMA algo:
+
+| Evidencia | Qué afirma | Estrategia |
+|---|---|---|
+| `costo_mercado`, `sin_competencia` | este mercado sale más barato / nadie lo disputa | `mercado-sin-disputa` |
+| `territorio_ocupado`, `vertical_libre`, `nadie_toca`, `sobreviviente` | el competidor dice esto / deja esto libre | `disputar-el-flanco` |
+| `formato_propio`, `con_mencion` | esto ya funcionó en la cuenta propia | `repetir-lo-propio` |
+
+Y hay evidencia que **no elige estrategia**: `carrusel` y `concentracion` dicen
+*cómo producir* o describen el mercado, no dónde apostar. Una carta cuya única
+evidencia es de ejecución sirve a las tres y se marca `siempre`. Escribir la
+estrategia a mano en el config habría sido el mismo error que ADR-042 corrigió
+para los números: un campo humano que envejece sin avisar.
+
+**El primer mapeo puso `concentracion` en `disputar-el-flanco` y esa estrategia
+se quedó con las 10 de 10 cartas** — o sea, elegirla no cambiaba nada: el mismo
+síntoma, ahora con código que filtraba. Se movió a neutra. Es la razón de que la
+prueba tenga un guardia explícito contra «una estrategia se queda con todas».
+
+### Un solo predicado para las dos listas
+
+`sirveA(x, act)` vive **una vez** y la usan las tareas y las cartas. Estaban
+separadas y por eso divergieron. Dos listas que responden la misma pregunta
+terminan divergiendo; la única defensa es que no sean dos.
+
+El bloque de cartas filtra **antes** de los contadores de pieza y solución —si no,
+los contadores describirían una lista que no se ve— y si una estrategia no
+activa ninguna carta lo **declara** en vez de mostrar una sección vacía.
+
+### El reparto medido, sin maquillar
+
+    mercado-sin-disputa    4 de 10   (recomendada)
+    disputar-el-flanco     9 de 10
+    repetir-lo-propio      6 de 10
+
+`disputar-el-flanco` cubre 9 porque la mayoría de los copys se apoyan en
+evidencia del mensaje del competidor: es la estrategia más ancha, no una falla
+del filtro. Se deja así. Ajustar el mapeo para que las tres se vean parejas
+sería inventar un reparto que la evidencia no dice.
+
+### Lo que encontró la prueba y no la vista
+
+El rótulo de cada tarjeta decía «Activa 1 tarea» donde se ven 2. Contaba con
+`e.tareas.length` —la lista que arma Python—, que **no incluye la tarea
+`siempre`**, y esa sí se activa con cualquier estrategia. Los dos números del
+rótulo se cuentan ahora con `sirveA`, el mismo predicado que pinta las listas.
+Otra vez el mismo patrón: dos cuentas de lo mismo, y la que se ve gana.
+
+### Territorios de mensaje
+
+Se quitó entero de la pantalla: el bloque y su título. **`R.territorios` sigue en
+`resultado.json` a propósito**, porque de ahí derivan las tareas de estrategia lo
+que de verdad se usa. Borrar el dato porque se quitó su tarjeta habría vaciado
+las tareas. Y se reescribieron seis frases visibles que decían «territorio» a
+«argumento» o «mensaje»; las llaves `tipo: territorio_ocupado` quedan intactas
+porque son claves de código, no texto para nadie.
+
+### La prueba
+
+`npm run prueba:estrategia` — entra por el clic en «Usar esta», no por debajo
+(ADR-041), y comprueba: que ninguna estrategia se quede con todas las cartas,
+que cada una active al menos una, que la lista visible sea exactamente la que
+sirve a la elegida, que **ninguna carta visible sea de otra estrategia** (contar
+bien y mostrar mal pasaría un conteo), que **las tres listas sean distintas entre
+sí** —el síntoma literal que se reportó—, y que el rótulo no contradiga la
+pantalla. Lo esperado se deriva del mismo `#datos` que lee la página: un esperado
+escrito aparte caduca en silencio y después acusa al producto, que ya pasó dos
+veces en este proyecto.
+
+Sabotaje comprobado: devolver las cartas a no filtrar en el HTML ya construido
+levanta 8 fallas, entre ellas «la lista de cartas cambia al cambiar de
+estrategia → 10 / 10 / 10».
+
+### Trampa que queda anotada
+
+**La sección de cartas y las tareas de estrategia comparten el botón
+`data-decidir`.** La primera versión de esta prueba contó botones, leyó 6 donde
+esperaba 4 y **acusó al producto de un error que no tenía**. Se separan por su
+origen —la lista de la que salió cada id—, que es la única distinción real.
+`data-propia` es otra cosa: las ideas que agrega el equipo a mano.
+
+### Suites
+
+`prueba:cartas`, `prueba:pauta`, `prueba:tablero`, `prueba:filtro`,
+`prueba:raton`, `prueba:boton` y `prueba:estrategia` en verde. `valida:tema`
+sigue con las dos fallas de contraste previas —`#1A5B93` 2.59:1 y `#931A68`
+2.27:1, mínimo 3—, idénticas antes y después de este cambio, reportadas a
+Mercadeo y sin tocar.

@@ -964,3 +964,42 @@ corte por país y el otro interacciones absolutas sin corte, con serie acumulada
 y sin tasa. Tenerlos juntos invitaba a la operación que este proyecto no permite.
 
 Detalle en ADR-052.
+
+### Sesión 5 · undécima parte · La estrategia elegida ahora sí manda
+
+Mercadeo reportó que al elegir otra estrategia las tareas no cambiaban. Se midió
+antes de tocar nada y el reporte apuntaba al síntoma correcto con la causa en la
+lista de al lado: las tareas SÍ filtraban; las **diez cartas de producción** no,
+porque llegaban sin declarar a qué estrategia sirven. Como las cartas son la
+sección grande de la pantalla, «no cambia nada» era la lectura honesta.
+
+La estrategia de cada carta se **deriva de la evidencia que ya declara**, no se
+escribe en el config. Cada tipo de evidencia afirma algo —«este mercado es más
+barato» apunta a un lado, «el competidor dice esto» a otro, «esto ya funcionó en
+nuestra cuenta» a otro— y la que solo dice *cómo producir* no elige: esa carta
+sirve a las tres. Escribirlo a mano habría repetido el error que ADR-042 ya
+había corregido para los números.
+
+El primer mapeo le dio a `disputar-el-flanco` las 10 de 10, o sea el mismo
+síntoma con código que filtraba. Por eso la prueba lleva un guardia explícito
+contra que una estrategia se quede con todas. El reparto que quedó, medido:
+4 / 9 / 6 sobre 10, con la recomendada en 4. `disputar-el-flanco` cubre 9 porque
+la mayoría de los copys se apoyan en el mensaje del competidor: es la estrategia
+más ancha, y se deja así en vez de ajustar el mapeo para que se vea parejo.
+
+Las dos listas comparten ahora un solo predicado. Estaban separadas y por eso
+divergieron.
+
+La prueba nueva —`npm run prueba:estrategia`, por el clic, no por debajo—
+encontró algo que ninguna revisión visual hubiera visto: el rótulo decía «Activa
+1 tarea» donde se ven 2, porque contaba con la lista que arma Python y esa no
+incluye la tarea que sirve a las tres. Y la primera versión de la prueba **acusó
+al producto de un error que no tenía**: contó botones sin saber que las cartas y
+las tareas comparten el mismo, leyó 6 donde esperaba 4. Las dos cosas quedan
+anotadas como trampas.
+
+«Territorios de mensaje» se quitó entero de la pantalla. El dato sigue en
+`resultado.json` a propósito: de ahí derivan las tareas de estrategia. Borrarlo
+porque se quitó su tarjeta habría vaciado las tareas.
+
+Detalle en ADR-053.

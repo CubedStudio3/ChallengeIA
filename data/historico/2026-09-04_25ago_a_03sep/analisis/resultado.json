@@ -7977,6 +7977,13 @@
     "cartas": [
       {
         "id": "copy-sv-liquidacion-a",
+        "estrategias": [
+          "mercado-sin-disputa",
+          "repetir-lo-propio",
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, mercado-sin-disputa, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-sv-liquidacion-a",
         "marca": "[MC:2026-W35::video::copy-sv-liquidacion-a]",
         "titulo": "Video · Pasarela de Pagos",
@@ -7986,7 +7993,7 @@
         "red": "Instagram",
         "etapa": "descubrimiento",
         "que_hacer": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.",
-        "de_que_hablar": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+        "de_que_hablar": "Liquidación diaria · el argumento más fuerte, y solo existe en SV",
         "como_hablarlo": "Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.",
         "porque": [
           "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
@@ -7994,7 +8001,7 @@
           "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor."
         ],
-        "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
+        "lo_que_no_se_dice": "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
         "copy": {
           "titular": "Tu dinero cada 24 horas",
           "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
@@ -8013,7 +8020,7 @@
           ],
           "no_mostrar": [
             "Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta",
-            "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido"
+            "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido"
           ],
           "_limite": "El tipo de medio de un anuncio ajeno no lo publica la Ad Library: la direccion visual sale de dato propio y de la estructura observable (cuantas tarjetas), nunca de mirar la pieza del competidor."
         },
@@ -8045,13 +8052,18 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Video · Pasarela de Pagos · SV [MC:2026-W35::video::copy-sv-liquidacion-a]",
-          "description": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.\n\nENFOCARSE EN: Liquidación diaria · el territorio más fuerte, y solo existe en SV\n\nCÓMO HABLARLO: Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.\n\nLO QUE DICE EL ANÁLISIS:\n  · Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.\n  · En SV el lead cuesta $2.68 · GT $3.35.\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · «Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Tu dinero cada 24 horas\n  Cuerpo: Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.\n  CTA: Empezar ahora\n\nNO DICE: Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · Una pantalla de banca con el saldo del día siguiente, no un billete genérico\n  · El negocio real abriendo: cortina, caja, primer cliente\n  · El plazo en pantalla como número grande: 24 h\n\nQUE NO VAYA:\n  · Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta\n  · Nada de «gestiona tu negocio»: ese territorio tiene dueño medido\n\nREFERENCIA · Shopify (referente)\n  Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2 de septiembre.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.\n\nENFOCARSE EN: Liquidación diaria · el argumento más fuerte, y solo existe en SV\n\nCÓMO HABLARLO: Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.\n\nLO QUE DICE EL ANÁLISIS:\n  · Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.\n  · En SV el lead cuesta $2.68 · GT $3.35.\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · «Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Tu dinero cada 24 horas\n  Cuerpo: Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.\n  CTA: Empezar ahora\n\nNO DICE: Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · Una pantalla de banca con el saldo del día siguiente, no un billete genérico\n  · El negocio real abriendo: cortina, caja, primer cliente\n  · El plazo en pantalla como número grande: 24 h\n\nQUE NO VAYA:\n  · Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta\n  · Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido\n\nREFERENCIA · Shopify (referente)\n  Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2 de septiembre.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
       },
       {
         "id": "copy-sv-liquidacion-b",
+        "estrategias": [
+          "mercado-sin-disputa"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. mercado-sin-disputa",
         "idempotencia": "2026-W35::arte::copy-sv-liquidacion-b",
         "marca": "[MC:2026-W35::arte::copy-sv-liquidacion-b]",
         "titulo": "Arte · Pasarela de Pagos",
@@ -8124,6 +8136,12 @@
       },
       {
         "id": "copy-belleza-anticipo",
+        "estrategias": [
+          "repetir-lo-propio",
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-belleza-anticipo",
         "marca": "[MC:2026-W35::video::copy-belleza-anticipo]",
         "titulo": "Video · Pasarela de Pagos",
@@ -8195,6 +8213,11 @@
       },
       {
         "id": "copy-belleza-propina",
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-belleza-propina",
         "marca": "[MC:2026-W35::arte::copy-belleza-propina]",
         "titulo": "Arte · Punto de Venta",
@@ -8264,6 +8287,11 @@
       },
       {
         "id": "copy-inventario-descuadre",
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-inventario-descuadre",
         "marca": "[MC:2026-W35::arte::copy-inventario-descuadre]",
         "titulo": "Arte · Tienda en Línea",
@@ -8273,7 +8301,7 @@
         "red": "Facebook",
         "etapa": "consideración",
         "que_hacer": "Producir un arte de Tienda en Línea para GT y SV, para el negocio que vende en mostrador y en línea con dos inventarios distintos.",
-        "de_que_hablar": "Un solo inventario · territorio propio que nadie usa",
+        "de_que_hablar": "Un solo inventario · argumento propio que nadie usa",
         "como_hablarlo": "Arrancar por el error concreto —vender lo que ya no hay— en segunda persona y en pasado. Sostener con «en tiempo real», que es lo que el sitio promete y lo que se puede defender.",
         "porque": [
           "Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
@@ -8327,13 +8355,19 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Arte · Tienda en Línea · GT y SV [MC:2026-W35::arte::copy-inventario-descuadre]",
-          "description": "Producir un arte de Tienda en Línea para GT y SV, para el negocio que vende en mostrador y en línea con dos inventarios distintos.\n\nENFOCARSE EN: Un solo inventario · territorio propio que nadie usa\n\nCÓMO HABLARLO: Arrancar por el error concreto —vender lo que ya no hay— en segunda persona y en pasado. Sostener con «en tiempo real», que es lo que el sitio promete y lo que se puede defender.\n\nLO QUE DICE EL ANÁLISIS:\n  · Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.\n  · Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%).\n  · De los 50 anuncios de competidores con titular clasificable, solo 6 tocan «cobros y pagos».\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Vendiste algo que ya no tenías\n  Cuerpo: Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.\n  CTA: Comenzar ahora\n\nNO DICE: No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.\n\nESTRUCTURA: Carrusel de 3 a 12 tarjetas — Los referentes lo usan en 32% de sus anuncios contra 26% de los competidores, y llegan hasta 12 tarjetas.\n\nQUÉ MOSTRAR:\n  · Tarjeta 1: el mensaje al cliente diciendo que ya no había\n  · Tarjeta 2: los dos inventarios separados\n  · Tarjeta 3: el mismo número en las dos pantallas\n\nQUE NO VAYA:\n  · Tiempos en segundos: el sitio dice «en tiempo real»\n  · Logos de competidores\n\nREFERENCIA · Shopify (referente)\n  El carrusel para contar una secuencia: problema, causa, arreglo.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un arte de Tienda en Línea para GT y SV, para el negocio que vende en mostrador y en línea con dos inventarios distintos.\n\nENFOCARSE EN: Un solo inventario · argumento propio que nadie usa\n\nCÓMO HABLARLO: Arrancar por el error concreto —vender lo que ya no hay— en segunda persona y en pasado. Sostener con «en tiempo real», que es lo que el sitio promete y lo que se puede defender.\n\nLO QUE DICE EL ANÁLISIS:\n  · Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.\n  · Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%).\n  · De los 50 anuncios de competidores con titular clasificable, solo 6 tocan «cobros y pagos».\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Vendiste algo que ya no tenías\n  Cuerpo: Pasa cuando el mostrador y la tienda en línea tienen inventarios distintos. Con Qpaypro es el mismo.\n  CTA: Comenzar ahora\n\nNO DICE: No promete tiempo de sincronización en segundos: el sitio dice «en tiempo real» y eso es lo que se puede sostener.\n\nESTRUCTURA: Carrusel de 3 a 12 tarjetas — Los referentes lo usan en 32% de sus anuncios contra 26% de los competidores, y llegan hasta 12 tarjetas.\n\nQUÉ MOSTRAR:\n  · Tarjeta 1: el mensaje al cliente diciendo que ya no había\n  · Tarjeta 2: los dos inventarios separados\n  · Tarjeta 3: el mismo número en las dos pantallas\n\nQUE NO VAYA:\n  · Tiempos en segundos: el sitio dice «en tiempo real»\n  · Logos de competidores\n\nREFERENCIA · Shopify (referente)\n  El carrusel para contar una secuencia: problema, causa, arreglo.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
       },
       {
         "id": "copy-soporte-tecnico",
+        "estrategias": [
+          "repetir-lo-propio",
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-soporte-tecnico",
         "marca": "[MC:2026-W35::video::copy-soporte-tecnico]",
         "titulo": "Video · Punto de Venta",
@@ -8377,7 +8411,7 @@
           "marca": "Shopify",
           "rol": "referente",
           "mercado": "GT",
-          "que_hace": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio.",
+          "que_hace": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el mensaje.",
           "medido": "Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880",
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
@@ -8398,13 +8432,20 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Video · Punto de Venta · GT y SV [MC:2026-W35::video::copy-soporte-tecnico]",
-          "description": "Producir un video de Punto de Venta para GT y SV, para el negocio que no quiere instalar nada por su cuenta.\n\nENFOCARSE EN: Soporte local y técnico presencial · lo único que un referente global no puede decir\n\nCÓMO HABLARLO: Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.\n\nLO QUE DICE EL ANÁLISIS:\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · De los 50 anuncios de competidores con titular clasificable, solo 1 toca «punto de venta / hardware».\n  · Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Un técnico llega y lo instala\n  Cuerpo: El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.\n  CTA: Hablar con ventas\n\nNO DICE: No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · El técnico llegando al local, con caja en mano\n  · La terminal ya encendida en el mostrador\n  · Una persona atendiendo el teléfono en horario local\n\nQUE NO VAYA:\n  · «24/7»: el contador del sitio lo dice pero está junto a dos contadores en cero\n  · Centros de datos ni nubes: el argumento es que llega alguien\n\nREFERENCIA · Shopify (referente)\n  Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un video de Punto de Venta para GT y SV, para el negocio que no quiere instalar nada por su cuenta.\n\nENFOCARSE EN: Soporte local y técnico presencial · lo único que un referente global no puede decir\n\nCÓMO HABLARLO: Tres hechos, uno por frase, sin adjetivos: llega armado, lo dejan funcionando, el soporte está en tu horario. Es lo único que un referente global no puede decir.\n\nLO QUE DICE EL ANÁLISIS:\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · De los 50 anuncios de competidores con titular clasificable, solo 1 toca «punto de venta / hardware».\n  · Lo que Shopify no mata: «Vende más con Shopify» lleva 163 días vivo. Un anuncio que no se retira es lo más cerca que da esta fuente de decir que funciona.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Un técnico llega y lo instala\n  Cuerpo: El equipo llega armado, un asesor lo deja funcionando y el soporte está en tu mismo horario.\n  CTA: Hablar con ventas\n\nNO DICE: No dice «24/7»: el contador del sitio dice «24/7 Soporte local» pero está junto a dos contadores en cero, así que no se cita hasta confirmarlo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · El técnico llegando al local, con caja en mano\n  · La terminal ya encendida en el mostrador\n  · Una persona atendiendo el teléfono en horario local\n\nQUE NO VAYA:\n  · «24/7»: el contador del sitio lo dice pero está junto a dos contadores en cero\n  · Centros de datos ni nubes: el argumento es que llega alguien\n\nREFERENCIA · Shopify (referente)\n  Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el mensaje.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
       },
       {
         "id": "copy-pdv-video-cierre",
+        "estrategias": [
+          "repetir-lo-propio",
+          "disputar-el-flanco",
+          "mercado-sin-disputa"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, mercado-sin-disputa, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-pdv-video-cierre",
         "marca": "[MC:2026-W35::video::copy-pdv-video-cierre]",
         "titulo": "Video · Punto de Venta",
@@ -8448,7 +8489,7 @@
           "marca": "Paggo Guatemala",
           "rol": "competidor",
           "mercado": "GT",
-          "que_hace": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido.",
+          "que_hace": "Su cadencia de subida, no su promesa: repite y no retira. El mensaje de «gestión» es suyo y medido.",
           "medido": "Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 días vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.",
           "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860",
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
@@ -8469,13 +8510,16 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Video · Punto de Venta · GT y SV [MC:2026-W35::video::copy-pdv-video-cierre]",
-          "description": "Producir un video de Punto de Venta para GT y SV, para el dueño que cierra caja a mano cada noche.\n\nENFOCARSE EN: Punto de Venta · la fricción del cierre de caja, en video\n\nCÓMO HABLARLO: Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.\n\nLO QUE DICE EL ANÁLISIS:\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · De los 50 anuncios de competidores con titular clasificable, solo 1 toca «punto de venta / hardware».\n  · En GT el lead cuesta $3.35 · SV $2.68.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Cerrar caja no debería tomar media hora\n  Cuerpo: El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.\n  CTA: Ver Punto de Venta\n\nNO DICE: No nombra el modelo: en GT es POS Cute y en SV es POS A920.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · El mostrador al cierre, no el equipo en estudio\n  · La pantalla del corte con el total ya armado\n  · El cuaderno guardándose\n\nQUE NO VAYA:\n  · El modelo del POS: en GT es Cute y en SV es A920\n  · Gráficas ni tableros: el mensaje es el tiempo, no el reporte\n\nREFERENCIA · Paggo Guatemala (competidor)\n  Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido.\n  Medido: Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 días vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un video de Punto de Venta para GT y SV, para el dueño que cierra caja a mano cada noche.\n\nENFOCARSE EN: Punto de Venta · la fricción del cierre de caja, en video\n\nCÓMO HABLARLO: Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.\n\nLO QUE DICE EL ANÁLISIS:\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · De los 50 anuncios de competidores con titular clasificable, solo 1 toca «punto de venta / hardware».\n  · En GT el lead cuesta $3.35 · SV $2.68.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Cerrar caja no debería tomar media hora\n  Cuerpo: El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.\n  CTA: Ver Punto de Venta\n\nNO DICE: No nombra el modelo: en GT es POS Cute y en SV es POS A920.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · El mostrador al cierre, no el equipo en estudio\n  · La pantalla del corte con el total ya armado\n  · El cuaderno guardándose\n\nQUE NO VAYA:\n  · El modelo del POS: en GT es Cute y en SV es A920\n  · Gráficas ni tableros: el mensaje es el tiempo, no el reporte\n\nREFERENCIA · Paggo Guatemala (competidor)\n  Su cadencia de subida, no su promesa: repite y no retira. El mensaje de «gestión» es suyo y medido.\n  Medido: Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 días vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
       },
       {
         "id": "copy-pasarela-arte-whatsapp",
+        "estrategias": [],
+        "siempre": true,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. Sin evidencia que elija estrategia (2 de ejecucion): sirve a las tres.",
         "idempotencia": "2026-W35::arte::copy-pasarela-arte-whatsapp",
         "marca": "[MC:2026-W35::arte::copy-pasarela-arte-whatsapp]",
         "titulo": "Arte · Pasarela de Pagos",
@@ -8544,6 +8588,12 @@
       },
       {
         "id": "copy-tienda-video-sinweb",
+        "estrategias": [
+          "repetir-lo-propio",
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco, repetir-lo-propio",
         "idempotencia": "2026-W35::video::copy-tienda-video-sinweb",
         "marca": "[MC:2026-W35::video::copy-tienda-video-sinweb]",
         "titulo": "Video · Tienda en Línea",
@@ -8615,6 +8665,11 @@
       },
       {
         "id": "copy-tienda-arte-integraciones",
+        "estrategias": [
+          "disputar-el-flanco"
+        ],
+        "siempre": false,
+        "_por_que_esa_estrategia": "Derivado de la evidencia declarada, no escrito a mano. disputar-el-flanco",
         "idempotencia": "2026-W35::arte::copy-tienda-arte-integraciones",
         "marca": "[MC:2026-W35::arte::copy-tienda-arte-integraciones]",
         "titulo": "Arte · Tienda en Línea",
@@ -8705,7 +8760,7 @@
     "lista": [
       {
         "id": "copy-sv-liquidacion-a",
-        "angulo": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+        "angulo": "Liquidación diaria · el argumento más fuerte, y solo existe en SV",
         "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
         "mercado": "SV",
         "red": "Instagram",
@@ -8714,7 +8769,7 @@
         "titular": "Tu dinero cada 24 horas",
         "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
         "cta": "Empezar ahora",
-        "no_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
+        "no_dice": "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
         "bloqueada_en": [
           "GT"
         ],
@@ -8749,7 +8804,7 @@
         ],
         "no_mostrar": [
           "Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta",
-          "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido"
+          "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido"
         ],
         "referencia_de": {
           "marca": "Shopify",
@@ -8897,7 +8952,7 @@
       },
       {
         "id": "copy-inventario-descuadre",
-        "angulo": "Un solo inventario · territorio propio que nadie usa",
+        "angulo": "Un solo inventario · argumento propio que nadie usa",
         "de_la_recomendacion": "Territorios propios sin disputa",
         "mercado": "GT y SV",
         "red": "Facebook",
@@ -8982,7 +9037,7 @@
         ],
         "referencia_de": {
           "marca": "Shopify",
-          "que_copiar": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio."
+          "que_copiar": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el mensaje."
         }
       },
       {
@@ -9027,7 +9082,7 @@
         ],
         "referencia_de": {
           "marca": "Paggo",
-          "que_copiar": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido."
+          "que_copiar": "Su cadencia de subida, no su promesa: repite y no retira. El mensaje de «gestión» es suyo y medido."
         }
       },
       {

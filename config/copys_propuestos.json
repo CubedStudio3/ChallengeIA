@@ -8,7 +8,7 @@
  "copys": [
   {
    "id": "copy-sv-liquidacion-a",
-   "angulo": "Liquidación diaria · el territorio más fuerte, y solo existe en SV",
+   "angulo": "Liquidación diaria · el argumento más fuerte, y solo existe en SV",
    "de_la_recomendacion": "SV sin competencia medida + promesa propia que GT no tiene",
    "mercado": "SV",
    "red": "Instagram",
@@ -17,7 +17,7 @@
    "titular": "Tu dinero cada 24 horas",
    "cuerpo": "Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.",
    "cta": "Empezar ahora",
-   "no_dice": "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
+   "no_dice": "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.",
    "bloqueada_en": [
     "GT"
    ],
@@ -52,7 +52,7 @@
    ],
    "no_mostrar": [
     "Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta",
-    "Nada de «gestiona tu negocio»: ese territorio tiene dueño medido"
+    "Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido"
    ],
    "referencia_de": {
     "marca": "Shopify",
@@ -200,7 +200,7 @@
   },
   {
    "id": "copy-inventario-descuadre",
-   "angulo": "Un solo inventario · territorio propio que nadie usa",
+   "angulo": "Un solo inventario · argumento propio que nadie usa",
    "de_la_recomendacion": "Territorios propios sin disputa",
    "mercado": "GT y SV",
    "red": "Facebook",
@@ -285,7 +285,7 @@
    ],
    "referencia_de": {
     "marca": "Shopify",
-    "que_copiar": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el territorio."
+    "que_copiar": "Nada de su mensaje: es autoservicio global y este es el argumento contrario. Se le copia la constancia, no el mensaje."
    }
   },
   {
@@ -330,7 +330,7 @@
    ],
    "referencia_de": {
     "marca": "Paggo",
-    "que_copiar": "Su cadencia de subida, no su promesa: repite y no retira. El territorio de «gestión» es suyo y medido."
+    "que_copiar": "Su cadencia de subida, no su promesa: repite y no retira. El mensaje de «gestión» es suyo y medido."
    }
   },
   {
