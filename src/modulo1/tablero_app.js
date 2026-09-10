@@ -35,6 +35,12 @@
   if (!E.decisiones) E.decisiones = {};
   if (!E.propias) E.propias = {};
   if (E.estrategia === undefined) E.estrategia = null;
+  /* Lo que la MESA llena, por carta: la campaña de pauta y la fecha límite.
+     Decisión de Mercadeo (2026-09-10): «La campaña y la fecha las pone la mesa.
+     Campos vacíos para llenar en la reunión, no derivados.» Nada en el dato
+     conecta una carta con una campaña —es una decisión de medios— y una fecha
+     es una decisión de personas: derivarlas sería inventarlas. */
+  if (!E.mesa) E.mesa = {};
 
   var soloLectura = false, api = null;
   /* El conector de Zoho Sprints, si el visitante lo tiene. `null` significa
@@ -1060,8 +1066,13 @@
 
   /* El rótulo de un tramo de la carta. No es decoración: son los cuatro pasos
      de producir una pieza, y en ese orden. */
-  function tramo(t) {
-    return '<div class="micro-et mt-6 !mb-0">' + esc(t) + "</div>";
+  function tramo(t, sellos) {
+    /* `sellos` son las etiquetas que van pegadas al rótulo, no debajo: el
+       «Para aprobar» del copy tiene que leerse junto al texto que hay que
+       aprobar, no en una nota al pie que se salta. */
+    if (!sellos) return '<div class="micro-et mt-6 !mb-0">' + esc(t) + "</div>";
+    return '<div class="flex items-center gap-2 flex-wrap mt-6">' +
+      '<span class="micro-et !mb-0">' + esc(t) + "</span>" + sellos + "</div>";
   }
 
   /* Qué pasó con esta carta en Sprints. Se muestra dentro de la carta y no en
@@ -1163,6 +1174,103 @@
       "se manda a Sprints en ese momento.</p>";
   }
 
+  var NOMBRE_ESTRATEGIA = {};   // se llena al pintar; ver `nombreEstrategia`
+
+  function nombreEstrategia(id) {
+    if (!NOMBRE_ESTRATEGIA[id]) {
+      (((D.estrategia || {}).estrategias) || []).forEach(function (e) {
+        NOMBRE_ESTRATEGIA[e.id] = e.nombre;
+      });
+    }
+    return NOMBRE_ESTRATEGIA[id] || id;
+  }
+
+  /* La FICHA de la carta: los campos que hacen falta para producir sin abrir
+     nada más.
+
+     Pedido de Mercadeo (2026-09-10): «Cada carta tiene que ser autosuficiente.
+     Quien la lee tiene que poder producir sin abrir nada más.» Y la lista
+     exacta: formato · a dónde va · mercado · el mensaje · el copy · la
+     referencia · por qué esta pieza · de qué estrategia sale · quién y para
+     cuándo.
+
+     Un campo que la corrida no puede llenar sale VACÍO y dice qué le falta.
+     Nunca se rellena: es la regla que Mercadeo escribió para esto («Si una
+     carta no puede completar sus campos, sale incompleta y dice qué le falta.
+     Nunca la rellenes»).
+
+     Dos campos los llena la MESA y no el sistema, por decisión suya: la
+     campaña de pauta y la fecha límite. No hay nada en el dato que conecte una
+     carta con una campaña —eso es una decisión de medios— y una fecha es una
+     decisión de personas. Derivarlas sería inventarlas. */
+  /* Los dos campos que llena la mesa: campaña de pauta y fecha límite.
+
+     Salen VACÍOS a propósito. El sistema no los deriva porque no puede: nada
+     en el dato conecta una carta con una campaña de Meta —eso lo decide quien
+     pauta— y una fecha es una decisión de personas. Poner algo ahí sería
+     inventarlo con cara de plan.
+
+     Se guardan en `E.mesa[id]`, que viaja en el estado publicado, así que lo
+     que se llene en la reunión sobrevive a la republicación igual que las
+     decisiones. */
+  function camposDeLaMesa(c) {
+    var m = (E.mesa || {})[c.id] || {};
+    var pauta = (c.canales || []).indexOf("pauta") >= 0;
+    return '<div class="mt-4 pt-4 border-t border-slate-100">' +
+      '<div class="micro-et">Lo llena la mesa</div>' +
+      '<div class="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))]">' +
+      (pauta
+        ? '<label class="block"><span class="text-[11.5px] text-slate-500">' +
+          "Campaña de pauta</span>" +
+          '<input type="text" data-campana="' + esc(c.id) + '" class="campo ' +
+          'mt-1" placeholder="la decide quien pauta" value="' +
+          esc(m.campana || "") + '"' + (soloLectura ? " disabled" : "") + "></label>"
+        : "") +
+      '<label class="block"><span class="text-[11.5px] text-slate-500">' +
+      "Para cuándo</span>" +
+      '<input type="date" data-limite="' + esc(c.id) + '" class="campo mt-1" ' +
+      'value="' + esc(m.limite || "") + '"' + (soloLectura ? " disabled" : "") +
+      "></label></div></div>";
+  }
+
+  function fichaCarta(c) {
+    var fila = function (rot, cuerpo, falta) {
+      return '<div class="flex gap-2 items-baseline">' +
+        '<span class="micro-et !mb-0 shrink-0 min-w-[92px]">' + esc(rot) +
+        "</span>" +
+        (cuerpo
+          ? '<span class="text-[12.5px] text-slate-700 leading-snug">' +
+            cuerpo + "</span>"
+          : '<span class="text-[12px] text-amber-700 leading-snug">' +
+            esc(falta || "sin dato en esta corrida") + "</span>") +
+        "</div>";
+    };
+    var fmt = c.formato || {};
+    var canales = c.canales || [];
+    /* A dónde va: el canal sale de dónde se midió su evidencia (ADR-055) y la
+       red la declara el config. La campaña NO: la pone la mesa. */
+    var destino = [];
+    if (canales.indexOf("pauta") >= 0) destino.push("pauta de Meta");
+    if (canales.indexOf("organico") >= 0)
+      destino.push("orgánico" + (c.red ? " en " + c.red : ""));
+    if (!canales.length && c.red) destino.push("orgánico en " + c.red);
+
+    return '<div class="rounded-2xl bg-slate-50 p-4 space-y-2 mb-5">' +
+      fila("Formato", esc(fmt.etiqueta || ""), fmt.falta) +
+      fila("A dónde va", destino.length ? esc(destino.join(" · ")) : "",
+           "Su evidencia es de ejecución: no dice canal. Lo decide la mesa.") +
+      fila("Mercado", esc(c.mercado || "")) +
+      fila("Estrategia", (c.estrategias || []).length
+        ? (c.estrategias || []).map(function (id) {
+            return '<a href="#estrategia" class="etiqueta-marca">' +
+              esc(nombreEstrategia(id)) + "</a>";
+          }).join(" ")
+        : (c.siempre
+            ? '<span class="etiqueta-gris">Sirve a las tres</span>' : ""),
+        "Sin estrategia derivada de su evidencia.") +
+      "</div>";
+  }
+
   function tarjetaCarta(c, asig) {
     var d = E.decisiones[c.id], estado = d ? d.estado : null;
     var bloq = copyBloqueado(c);
@@ -1187,6 +1295,8 @@
       (estado === "rechazada" ? '<span class="etiqueta-rojo">Rechazada</span>' : "") +
       (!estado ? '<span class="etiqueta-ambar">Sin decidir</span>' : "") +
       "</div>" +
+
+      fichaCarta(c) +
 
       (bloq
         ? '<div class="etiqueta-rojo mb-3">No usar en ' + esc(bloq) + "</div>" +
@@ -1217,8 +1327,19 @@
           esc(c.como_hablarlo) + "</p>"
         : "") +
 
-      /* 3 · el copy, con el peso que tiene: es lo que se va a producir. */
-      tramo("Copy") +
+      /* 3 · el copy, con el peso que tiene: es lo que se va a producir.
+
+         Lleva el mercado y el sello de aprobación pegados al texto, no en una
+         nota aparte. Mercadeo (2026-09-10) sobre el tono por mercado: «tenés
+         razón, no está definido y es pendiente mío. Por ahora que el copy
+         salga marcado para aprobación y diga a qué mercado va, sin afirmar que
+         está en su tono.»
+
+         Así que la etiqueta dice el MERCADO —que es un hecho— y nunca «en el
+         tono de SV», que sería afirmar algo que nadie declaró. */
+      tramo("Copy", '<span class="etiqueta-ambar">Para aprobar</span>' +
+        (c.mercado ? '<span class="etiqueta-sec">' + esc(c.mercado) + "</span>"
+                   : "")) +
       '<div class="sec-lavado rounded-2xl p-5 mt-2.5">' +
       '<div class="text-[17px] font-bold text-slate-900 leading-snug">' +
       esc(cp.titular || "") + "</div>" +
@@ -1306,6 +1427,7 @@
           "</details>"
         : "") +
 
+      camposDeLaMesa(c) +
       tramoSprint(c, estado) +
       '<div class="mt-auto pt-5 flex flex-wrap items-center gap-2">' +
       '<button type="button" data-decidir="' + esc(c.id) + '" ' +
@@ -1405,7 +1527,8 @@
     var decid = cs.filter(function (c) {
       var d = E.decisiones[c.id]; return d && d.estado;
     }).length;
-    return '<div class="flex items-start justify-between gap-4 mb-5 mt-10">' +
+    return '<div id="cartas" class="flex items-start justify-between gap-4 ' +
+      'mb-5 mt-10">' +
       '<div><h3 class="text-[17px] font-bold text-slate-800">Cartas de ' +
       'producción</h3>' +
       '<p class="text-[12.5px] text-slate-400 mt-1.5">Cada carta es una pieza ' +
@@ -3367,6 +3490,15 @@
             return sirveA(t, e); }).length, "ángulo", "ángulos") + " · " +
           cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
                  "carta", "cartas") + "</span>" +
+          /* El camino de ida: de la estrategia a SUS cartas. La sección de
+             cartas ya está filtrada por la elegida, así que el enlace lleva
+             exactamente a las que le cuelgan. En las alternativas no se pone:
+             llevaría a las cartas de otra estrategia, que es peor que no tener
+             enlace. La vuelta —de la carta a su estrategia— la pone la ficha
+             de la carta. */
+          (on ? '<a href="#cartas" class="enlace shrink-0">Ver sus ' +
+            cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+                   "carta", "cartas") + "</a>" : "") +
           (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
             'class="btn-claro"' + (soloLectura ? " disabled" : "") +
             ">Usar esta</button>") + "</div></div>";
@@ -4158,6 +4290,8 @@
       }
       if (!s.dataset) return;
       if (s.dataset.asignar) { asignar(s.dataset.asignar, s.value || null); return; }
+      if (s.dataset.limite) { guardaMesa(s.dataset.limite, "limite", s.value); return; }
+      if (s.dataset.campana) { guardaMesa(s.dataset.campana, "campana", s.value); return; }
       if (s.dataset.asignarPropia) {
         var p = E.propias[s.dataset.asignarPropia];
         if (p) {
@@ -4484,6 +4618,20 @@
     return t ? "I" + t : "";
   }
 
+  function guardaMesa(id, campo, valor) {
+    if (soloLectura) return;
+    E.mesa = E.mesa || {};
+    var m = E.mesa[id] = E.mesa[id] || {};
+    var antes = m[campo] || "";
+    valor = (valor || "").trim();
+    if (antes === valor) return;
+    if (valor) m[campo] = valor; else delete m[campo];
+    if (!Object.keys(m).length) delete E.mesa[id];
+    persistir(campo === "limite"
+      ? (valor ? "Fecha guardada" : "Fecha quitada")
+      : (valor ? "Campaña guardada" : "Campaña quitada"), true);
+  }
+
   function marcaSprint(id, datos) {
     E.sprint = E.sprint || {};
     E.sprint[id] = datos;
@@ -4666,9 +4814,14 @@
     sincronizaResponsable(id);
   }
 
-  function persistir(mensaje) {
+  /* `sinPintar` existe para los campos de texto: `pintar()` reconstruye el
+     `innerHTML` y con eso el input pierde el foco y el cursor, así que teclear
+     una campaña se vuelve imposible. Es el mismo problema que resolvió el
+     retardo del buscador, en otra forma. El valor tecleado ya está en el DOM;
+     lo que hay que guardar es el estado. */
+  function persistir(mensaje, sinPintar) {
     E.version = (E.version || 1) + 1;
-    pintar(true);
+    if (!sinPintar) pintar(true);
     if (mensaje) avisar(mensaje);
     if (!api) { if (!mensaje) avisar("Guardado solo en esta vista"); return; }
     api.publish(documento()).catch(function (err) {

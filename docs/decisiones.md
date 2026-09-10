@@ -3785,3 +3785,90 @@ línea de canal se movió al pliegue—:
   no un párrafo.
 
 Sin desborde horizontal a 1440 ni a 390. Siete suites en verde.
+
+---
+
+## ADR-059 · La carta como ficha autosuficiente, y los dos campos que llena la mesa
+
+**Fecha:** 2026-09-10
+**Estado:** implementada, verificada en navegador
+**Pedido de Mercadeo (literal):** «Cada carta tiene que ser autosuficiente. Quien
+la lee tiene que poder producir sin abrir nada más.» Con la lista de campos, y
+la regla: «Si una carta no puede completar sus campos, sale incompleta y dice
+qué le falta. Nunca la rellenes.»
+
+### La ficha, arriba de la carta
+
+Un bloque con los campos que hacen falta para producir, en orden:
+
+| Campo | De dónde sale |
+|---|---|
+| **Formato** — Reel 9:16 / Arte estático / Carrusel de N tarjetas | normalizado de `pieza` + la estructura ya medida |
+| **A dónde va** — pauta de Meta · orgánico en Instagram | el canal, de dónde se midió su evidencia (ADR-055); la red, del config |
+| **Mercado** | del config |
+| **Estrategia** — con el NOMBRE, enlazado | derivado de su evidencia (ADR-053) |
+
+El resto de los campos ya estaban en la carta y se conservan: el mensaje
+(`de_que_hablar` + `como_hablarlo`), el copy, la referencia medida con su URL,
+el porqué citando el dato, y el responsable.
+
+**El formato no es un dato nuevo.** Salía de `_estructura()`, que mira lo
+medido, pero llegaba como frase («Reel vertical 9:16, no video de feed»). Ahora
+se normaliza a etiqueta para que quien produce no la deduzca. Y si la estructura
+no se pudo calcular, la etiqueta lo dice en vez de suponer que un arte es pieza
+única.
+
+### El copy dice su mercado, y NO dice su tono
+
+Mercadeo, sobre el tono por mercado: «tenés razón, no está definido y es
+pendiente mío. Por ahora que el copy salga marcado para aprobación y diga a qué
+mercado va, sin afirmar que está en su tono.»
+
+El rótulo del copy lleva **«Para aprobar»** y **el mercado**, pegados al texto y
+no en una nota al pie. El mercado es un hecho del config; «en el tono de SV»
+sería afirmar algo que nadie declaró. La prueba vigila las dos mitades: que
+estén el sello y el mercado, y que **no** aparezca ninguna afirmación de tono.
+
+### Campaña y fecha límite: vacíos, y por qué
+
+Decisión de Mercadeo: «La campaña y la fecha las pone la mesa. Campos vacíos
+para llenar en la reunión, no derivados.»
+
+Salen vacíos porque el sistema **no puede** derivarlos: nada en el dato conecta
+una carta con una campaña de Meta —eso lo decide quien pauta— y una fecha es una
+decisión de personas. Poner algo ahí sería inventarlo con cara de plan.
+
+Se guardan en `E.mesa[id]`, que viaja en el estado publicado, así que lo que se
+llene en la reunión sobrevive a la republicación igual que las decisiones.
+
+**El guardia que importa:** la prueba comprueba que el campo de campaña **sale
+vacío**. Sabotaje verificado: rellenarlo con «Campaña {solución} {mercado}»
+—que es exactamente la clase de «ayuda» que alguien agregaría— pone la prueba
+roja.
+
+**Y una trampa nueva:** `persistir()` llamaba a `pintar()`, que reconstruye el
+`innerHTML`; con eso el input perdía el foco y el cursor en cada tecla, y
+escribir una campaña era imposible. Ahora `persistir(mensaje, sinPintar)` guarda
+sin repintar para los campos de texto. Es el mismo problema que resolvió el
+retardo del buscador, en otra forma.
+
+### El enlace en los dos sentidos
+
+«Cada carta tiene que decir de qué estrategia viene, y desde la estrategia se
+tiene que poder ver sus cartas. Hoy solo hay un conteo suelto.»
+
+- **De la carta a su estrategia**: la ficha muestra el nombre completo como chip
+  enlazado a la sección. Una carta puede colgar de varias y se ven todas.
+- **De la estrategia a sus cartas**: «Ver sus N cartas» en la tarjeta **elegida**
+  únicamente. En las alternativas no se pone, porque la sección de cartas está
+  filtrada por la elegida: el enlace llevaría a las cartas de otra estrategia,
+  que es peor que no tener enlace.
+
+### Las pruebas
+
+`npm run prueba:ficha` — entra por el ratón y lee la PANTALLA, no el JSON:
+comprobar el dato diría que existe, no que la carta lo muestre. Verifica que
+ninguna carta salga sin formato, mercado, mensaje ni porqué; que la ficha se vea
+en pantalla; los dos sentidos del enlace (y que el chip diga el **nombre**, no
+el id); que campaña y fecha salgan **vacías**; que lo tecleado viaje en el
+estado publicado; y que el campo no se rompa al guardar.

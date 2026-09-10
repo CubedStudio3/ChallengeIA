@@ -353,6 +353,31 @@ def _estructura(pieza: str, F) -> dict | None:
     return None
 
 
+def _formato(pieza: str, est: dict | None) -> dict:
+    """El formato en una etiqueta: arte estático, reel o carrusel.
+
+    Pedido de Mercadeo (2026-09-10): la carta tiene que ser autosuficiente, y el
+    primer campo es «Formato: arte estático, reel, carrusel».
+
+    No es un dato nuevo: sale de `pieza` y de la estructura ya calculada en
+    `_estructura()`, que es la que mira lo medido. Aquí solo se NORMALIZA a una
+    etiqueta corta, para que quien produce no tenga que deducirla de una frase.
+    Si la estructura no se pudo calcular, la etiqueta lo dice en lugar de
+    suponer que un arte es una pieza única.
+    """
+    que = ((est or {}).get("que") or "")
+    if pieza == "video":
+        return {"etiqueta": "Reel 9:16" if "reel" in que.lower() else "Video",
+                "detalle": que or None}
+    if "carrusel" in que.lower():
+        return {"etiqueta": que.split(",")[0].strip(), "detalle": que}
+    if que:
+        return {"etiqueta": "Arte estático", "detalle": que}
+    return {"etiqueta": "Arte", "detalle": None,
+            "falta": ("Esta corrida no pudo calcular la estructura, así que no se "
+                      "afirma si va como pieza única o carrusel.")}
+
+
 def _referencia(cfg, F):
     """La referencia MEDIDA. La busqueda de Pinterest es secundaria y se rotula."""
     d = cfg.get("referencia_de") or {}
@@ -508,6 +533,9 @@ def arma(copys_cfg: dict | None, reco: dict | None, por_mercado: dict,
             "copy": {"titular": c.get("titular"), "cuerpo": c.get("cuerpo"),
                      "cta": c.get("cta")},
             "voz_de_marca": c.get("porque_marca"),
+            # El formato como ETIQUETA, para que la carta lo diga sin que
+            # quien produce tenga que deducirlo de la frase de estructura.
+            "formato": _formato(pieza, est),
             "visual": {
                 "estructura": est,
                 "mostrar": c.get("mostrar") or [],
