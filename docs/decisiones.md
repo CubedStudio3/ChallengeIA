@@ -4045,6 +4045,26 @@ Regla 7. La marca `[MC:equipo::<id>]` viaja dentro del nombre y se consulta con
 «Aceptada» —el gesto que una persona repite sin pensarlo— no crea un segundo
 item; está probado.
 
+### Verificado contra producción, no contra el doble
+
+`prueba:boton` corre con un conector SIMULADO a propósito: una prueba que crea
+items de verdad cada vez es una prueba que nadie corre. Pero un doble no
+contesta si Zoho acepta el payload. Así que se ejecutó el ciclo de ADR-029
+—crear, leer, borrar— contra el proyecto de producción el **2026-09-10**, con el
+payload exacto que arma `payloadDeIdea()`:
+
+- `CreateItem` lo aceptó: `addedItemId 21897000001571030`, `itemNo` **`I1187`**.
+- `GetItems`, buscando por la marca `equipo::verificacion-2026-09-10`, lo
+  encontró con `itemNo` **`1187`** — sin la I. **La trampa del doble número
+  queda confirmada en un SEGUNDO item**, no solo en el de ADR-054: no era una
+  rareza de aquel, es cómo responden los dos endpoints.
+- `ownerId: ["21897000001319001"]` — Dulce. El item **nació con su responsable**,
+  que es exactamente lo que estaba roto para las tareas el 2026-09-07.
+- `itemTypeName: "Task"`, `statusName: "Por Hacer"`, `projPriorityId` el del
+  proyecto: los dos ids nuevos del destino son los correctos.
+- `DeleteItem` lo quitó y una segunda lectura devolvió `items: []`. El backlog
+  quedó como estaba.
+
 ### Lección de método
 
 **Un hueco arreglado en un camino no está arreglado en los otros dos.** ADR-054

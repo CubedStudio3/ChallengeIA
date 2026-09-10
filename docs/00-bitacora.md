@@ -1227,3 +1227,9 @@ creada no borra su item, y el quinto `"I" + itemNo` que ADR-054 no había
 alcanzado.
 
 Detalle en ADR-061.
+
+Y no se dejó en «probado contra el doble»: se corrió el ciclo de ADR-029 contra
+el proyecto de producción con el payload exacto de una idea del equipo. Zoho lo
+aceptó (`I1187`), la lectura lo devolvió como `1187` —la trampa del doble número
+confirmada en un segundo item, no solo en el de ADR-054—, el item nació con su
+responsable, y se borró dejando el backlog como estaba.
