@@ -8833,6 +8833,8 @@
       "teamId": "667151262",
       "projectId": "21897000000139001",
       "sprintId": "21897000000139025",
+      "projitemtypeid": "21897000000139035",
+      "projpriorityid": "21897000000139007",
       "_es": "El backlog del proyecto, no un sprint. Un sprint caduca; el backlog es donde corresponde el trabajo que aun no se planifico.",
       "proyecto": "Diseño y MK"
     }

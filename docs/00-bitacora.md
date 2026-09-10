@@ -1186,3 +1186,44 @@ finas (ADR-060). El sistema ya avisa cuando una agrupa más de 3 ángulos, para
 que la decisión se tome con la evidencia enfrente.
 
 Detalle en ADR-057, ADR-058, ADR-059 y ADR-060.
+
+---
+
+## Sesión 17 · 2026-09-10 · el tercer camino
+
+Pedido de Mercadeo, en una línea: que cada idea que la mesa escribe se vuelva
+una tarea en Sprint «así», como las otras. Y que se borre el texto que explica
+por qué no se crean solas.
+
+Las dos mitades del pedido resultaron ser la misma cosa. El texto decía que
+esta página vive en un navegador y no puede llamar a Zoho — y **eso dejó de ser
+verdad el 2026-09-08**, cuando el tablero declaró la capacidad `mcp` y empezó a
+crear items con el conector del visitante. Un texto que explica una limitación
+que ya no existe enseña a no confiar en el botón que sí funciona.
+
+El tablero tenía tres orígenes de trabajo y dos escribían: las cartas y las
+tareas de estrategia. La idea del equipo se quedaba en la página. Es la misma
+forma del hueco de ADR-054, un mes después y en la otra lista.
+
+**Por qué se había quedado fuera, y no fue olvido.** Las cartas y las tareas
+traen su payload armado por Python, y el botón solo lo reenvía; es deliberado,
+para que los dos caminos creen items idénticos. La idea del equipo no puede
+tener payload de Python: nace escrita en el navegador cuando Python ya corrió.
+Así que se arma en el navegador — y la garantía de que no divergen es una
+prueba que le pide el esperado a `sprint.plan()` en el momento, no un texto
+copiado a mano. Ya caducó dos veces un esperado escrito aparte (ADR-050).
+
+**Y ya había divergido en silencio.** El CSV tenía una tercera copia del mismo
+texto que unía las referencias con `"  - "` donde las otras dos usan `"  · "`.
+Solo se habría visto comparando un item importado por CSV con uno creado por el
+botón, que es cuando ya no sirve enterarse.
+
+Lo que el arreglo arrastró: dos ids nuevos en el destino de Sprints, una
+compuerta para el tablero viejo que no los trae, `responsableDe()` porque el
+dueño de una idea vive en otro sitio que el de una carta, un tercer texto en el
+sello de Sprints —de una idea del equipo NO se puede decir «con la evidencia
+adentro», porque justamente no la tiene—, el aviso de que quitar una idea ya
+creada no borra su item, y el quinto `"I" + itemNo` que ADR-054 no había
+alcanzado.
+
+Detalle en ADR-061.

@@ -3935,3 +3935,119 @@ Lo que hay que resolver antes:
 
 Ninguna de las tres es un bloqueo, pero las tres son decisiones de Mercadeo, no
 de código. Cuando toque, se decide con dos semanas de uso encima.
+
+---
+
+## ADR-061 · La idea del equipo también crea su item, y su payload se arma en el navegador
+
+**Fecha:** 2026-09-10
+**Estado:** implementado y probado
+**Pedido:** Mercadeo, 2026-09-10 — «en la sección de Ideas del equipo, quiero
+que cada idea que creemos se vuelva una tarea en Sprint así».
+
+### El hueco
+
+El tablero tiene TRES orígenes de trabajo y los tres se aceptan con un botón
+que se ve igual:
+
+| Origen | De dónde sale | ¿Creaba su item? |
+|---|---|---|
+| Carta de producción | del análisis (ADR-042) | ✅ desde el 2026-09-08 |
+| Tarea de estrategia | del análisis | ✅ desde ADR-054 |
+| **Idea del equipo** | la escribe una persona en la reunión | ❌ **no** |
+
+La idea quedaba guardada dentro de la página y había que bajarla por el CSV.
+Es la misma forma del hueco que ADR-054 arregló para las tareas, un mes después
+y en la otra lista: **un camino de tres que no llegaba, sin decirlo.**
+
+### Por qué se había quedado fuera
+
+Por una razón de verdad, no por olvido. Las cartas y las tareas traen su
+payload de `CreateItem` armado por Python (`params_de_carta`,
+`params_de_tarea`), y el botón solo lo reenvía. Eso es deliberado: dos caminos
+para la misma acción tienen que producir el mismo item, y si cada uno armara su
+texto nadie lo notaría hasta comparar dos items en Sprints.
+
+La idea del equipo **no puede tener payload de Python**: nace escrita en el
+navegador, en la reunión, cuando Python ya corrió. No hay forma de que Python
+la vea antes.
+
+### La decisión
+
+**El payload de la idea se arma en el navegador, y la prueba lo compara contra
+Python llamando a Python de verdad.**
+
+`payloadDeIdea()` reproduce campo por campo la rama `propias` de
+`sprint.plan()`: el nombre con la marca `[MC:equipo::<id>]`, el detalle, la
+línea de ORIGEN que dice que la idea no tiene evidencia del sistema, y las
+referencias. La garantía de que las dos no divergen NO es un acuerdo escrito:
+es `prueba:boton`, que agrega una idea con el ratón, captura el payload que
+salió hacia el conector y lo compara con el que devuelve
+`pruebas/payload_idea.py` — un módulo que llama a `sprint.plan()`. Un esperado
+copiado a mano en la prueba ya caducó dos veces en este proyecto (ADR-050).
+
+**Y ya había divergido.** El CSV tenía una TERCERA copia del mismo texto,
+escrita a mano, que unía las referencias con `"  - "` donde las otras dos usan
+`"  · "`. Nadie lo iba a ver hasta comparar un item importado por CSV con uno
+creado por el botón, que es exactamente cuando ya no sirve enterarse. El CSV
+ahora sale de `payloadDeIdea()`.
+
+### Lo que la decisión arrastró
+
+1. **`_sprint_destino` lleva dos ids nuevos.** `projitemtypeid` y
+   `projpriorityid` estaban solo dentro del payload de cada carta; para armar
+   el de una idea hacen falta sueltos. Los agrega `corre.py` desde
+   `config/equipo.json`, la misma fuente que usa `params_de_tarea`.
+
+2. **Una compuerta para el tablero viejo.** Un tablero publicado antes de hoy
+   no trae esos dos ids. Crear con los campos vacíos dejaría un item a medias
+   en producción, así que `crearEnSprints` se detiene y dice qué falta y cómo
+   arreglarlo (regla 3). La idea NO se pierde: queda guardada en la página.
+
+3. **`responsableDe(id)`.** El responsable de una carta o una tarea vive en
+   `E.decisiones`; el de una idea, en su propio registro. `crearEnSprints`,
+   `lineaResponsable` y `sincronizaResponsable` leían solo el primero, así que
+   una idea habría nacido sin dueño mientras su tarjeta mostraba un nombre —
+   el agujero exacto que reportó Mercadeo para las tareas el 2026-09-07,
+   reaparecido en la otra lista. Ahora los tres leen por el mismo camino, y
+   elegir responsable en una idea ya creada dispara su `UpdateItem`.
+
+4. **El sello de Sprints no le atribuye evidencia.** Decía «con el ángulo, la
+   evidencia y la instrucción exacta adentro» para todo lo que no fuera carta.
+   De una idea del equipo eso es **falso**: no tiene evidencia, y conservar esa
+   diferencia es justamente para lo que existe la sección. Hay un tercer texto,
+   por `origenDe(id)`.
+
+5. **Quitar una idea ya creada dice qué quedó en Sprints.** Esta vista no borra
+   nada en producción. Callarlo dejaría un item huérfano que nadie sabe que
+   existe.
+
+6. **El quinto `"I" + itemNo`.** ADR-054 normalizó cuatro; quedaba uno en el
+   aviso de «Sprints dejó otro responsable», que escribía `II1180`. Ahora pasa
+   por `nroItem()` como los otros.
+
+### Lo que se borró
+
+El texto que explicaba que «esta página vive en un navegador y no puede llamar
+a Zoho; aceptar registra la decisión, la creación es un segundo paso». Lo pidió
+Mercadeo, y además **ya era falso**: con la capacidad `mcp` la página llama al
+conector del visitante desde el 2026-09-08. Un texto que explica una limitación
+que ya no existe es peor que ninguno — enseña a no confiar en el botón que sí
+funciona.
+
+El botón «Copiar para Sprint» se queda: es el camino cuando el visitante no
+tiene el conector, y en ese caso la página lo dice en la tarjeta.
+
+### Idempotencia
+
+Regla 7. La marca `[MC:equipo::<id>]` viaja dentro del nombre y se consulta con
+`GetItems` ANTES de crear, igual que para cartas y tareas. Volver a pulsar
+«Aceptada» —el gesto que una persona repite sin pensarlo— no crea un segundo
+item; está probado.
+
+### Lección de método
+
+**Un hueco arreglado en un camino no está arreglado en los otros dos.** ADR-054
+existió porque una prueba que cubría cartas no decía nada de las tareas. Hoy la
+misma frase vale para las ideas: la prueba cubría dos de tres. La sección de
+`prueba:boton` que faltaba era la señal, y no estaba.

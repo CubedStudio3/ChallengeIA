@@ -47,6 +47,14 @@ aprobación con su mercado, la referencia medida, y los dos campos que llena la
 mesa —campaña y fecha— **vacíos a propósito**. 10 cartas · 5 artes y 5 videos.
 El número **nunca** se escribe a mano en el config (ADR-042).
 
+Desde el 2026-09-10 los **tres** orígenes de trabajo del tablero crean su work
+item con el mismo botón: la carta, la tarea de estrategia y la **idea que la
+mesa escribe en la reunión** (ADR-061). La idea es la única cuyo payload NO lo
+arma Python —nace en el navegador cuando Python ya corrió—, así que lo arma la
+página y `prueba:boton` lo compara contra `sprint.plan()` llamándolo de verdad.
+Un tablero publicado antes de esa fecha no trae los dos ids que hacen falta: la
+página se detiene y lo dice, en vez de crear un item a medias.
+
 ⚠️ **Contra los 10 días anteriores el costo por lead subió 51%** en la cuenta
 (GT +71%, SV +27%), con las mismas campañas y el mismo indicador. SV sigue
 siendo el mercado más barato y el que menos se degradó. Se vio por primera vez
@@ -500,6 +508,31 @@ cometidos; no hay tiempo de repetirlos.
   personas: nada en el dato las conecta. Salen vacías y la prueba se pone roja
   si alguien las rellena «para ayudar» (ADR-059).
 
+- **Un hueco arreglado en un camino NO está arreglado en los otros dos.** El
+  tablero tiene tres orígenes de trabajo —carta, tarea de estrategia e idea del
+  equipo— y los tres se aceptan con un botón que se ve igual. ADR-054 arregló
+  las tareas porque la prueba solo cubría cartas; un mes después la idea del
+  equipo seguía sin crear nada, por lo mismo: la prueba cubría dos de tres
+  (ADR-061).
+- **Un texto que explica una limitación ya resuelta es peor que ninguno.** El
+  tablero decía «esta página vive en un navegador y no puede llamar a Zoho»
+  desde antes de declarar la capacidad `mcp`. Dos días explicándole a la mesa
+  que no confíe en el botón que sí funciona.
+- **Una tercera copia del mismo texto ya había divergido.** El cuerpo del item
+  de una idea del equipo estaba escrito en tres lados: Python, el botón y el
+  CSV. El del CSV unía las referencias con `"  - "` y los otros dos con
+  `"  · "`. Solo se veía comparando un item importado con uno creado por el
+  botón — es decir, cuando ya no sirve enterarse.
+- **El esperado de un payload que arma el navegador se le pregunta a Python en
+  el momento.** `prueba:boton` agrega la idea con el ratón, captura lo que salió
+  hacia el conector y lo compara contra `pruebas/payload_idea.py`, que llama a
+  `sprint.plan()` de verdad. Un texto copiado a mano en la prueba ya caducó dos
+  veces en este proyecto.
+- **El dueño de una idea del equipo NO vive donde el de una carta.** Las cartas
+  y las tareas lo guardan en `E.decisiones`; la idea, en su propio registro.
+  Leer solo el primero habría hecho nacer el item sin dueño mientras la tarjeta
+  mostraba un nombre — el agujero exacto del 2026-09-07, en la otra lista.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -544,7 +577,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `pruebas/estado_limpio.js` | Blanquea el `#estado` antes de cargar: una prueba tiene que controlar su punto de partida |
 | `src/modulo1/pauta_historica.py` | Los meses anteriores de pauta, día por día, **solo para que el filtro pueda mirar atrás**. Compuerta por mes: uno que no cuadra no entra y se declara. `python -m modulo1.pauta_historica` |
 | `data/historico/pauta_meses/` | Un par por mes —agregado + desglose diario— cada uno reconciliado contra sí mismo |
-| `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado: 57 comprobaciones, incluido que el item **nazca** con su responsable y que reasignar mande `delusers`. `npm run prueba:boton` |
+| `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado, en los **tres** orígenes —carta, tarea e idea del equipo—: que el item **nazca** con su responsable, que reasignar mande `delusers`, y que la idea escrita en el navegador mande el payload que arma Python. `npm run prueba:boton` |
+| `pruebas/payload_idea.py` | El esperado de la idea del equipo, pedido a `sprint.plan()` en el momento. Existe porque es el único payload que NO arma Python: la idea nace en el navegador |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |

@@ -629,6 +629,12 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             "teamId": str(proy_sp.get("team_id") or ""),
             "projectId": str(proy_sp.get("project_id") or ""),
             "sprintId": str(proy_sp.get("sprint_id") or ""),
+            # El tipo y la prioridad viajan aparte del payload de cada carta
+            # porque hay UNA escritura que Python no puede preparar: la idea que
+            # el equipo escribe en la reunion. Nace en el navegador, asi que su
+            # payload se arma alli — y sin estos dos ids no podria armarlo.
+            "projitemtypeid": str(proy_sp.get("item_type_id") or ""),
+            "projpriorityid": str(proy_sp.get("priority_id") or ""),
             "_es": ("El backlog del proyecto, no un sprint. Un sprint caduca; el "
                     "backlog es donde corresponde el trabajo que aun no se "
                     "planifico."),

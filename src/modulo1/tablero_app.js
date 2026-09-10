@@ -1095,8 +1095,7 @@
   function lineaResponsable(c, s0) {
     if (s0.sincronizando) return "Enviando el responsable a Sprints…";
     if (s0.detalle_resp) return s0.detalle_resp;
-    var d = E.decisiones[c.id] || {};
-    var quiere = d.responsable ? String(d.responsable) : null;
+    var quiere = responsableDe(c.id);
     var tiene = s0.responsable ? String(s0.responsable) : null;
     if (quiere === tiene) {
       return tiene ? "Asignada a " + nombrePersona(tiene) + " en Sprints."
@@ -1129,9 +1128,12 @@
            tarea que lleva «la dirección visual y la referencia» sería
            describir un item que no es ese. El texto sale de lo que la pieza
            es, no de una frase única para las dos. */
-        (esCarta(c.id)
+        (origenDe(c.id) === "carta"
           ? ", con el copy, la dirección visual y la referencia adentro."
-          : ", con el ángulo, la evidencia y la instrucción exacta adentro.") +
+          : origenDe(c.id) === "idea"
+            ? ", con el detalle, sus referencias y la nota de que la propuso " +
+              "el equipo y no el análisis."
+            : ", con el ángulo, la evidencia y la instrucción exacta adentro.") +
         (s0._nota ? " " + esc(s0._nota) : "") + "</p>" +
         '<p class="text-[11.5px] mt-1.5 leading-relaxed" style="color:' +
         (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
@@ -3653,7 +3655,14 @@
               (t.responsable === p.id_sprint ? " selected" : "") + ">" +
               esc(p.nombre) + "</option>";
           }).join("") + "</select>"
-        : "") + "</div></div>";
+        : "") + "</div>" +
+      /* El mismo tramo que las cartas y las tareas: qué pasó en Sprints, con su
+         reintento y su línea de responsable. La idea del equipo era la única de
+         las tres que no lo tenía —porque era la única que no escribía—, y sin
+         esto el arreglo de hoy habría cambiado «no crea nada» por «crea sin
+         decirlo», que en una mesa de trabajo es igual de malo. */
+      tramoSprint(ideaComoPieza(t) || t, estado) +
+      "</div>";
   }
 
   function formNuevaTarea(asig) {
@@ -3721,14 +3730,6 @@
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
       selectorEstrategia() +
-      nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
-        "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +
-        "de trabajo</i>." +
-        '<details class="inline"><summary class="inline cursor-pointer ' +
-        'font-semibold"> Por qué no se crean solas</summary>' +
-        "<span class=\"block mt-2\">Esta página vive en un navegador y no " +
-        "puede llamar a Zoho. Aceptar registra la decisión; la creación es un " +
-        "segundo paso. Zoho mapea las siete columnas solo.</span></details>") +
       /* LAS CARTAS VAN PRIMERO Y SOLAS. Antes esta sección tenía dos bloques
          que contestaban la misma pregunta con distinto nivel de detalle —las
          tareas arriba, los copys abajo— y quien produce tenía que juntarlos de
@@ -4187,13 +4188,27 @@
         var p = E.propias[d.propia];
         if (p) {
           p.estado = d.estado;
+          /* La decisión se guarda PRIMERO, como en `decidir`: crear en Sprints
+             es un efecto posterior que puede fallar, y un conector caído no se
+             puede llevar por delante lo que decidió la mesa. */
           persistir(d.estado === "aceptada" ? "Idea aceptada" : "Idea rechazada");
+          if (d.estado === "aceptada") creaSiHaceFalta(d.propia);
         }
         return;
       }
       if (d.borrar) {
         if (E.propias[d.borrar]) {
-          delete E.propias[d.borrar]; persistir("Idea quitada");
+          /* Si la idea ya tiene item en Sprints, quitarla de la página NO lo
+             borra: esta vista no borra nada en producción. Se dice qué quedó
+             allá, porque callarlo dejaría un item huérfano que nadie sabe que
+             existe. */
+          var s0 = (E.sprint || {})[d.borrar];
+          var quedo = s0 && (s0.estado === "creado" || s0.estado === "existia")
+            ? nroItem(s0.itemNo) : "";
+          delete E.propias[d.borrar];
+          persistir(quedo
+            ? "Idea quitada del tablero · " + quedo + " sigue en Sprints"
+            : "Idea quitada");
         }
         return;
       }
@@ -4297,6 +4312,10 @@
         if (p) {
           p.responsable = s.value || null;
           persistir(s.value ? "Responsable asignado" : "Sin asignar");
+          /* Y si el item ya existe, el cambio VIAJA. `users` solo se envía en
+             la creación, así que elegir a alguien después dejaba el item sin
+             dueño mientras la tarjeta mostraba un nombre. */
+          sincronizaResponsable(s.dataset.asignarPropia);
         }
       }
     });
@@ -4380,14 +4399,13 @@
     Object.keys(E.propias).forEach(function (k) {
       var t = E.propias[k];
       if (t.estado !== "aceptada") return;
-      var cuerpo = [t.detalle || ""];
-      cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
-        "la propuso una persona en la mesa.");
-      if ((t.referencias || []).length) {
-        cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
-          return "  - " + u; }).join("\n"));
-      }
-      filas.push([marcado(t.titulo, "equipo::" + t.id), cuerpo.join("\n"), "Task",
+      /* El texto sale de `payloadDeIdea`, el MISMO que manda el conector. Acá
+         había una tercera copia escrita a mano y ya había divergido: unía las
+         referencias con «  - » donde las otras dos usan «  · ». Nadie lo iba a
+         ver hasta comparar un item importado por CSV con uno creado por el
+         botón, que es exactamente cuando ya no sirve enterarse. */
+      var pl = payloadDeIdea(t);
+      filas.push([pl.name, pl.description, "Task",
                   "Medium", t.responsable || "", "Open",
                   "mesa-creativa," + t.tipo]);
     });
@@ -4469,6 +4487,10 @@
       ? "Idea agregada · " + (lineas.length - refs.length) +
         " línea(s) de referencia no eran un enlace y no se guardaron"
       : "Idea agregada a aceptadas");
+    /* Entra directo a aceptadas —lo dice el formulario—, así que entra directo
+       a Sprints. Pedirle a la mesa un segundo clic para lo que la etiqueta ya
+       prometió es la clase de paso que se olvida. */
+    creaSiHaceFalta(id);
   }
 
   function decidir(id, estado) {
@@ -4487,15 +4509,24 @@
        verdad importa. */
     persistir();
     if (quita || estado !== "aceptada") return;
-    if (!sprints) return;                  // sin conector: sigue el CSV
+    creaSiHaceFalta(id);
+  }
+
+  /* CARTA, TAREA O IDEA DEL EQUIPO. Empezó preguntando solo por cartas, así que
+     aceptar una tarea de estrategia guardaba «Aceptada» y no creaba nada —sin
+     aviso, que es el peor modo—; y después quedó la idea del equipo con el
+     mismo hueco. En la pantalla las tres se aceptan con un botón que se ve
+     igual, así que las tres escriben, o ninguna dice que escribe.
+
+     Idempotente: si el item ya está —o se está creando— no se vuelve a pedir.
+     Sin conector no hay error: la decisión queda guardada y el CSV sigue
+     estando para bajarla. */
+  function creaSiHaceFalta(id) {
+    if (soloLectura || !sprints) return;
     var ya = (E.sprint || {})[id];
-    if (ya && (ya.estado === "creado" || ya.estado === "existia")) return;
-    if (ya && ya.estado === "creando") return;
-    /* CARTA O TAREA. Antes preguntaba solo por cartas, así que aceptar una
-       tarea de estrategia guardaba «Aceptada» y no creaba nada —sin aviso, que
-       es el peor modo—. Lo reportó Mercadeo el 2026-09-09: en la pantalla las
-       dos se aceptan con el mismo botón, así que las dos tienen que escribir. */
-    if (piezaPorId(id)) crearEnSprints(id);
+    if (ya && (ya.estado === "creado" || ya.estado === "existia" ||
+               ya.estado === "creando")) return;
+    if (piezaSprint(id)) crearEnSprints(id);
   }
 
   /* ═════════════ crear el work item en Zoho Sprints ═════════════
@@ -4515,9 +4546,7 @@
 
   /* Lo que se puede crear en Sprints: una carta de producción o una tarea de
      estrategia. Las dos traen `idempotencia` y `sprint` —el payload que armó
-     Python—, que es todo lo que necesitan `buscaEnSprints` y `crearEnSprints`.
-     Las ideas del equipo NO están acá a propósito: las escribe una persona en
-     la página, así que Python no pudo armarles payload; se llevan por el CSV. */
+     Python—, que es todo lo que necesitan `buscaEnSprints` y `crearEnSprints`. */
   function esCarta(id) {
     var cs = ((D.cartas || {}).cartas) || [];
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return true;
@@ -4529,6 +4558,76 @@
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
     var ts = ((D.estrategia || {}).tareas) || [];
     for (var j = 0; j < ts.length; j++) if (ts[j].id === id) return ts[j];
+    return null;
+  }
+
+  /* ── La idea del equipo, con su payload armado ACÁ ────────────────────────
+
+     Es la única escritura cuyo payload Python no puede preparar: la idea nace
+     en la reunión, escrita en este navegador, y Python ya corrió. Hasta hoy
+     eso la dejaba fuera —se aceptaba, quedaba en la página y había que bajarla
+     por el CSV—, mientras las cartas y las tareas sí creaban su item con el
+     mismo botón. Tres caminos para la misma acción y uno que no llegaba.
+
+     El texto es el MISMO que arma `sprint.py` en su rama `propias`, campo por
+     campo: el nombre con la marca `[MC:equipo::<id>]`, el detalle, la línea de
+     ORIGEN que dice que no tiene evidencia del sistema, y las referencias. Si
+     los dos armaran textos distintos, nadie lo notaría hasta comparar dos
+     items en Sprints. La prueba `prueba:boton` compara los dos payloads
+     llamando a Python de verdad, no contra un texto copiado a mano. */
+  function payloadDeIdea(p) {
+    var dst = destinoSprint() || {};
+    var cuerpo = [p.detalle || ""];
+    cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
+                "la propuso una persona en la mesa.");
+    if ((p.referencias || []).length) {
+      cuerpo.push("\nREFERENCIAS:\n" + p.referencias.map(function (u) {
+        return "  \u00b7 " + u;
+      }).join("\n"));
+    }
+    return {
+      name: p.titulo + " [MC:equipo::" + p.id + "]",
+      description: cuerpo.join("\n").trim(),
+      projitemtypeid: String(dst.projitemtypeid || ""),
+      projpriorityid: String(dst.projpriorityid || ""),
+    };
+  }
+
+  /* La idea vestida de pieza, para que `crearEnSprints`, `buscaEnSprints` y
+     `tramoSprint` no tengan que saber de dónde salió. Lo único que piden es
+     `id`, `idempotencia` y `sprint`. */
+  function ideaComoPieza(p) {
+    if (!p || !p.id) return null;
+    return { id: p.id, titulo: p.titulo,
+             idempotencia: "equipo::" + p.id, sprint: payloadDeIdea(p) };
+  }
+
+  /* Cualquiera de los tres orígenes, resuelto por id. `crearEnSprints` usa
+     ESTA y no `piezaPorId`: si usara la otra, aceptar una idea seguiría sin
+     escribir nada. */
+  function piezaSprint(id) {
+    return piezaPorId(id) || ideaComoPieza((E.propias || {})[id]);
+  }
+
+  /* De dónde salió una pieza. No es cosmético: el sello de Sprints dice qué
+     lleva el item adentro, y de una idea del equipo NO se puede decir «con la
+     evidencia adentro» porque justamente no tiene. */
+  function origenDe(id) {
+    if (esCarta(id)) return "carta";
+    if ((E.propias || {})[id]) return "idea";
+    return "tarea";
+  }
+
+  /* El responsable elegido para una pieza, venga de donde venga. Las cartas y
+     las tareas lo guardan en `E.decisiones`; las ideas del equipo, en su
+     propio registro. Leer solo el primero dejaba a la idea sin dueño en
+     Sprints mientras su tarjeta mostraba un nombre — el mismo agujero que
+     reportó Mercadeo para las tareas, en la otra lista. */
+  function responsableDe(id) {
+    var d = (E.decisiones || {})[id] || {};
+    if (d.responsable) return String(d.responsable);
+    var p = (E.propias || {})[id];
+    if (p && p.responsable) return String(p.responsable);
     return null;
   }
 
@@ -4638,7 +4737,7 @@
   }
 
   function crearEnSprints(id) {
-    var carta = piezaPorId(id);
+    var carta = piezaSprint(id);
     if (!sprints || !carta || !carta.sprint) return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) {
@@ -4646,10 +4745,22 @@
                         detalle: "La corrida no trae el destino de Sprints." });
       persistir(); return;
     }
+    /* El payload de una idea del equipo se arma acá, y necesita el tipo de item
+       y la prioridad del proyecto. Las corridas anteriores al 2026-09-10 no los
+       traían en el destino: si faltan, el item se crearía con los dos campos
+       vacíos y Zoho lo rechazaría o lo dejaría a medias. Se detiene y se dice
+       qué falta, en vez de mandar una escritura que no se puede sostener. */
+    if (!carta.sprint.projitemtypeid || !carta.sprint.projpriorityid) {
+      marcaSprint(id, { estado: "error",
+                        detalle: "Esta corrida no trae el tipo de ítem ni la " +
+                                 "prioridad del proyecto de Sprints. Hay que " +
+                                 "volver a correr el análisis para publicar un " +
+                                 "tablero que sí los traiga." });
+      persistir("Falta el tipo de ítem de Sprints en esta corrida"); return;
+    }
     marcaSprint(id, { estado: "creando" });
     pintar(true);
 
-    var d = E.decisiones[id] || {};
     var params = {};
     for (var k in carta.sprint) params[k] = carta.sprint[k];
     /* El responsable SOLO si la mesa lo eligió. Asignarle trabajo a alguien no
@@ -4660,7 +4771,7 @@
        agujero que reportó Mercadeo —el tablero decía Dulce y el item estaba
        sin dueño— y para reasignar hace falta el anterior, porque UpdateItem
        pide `delusers` con el que sale además de `newusers` con el que entra. */
-    var resp = d.responsable ? String(d.responsable) : null;
+    var resp = responsableDe(id);
     if (resp) params.users = JSON.stringify([resp]);
 
     buscaEnSprints(carta).then(function (ya) {
@@ -4746,8 +4857,7 @@
     var dst = destinoSprint();
     if (!dst || !dst.teamId) return;
 
-    var d = E.decisiones[id] || {};
-    var quiere = d.responsable ? String(d.responsable) : null;
+    var quiere = responsableDe(id);
     var tiene = s0.responsable ? String(s0.responsable) : null;
     if (quiere === tiene) return;
 
@@ -4782,8 +4892,8 @@
       } else {
         /* Sprints aceptó la llamada y dejó otro dueño. No se pinta como éxito:
            se dice qué quedó, que es lo único comprobado. */
-        s0.detalle_resp = "Sprints dejó otro responsable. Revisá I" +
-          String(s0.itemNo || "") + " en el proyecto.";
+        s0.detalle_resp = "Sprints dejó otro responsable. Revisá " +
+          nroItem(s0.itemNo) + " en el proyecto.";
         persistir(s0.detalle_resp);
       }
     }).catch(function (e) {
