@@ -20,9 +20,23 @@ carta lo DICE en `faltantes`; no se calla y no se rellena (regla 1).
 """
 from __future__ import annotations
 
+import re
+
 # El nombre visible de cada pieza. En el config van en minuscula porque son un
 # valor de taxonomia; en la carta son un titulo.
 PIEZA = {"arte": "Arte", "video": "Video"}
+
+# Lo que TIENE FORMA DE MEDICION, y por eso no puede estar escrito a mano en un
+# campo humano del config (ADR-042). Vivia dentro de `pruebas/cartas.py`, pero
+# es una REGLA DEL PRODUCTO, no un detalle de la prueba: desde que el prompt de
+# imagen tambien tiene que respetarla, escribirla en dos lados seria la tercera
+# copia divergente de la misma regla en este proyecto.
+#
+# La distincion que hace: «24 horas» SI —es una promesa de producto, la dice la
+# landing— y «$2.68», «95%» o «109 dias» NO, porque son mediciones de una
+# corrida y una medicion escrita a mano caduca sin avisar.
+MEDICION = re.compile(r"\$\s?\d|\d+\s?%|\b\d+\s+(?:d[ií]as|anuncios|personas|"
+                      r"impresiones|interacciones|leads)\b", re.I)
 
 
 def _pct(x: float) -> str:

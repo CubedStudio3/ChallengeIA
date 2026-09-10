@@ -623,8 +623,14 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
         proy_sp = (cargar("equipo", permitir_bloqueado=True)
                    .get("proyecto_sprint") or {})
         base = {"corrida": {"rango": rango.etiqueta()}}
+        # Y su peticion de imagen, por la MISMA razon: el navegador reenvia lo
+        # que armo Python. Si el prompt lo armara la pagina, dos personas
+        # pidiendo la referencia de la misma carta obtendrian imagenes
+        # distintas y nadie sabria por que (ADR-062).
+        from .prompt_visual import peticion as peticion_img
         for c in cartas["cartas"]:
             c["sprint"] = params_de_carta(c, base, proy_sp)
+            c["imagen"] = peticion_img(c)
         cartas["_sprint_destino"] = {
             "teamId": str(proy_sp.get("team_id") or ""),
             "projectId": str(proy_sp.get("project_id") or ""),

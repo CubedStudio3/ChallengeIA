@@ -79,8 +79,10 @@ print("\n== ningun numero escrito a mano en el config ==")
 # Un numero que parece medicion en un campo humano caduca sin avisar. Los
 # campos humanos pueden decir «24 horas» (una promesa de producto) pero no
 # «$2.68» ni «95%» ni «109 dias» (mediciones de una corrida).
-MEDICION = re.compile(r"\$\s?\d|\d+\s?%|\b\d+\s+(?:d[ií]as|anuncios|personas|"
-                      r"impresiones|interacciones|leads)\b", re.I)
+# La regla vive en el codigo, no aqui: la usan `cartas.py` y `prompt_visual.py`
+# ademas de esta prueba. Importarla es lo que garantiza que las tres hablen de
+# la misma medicion.
+MEDICION = C.MEDICION
 HUMANOS = ("porque_marca", "como_hablarlo", "no_dice", "angulo", "para_quien",
            "titular", "cuerpo", "cta")
 for c in CFG["copys"]:

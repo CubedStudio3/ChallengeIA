@@ -4071,3 +4071,130 @@ payload exacto que arma `payloadDeIdea()`:
 existió porque una prueba que cubría cartas no decía nada de las tareas. Hoy la
 misma frase vale para las ideas: la prueba cubría dos de tres. La sección de
 `prueba:boton` que faltaba era la señal, y no estaba.
+
+---
+
+## ADR-062 · La referencia visual se genera desde el tablero, pero se entrega como enlace
+
+**Fecha:** 2026-09-10
+**Estado:** implementado y probado
+**Pedido:** Mercadeo, 2026-09-10 — «queremos que haya una opción para crear
+diseños en Higgsfield, que dentro de acá haya un botón para darle generar
+imagen y que nos aparezcan (obviamente con todos los datos recaudados)».
+
+### Lo que se midió antes de decidir
+
+Dos muros, y son de distinta naturaleza. La diferencia es toda la decisión:
+
+| Muro | ¿Se configura? |
+|---|---|
+| El visor de artefactos bloquea **toda** carga externa de imágenes y todo `fetch`. Su lista blanca son unos CDN de scripts y las fuentes de Google | ❌ **No.** Es de la plataforma |
+| `d8j0ntlcm91z4.cloudfront.net` —donde Higgsfield deja el resultado— está bloqueado **también en el entorno de esta sesión**: `connect_rejected · gateway answered 403` | ✅ Sí, es política de egreso |
+
+El segundo es, otra vez, el error de método que este proyecto ya tiene escrito:
+**«no está permitido todavía» no es «no se puede»** (ver la entrada de los
+dominios bloqueados, 2026-09-02). Se anotó como límite lo que era una política.
+
+**Consecuencia dura:** la página puede GENERAR —la capacidad `mcp` llama al
+conector del visitante con sus credenciales y sus créditos, igual que con
+Sprints— pero **no puede MOSTRAR** la imagen. Ni con `<img>` (bloqueado) ni
+bajándola para subirla con `assets` (el `fetch` también está bloqueado). No hay
+tercera puerta desde el navegador.
+
+### La decisión
+
+**Generar sí, mostrar no: la referencia se entrega como ENLACE.** Un enlace es
+navegación, no carga de recurso, así que la lista blanca no lo toca. Y se
+**dice** en la tarjeta: «se abre en otra pestaña, el visor de esta página no
+puede mostrar imágenes de otro dominio». Un `<img>` bloqueado dejaría un
+rectángulo gris que cualquiera leería como un error del tablero — un hueco que
+finge ser una imagen que no cargó es peor que una frase honesta.
+
+### El prompt no lo arma el navegador
+
+`src/modulo1/prompt_visual.py`, por la misma razón que `params_de_carta`: si
+cada camino armara su texto, dos personas pidiendo la referencia de la misma
+carta obtendrían imágenes distintas y nadie sabría por qué. La página reenvía
+`carta.imagen` y `prueba:imagen` compara lo enviado contra lo que armó Python,
+al carácter.
+
+Cada línea del prompt sale de un campo de la carta o de `config/tema.json` —la
+tipografía y los tres tonos son los que el equipo de diseño controla en su
+archivo, no un estilo de casa escrito a mano acá—.
+
+### Tres reglas dentro del prompt
+
+1. **Ninguna MEDICIÓN entra a la imagen.** Un número dentro de un arte no se
+   puede trazar hasta su consulta, y la imagen sobrevive a la corrida. La
+   guardia es la misma `MEDICION` de ADR-042 —«24 horas» sí, es una promesa de
+   producto; «$2.68» no, es una medición— y se **detiene**, no limpia en
+   silencio: un prompt recortado a la mitad produce una imagen que nadie pidió.
+   La regla se subió de `pruebas/cartas.py` al código, porque ahora la usan dos
+   módulos y escribirla dos veces sería la tercera copia divergente de la misma
+   regla en este proyecto.
+2. **El logo NO se genera.** Un modelo inventaría un logotipo de QPayPro
+   parecido y equivocado, y una marca falsa en una pieza de fintech es
+   exactamente el dato inventado que este proyecto no publica. El prompt lo
+   prohíbe; el logo real ya vive en `config/logo.svg`.
+3. **La relación de aspecto sale del formato, y un formato desconocido
+   detiene la petición.** No se cae en 1:1 por defecto: un reel cuadrado no es
+   un detalle de estilo, es otra pieza.
+
+### Dos defectos que aparecieron al escribirlo
+
+- **El collage.** Pasar las tres tarjetas de `visual.mostrar` a una sola imagen
+  produce un collage, que no es ninguna de las tres piezas. La referencia cubre
+  **el arranque** —primera tarjeta o primer cuadro— y declara con cuántos
+  tramos sigue la pieza.
+- **La justificación escrita dentro del arte.** `no_mostrar` viene como
+  «cosa: por qué», y meter el porqué entero hacía que el modelo lo ESCRIBIERA:
+  «marcada REVISIÓN LEGAL» terminaba impresa en la imagen. Al prompt va solo el
+  sujeto de la prohibición; el porqué se queda en la carta, donde lo lee una
+  persona.
+
+### El titular va dentro, y por eso la imagen se rotula
+
+Decisión de Mercadeo entre las dos opciones: el titular real dentro de la
+imagen. El costo de eso es que **el texto que escribe un modelo no es confiable
+con tildes y signos**, y esto es fintech. Así que cada referencia sale rotulada
+**«Es referencia, no arte final: revisá tildes y signos antes de usarlo»**, y esa
+frase es una comprobación de `prueba:imagen`, no un adorno. Si se cae, alguien
+manda un titular mal acentuado a aprobación legal.
+
+### El dinero también es una sorpresa que no se permite
+
+Generar gasta los créditos de quien pulsa. Así que la tarjeta dice, antes de
+pulsar, que usa su conector y sus créditos; «Generar otra» avisa que vuelve a
+cobrar; y `use_unlim` va en `false` **explícito** —omitirlo deja que el servidor
+pregunte por la cuota gratuita, y una página no puede contestar esa pregunta por
+una persona—.
+
+### El sondeo está acotado, y un trabajo pagado no se pierde
+
+Higgsfield es asíncrono: `generate_image` devuelve un trabajo y hay que
+preguntar por él con `jobs_wait`. Dos decisiones:
+
+- El id del trabajo se **guarda en cuanto llega**, antes de que la imagen esté
+  lista. Si alguien recarga o se republica el tablero mientras se genera, el
+  trabajo no se pierde: está pagado.
+- El sondeo para a las ~12 esperas. Un bucle sin techo contra un conector ajeno
+  convierte un modelo lento en una página que consulta para siempre. Al parar
+  **no** declara la imagen fallida —el trabajo puede terminar bien— y **no**
+  vuelve a generar, que cobraría otra vez: ofrece volver a consultar, que es
+  gratis. Son dos botones distintos a propósito.
+
+### Un defecto que encontró la prueba, no la vista
+
+`poll_after_seconds || 10` trataba el **0** como ausente —«volvé a preguntar
+ya» es falsy— y esperaba diez segundos. El cero-falsy otra vez. Se pregunta por
+el tipo, con piso de un segundo para que un cero no vuelva el sondeo un bucle
+caliente.
+
+### Lo que queda pendiente y por qué
+
+Que las imágenes se vean **dentro** del tablero es posible, pero pasa por
+desbloquear `d8j0ntlcm91z4.cloudfront.net` en la política de red del entorno:
+con eso, se bajan acá y se suben con la capacidad `assets`, cuyas URL son del
+mismo origen y el visor sí las carga. Es configuración, no desarrollo — y hasta
+que esté, **nadie de este lado puede ver una imagen generada**, así que no se
+afirma que el prompt produzca buen arte: solo que produce el prompt correcto.
