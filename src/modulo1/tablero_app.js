@@ -629,7 +629,7 @@
       '<div class="flex flex-wrap items-center gap-x-6 gap-y-5 justify-between">' +
       "<div>" +
       '<h1 class="text-[28px] sm:text-[32px] leading-tight font-bold ' +
-      'text-slate-800 tracking-[-0.02em]">Hola, Merca</h1>' +
+      'text-slate-800 tracking-[-0.02em]">Hola, Hugo</h1>' +
       '<p class="text-slate-400 mt-1.5 text-[13.5px] sm:text-[14px]">' +
       "Reunión creativa · " + esc(rangoTexto(c.rango || "")) + "</p></div>" +
       /* El buscador se quitó el 2026-09-07 a pedido de Mercadeo. `V.busqueda`
