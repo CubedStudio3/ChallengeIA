@@ -3872,3 +3872,66 @@ ninguna carta salga sin formato, mercado, mensaje ni porqué; que la ficha se ve
 en pantalla; los dos sentidos del enlace (y que el chip diga el **nombre**, no
 el id); que campaña y fecha salgan **vacías**; que lo tecleado viaje en el
 estado publicado; y que el campo no se rompa al guardar.
+
+---
+
+## ADR-060 · Opción abierta: partir las estrategias más finas
+
+**Fecha:** 2026-09-10
+**Estado:** **NO implementada, a propósito.** Escrita para decidirla con uso.
+
+Mercadeo, al aprobar que la apuesta se derive de los ángulos de las cartas
+(ADR-058), dejó esto anotado:
+
+> «Anotá lo otro que mencionaste, partir las estrategias más finas, como opción
+> para después. Desde mercadeo, meter salones, inventario y soporte técnico en
+> una sola estrategia es ancho: son públicos distintos con dolores distintos. No
+> lo hagas ahora, pero dejalo escrito. Si al usarlo un par de semanas se siente
+> borroso, lo partimos.»
+
+### El problema, medido
+
+Una estrategia agrupa por **criterio**, no por público. `disputar-el-flanco`
+activa 9 cartas con **7 ángulos** distintos:
+
+    Salones y barberías · Tienda en Línea · Liquidación diaria ·
+    Un solo inventario · Soporte local y técnico presencial ·
+    Punto de Venta · Pasarela de Pagos
+
+Todos comparten la premisa —el mensaje que Paggo satura no los cubre— pero le
+hablan a públicos con dolores distintos: la dueña de salón que pierde la cita no
+tiene nada que ver con el negocio que lleva dos inventarios.
+
+La apuesta derivada resuelve que la frase **no miente**, porque está hecha de
+esos ángulos. Lo que no resuelve es si la mesa quiere decidir a ese grano.
+
+### Lo que el sistema hace hoy
+
+Lo **señala solo**: cuando una estrategia agrupa más de 3 ángulos, la tarjeta
+muestra «Ancha: N ángulos, públicos distintos (ADR-060)». Así la decisión se
+toma con la evidencia enfrente en vez de por corazonada, que es exactamente lo
+que Mercadeo pidió: usarlo dos semanas y ver si se siente borroso.
+
+### Cómo se partiría, si se decide
+
+No es un cambio de tarjeta, es un cambio de **análisis** —y por eso no se hizo
+de paso—. `estrategias()` propone una estrategia por PREMISA medida; habría que
+proponer una por **premisa × público**, con la premisa repetida:
+
+- «Ocupar el flanco de Paggo **en salones y barberías**»
+- «Ocupar el flanco de Paggo **en negocios con doble inventario**»
+
+Lo que hay que resolver antes:
+
+1. **De dónde sale el público.** Hoy vive en `para_quien` del config, escrito
+   por una persona por copy. Agrupar por eso significa que la lista de
+   estrategias la define el config, no la medición — y eso cambia quién manda
+   en la sección.
+2. **Cuántas salen.** Con 7 ángulos podrían salir 7 estrategias de una premisa,
+   y elegir entre 15 opciones no es mejor que elegir entre 3. Haría falta un
+   criterio de corte, y ese criterio no está medido.
+3. **La capacidad se reparte peor.** Con 5 artes y 5 videos por semana, una
+   estrategia de 1 carta no es una apuesta: es una pieza.
+
+Ninguna de las tres es un bloqueo, pero las tres son decisiones de Mercadeo, no
+de código. Cuando toque, se decide con dos semanas de uso encima.

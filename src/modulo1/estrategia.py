@@ -591,7 +591,7 @@ def _apuesta(est: dict, sirve: list[dict], refs: dict, por_mercado: dict,
         # El aviso solo cuando de verdad es ancha. Con el umbral en 2 salía en
         # las tres y un aviso que sale siempre no avisa de nada.
         "_ojo_ancho": (
-            f"Ancha: {len(angs) + resto} ángulos, públicos distintos (ADR-058)."
+            f"Ancha: {len(angs) + resto} ángulos, públicos distintos (ADR-060)."
             if (len(angs) + resto) > 3 else None),
     }
 

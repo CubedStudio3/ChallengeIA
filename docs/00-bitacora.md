@@ -1137,3 +1137,52 @@ al producto de un «territorio» que era el sustantivo común en prosa, no el
 bloque que se quitó. Buscaba la palabra donde debía buscar el bloque.
 
 Detalle en ADR-056.
+
+### Sesión 5 · decimosexta parte · La estrategia se rediseña alrededor de la apuesta
+
+Mercadeo pidió un rediseño en tres partes, con una regla que ordena todo: la
+reunión tiene que poder elegir entre tres opciones y salir con tareas listas,
+sin armar la conexión mentalmente.
+
+**Primero el error que reportó, porque tenía razón.** «8 pauta · 5 orgánico · 5
+en los dos · 1 sin canal» sumaba 19 sobre 9 cartas. La aritmética estaba bien
+—3 + 0 + 5 + 1 = 9— y el rótulo estaba mal: eran conjuntos solapados
+presentados como una lista de partes. Había una nota mía al lado diciendo «no se
+suman», que era una curita sobre un rótulo roto. Ahora se publica la partición,
+con el total al final para comprobarla de un vistazo, y Python se detiene si no
+suma.
+
+**La apuesta era lo que faltaba y era lo importante.** La tarjeta decía «la
+promesa que la competencia no cubre» sin nombrarla nunca. El problema de fondo:
+una estrategia activa hasta 9 cartas con ángulos distintos, así que no tiene una
+promesa, tiene un criterio. La salida fue derivar la frase de los ángulos de sus
+propias cartas: no puede contradecirlas porque está hecha de ellas. Hoy dice
+«Paggo paga por "Gestiona tu Negocio Fácil" —95% de sus activos, 109 días vivo—
+y ninguno de esos ángulos lo toca».
+
+**Y el dato con comparación destapó algo incómodo.** Contra los 10 días
+anteriores —posible por primera vez desde que hay pauta diaria— el costo por
+lead subió 51% en la cuenta: GT +71%, SV +27%, verificado con las mismas
+campañas y el mismo indicador. SV sigue siendo el mercado más barato y el que
+menos se degradó, así que la recomendación se sostiene; pero con solo «12% bajo
+el promedio de la cuenta» el número se leía halagüeño. Es exactamente por lo que
+Mercadeo pidió que ningún número saliera suelto.
+
+Los pasos se fueron. El de presupuesto no: bajó a Cambios en Meta Ads ligado a
+su estrategia, porque es la única salida que tiene la regla 8.
+
+**Las cartas quedaron autosuficientes.** Formato como etiqueta, a dónde va,
+mercado, la estrategia con su nombre enlazado, y el copy con su mercado y el
+sello «Para aprobar» —sin afirmar el tono, que no está definido—. La campaña y la
+fecha salen vacías porque el sistema no puede derivarlas: una es decisión de
+medios y la otra de personas. La prueba se pone roja si alguien las rellena.
+
+Y apareció una trampa nueva: `persistir()` repintaba el innerHTML, así que el
+input perdía el foco en cada tecla y escribir una campaña era imposible. Mismo
+problema que el retardo del buscador, en otra forma.
+
+Queda escrito sin hacer, por decisión de Mercadeo: partir las estrategias más
+finas (ADR-060). El sistema ya avisa cuando una agrupa más de 3 ángulos, para
+que la decisión se tome con la evidencia enfrente.
+
+Detalle en ADR-057, ADR-058, ADR-059 y ADR-060.

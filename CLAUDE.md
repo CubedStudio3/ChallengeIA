@@ -34,10 +34,23 @@ Verificado contra sistemas reales, no contra documentación:
   claude.ai. Sin ellos la Rutina se detiene en su Compuerta 0 y NO toca el
   tablero, a propósito.
 
-La sección de Estrategia ya no reparte la información en tres lados: **una
-carta por pieza** con qué hacer, qué dice el análisis (con el número de esta
-corrida), el copy, qué mostrar y la referencia medida. 10 cartas · 5 artes y 5
-videos. El número **nunca** se escribe a mano en el config (ADR-042).
+La sección de Estrategia se rediseñó el 2026-09-10 alrededor de **la apuesta**
+(ADR-058): nombre, la apuesta en una frase con el mensaje y el mercado
+nombrados, el dato que la origina **siempre con su comparación**, en qué se
+diferencia de las otras dos, qué esperamos con su dirección —sin meta numérica—
+y la capacidad en una línea al final. La apuesta se **deriva de los ángulos de
+sus propias cartas**, así que no puede contradecirlas.
+
+Y **una carta por pieza**, autosuficiente (ADR-059): formato, a dónde va,
+mercado, la estrategia con su nombre enlazado, el mensaje, el copy marcado para
+aprobación con su mercado, la referencia medida, y los dos campos que llena la
+mesa —campaña y fecha— **vacíos a propósito**. 10 cartas · 5 artes y 5 videos.
+El número **nunca** se escribe a mano en el config (ADR-042).
+
+⚠️ **Contra los 10 días anteriores el costo por lead subió 51%** en la cuenta
+(GT +71%, SV +27%), con las mismas campañas y el mismo indicador. SV sigue
+siendo el mercado más barato y el que menos se degradó. Se vio por primera vez
+al agregar la comparación con el periodo anterior (ADR-058).
 
 `config/equipo.json` está **desbloqueado** (`_lock: false`): los cinco IDs de
 Sprints, las tres personas con su rol y la capacidad semanal están completos.
@@ -464,6 +477,29 @@ cometidos; no hay tiempo de repetirlos.
   sección. Una carta trae los cinco tramos en el orden en que se usan: qué hacer,
   qué dice el análisis, el copy, qué mostrar, la referencia.
 
+- **Una nota al pie no arregla un rótulo.** «8 pauta · 5 orgánico · 5 en los
+  dos» sumaba 19 sobre 9 cartas: eran conjuntos SOLAPADOS presentados como una
+  lista de partes, con una nota al lado que decía «no se suman». Si hay que leer
+  una advertencia para no sumar mal, el problema es el número que se eligió
+  mostrar. Tercera vez en el proyecto que un dato correcto se publica de una
+  forma que induce al error (ADR-057).
+- **Una estrategia no tiene una promesa: tiene un criterio.** Agrupa hasta 7
+  ángulos con públicos distintos. Escribir una frase singular a mano mentiría
+  sobre las demás; derivarla de los ángulos de sus propias cartas es lo que
+  impide que las contradiga (ADR-058). Partirlas más finas queda escrito y sin
+  hacer (ADR-060), y el sistema avisa cuando una pasa de 3 ángulos.
+- **`persistir()` repintaba el `innerHTML` y el input perdía el foco en cada
+  tecla.** Escribir una campaña era imposible. Mismo problema que resolvió el
+  retardo del buscador, en otra forma: hay un modo sin repintar para los campos
+  de texto (ADR-059).
+- **El periodo anterior del ORGÁNICO no existe.** Su serie es acumulada al día
+  de la consulta, no histórica, así que un «+X% contra la semana pasada» del
+  orgánico sería falso. Para pauta sí existe, desde que hay días desde junio.
+- **Hay campos que el sistema NO puede llenar y no debe.** La campaña de pauta
+  de una carta es una decisión de medios y la fecha límite una decisión de
+  personas: nada en el dato las conecta. Salen vacías y la prueba se pone roja
+  si alguien las rellena «para ayudar» (ADR-059).
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -503,6 +539,9 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/formato.py` | Reel contra feed en la cuenta propia. Es la ÚNICA fuente que contesta «¿arte o video?». Se niega a publicar el ratio si la antigüedad lo explica |
 | `src/modulo1/corre_profundo.py` | Arranque del análisis profundo de la Ad Library. Declara las marcas sin perfil en vez de saltarlas |
 | `pruebas/cartas.py` | 7 sabotajes. El que importa: cambiar el costo en la corrida y comprobar que la carta cambia. `npm run prueba:cartas` |
+| `pruebas/estrategia_cartas.js` | La estrategia con el ratón: que el plan cambie, que los conteos cuadren, que la línea de canal **sume**, y que la tarjeta se lea de un vistazo. `npm run prueba:estrategia` |
+| `pruebas/cartas_ficha.js` | La carta como ficha autosuficiente y los campos de la mesa vacíos. `npm run prueba:ficha` |
+| `pruebas/estado_limpio.js` | Blanquea el `#estado` antes de cargar: una prueba tiene que controlar su punto de partida |
 | `src/modulo1/pauta_historica.py` | Los meses anteriores de pauta, día por día, **solo para que el filtro pueda mirar atrás**. Compuerta por mes: uno que no cuadra no entra y se declara. `python -m modulo1.pauta_historica` |
 | `data/historico/pauta_meses/` | Un par por mes —agregado + desglose diario— cada uno reconciliado contra sí mismo |
 | `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado: 57 comprobaciones, incluido que el item **nazca** con su responsable y que reasignar mande `delusers`. `npm run prueba:boton` |
