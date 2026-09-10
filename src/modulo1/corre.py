@@ -657,7 +657,12 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                     # arriba; recontarlas aqui seria una segunda cuenta de lo
                     # mismo.
                     cartas=(cartas or {}).get("cartas") or [],
-                    fmt=fmt)
+                    fmt=fmt,
+                    # La pauta dia por dia entra para poder comparar contra el
+                    # PERIODO ANTERIOR, que es la referencia que pidio Mercadeo
+                    # y que solo existe desde que hay meses historicos.
+                    piezas_diarias=(pauta_dia or {}).get("piezas") or [],
+                    rango_corrida=rango.etiqueta())
 
     # Y cada TAREA de estrategia se lleva su payload de CreateItem, igual que
     # las cartas. Sin esto, el boton del tablero guardaba «Aceptada» y no creaba

@@ -187,7 +187,7 @@ const VISIBLE = `(() => {
                       video: mias.filter(c => c.pieza === "video").length },
           total: pl.total, cartas: mias.length,
           pasos: (pl.pasos || []).length,
-          veredicto: pl.veredicto,
+          veredicto: pl.veredicto, apuesta: pl.apuesta,
           canal: pl.canal,
           // Lo que la evidencia dice de canal, contado aparte.
           canalContado: {
@@ -229,7 +229,13 @@ const VISIBLE = `(() => {
       /* Un paso sin dato detrás es una ocurrencia. */
       ok("  " + p.id + " · cada paso trae su dato", p.sinDato.length === 0,
          p.sinDato);
-      ok("  " + p.id + " · hay pasos que seguir", p.pasos >= 3, p.pasos);
+      /* Los pasos se quitaron el 2026-09-10. Lo que la tarjeta tiene que
+         traer ahora es la APUESTA nombrada en concreto —era el pedido central
+         de Mercadeo— y si la corrida no puede nombrarla, tiene que decir por
+         qué en vez de callarse. */
+      ok("  " + p.id + " · nombra la apuesta, o dice por qué no puede",
+         !!(p.apuesta || {}).frase || !!(p.apuesta || {})._por_que_no,
+         p.apuesta);
     }
   }
 
@@ -245,11 +251,14 @@ const VISIBLE = `(() => {
     const leePlan = `(() => {
       return [...document.querySelectorAll('#estrategia div.bg-white')].map(c => {
         const ls = c.innerText.split("\\n").map(x => x.trim());
-        const tras = (rot) => {
-          const i = ls.indexOf(rot);
-          return i >= 0 && /^[0-9]+$/.test(ls[i + 1] || "") ? +ls[i + 1] : null;
-        };
-        return { artes: tras("ARTES"), videos: tras("VIDEOS"),
+        /* La capacidad pasó a UNA linea al final —«2 artes · 2 videos»— el
+           2026-09-10: Mercadeo la mando ahi porque ocupaba medio espacio. Ya
+           no hay rotulos ARTES/VIDEOS que buscar. */
+        const cap = ls.filter(l => /^[0-9]+ (arte|artes) . [0-9]+ (video|videos)$/
+          .test(l))[0] || "";
+        const n = (cap.match(/[0-9]+/g) || []).map(Number);
+        return { artes: n.length === 2 ? n[0] : null,
+                 videos: n.length === 2 ? n[1] : null,
                  elegida: ls.indexOf("Elegida") >= 0 };
       /* El selector div.bg-white tambien casa las tarjetas de carta y de
          angulo, que no traen contadores: se quedan las que si, que son las de
@@ -329,6 +338,12 @@ const VISIBLE = `(() => {
        Se mide sobre el TEXTO DE LA PANTALLA, con los números que la mesa lee.
        Comprobarlo sobre el JSON habría pasado en verde mientras la pantalla
        mentía: el error estaba en el rótulo, no en la cuenta. */
+    /* El desglose de canal se movió al pliegue el 2026-09-10, así que hay que
+       abrirlo para leerlo. La comprobación sigue siendo sobre el TEXTO, no
+       sobre el JSON: el error que encontró Mercadeo estaba en el rótulo. */
+    await pg.evaluate(
+      `document.querySelectorAll('#estrategia details').forEach(d => d.open = true)`);
+    await pg.waitForTimeout(300);
     const filas = await pg.evaluate(`(() => {
       const D = JSON.parse(document.getElementById("datos").textContent);
       const cs = ((D.cartas || {}).cartas) || [];
@@ -396,8 +411,17 @@ const VISIBLE = `(() => {
 
        Se mide con el pliegue CERRADO, que es lo que se ve al abrir. Dentro del
        pliegue el texto largo es correcto: ahí vive el sustento. */
-    const TOPE = 72;      // el renglon mas largo hoy mide 60
-    const RENGLONES = 32; // hoy son 26
+    /* El tope sigue en 72 para TODO menos dos frases que Mercadeo pidió
+       explícitamente (2026-09-10): la APUESTA —«una frase: qué le decimos, a
+       quién, y por qué ahora… es lo más importante»— y el DIFERENCIADOR. Las
+       dos son oraciones únicas, no párrafos, y son la razón de la tarjeta.
+
+       No se exime por largo, se exime por IDENTIDAD: se comparan contra el
+       texto que trae el dato. Así una frase nueva y larga sigue poniendo la
+       prueba roja, que es para lo que existe el guardia. */
+    const TOPE = 72;      // el resto de los renglones; el mas largo mide 64
+    const TOPE_FRASE = 220;
+    const RENGLONES = 32; // hoy son 22
     const tarjetas = await pg.evaluate(`(() => {
       document.querySelectorAll('#estrategia details').forEach(d => d.open = false);
       const D = JSON.parse(document.getElementById("datos").textContent);
@@ -405,8 +429,26 @@ const VISIBLE = `(() => {
       return [...document.querySelectorAll('#estrategia div.bg-white')]
         .map(c => c.innerText.split("\\n").map(x => x.trim()).filter(Boolean))
         .filter(ls => ls.some(l => ids.has(l)))
-        .map(ls => ({ nombre: ls.filter(l => ids.has(l))[0], renglones: ls.length,
-                      largos: ls.filter(l => l.length > ${TOPE}) }));
+        .map(ls => {
+          const nombre = ls.filter(l => ids.has(l))[0];
+          const e = (((D.estrategia || {}).estrategias) || [])
+            .filter(x => x.nombre === nombre)[0] || {};
+          const pl = e.plan || {};
+          // Las frases eximidas, tomadas del DATO: si alguien agrega otro
+          // texto largo, no coincide con ninguna y la prueba lo agarra.
+          const permitidas = [((pl.apuesta || {}).frase) || "",
+                              pl.diferencia || "",
+                              // «El dato que la origina, SIEMPRE con su
+                              // comparación» es el punto 3 del pedido: la
+                              // comparación es la mitad del valor y no cabe
+                              // en 72 caracteres.
+                              ((pl.origen || {}).linea) || "",
+                              ((pl.origen || {}).contra) || ""].filter(Boolean);
+          return { nombre: nombre, renglones: ls.length,
+                   largos: ls.filter(l => l.length > ${TOPE} &&
+                     !permitidas.some(q => q === l)),
+                   frasesLargas: permitidas.filter(q => q.length > ${TOPE_FRASE}) };
+        });
     })()`);
     ok("se midieron las tres tarjetas", tarjetas.length === 3, tarjetas.length);
     for (const t of tarjetas) {
@@ -415,6 +457,11 @@ const VISIBLE = `(() => {
          t.largos.map(l => l.length + ": " + l.slice(0, 70)));
       ok("  «" + t.nombre + "» cabe de un vistazo",
          t.renglones <= RENGLONES, t.renglones);
+      /* Y las frases eximidas tampoco son barra libre: una frase es una
+         oración, no un párrafo. */
+      ok("  «" + t.nombre + "» la apuesta es una frase, no un párrafo",
+         t.frasesLargas.length === 0,
+         t.frasesLargas.map(q => q.length));
     }
     /* Y que el paso de canal no vuelva: repetía el bloque de canal entero. */
     const dup = await pg.evaluate(`(() => {

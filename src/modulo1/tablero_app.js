@@ -3179,7 +3179,8 @@
     };
     return '<details class="mt-5 pt-5 border-t border-slate-100">' +
       '<summary class="micro-et !mb-0 cursor-pointer hover:text-slate-600">' +
-      "El sustento: por qué, cuándo no, y el dato de cada paso</summary>" +
+      "El sustento: por qué, cuándo NO funcionaría, y el desglose de canal" +
+      "</summary>" +
       '<div class="mt-4 space-y-4">' +
       bl("Por qué es buena idea", esc(e.por_que)) +
       bl("Cuándo NO conviene", esc(e.cuando_no_conviene), "text-amber-700") +
@@ -3191,20 +3192,19 @@
           'pl-5 space-y-1.5">' + e.evidencia.map(function (x) {
             return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>"
         : "") +
-      ((pl.pasos || []).length
-        ? '<div><div class="micro-et">El dato detrás de cada paso</div>' +
-          '<ol class="space-y-3">' + pl.pasos.map(function (x) {
-            return '<li><div class="text-[12.5px] text-slate-700 ' +
-              'font-semibold leading-snug">' + ent(x.orden) + ". " +
-              esc(x.que) + "</div>" +
-              (x.porque ? '<p class="text-[12px] text-slate-500 ' +
-                'leading-relaxed mt-1">' + esc(x.porque) + "</p>" : "") +
-              (x.dato ? '<p class="text-[11px] text-slate-400 leading-relaxed ' +
-                'mt-1 font-mono break-words">' + esc(x.dato) + "</p>" : "") +
-              "</li>";
-          }).join("") + "</ol></div>"
+      /* Los pasos ya no existen (2026-09-10), así que tampoco su tramo aquí.
+         El único que tenía contenido propio —el reel 9:16— vive en la carta de
+         cada pieza, y el de presupuesto en «Cambios en Meta Ads». */
+      /* El DESGLOSE de canal vive aquí desde el 2026-09-10: era una línea
+         arriba y Mercadeo lo mandó al plegado con el resto del sustento. La
+         partición sigue siendo la que suma (ADR-057). */
+      ((pl.canal || {}).particion
+        ? '<div><div class="micro-et">Desglose por canal</div>' +
+          lineaCanal(pl.canal) +
+          '<p class="text-[12px] text-slate-500 leading-relaxed mt-1.5">' +
+          esc(pl.canal._como_se_cuenta || "") + "</p></div>"
         : "") +
-      bl("Cómo se cuenta el canal", esc((pl.canal || {})._como_se_cuenta || "")) +
+      bl("En pocas palabras", esc(e.en_pocas_palabras || "")) +
       bl("Qué produce la semana", esc(pl.veredicto_texto || "")) +
       ((pl.medir || {}).base
         ? '<div><div class="micro-et">La base, completa</div>' +
@@ -3226,56 +3226,102 @@
      completas — y eso es mejor para lo que hace la mesa: comparar las tres y
      elegir. El pliegue quedó para el sustento, que es lo que de verdad no se
      lee mientras se decide. */
+  /* El cuerpo de la tarjeta, en el orden que pidió Mercadeo (2026-09-10):
+
+       1 · nombre                    (lo pone selectorEstrategia)
+       2 · la apuesta, una frase     ← lo más importante, y antes no existía
+       3 · el dato que la origina, con su comparación
+       4 · en qué se diferencia de las otras dos
+       5 · qué esperamos: métrica y dirección
+       6 · capacidad, UNA línea chiquita al final
+
+     «Hoy la tarjeta gasta la mitad del espacio en capacidad de producción y
+     esconde el razonamiento en el plegado. Está al revés.» Tenía razón: la
+     capacidad se mencionaba cinco veces —etiqueta, dos contadores, el delta y
+     el reparto— y el porqué estaba detrás de un clic.
+
+     Los PASOS ya no están. «Producir 4 artes y 5 videos» ya lo dicen los
+     contadores, «aprobar los copys» es proceso, el reel 9:16 vive en la carta
+     de cada pieza, y el de presupuesto bajó a «Cambios en Meta Ads» ligado a
+     su estrategia. */
   function tramoPlan(e) {
     var pl = e.plan;
     if (!pl) {
-      /* Sin cartas resueltas no hay piezas que planificar, y eso se dice: un
-         plan ausente en silencio se lee como «no hay nada que hacer». */
       return nota("Esta corrida no resolvió cartas, así que no hay plan de " +
                   "producción que contar para esta estrategia.");
     }
-    var pz = pl.piezas || {};
+    var pz = pl.piezas || {}, ap = pl.apuesta || {}, o = pl.origen || {},
+        dr = pl.direccion || {};
     var v = VEREDICTO[pl.veredicto] || VEREDICTO.sin_capacidad;
-    /* Los pasos, solo el imperativo (`corto`). El «por qué» y el dato de cada
-       uno bajan al pliegue: con ellos, cada paso ocupaba tres párrafos y la
-       lista dejaba de ser una lista. */
-    var pasos = '<ol class="space-y-1.5 mt-2">' + (pl.pasos || []).map(function (x) {
-      return '<li class="flex gap-2.5 items-baseline">' +
-        '<span class="shrink-0 w-5 h-5 rounded-full bg-slate-100 ' +
-        'text-[11px] font-bold text-slate-500 grid place-items-center ' +
-        'tabular-nums">' + ent(x.orden) + "</span>" +
-        '<span class="text-[13px] text-slate-800 leading-snug">' +
-        esc(x.corto || x.que) +
-        (x.humano ? ' <span class="etiqueta-ambar ml-1">una persona</span>'
-                  : "") + "</span></li>";
-    }).join("") + "</ol>";
+    var t = [];
 
-    return '<div class="mt-5 pt-5 border-t border-slate-100">' +
-      '<div class="flex items-center gap-2 flex-wrap mb-3">' +
-      '<span class="micro-et !mb-0">Qué producir</span>' +
-      '<span class="' + v.et + ' ml-auto">' + esc(v.txt) + "</span></div>" +
-      '<div class="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr))]">' +
-      contador((pz.arte || {}).cuantas || 0, (pz.arte || {}).capacidad, "Artes") +
-      contador((pz.video || {}).cuantas || 0, (pz.video || {}).capacidad, "Videos") +
-      "</div>" +
-      /* Solo el DELTA. «Cabe en la semana» ya lo dice la etiqueta de arriba;
-         repetirlo gastaba el renglón que la mesa de verdad lee. */
+    /* 2 · LA APUESTA. Va primero y en cuerpo grande: es lo que se decide.
+       Si la corrida no pudo nombrarla, se dice — no se escribe una genérica. */
+    t.push(ap.frase
+      ? '<p class="text-[14.5px] text-slate-800 leading-snug font-medium">' +
+        esc(ap.frase) + "</p>" +
+        (ap._ojo_ancho
+          ? '<p class="text-[11.5px] text-amber-700 leading-relaxed mt-1.5">' +
+            esc(ap._ojo_ancho) + "</p>" : "")
+      : '<p class="text-[13px] text-amber-700 leading-relaxed">' +
+        esc(ap._por_que_no || "Esta corrida no puede nombrar la apuesta en " +
+            "concreto.") + "</p>");
+
+    /* 3 · EL DATO QUE LA ORIGINA, siempre con contra qué. Un número suelto no
+       sirve para decidir, así que la comparación no es opcional: si no hay con
+       qué comparar, lo dice. */
+    if (o.linea) {
+      t.push('<div class="mt-4"><div class="micro-et">El dato que la origina</div>' +
+        '<p class="text-[13px] text-slate-800 font-semibold leading-snug">' +
+        esc(o.linea) + "</p>" +
+        '<p class="text-[12px] text-slate-500 leading-relaxed mt-0.5">' +
+        esc(o.contra || "") + "</p>" +
+        (o.anterior
+          ? '<p class="text-[12px] leading-relaxed mt-1" style="color:' +
+            (o.anterior.peor ? "var(--alerta-tex)" : "var(--bien-tex)") + '">' +
+            "Contra los " + ent(o.anterior.dias_con_dato) + " días anteriores " +
+            "($" + o.anterior.costo.toFixed(2) + "): <b>" +
+            (o.anterior.variacion > 0 ? "+" : "") +
+            Math.round(o.anterior.variacion * 100) + "%</b> — " +
+            (o.anterior.peor ? "más caro" : "más barato") + "</p>"
+          : "") +
+        '<p class="text-[11px] text-slate-400 font-mono mt-1">' +
+        esc(o.fuente || "") + "</p></div>");
+    }
+
+    /* 4 · EN QUÉ SE DIFERENCIA. Se están eligiendo tres y hasta hoy no había
+       forma de compararlas. */
+    if (pl.diferencia) {
+      t.push('<div class="mt-4"><div class="micro-et">En qué se diferencia</div>' +
+        '<p class="text-[12.5px] text-slate-600 leading-relaxed">' +
+        esc(pl.diferencia) + "</p></div>");
+    }
+
+    /* 5 · QUÉ ESPERAMOS: métrica y dirección, sin meta numérica. Decisión de
+       Mercadeo: el sistema no promete cifras que nadie midió. */
+    if (dr.metrica) {
+      t.push('<div class="mt-4 rounded-2xl px-4 py-3" style="background:var(--pista)">' +
+        '<div class="micro-et !mb-0">Qué esperamos que pase</div>' +
+        '<p class="text-[13px] text-slate-800 leading-snug mt-1">' +
+        esc(dr.metrica) + " <b>" + (dr.hacia === "abajo" ? "↓ baja" : "↑ sube") +
+        "</b></p>" +
+        '<p class="text-[11.5px] text-slate-500 font-mono mt-1">hoy ' +
+        esc(dr.hoy || "") + " · sin meta: nadie midió cuánto</p></div>");
+    }
+
+    /* 6 · CAPACIDAD, una línea chiquita al final. Era medio espacio. */
+    t.push('<div class="mt-4 pt-3 border-t border-slate-50 flex items-baseline ' +
+      'gap-2 flex-wrap">' +
+      '<span class="text-[12px] text-slate-500 tabular-nums">' +
+      cuenta((pz.arte || {}).cuantas || 0, "arte", "artes") + " · " +
+      cuenta((pz.video || {}).cuantas || 0, "video", "videos") + "</span>" +
+      '<span class="' + v.et + '">' + esc(v.txt) + "</span>" +
       (pl.veredicto_corto
-        ? '<p class="text-[12px] text-slate-500 mt-2">' +
-          esc(pl.veredicto_corto) + "</p>" : "") +
-      lineaCanal(pl.canal || {}) +
-      '<div class="mt-4"><div class="micro-et !mb-0">Pasos</div>' + pasos +
-      "</div>" +
-      ((pl.medir || {}).base_corta
-        ? '<div class="mt-4 rounded-2xl px-4 py-3" style="background:var(--pista)">' +
-          '<div class="micro-et !mb-0">Se sabrá por</div>' +
-          ((pl.medir.apuesta)
-            ? '<p class="text-[12.5px] text-slate-700 leading-snug mt-1">' +
-              esc(pl.medir.apuesta) + "</p>" : "") +
-          '<p class="text-[11.5px] text-slate-500 font-mono mt-1.5 ' +
-          'break-words">' + esc(pl.medir.base_corta) + "</p></div>"
-        : "") +
-      "</div>";
+        ? '<span class="text-[11.5px] text-slate-400">' +
+          esc(pl.veredicto_corto) + "</span>" : "") +
+      "</div>");
+
+    return '<div class="mt-4">' + t.join("") + "</div>";
   }
 
   function selectorEstrategia() {
@@ -3298,13 +3344,12 @@
           (on ? '<span class="inline-flex items-center gap-1.5 text-[11.5px] ' +
             'font-bold" style="color:var(--marca)">' + svg(ico.tic, "w-3.5 h-3.5") +
             "Elegida</span>" : "") + "</div>" +
-          '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-3">' +
+          '<h3 class="text-[17px] font-bold text-slate-800 leading-snug mb-1">' +
           esc(e.nombre) + "</h3>" +
-          '<p class="text-[13px] text-slate-500 leading-relaxed mb-5">' +
-          esc(e.en_pocas_palabras) + "</p>" +
-          /* El PLAN, no plegado. Es lo que Mercadeo pidió que se viera:
-             cuántas piezas, de qué canal y en qué orden. Lo plegable de arriba
-             es el sustento de la premisa; esto es lo que se hace el lunes. */
+          /* `en_pocas_palabras` ya no se pinta arriba: la APUESTA es la versión
+             concreta de lo mismo —con el mensaje y el mercado nombrados— y
+             tenerlas juntas repetía el renglón con menos información. Sigue en
+             `resultado.json` y se muestra en el pliegue. */
           tramoPlan(e) +
           pliegueSustento(e) +
           '<div class="mt-auto pt-5 border-t border-slate-50 flex items-center ' +

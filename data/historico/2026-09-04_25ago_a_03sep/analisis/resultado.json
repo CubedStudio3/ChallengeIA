@@ -9332,37 +9332,36 @@
             "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
             "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
-          "pasos": [
-            {
-              "orden": 1,
-              "corto": "Producir 2 artes y 2 videos.",
-              "que": "Producir 2 artes y 2 videos.",
-              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
-              "dato": "4 cartas de esta corrida sirven a esta estrategia"
+          "apuesta": {
+            "frase": "Hablamos de Liquidación diaria, Pasarela de Pagos, Punto de Venta, concentrado en SV. Por qué ahora: hoy ninguna de las 6 marcas medidas tiene anuncios activos en SV.",
+            "que_decimos": "Liquidación diaria, Pasarela de Pagos, Punto de Venta",
+            "a_quien_cuantos": 4,
+            "por_que_ahora": "hoy ninguna de las 6 marcas medidas tiene anuncios activos en SV",
+            "_de_donde": "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. La frase no se escribe a mano: se arma de las cartas que la estrategia activa, así que no puede contradecirlas. El «por qué ahora» sale de la Ad Library, que solo publica lo que está activo hoy; cuando no hay señal temporal medida, no se escribe.",
+            "_ojo_ancho": null
+          },
+          "origen": {
+            "linea": "En SV el lead cuesta $2.68",
+            "contra": "12% bajo el promedio de la cuenta ($3.05) · 20% bajo GT ($3.35)",
+            "anterior": {
+              "costo": 2.1097,
+              "resultados": 70,
+              "desde": "2026-08-15",
+              "hasta": "2026-08-24",
+              "dias_con_dato": 8,
+              "dias_con_dato_corrida": 9,
+              "variacion": 0.2701,
+              "peor": true,
+              "_ojo_dias": "La ventana anterior tuvo 8 días con entrega y esta 9. El costo por resultado es una razón y aguanta la diferencia; los totales de gasto NO son comparables."
             },
-            {
-              "orden": 2,
-              "corto": "Los videos, como reel 9:16 (al menos el de descubrimiento).",
-              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos el de descubrimiento.",
-              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
-              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
-            },
-            {
-              "corto": "¿Mover presupuesto a SV? Lo decide la mesa.",
-              "que": "Poner a la mesa si mueve presupuesto hacia SV. El sistema NO lo mueve.",
-              "porque": "Hoy SV trae el lead 20% más barato que GT y concentra solo el 39% de la inversión. Que sea más barato hoy no garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una pregunta para la mesa y no una recomendación del sistema.",
-              "dato": "SV $2.68 por lead · GT $3.35 · SV tiene $233.12 de $591.42",
-              "humano": true,
-              "orden": 3
-            },
-            {
-              "orden": 4,
-              "corto": "Aprobar los copys antes de publicar.",
-              "que": "Aprobar los copys en la mesa antes de publicar nada.",
-              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
-              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
-            }
-          ],
+            "fuente": "pauta de Meta · agrupado por indicador (ADR-013)"
+          },
+          "diferencia": "Es la que aparta el foco a un mercado en vez de repartir. Las otras miran los anuncios activos del competidor y la cuenta propia.",
+          "direccion": {
+            "metrica": "costo por lead en SV",
+            "hacia": "abajo",
+            "hoy": "$2.68"
+          },
           "medir": {
             "base": [
               "GT · 107 leads a $3.35",
@@ -9454,29 +9453,25 @@
             "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
             "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
-          "pasos": [
-            {
-              "orden": 1,
-              "corto": "Producir 4 artes y 5 videos.",
-              "que": "Producir 4 artes y 5 videos.",
-              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
-              "dato": "9 cartas de esta corrida sirven a esta estrategia"
-            },
-            {
-              "orden": 2,
-              "corto": "Los videos, como reel 9:16 (al menos los 3 de descubrimiento).",
-              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
-              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
-              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
-            },
-            {
-              "orden": 3,
-              "corto": "Aprobar los copys antes de publicar.",
-              "que": "Aprobar los copys en la mesa antes de publicar nada.",
-              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
-              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
-            }
-          ],
+          "apuesta": {
+            "frase": "Hablamos de Salones y barberías, Tienda en Línea, Liquidación diaria y 4 más. Por qué ahora: Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 109 días vivo— y ninguno de esos ángulos lo toca.",
+            "que_decimos": "Salones y barberías, Tienda en Línea, Liquidación diaria y 4 más",
+            "a_quien_cuantos": 9,
+            "por_que_ahora": "Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 109 días vivo— y ninguno de esos ángulos lo toca",
+            "_de_donde": "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. La frase no se escribe a mano: se arma de las cartas que la estrategia activa, así que no puede contradecirlas. El «por qué ahora» sale de la Ad Library, que solo publica lo que está activo hoy; cuando no hay señal temporal medida, no se escribe.",
+            "_ojo_ancho": "Ancha: 7 ángulos, públicos distintos (ADR-058)."
+          },
+          "origen": {
+            "linea": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 109 días vivo)",
+            "contra": "el siguiente más concentrado es Recurrente con 50%",
+            "fuente": "Meta Ad Library · anuncios activos hoy"
+          },
+          "diferencia": "Es la que se define por lo que hace la competencia, no por nuestro dato. Las otras miran el costo por lead por mercado y la cuenta propia.",
+          "direccion": {
+            "metrica": "costo por lead en GT, donde está el competidor saturado",
+            "hacia": "abajo",
+            "hoy": "$3.35"
+          },
           "medir": {
             "base": [
               "GT · 107 leads a $3.35",
@@ -9562,29 +9557,26 @@
             "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
             "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
-          "pasos": [
-            {
-              "orden": 1,
-              "corto": "Producir 1 arte y 5 videos.",
-              "que": "Producir 1 arte y 5 videos.",
-              "porque": "Son las cartas que esta estrategia activa. Cada una trae su copy, qué mostrar y su referencia medida.",
-              "dato": "6 cartas de esta corrida sirven a esta estrategia"
-            },
-            {
-              "orden": 2,
-              "corto": "Los videos, como reel 9:16 (al menos los 3 de descubrimiento).",
-              "que": "Los videos van como reel vertical 9:16, no como pieza de feed — al menos los 3 de descubrimiento.",
-              "porque": "Es el único corte de formato medido en la cuenta propia, y el margen no lo explica la antigüedad. El feed gana en TASA (2.51x): de la gente que alcanza, engancha a una fracción mayor. Las dos cosas son ciertas. Para descubrimiento manda el alcance; para una pieza que ya le habla a quien te conoce, no está dicho.",
-              "dato": "reel contra feed · 8.1x en alcance (REELS) · 4.87x en interacciones (19.0 contra 3.9) · 29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad."
-            },
-            {
-              "orden": 3,
-              "corto": "Aprobar los copys antes de publicar.",
-              "que": "Aprobar los copys en la mesa antes de publicar nada.",
-              "porque": "Ningún copy se publica sin aprobación humana. Es una decisión de diseño en contexto de fintech, no un paso administrativo.",
-              "dato": "regla 5 del proyecto · los copys salen marcados para aprobación"
-            }
-          ],
+          "apuesta": {
+            "frase": "Hablamos de Liquidación diaria, Pasarela de Pagos, Punto de Venta y 3 más, en el formato que ya rinde en casa. El reel alcanza 8.1x más gente que el feed en la cuenta propia.",
+            "que_decimos": "Liquidación diaria, Pasarela de Pagos, Punto de Venta y 3 más",
+            "a_quien_cuantos": 6,
+            "por_que_ahora": null,
+            "_de_donde": "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. La frase no se escribe a mano: se arma de las cartas que la estrategia activa, así que no puede contradecirlas. El «por qué ahora» sale de la Ad Library, que solo publica lo que está activo hoy; cuando no hay señal temporal medida, no se escribe.",
+            "_ojo_ancho": "Ancha: 6 ángulos, públicos distintos (ADR-058)."
+          },
+          "origen": {
+            "linea": "El reel alcanza 8.1x más personas que el feed en la cuenta propia",
+            "contra": "y pierde en tasa: el feed engancha 2.51x más de quien alcanza. Las dos cosas son ciertas",
+            "fuente": "ads_get_ig_media + Zoho Analytics · cuenta propia",
+            "_sin_periodo_anterior": "El orgánico NO se compara con el periodo anterior: su serie es acumulada al día de la consulta, no histórica."
+          },
+          "diferencia": "Es la que no mira afuera: su premisa se midió en nuestra propia audiencia. Las otras miran el costo por lead por mercado y los anuncios activos del competidor.",
+          "direccion": {
+            "metrica": "interacciones del orgánico",
+            "hacia": "arriba",
+            "hoy": "118 en 10 publicaciones"
+          },
           "medir": {
             "base": [
               "GT · 107 leads a $3.35",
@@ -9860,12 +9852,58 @@
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
+      },
+      {
+        "id": "pauta-mover-presupuesto",
+        "tipo": "pauta",
+        "titulo": "Decidir en la mesa si se mueve presupuesto hacia SV",
+        "porque": "Hoy SV trae el lead 20% más barato que GT ($2.68 contra $3.35) y concentra solo el 39% de la inversión del periodo. Que sea más barato hoy NO garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una decisión de la mesa y no una recomendación del sistema.",
+        "evidencia": [
+          "pauta de Meta · SV · $2.68 por lead",
+          "pauta de Meta · GT · $3.35 por lead",
+          "pauta de Meta · SV concentra 39% de la inversión"
+        ],
+        "angulo": "No es creativo: es reparto de presupuesto entre mercados.",
+        "no_decir": null,
+        "formato": "",
+        "rol_sugerido": "pauta",
+        "piezas": null,
+        "piezas_motivo": "No aplica: es un cambio de configuración, no producción.",
+        "referencias": [],
+        "requiere_humano": true,
+        "instruccion_exacta": "NO lo aplica el sistema. Si la mesa decide moverlo: en Meta Ads Manager, subir el presupuesto diario de Campaña Punto de Venta SV [SV] y bajar el de las de GT en la misma proporción. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. Medir una semana antes de mover otra vez.",
+        "estrategias": [
+          "mercado-sin-disputa"
+        ],
+        "siempre": false,
+        "copy": {
+          "estado": "BLOQUEADO",
+          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
+          "falta": [
+            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
+            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
+            "Nombres oficiales de producto y cómo se escriben",
+            "Diferenciadores verificables frente a competencia",
+            "Quién aprueba un copy antes de publicarse"
+          ],
+          "donde": ".claude/skills/contexto-marca/SKILL.md",
+          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
+        },
+        "idempotencia": "2026-W35::pauta::mover-presupuesto",
+        "_estado_inicial": "propuesta",
+        "marca": "[MC:2026-W35::pauta::mover-presupuesto]",
+        "sprint": {
+          "name": "Decidir en la mesa si se mueve presupuesto hacia SV [MC:2026-W35::pauta::mover-presupuesto]",
+          "description": "Hoy SV trae el lead 20% más barato que GT ($2.68 contra $3.35) y concentra solo el 39% de la inversión del periodo. Que sea más barato hoy NO garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una decisión de la mesa y no una recomendación del sistema.\n\nÁNGULO: No es creativo: es reparto de presupuesto entre mercados.\n\nINSTRUCCIÓN EXACTA: NO lo aplica el sistema. Si la mesa decide moverlo: en Meta Ads Manager, subir el presupuesto diario de Campaña Punto de Venta SV [SV] y bajar el de las de GT en la misma proporción. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. Medir una semana antes de mover otra vez.\n\nLO APLICA UNA PERSONA: el sistema no escribe en Meta Ads (regla 8, ADR-012). Esta tarea es la instrucción.\n\nEVIDENCIA:\n  · pauta de Meta · SV · $2.68 por lead\n  · pauta de Meta · GT · $3.35 por lead\n  · pauta de Meta · SV concentra 39% de la inversión\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "projitemtypeid": "21897000000139035",
+          "projpriorityid": "21897000000139007"
+        }
       }
     ],
     "conteo": {
       "creativas": 4,
-      "de_pauta": 1,
-      "total": 5
+      "de_pauta": 2,
+      "total": 6
     },
     "asignacion": {
       "habilitada": true,

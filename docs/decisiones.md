@@ -3653,3 +3653,135 @@ Es la tercera vez en este proyecto que un dato correcto se publica de una forma
 que induce al error —los 123 anuncios de Square repetidos bajo GT y SV, el
 «105 leads» junto a una pantalla en GT, y esto— y las tres se arreglaron
 cambiando lo que se muestra, no agregando explicación.
+
+---
+
+## ADR-058 · La tarjeta de estrategia se rediseña alrededor de la apuesta
+
+**Fecha:** 2026-09-10
+**Estado:** implementada, verificada en navegador
+**Pedido de Mercadeo (literal):** «Hoy la tarjeta gasta la mitad del espacio en
+capacidad de producción y esconde el razonamiento en el plegado. Está al revés.»
+Y el punto central: «La apuesta, una frase: qué le decimos, a quién, y por qué
+ahora. Esto hoy no existe y es lo más importante. La tarjeta dice “la promesa
+que la competencia no cubre” pero nunca dice cuál es. Tiene que nombrarla en
+concreto.»
+
+### El orden nuevo, y qué se fue
+
+Visible siempre: **nombre · la apuesta · el dato que la origina con su
+comparación · en qué se diferencia · qué esperamos · capacidad en una línea.**
+Al pliegue: el sustento, el cuándo NO funcionaría, y el desglose de canal.
+
+Se fueron: los **pasos** (los contadores ya dicen «produce 4 artes», «aprobar
+los copys» es proceso, el reel 9:16 vive en la carta de cada pieza) y
+`en_pocas_palabras` de la cabecera, porque la apuesta es la versión concreta de
+lo mismo con el mensaje y el mercado nombrados.
+
+**El paso de presupuesto NO se perdió con los otros.** Bajó a «Cambios en Meta
+Ads», ligado a `mercado-sin-disputa`: es la única salida que tiene la regla 8
+—Meta Ads es solo lectura— y con los demás se habría cortado ese hilo en
+silencio.
+
+### La apuesta se DERIVA de los ángulos de sus propias cartas
+
+El problema de fondo: una estrategia activa hasta **nueve** cartas con ángulos
+distintos —salones y barberías, doble inventario, soporte técnico—, así que no
+tiene UNA promesa: tiene un **criterio**. Una frase singular escrita a mano
+mentiría sobre ocho de las nueve.
+
+Por eso la frase se arma de los ángulos de sus cartas, contados por frecuencia,
+más la señal medida que la origina. **No puede contradecirlas porque está hecha
+de ellas.** Decisión de Mercadeo sobre dos opciones planteadas.
+
+Lo que produce hoy, medido:
+
+> **Ocupar el flanco que Paggo deja libre** — «Hablamos de Salones y barberías,
+> Tienda en Línea, Liquidación diaria y 4 más. Por qué ahora: Paggo paga por
+> «Gestiona tu Negocio Fácil» —95% de sus activos, 109 días vivo— y ninguno de
+> esos ángulos lo toca.»
+
+**`por_que_ahora` puede quedar vacío y no se rellena.** La Ad Library solo dice
+qué está activo AHORA, así que para las dos estrategias competitivas el «ahora»
+es literal y medido. Para `repetir-lo-propio` no hay señal temporal —el corte
+reel contra feed es acumulado al día de la consulta— y ahí la frase se calla en
+lugar de inventar urgencia.
+
+### Opción anotada para después: partir las estrategias
+
+Mercadeo, en la misma decisión: «meter salones, inventario y soporte técnico en
+una sola estrategia es ancho: son públicos distintos con dolores distintos. No
+lo hagas ahora, pero dejalo escrito. Si al usarlo un par de semanas se siente
+borroso, lo partimos.»
+
+**Queda escrito, y el sistema lo señala solo:** cuando una estrategia agrupa más
+de 3 ángulos, la tarjeta muestra «Ancha: N ángulos, públicos distintos». Hoy
+salta en `disputar-el-flanco` (7) y en `repetir-lo-propio` (6), no en
+`mercado-sin-disputa` (3). El umbral está en 3 y no en 2 porque con 2 salía en
+las tres, y un aviso que sale siempre no avisa de nada.
+
+### El dato de origen, siempre con su comparación
+
+«Un número sin referencia no sirve para decidir.» Las tres referencias no están
+disponibles por igual, y eso se declara en lugar de rellenarse:
+
+| Referencia | Disponible |
+|---|---|
+| el promedio de la cuenta | ✅ de esta corrida |
+| el otro mercado | ✅ de esta corrida |
+| el competidor | ✅ Ad Library |
+| **el periodo anterior** | ✅ **solo para PAUTA** — hay pauta diaria desde junio (ADR-050) |
+| el periodo anterior del **orgánico** | ❌ su serie es **acumulada**, no histórica |
+
+### Y el periodo anterior destapó algo que nadie había visto
+
+La comparación contra los días anteriores era nueva, y lo primero que dijo fue
+incómodo. Verificado con las mismas dos campañas y el mismo indicador en las dos
+ventanas:
+
+| | corrida (25 ago – 3 sep) | 10 días antes (15–24 ago) | |
+|---|---|---|---|
+| cuenta | $3.05 | $2.02 | **+51%** |
+| GT | $3.35 | $1.95 | **+71%** |
+| SV | $2.68 | $2.13 | **+27%** |
+
+**El costo por lead subió fuerte contra los días anteriores.** SV sigue siendo
+el mercado más barato de los dos y el que menos se degradó, así que la
+recomendación se sostiene — pero la tarjeta ahora muestra las dos referencias.
+Con solo «12% bajo el promedio de la cuenta», el número se leía halagüeño.
+
+Se declara que la ventana anterior tuvo **8 días con entrega** y la de la corrida
+**9**: el costo por resultado es una razón y aguanta la diferencia, pero los
+totales de gasto NO son comparables.
+
+### La dirección, sin meta numérica
+
+Decisión de Mercadeo: «dirección sin meta numérica. No quiero que el sistema
+prometa cifras que nadie midió.» La tarjeta dice «costo por lead en SV ↓ baja ·
+hoy $2.68 · sin meta: nadie midió cuánto». La dirección es falsable; una meta
+sería un pronóstico con cara de dato.
+
+### El diferenciador puede quedar vacío
+
+Se deriva de la FUENTE de cada premisa —costo por mercado, anuncios del
+competidor, cuenta propia—, que es lo que de verdad las separa. **Si dos
+comparten fuente, no dice «la única»: dice qué comparten.** Un diferenciador de
+relleno es peor que ninguno, porque se lee como si hubiera una diferencia que no
+existe.
+
+### Las pruebas
+
+`prueba:estrategia` se actualizó en tres puntos, y los tres fallaron primero por
+razones legítimas —los pasos ya no existen, la capacidad cambió de forma, y la
+línea de canal se movió al pliegue—:
+
+- la comprobación de «hay pasos que seguir» pasó a **«nombra la apuesta, o dice
+  por qué no puede»**;
+- el tope de 72 caracteres **exime cuatro frases por IDENTIDAD, no por largo**:
+  la apuesta, el diferenciador y las dos líneas del dato de origen se comparan
+  contra el texto que trae el dato. Así una frase nueva y larga sigue poniendo
+  la prueba roja, que es para lo que existe el guardia. Y las eximidas tampoco
+  son barra libre: se rechazan pasando de 220, porque una frase es una oración,
+  no un párrafo.
+
+Sin desborde horizontal a 1440 ni a 390. Siete suites en verde.

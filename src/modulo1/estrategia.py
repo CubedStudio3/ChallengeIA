@@ -347,7 +347,52 @@ def tareas(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
     return out
 
 
-def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> list[Tarea]:
+def instruccion_presupuesto(por_mercado: dict, refs: dict) -> dict | None:
+    """El movimiento de presupuesto que implica apostar a un mercado.
+
+    El sistema NO lo ejecuta: Meta Ads es solo lectura (regla 8, ADR-012). Y la
+    decisión tampoco la dice el dato — el dato dice qué cuesta cada lead hoy;
+    que un mercado más barato aguante más volumen no está medido y por eso sale
+    como pregunta para la mesa, con ese límite escrito adentro.
+    """
+    terr = (refs or {}).get("territorios") or {}
+    libres = terr.get("libres") or []
+    m = libres[0]["mercado"] if libres else None
+    costos = {k: ((v.get("principal") or {}).get("costo_por_resultado"))
+              for k, v in (por_mercado or {}).items()}
+    costos = {k: c for k, c in costos.items() if c}
+    if not m or m not in costos or len(costos) < 2:
+        return None
+    otro = max((k for k in costos if k != m), key=lambda k: costos[k])
+    gastos = {k: ((v.get("principal") or {}).get("gasto") or 0)
+              for k, v in por_mercado.items()}
+    total = sum(gastos.values())
+    cuota = gastos.get(m, 0) / total if total else 0
+    dif = (costos[otro] - costos[m]) / costos[otro]
+    camps = [c["etiqueta"] for c in ((por_mercado.get(m) or {}).get("campanas") or [])]
+    return {
+        "titulo": (f"Decidir en la mesa si se mueve presupuesto hacia {m}"),
+        "porque": (f"Hoy {m} trae el lead {dif:.0%} más barato que {otro} "
+                   f"(${costos[m]:.2f} contra ${costos[otro]:.2f}) y concentra "
+                   f"solo el {cuota:.0%} de la inversión del periodo. Que sea "
+                   f"más barato hoy NO garantiza que aguante más volumen: eso no "
+                   f"lo dice el dato, y por eso es una decisión de la mesa y no "
+                   f"una recomendación del sistema."),
+        "evidencia": [f"pauta de Meta · {m} · ${costos[m]:.2f} por lead",
+                      f"pauta de Meta · {otro} · ${costos[otro]:.2f} por lead",
+                      f"pauta de Meta · {m} concentra {cuota:.0%} de la inversión"],
+        "instruccion": (
+            f"NO lo aplica el sistema. Si la mesa decide moverlo: en Meta Ads "
+            f"Manager, subir el presupuesto diario de "
+            f"{', '.join(camps) or f'las campañas de {m}'} y bajar el de las de "
+            f"{otro} en la misma proporción. NO cambiar el objetivo de "
+            f"optimización: un ad set con historial de entrega no se edita, se "
+            f"duplica. Medir una semana antes de mover otra vez."),
+    }
+
+
+def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str,
+                     presupuesto: dict | None = None) -> list[Tarea]:
     """Cambios en Meta Ads. Ninguno lo ejecuta el sistema.
 
     Meta Ads es solo lectura por instrucción explícita del usuario (ADR-012).
@@ -382,6 +427,29 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
             idempotencia=f"{periodo}::pauta::excluir-{pais}",
         ))
 
+    # El movimiento de presupuesto entre mercados. ERA un paso de la tarjeta de
+    # estrategia y bajó aquí el 2026-09-10, a pedido de Mercadeo: los otros
+    # pasos se quitaron por redundantes o por ser proceso, pero este no es
+    # ninguna de las dos cosas. Es la única salida que tiene la regla 8 —Meta
+    # Ads es solo lectura— y con los demás se habría cortado ese hilo en
+    # silencio. Va ligado a su estrategia, no `siempre`: solo tiene sentido si
+    # la mesa eligió apostar a ese mercado.
+    if presupuesto:
+        out.append(Tarea(
+            id="pauta-mover-presupuesto",
+            tipo="pauta",
+            titulo=presupuesto["titulo"],
+            porque=presupuesto["porque"],
+            evidencia=presupuesto["evidencia"],
+            angulo="No es creativo: es reparto de presupuesto entre mercados.",
+            rol_sugerido="pauta",
+            piezas_motivo="No aplica: es un cambio de configuración, no producción.",
+            estrategias=["mercado-sin-disputa"],
+            requiere_humano=True,
+            instruccion_exacta=presupuesto["instruccion"],
+            idempotencia=f"{periodo}::pauta::mover-presupuesto",
+        ))
+
     for h in hallazgos:
         if h.get("tipo") != "oportunidad" or "eficiencia" not in h.get("titulo", "").lower():
             continue
@@ -410,6 +478,346 @@ def cambios_en_pauta(hallazgos: list[dict], integridad: dict, periodo: str) -> l
 
 
 
+# ── La apuesta, el dato de origen, la diferencia y la dirección ────────────
+#
+# Los cuatro salen de un pedido de Mercadeo (2026-09-10):
+#
+#     «La apuesta, una frase: qué le decimos, a quién, y por qué ahora. Esto
+#     hoy no existe y es lo más importante. La tarjeta dice "la promesa que la
+#     competencia no cubre" pero nunca dice cuál es. Tiene que nombrarla en
+#     concreto.»
+#
+# El problema de fondo, y cómo se resolvió: una estrategia activa hasta NUEVE
+# cartas con ángulos distintos —salones, inventario, soporte—, así que no tiene
+# UNA promesa: tiene un CRITERIO. Escribir una frase singular inventada sobre
+# eso mentiría sobre ocho de las nueve cartas.
+#
+# Por eso **la frase se DERIVA de los ángulos de sus propias cartas**. No puede
+# contradecirlas porque está hecha de ellas. Decisión de Mercadeo del
+# 2026-09-10, sobre dos opciones que se le plantearon.
+#
+# Queda anotado como opción para después: partir las estrategias más finas, para
+# que cada una sí tenga una promesa. Mercadeo: «meter salones, inventario y
+# soporte técnico en una sola estrategia es ancho: son públicos distintos con
+# dolores distintos. No lo hagas ahora, pero dejalo escrito. Si al usarlo un par
+# de semanas se siente borroso, lo partimos.»
+
+
+def _angulos(sirve: list[dict], tope: int = 3) -> tuple[list[str], int]:
+    """Los ángulos concretos de las cartas, por frecuencia. Sin inventar.
+
+    El ángulo de una carta viene como «Salones y barberías · nicho libre donde
+    ya hay producto y cliente»: el primer tramo es el territorio concreto y es
+    lo único que hace falta para nombrar la apuesta.
+    """
+    cuenta: dict[str, int] = {}
+    for c in sirve:
+        a = (c.get("de_que_hablar") or "").split("·")[0].strip()
+        if a:
+            cuenta[a] = cuenta.get(a, 0) + 1
+    orden = sorted(cuenta, key=lambda a: (-cuenta[a], a))
+    return orden[:tope], max(0, len(orden) - tope)
+
+
+def _apuesta(est: dict, sirve: list[dict], refs: dict, por_mercado: dict,
+             fmt: dict | None, competencia: dict | None) -> dict:
+    """Qué le decimos, a quién, y por qué ahora — en una frase, derivada.
+
+    `por_que_ahora` puede quedar en None y eso NO se rellena. La Ad Library
+    solo dice qué está activo AHORA, así que para las dos estrategias
+    competitivas el «ahora» es literal y medido. Para `repetir-lo-propio` no
+    hay señal temporal —el corte reel contra feed es acumulado al día de la
+    consulta—, y ahí la frase se calla en lugar de inventar urgencia.
+    """
+    angs, resto = _angulos(sirve)
+    if not angs:
+        return {"frase": None,
+                "_por_que_no": ("Ninguna de sus cartas declara un ángulo, así "
+                                "que no hay promesa concreta que nombrar. No se "
+                                "escribe una genérica.")}
+    lista = ", ".join(angs) + (f" y {resto} más" if resto else "")
+    audiencias = len({(c.get("que_hacer") or "")[-60:] for c in sirve})
+
+    terr = (refs or {}).get("territorios") or {}
+    ahora = None
+    partes = []
+
+    if est["id"] == "disputar-el-flanco":
+        sat = terr.get("saturados") or []
+        if sat:
+            top = max(sat, key=lambda x: x.get("cuota", 0))
+            partes.append(f"Hablamos de {lista}")
+            ahora = (f"{top['de']} paga por «{top['mensaje']}» —{top['cuota']:.0%} "
+                     f"de sus activos, {top['dias_vivo']} días vivo— y ninguno "
+                     f"de esos ángulos lo toca")
+    elif est["id"] == "mercado-sin-disputa":
+        libres = [l for l in (terr.get("libres") or [])]
+        m = libres[0]["mercado"] if libres else None
+        marcas = len(((competencia or {}).get(m) or {}).get("detalle") or {}) if m else 0
+        partes.append(f"Hablamos de {lista}" + (f", concentrado en {m}" if m else ""))
+        if m:
+            ahora = (f"hoy ninguna de las {marcas} marcas medidas tiene anuncios "
+                     f"activos en {m}" if marcas else
+                     f"hoy ningún competidor medido tiene anuncios activos en {m}")
+    elif est["id"] == "repetir-lo-propio":
+        ver = (((fmt or {}).get("alcance") or {}).get("veredicto") or {})
+        partes.append(f"Hablamos de {lista}, en el formato que ya rinde en casa")
+        if ver.get("ratio_alcance"):
+            # NO es un «ahora»: es una constante medida de la cuenta. Se dice
+            # como tal y no se disfraza de urgencia.
+            partes.append(f"el reel alcanza {ver['ratio_alcance']}x más gente "
+                          f"que el feed en la cuenta propia")
+
+    if not partes:
+        return {"frase": None,
+                "_por_que_no": ("La corrida no trae la medición que sostiene la "
+                                "premisa de esta estrategia.")}
+
+    # Cada parte empieza con mayúscula al coserlas: unir con «. » dejaba
+    # «...en casa. el reel alcanza...» y eso se lee como un error de dedo.
+    partes = [x[0].upper() + x[1:] if x else x for x in partes]
+    frase = ". ".join(partes) + (f". Por qué ahora: {ahora}." if ahora else ".")
+    return {
+        "frase": frase,
+        "que_decimos": lista,
+        "a_quien_cuantos": audiencias,
+        "por_que_ahora": ahora,
+        "_de_donde": (
+            "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. "
+            "La frase no se escribe a mano: se arma de las cartas que la "
+            "estrategia activa, así que no puede contradecirlas. El «por qué "
+            "ahora» sale de la Ad Library, que solo publica lo que está activo "
+            "hoy; cuando no hay señal temporal medida, no se escribe."),
+        # El aviso solo cuando de verdad es ancha. Con el umbral en 2 salía en
+        # las tres y un aviso que sale siempre no avisa de nada.
+        "_ojo_ancho": (
+            f"Ancha: {len(angs) + resto} ángulos, públicos distintos (ADR-058)."
+            if (len(angs) + resto) > 3 else None),
+    }
+
+
+def _origen(est: dict, por_mercado: dict, refs: dict, fmt: dict | None,
+            piezas: list[dict] | None, rango: str = "") -> dict | None:
+    """El dato que origina la estrategia, SIEMPRE con su comparación.
+
+    Pedido de Mercadeo: «No "GT $3.35" suelto, sino contra qué: el promedio de
+    la cuenta, el periodo anterior, o el competidor. Un número sin referencia
+    no sirve para decidir.»
+
+    Las tres referencias no están disponibles por igual, y eso se declara en
+    lugar de rellenarse:
+
+    · **el promedio de la cuenta** y **el competidor** salen de esta corrida;
+    · **el periodo anterior** solo existe para PAUTA, porque hay pauta diaria
+      desde junio. Para el orgánico NO: su serie es acumulada al día de la
+      consulta, no histórica, así que un «+X% contra la semana pasada» del
+      orgánico sería falso (trampa ya documentada).
+    """
+    terr = (refs or {}).get("territorios") or {}
+
+    if est["id"] == "disputar-el-flanco":
+        sat = terr.get("saturados") or []
+        if not sat:
+            return None
+        top = max(sat, key=lambda x: x.get("cuota", 0))
+        otros = [s for s in sat if s is not top]
+        comp = (f"el siguiente más concentrado es {otros[0]['de']} con "
+                f"{otros[0]['cuota']:.0%}" if otros else
+                "no hay otro competidor medido con un mensaje concentrado")
+        return {
+            "linea": (f"{top['de']} concentra {top['cuota']:.0%} de sus anuncios "
+                      f"activos en un solo mensaje ({top['repeticiones']} "
+                      f"anuncios, {top['dias_vivo']} días vivo)"),
+            "contra": comp,
+            "fuente": "Meta Ad Library · anuncios activos hoy",
+        }
+
+    if est["id"] == "repetir-lo-propio":
+        ver = (((fmt or {}).get("alcance") or {}).get("veredicto") or {})
+        if not ver.get("ratio_alcance"):
+            return None
+        return {
+            "linea": (f"El reel alcanza {ver['ratio_alcance']}x más personas que "
+                      f"el feed en la cuenta propia"),
+            "contra": (f"y pierde en tasa: el feed engancha "
+                       f"{ver.get('ratio_tasa')}x más de quien alcanza. Las dos "
+                       f"cosas son ciertas"
+                       if ver.get("se_contradicen") else
+                       "medido sobre las publicaciones de la cuenta"),
+            "fuente": "ads_get_ig_media + Zoho Analytics · cuenta propia",
+            "_sin_periodo_anterior": (
+                "El orgánico NO se compara con el periodo anterior: su serie es "
+                "acumulada al día de la consulta, no histórica."),
+        }
+
+    # mercado-sin-disputa: el costo del mercado, contra la cuenta, contra el
+    # otro mercado, y contra su propio periodo anterior.
+    libres = terr.get("libres") or []
+    m = libres[0]["mercado"] if libres else None
+    pr = ((por_mercado or {}).get(m) or {}).get("principal") or {}
+    cpr = pr.get("costo_por_resultado")
+    if not (m and cpr):
+        return None
+
+    ind = (por_mercado.get(m) or {}).get("indicador_principal")
+    tot_g = tot_r = 0.0
+    for mm, v in (por_mercado or {}).items():
+        p = (v.get("indicadores") or {}).get(ind) or {}
+        tot_g += p.get("gasto") or 0
+        tot_r += p.get("resultados") or 0
+    prom = (tot_g / tot_r) if tot_r else None
+
+    contra = []
+    if prom:
+        contra.append(f"{abs(cpr - prom) / prom:.0%} "
+                      f"{'bajo' if cpr < prom else 'sobre'} el promedio de la "
+                      f"cuenta (${prom:.2f})")
+    otros = {k: ((v.get("principal") or {}).get("costo_por_resultado"))
+             for k, v in (por_mercado or {}).items() if k != m}
+    otros = {k: v for k, v in otros.items() if v}
+    for k, v in sorted(otros.items()):
+        contra.append(f"{abs(cpr - v) / v:.0%} {'bajo' if cpr < v else 'sobre'} "
+                      f"{k} (${v:.2f})")
+
+    ant = _periodo_anterior(piezas, rango, m, ind)
+    return {
+        "linea": f"En {m} el lead cuesta ${cpr:.2f}",
+        "contra": " · ".join(contra) if contra else "sin otro mercado con qué comparar",
+        "anterior": ant,
+        "fuente": "pauta de Meta · agrupado por indicador (ADR-013)",
+    }
+
+
+def _periodo_anterior(piezas: list[dict] | None, rango: str, mercado: str,
+                      indicador: str | None) -> dict | None:
+    """El mismo mercado, en la ventana anterior del mismo largo.
+
+    Existe porque hay pauta diaria desde junio (ADR-050). Se compara el COSTO
+    POR RESULTADO, que es una razón y sobrevive a que las dos ventanas tengan
+    distinto número de días con entrega — pero el número de días se declara,
+    porque los totales de gasto NO son comparables si difieren.
+
+    Y solo el indicador principal: sumar indicadores distintos es la trampa
+    más vieja de este proyecto (ADR-013).
+    """
+    if not piezas or not rango or not indicador:
+        return None
+    try:
+        d0, h0 = [x.strip() for x in rango.split(" a ")]
+        from datetime import date, timedelta
+        i0, f0 = date.fromisoformat(d0), date.fromisoformat(h0)
+    except Exception:                                   # noqa: BLE001
+        return None
+    n = (f0 - i0).days + 1
+    fp = i0 - timedelta(days=1)
+    ip = fp - timedelta(days=n - 1)
+
+    def mide(desde, hasta):
+        g = r = 0.0
+        dias = set()
+        for p in piezas:
+            if p.get("k") != indicador or p.get("p") != mercado:
+                continue
+            if not (desde.isoformat() <= p["f"] <= hasta.isoformat()):
+                continue
+            g += p.get("g") or 0
+            if p.get("r"):
+                r += p["r"]
+            dias.add(p["f"])
+        return g, r, len(dias)
+
+    g0, r0, d0n = mide(i0, f0)
+    gp, rp, dpn = mide(ip, fp)
+    if not (r0 and rp):
+        return None
+    c0, cp = g0 / r0, gp / rp
+    return {
+        "costo": round(cp, 4),
+        "resultados": int(rp),
+        "desde": ip.isoformat(), "hasta": fp.isoformat(),
+        "dias_con_dato": dpn, "dias_con_dato_corrida": d0n,
+        "variacion": round((c0 - cp) / cp, 4),
+        "peor": c0 > cp,
+        "_ojo_dias": (f"La ventana anterior tuvo {dpn} días con entrega y esta "
+                      f"{d0n}. El costo por resultado es una razón y aguanta la "
+                      f"diferencia; los totales de gasto NO son comparables."),
+    }
+
+
+def _diferencia(est: dict, todas: list[dict]) -> str | None:
+    """En qué se diferencia de las otras dos. Una línea, derivada.
+
+    Se deriva de la FUENTE de su premisa, que es lo que de verdad las separa:
+    una mira el costo por mercado, otra los anuncios del competidor, otra la
+    cuenta propia. Si dos comparten fuente, no se dice «la única»: se dice qué
+    comparten. Un diferenciador de relleno es peor que ninguno, porque se lee
+    como si hubiera una diferencia que no existe.
+    """
+    FUENTE = {
+        "mercado-sin-disputa": ("el costo por lead por mercado",
+                                "aparta el foco a un mercado en vez de repartir"),
+        "disputar-el-flanco": ("los anuncios activos del competidor",
+                               "se define por lo que hace la competencia, "
+                               "no por nuestro dato"),
+        "repetir-lo-propio": ("la cuenta propia",
+                              "no mira afuera: su premisa se midió en nuestra "
+                              "propia audiencia"),
+    }
+    mia = FUENTE.get(est["id"])
+    if not mia:
+        return None
+    otras = [FUENTE[e["id"]][0] for e in todas
+             if e["id"] != est["id"] and e["id"] in FUENTE]
+    if mia[0] in otras:
+        return (f"Comparte fuente con otra de las opciones ({mia[0]}), así que "
+                f"aquí no hay una diferencia de fondo que señalar.")
+    if not otras:
+        return None
+    return f"Es la que {mia[1]}. Las otras miran {' y '.join(otras)}."
+
+
+def _direccion(est: dict, por_mercado: dict, refs: dict, redes: dict,
+               fmt: dict | None) -> dict | None:
+    """Qué métrica esperamos mover y en qué dirección. SIN meta numérica.
+
+    Decisión de Mercadeo (2026-09-10): «dirección sin meta numérica. No quiero
+    que el sistema prometa cifras que nadie midió.»
+
+    La dirección es falsable y no inventa magnitud: la semana que viene el
+    número está arriba o abajo del de hoy. Una meta («bajar a $2.40») sería un
+    pronóstico con cara de dato, porque nadie midió qué pasa si se mueve el
+    presupuesto.
+    """
+    terr = (refs or {}).get("territorios") or {}
+    if est["id"] == "mercado-sin-disputa":
+        libres = terr.get("libres") or []
+        m = libres[0]["mercado"] if libres else None
+        pr = ((por_mercado or {}).get(m) or {}).get("principal") or {}
+        if not (m and pr.get("costo_por_resultado")):
+            return None
+        return {"metrica": f"costo por lead en {m}", "hacia": "abajo",
+                "hoy": f"${pr['costo_por_resultado']:.2f}"}
+    if est["id"] == "disputar-el-flanco":
+        sat = terr.get("saturados") or []
+        if not sat:
+            return None
+        m = max(sat, key=lambda x: x.get("cuota", 0)).get("mercado")
+        pr = ((por_mercado or {}).get(m) or {}).get("principal") or {}
+        if not pr.get("costo_por_resultado"):
+            return None
+        return {"metrica": f"costo por lead en {m}, donde está el competidor "
+                           f"saturado", "hacia": "abajo",
+                "hoy": f"${pr['costo_por_resultado']:.2f}"}
+    if est["id"] == "repetir-lo-propio":
+        t = (redes or {}).get("totales") or {}
+        if t.get("interacciones") is None:
+            return None
+        return {"metrica": "interacciones del orgánico", "hacia": "arriba",
+                "hoy": f"{t['interacciones']} en {t.get('publicaciones', 0)} "
+                       f"publicaciones"}
+    return None
+
+
 PIEZA_PL = {"arte": ("arte", "artes"), "video": ("video", "videos")}
 
 
@@ -419,8 +827,11 @@ def _cuenta(n: int, clave: str) -> str:
 
 
 def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
-                       fmt: dict | None, redes: dict,
-                       por_mercado: dict) -> dict:
+                       fmt: dict | None, redes: dict, por_mercado: dict,
+                       refs: dict | None = None,
+                       competencia: dict | None = None,
+                       piezas_diarias: list[dict] | None = None,
+                       rango: str = "", todas: list[dict] | None = None) -> dict:
     """Qué producir esta semana si la mesa elige ESTA estrategia.
 
     Existe por un pedido de Mercadeo (2026-09-09): «que sea una estrategia
@@ -587,7 +998,23 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
         "veredicto_texto": veredicto_txt,
         "veredicto_corto": corto,
         "canal": canal,
-        "pasos": _pasos(est, sirve, piezas, canal, fmt, redes, por_mercado),
+        # El ORDEN de la tarjeta lo pidió Mercadeo (2026-09-10): nombre, la
+        # apuesta, el dato que la origina, en qué se diferencia, qué esperamos,
+        # y la capacidad en una línea chiquita al final. Antes la capacidad se
+        # mencionaba cinco veces y el razonamiento estaba plegado: al revés.
+        "apuesta": _apuesta(est, sirve, refs or {}, por_mercado, fmt, competencia),
+        "origen": _origen(est, por_mercado, refs or {}, fmt, piezas_diarias, rango),
+        "diferencia": _diferencia(est, todas or [est]),
+        "direccion": _direccion(est, por_mercado, refs or {}, redes, fmt),
+        # Los PASOS se quitaron. «Producir 4 artes y 5 videos» ya está en los
+        # contadores y «aprobar los copys» es proceso, no estrategia. Lo que sí
+        # tenía contenido —el reel 9:16— ya vive en la carta de cada pieza
+        # (`visual.estructura`), que es donde lo lee quien produce.
+        #
+        # El paso de presupuesto NO se perdió: bajó al bloque «Cambios en Meta
+        # Ads» ligado a su estrategia, porque es la única salida que tiene la
+        # regla 8 —Meta Ads es solo lectura— y con los demás pasos se habría
+        # cortado ese hilo en silencio.
         "medir": _que_medir(est, por_mercado, redes, fmt),
         "_la_unidad": (
             "Las piezas se cuentan de las CARTAS que esta estrategia activa: es "
@@ -982,9 +1409,13 @@ def motivo_de_bloqueo(equipo: dict) -> str:
 
 def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
          refs: dict, equipo: dict, hallazgos: list[dict], integridad: dict,
-         cartas: list[dict] | None = None, fmt: dict | None = None) -> dict:
+         cartas: list[dict] | None = None, fmt: dict | None = None,
+         piezas_diarias: list[dict] | None = None,
+         rango_corrida: str = "") -> dict:
     creativas = tareas(periodo, redes, panoramas, por_mercado, refs, equipo)
-    de_pauta = cambios_en_pauta(hallazgos, integridad, periodo)
+    de_pauta = cambios_en_pauta(
+        hallazgos, integridad, periodo,
+        presupuesto=instruccion_presupuesto(por_mercado, refs))
     todas = creativas + de_pauta
     ests = estrategias(redes, panoramas, por_mercado, refs, todas)
 
@@ -994,8 +1425,10 @@ def arma(periodo: str, redes: dict, panoramas: dict, por_mercado: dict,
     # ellas —una corrida sin copys resueltos no tiene piezas que planificar—,
     # y en ese caso el plan queda en None y la tarjeta lo dice.
     for e in ests:
-        e["plan"] = (plan_de_produccion(e, cartas, equipo, fmt, redes, por_mercado)
-                     if cartas else None)
+        e["plan"] = (plan_de_produccion(
+            e, cartas, equipo, fmt, redes, por_mercado,
+            refs=refs, competencia=panoramas, piezas_diarias=piezas_diarias,
+            rango=rango_corrida, todas=ests) if cartas else None)
 
     bloqueado = bool(equipo.get("_lock"))
     return {
