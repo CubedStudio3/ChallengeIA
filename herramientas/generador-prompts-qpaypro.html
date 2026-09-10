@@ -1,0 +1,959 @@
+<title>Prompts Qpaypro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy: #0f206c;
+    --blue: #0047ba;
+    --cyan: #0097ce;
+    --pink: #eb0045;
+
+    --paper: #eef1f6;
+    --card: #ffffff;
+    --line: #d6dce8;
+    --ink: #16192b;
+    --mute: #6b7590;
+    --chip-ink: #3a4258;
+
+    --consola: #0f206c;
+    --consola-2: rgba(255,255,255,.07);
+    --consola-linea: rgba(255,255,255,.13);
+    --consola-texto: #eaf0ff;
+    --consola-suave: #a9b8e8;
+    --consola-tenue: #8494c4;
+    --ok: #17a67a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #070b1c;
+      --card: #101736;
+      --line: #253061;
+      --ink: #e9edfb;
+      --mute: #98a4cd;
+      --chip-ink: #b9c4e8;
+      --consola: #131c44;
+      --consola-2: rgba(255,255,255,.05);
+      --consola-linea: rgba(255,255,255,.11);
+      --cyan: #4fc3e8;
+      --pink: #ff3d6d;
+      --ok: #2bc191;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #070b1c;
+    --card: #101736;
+    --line: #253061;
+    --ink: #e9edfb;
+    --mute: #98a4cd;
+    --chip-ink: #b9c4e8;
+    --consola: #131c44;
+    --consola-2: rgba(255,255,255,.05);
+    --consola-linea: rgba(255,255,255,.11);
+    --cyan: #4fc3e8;
+    --pink: #ff3d6d;
+    --ok: #2bc191;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Poppins', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+  }
+
+  .qp-app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-inline: 18px;
+    padding-block: 18px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (min-width: 901px) {
+    .qp-app { grid-template-columns: minmax(0,1fr) 430px; padding-block: 20px 0; }
+    .qp-side {
+      position: sticky; top: 16px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      display: grid; gap: 12px;
+      scrollbar-width: thin;
+    }
+  }
+  .qp-side { display: grid; gap: 12px; min-width: 0; }
+  .qp-main { min-width: 0; }
+
+  .qp-head { margin-bottom: 18px; }
+  .qp-head h1 {
+    font-size: 25px; font-weight: 700; margin: 0 0 4px;
+    letter-spacing: -0.02em; color: var(--navy);
+    text-wrap: balance;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qp-head h1 { color: #8fb0ff; } }
+  :root[data-theme="dark"] .qp-head h1 { color: #8fb0ff; }
+  .qp-head p { margin: 0; font-size: 13.5px; color: var(--mute); max-width: 62ch; }
+
+  .qp-group { margin-bottom: 20px; }
+  .qp-group > h2 {
+    font-size: 13px; font-weight: 600; margin: 0 0 8px;
+    color: var(--navy);
+    display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qp-group > h2 { color: #8fb0ff; } }
+  :root[data-theme="dark"] .qp-group > h2 { color: #8fb0ff; }
+  .qp-group > h2 span { font-weight: 400; font-size: 12px; color: var(--mute); }
+
+  .qp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .qp-chip {
+    font: inherit; font-size: 12.5px; font-weight: 500;
+    padding: 7px 13px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--card); color: var(--chip-ink);
+    cursor: pointer; transition: background .12s, color .12s, border-color .12s;
+  }
+  .qp-chip:hover { border-color: var(--blue); color: var(--blue); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qp-chip:hover { border-color: var(--cyan); color: var(--cyan); } }
+  :root[data-theme="dark"] .qp-chip:hover { border-color: var(--cyan); color: var(--cyan); }
+  .qp-chip[aria-pressed="true"] {
+    background: var(--navy); border-color: var(--navy); color: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .qp-chip[aria-pressed="true"] { background: var(--cyan); border-color: var(--cyan); color: #04122e; }
+  }
+  :root[data-theme="dark"] .qp-chip[aria-pressed="true"] { background: var(--cyan); border-color: var(--cyan); color: #04122e; }
+  .qp-chip:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+
+  .qp-extra {
+    width: 100%; font: inherit; font-size: 13px;
+    padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    resize: vertical; min-height: 62px;
+  }
+  .qp-extra:focus { outline: none; border-color: var(--blue); }
+  .qp-extra::placeholder { color: var(--mute); }
+
+  /* ---------------- consola ---------------- */
+  .qp-console {
+    background: var(--consola); border-radius: 14px; padding: 18px;
+    color: #fff; overflow: hidden;
+  }
+  .qp-console h2 {
+    font-size: 13px; font-weight: 600; margin: 0 0 12px; color: var(--consola-suave);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .qp-console h2 small { margin-left: auto; font-weight: 400; font-size: 11px; color: var(--consola-tenue); font-variant-numeric: tabular-nums; }
+  .qp-out {
+    background: var(--consola-2);
+    border: 1px solid var(--consola-linea);
+    border-radius: 10px; padding: 14px;
+    font-size: 12.5px; line-height: 1.62; color: var(--consola-texto);
+    max-height: 290px; overflow-y: auto;
+    white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+
+  .qp-neg {
+    margin-top: 10px; font-size: 11.5px; color: #93a3d4;
+    border-top: 1px solid var(--consola-linea); padding-top: 10px;
+    line-height: 1.55;
+  }
+  .qp-neg b { color: #c3cff0; font-weight: 600; }
+  .qp-negwrap { max-height: 92px; overflow-y: auto; overflow-wrap: anywhere; }
+
+  .qp-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .qp-btn {
+    font: inherit; font-size: 13px; font-weight: 600;
+    padding: 11px 16px; border-radius: 10px; border: 0;
+    cursor: pointer; transition: background .12s, transform .08s;
+  }
+  .qp-btn:active { transform: translateY(1px); }
+  .qp-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .qp-copy { background: var(--pink); color: #fff; flex: 1 1 160px; }
+  .qp-copy:hover { background: #ff1355; }
+  .qp-copy.ok { background: var(--ok); }
+  :root[data-theme="dark"] .qp-copy { color: #2b0011; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qp-copy { color: #2b0011; } }
+  .qp-ghost {
+    background: transparent; color: #c3cff0;
+    border: 1px solid rgba(255,255,255,.25);
+  }
+  .qp-ghost:hover { background: rgba(255,255,255,.1); color: #fff; }
+  .qp-ghost.ok { background: var(--ok); border-color: var(--ok); color: #fff; }
+
+  /* ---------------- fichero: presets / historial / compartir --------------- */
+  .qp-fichero { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .qp-tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .qp-tab {
+    font: inherit; font-size: 12.5px; font-weight: 500;
+    padding: 8px 12px; border: 1px solid transparent; border-bottom: 0;
+    border-radius: 9px 9px 0 0; background: transparent; color: var(--mute); cursor: pointer;
+  }
+  .qp-tab[aria-selected="true"] { background: var(--card); border-color: var(--line); color: var(--ink); margin-bottom: -1px; }
+  .qp-tab:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+  .qp-panel { padding: 14px; }
+
+  .qp-prow { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .qp-pname {
+    flex: 1 1 150px; min-width: 0; font: inherit; font-size: 12.5px; padding: 8px 11px;
+    border-radius: 8px; border: 1px solid var(--line);
+    background: var(--paper); color: var(--ink);
+  }
+  .qp-pname::placeholder { color: var(--mute); }
+  .qp-pname:focus { outline: none; border-color: var(--blue); }
+  .qp-mini {
+    font: inherit; font-size: 12px; font-weight: 500; padding: 7px 11px;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--card);
+    color: var(--mute); cursor: pointer; transition: border-color .12s, color .12s;
+  }
+  .qp-mini:hover { border-color: var(--blue); color: var(--blue); }
+  .qp-mini.peligro:hover { border-color: var(--pink); color: var(--pink); }
+  .qp-mini.ok { border-color: var(--ok); color: var(--ok); }
+
+  .qp-fila { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .qp-fila:last-child { border-bottom: 0; }
+  .qp-fila-nombre {
+    flex: 1 1 130px; min-width: 0; font: inherit; font-size: 13px; font-weight: 500;
+    border: 1px solid transparent; border-radius: 7px; padding: 5px 7px;
+    background: transparent; color: var(--ink);
+  }
+  .qp-fila-nombre:hover { border-color: var(--line); }
+  .qp-fila-nombre:focus { outline: none; border-color: var(--blue); background: var(--paper); }
+  .qp-meta { font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .qp-acc { display: flex; gap: 5px; margin-left: auto; }
+  .qp-vista {
+    flex: 1 1 100%; order: 3; font-size: 11px; color: var(--mute); line-height: 1.45;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .qp-empty { font-size: 12.5px; color: var(--mute); margin: 6px 0; }
+
+  .qp-json {
+    width: 100%; min-height: 100px; resize: vertical; font: inherit;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; line-height: 1.5;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: var(--paper); color: var(--ink); padding: 10px 12px; margin-bottom: 8px;
+  }
+  .qp-json:focus { outline: none; border-color: var(--blue); }
+  .qp-nota { font-size: 11.5px; color: var(--mute); margin: 8px 0 0; line-height: 1.5; }
+  .qp-nota.ok { color: var(--ok); font-weight: 500; }
+  .qp-nota.mal { color: var(--pink); font-weight: 500; }
+  .qp-sep { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
+
+  /* ---------------- barra fija de celular ---------------- */
+  .qp-barra {
+    position: sticky; bottom: 0; z-index: 20;
+    background: var(--card); border-top: 1px solid var(--line);
+    padding: 10px 18px calc(10px + env(safe-area-inset-bottom, 0px));
+    display: flex; gap: 8px; margin-top: 18px;
+  }
+  @media (min-width: 901px) { .qp-barra { display: none; } }
+  .qp-barra .qp-copy { flex: 1; }
+
+  .qp-pie {
+    max-width: 1280px; margin: 0 auto; padding: 18px; padding-bottom: 26px;
+    font-size: 11.5px; color: var(--mute); line-height: 1.6;
+  }
+  .qp-pie b { color: var(--ink); font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qp-chip, .qp-btn, .qp-mini { transition: none; }
+    * { scroll-behavior: auto !important; }
+  }
+</style>
+
+<div class="qp-app">
+  <div class="qp-main">
+    <div class="qp-head">
+      <h1>Generador de prompts — Qpaypro</h1>
+      <p>Elegí las opciones y el prompt en inglés se arma solo, listo para pegar en Higgsfield. Tus reglas fijas ya van incluidas: sin texto dentro de la imagen, sin logos, fotografía hiperrealista, sin caras.</p>
+    </div>
+    <div id="qp-groups"></div>
+
+    <div class="qp-group">
+      <h2>Detalle extra <span>opcional</span></h2>
+      <textarea class="qp-extra" id="qp-extra" placeholder="Ej: una taza de café al lado, bolsas de papel kraft al fondo, plantas fuera de foco…"></textarea>
+    </div>
+  </div>
+
+  <div class="qp-side">
+    <div class="qp-console">
+      <h2>Prompt <small id="qp-cuenta"></small></h2>
+      <div class="qp-out" id="qp-out"></div>
+      <div class="qp-neg">
+        <div class="qp-negwrap"><b>Negative prompt:</b> <span id="qp-negtext"></span></div>
+      </div>
+      <div class="qp-actions">
+        <button class="qp-btn qp-copy" id="qp-copy" type="button">Copiar prompt</button>
+        <button class="qp-btn qp-ghost" id="qp-copyneg" type="button">Copiar negative</button>
+        <button class="qp-btn qp-ghost" id="qp-random" type="button">Sorprendeme</button>
+      </div>
+    </div>
+
+    <div class="qp-fichero">
+      <div class="qp-tabs" role="tablist">
+        <button class="qp-tab" id="tab-presets" role="tab" aria-selected="true" aria-controls="pan-presets" type="button">Presets</button>
+        <button class="qp-tab" id="tab-hist" role="tab" aria-selected="false" aria-controls="pan-hist" type="button">Historial</button>
+        <button class="qp-tab" id="tab-share" role="tab" aria-selected="false" aria-controls="pan-share" type="button">Compartir</button>
+      </div>
+
+      <div class="qp-panel" id="pan-presets" role="tabpanel" aria-labelledby="tab-presets">
+        <div class="qp-prow">
+          <input class="qp-pname" id="qp-pname" placeholder="Nombre de la combinación" maxlength="40">
+          <button class="qp-mini" id="qp-save" type="button">Guardar</button>
+        </div>
+        <div id="qp-plist"></div>
+      </div>
+
+      <div class="qp-panel" id="pan-hist" role="tabpanel" aria-labelledby="tab-hist" hidden>
+        <div id="qp-hlist"></div>
+      </div>
+
+      <div class="qp-panel" id="pan-share" role="tabpanel" aria-labelledby="tab-share" hidden>
+        <p class="qp-nota" style="margin-top:0">Copiá este texto y pasáselo a tus compañeros por chat o correo. Del otro lado se pega abajo y se importa.</p>
+        <textarea class="qp-json" id="qp-export" readonly spellcheck="false" aria-label="Presets exportados"></textarea>
+        <div class="qp-prow">
+          <button class="qp-mini" id="qp-copyjson" type="button">Copiar JSON</button>
+          <button class="qp-mini" id="qp-download" type="button">Descargar archivo</button>
+        </div>
+        <p class="qp-nota" id="qp-nota-descarga">La descarga guarda un archivo .json en tu computadora. «Copiar JSON» funciona en cualquier lado.</p>
+        <hr class="qp-sep">
+        <p class="qp-nota" style="margin-top:0">Pegá aquí lo que te pasaron:</p>
+        <textarea class="qp-json" id="qp-import" spellcheck="false" placeholder='{"app":"generador-prompts-qpaypro", …}' aria-label="Presets a importar"></textarea>
+        <div class="qp-prow">
+          <button class="qp-mini" id="qp-doimport" type="button">Importar</button>
+          <label class="qp-mini" style="display:inline-block">Abrir archivo…
+            <input type="file" id="qp-file" accept=".json,application/json" hidden>
+          </label>
+        </div>
+        <p class="qp-nota" id="qp-msg"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="qp-barra">
+  <button class="qp-btn qp-copy" id="qp-copy-movil" type="button">Copiar prompt</button>
+</div>
+
+<footer class="qp-pie">
+  <b>Qpaypro</b> · Todo se guarda en este navegador. No hay servidor, no hay cuenta: tus presets no salen de tu equipo salvo que los exportes.
+</footer>
+
+<script>
+(function () {
+
+  /* =========================================================================
+     LOS TEXTOS DEL PROMPT
+     -------------------------------------------------------------------------
+     `v` es el fragmento en inglés que entra al prompt. Son los tuyos, tal cual
+     estaban: no los reescribí. Si querés ajustar uno, cambiá solo el `v`.
+     La única categoría nueva es «temporada», al final de esta lista.
+     ======================================================================= */
+  const GROUPS = [
+    {
+      id: 'producto', label: 'Producto', hint: 'qué hardware aparece',
+      options: [
+        { id: 'kit', label: 'Kit POS completo', v: 'a complete point-of-sale setup: a black all-in-one touchscreen POS terminal on a rounded matte-black circular base, a black handheld barcode scanner with a yellow trigger resting in its charging cradle, a compact black thermal receipt printer with a printed receipt curling out of the top, and a black metal cash drawer below the counter' },
+        { id: 'pos3', label: 'POS + escáner + impresora', v: 'a black all-in-one touchscreen POS terminal on a rounded matte-black circular base, a black handheld barcode scanner with a yellow trigger in its charging cradle, and a compact black thermal receipt printer with a receipt curling out of the top' },
+        { id: 'tablet', label: 'Solo tablet POS', v: 'a single black all-in-one touchscreen POS terminal on a rounded matte-black circular base, screen showing a clean product-grid interface' },
+        { id: 'lector', label: 'Mini lector de tarjetas', v: 'a small white handheld card reader with a monochrome LCD screen and a keypad of navy and cyan rubber buttons with one red key' },
+        { id: 'phone', label: 'Teléfono con la app', v: 'a modern smartphone lying at a slight angle, screen showing a clean fintech dashboard with a blue line chart and a list of transactions' },
+        { id: 'lector_phone', label: 'Lector + teléfono', v: 'a small white handheld card reader with navy and cyan keypad buttons next to a modern smartphone showing a clean fintech dashboard' },
+        { id: 'nada', label: 'Sin hardware', v: 'the counter and merchandise of the shop, no electronic devices in frame' }
+      ]
+    },
+    {
+      id: 'escenario', label: 'Escenario', hint: 'dónde ocurre',
+      options: [
+        { id: 'estudio', label: 'Estudio limpio', v: 'in a seamless minimal studio set with a soft off-white infinity backdrop' },
+        { id: 'azul', label: 'Fondo azul de marca', v: 'against a deep cobalt-blue painted backdrop meeting a pale grey surface in a clean horizon line' },
+        { id: 'skincare', label: 'Tienda de skincare', v: 'on the counter of a bright skincare boutique, softly blurred shelves of amber and frosted glass bottles behind' },
+        { id: 'ropa', label: 'Tienda de ropa', v: 'on the counter of a small clothing boutique, racks of folded garments and hanging clothes softly out of focus behind' },
+        { id: 'joyeria', label: 'Joyería', v: 'on a dark velvet-lined jewellery counter with small ring boxes and a ribboned gift bag nearby' },
+        { id: 'cafe', label: 'Cafetería', v: 'on the service counter of a warm specialty coffee shop, espresso machine and cups softly blurred behind' },
+        { id: 'abarrotes', label: 'Abarrotes', v: 'on the checkout counter of a tidy neighbourhood grocery store, stocked shelves softly out of focus behind' },
+        { id: 'farmacia', label: 'Farmacia', v: 'on the counter of a clean modern pharmacy, orderly shelving softly blurred behind' },
+        { id: 'restaurante', label: 'Restaurante', v: 'on the host counter of a warm casual restaurant, dining room softly blurred behind' },
+        { id: 'salon', label: 'Barbería / salón', v: 'on the reception counter of a modern barbershop, styling chairs and mirrors softly out of focus behind' }
+      ]
+    },
+    {
+      /* CATEGORÍA NUEVA. Cada temporada agrega props físicos y ambientación al
+         escenario. Ninguna mete texto, letreros ni decoración de stock: cada
+         texto lo dice explícitamente para que el modelo no lo invente. */
+      id: 'temporada', label: 'Temporada', hint: 'props y ambientación, sin decoración de stock',
+      options: [
+        { id: 'ninguna', label: 'Ninguna', v: '' },
+        { id: 'navidad', label: 'Navidad', v: 'Seasonal Christmas dressing built only from real physical props within the scene: a few parcels wrapped in plain paper and twine, dark pine sprigs, and small warm string lights softly out of focus, with a warmer light temperature — no printed decorations, no snow, no tinsel, no baubles arranged as a border and no seasonal graphics of any kind' },
+        { id: 'madres', label: 'Día de la Madre', v: 'Seasonal Mother’s Day dressing built only from real physical props within the scene: fresh cut flowers in blush and white slightly out of focus, a small gift wrapped in plain paper and silk ribbon, with a softer higher-key light — no printed decorations, no hearts, no ribbons arranged as a border and no seasonal graphics of any kind' },
+        { id: 'clases', label: 'Back to school', v: 'Seasonal back-to-school dressing built only from real physical props within the scene: a stack of plain notebooks, a canvas backpack resting against the counter and unsharpened pencils in a cup, with bright clear morning light — no printed decorations, no school-themed graphics and no seasonal clip art of any kind' },
+        { id: 'blackfriday', label: 'Black Friday', v: 'Seasonal high-volume sale-day dressing built only from real physical props within the scene: several plain unlabelled shopping bags crowding the counter and blurred shoppers deep in the background, with slightly cooler harder light and a sense of pace — no signage, no percentage marks, no printed banners and no sale graphics of any kind' },
+        { id: 'semanasanta', label: 'Semana Santa', v: 'Seasonal Semana Santa dressing built only from real physical props within the scene: deep purple textile draped nearby, warm late-afternoon light and a quieter emptier street beyond — no processional imagery, no religious iconography, no printed decorations and no seasonal graphics of any kind' }
+      ]
+    },
+    {
+      id: 'superficie', label: 'Superficie', hint: 'sobre qué está',
+      options: [
+        { id: 'roble', label: 'Madera de roble claro', v: 'resting on a warm light-oak wooden surface with visible fine grain' },
+        { id: 'concreto', label: 'Concreto claro', v: 'resting on a pale polished concrete surface with a soft mineral texture' },
+        { id: 'navy', label: 'Azul marino mate', v: 'resting on a deep navy-blue painted wooden surface with a fine matte brush texture' },
+        { id: 'blanco', label: 'Mostrador blanco', v: 'resting on a crisp matte-white counter surface' },
+        { id: 'marmol', label: 'Mármol', v: 'resting on a pale marble slab with delicate grey veining' },
+        { id: 'carbon', label: 'Carbón / negro mate', v: 'resting on a charcoal matte surface with a soft dark sheen' }
+      ]
+    },
+    {
+      id: 'angulo', label: 'Ángulo de cámara', hint: '',
+      options: [
+        { id: 'cenital', label: 'Cenital 90° (flat lay)', v: 'Overhead flat-lay shot looking straight down at 90 degrees,' },
+        { id: 'cenital45', label: 'Cenital inclinado 45°', v: 'High three-quarter overhead shot angled at about 45 degrees,' },
+        { id: 'frontal', label: 'Frontal a nivel', v: 'Straight-on eye-level shot at counter height, perfectly symmetrical,' },
+        { id: 'treschartos', label: 'Tres cuartos', v: 'Three-quarter angled shot from slightly above counter height,' },
+        { id: 'macro', label: 'Detalle macro', v: 'Tight macro detail shot with shallow depth of field,' }
+      ]
+    },
+    {
+      id: 'luz', label: 'Iluminación', hint: '',
+      options: [
+        { id: 'estudio', label: 'Estudio difusa', v: 'Lit with soft diffused studio light from a large overhead softbox, gentle contact shadows' },
+        { id: 'ventana', label: 'Luz de ventana', v: 'Lit by soft natural daylight coming from a large window at the side, long gentle shadows' },
+        { id: 'dramatica', label: 'Dramática direccional', v: 'Lit with a single directional key light creating deep dramatic shadows and bright highlights' },
+        { id: 'dorada', label: 'Hora dorada', v: 'Lit by warm low golden-hour sunlight raking across the surface' },
+        { id: 'editorial', label: 'Editorial alto contraste', v: 'Lit with crisp high-contrast editorial lighting, clean specular highlights on the devices' }
+      ]
+    },
+    {
+      id: 'manos', label: 'Personas', hint: 'solo manos y antebrazos',
+      options: [
+        { id: 'sin', label: 'Sin personas', v: '' },
+        { id: 'lector_mano', label: 'Mano sosteniendo el lector', v: 'A single hand holds the card reader, only the hand and forearm visible, no face in frame' },
+        { id: 'cobro', label: 'Dos manos, cobro', v: 'Two pairs of hands meet over the surface, one offering a payment card and the other holding the card reader, only hands and forearms visible, no faces in frame' },
+        { id: 'empacando', label: 'Manos empacando', v: 'A pair of hands wraps a product in tissue paper beside the devices, only hands and forearms visible, no face in frame' }
+      ]
+    },
+    {
+      id: 'paleta', label: 'Paleta de la escena', hint: '',
+      options: [
+        { id: 'marca', label: 'Azules de marca', v: 'Colour palette built on deep navy, cobalt and cyan blues against clean white' },
+        { id: 'calida', label: 'Neutros cálidos', v: 'Warm neutral colour palette of oak, cream, sand and soft terracotta' },
+        { id: 'oscura', label: 'Monocromo oscuro', v: 'Dark monochrome colour palette of charcoal, black and graphite with a single saturated accent' },
+        { id: 'pastel', label: 'Pasteles suaves', v: 'Soft pastel colour palette of blush, sage and off-white' },
+        { id: 'minimal', label: 'Blanco minimal', v: 'Near-monochrome palette of white, pale grey and matte black' }
+      ]
+    },
+    {
+      id: 'aire', label: 'Espacio para el copy', hint: 'dónde queda el aire',
+      options: [
+        { id: 'arriba', label: 'Arriba (30%)', v: 'Compose with the subject in the lower two thirds, leaving the top 30 percent of the frame as clean uncluttered empty space for headline copy' },
+        { id: 'izq', label: 'Izquierda', v: 'Compose with the subject on the right, leaving the left third of the frame as clean uncluttered empty space for copy' },
+        { id: 'der', label: 'Derecha', v: 'Compose with the subject on the left, leaving the right third of the frame as clean uncluttered empty space for copy' },
+        { id: 'abajo', label: 'Abajo', v: 'Compose with the subject in the upper two thirds, leaving the bottom 30 percent of the frame as clean uncluttered empty space for copy' },
+        { id: 'ninguno', label: 'Sin aire reservado', v: 'Fill the frame with a balanced composition' }
+      ]
+    },
+    {
+      id: 'formato', label: 'Formato', hint: '',
+      options: [
+        { id: 'v45', label: '4:5 — 1080×1350', v: 'Vertical 4:5 aspect ratio, 1080x1350 pixels' },
+        { id: 'c11', label: '1:1 — 1080×1080', v: 'Square 1:1 aspect ratio, 1080x1080 pixels' },
+        { id: 'v916', label: '9:16 — story', v: 'Vertical 9:16 aspect ratio for stories, 1080x1920 pixels' },
+        { id: 'h169', label: '16:9 — horizontal', v: 'Horizontal 16:9 aspect ratio, 1920x1080 pixels' },
+        { id: 'banner', label: '2:1 — banner web', v: 'Wide 2:1 banner aspect ratio, 1200x600 pixels' }
+      ]
+    }
+  ];
+
+  const DEFAULTS = {
+    producto: 'pos3', escenario: 'ropa', superficie: 'roble', angulo: 'cenital45',
+    luz: 'ventana', manos: 'sin', paleta: 'calida', aire: 'arriba', formato: 'v45',
+    temporada: 'ninguna'
+  };
+
+  const TAIL = 'Hyperrealistic commercial product photography, medium-format camera, 50mm lens, f/4, razor-sharp focus on the devices, true-to-life colour, realistic materials and contact shadows, photorealistic, high detail.';
+
+  /* Las reglas no negociables. Van en TODOS los prompts, siempre, sin importar
+     qué esté elegido arriba. La primera es la tuya, tal cual. */
+  const RULES = [
+    'Absolutely no text, no lettering, no numbers, no logos, no brand marks and no watermarks anywhere in the image, including on the device screens.',
+    'Real photographic capture only — never a 3D render, never CGI, never an illustration.',
+    'No faces and no visible heads in frame: if a person appears, only hands and forearms are shown, anatomically correct.'
+  ].join(' ');
+
+  const NEGATIVE = 'text, letters, words, numbers, logos, brand marks, watermark, signature, distorted hands, extra fingers, blurry, low resolution, cartoon, illustration, 3d render, plastic look, oversaturated, cluttered composition, tilted horizon, face, faces, head, portrait, eyes, screen text, interface labels, clip art, sticker, decorative frame, tinsel, snow overlay, confetti overlay';
+
+  const LIMITE_HIST = 20;
+  const K_PRESETS = 'qpaypro:prompt-presets';
+  const K_HIST    = 'qpaypro:prompt-historial';
+  const K_ESTADO  = 'qpaypro:prompt-estado';
+
+  let state = Object.assign({}, DEFAULTS);
+  let extra = '';
+  let presets = [];
+  let historial = [];
+
+  const groupsEl = document.getElementById('qp-groups');
+  const outEl    = document.getElementById('qp-out');
+  const extraEl  = document.getElementById('qp-extra');
+  const copyBtn  = document.getElementById('qp-copy');
+  const copyMov  = document.getElementById('qp-copy-movil');
+  const listEl   = document.getElementById('qp-plist');
+  const histEl   = document.getElementById('qp-hlist');
+  const msgEl    = document.getElementById('qp-msg');
+
+  document.getElementById('qp-negtext').textContent = NEGATIVE;
+
+  /* -------- guardado local. Siempre entre try/catch: en una ventana privada
+     localStorage puede tirar excepción y la herramienta tiene que seguir
+     sirviendo aunque no pueda guardar. -------- */
+  function leer(k, resp) {
+    try {
+      const crudo = localStorage.getItem(k);
+      if (!crudo) return resp;
+      const v = JSON.parse(crudo);
+      return (v === null || v === undefined) ? resp : v;
+    } catch (e) { return resp; }
+  }
+  function guardar(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); return true; }
+    catch (e) { return false; }
+  }
+
+  /* -------- construir los chips -------- */
+  GROUPS.forEach(function (g) {
+    const wrap = document.createElement('div');
+    wrap.className = 'qp-group';
+    const h = document.createElement('h2');
+    h.textContent = g.label;
+    if (g.hint) { const s = document.createElement('span'); s.textContent = g.hint; h.appendChild(s); }
+    wrap.appendChild(h);
+
+    const chips = document.createElement('div');
+    chips.className = 'qp-chips';
+    g.options.forEach(function (o) {
+      const b = document.createElement('button');
+      b.className = 'qp-chip';
+      b.type = 'button';
+      b.textContent = o.label;
+      b.dataset.group = g.id;
+      b.dataset.opt = o.id;
+      b.addEventListener('click', function () { state[g.id] = o.id; render(); });
+      chips.appendChild(b);
+    });
+    wrap.appendChild(chips);
+    groupsEl.appendChild(wrap);
+  });
+
+  function val(gid) {
+    const g = GROUPS.find(function (x) { return x.id === gid; });
+    if (!g) return '';
+    const o = g.options.find(function (x) { return x.id === state[gid]; });
+    return o ? o.v : '';
+  }
+  function etiqueta(gid, oid) {
+    const g = GROUPS.find(function (x) { return x.id === gid; });
+    if (!g) return '';
+    const o = g.options.find(function (x) { return x.id === oid; });
+    return o ? o.label : '';
+  }
+
+  /* -------- el prompt. Mismo orden de armado que tenías; la temporada entra
+     justo después de la frase del escenario, que es lo que ambienta. -------- */
+  function buildPrompt() {
+    const parts = [];
+    parts.push(val('angulo') + ' ' + val('producto') + ' ' + val('superficie') + ' ' + val('escenario') + '.');
+    if (val('temporada')) parts.push(val('temporada') + '.');
+    if (val('manos')) parts.push(val('manos') + '.');
+    if (extra.trim()) parts.push(extra.trim().replace(/\.$/, '') + '.');
+    parts.push(val('luz') + '.');
+    parts.push(val('paleta') + '.');
+    parts.push(val('aire') + '.');
+    parts.push(TAIL);
+    parts.push(RULES);
+    parts.push(val('formato') + '.');
+    return parts.join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function render() {
+    document.querySelectorAll('.qp-chip').forEach(function (b) {
+      b.setAttribute('aria-pressed', state[b.dataset.group] === b.dataset.opt ? 'true' : 'false');
+    });
+    const t = buildPrompt();
+    outEl.textContent = t;
+    document.getElementById('qp-cuenta').textContent = t.split(/\s+/).filter(Boolean).length + ' palabras';
+    reiniciaCopiar();
+    guardar(K_ESTADO, { state: state, extra: extra });
+  }
+
+  function reiniciaCopiar() {
+    [copyBtn, copyMov].forEach(function (b) {
+      if (!b) return;
+      clearTimeout(b._t);
+      b.textContent = 'Copiar prompt';
+      b.classList.remove('ok');
+    });
+  }
+
+  /* -------- copiar, con respaldo: navigator.clipboard no siempre está
+     disponible (http sin candado, algunos iframes). -------- */
+  function copiar(texto) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(texto).catch(function () { return copiaVieja(texto); });
+    }
+    return copiaVieja(texto);
+  }
+  function copiaVieja(texto) {
+    return new Promise(function (ok, mal) {
+      const ta = document.createElement('textarea');
+      ta.value = texto;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0, texto.length);
+      let bien = false;
+      try { bien = document.execCommand('copy'); } catch (e) { bien = false; }
+      document.body.removeChild(ta);
+      bien ? ok() : mal(new Error('sin portapapeles'));
+    });
+  }
+  function avisa(btn, texto) {
+    if (!btn) return;
+    if (!btn._orig) btn._orig = btn.textContent;
+    btn.textContent = texto;
+    btn.classList.add('ok');
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () {
+      btn.textContent = btn._orig;
+      btn.classList.remove('ok');
+    }, 1600);
+  }
+
+  function copiarPrompt(btn) {
+    const t = buildPrompt();
+    copiar(t).then(function () {
+      avisa(btn, 'Copiado');
+      alHistorial(t);
+    }).catch(function () {
+      avisa(btn, 'Seleccioná y copiá arriba');
+      alHistorial(t);
+    });
+  }
+  copyBtn.addEventListener('click', function () { copiarPrompt(copyBtn); });
+  copyMov.addEventListener('click', function () { copiarPrompt(copyMov); });
+
+  document.getElementById('qp-copyneg').addEventListener('click', function () {
+    const b = this;
+    copiar(NEGATIVE).then(function () { avisa(b, 'Copiado'); })
+                    .catch(function () { avisa(b, 'No se pudo'); });
+  });
+
+  document.getElementById('qp-random').addEventListener('click', function () {
+    GROUPS.forEach(function (g) {
+      if (g.id === 'formato' || g.id === 'temporada') return;
+      state[g.id] = g.options[Math.floor(Math.random() * g.options.length)].id;
+    });
+    render();
+  });
+
+  /* ------------------------------- presets ------------------------------- */
+  function idNuevo() { return 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+  function savePresets() { guardar(K_PRESETS, presets); drawPresets(); drawExport(); }
+
+  function cargaCombo(st, ex) {
+    state = Object.assign({}, DEFAULTS);
+    GROUPS.forEach(function (g) {
+      const v = st ? st[g.id] : null;
+      if (v && g.options.some(function (o) { return o.id === v; })) state[g.id] = v;
+    });
+    extra = ex || '';
+    extraEl.value = extra;
+    render();
+    if (window.innerWidth < 901) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function drawPresets() {
+    listEl.innerHTML = '';
+    if (!presets.length) {
+      const p = document.createElement('p');
+      p.className = 'qp-empty';
+      p.textContent = 'Todavía no hay ninguna guardada. Armá una combinación, ponele nombre y guardala: queda en este navegador para la próxima vez.';
+      listEl.appendChild(p);
+      return;
+    }
+    presets.forEach(function (p) {
+      const fila = document.createElement('div');
+      fila.className = 'qp-fila';
+
+      const nombre = document.createElement('input');
+      nombre.className = 'qp-fila-nombre';
+      nombre.value = p.name;
+      nombre.maxLength = 40;
+      nombre.setAttribute('aria-label', 'Nombre del preset');
+      nombre.title = 'Tocá para cambiarle el nombre';
+      nombre.addEventListener('change', function () {
+        p.name = nombre.value.trim() || 'Sin nombre';
+        nombre.value = p.name;
+        savePresets();
+      });
+
+      const meta = document.createElement('span');
+      meta.className = 'qp-meta';
+      meta.textContent = etiqueta('producto', p.state.producto) + ' · ' + etiqueta('formato', p.state.formato);
+
+      const acc = document.createElement('div');
+      acc.className = 'qp-acc';
+
+      const usar = document.createElement('button');
+      usar.type = 'button'; usar.className = 'qp-mini'; usar.textContent = 'Usar';
+      usar.addEventListener('click', function () { cargaCombo(p.state, p.extra); });
+
+      const del = document.createElement('button');
+      del.type = 'button'; del.className = 'qp-mini peligro'; del.textContent = 'Borrar';
+      del.setAttribute('aria-label', 'Borrar ' + p.name);
+      del.addEventListener('click', function () {
+        if (del.dataset.seguro === 'si') {
+          presets = presets.filter(function (x) { return x.id !== p.id; });
+          savePresets();
+        } else {
+          del.dataset.seguro = 'si';
+          del.textContent = '¿Seguro?';
+          setTimeout(function () { del.dataset.seguro = ''; del.textContent = 'Borrar'; }, 3000);
+        }
+      });
+
+      acc.appendChild(usar); acc.appendChild(del);
+      fila.appendChild(nombre); fila.appendChild(meta); fila.appendChild(acc);
+      listEl.appendChild(fila);
+    });
+  }
+
+  document.getElementById('qp-save').addEventListener('click', function () {
+    const input = document.getElementById('qp-pname');
+    let name = input.value.trim();
+    if (!name) {
+      name = etiqueta('producto', state.producto) + ' · ' + etiqueta('escenario', state.escenario);
+      if (state.temporada !== 'ninguna') name += ' · ' + etiqueta('temporada', state.temporada);
+    }
+    presets.push({ id: idNuevo(), name: name, state: Object.assign({}, state), extra: extra, created: new Date().toISOString() });
+    input.value = '';
+    savePresets();
+    activaPestana('tab-presets');
+  });
+
+  /* ------------------------------ historial ------------------------------ */
+  function alHistorial(texto) {
+    if (historial.length && historial[0].texto === texto) return;
+    historial.unshift({
+      id: idNuevo(),
+      cuando: new Date().toISOString(),
+      texto: texto,
+      state: Object.assign({}, state),
+      extra: extra
+    });
+    historial = historial.slice(0, LIMITE_HIST);
+    guardar(K_HIST, historial);
+    drawHist();
+  }
+
+  function cuandoCorto(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString('es-GT', { day: '2-digit', month: 'short' }) + ' · ' +
+             d.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return ''; }
+  }
+
+  function drawHist() {
+    histEl.innerHTML = '';
+    document.getElementById('tab-hist').textContent = 'Historial' + (historial.length ? ' (' + historial.length + ')' : '');
+    if (!historial.length) {
+      const p = document.createElement('p');
+      p.className = 'qp-empty';
+      p.textContent = 'Cada prompt que copiás queda guardado aquí. Se conservan los últimos ' + LIMITE_HIST + '.';
+      histEl.appendChild(p);
+      return;
+    }
+    historial.forEach(function (h) {
+      const fila = document.createElement('div');
+      fila.className = 'qp-fila';
+
+      const tit = document.createElement('span');
+      tit.className = 'qp-fila-nombre';
+      tit.style.padding = '5px 0';
+      tit.textContent = etiqueta('producto', h.state.producto) + ' · ' + etiqueta('escenario', h.state.escenario) +
+        (h.state.temporada && h.state.temporada !== 'ninguna' ? ' · ' + etiqueta('temporada', h.state.temporada) : '');
+
+      const meta = document.createElement('span');
+      meta.className = 'qp-meta';
+      meta.textContent = cuandoCorto(h.cuando);
+
+      const acc = document.createElement('div');
+      acc.className = 'qp-acc';
+
+      const cop = document.createElement('button');
+      cop.type = 'button'; cop.className = 'qp-mini'; cop.textContent = 'Copiar';
+      cop.addEventListener('click', function () {
+        copiar(h.texto).then(function () { avisa(cop, 'Copiado'); })
+                       .catch(function () { avisa(cop, 'No se pudo'); });
+      });
+
+      const car = document.createElement('button');
+      car.type = 'button'; car.className = 'qp-mini'; car.textContent = 'Cargar';
+      car.addEventListener('click', function () { cargaCombo(h.state, h.extra); });
+
+      const vista = document.createElement('span');
+      vista.className = 'qp-vista';
+      vista.textContent = h.texto;
+
+      acc.appendChild(cop); acc.appendChild(car);
+      fila.appendChild(tit); fila.appendChild(meta); fila.appendChild(acc); fila.appendChild(vista);
+      histEl.appendChild(fila);
+    });
+  }
+
+  /* --------------------------- exportar / importar --------------------------- */
+  function drawExport() {
+    document.getElementById('qp-export').value = JSON.stringify({
+      app: 'generador-prompts-qpaypro',
+      version: 1,
+      exportado: new Date().toISOString(),
+      presets: presets
+    }, null, 2);
+  }
+
+  function recado(texto, tono) {
+    msgEl.textContent = texto;
+    msgEl.className = 'qp-nota' + (tono ? ' ' + tono : '');
+  }
+
+  function importar(crudo) {
+    let paquete;
+    try { paquete = JSON.parse(crudo); }
+    catch (e) { recado('Ese texto no es un JSON válido. Copialo otra vez completo, desde la primera llave { hasta la última }.', 'mal'); return; }
+    if (!paquete || !Array.isArray(paquete.presets)) {
+      recado('El archivo no trae una lista de presets. Revisá que sea el JSON que exporta esta misma herramienta.', 'mal');
+      return;
+    }
+    let nuevos = 0, actualizados = 0, saltados = 0;
+    paquete.presets.forEach(function (p) {
+      if (!p || !p.state || typeof p.state !== 'object') { saltados++; return; }
+      const limpio = {
+        id: p.id || idNuevo(),
+        name: String(p.name || 'Sin nombre').slice(0, 40),
+        state: Object.assign({}, DEFAULTS),
+        extra: String(p.extra || '').slice(0, 2000),
+        created: p.created || new Date().toISOString()
+      };
+      let sirve = false;
+      GROUPS.forEach(function (g) {
+        const v = p.state[g.id];
+        if (v && g.options.some(function (o) { return o.id === v; })) { limpio.state[g.id] = v; sirve = true; }
+      });
+      if (!sirve) { saltados++; return; }
+      const i = presets.findIndex(function (x) { return x.id === limpio.id; });
+      if (i >= 0) { presets[i] = limpio; actualizados++; } else { presets.push(limpio); nuevos++; }
+    });
+    savePresets();
+    const partes = [];
+    if (nuevos) partes.push(nuevos + (nuevos === 1 ? ' preset nuevo' : ' presets nuevos'));
+    if (actualizados) partes.push(actualizados + (actualizados === 1 ? ' actualizado' : ' actualizados'));
+    if (saltados) partes.push(saltados + (saltados === 1 ? ' descartado por incompleto' : ' descartados por incompletos'));
+    recado(partes.length ? 'Listo: ' + partes.join(', ') + '.' : 'No había nada que importar.', partes.length ? 'ok' : '');
+    document.getElementById('qp-import').value = '';
+  }
+
+  document.getElementById('qp-copyjson').addEventListener('click', function () {
+    const b = this, caja = document.getElementById('qp-export');
+    copiar(caja.value).then(function () { avisa(b, 'Copiado'); })
+      .catch(function () { caja.focus(); caja.select(); avisa(b, 'Ctrl+C'); });
+  });
+
+  /* El visor de artifacts publicados bloquea toda descarga que inicie la
+     página. Ahí el botón no haría nada, así que no se muestra: queda solo
+     «Copiar JSON», que sí funciona en los dos lados. Abierto como archivo en
+     tu computadora, window.claude no existe y el botón vuelve a aparecer. */
+  if (window.claude) {
+    document.getElementById('qp-download').hidden = true;
+    document.getElementById('qp-nota-descarga').textContent =
+      'Para pasar tus presets, usá «Copiar JSON» y pegalo en un chat o correo. Del otro lado se importa abajo.';
+  }
+
+  document.getElementById('qp-download').addEventListener('click', function () {
+    try {
+      const blob = new Blob([document.getElementById('qp-export').value], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'presets-qpaypro-' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    } catch (e) {
+      recado('Este navegador no dejó descargar el archivo. Usá «Copiar JSON» y pegalo en un correo.', 'mal');
+    }
+  });
+
+  document.getElementById('qp-doimport').addEventListener('click', function () {
+    const crudo = document.getElementById('qp-import').value.trim();
+    if (!crudo) { recado('Pegá primero el JSON en el recuadro de arriba.', 'mal'); return; }
+    importar(crudo);
+  });
+
+  document.getElementById('qp-file').addEventListener('change', function (e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const lector = new FileReader();
+    lector.onload = function () { importar(String(lector.result)); };
+    lector.onerror = function () { recado('No se pudo leer ese archivo.', 'mal'); };
+    lector.readAsText(f);
+    e.target.value = '';
+  });
+
+  /* ------------------------------- pestañas ------------------------------- */
+  const PESTANAS = [['tab-presets', 'pan-presets'], ['tab-hist', 'pan-hist'], ['tab-share', 'pan-share']];
+  function activaPestana(id) {
+    PESTANAS.forEach(function (p) {
+      const activa = p[0] === id;
+      document.getElementById(p[0]).setAttribute('aria-selected', activa ? 'true' : 'false');
+      document.getElementById(p[1]).hidden = !activa;
+    });
+  }
+  PESTANAS.forEach(function (p) {
+    document.getElementById(p[0]).addEventListener('click', function () { activaPestana(p[0]); });
+  });
+
+  /* -------------------------------- arranque -------------------------------- */
+  function arranca(caliente) {
+    presets = leer(K_PRESETS, []);
+    historial = leer(K_HIST, []);
+    if (!Array.isArray(presets)) presets = [];
+    if (!Array.isArray(historial)) historial = [];
+    presets.forEach(function (p) { if (!p.id) p.id = idNuevo(); });
+
+    const guardado = (caliente && caliente.state) ? caliente : leer(K_ESTADO, null);
+    if (guardado && guardado.state) {
+      cargaCombo(guardado.state, guardado.extra);
+    } else {
+      render();
+    }
+
+    extraEl.addEventListener('input', function () { extra = extraEl.value; render(); });
+
+    drawPresets();
+    drawHist();
+    drawExport();
+  }
+
+  if (window.claude && window.claude.hot && window.claude.hot.snapshot) {
+    window.claude.hot.snapshot(function () { return { state: state, extra: extra }; });
+  }
+  if (window.claude && window.claude.hot && window.claude.hot.ready) {
+    window.claude.hot.ready(arranca);
+  } else {
+    arranca((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  }
+})();
+</script>
