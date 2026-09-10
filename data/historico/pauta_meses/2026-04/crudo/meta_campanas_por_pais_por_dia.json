@@ -1,0 +1,4657 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-10",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "object_ids": [
+    "120238382458610783",
+    "120239334653690783",
+    "120239427144470783",
+    "120240092477970783",
+    "120240784467900783",
+    "120241364534310783",
+    "120241847908000783"
+   ],
+   "time_range": {
+    "since": "2026-04-01",
+    "until": "2026-04-30"
+   },
+   "time_increment": "1",
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "limit": 1000
+  },
+  "_el_limit_no_es_opcional": "Sin `limit` la consulta TRUNCA en 200 filas, en silencio y sin cursor, y con `object_ids` no hay paginacion que avise: un truncamiento se ve igual de completo que el dato completo (ADR-050). Este mes devolvio 212 filas: POR ENCIMA de las 200 del limite por defecto, asi que sin el `limit=1000` este mes habria salido truncado y con cara de completo. 212 esta muy por debajo de 1000, asi que no esta truncado.",
+  "_nota": "Desglose DIARIO por campana x pais de ABRIL 2026. Solo aporta piezas para que el filtro del tablero pueda mirar atras; no toca consolidados, por_mercado, cartas ni estrategia. Se pidieron los 7 ids unicos del agregado y devolvio filas para 6: la campana 120241364534310783 (Qpayshop:Marzo:2026) no trajo ninguna fila diaria, consistente con sus dos filas del agregado con /bin/bash,00 de gasto, 0 impresiones y resultados `Not available`. Se declara el hueco en vez de saltarlo en silencio; no se rellena con ceros."
+ },
+ "ad_entities": [
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "363"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,82 USD",
+   "impressions": "9349",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$5,05 USD",
+   "impressions": "1142",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,70 USD (Leads (form))"
+   },
+   "amount_spent": "$24,26 USD",
+   "impressions": "7817",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,85 USD (Leads)"
+   },
+   "amount_spent": "$8,52 USD",
+   "impressions": "8839",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,07 USD",
+   "impressions": "115",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "222"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$3,79 USD",
+   "impressions": "4247",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-01",
+   "date_stop": "2026-04-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,81 USD (Leads)"
+   },
+   "amount_spent": "$14,04 USD",
+   "impressions": "4047",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "317"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,54 USD",
+   "impressions": "9033",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,77 USD (Leads (form))"
+   },
+   "amount_spent": "$4,77 USD",
+   "impressions": "1025",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,69 USD (Leads (form))"
+   },
+   "amount_spent": "$22,74 USD",
+   "impressions": "8389",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "25"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,42 USD (Leads)"
+   },
+   "amount_spent": "$10,62 USD",
+   "impressions": "11248",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "112",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "296"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,95 USD",
+   "impressions": "6317",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-02",
+   "date_stop": "2026-04-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,70 USD (Leads)"
+   },
+   "amount_spent": "$15,26 USD",
+   "impressions": "4943",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "391"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,84 USD",
+   "impressions": "18297",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,63 USD (Leads (form))"
+   },
+   "amount_spent": "$5,26 USD",
+   "impressions": "1087",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,01 USD (Leads (form))"
+   },
+   "amount_spent": "$24,06 USD",
+   "impressions": "7641",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "18"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,56 USD (Leads)"
+   },
+   "amount_spent": "$10,11 USD",
+   "impressions": "12917",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,16 USD (Leads)"
+   },
+   "amount_spent": "$0,16 USD",
+   "impressions": "148",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "249"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,20 USD",
+   "impressions": "8538",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-03",
+   "date_stop": "2026-04-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,78 USD (Leads)"
+   },
+   "amount_spent": "$15,11 USD",
+   "impressions": "5011",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "339"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,32 USD",
+   "impressions": "17977",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,20 USD (Leads (form))"
+   },
+   "amount_spent": "$4,39 USD",
+   "impressions": "1152",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,79 USD (Leads (form))"
+   },
+   "amount_spent": "$25,10 USD",
+   "impressions": "9570",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,61 USD (Leads)"
+   },
+   "amount_spent": "$8,49 USD",
+   "impressions": "10523",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,06 USD (Leads)"
+   },
+   "amount_spent": "$0,06 USD",
+   "impressions": "130",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "346"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,42 USD",
+   "impressions": "5326",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-04",
+   "date_stop": "2026-04-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$12,61 USD (Leads)"
+   },
+   "amount_spent": "$12,61 USD",
+   "impressions": "4110",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "567"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$6,58 USD",
+   "impressions": "31904",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,40 USD (Leads (form))"
+   },
+   "amount_spent": "$5,59 USD",
+   "impressions": "1407",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,14 USD (Leads (form))"
+   },
+   "amount_spent": "$25,72 USD",
+   "impressions": "9594",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "22"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,50 USD (Leads)"
+   },
+   "amount_spent": "$11,02 USD",
+   "impressions": "13270",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "142",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "296"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,29 USD",
+   "impressions": "14204",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-05",
+   "date_stop": "2026-04-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,82 USD (Leads)"
+   },
+   "amount_spent": "$16,93 USD",
+   "impressions": "5481",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "322"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$3,78 USD",
+   "impressions": "15057",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,83 USD (Leads (form))"
+   },
+   "amount_spent": "$5,48 USD",
+   "impressions": "1225",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,26 USD (Leads (form))"
+   },
+   "amount_spent": "$24,90 USD",
+   "impressions": "9589",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "27"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,50 USD (Leads)"
+   },
+   "amount_spent": "$13,52 USD",
+   "impressions": "15234",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "168",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "303"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,71 USD",
+   "impressions": "8115",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-06",
+   "date_stop": "2026-04-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,75 USD (Leads)"
+   },
+   "amount_spent": "$13,97 USD",
+   "impressions": "4757",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "237"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$3,05 USD",
+   "impressions": "19163",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,34 USD (Leads (form))"
+   },
+   "amount_spent": "$5,35 USD",
+   "impressions": "1310",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,15 USD (Leads (form))"
+   },
+   "amount_spent": "$24,90 USD",
+   "impressions": "9866",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "36"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,69 USD (Leads)"
+   },
+   "amount_spent": "$24,82 USD",
+   "impressions": "26062",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,08 USD (Leads)"
+   },
+   "amount_spent": "$0,15 USD",
+   "impressions": "279",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "385"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,05 USD",
+   "impressions": "8080",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-07",
+   "date_stop": "2026-04-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,42 USD (Leads)"
+   },
+   "amount_spent": "$10,84 USD",
+   "impressions": "3723",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "374"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$5,11 USD",
+   "impressions": "39737",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,39 USD (Leads (form))"
+   },
+   "amount_spent": "$4,77 USD",
+   "impressions": "1003",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,77 USD (Leads (form))"
+   },
+   "amount_spent": "$26,52 USD",
+   "impressions": "7518",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "20"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,67 USD (Leads)"
+   },
+   "amount_spent": "$13,39 USD",
+   "impressions": "10695",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "104",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "257"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$3,84 USD",
+   "impressions": "4191",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-08",
+   "date_stop": "2026-04-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,50 USD (Leads)"
+   },
+   "amount_spent": "$9,99 USD",
+   "impressions": "2886",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "356"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,53 USD",
+   "impressions": "20568",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,50 USD (Leads (form))"
+   },
+   "amount_spent": "$5,00 USD",
+   "impressions": "859",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,35 USD (Leads (form))"
+   },
+   "amount_spent": "$21,16 USD",
+   "impressions": "7307",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,94 USD (Leads)"
+   },
+   "amount_spent": "$10,35 USD",
+   "impressions": "7675",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,08 USD",
+   "impressions": "83",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "411"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$5,61 USD",
+   "impressions": "4222",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-09",
+   "date_stop": "2026-04-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,46 USD (Leads)"
+   },
+   "amount_spent": "$9,84 USD",
+   "impressions": "2552",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "314"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,20 USD",
+   "impressions": "17978",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$4,23 USD",
+   "impressions": "900",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,41 USD (Leads (form))"
+   },
+   "amount_spent": "$13,63 USD",
+   "impressions": "5747",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,72 USD (Leads)"
+   },
+   "amount_spent": "$10,32 USD",
+   "impressions": "7264",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,04 USD",
+   "impressions": "70",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "217"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$3,30 USD",
+   "impressions": "3571",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-10",
+   "date_stop": "2026-04-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,35 USD (Leads)"
+   },
+   "amount_spent": "$9,41 USD",
+   "impressions": "2289",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "364"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,65 USD",
+   "impressions": "14351",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$4,49 USD",
+   "impressions": "833",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,36 USD (Leads (form))"
+   },
+   "amount_spent": "$13,57 USD",
+   "impressions": "3996",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,30 USD (Leads)"
+   },
+   "amount_spent": "$12,95 USD",
+   "impressions": "8790",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,14 USD",
+   "impressions": "72",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "264"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,11 USD",
+   "impressions": "7566",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-11",
+   "date_stop": "2026-04-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,22 USD (Leads)"
+   },
+   "amount_spent": "$8,44 USD",
+   "impressions": "2166",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "321"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,30 USD",
+   "impressions": "9366",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,69 USD (Leads (form))"
+   },
+   "amount_spent": "$5,07 USD",
+   "impressions": "848",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,66 USD (Leads (form))"
+   },
+   "amount_spent": "$16,58 USD",
+   "impressions": "4446",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "19"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,89 USD (Leads)"
+   },
+   "amount_spent": "$16,84 USD",
+   "impressions": "11288",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,21 USD",
+   "impressions": "114",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "231"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,30 USD",
+   "impressions": "6525",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-12",
+   "date_stop": "2026-04-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,73 USD (Leads)"
+   },
+   "amount_spent": "$10,93 USD",
+   "impressions": "2636",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "300"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,85 USD",
+   "impressions": "12186",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Link clicks)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,09 USD (Leads (form))"
+   },
+   "amount_spent": "$4,18 USD",
+   "impressions": "761",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,74 USD (Leads (form))"
+   },
+   "amount_spent": "$14,96 USD",
+   "impressions": "4877",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,13 USD (Leads)"
+   },
+   "amount_spent": "$14,72 USD",
+   "impressions": "10604",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,19 USD",
+   "impressions": "117",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "425"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,79 USD",
+   "impressions": "6107",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-13",
+   "date_stop": "2026-04-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,57 USD (Leads)"
+   },
+   "amount_spent": "$11,14 USD",
+   "impressions": "2421",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "272"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,68 USD",
+   "impressions": "5608",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,42 USD (Leads (form))"
+   },
+   "amount_spent": "$4,27 USD",
+   "impressions": "856",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,08 USD (Leads (form))"
+   },
+   "amount_spent": "$14,55 USD",
+   "impressions": "4286",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "19"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,78 USD (Leads)"
+   },
+   "amount_spent": "$14,84 USD",
+   "impressions": "8524",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,11 USD",
+   "impressions": "67",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "171"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$3,53 USD",
+   "impressions": "4682",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-14",
+   "date_stop": "2026-04-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,72 USD (Leads)"
+   },
+   "amount_spent": "$10,89 USD",
+   "impressions": "2335",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "275"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,76 USD",
+   "impressions": "5012",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,06 USD (Leads (form))"
+   },
+   "amount_spent": "$5,28 USD",
+   "impressions": "836",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,55 USD (Leads (form))"
+   },
+   "amount_spent": "$15,52 USD",
+   "impressions": "3803",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "28"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,88 USD (Leads)"
+   },
+   "amount_spent": "$24,50 USD",
+   "impressions": "15765",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,22 USD",
+   "impressions": "122",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "330"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,64 USD",
+   "impressions": "4817",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-15",
+   "date_stop": "2026-04-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,51 USD (Leads)"
+   },
+   "amount_spent": "$10,05 USD",
+   "impressions": "1899",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "272"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,84 USD",
+   "impressions": "6518",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,92 USD (Leads (form))"
+   },
+   "amount_spent": "$5,75 USD",
+   "impressions": "822",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,80 USD (Leads (form))"
+   },
+   "amount_spent": "$14,42 USD",
+   "impressions": "3741",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,72 USD (Leads)"
+   },
+   "amount_spent": "$10,73 USD",
+   "impressions": "6379",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,13 USD",
+   "impressions": "51",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "211"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$3,75 USD",
+   "impressions": "2900",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-16",
+   "date_stop": "2026-04-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$10,14 USD (Leads)"
+   },
+   "amount_spent": "$10,14 USD",
+   "impressions": "1924",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "285"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,49 USD",
+   "impressions": "4870",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,57 USD (Leads (form))"
+   },
+   "amount_spent": "$4,57 USD",
+   "impressions": "745",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,45 USD (Leads (form))"
+   },
+   "amount_spent": "$14,46 USD",
+   "impressions": "4379",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,38 USD (Leads)"
+   },
+   "amount_spent": "$19,37 USD",
+   "impressions": "12390",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "99",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "275"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,28 USD",
+   "impressions": "3420",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-17",
+   "date_stop": "2026-04-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,39 USD (Leads)"
+   },
+   "amount_spent": "$9,54 USD",
+   "impressions": "1931",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "353"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,06 USD",
+   "impressions": "22482",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,78 USD (Leads (form))"
+   },
+   "amount_spent": "$5,78 USD",
+   "impressions": "1088",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,90 USD (Leads (form))"
+   },
+   "amount_spent": "$14,50 USD",
+   "impressions": "5917",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,96 USD (Leads)"
+   },
+   "amount_spent": "$2,88 USD",
+   "impressions": "1785",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,03 USD",
+   "impressions": "11",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "295"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,67 USD",
+   "impressions": "7565",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-18",
+   "date_stop": "2026-04-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,11 USD (Leads)"
+   },
+   "amount_spent": "$6,22 USD",
+   "impressions": "1275",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "344"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,63 USD",
+   "impressions": "22665",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,35 USD (Leads (form))"
+   },
+   "amount_spent": "$5,40 USD",
+   "impressions": "821",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,08 USD (Leads (form))"
+   },
+   "amount_spent": "$15,39 USD",
+   "impressions": "5427",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "16"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,97 USD (Leads)"
+   },
+   "amount_spent": "$15,55 USD",
+   "impressions": "9057",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,13 USD (Leads)"
+   },
+   "amount_spent": "$0,13 USD",
+   "impressions": "94",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "320"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,60 USD",
+   "impressions": "4978",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-19",
+   "date_stop": "2026-04-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,92 USD (Leads)"
+   },
+   "amount_spent": "$5,92 USD",
+   "impressions": "1153",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "248"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,54 USD",
+   "impressions": "12591",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$5,61 USD",
+   "impressions": "1140",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,76 USD (Leads (form))"
+   },
+   "amount_spent": "$15,84 USD",
+   "impressions": "4872",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,51 USD (Leads)"
+   },
+   "amount_spent": "$13,55 USD",
+   "impressions": "8668",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,09 USD",
+   "impressions": "122",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "230"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,18 USD",
+   "impressions": "5251",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-20",
+   "date_stop": "2026-04-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,00 USD (Leads)"
+   },
+   "amount_spent": "$4,00 USD",
+   "impressions": "815",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "266"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,73 USD",
+   "impressions": "17658",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,27 USD (Leads (form))"
+   },
+   "amount_spent": "$5,09 USD",
+   "impressions": "788",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,12 USD (Leads (form))"
+   },
+   "amount_spent": "$15,37 USD",
+   "impressions": "4962",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,46 USD (Leads)"
+   },
+   "amount_spent": "$17,46 USD",
+   "impressions": "9867",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,23 USD",
+   "impressions": "107",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "269"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,82 USD",
+   "impressions": "3415",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-21",
+   "date_stop": "2026-04-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$2,00 USD",
+   "impressions": "403",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "237"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,76 USD",
+   "impressions": "19320",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$4,52 USD",
+   "impressions": "889",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,63 USD (Leads (form))"
+   },
+   "amount_spent": "$14,53 USD",
+   "impressions": "4319",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,54 USD (Leads)"
+   },
+   "amount_spent": "$15,44 USD",
+   "impressions": "8883",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,13 USD",
+   "impressions": "86",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "227"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,13 USD",
+   "impressions": "2356",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-22",
+   "date_stop": "2026-04-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$4,25 USD",
+   "impressions": "851",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "288"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,31 USD",
+   "impressions": "23346",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,32 USD (Leads (form))"
+   },
+   "amount_spent": "$4,63 USD",
+   "impressions": "792",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,17 USD (Leads (form))"
+   },
+   "amount_spent": "$13,04 USD",
+   "impressions": "4409",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,61 USD (Leads)"
+   },
+   "amount_spent": "$14,47 USD",
+   "impressions": "9900",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,13 USD",
+   "impressions": "97",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "239"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,00 USD",
+   "impressions": "4731",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-23",
+   "date_stop": "2026-04-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,59 USD (Leads)"
+   },
+   "amount_spent": "$4,59 USD",
+   "impressions": "1095",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "249"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,96 USD",
+   "impressions": "9027",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,06 USD (Leads (form))"
+   },
+   "amount_spent": "$4,06 USD",
+   "impressions": "713",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,63 USD (Leads (form))"
+   },
+   "amount_spent": "$13,90 USD",
+   "impressions": "5872",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,13 USD (Leads)"
+   },
+   "amount_spent": "$13,61 USD",
+   "impressions": "9504",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,12 USD",
+   "impressions": "97",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "297"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,37 USD",
+   "impressions": "3692",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-24",
+   "date_stop": "2026-04-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$3,59 USD",
+   "impressions": "730",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "279"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,02 USD",
+   "impressions": "20727",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,60 USD (Leads (form))"
+   },
+   "amount_spent": "$5,60 USD",
+   "impressions": "943",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,82 USD (Leads (form))"
+   },
+   "amount_spent": "$16,91 USD",
+   "impressions": "5636",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,55 USD (Leads)"
+   },
+   "amount_spent": "$13,95 USD",
+   "impressions": "9742",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,10 USD",
+   "impressions": "94",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "273"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,89 USD",
+   "impressions": "3564",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-25",
+   "date_stop": "2026-04-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$1,07 USD",
+   "impressions": "228",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "291"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,41 USD",
+   "impressions": "12246",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,11 USD (Leads (form))"
+   },
+   "amount_spent": "$5,11 USD",
+   "impressions": "620",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,84 USD (Leads (form))"
+   },
+   "amount_spent": "$18,37 USD",
+   "impressions": "5311",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "14"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,20 USD (Leads)"
+   },
+   "amount_spent": "$16,81 USD",
+   "impressions": "10291",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,18 USD (Leads)"
+   },
+   "amount_spent": "$0,18 USD",
+   "impressions": "97",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "393"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,99 USD",
+   "impressions": "4156",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-26",
+   "date_stop": "2026-04-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,39 USD",
+   "impressions": "80",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "289"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,65 USD",
+   "impressions": "29228",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,90 USD (Leads (form))"
+   },
+   "amount_spent": "$5,79 USD",
+   "impressions": "843",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,66 USD (Leads (form))"
+   },
+   "amount_spent": "$16,97 USD",
+   "impressions": "8199",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "17"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,95 USD (Leads)"
+   },
+   "amount_spent": "$16,09 USD",
+   "impressions": "10041",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,18 USD",
+   "impressions": "88",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "359"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,78 USD",
+   "impressions": "4100",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-27",
+   "date_stop": "2026-04-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,15 USD (Leads)"
+   },
+   "amount_spent": "$8,15 USD",
+   "impressions": "1330",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "275"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,53 USD",
+   "impressions": "15653",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,87 USD (Leads (form))"
+   },
+   "amount_spent": "$4,87 USD",
+   "impressions": "756",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,34 USD (Leads (form))"
+   },
+   "amount_spent": "$14,74 USD",
+   "impressions": "4259",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,50 USD (Leads)"
+   },
+   "amount_spent": "$15,04 USD",
+   "impressions": "10347",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,13 USD",
+   "impressions": "103",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "349"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,88 USD",
+   "impressions": "3699",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-28",
+   "date_stop": "2026-04-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,86 USD (Leads)"
+   },
+   "amount_spent": "$8,59 USD",
+   "impressions": "1913",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "251"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,37 USD",
+   "impressions": "10826",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,78 USD (Leads (form))"
+   },
+   "amount_spent": "$4,78 USD",
+   "impressions": "669",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,78 USD (Leads (form))"
+   },
+   "amount_spent": "$15,13 USD",
+   "impressions": "4898",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,52 USD (Leads)"
+   },
+   "amount_spent": "$15,20 USD",
+   "impressions": "9263",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,17 USD",
+   "impressions": "106",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "367"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$4,81 USD",
+   "impressions": "3746",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-29",
+   "date_stop": "2026-04-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,94 USD (Leads)"
+   },
+   "amount_spent": "$11,76 USD",
+   "impressions": "1842",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "256"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,58 USD",
+   "impressions": "9655",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,61 USD (Leads (form))"
+   },
+   "amount_spent": "$5,22 USD",
+   "impressions": "869",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,88 USD (Leads (form))"
+   },
+   "amount_spent": "$16,95 USD",
+   "impressions": "5940",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,11 USD (Leads)"
+   },
+   "amount_spent": "$14,39 USD",
+   "impressions": "9816",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,14 USD",
+   "impressions": "90",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "355"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,17 USD",
+   "impressions": "5203",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "date_start": "2026-04-30",
+   "date_stop": "2026-04-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,27 USD (Leads)"
+   },
+   "amount_spent": "$11,36 USD",
+   "impressions": "2032",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  }
+ ]
+}

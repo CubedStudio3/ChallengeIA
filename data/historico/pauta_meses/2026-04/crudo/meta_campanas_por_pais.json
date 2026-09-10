@@ -1,0 +1,295 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-10",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-04-01",
+    "until": "2026-04-30"
+   },
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "sort": "spend_descending",
+   "limit": 100
+  },
+  "_paginacion": "Dos paginas: la primera trajo 15 filas y la segunda volvio vacia con el cursor de la primera (todos los demas parametros identicos). Muestra completa.",
+  "_nota": "Agregado por campana x pais de ABRIL 2026. Es la referencia contra la que reconcilia el desglose diario del mismo mes. No alimenta ningun analisis: el analisis sale de la corrida de la semana (regla 9 del pedido de Mercadeo).",
+  "_indicadores_vistos": [
+   "actions:lead",
+   "actions:leadgen.other",
+   "actions:link_click"
+  ]
+ },
+ "ad_entities": [
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9295"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$150,89 USD",
+   "impressions": "482398",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Link clicks)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "57"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,63 USD (Leads (form))"
+   },
+   "amount_spent": "$149,96 USD",
+   "impressions": "27742",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "228"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,36 USD (Leads (form))"
+   },
+   "amount_spent": "$538,69 USD",
+   "impressions": "182587",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "451"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,93 USD (Leads)"
+   },
+   "amount_spent": "$419,55 USD",
+   "impressions": "314631",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,63 USD (Leads)"
+   },
+   "amount_spent": "$3,77 USD",
+   "impressions": "3185",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8862"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$149,85 USD",
+   "impressions": "159284",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Link clicks)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120240784467900783",
+   "name": "Plan Free POS SV"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120241364534310783",
+   "name": "Qpayshop:Marzo:2026"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120241364534310783",
+   "name": "Qpayshop:Marzo:2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "86"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,15 USD (Leads)"
+   },
+   "amount_spent": "$271,02 USD",
+   "impressions": "68858",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120241847908000783",
+   "name": "Estrategia nuevo Qpaypro"
+  }
+ ]
+}
