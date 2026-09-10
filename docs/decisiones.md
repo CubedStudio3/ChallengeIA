@@ -3582,3 +3582,74 @@ fallas, con los largos (130, 408, 325, 175) en la evidencia.
 
 Y una que me pasó al escribir la prueba: **un comentario con backticks dentro
 de un template literal termina el literal.** Ya había pasado hoy; van dos.
+
+---
+
+## ADR-057 · La línea de canal publica una partición, no conjuntos solapados
+
+**Fecha:** 2026-09-10
+**Estado:** implementada, verificada en navegador
+**Reporte de Mercadeo (literal):** «En la tarjeta que estoy viendo dice “4 artes ·
+5 videos”, o sea 9 piezas. Pero la línea de canal dice “8 pauta · 5 orgánico · 5
+en los dos · 1 sin canal medido”, que suma 19. Y abajo dice “9 cartas”. Revisá
+si esos conteos hablan de lo mismo o de cosas distintas.»
+
+### La respuesta: la aritmética estaba bien, el rótulo estaba mal
+
+Medido sobre `disputar-el-flanco`:
+
+    9 cartas = 4 artes + 5 videos                                      ✓
+    partición real: 3 solo pauta + 0 solo orgánico + 5 en los dos
+                    + 1 sin canal                                = 9   ✓
+    lo que la línea MOSTRABA: 8 · 5 · 5 · 1              → suma 19      ✗
+
+`pauta: 8` **ya contenía** las 5 compartidas, y después las 5 volvían a aparecer
+como su propio trozo. Eran conjuntos solapados presentados como si fueran una
+lista de partes.
+
+Había una nota al lado que decía «los subtotales no suman el total». **Si hay
+que leer una nota para no sumar mal, el rótulo está mal**: no se arregla
+avisando, se arregla publicando grupos que sí sumen. La nota era mía y era una
+curita sobre un rótulo roto.
+
+### Lo que se publica ahora
+
+`canal.particion`: cuatro grupos que no se solapan —`solo_pauta`,
+`solo_organico`, `en_los_dos`, `sin_canal`— y el total al final, para que la
+suma se compruebe de un vistazo:
+
+    Canal   3 solo pauta · 5 en los dos · 1 sin canal medido   = 9 cartas
+
+Los agregados (`pauta: 8`) se conservan en el dato porque contestan otra
+pregunta —«¿en cuántas piezas se apoya la pauta?»— pero **ya no son lo que se
+pinta**.
+
+Y Python **se detiene** (`FallaRuidosa`) si la partición no suma el total: una
+carta que cayera en dos grupos o en ninguno invalidaría todos los números de la
+tarjeta, y eso no puede pasar en silencio (regla 3).
+
+### La regla permanente que pidió Mercadeo ya existía; faltaba la otra mitad
+
+«La cantidad de artes y videos de cada estrategia tiene que cuadrar con sus
+cartas» **ya se cumplía por construcción**: el plan CUENTA las cartas, no las
+declara aparte, y `prueba:estrategia` lo verificaba contra un conteo
+independiente desde ADR-055.
+
+Lo que NO existía es lo que Mercadeo encontró: que **la línea de canal sumara**.
+Ahora la prueba comprueba las tres cosas, y la tercera **sobre el texto de la
+pantalla**, con los números que la mesa lee. Verificarlo sobre el JSON habría
+pasado en verde mientras la pantalla mentía — el error estaba en el rótulo, no
+en la cuenta.
+
+Sabotaje comprobado: devolver el rótulo solapado levanta 3 fallas, con la línea
+exacta que reportó Mercadeo («8 pauta · 5 orgánico · 5 en los dos») en la
+evidencia.
+
+### Lección
+
+**Una nota al pie no arregla un rótulo.** Cuando un número necesita una
+advertencia para no leerse mal, el problema es el número que se eligió mostrar.
+Es la tercera vez en este proyecto que un dato correcto se publica de una forma
+que induce al error —los 123 anuncios de Square repetidos bajo GT y SV, el
+«105 leads» junto a una pantalla en GT, y esto— y las tres se arreglaron
+cambiando lo que se muestra, no agregando explicación.

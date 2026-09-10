@@ -27,6 +27,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from base.errores import FallaRuidosa
+
 # Tipos de tarea. 'pauta' es especial: nunca la ejecuta el sistema.
 TIPOS = ("video", "arte", "pauta", "dato")
 
@@ -526,7 +528,37 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
     ambos = _de(lambda cs: len(cs) > 1)
     ninguno = _de(lambda cs: not cs)
 
+    # La PARTICIÓN: cuatro grupos que no se solapan y suman el total. Es lo que
+    # se pinta.
+    #
+    # Antes se publicaban los conjuntos SOLAPADOS —«8 pauta · 5 orgánico · 5 en
+    # los dos · 1 sin canal»— porque `pauta` ya contenía las 5 compartidas y
+    # después las 5 volvían a aparecer como su propio trozo. Sumaba 19 sobre 9
+    # cartas. Lo reportó Mercadeo el 2026-09-10 y tenía razón: la aritmética
+    # estaba bien y el rótulo estaba mal.
+    #
+    # Había una nota que decía «los subtotales no suman el total». Si hay que
+    # leer una nota para no sumar mal, el rótulo está mal: no se arregla
+    # avisando, se arregla publicando grupos que sí sumen.
+    particion = {
+        "solo_pauta": len(solo_p),
+        "solo_organico": len(solo_o),
+        "en_los_dos": len(ambos),
+        "sin_canal": len(ninguno),
+    }
+    if sum(particion.values()) != len(sirve):
+        # Regla 3: falla ruidosamente. Una partición que no suma el total
+        # significa que una carta cayó en dos grupos o en ninguno, y eso
+        # invalida todos los números de la tarjeta.
+        raise FallaRuidosa(
+            f"La partición por canal de «{est['id']}» no suma el total de "
+            f"cartas: {particion} suma {sum(particion.values())} y hay "
+            f"{len(sirve)} cartas.")
+
     canal = {
+        "particion": particion,
+        # Los agregados se conservan, porque contestan otra pregunta —«¿en
+        # cuántas piezas se apoya la pauta?»— pero ya NO son lo que se pinta.
         "pauta": {"cuantas": len(solo_p) + len(ambos),
                   "solo": len(solo_p), "titulos": [c["titulo"] for c in solo_p]},
         "organico": {"cuantas": len(solo_o) + len(ambos),
@@ -534,13 +566,18 @@ def plan_de_produccion(est: dict, cartas: list[dict], equipo: dict,
         "ambos": {"cuantas": len(ambos), "titulos": [c["titulo"] for c in ambos]},
         "solo_ejecucion": {"cuantas": len(ninguno),
                            "titulos": [c["titulo"] for c in ninguno]},
+        "total": len(sirve),
         "_como_se_cuenta": (
             "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una "
             "predicción de dónde va a rendir. Meta Ads y la Ad Library son "
             "pauta —la Ad Library solo muestra anuncios pagados—; la cuenta "
-            "propia es orgánico. Una carta con las dos sirve en los dos, por "
-            "razones distintas, y se cuenta en los dos: los subtotales NO "
-            "suman el total."),
+            "propia es orgánico."),
+        "_por_que_particion": (
+            "Lo que se pinta son los cuatro grupos de `particion`, que no se "
+            "solapan y suman el total de cartas. `pauta` y `organico` de aquí "
+            "abajo SÍ se solapan —una carta con evidencia de los dos cuenta en "
+            "los dos— y por eso no se muestran como si fueran una lista de "
+            "partes."),
     }
 
     return {

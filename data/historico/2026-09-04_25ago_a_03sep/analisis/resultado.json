@@ -9297,6 +9297,12 @@
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 3 artes y 3 videos más.",
           "veredicto_corto": "Sobran 3 artes y 3 videos",
           "canal": {
+            "particion": {
+              "solo_pauta": 1,
+              "solo_organico": 0,
+              "en_los_dos": 2,
+              "sin_canal": 1
+            },
             "pauta": {
               "cuantas": 3,
               "solo": 1,
@@ -9322,7 +9328,9 @@
                 "Arte · Pasarela de Pagos"
               ]
             },
-            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+            "total": 4,
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
+            "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
           "pasos": [
             {
@@ -9406,6 +9414,12 @@
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 1 arte más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
           "veredicto_corto": "Sobra 1 arte · videos al tope",
           "canal": {
+            "particion": {
+              "solo_pauta": 3,
+              "solo_organico": 0,
+              "en_los_dos": 5,
+              "sin_canal": 1
+            },
             "pauta": {
               "cuantas": 8,
               "solo": 3,
@@ -9436,7 +9450,9 @@
                 "Arte · Pasarela de Pagos"
               ]
             },
-            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+            "total": 9,
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
+            "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
           "pasos": [
             {
@@ -9510,6 +9526,12 @@
           "veredicto_texto": "Cabe en la semana, y sobra capacidad para 4 artes más. Los videos quedan al tope exacto: ahí no entra nada que salga de la mesa.",
           "veredicto_corto": "Sobran 4 artes · videos al tope",
           "canal": {
+            "particion": {
+              "solo_pauta": 0,
+              "solo_organico": 0,
+              "en_los_dos": 5,
+              "sin_canal": 1
+            },
             "pauta": {
               "cuantas": 5,
               "solo": 0,
@@ -9536,7 +9558,9 @@
                 "Arte · Pasarela de Pagos"
               ]
             },
-            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico. Una carta con las dos sirve en los dos, por razones distintas, y se cuenta en los dos: los subtotales NO suman el total."
+            "total": 6,
+            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
+            "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
           "pasos": [
             {

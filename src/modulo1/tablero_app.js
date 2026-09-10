@@ -3130,26 +3130,33 @@
   }
 
   function lineaCanal(cn) {
-    /* UN renglón. Eran cinco filas más dos párrafos, y encima el paso 3
-       («Repartir las piezas») repetía los mismos números palabra por palabra:
-       tres bloques para una sola pregunta. El paso se quitó de Python y aquí
-       queda la línea; la explicación de cómo se cuenta vive en el pliegue.
+    /* UN renglón, y con los grupos que SÍ suman.
 
-       Pauta y orgánico NO se suman —una carta con evidencia de los dos cuenta
-       en los dos— y eso hay que decirlo donde está el número, no en una nota
-       al pie. Por eso «en los dos» aparece como su propio trozo: quien lee la
-       línea ve por qué 3 + 2 no da 4. */
+       Publicaba los conjuntos solapados —«8 pauta · 5 orgánico · 5 en los dos ·
+       1 sin canal»— sobre 9 cartas: sumaba 19. `pauta` ya contenía las 5
+       compartidas y después las 5 aparecían otra vez. Lo reportó Mercadeo el
+       2026-09-10; la aritmética estaba bien y el rótulo estaba mal.
+
+       Había una nota al lado que decía «no se suman». Si hay que leer una nota
+       para no sumar mal, el rótulo está mal. Ahora se pinta `canal.particion`,
+       que son cuatro grupos sin solapamiento cuya suma es el total de cartas —y
+       Python se detiene si no suma—. El total va al final, para que la suma se
+       pueda comprobar de un vistazo. */
+    var pt = cn.particion;
+    if (!pt) return "";
     var t = [];
-    if ((cn.pauta || {}).cuantas) t.push(ent(cn.pauta.cuantas) + " pauta");
-    if ((cn.organico || {}).cuantas) t.push(ent(cn.organico.cuantas) + " orgánico");
-    if ((cn.ambos || {}).cuantas) t.push(ent(cn.ambos.cuantas) + " en los dos");
-    if ((cn.solo_ejecucion || {}).cuantas)
-      t.push(ent(cn.solo_ejecucion.cuantas) + " sin canal medido");
+    if (pt.solo_pauta) t.push(ent(pt.solo_pauta) + " solo pauta");
+    if (pt.solo_organico) t.push(ent(pt.solo_organico) + " solo orgánico");
+    if (pt.en_los_dos) t.push(ent(pt.en_los_dos) + " en los dos");
+    if (pt.sin_canal) t.push(ent(pt.sin_canal) + " sin canal medido");
     if (!t.length) return "";
     return '<div class="mt-4 flex items-baseline gap-2 flex-wrap">' +
       '<span class="micro-et !mb-0 shrink-0">Canal</span>' +
       '<span class="text-[12.5px] text-slate-600 font-semibold">' +
-      esc(t.join(" · ")) + "</span></div>";
+      esc(t.join(" · ")) + "</span>" +
+      (cn.total ? '<span class="text-[11.5px] text-slate-400">= ' +
+        cuenta(cn.total, "carta", "cartas") + "</span>" : "") +
+      "</div>";
   }
 
   /* El sustento completo, en UN pliegue.

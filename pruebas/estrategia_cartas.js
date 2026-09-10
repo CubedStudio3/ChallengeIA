@@ -314,6 +314,74 @@ const VISIBLE = `(() => {
        rot.map(r => r.rotulo));
   }
 
+  console.log("\n══ los conteos de la tarjeta cuadran entre sí");
+  {
+    /* Regla permanente que pidió Mercadeo (2026-09-10): «la cantidad de artes
+       y videos que declara cada estrategia tiene que cuadrar exactamente con
+       las cartas de tareas que le corresponden».
+
+       Eso ya se cumplía por construcción —el plan CUENTA las cartas— y la
+       sección de arriba lo verifica contra un conteo independiente. Lo que NO
+       había, y es lo que Mercadeo encontró, es que la línea de CANAL sumara:
+       publicaba conjuntos solapados («8 pauta · 5 orgánico · 5 en los dos · 1
+       sin canal») que daban 19 sobre 9 cartas.
+
+       Se mide sobre el TEXTO DE LA PANTALLA, con los números que la mesa lee.
+       Comprobarlo sobre el JSON habría pasado en verde mientras la pantalla
+       mentía: el error estaba en el rótulo, no en la cuenta. */
+    const filas = await pg.evaluate(`(() => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      const cs = ((D.cartas || {}).cartas) || [];
+      const sirve = (x, id) => x.siempre || (x.estrategias || []).indexOf(id) >= 0;
+      const num = (txt) => (txt.match(/[0-9]+/g) || []).map(Number);
+      return (((D.estrategia || {}).estrategias) || []).map(e => {
+        const mias = cs.filter(c => sirve(c, e.id));
+        const pl = e.plan || {};
+        // La linea de canal, leida de la pantalla de la tarjeta.
+        const card = [...document.querySelectorAll('#estrategia div.bg-white')]
+          .filter(c => c.innerText.indexOf(e.nombre) >= 0)[0];
+        const ls = card ? card.innerText.split("\\n").map(x => x.trim()) : [];
+        const iC = ls.indexOf("CANAL");
+        const linea = iC >= 0 ? (ls[iC + 1] || "") : "";
+        const cola = iC >= 0 ? (ls[iC + 2] || "") : "";
+        return {
+          id: e.id, nombre: e.nombre, linea: linea, cola: cola,
+          cartas: mias.length,
+          artes: mias.filter(c => c.pieza === "arte").length,
+          videos: mias.filter(c => c.pieza === "video").length,
+          planArtes: ((pl.piezas || {}).arte || {}).cuantas,
+          planVideos: ((pl.piezas || {}).video || {}).cuantas,
+          particion: (pl.canal || {}).particion,
+        };
+      });
+    })()`);
+    for (const f of filas) {
+      /* 1 · artes + videos = cartas. La regla literal de Mercadeo. */
+      ok("  " + f.id + " · artes + videos = sus cartas",
+         f.planArtes + f.planVideos === f.cartas &&
+         f.planArtes === f.artes && f.planVideos === f.videos,
+         { artes: [f.planArtes, f.artes], videos: [f.planVideos, f.videos],
+           cartas: f.cartas });
+      /* 2 · la partición por canal suma esas mismas cartas. */
+      const pt = f.particion || {};
+      const suma = (pt.solo_pauta || 0) + (pt.solo_organico || 0) +
+                   (pt.en_los_dos || 0) + (pt.sin_canal || 0);
+      ok("  " + f.id + " · la partición por canal suma sus cartas",
+         suma === f.cartas, { particion: pt, suma: suma, cartas: f.cartas });
+      /* 3 · EL GUARDIA QUE FALTABA: los números de la LÍNEA que se lee en la
+         pantalla suman el total. Si alguien vuelve a publicar conjuntos
+         solapados, esto se pone rojo aunque el JSON esté bien. */
+      const grupos = (f.linea.match(/[0-9]+/g) || []).map(Number);
+      const decl = (f.cola.match(/^=\s*([0-9]+)/) || [])[1];
+      const total = decl === undefined ? null : Number(decl);
+      ok("  " + f.id + " · los números de la línea de canal suman el total",
+         grupos.length > 0 && total === f.cartas &&
+         grupos.reduce((a, b) => a + b, 0) === f.cartas,
+         { linea: f.linea, cola: f.cola, grupos: grupos, total: total,
+           cartas: f.cartas });
+    }
+  }
+
   console.log("\n══ la tarjeta se lee de un vistazo (pliegue cerrado)");
   {
     /* El pedido de Mercadeo (2026-09-09): «es para una reunión y la idea es
