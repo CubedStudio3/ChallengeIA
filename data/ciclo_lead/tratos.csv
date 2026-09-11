@@ -1,0 +1,238 @@
+mes,pais,fuente,etapa,razon,n,monto
+2026-01,,,closed won,,1,0
+2026-01,,Facebook Ads,Stand By,,1,1850
+2026-01,,Meta Ads,closed lost,% comisión alto,2,3700
+2026-01,,Meta Ads,closed lost,No contesta,6,10915
+2026-01,Guatemala,Partner,closed won,,2,1850
+2026-01,Guatemala,Chat / WhatsApp,closed won,,15,27025
+2026-01,Guatemala,Chat / WhatsApp,Stand By,,4,7050
+2026-01,Guatemala,Cliente se comunicó,closed won,,2,3700
+2026-01,Guatemala,Cliente se comunicó,Stand By,,2,3515
+2026-01,Guatemala,Facebook Ads,Stand By,,1,1850
+2026-01,Guatemala,Facebook Lead,closed won,,1,1850
+2026-01,Guatemala,Llamada en Frio,closed won,,5,7460
+2026-01,Guatemala,Llamada en Frio,Stand By,,1,1850
+2026-01,Guatemala,Meta Ads,closed won,,3,5550
+2026-01,Guatemala,Meta Ads,Stand By,,1,1665
+2026-01,Guatemala,Página web,closed won,,56,0
+2026-01,Guatemala,Referido,closed won,,1,1850
+2026-01,Guatemala,Referido,Stand By,,1,1850
+2026-01,Guatemala,Llamada en Frio,closed lost,No le es funcional,1,1850
+2026-01,Guatemala,Meta Ads,closed lost,No le es funcional,1,1850
+2026-01,Guatemala,Meta Ads,closed lost,Negocio con operaciones ilegales,1,1850
+2026-01,Guatemala,Chat / WhatsApp,closed lost,Otra afiliación con otra empresa,2,3000
+2026-01,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,2,3330
+2026-01,Guatemala,Chat / WhatsApp,closed lost,No contesta,4,7030
+2026-01,Guatemala,Llamada en Frio,closed lost,No contesta,1,1850
+2026-01,Guatemala,Meta Ads,closed lost,No contesta,7,12415
+2026-01,Guatemala,Meta Ads,closed lost,Anualidad muy alta,2,3515
+2026-01,Guatemala,Chat / WhatsApp,closed lost,Solo quería información,3,5550
+2026-01,Guatemala,Llamada en Frio,closed lost,Solo quería información,1,1850
+2026-02,,,Calificado Interesado,,1,6.17
+2026-02,,Meta Ads,closed lost,Otra afiliación con otra empresa,1,1572.5
+2026-02,,Facebook Ads,closed lost,No contesta,1,1850
+2026-02,Guatemala,Chat / WhatsApp,closed won,,7,11965
+2026-02,Guatemala,Chat / WhatsApp,Stand By,,5,9250
+2026-02,Guatemala,Cliente se comunicó,closed won,,1,1850
+2026-02,Guatemala,Facebook Lead,Stand By,,1,1850
+2026-02,Guatemala,Llamada en Frio,closed won,,1,1850
+2026-02,Guatemala,Meta Ads,closed won,,3,5350
+2026-02,Guatemala,Meta Ads,Stand By,,3,5550
+2026-02,Guatemala,Página web,closed won,,60,0
+2026-02,Guatemala,Referido,closed won,,2,3700
+2026-02,Guatemala,Chat / WhatsApp,closed lost,No tiene listo el negocio,1,1850
+2026-02,Guatemala,Meta Ads,closed lost,No tiene listo el negocio,1,1665
+2026-02,Guatemala,Meta Ads,closed lost,Necesitaba POS físico,1,1850
+2026-02,Guatemala,Chat / WhatsApp,closed lost,Otra afiliación con otra empresa,1,1500
+2026-02,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,6,11100
+2026-02,Guatemala,Chat / WhatsApp,closed lost,No contesta,1,9000
+2026-02,Guatemala,Facebook Lead,closed lost,No contesta,2,3700
+2026-02,Guatemala,Llamada en Frio,closed lost,No contesta,1,1850
+2026-02,Guatemala,Meta Ads,closed lost,No contesta,10,18315
+2026-02,Guatemala,Meta Ads,closed lost,Anualidad muy alta,2,3700
+2026-02,Guatemala,Chat / WhatsApp,closed lost,Solo quería información,3,5550
+2026-02,Guatemala,Cliente se comunicó,closed lost,Solo quería información,2,3700
+2026-02,Guatemala,Facebook Lead,closed lost,Solo quería información,1,1850
+2026-02,Guatemala,Meta Ads,closed lost,Solo quería información,2,3700
+2026-02,El Salvador,,closed won,,1,0
+2026-02,El Salvador,Página web,closed won,,3,0
+2026-02,El Salvador,Meta Ads,closed lost,Anualidad muy alta,1,1915.38
+2026-02,El Salvador,Meta Ads,closed lost,No quiere cuenta en Banco Atlántida,1,4000
+2026-03,,,closed won,,2,1850
+2026-03,Guatemala,Chat / WhatsApp,closed won,,3,8850
+2026-03,Guatemala,Chat / WhatsApp,Stand By,,3,11850
+2026-03,Guatemala,Cliente se comunicó,closed won,,2,3515
+2026-03,Guatemala,Cliente se comunicó,Stand By,,1,1850
+2026-03,Guatemala,Meta Ads,Stand By,,4,7215
+2026-03,Guatemala,Página web,closed won,,71,0
+2026-03,Guatemala,Referido,closed won,,3,5350
+2026-03,Guatemala,Meta Ads,closed lost,No le es funcional,2,3700
+2026-03,Guatemala,Chat / WhatsApp,closed lost,No tiene listo el negocio,1,1850
+2026-03,Guatemala,Meta Ads,closed lost,Necesitaba POS físico,1,1665
+2026-03,Guatemala,Chat / WhatsApp,closed lost,Otra afiliación con otra empresa,2,3500
+2026-03,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,2,3350
+2026-03,Guatemala,WHATSAPP - Qpaypro,closed lost,Otra afiliación con otra empresa,1,1850
+2026-03,Guatemala,Chat / WhatsApp,closed lost,No contesta,2,3700
+2026-03,Guatemala,Meta Ads,closed lost,No contesta,8,14430
+2026-03,Guatemala,Página web,closed lost,No contesta,1,1850
+2026-03,Guatemala,Meta Ads,closed lost,Anualidad muy alta,2,3700
+2026-03,Guatemala,Meta Ads,closed lost,Solo quería información,3,5550
+2026-03,Guatemala,Meta Ads,closed lost,Necesitaba cuotas BAC y BANRURAL,2,3500
+2026-03,El Salvador,Facebook Lead,closed won,,1,1915.38
+2026-03,El Salvador,Meta Ads,Calificado Interesado,,2,3830.77
+2026-03,El Salvador,Meta Ads,Necesita validarlo con alguien más,,1,1915.38
+2026-03,El Salvador,Página web,closed won,,4,0
+2026-03,El Salvador,Facebook Lead,closed lost,No contesta,1,1915.38
+2026-03,El Salvador,Meta Ads,closed lost,No contesta,1,1915.38
+2026-03,El Salvador,Meta Ads,closed lost,Anualidad muy alta,2,2164.38
+2026-03,El Salvador,Meta Ads,closed lost,Solo quería información,1,1915.38
+2026-04,,,Calificado Interesado,,1,0
+2026-04,,,closed won,,1,1320
+2026-04,Guatemala,Partner,closed won,,1,1850
+2026-04,Guatemala,Chat / WhatsApp,closed won,,4,7400
+2026-04,Guatemala,Chat / WhatsApp,Stand By,,1,1850
+2026-04,Guatemala,Cliente se comunicó,closed won,,1,0
+2026-04,Guatemala,Eventos,closed won,,1,0
+2026-04,Guatemala,Llamada en Frio,closed won,,2,3500
+2026-04,Guatemala,Meta Ads,closed won,,1,0
+2026-04,Guatemala,Página web,closed won,,62,0
+2026-04,Guatemala,Referido,closed won,,2,3350
+2026-04,Guatemala,WHATSAPP - Qpaypro,closed won,,1,1850
+2026-04,Guatemala,Meta Ads,closed lost,No le es funcional,1,1500
+2026-04,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,1,1850
+2026-04,Guatemala,Chat / WhatsApp,closed lost,No contesta,2,3700
+2026-04,Guatemala,Meta Ads,closed lost,No contesta,1,1665
+2026-04,Guatemala,Cliente se comunicó,closed lost,Solo quería información,1,1665
+2026-04,El Salvador,Chat / WhatsApp,closed won,,1,0
+2026-04,El Salvador,Meta Ads,closed won,,11,0
+2026-04,El Salvador,Página web,closed won,,4,0
+2026-04,El Salvador,Meta Ads,closed won,Necesitaba POS físico,1,0
+2026-05,Guatemala,Partner,closed won,,1,1850
+2026-05,Guatemala,Chat / WhatsApp,closed won,,8,13515
+2026-05,Guatemala,Cliente se comunicó,closed won,,4,7400
+2026-05,Guatemala,Cliente se comunicó,Stand By,,1,1850
+2026-05,Guatemala,Llamada en Frio,closed won,,1,1572.5
+2026-05,Guatemala,Meta Ads,Interesado - Negociando,,1,1850
+2026-05,Guatemala,Página web,closed won,,87,0
+2026-05,Guatemala,WHATSAPP - Qpaypro,closed won,,1,1650
+2026-05,Guatemala,Cliente se comunicó,closed won,No tiene página Web o Redes Sociales,1,1665
+2026-05,Guatemala,Meta Ads,closed lost,No le es funcional,1,1850
+2026-05,Guatemala,Chat / WhatsApp,closed lost,Negocio con operaciones ilegales,1,1650
+2026-05,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,2,3350
+2026-05,Guatemala,Página web,closed lost,Otra afiliación con otra empresa,1,1850
+2026-05,Guatemala,Meta Ads,closed lost,No contesta,2,3700
+2026-05,Guatemala,Meta Ads,closed lost,Anualidad muy alta,1,1650
+2026-05,Guatemala,,closed lost,Solo quería información,1,1572.5
+2026-05,Guatemala,Cliente se comunicó,closed lost,Solo quería información,1,1850
+2026-05,Guatemala,Meta Ads,closed lost,Solo quería información,1,1850
+2026-05,El Salvador,Cliente se comunicó,Stand By,,1,1538.46
+2026-05,El Salvador,Meta Ads,closed won,,4,0
+2026-06,,Meta Ads,Stand By,No contesta,1,1850
+2026-06,Guatemala,,closed won,,1,3500
+2026-06,Guatemala,Partner,closed won,,1,1850
+2026-06,Guatemala,Chat / WhatsApp,closed won,,3,5180
+2026-06,Guatemala,Chat / WhatsApp,Stand By,,1,1850
+2026-06,Guatemala,Cliente se comunicó,closed won,,3,5200
+2026-06,Guatemala,Llamada en Frio,closed won,,1,1850
+2026-06,Guatemala,Meta Ads,Calificado Interesado,,1,1665
+2026-06,Guatemala,Meta Ads,Interesado listo para pagar,,1,1500
+2026-06,Guatemala,Meta Ads,closed won,,1,1850
+2026-06,Guatemala,Meta Ads,Stand By,,12,21830
+2026-06,Guatemala,Página web,closed won,,62,1850
+2026-06,Guatemala,Referido,Calificado Interesado,,1,1850
+2026-06,Guatemala,Meta Ads,closed lost,No tiene Patente,1,1850
+2026-06,Guatemala,Meta Ads,closed lost,No le es funcional,4,7400
+2026-06,Guatemala,Meta Ads,closed lost,Negocio con operaciones ilegales,1,1850
+2026-06,Guatemala,Meta Ads,closed lost,Necesitaba POS físico,1,1850
+2026-06,Guatemala,Llamada en Frio,closed lost,Otra afiliación con otra empresa,1,1665
+2026-06,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,1,1850
+2026-06,Guatemala,Meta Ads,closed lost,% comisión alto,3,5350
+2026-06,Guatemala,Chat / WhatsApp,closed lost,No contesta,1,1850
+2026-06,Guatemala,Llamada en Frio,closed lost,No contesta,1,1850
+2026-06,Guatemala,Meta Ads,closed won,No contesta,1,1665
+2026-06,Guatemala,Meta Ads,closed lost,No contesta,2,3700
+2026-06,Guatemala,Meta Ads,closed lost,Anualidad muy alta,2,3700
+2026-06,Guatemala,Llamada en Frio,closed lost,Solo quería información,1,1850
+2026-06,Guatemala,Meta Ads,closed lost,Solo quería información,2,3700
+2026-06,El Salvador,Cliente se comunicó,closed won,,1,1915.38
+2026-06,El Salvador,Meta Ads,closed won,,6,0
+2026-06,El Salvador,Página web,closed won,,4,0
+2026-06,El Salvador,Cliente se comunicó,closed lost,Otra afiliación con otra empresa,1,1915.38
+2026-07,Guatemala,Partner,closed won,,2,3045
+2026-07,Guatemala,Chat / WhatsApp,closed won,,1,3200
+2026-07,Guatemala,Cliente se comunicó,closed won,,3,6032.5
+2026-07,Guatemala,Cliente se comunicó,Stand By,,1,1850
+2026-07,Guatemala,Llamada en Frio,closed won,,2,3515
+2026-07,Guatemala,Meta Ads,Calificado Interesado,,1,3999
+2026-07,Guatemala,Meta Ads,Necesita validarlo con alguien más,,1,1850
+2026-07,Guatemala,Meta Ads,Interesado - Negociando,,1,1658
+2026-07,Guatemala,Meta Ads,closed won,,4,6945
+2026-07,Guatemala,Meta Ads,Stand By,,11,22864.5
+2026-07,Guatemala,Página web,closed won,,52,7400
+2026-07,Guatemala,Referido,closed won,,1,1850
+2026-07,Guatemala,Meta Ads,closed lost,No tiene RTU,1,1950
+2026-07,Guatemala,Meta Ads,closed lost,No le es funcional,2,3800
+2026-07,Guatemala,WHATSAPP - Qpaypro,closed lost,No le es funcional,1,1850
+2026-07,Guatemala,Meta Ads,closed lost,No tiene listo el negocio,2,3700
+2026-07,Guatemala,Llamada en Frio,closed lost,Otra afiliación con otra empresa,1,1850
+2026-07,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,9,16323
+2026-07,Guatemala,Página web,closed lost,Otra afiliación con otra empresa,1,1850
+2026-07,Guatemala,Meta Ads,closed lost,% comisión alto,1,1850
+2026-07,Guatemala,Chat / WhatsApp,closed lost,No contesta,3,3515
+2026-07,Guatemala,Cliente se comunicó,closed lost,No contesta,1,1850
+2026-07,Guatemala,Meta Ads,closed lost,No contesta,2,3422.5
+2026-07,Guatemala,Meta Ads,closed lost,Solo quería información,1,1572.5
+2026-07,El Salvador,,closed won,,1,0
+2026-07,El Salvador,Facebook Lead,closed won,,1,0
+2026-07,El Salvador,Llamada en Frio,closed won,,1,0
+2026-07,El Salvador,Meta Ads,closed won,,1,0
+2026-07,El Salvador,Página web,closed won,,2,0
+2026-07,El Salvador,Referido,closed won,,5,0
+2026-08,Guatemala,,closed won,,1,21178
+2026-08,Guatemala,Partner,closed won,,1,1290
+2026-08,Guatemala,Chat / WhatsApp,closed won,,1,1950
+2026-08,Guatemala,Cliente se comunicó,Necesita validarlo con alguien más,,1,1950
+2026-08,Guatemala,Cliente se comunicó,closed won,,3,5850
+2026-08,Guatemala,Facebook Ads,Calificado Interesado,,1,1950
+2026-08,Guatemala,Facebook Ads,closed won,,1,1500
+2026-08,Guatemala,Facebook Ads,Stand By,,2,3900
+2026-08,Guatemala,Llamada en Frio,closed won,,1,1950
+2026-08,Guatemala,Meta Ads,Calificado Interesado,,2,3900
+2026-08,Guatemala,Meta Ads,Necesita validarlo con alguien más,,2,3900
+2026-08,Guatemala,Meta Ads,Interesado - Negociando,,1,1950
+2026-08,Guatemala,Meta Ads,Stand By,,5,9165
+2026-08,Guatemala,Página web,Necesita validarlo con alguien más,,2,3900
+2026-08,Guatemala,Página web,Interesado listo para pagar,,2,0
+2026-08,Guatemala,Página web,closed won,,50,195
+2026-08,Guatemala,Página web,Stand By,,2,2145
+2026-08,Guatemala,WHATSAPP - Qpaypro,closed won,,1,1950
+2026-08,Guatemala,Llamada en Frio,closed lost,No le es funcional,1,1950
+2026-08,Guatemala,Meta Ads,closed lost,No le es funcional,1,1950
+2026-08,Guatemala,Página web,closed lost,No le es funcional,1,1950
+2026-08,Guatemala,Meta Ads,closed lost,No tiene listo el negocio,1,3950
+2026-08,Guatemala,Facebook Ads,closed lost,Otra afiliación con otra empresa,1,1950
+2026-08,Guatemala,Meta Ads,closed won,Otra afiliación con otra empresa,1,195
+2026-08,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,2,3900
+2026-08,Guatemala,Página web,closed lost,Otra afiliación con otra empresa,1,1950
+2026-08,Guatemala,Meta Ads,closed lost,Solo quería información,1,1950
+2026-08,Guatemala,Meta Ads,closed lost,Necesitaba cuotas BAC y BANRURAL,1,1950
+2026-08,El Salvador,Cliente se comunicó,Interesado listo para pagar,,2,3846.15
+2026-08,El Salvador,Facebook Lead,Calificado Interesado,,1,1923.08
+2026-08,El Salvador,Meta Ads,Calificado Interesado,,11,21153.85
+2026-08,El Salvador,Meta Ads,Necesita validarlo con alguien más,,2,7692.31
+2026-08,El Salvador,Página web,closed won,,1,0
+2026-08,El Salvador,Meta Ads,closed lost,Negocio con operaciones ilegales,1,1923.08
+2026-09,Guatemala,Chat / WhatsApp,closed won,,2,5250
+2026-09,Guatemala,Cliente se comunicó,Necesita validarlo con alguien más,,1,1950
+2026-09,Guatemala,Cliente se comunicó,closed won,,1,3300
+2026-09,Guatemala,Llamada en Frio,Calificado Interesado,,2,3900
+2026-09,Guatemala,Llamada en Frio,closed won,,1,1657.5
+2026-09,Guatemala,Meta Ads,Calificado Interesado,,1,1950
+2026-09,Guatemala,Página web,Interesado - Negociando,,1,1950
+2026-09,Guatemala,Página web,Interesado listo para pagar,,1,0
+2026-09,Guatemala,Página web,closed won,,21,7599
+2026-09,Guatemala,Referido,closed won,,1,3950
+2026-09,Guatemala,WHATSAPP - Qpaypro,Necesita validarlo con alguien más,,1,1950
+2026-09,Guatemala,Meta Ads,closed lost,Otra afiliación con otra empresa,1,1950
+2026-09,El Salvador,Meta Ads,Necesita validarlo con alguien más,,3,5769.23
+2026-09,El Salvador,Meta Ads,closed won,,1,1923.08

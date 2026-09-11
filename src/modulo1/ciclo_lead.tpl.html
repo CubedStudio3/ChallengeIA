@@ -1,0 +1,728 @@
+<title>Ciclo del Lead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --plano:#f2f4f5; --sup:#fdfdfc; --sup2:#f7f8f8; --linea:#dfe3e5; --linea2:#eaedee;
+  --tinta:#16181a; --tinta2:#4a5157; --tinta3:#7c858c;
+  --mercadeo:#2a78d6; --ventas:#eb6834; --producto:#1baf7a; --abierto:#828a94; --cuarto:#eda100;
+  --e1:#86b6ef; --e2:#5598e7; --e3:#2a78d6; --e4:#1c5cab; --e5:#104281;
+  --alerta:#c0392b; --alerta-fondo:#fbeeec;
+  --sombra:0 1px 2px rgba(16,24,32,.06),0 1px 1px rgba(16,24,32,.04);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plano:#0d0f11; --sup:#16181a; --sup2:#1c1f22; --linea:#2b2f33; --linea2:#232629;
+    --tinta:#f0f2f3; --tinta2:#b3bbc1; --tinta3:#848d94;
+    --mercadeo:#3987e5; --ventas:#d95926; --producto:#199e70; --abierto:#8d959e; --cuarto:#c98500;
+    --e1:#b7d3f6; --e2:#86b6ef; --e3:#3987e5; --e4:#256abf; --e5:#184f95;
+    --alerta:#e8705f; --alerta-fondo:#2a1a17;
+    --sombra:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --plano:#0d0f11; --sup:#16181a; --sup2:#1c1f22; --linea:#2b2f33; --linea2:#232629;
+  --tinta:#f0f2f3; --tinta2:#b3bbc1; --tinta3:#848d94;
+  --mercadeo:#3987e5; --ventas:#d95926; --producto:#199e70; --abierto:#8d959e; --cuarto:#c98500;
+  --e1:#b7d3f6; --e2:#86b6ef; --e3:#3987e5; --e4:#256abf; --e5:#184f95;
+  --alerta:#e8705f; --alerta-fondo:#2a1a17;
+  --sombra:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{background:var(--plano);color:var(--tinta);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:15px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
+.envoltura{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+h1,h2,h3{font-family:Archivo,"IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(26px,4.4vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.12}
+h2{font-size:clamp(19px,2.6vw,23px);font-weight:600;letter-spacing:-.01em}
+h3{font-size:15px;font-weight:600}
+p{margin:0}
+.mono,.cifra{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rotulo{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--tinta3);font-weight:500}
+
+/* ── encabezado ── */
+.cabecera{padding-block:34px 22px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;
+  justify-content:space-between;border-bottom:1px solid var(--linea)}
+.cabecera .meta{display:flex;gap:26px;flex-wrap:wrap}
+.cabecera .meta div{display:flex;flex-direction:column;gap:2px}
+.cabecera .meta b{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--tinta)}
+.pregunta{font-size:16px;color:var(--tinta2);max-width:62ch;margin-top:10px}
+
+/* ── barra de filtros ── */
+.barra{position:sticky;top:0;z-index:40;background:var(--sup);border-bottom:1px solid var(--linea);
+  box-shadow:var(--sombra);margin-bottom:30px}
+.barra .interior{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:10px;
+  display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end}
+.campo{display:flex;flex-direction:column;gap:4px;min-width:0}
+.campo select{font-family:inherit;font-size:13.5px;color:var(--tinta);background:var(--sup2);
+  border:1px solid var(--linea);border-radius:7px;padding:6px 9px;min-width:132px;max-width:100%}
+.campo select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--mercadeo);outline-offset:2px}
+.reiniciar{font-family:inherit;font-size:13px;color:var(--tinta2);background:none;
+  border:1px solid var(--linea);border-radius:7px;padding:7px 13px;cursor:pointer}
+.reiniciar:hover{background:var(--sup2);color:var(--tinta)}
+.en-vista{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--tinta2);font-variant-numeric:tabular-nums;padding-bottom:7px}
+.en-vista b{color:var(--tinta);font-weight:600}
+
+/* ── secciones ── */
+section{margin-bottom:44px}
+.titulo-sec{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.nota-sec{color:var(--tinta2);font-size:14px;max-width:76ch;margin-bottom:16px}
+
+/* ── KPIs ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(184px,100%),1fr));gap:12px}
+.kpi{background:var(--sup);border:1px solid var(--linea);border-radius:10px;padding:14px 15px 15px;
+  display:flex;flex-direction:column;gap:3px}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:29px;font-weight:600;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .d{font-size:12.5px;color:var(--tinta3)}
+.kpi.alerta{border-color:var(--alerta);background:var(--alerta-fondo)}
+.kpi.alerta .v{color:var(--alerta)}
+.kpi.alerta .d{color:var(--alerta)}
+
+/* ── veredicto ── */
+.veredicto{background:var(--sup);border:1px solid var(--linea);border-radius:10px;padding:18px}
+.apilada{display:flex;width:100%;height:46px;gap:2px;margin:6px 0 12px}
+.apilada span{display:flex;align-items:center;justify-content:center;color:#fff;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;overflow:hidden;
+  border-radius:2px;cursor:default}
+.apilada span:first-child{border-radius:4px 2px 2px 4px}
+.apilada span:last-child{border-radius:2px 4px 4px 2px}
+.leyenda{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:14px}
+.leyenda i{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}
+.leyenda span{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--tinta2)}
+.leyenda b{color:var(--tinta);font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-weight:600}
+.lectura{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;
+  border-top:1px solid var(--linea2);padding-top:14px}
+.lectura h3{margin-bottom:5px}
+.lectura p{font-size:14px;color:var(--tinta2)}
+.lectura b{color:var(--tinta);font-weight:600}
+
+/* ── embudo ── */
+.embudo{display:flex;flex-direction:column;gap:7px}
+.paso{background:var(--sup);border:1px solid var(--linea);border-radius:9px;padding:11px 14px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center;position:relative;overflow:hidden}
+.paso .relleno{position:absolute;inset:0;right:auto;opacity:.16;z-index:0}
+.paso>*{position:relative;z-index:1}
+.paso .nom{font-weight:600;font-size:14.5px}
+.paso .sub{font-size:12.5px;color:var(--tinta2);grid-column:1}
+.paso .num{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:600;
+  font-variant-numeric:tabular-nums;grid-row:1/3;text-align:right}
+.salto{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--tinta3);
+  padding-left:14px;display:flex;align-items:center;gap:6px}
+.salto em{font-style:normal;color:var(--ventas);font-weight:600}
+
+/* ── tablas ── */
+.marco-tabla{overflow-x:auto;background:var(--sup);border:1px solid var(--linea);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+th,td{text-align:right;padding:9px 12px;border-bottom:1px solid var(--linea2);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:150px}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--tinta3);font-weight:500;border-bottom:1px solid var(--linea);
+  position:sticky;top:0;background:var(--sup)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.total td{font-weight:600;background:var(--sup2)}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+td.clave{font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-family:"IBM Plex Mono",monospace;
+  border:1px solid var(--linea);border-radius:20px;padding:1px 9px 1px 6px;color:var(--tinta2);white-space:nowrap}
+.chip i{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+
+/* ── paneles ── */
+.paneles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:18px}
+.panel{background:var(--sup);border:1px solid var(--linea);border-radius:10px;padding:16px 17px}
+.panel h3{margin-bottom:3px}
+.panel .sub{font-size:13px;color:var(--tinta3);margin-bottom:14px}
+.fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:9px 0;border-top:1px solid var(--linea2)}
+.fila:first-of-type{border-top:none}
+.fila .et{font-size:14px;font-weight:500;min-width:0;overflow-wrap:anywhere}
+.fila .et .chip{white-space:normal}
+.fila .ct{font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums;
+  text-align:right;font-weight:600}
+.fila .pct{font-size:12px;color:var(--tinta3);text-align:right;font-family:"IBM Plex Mono",monospace}
+.barrita{grid-column:1/3;height:5px;border-radius:3px;background:var(--linea2);overflow:hidden;margin-top:3px}
+.barrita i{display:block;height:100%;border-radius:3px}
+details{margin-top:10px;border-top:1px solid var(--linea2);padding-top:9px}
+summary{cursor:pointer;font-size:12.5px;color:var(--tinta2);font-family:"IBM Plex Mono",monospace}
+summary:hover{color:var(--tinta)}
+details ul{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
+details li{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--tinta2)}
+details li b{font-family:"IBM Plex Mono",monospace;color:var(--tinta);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* ── gráficas ── */
+.graficas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:18px}
+.tarjeta-g{background:var(--sup);border:1px solid var(--linea);border-radius:10px;padding:16px 17px}
+.tarjeta-g h3{margin-bottom:3px}
+.tarjeta-g .sub{font-size:13px;color:var(--tinta3);margin-bottom:14px}
+svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.eje{fill:var(--tinta3);font-family:"IBM Plex Mono",monospace;font-size:10px}
+.rejilla{stroke:var(--linea2);stroke-width:1}
+.valor-g{fill:var(--tinta2);font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500}
+
+/* ── recomendaciones ── */
+.recos{display:flex;flex-direction:column;gap:12px;counter-reset:reco}
+.reco{background:var(--sup);border:1px solid var(--linea);border-radius:10px;padding:15px 17px;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.reco::before{counter-increment:reco;content:counter(reco);grid-row:1/4;
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--tinta3);
+  width:26px;height:26px;border:1px solid var(--linea);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-top:2px}
+.reco h3{font-size:15px}
+.reco .arg{font-size:14px;color:var(--tinta2)}
+.reco .cifras{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--tinta3);
+  font-variant-numeric:tabular-nums;margin-top:2px}
+.reco .cifras b{color:var(--tinta);font-weight:600}
+
+/* ── notas ── */
+.notas{background:var(--sup2);border:1px solid var(--linea);border-radius:10px;padding:18px 20px}
+.notas dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;font-size:13.5px}
+.notas dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--tinta3);padding-top:3px;white-space:nowrap}
+.notas dd{margin:0;color:var(--tinta2)}
+.notas dd b{color:var(--tinta);font-weight:600}
+.aviso{display:flex;gap:9px;align-items:flex-start;background:var(--alerta-fondo);border:1px solid var(--alerta);
+  border-radius:8px;padding:10px 13px;font-size:13.5px;color:var(--tinta);margin-bottom:14px}
+.aviso .rotulo{color:var(--alerta)}
+
+/* ── tooltip ── */
+#globo{position:fixed;pointer-events:none;z-index:99;background:var(--tinta);color:var(--plano);
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;padding:6px 9px;border-radius:6px;
+  opacity:0;transition:opacity .1s;max-width:260px;line-height:1.45}
+#globo.ver{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:700px){
+  table{min-width:560px}
+  .en-vista{margin-left:0;width:100%;padding-bottom:0;white-space:normal}
+  .notas dl{grid-template-columns:1fr;gap:3px 0}
+  .notas dt{white-space:normal;padding-top:10px}
+  .notas{padding:16px}
+  .campo select{min-width:0;width:100%}
+  .campo{flex:1 1 132px}
+  .cabecera .meta{gap:16px}
+  .kpi .v{font-size:26px}
+}
+</style>
+
+<div class="barra"><div class="interior" id="filtros"></div></div>
+
+<div class="envoltura">
+  <header class="cabecera">
+    <div>
+      <p class="rotulo">QPayPro · Mercadeo y Ventas</p>
+      <h1>Ciclo del Lead</h1>
+      <p class="pregunta">¿Las ventas no cierran porque los leads son malos o porque el equipo
+        de ventas no está cerrando? Todo lo que sigue se recalcula con los filtros de arriba.</p>
+    </div>
+    <div class="meta" id="meta-cabecera"></div>
+  </header>
+
+  <main>
+    <section id="s-kpis">
+      <div class="titulo-sec"><h2>Los cinco números</h2></div>
+      <p class="nota-sec">En rojo si la calificación baja de 10% o el cierre sobre Tratos baja de 40%.</p>
+      <div class="kpis" id="kpis"></div>
+    </section>
+
+    <section id="s-veredicto">
+      <div class="titulo-sec"><h2>¿Son leads malos o es el cierre?</h2></div>
+      <p class="nota-sec">Reparto de <b>todos</b> los leads que no terminaron en venta, según el
+        área a la que apunta el motivo de su caída. Cada lead cuenta una sola vez.</p>
+      <div class="veredicto">
+        <div class="leyenda" id="leyenda-v"></div>
+        <div class="apilada" id="apilada-v"></div>
+        <div class="lectura" id="lectura-v"></div>
+      </div>
+    </section>
+
+    <section id="s-embudo">
+      <div class="titulo-sec"><h2>El embudo</h2></div>
+      <p class="nota-sec">Cinco escalones. El salto entre uno y otro dice cuántos se quedaron.</p>
+      <div class="embudo" id="embudo"></div>
+    </section>
+
+    <section id="s-canal">
+      <div class="titulo-sec"><h2>Rendimiento por canal</h2></div>
+      <p class="nota-sec">La columna que importa es la última: de cada 100 leads que entraron por
+        ese canal, cuántos terminaron en una venta.</p>
+      <div class="marco-tabla"><table id="tabla-canal"></table></div>
+    </section>
+
+    <section id="s-paneles">
+      <div class="titulo-sec"><h2>Dónde se caen</h2></div>
+      <p class="nota-sec">A la izquierda, los que nunca llegaron a Trato. A la derecha, los que
+        sí llegaron y se perdieron.</p>
+      <div class="paneles">
+        <div class="panel" id="panel-buckets"></div>
+        <div class="panel" id="panel-razones"></div>
+      </div>
+    </section>
+
+    <section id="s-mes">
+      <div class="titulo-sec"><h2>Mes a mes</h2></div>
+      <p class="nota-sec">Dos gráficas separadas, nunca doble eje: el volumen por canal y la tasa
+        de calificación son magnitudes distintas.</p>
+      <div class="graficas">
+        <div class="tarjeta-g">
+          <h3>Leads por canal</h3><p class="sub">Conteo absoluto, apilado</p>
+          <div class="leyenda" id="leyenda-mes"></div>
+          <div id="g-mes"></div>
+        </div>
+        <div class="tarjeta-g">
+          <h3>% de calificación</h3><p class="sub">Leads con Trato sobre leads que entraron</p>
+          <div id="g-calif"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="s-vendedor">
+      <div class="titulo-sec"><h2>Cierre por vendedor, comparando lo comparable</h2></div>
+      <p class="nota-sec">Solo Tratos originados en <b>redes sociales</b>. Página web queda fuera
+        a propósito: esos Tratos se afilian casi solos —cierran 99.1%— y meterlos en la misma tabla
+        premiaría a quien le tocó ese canal, no a quien cierra mejor. Esta tabla responde al filtro
+        de País; no al de Mes ni al de Fuente.</p>
+      <div class="marco-tabla"><table id="tabla-vendedor"></table></div>
+    </section>
+
+    <section id="s-recos">
+      <div class="titulo-sec"><h2>Lectura y recomendaciones</h2></div>
+      <p class="nota-sec">Cada una con su área responsable y las cifras que la sostienen.
+        Estas cifras son del periodo completo y no se mueven con los filtros.</p>
+      <div class="recos" id="recos"></div>
+    </section>
+
+    <section id="s-notas">
+      <div class="titulo-sec"><h2>Notas de método y calidad de dato</h2></div>
+      <div class="notas" id="notas"></div>
+    </section>
+  </main>
+</div>
+<div id="globo" role="status" aria-live="polite"></div>
+
+<script type="application/json" id="datos">__DATOS__</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById("datos").textContent);
+const L = D.leads, T = D.tratos, V = D.vendedores, SB = D.standby, META = D.meta, Q = D.calidad;
+const ABIERTAS = new Set(D.etapas_abiertas);
+
+const AREAS = ["Mercadeo","Ventas","Producto / Comercial","Abierto"];
+const COLOR_AREA = {"Mercadeo":"var(--mercadeo)","Ventas":"var(--ventas)",
+  "Producto / Comercial":"var(--producto)","Abierto":"var(--abierto)","Calificado":"var(--producto)"};
+const CANALES = ["Redes sociales (Meta)","Página web","WhatsApp / Chat","Directo / Referidos","Sin fuente"];
+const COLOR_CANAL = {"Redes sociales (Meta)":"var(--mercadeo)","Página web":"var(--producto)",
+  "WhatsApp / Chat":"var(--cuarto)","Directo / Referidos":"var(--ventas)","Sin fuente":"var(--abierto)"};
+const REDES = "Redes sociales (Meta)";
+const MESES = {"01":"Ene","02":"Feb","03":"Mar","04":"Abr","05":"May","06":"Jun",
+  "07":"Jul","08":"Ago","09":"Sep","10":"Oct","11":"Nov","12":"Dic"};
+
+const nf = n => Number(n).toLocaleString("es-GT");
+const pf = (a,b,d) => b ? (100*a/b).toFixed(d===undefined?1:d).replace(".",",")+"%" : "—";
+const mf = n => "$"+Number(n).toLocaleString("es-GT",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mesCorto = m => MESES[m.slice(5)]+" "+m.slice(2,4);
+
+const f = {pais:"",canal:"",fuente:"",mes:""};
+const fL = () => L.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&(!f.fuente||r[3]===f.fuente)&&(!f.mes||r[0]===f.mes));
+const fT = () => T.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&(!f.fuente||r[3]===f.fuente)&&(!f.mes||r[0]===f.mes));
+const fV = () => V.filter(r=>(!f.pais||r[2]===f.pais));
+const fSB = () => SB.filter(r=>(!f.pais||r[0]===f.pais)&&(!f.canal||r[1]===f.canal)&&(!f.fuente||r[2]===f.fuente));
+const sum = (rows,i) => rows.reduce((a,r)=>a+r[i],0);
+
+/* ── filtros ── */
+const unicos = (rows,i) => [...new Set(rows.map(r=>r[i]))].sort();
+function pintaFiltros(){
+  const paises = unicos(L,1), canales = CANALES.filter(c=>L.some(r=>r[2]===c)||T.some(r=>r[2]===c));
+  const fuentes = unicos(L,3), meses = unicos(L,0);
+  const sel = (id,et,ops,val,fmt) => '<div class="campo"><label class="rotulo" for="'+id+'">'+et+'</label>'+
+    '<select id="'+id+'" data-k="'+id+'"><option value="">Todos</option>'+
+    ops.map(o=>'<option value="'+esc(o)+'"'+(o===val?" selected":"")+'>'+esc(fmt?fmt(o):o)+'</option>').join("")+
+    '</select></div>';
+  document.getElementById("filtros").innerHTML =
+    sel("pais","País",paises,f.pais)+sel("canal","Canal",canales,f.canal)+
+    sel("fuente","Fuente",fuentes,f.fuente)+sel("mes","Mes",meses,f.mes,m=>mesCorto(m))+
+    '<div class="campo"><span class="rotulo">&nbsp;</span><button class="reiniciar" id="btn-reiniciar">Reiniciar</button></div>'+
+    '<div class="en-vista" id="en-vista"></div>';
+  document.getElementById("filtros").addEventListener("change",e=>{
+    if(!e.target.dataset.k) return;
+    f[e.target.dataset.k]=e.target.value;
+    if(e.target.dataset.k==="canal") f.fuente="";
+    pintaFiltros(); pinta();
+  });
+  document.getElementById("btn-reiniciar").addEventListener("click",()=>{
+    f.pais=f.canal=f.fuente=f.mes=""; pintaFiltros(); pinta();
+  });
+}
+
+/* ── cálculo ── */
+function calcula(){
+  const l = fL(), t = fT(), sb = fSB();
+  const leads = sum(l,8);
+  const invalidos = sum(l.filter(r=>r[5]==="Dato inválido / no elegible"),8);
+  const elegibles = leads - invalidos;
+  const calificados = sum(l.filter(r=>r[7]===1),8);
+  const ganados = sum(t.filter(r=>r[4]==="closed won"),8);
+  const perdidos = sum(t.filter(r=>r[4]==="closed lost"),8);
+  const abiertos = sum(t.filter(r=>ABIERTAS.has(r[4])),8);
+  const standby = sum(t.filter(r=>r[4]==="Stand By"),8);
+  const vivos = sum(l.filter(r=>r[5]==="Vivo / en seguimiento"),8);
+  const reparto = {}; AREAS.forEach(a=>reparto[a]=0);
+  l.forEach(r=>{ if(r[7]!==1) reparto[r[6]]+=r[8]; });
+  t.forEach(r=>{ if(r[4]==="closed lost") reparto[r[7]||"Abierto"]+=r[8];
+                 else if(ABIERTAS.has(r[4])) reparto["Abierto"]+=r[8]; });
+  sb.forEach(r=>reparto[r[5]]+=r[6]);
+  const sinVenta = AREAS.reduce((a,k)=>a+reparto[k],0);
+  const arriba = sum(l.filter(r=>r[7]!==1),8);
+  return {l,t,sb,leads,invalidos,elegibles,calificados,ganados,perdidos,abiertos,standby,vivos,
+          reparto,sinVenta,arriba,abajo:sinVenta-arriba,seguimiento:vivos+abiertos+standby};
+}
+
+/* ── secciones ── */
+function pintaCabecera(c){
+  document.getElementById("meta-cabecera").innerHTML =
+    '<div><span class="rotulo">Periodo</span><b>1 ene – 11 sep 2026</b></div>'+
+    '<div><span class="rotulo">Leads</span><b>'+nf(c.leads)+'</b></div>'+
+    '<div><span class="rotulo">Tratos</span><b>'+nf(sum(c.t,8))+'</b></div>'+
+    '<div><span class="rotulo">Actualizado</span><b>11 sep 2026</b></div>';
+  document.getElementById("en-vista").innerHTML = "En vista: <b>"+nf(c.leads)+"</b> leads · <b>"+nf(sum(c.t,8))+"</b> tratos";
+}
+
+function pintaKpis(c){
+  const pc = c.leads? 100*c.calificados/c.leads : 0;
+  const cerrados = c.ganados+c.perdidos;
+  const pcierre = cerrados? 100*c.ganados/cerrados : 0;
+  const k = [
+    ["Leads que entraron",nf(c.leads),"Todo registro creado en el periodo",false],
+    ["% calificados",pf(c.calificados,c.leads),nf(c.calificados)+" llegaron a Trato",c.leads>0&&pc<10],
+    ["Ganados",nf(c.ganados),"Tratos en closed won",false],
+    ["% de cierre sobre Tratos",pf(c.ganados,cerrados),nf(c.ganados)+" de "+nf(cerrados)+" cerrados",cerrados>0&&pcierre<40],
+    ["En seguimiento",nf(c.seguimiento),nf(c.vivos)+" leads vivos + "+nf(c.abiertos+c.standby)+" tratos abiertos",false]
+  ];
+  document.getElementById("kpis").innerHTML = k.map(x=>
+    '<div class="kpi'+(x[3]?" alerta":"")+'"><span class="rotulo">'+esc(x[0])+'</span>'+
+    '<span class="v">'+x[1]+'</span><span class="d">'+esc(x[2])+'</span></div>').join("");
+}
+
+function pintaVeredicto(c){
+  const tot = c.sinVenta||1;
+  document.getElementById("leyenda-v").innerHTML = AREAS.map(a=>
+    '<span><i style="background:'+COLOR_AREA[a]+'"></i>'+esc(a)+' <b>'+nf(c.reparto[a])+'</b> ('+pf(c.reparto[a],tot)+')</span>').join("");
+  document.getElementById("apilada-v").innerHTML = AREAS.map(a=>{
+    const p = 100*c.reparto[a]/tot;
+    return '<span style="flex:'+c.reparto[a]+' 0 0;background:'+COLOR_AREA[a]+'" data-tip="'+
+      esc(a)+': '+nf(c.reparto[a])+' leads · '+pf(c.reparto[a],tot)+' de los '+nf(tot)+' sin venta">'+
+      (p>7?pf(c.reparto[a],tot,0):"")+'</span>';
+  }).join("");
+  const merc = c.reparto["Mercadeo"], vent = c.reparto["Ventas"], prod = c.reparto["Producto / Comercial"];
+  const cont = c.t.filter(r=>r[4]==="closed lost"&&r[6]==="Contactabilidad").reduce((a,r)=>a+r[8],0)
+             + c.sb.reduce((a,r)=>a+(r[4]==="Contactabilidad"?r[6]:0),0);
+  const cond = c.t.filter(r=>r[4]==="closed lost"&&["Precio","Fit de producto","Competencia","Oferta / condiciones"].includes(r[6])).reduce((a,r)=>a+r[8],0);
+  document.getElementById("lectura-v").innerHTML =
+    '<div><h3>Arriba del embudo · calidad e intención</h3><p><b>'+nf(c.arriba)+'</b> leads ('+
+    pf(c.arriba,tot)+' de los que no vendieron) nunca llegaron a Trato. De esos, <b>'+nf(merc)+
+    '</b> cayeron por dato inválido o por intención equivocada —eso es Mercadeo: se está pagando por '+
+    'gente que no puede o no quiere comprar—, y <b>'+nf(prod)+'</b> por la oferta misma.</p></div>'+
+    '<div><h3>Abajo del embudo · contactabilidad vs. condiciones</h3><p>De los <b>'+nf(c.abajo)+
+    '</b> Tratos que no se ganaron, <b>'+nf(cont)+'</b> se cayeron por no lograr contacto y <b>'+nf(cond)+
+    '</b> por precio, competencia o fit. Lo primero es ejecución de Ventas; lo segundo es una decisión '+
+    'de producto que ningún vendedor arregla en la llamada.</p></div>';
+}
+
+function pintaEmbudo(c){
+  const cerrados = c.ganados+c.perdidos;
+  const pasos = [
+    ["Leads que entraron",c.leads,"var(--e1)","Todo registro creado en el periodo"],
+    ["Leads elegibles",c.elegibles,"var(--e2)","Menos "+nf(c.invalidos)+" de dato inválido o no elegible"],
+    ["Calificados",c.calificados,"var(--e3)","Tienen un Trato asociado en el CRM"],
+    ["Tratos cerrados",cerrados,"var(--e4)","closed won + closed lost"],
+    ["Ganados",c.ganados,"var(--e5)","closed won"]
+  ];
+  const base = c.leads||1;
+  let h="";
+  pasos.forEach((p,i)=>{
+    const prev = i? pasos[i-1][1] : null;
+    h += '<div class="paso"><div class="relleno" style="background:'+p[2]+';width:'+
+      Math.max(100*p[1]/base,1.2)+'%"></div>'+
+      '<div class="nom">'+esc(p[0])+'</div><div class="num">'+nf(p[1])+'</div>'+
+      '<div class="sub">'+esc(p[3])+' · '+pf(p[1],base)+' del total'+
+      (prev!==null?' · '+pf(p[1],prev)+' del paso anterior':'')+'</div></div>';
+    if(i<pasos.length-1){
+      const caen = p[1]-pasos[i+1][1];
+      h += '<div class="salto">↓ se quedaron <em>'+nf(caen)+'</em> ('+pf(caen,p[1])+' de este paso)</div>';
+    }
+  });
+  document.getElementById("embudo").innerHTML = h;
+}
+
+function pintaCanal(c){
+  const filas = CANALES.map(k=>{
+    const lc = c.l.filter(r=>r[2]===k), tc = c.t.filter(r=>r[2]===k);
+    const leads = sum(lc,8);
+    const eleg = leads - sum(lc.filter(r=>r[5]==="Dato inválido / no elegible"),8);
+    const cal = sum(lc.filter(r=>r[7]===1),8);
+    const won = sum(tc.filter(r=>r[4]==="closed won"),8);
+    const lost = sum(tc.filter(r=>r[4]==="closed lost"),8);
+    return {k,leads,eleg,cal,won,lost};
+  }).filter(x=>x.leads||x.won||x.lost);
+  const tot = filas.reduce((a,x)=>({leads:a.leads+x.leads,eleg:a.eleg+x.eleg,cal:a.cal+x.cal,
+    won:a.won+x.won,lost:a.lost+x.lost}),{leads:0,eleg:0,cal:0,won:0,lost:0});
+  const fila = (x,cls) => '<tr class="'+(cls||"")+'"><td class="clave">'+
+    (cls?esc(x.k):'<span class="chip"><i style="background:'+COLOR_CANAL[x.k]+'"></i>'+esc(x.k)+'</span>')+'</td>'+
+    '<td class="n">'+nf(x.leads)+'</td><td class="n">'+nf(x.eleg)+'</td><td class="n">'+nf(x.cal)+'</td>'+
+    '<td class="n">'+pf(x.cal,x.leads)+'</td><td class="n">'+nf(x.won)+'</td><td class="n">'+nf(x.lost)+'</td>'+
+    '<td class="n">'+pf(x.won,x.won+x.lost)+'</td><td class="n"><b>'+pf(x.won,x.leads,2)+'</b></td></tr>';
+  document.getElementById("tabla-canal").innerHTML =
+    '<thead><tr><th>Canal</th><th>Leads</th><th>Elegibles</th><th>Calificados</th><th>% calif.</th>'+
+    '<th>Ganados</th><th>Perdidos</th><th>% cierre</th><th>Lead → venta</th></tr></thead><tbody>'+
+    filas.map(x=>fila(x)).join("")+fila({k:"Total",...tot},"total")+'</tbody>';
+}
+
+function pintaPaneles(c){
+  // buckets de leads sin trato
+  const bs = {};
+  c.l.forEach(r=>{ if(r[7]===1) return;
+    (bs[r[5]] = bs[r[5]] || {area:r[6],n:0,det:{}});
+    bs[r[5]].n += r[8]; bs[r[5]].det[r[4]] = (bs[r[5]].det[r[4]]||0)+r[8]; });
+  const lista = Object.entries(bs).sort((a,b)=>b[1].n-a[1].n);
+  const totB = lista.reduce((a,x)=>a+x[1].n,0)||1;
+  document.getElementById("panel-buckets").innerHTML =
+    '<h3>Leads que nunca llegaron a Trato</h3><p class="sub">'+nf(totB)+' leads · por bucket, con el área responsable</p>'+
+    lista.map(([k,v])=>
+      '<div class="fila"><div class="et">'+esc(k)+'<br><span class="chip"><i style="background:'+
+      COLOR_AREA[v.area]+'"></i>'+esc(v.area)+'</span></div>'+
+      '<div><div class="ct">'+nf(v.n)+'</div><div class="pct">'+pf(v.n,totB)+'</div></div>'+
+      '<div class="barrita"><i style="width:'+(100*v.n/totB)+'%;background:'+COLOR_AREA[v.area]+'"></i></div>'+
+      '</div><details><summary>Ver los '+Object.keys(v.det).length+' estados</summary><ul>'+
+      Object.entries(v.det).sort((a,b)=>b[1]-a[1]).map(([e,n])=>
+        '<li><span>'+esc(e)+'</span><b>'+nf(n)+'</b></li>').join("")+'</ul></details>').join("");
+  // razones de closed lost
+  const rs = {};
+  c.t.forEach(r=>{ if(r[4]!=="closed lost") return;
+    const k = r[5]||"Sin razón";
+    (rs[k] = rs[k] || {cat:r[6]||"—",area:r[7]||"Abierto",n:0}); rs[k].n += r[8]; });
+  const lr = Object.entries(rs).sort((a,b)=>b[1].n-a[1].n);
+  const totR = lr.reduce((a,x)=>a+x[1].n,0)||1;
+  const sbTot = c.sb.reduce((a,r)=>a+r[6],0);
+  const sbMap = {}; c.sb.forEach(r=>sbMap[r[3]]=(sbMap[r[3]]||0)+r[6]);
+  document.getElementById("panel-razones").innerHTML =
+    '<h3>Tratos perdidos (closed lost)</h3><p class="sub">'+nf(totR)+' tratos · por razón, con categoría y área</p>'+
+    lr.map(([k,v])=>
+      '<div class="fila"><div class="et">'+esc(k)+'<br><span class="chip"><i style="background:'+
+      COLOR_AREA[v.area]+'"></i>'+esc(v.cat)+' · '+esc(v.area)+'</span></div>'+
+      '<div><div class="ct">'+nf(v.n)+'</div><div class="pct">'+pf(v.n,totR)+'</div></div>'+
+      '<div class="barrita"><i style="width:'+(100*v.n/totR)+'%;background:'+COLOR_AREA[v.area]+'"></i></div></div>').join("")+
+    '<details><summary>Ver los '+nf(sbTot)+' Tratos en Stand By y su razón</summary><ul>'+
+      (sbTot? Object.entries(sbMap).sort((a,b)=>b[1]-a[1]).map(([k,n])=>
+        '<li><span>'+esc(k)+'</span><b>'+nf(n)+'</b></li>').join("")
+       : '<li><span>Ninguno en esta vista</span><b>0</b></li>')+
+      '</ul><p class="pct" style="text-align:left;margin-top:8px">El Stand By no se filtra por mes.</p></details>';
+}
+
+/* ── gráficas ── */
+function barrasApiladas(cont,leyenda,datos,claves,colores,fmt){
+  const W=560,H=210,ml=42,mr=8,mt=10,mb=30;
+  const max = Math.max(1,...datos.map(d=>claves.reduce((a,k)=>a+(d.v[k]||0),0)));
+  const paso = (W-ml-mr)/datos.length, ancho = Math.min(paso*0.66,46);
+  const y = v => mt+(H-mt-mb)*(1-v/max);
+  let g="", ejes="";
+  for(let i=0;i<=4;i++){
+    const v = max*i/4;
+    ejes += '<line class="rejilla" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(v)+'" y2="'+y(v)+'"/>'+
+            '<text class="eje" x="'+(ml-7)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+nf(Math.round(v))+'</text>';
+  }
+  datos.forEach((d,i)=>{
+    const x = ml+paso*i+(paso-ancho)/2;
+    let acum = 0;
+    claves.forEach(k=>{
+      const v = d.v[k]||0; if(!v) return;
+      const alto = (H-mt-mb)*v/max, yy = y(acum+v);
+      g += '<rect x="'+x+'" y="'+yy+'" width="'+ancho+'" height="'+Math.max(alto-2,0.5)+'" rx="2" '+
+           'fill="'+colores[k]+'" data-tip="'+esc(d.et+' · '+k+': '+nf(v)+' leads')+'"/>';
+      acum += v;
+    });
+    g += '<text class="valor-g" x="'+(x+ancho/2)+'" y="'+(y(acum)-5)+'" text-anchor="middle">'+nf(acum)+'</text>';
+    ejes += '<text class="eje" x="'+(x+ancho/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(d.et)+'</text>';
+  });
+  cont.innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(fmt||"")+'">'+ejes+g+'</svg>';
+  if(leyenda) leyenda.innerHTML = claves.map(k=>'<span><i style="background:'+colores[k]+'"></i>'+esc(k)+'</span>').join("");
+}
+
+function pintaMes(c){
+  const meses = [...new Set(L.map(r=>r[0]))].sort().filter(m=>!f.mes||m===f.mes);
+  const usados = CANALES.filter(k=>c.l.some(r=>r[2]===k));
+  const datos = meses.map(m=>{
+    const v={}; usados.forEach(k=>v[k]=0);
+    c.l.filter(r=>r[0]===m).forEach(r=>v[r[2]]+=r[8]);
+    return {et:mesCorto(m)+(m===Q.mes_en_curso?"*":""),v,m};
+  });
+  barrasApiladas(document.getElementById("g-mes"),document.getElementById("leyenda-mes"),
+    datos,usados,COLOR_CANAL,"Leads por canal y mes");
+  // % calificación
+  const W=560,H=210,ml=42,mr=8,mt=10,mb=42;
+  const pts = meses.map(m=>{
+    const rs = c.l.filter(r=>r[0]===m);
+    const t = sum(rs,8), k = sum(rs.filter(r=>r[7]===1),8);
+    return {m,et:mesCorto(m),p:t?100*k/t:0,t,k};
+  });
+  const max = Math.max(10,...pts.map(p=>p.p))*1.12;
+  const paso = (W-ml-mr)/Math.max(pts.length,1), ancho = Math.min(paso*0.6,42);
+  const y = v => mt+(H-mt-mb)*(1-v/max);
+  let s="";
+  for(let i=0;i<=4;i++){ const v=max*i/4;
+    s += '<line class="rejilla" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(v)+'" y2="'+y(v)+'"/>'+
+         '<text class="eje" x="'+(ml-7)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+v.toFixed(0)+'%</text>'; }
+  pts.forEach((p,i)=>{
+    const x = ml+paso*i+(paso-ancho)/2, alto=(H-mt-mb)*p.p/max;
+    const curso = p.m===Q.mes_en_curso;
+    s += '<rect x="'+x+'" y="'+y(p.p)+'" width="'+ancho+'" height="'+Math.max(alto,0.5)+'" rx="2" fill="var(--e3)"'+
+         (curso?' opacity="0.55"':'')+' data-tip="'+esc(p.et+': '+p.k+' de '+p.t+' leads · '+p.p.toFixed(1).replace(".",",")+'%')+'"/>'+
+         '<text class="valor-g" x="'+(x+ancho/2)+'" y="'+(y(p.p)-5)+'" text-anchor="middle">'+p.p.toFixed(0)+'%</text>'+
+         '<text class="eje" x="'+(x+ancho/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(p.et)+(curso?"*":"")+'</text>';
+  });
+  s += '<text class="eje" x="'+ml+'" y="'+(H-8)+'">* mes en curso: va cortado al 11 de septiembre</text>';
+  document.getElementById("g-calif").innerHTML =
+    '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Porcentaje de calificación por mes">'+s+'</svg>';
+}
+
+function pintaVendedor(){
+  const v = fV(), por = {};
+  v.forEach(r=>{
+    const k = r[0];
+    por[k] = por[k] || {estado:r[1],won:0,lost:0,abierto:0,contacto:0,oferta:0,raz:{}};
+    const o = por[k];
+    if(r[3]==="closed won") o.won += r[7];
+    else if(r[3]==="closed lost"){ o.lost += r[7]; o.raz[r[4]] = (o.raz[r[4]]||0)+r[7];
+      if(r[5]==="Contactabilidad") o.contacto += r[7];
+      if(["Precio","Fit de producto","Competencia","Oferta / condiciones"].includes(r[5])) o.oferta += r[7]; }
+    else o.abierto += r[7];
+  });
+  const filas = Object.entries(por).filter(([,o])=>o.won+o.lost>0)
+    .sort((a,b)=>(b[1].won+b[1].lost)-(a[1].won+a[1].lost));
+  const cuerpo = filas.map(([k,o])=>{
+    const cer = o.won+o.lost;
+    const top = Object.entries(o.raz).sort((a,b)=>b[1]-a[1])[0];
+    return '<tr><td class="clave">'+esc(k)+(o.estado!=="activo"?' <span class="chip">usuario '+esc(o.estado)+'</span>':'')+'</td>'+
+      '<td class="n">'+nf(cer)+'</td><td class="n">'+nf(o.won)+'</td><td class="n">'+nf(o.lost)+'</td>'+
+      '<td class="n"><b>'+pf(o.won,cer)+'</b></td><td class="n">'+nf(o.contacto)+'</td><td class="n">'+nf(o.oferta)+'</td>'+
+      '<td style="text-align:left;white-space:normal">'+(top?esc(top[0])+' <span class="pct">('+top[1]+')</span>':"—")+'</td></tr>';
+  }).join("");
+  const T2 = filas.reduce((a,[,o])=>({won:a.won+o.won,lost:a.lost+o.lost,c:a.c+o.contacto,f:a.f+o.oferta}),{won:0,lost:0,c:0,f:0});
+  document.getElementById("tabla-vendedor").innerHTML =
+    '<thead><tr><th>Vendedor</th><th>Cerrados</th><th>Ganados</th><th>Perdidos</th><th>% cierre</th>'+
+    '<th>Perdidos por contacto</th><th>Perdidos por oferta</th><th>Razón que más repite</th></tr></thead><tbody>'+
+    (cuerpo||'<tr><td colspan="8">Sin Tratos de redes sociales en esta vista.</td></tr>')+
+    (filas.length?'<tr class="total"><td>Total redes</td><td class="n">'+nf(T2.won+T2.lost)+'</td>'+
+      '<td class="n">'+nf(T2.won)+'</td><td class="n">'+nf(T2.lost)+'</td><td class="n">'+pf(T2.won,T2.won+T2.lost)+'</td>'+
+      '<td class="n">'+nf(T2.c)+'</td><td class="n">'+nf(T2.f)+'</td><td></td></tr>':'')+'</tbody>';
+}
+
+/* ── estático: recomendaciones y notas (periodo completo) ── */
+function totalesGlobales(){
+  const leads = sum(L,8), cal = sum(L.filter(r=>r[7]===1),8);
+  const won = sum(T.filter(r=>r[4]==="closed won"),8);
+  const rd = L.filter(r=>r[2]===REDES), rdT = T.filter(r=>r[2]===REDES);
+  const web = L.filter(r=>r[2]==="Página web"), webT = T.filter(r=>r[2]==="Página web");
+  const gasto = Object.values(META).reduce((a,m)=>a+m.gasto,0);
+  const gastoLead = Object.values(META).reduce((a,m)=>a+m.lead_gasto,0);
+  const leadsMeta = Object.values(META).reduce((a,m)=>a+m.lead_res,0);
+  const calRedes = sum(rd.filter(r=>r[7]===1),8);
+  const wonRedes = sum(rdT.filter(r=>r[4]==="closed won"),8);
+  const gtRedes = L.filter(r=>r[2]===REDES&&r[1]==="Guatemala");
+  const gtRedesT = T.filter(r=>r[2]===REDES&&r[1]==="Guatemala");
+  return {leads,cal,won,gasto,gastoLead,leadsMeta,
+    leadsRedes:sum(rd,8),calRedes,wonRedes,
+    perdRedes:sum(rdT.filter(r=>r[4]==="closed lost"),8),
+    leadsWeb:sum(web,8),wonWeb:sum(webT.filter(r=>r[4]==="closed won"),8),
+    lostWeb:sum(webT.filter(r=>r[4]==="closed lost"),8),
+    gtRedesCal:sum(gtRedes.filter(r=>r[7]===1),8),
+    gtRedesWon:sum(gtRedesT.filter(r=>r[4]==="closed won"),8),
+    gtRedesLost:sum(gtRedesT.filter(r=>r[4]==="closed lost"),8),
+    svLeads:sum(L.filter(r=>r[1]==="El Salvador"),8),
+    svCal:sum(L.filter(r=>r[1]==="El Salvador"&&r[7]===1),8),
+    svVivos:sum(L.filter(r=>r[1]==="El Salvador"&&r[5]==="Vivo / en seguimiento"),8),
+    noContesta:sum(T.filter(r=>r[4]==="closed lost"&&r[5]==="No contesta"),8),
+    lost:sum(T.filter(r=>r[4]==="closed lost"),8)};
+}
+
+function pintaRecos(){
+  const g = totalesGlobales();
+  const cpl = g.gastoLead/g.leadsMeta;
+  const cpCal = g.gastoLead/g.calRedes;
+  const cpVenta = g.gastoLead/g.wonRedes;
+  const r = [
+    ["Mercadeo","Meta optimiza al lead que llena el formulario, no al que compra",
+     "Las campañas se pagan por lead y ese lead sale barato. El problema aparece después: de cada 100 leads de redes, solo "+pf(g.calRedes,g.leadsRedes,1).replace("%","")+" llegan a Trato. El costo por lead se ve bien y el costo por venta no lo ve nadie, porque el CRM no recibe el identificador de campaña.",
+     "Inversión en campañas de lead <b>"+mf(g.gastoLead)+"</b> · Meta reporta <b>"+nf(g.leadsMeta)+"</b> leads a <b>"+mf(cpl)+"</b> · pero solo <b>"+nf(g.calRedes)+"</b> leads de redes llegaron a Trato (<b>"+mf(cpCal)+"</b> por lead calificado) y <b>"+nf(g.wonRedes)+"</b> a venta (<b>"+mf(cpVenta)+"</b> por venta)"],
+    ["Mercadeo","Mandar el campaign_id al CRM es el arreglo con más palanca",
+     "Sin campaign_id no hay forma de saber qué campaña trae los leads que sí compran, así que no se puede apagar la que trae basura. El campo FB_Campaign_ID existe y está poblado en "+nf(Q.leads_con_fb_campaign_id)+" leads, pero ninguno de esos llegó a Trato: hoy solo sirve para demostrar que el cableado es posible, no para decidir.",
+     "<b>"+nf(Q.leads_con_campa_a_mk)+"</b> leads con Campaña MK · <b>"+nf(Q.leads_con_fb_campaign_id)+"</b> con FB_Campaign_ID, de los cuales <b>"+nf(Q.leads_con_fb_campaign_id_convertidos)+"</b> convirtieron · 5 campañas identificadas de 25 con gasto"],
+    ["Ventas","El primer contacto es el agujero más caro del embudo",
+     "«No contesta» es la razón número uno de Trato perdido y además el bucket de Ventas más grande arriba del embudo. No es un problema de argumentos: es un problema de que la conversación nunca empieza.",
+     "<b>"+nf(g.noContesta)+"</b> de <b>"+nf(g.lost)+"</b> Tratos perdidos por «No contesta» ("+pf(g.noContesta,g.lost)+")"],
+    ["Producto / Comercial","Las condiciones matan más Tratos que la competencia",
+     "Precio, fit y requisitos de cuenta suman más Tratos perdidos que «otra afiliación». Eso no se resuelve capacitando a Ventas; se resuelve cambiando la oferta o segmentando a quién se le habla.",
+     "Perdidos por precio, fit, competencia u oferta: <b>"+nf(T.filter(r=>r[4]==="closed lost"&&["Precio","Fit de producto","Competencia","Oferta / condiciones"].includes(r[6])).reduce((a,r)=>a+r[8],0))+"</b> de <b>"+nf(g.lost)+"</b>"],
+    ["Mercadeo y Ventas","El Salvador acumula leads que nadie resuelve",
+     "SV trae casi tantos leads como Guatemala y califica diez veces menos. La mayoría no está perdida: está en seguimiento. Un inventario de ese tamaño sin cerrar no es un problema de leads malos, es un problema de capacidad o de prioridad.",
+     "El Salvador: <b>"+nf(g.svLeads)+"</b> leads · <b>"+pf(g.svCal,g.svLeads)+"</b> de calificación · <b>"+nf(g.svVivos)+"</b> todavía en seguimiento"],
+    ["Ventas","En Guatemala, redes y página web son dos negocios distintos",
+     "Con el mismo producto y el mismo país, un canal cierra casi todo y el otro casi nada. Los Tratos de página web llegan resueltos; los de redes hay que trabajarlos. Medir a los dos con la misma vara esconde el problema real.",
+     "GT redes: <b>"+nf(g.gtRedesCal)+"</b> calificados → <b>"+nf(g.gtRedesWon)+"</b> ganados (<b>"+pf(g.gtRedesWon,g.gtRedesWon+g.gtRedesLost)+"</b> de cierre) · GT página web: <b>"+pf(g.wonWeb,g.wonWeb+g.lostWeb)+"</b>"],
+    ["Mercadeo","Sin Importe no hay CAC ni ROAS que calcular",
+     "Casi todos los Tratos ganados se cierran con Importe en cero. Mientras siga así, cualquier retorno por campaña sería un número inventado, y este tablero se niega a calcularlo.",
+     "<b>"+nf(Q.ganados_monto_cero)+"</b> de <b>"+nf(Q.ganados_total)+"</b> Tratos ganados tienen Importe en <b>0</b>"]
+  ];
+  document.getElementById("recos").innerHTML = r.map(x=>
+    '<div class="reco"><div><span class="chip"><i style="background:'+COLOR_AREA[x[0]==="Mercadeo y Ventas"?"Ventas":x[0]]+
+    '"></i>'+esc(x[0])+'</span></div><h3 style="grid-column:2">'+esc(x[1])+'</h3>'+
+    '<p class="arg" style="grid-column:2">'+x[2]+'</p><p class="cifras" style="grid-column:2">'+x[3]+'</p></div>').join("");
+}
+
+function pintaNotas(){
+  const g = totalesGlobales();
+  document.getElementById("notas").innerHTML =
+    '<div class="aviso"><span class="rotulo">Ojo</span><div>El mes en curso va cortado al '+
+    '<b>11 de septiembre</b>. En las gráficas mensuales lleva asterisco y su barra va más clara: '+
+    'no es una caída, es un mes incompleto.</div></div>'+
+    '<dl>'+
+    '<dt>Cómo se cuenta</dt><dd><b>Leads que entraron</b>: todo registro del módulo Posibles clientes creado entre el 1 de enero y el 11 de septiembre de 2026, convertidos incluidos. <b>Calificados</b>: el lead tiene un Trato asociado (<span class="mono">Converted_Deal</span> no vacío). <b>Tratos cerrados</b>: <span class="mono">closed won</span> + <span class="mono">closed lost</span>.</dd>'+
+    '<dt>Convertido ≠ calificado</dt><dd>989 leads figuran como convertidos, pero <b>'+nf(Q.convertidos_sin_trato)+'</b> de ellos no tienen Trato: se convirtieron a Cuenta o Contacto sin abrir oportunidad. Este tablero los cuenta como <b>no calificados</b> y los clasifica por su estado, igual que al resto.</dd>'+
+    '<dt>Atribución de motivos</dt><dd>Arriba del embudo el motivo sale de <span class="mono">Lead_Status</span>; abajo, de <span class="mono">Selecciones_Razones</span> y de <span class="mono">Razón Stand By</span>. Cada valor cae en un bucket y cada bucket apunta a un área. Un valor que no esté en el mapa detiene la generación en vez de caer en «otros».</dd>'+
+    '<dt>Tratos sin lead</dt><dd>Hay <b>992</b> Tratos y <b>948</b> leads calificados: <b>44</b> Tratos se crearon sin lead de origen. Por eso «Tratos cerrados» puede superar lo que sugiere el paso anterior del embudo.</dd>'+
+    '<dt>Importe</dt><dd><b>'+nf(Q.ganados_monto_cero)+' de '+nf(Q.ganados_total)+'</b> Tratos ganados tienen Importe en <b>cero</b> —no nulo, cero—. No hay CAC ni ROAS calculable y no se calcula. La suma de Importes que sí existen no se publica como ingreso porque no lo es.</dd>'+
+    '<dt>Campaña</dt><dd><span class="mono">Campa_a_MK</span> está vacío en los <b>'+nf(g.leads)+'</b> leads. <span class="mono">FB_Campaign_ID</span> sí trae valor en <b>'+nf(Q.leads_con_fb_campaign_id)+'</b> leads (5 campañas), pero <b>ninguno</b> de ellos llegó a Trato. El análisis no puede bajar a campaña, conjunto ni anuncio.</dd>'+
+    '<dt>Costo de medios</dt><dd>El CRM no trae costo. La inversión viene de Meta Ads (cuenta <span class="mono">225318458221662</span>), <b>'+mf(g.gasto)+'</b> en el periodo, de los cuales <b>'+mf(g.gastoLead)+'</b> en campañas cuyo indicador es un lead. Los indicadores <b>no se suman entre sí</b>: los clics en enlace no son leads.</dd>'+
+    '<dt>Qué no responde a los filtros</dt><dd>La tabla de vendedores responde solo a País. El desglose de Stand By responde a País, Canal y Fuente, no a Mes. Las recomendaciones son del periodo completo. Todo lo demás se recalcula con los cuatro filtros.</dd>'+
+    '<dt>Verificación</dt><dd>Cada cubo se comprobó contra una consulta independiente antes de entrar aquí: 3.983 no convertidos + 948 calificados + '+nf(Q.convertidos_sin_trato)+' convertidos sin Trato = <b>4.972</b> leads; 992 Tratos con sus 7 etapas cuadrando una por una. Además se sondeó por <span class="mono">offset</span>: 659 leads de Meta Ads en junio, 698 <span class="mono">closed won</span> y 179 <span class="mono">closed lost</span> — los tres, exactos.</dd>'+
+    '<dt>Huecos declarados</dt><dd>No hay costo por campaña cruzable con ventas. No hay Importe utilizable. El país está vacío en '+nf(sum(L.filter(r=>r[1]==="Sin país"),8))+' leads y en 18 Tratos, y esos registros salen como «Sin país» en vez de repartirse.</dd>'+
+    '</dl>';
+}
+
+/* ── tooltip ── */
+const globo = document.getElementById("globo");
+document.addEventListener("mouseover",e=>{
+  const t = e.target.closest("[data-tip]");
+  if(!t){ globo.classList.remove("ver"); return; }
+  globo.textContent = t.getAttribute("data-tip");
+  globo.classList.add("ver");
+});
+document.addEventListener("mousemove",e=>{
+  if(!globo.classList.contains("ver")) return;
+  const x = Math.min(e.clientX+14, window.innerWidth-globo.offsetWidth-10);
+  globo.style.left = Math.max(8,x)+"px";
+  globo.style.top = Math.max(8,e.clientY-globo.offsetHeight-12)+"px";
+});
+document.addEventListener("mouseout",e=>{ if(!e.relatedTarget||!e.relatedTarget.closest("[data-tip]")) globo.classList.remove("ver"); });
+
+function pinta(){
+  const c = calcula();
+  pintaCabecera(c); pintaKpis(c); pintaVeredicto(c); pintaEmbudo(c);
+  pintaCanal(c); pintaPaneles(c); pintaMes(c); pintaVendedor();
+}
+pintaFiltros(); pinta(); pintaRecos(); pintaNotas();
+})();
+</script>

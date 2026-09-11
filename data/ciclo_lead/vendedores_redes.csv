@@ -1,0 +1,67 @@
+vendedor,estado_usuario,pais,etapa,razon,n
+Layla Aranky,activo,,Stand By,,1
+Scarlett Flores,activo,,closed lost,Otra afiliación con otra empresa,1
+Alejandra Colindres,desactivado,,closed lost,% comisión alto,2
+Alejandra Colindres,desactivado,,closed lost,No contesta,5
+Layla Aranky,activo,,closed lost,No contesta,1
+Irene Cifuentes,desactivado,,closed lost,No contesta,1
+Scarlett Flores,activo,,Stand By,No contesta,1
+Alejandra Colindres,desactivado,Guatemala,closed won,,1
+Layla Aranky,activo,Guatemala,Calificado Interesado,,1
+Layla Aranky,activo,Guatemala,Necesita validarlo con alguien más,,2
+Layla Aranky,activo,Guatemala,closed won,,9
+Layla Aranky,activo,Guatemala,Stand By,,12
+David Matias,activo,Guatemala,Interesado - Negociando,,1
+David Matias,activo,Guatemala,Interesado listo para pagar,,1
+Irene Cifuentes,desactivado,Guatemala,closed won,,1
+Scarlett Flores,activo,Guatemala,Calificado Interesado,,5
+Scarlett Flores,activo,Guatemala,Necesita validarlo con alguien más,,1
+Scarlett Flores,activo,Guatemala,Interesado - Negociando,,2
+Scarlett Flores,activo,Guatemala,closed won,,3
+Scarlett Flores,activo,Guatemala,Stand By,,28
+Scarlett Flores,activo,Guatemala,closed lost,No tiene Patente,1
+Scarlett Flores,activo,Guatemala,closed lost,No tiene RTU,1
+David Matias,activo,Guatemala,closed lost,No le es funcional,1
+Nohemi Urrutia,borrado,Guatemala,closed lost,No le es funcional,2
+Scarlett Flores,activo,Guatemala,closed lost,No le es funcional,9
+Alejandra Colindres,desactivado,Guatemala,closed lost,Negocio con operaciones ilegales,1
+Scarlett Flores,activo,Guatemala,closed lost,Negocio con operaciones ilegales,1
+Scarlett Flores,activo,Guatemala,closed lost,No tiene listo el negocio,4
+Alejandra Colindres,desactivado,Guatemala,closed lost,Necesitaba POS físico,1
+Scarlett Flores,activo,Guatemala,closed lost,Necesitaba POS físico,2
+Alejandra Colindres,desactivado,Guatemala,closed lost,Otra afiliación con otra empresa,3
+Layla Aranky,activo,Guatemala,closed lost,Otra afiliación con otra empresa,6
+David Matias,activo,Guatemala,closed lost,Otra afiliación con otra empresa,1
+Nohemi Urrutia,borrado,Guatemala,closed lost,Otra afiliación con otra empresa,1
+Scarlett Flores,activo,Guatemala,closed won,Otra afiliación con otra empresa,1
+Scarlett Flores,activo,Guatemala,closed lost,Otra afiliación con otra empresa,16
+Scarlett Flores,activo,Guatemala,closed lost,% comisión alto,4
+Alejandra Colindres,desactivado,Guatemala,closed lost,No contesta,8
+Layla Aranky,activo,Guatemala,closed won,No contesta,1
+Layla Aranky,activo,Guatemala,closed lost,No contesta,25
+Irene Cifuentes,desactivado,Guatemala,closed lost,No contesta,1
+Layla Aranky,activo,Guatemala,closed lost,Anualidad muy alta,4
+David Matias,activo,Guatemala,closed lost,Anualidad muy alta,1
+Nohemi Urrutia,borrado,Guatemala,closed lost,Anualidad muy alta,1
+Scarlett Flores,activo,Guatemala,closed lost,Anualidad muy alta,3
+Alejandra Colindres,desactivado,Guatemala,closed lost,Solo quería información,2
+Layla Aranky,activo,Guatemala,closed lost,Solo quería información,6
+Scarlett Flores,activo,Guatemala,closed lost,Solo quería información,3
+Nohemi Urrutia,borrado,Guatemala,closed lost,Necesitaba cuotas BAC y BANRURAL,2
+Scarlett Flores,activo,Guatemala,closed lost,Necesitaba cuotas BAC y BANRURAL,1
+Mariana Rendon,activo,El Salvador,Calificado Interesado,,12
+Mariana Rendon,activo,El Salvador,Necesita validarlo con alguien más,,5
+Layla Aranky,activo,El Salvador,closed won,,1
+Irene Cifuentes,desactivado,El Salvador,closed won,,1
+Edson Mejia,desactivado,El Salvador,closed won,,8
+Ernesto Melara,desactivado,El Salvador,Calificado Interesado,,2
+Ernesto Melara,desactivado,El Salvador,Necesita validarlo con alguien más,,1
+Ernesto Melara,desactivado,El Salvador,closed won,,15
+Mariana Rendon,activo,El Salvador,closed lost,Negocio con operaciones ilegales,1
+Edson Mejia,desactivado,El Salvador,closed won,Necesitaba POS físico,1
+Mariana Rendon,activo,El Salvador,closed lost,No contesta,1
+Layla Aranky,activo,El Salvador,closed lost,No contesta,1
+Mariana Rendon,activo,El Salvador,closed lost,Anualidad muy alta,2
+Nohemi Urrutia,borrado,El Salvador,closed lost,Anualidad muy alta,1
+Mariana Rendon,activo,El Salvador,closed lost,Solo quería información,1
+Mariana Rendon,activo,El Salvador,closed lost,No quiere cuenta en Banco Atlántida,1

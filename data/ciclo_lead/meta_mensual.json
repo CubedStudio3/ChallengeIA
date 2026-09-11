@@ -1,0 +1,83 @@
+{
+ "2026-01": {
+  "gasto": 1298.16,
+  "impr": 466481,
+  "lead_gasto": 1121.65,
+  "lead_res": 296,
+  "lead_impr": 264026,
+  "otro_gasto": 176.51,
+  "sin_res": 10.92
+ },
+ "2026-02": {
+  "gasto": 1548.36,
+  "impr": 480419,
+  "lead_gasto": 1408.67,
+  "lead_res": 428,
+  "lead_impr": 320910,
+  "otro_gasto": 139.69,
+  "sin_res": 0.29
+ },
+ "2026-03": {
+  "gasto": 2152.17,
+  "impr": 840501,
+  "lead_gasto": 1846.99,
+  "lead_res": 817,
+  "lead_impr": 475964,
+  "otro_gasto": 305.18,
+  "sin_res": 0.0
+ },
+ "2026-04": {
+  "gasto": 1683.73,
+  "impr": 1238687,
+  "lead_gasto": 1382.99,
+  "lead_res": 828,
+  "lead_impr": 597004,
+  "otro_gasto": 300.74,
+  "sin_res": 0.0
+ },
+ "2026-05": {
+  "gasto": 1705.07,
+  "impr": 1204801,
+  "lead_gasto": 1204.95,
+  "lead_res": 666,
+  "lead_impr": 490452,
+  "otro_gasto": 500.12,
+  "sin_res": 0.0
+ },
+ "2026-06": {
+  "gasto": 1726.95,
+  "impr": 583179,
+  "lead_gasto": 772.45,
+  "lead_res": 534,
+  "lead_impr": 198992,
+  "otro_gasto": 954.5,
+  "sin_res": 0.0
+ },
+ "2026-07": {
+  "gasto": 1684.31,
+  "impr": 1218902,
+  "lead_gasto": 1107.87,
+  "lead_res": 477,
+  "lead_impr": 274081,
+  "otro_gasto": 576.44,
+  "sin_res": 0.0
+ },
+ "2026-08": {
+  "gasto": 1552.89,
+  "impr": 972766,
+  "lead_gasto": 1406.45,
+  "lead_res": 509,
+  "lead_impr": 294048,
+  "otro_gasto": 146.44,
+  "sin_res": 0.0
+ },
+ "2026-09": {
+  "gasto": 557.74,
+  "impr": 153682,
+  "lead_gasto": 510.85,
+  "lead_res": 214,
+  "lead_impr": 108937,
+  "otro_gasto": 46.89,
+  "sin_res": 0.0
+ }
+}
