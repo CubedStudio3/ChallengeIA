@@ -117,7 +117,7 @@ const contraste = (a, b) => {
     const d = document.createElement("div");
     d.className = "bg-mercadeo p-6 rounded-xl";
     document.body.appendChild(d);
-    const tramos = [...document.querySelectorAll(".apilada span")].map((s) => {
+    const tramos = [...document.querySelectorAll(".apilada>span")].map((s) => {
       const c = getComputedStyle(s);
       return { fondo: c.backgroundColor, texto: c.color, txt: s.textContent.trim() };
     });
@@ -137,7 +137,7 @@ const contraste = (a, b) => {
   ok(r.rielActivo === 1, `exactamente una marcada en reposo (${r.rielActivo})`);
   ok(r.iconosKpi === r.kpis && r.kpis === 5, `los 5 KPI traen su icono (${r.iconosKpi}/${r.kpis})`);
   ok(r.veredictoFondo === "rgb(10, 13, 11)", `el veredicto es la tarjeta negra (${r.veredictoFondo})`);
-  ok(r.twFondo === "rgb(65, 137, 198)" && r.twRelleno === "24px", `Tailwind sigue operativo`);
+  ok(r.twFondo === "rgb(161, 202, 237)" && r.twRelleno === "24px", `Tailwind sigue operativo (${r.twFondo})`);
   ok(/Outfit/.test(r.fuenteTitulo), `los títulos usan Outfit (${r.fuenteTitulo.split(",")[0]})`);
   for (const t of r.tramos) {
     const c = contraste(t.texto, t.fondo);
@@ -147,6 +147,87 @@ const contraste = (a, b) => {
 
   // Sin comentarios: el CSS EXPLICA que ya no hay modo oscuro, y esa frase
   // contiene el patron que se busca. Un comentario no es una regla.
+
+  // ── el riel, usado con el ratón ────────────────────────────────────────
+  // Esto es exactamente lo que el usuario reportó roto: al elegir una opción
+  // se marcaba otra. Se prueba con clics de verdad, no leyendo el cálculo.
+  console.log("\nEl riel con el ratón");
+  {
+    const ctxR = await nav.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "light" });
+    const pgR = await ctxR.newPage();
+    await pgR.goto(PAGINA, { waitUntil: "load" });
+    await pgR.waitForTimeout(600);
+    const secciones = await pgR.$$eval(".riel a[data-sec]", (as) => as.map((a) => a.dataset.sec));
+    const tonos = new Set();
+    for (const sid of secciones) {
+      await pgR.click(`.riel a[data-sec="${sid}"]`);
+      await pgR.waitForTimeout(220);
+      const est = await pgR.evaluate(() => {
+        const act = [...document.querySelectorAll(".riel a.activo")];
+        return {
+          cuantas: act.length,
+          cual: act[0] ? act[0].dataset.sec : null,
+          color: act[0] ? getComputedStyle(act[0]).backgroundColor : null,
+        };
+      });
+      ok(est.cuantas === 1 && est.cual === sid,
+         `clic en ${sid} → marca ${est.cual}${est.cuantas !== 1 ? ` (${est.cuantas} marcadas)` : ""}`);
+      if (est.color) tonos.add(est.color);
+    }
+    ok(tonos.size >= 4, `el riel cambia de color entre opciones (${tonos.size} tonos distintos)`);
+
+    // y que al soltar el ratón y desplazarse siga siendo coherente
+    await pgR.evaluate(() => window.scrollTo(0, 0));
+    await pgR.waitForTimeout(900); // el clic bloquea el recálculo 700 ms
+    const arriba = await pgR.evaluate(() =>
+      document.querySelector(".riel a.activo")?.dataset.sec);
+    ok(arriba === secciones[0], `al volver arriba marca la primera (${arriba})`);
+    await pgR.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await pgR.waitForTimeout(900);
+    const abajo = await pgR.evaluate(() =>
+      document.querySelector(".riel a.activo")?.dataset.sec);
+    ok(abajo === secciones[secciones.length - 1], `al final marca la última (${abajo})`);
+    await ctxR.close();
+  }
+
+  // ── pastel en todo: ninguna marca de dato saturada ────────────────────
+  console.log("\nPastel en todo");
+  {
+    const ctxP = await nav.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "light" });
+    const pgP = await ctxP.newPage();
+    await pgP.goto(PAGINA, { waitUntil: "load" });
+    await pgP.waitForTimeout(500);
+    const marcas = await pgP.evaluate(() => {
+      const cs = getComputedStyle(document.documentElement);
+      const lee = (n) => cs.getPropertyValue(n).trim();
+      return ["--mercadeo","--producto","--ventas","--cuarto","--abierto"]
+        .map((n) => [n, lee(n)]);
+    });
+    // getPropertyValue resuelve la referencia, así que vuelve el hex final.
+    // Se comparan contra los pasteles del equipo, que es justo lo que se pide.
+    const ESPERADO = { "--mercadeo":"#a1caed", "--producto":"#d0e4bb",
+      "--ventas":"#f3d7e9", "--cuarto":"#cdc4ef", "--abierto":"#dfe1da" };
+    for (const [n, v] of marcas) ok(v === ESPERADO[n], `${n} = ${v}`);
+    // el contorno es lo que hace visible un pastel de 1,3:1 contra el blanco
+    const conContorno = await pgP.evaluate(() => {
+      const sel = [".leyenda i", ".chip i", ".apilada>span", ".barrita i"];
+      return sel.map((q) => {
+        const el = document.querySelector(q);
+        return [q, el ? /inset/.test(getComputedStyle(el).boxShadow) : null];
+      });
+    });
+    for (const [q, tiene] of conContorno) ok(tiene === true, `${q} lleva contorno de tinta`);
+    // el nombre dentro del tramo: la identidad no puede ser el color
+    const tramos = await pgP.$$eval(".apilada>span .et", (es) => es.map((e) => e.textContent.trim()));
+    ok(tramos.length >= 4, `los tramos apilados dicen su nombre (${tramos.join(", ")})`);
+    // el embudo tiene forma de embudo: cada tramo más angosto que el anterior
+    const anchos = await pgP.$$eval(".emb-forma path", (ps) =>
+      ps.map((p) => { const b = p.getBBox(); return Math.round(b.width); }));
+    ok(anchos.length === 5, `el embudo tiene sus 5 escalones (${anchos.length})`);
+    ok(anchos.every((w, i) => i === 0 || w <= anchos[i-1] + 1), `y se angosta escalón a escalón (${anchos.join(" → ")})`);
+    await ctxP.close();
+  }
+
   const css = fs.readFileSync(`${SALIDA}/ciclo-del-lead.html`, "utf8")
     .replace(/\/\*[\s\S]*?\*\//g, "");
   ok(!/dark\\:/.test(css), `el CSS ya no trae la variante dark:`);

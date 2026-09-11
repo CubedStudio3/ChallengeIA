@@ -5,57 +5,69 @@
 <style>
 /* ═══════════════════════════════════════════════════════════════════════════
    Ciclo del Lead · QPayPro
-   SOLO MODO CLARO, por decisión de Mercadeo (2026-09-11). No hay bloque
-   @media (prefers-color-scheme:dark) ni [data-theme]: la página se compromete
-   con un solo mundo visual y por eso pinta SIEMPRE su fondo y sus colores
-   explícitos, para no heredar el fondo oscuro del visor.
+   SOLO MODO CLARO, por decisión de Mercadeo (2026-09-11). No hay bloque de
+   preferencia de color ni [data-theme]: la página se compromete con un solo
+   mundo visual y por eso pinta SIEMPRE su fondo y sus colores explícitos,
+   para no heredar el fondo oscuro del visor.
 
-   PALETA
-   Los tres pasteles del equipo son SUPERFICIE, nunca marca: medidos dan
-   1.34:1 (rosa), 1.36:1 (verde) y 1.72:1 (azul) contra blanco — invisibles
-   como línea o punto. Con tinta encima dan 11–14.6:1, que es donde brillan.
-   Las marcas de dato son pasos medios de los mismos tonos, validados con el
-   validador de paleta: banda de luminosidad, piso de croma, separación para
-   daltonismo y contraste contra la superficie, 5/5 en modo claro.
+   PALETA: PASTEL EN TODO (decisión de Mercadeo, 2026-09-11)
+   Los cinco tonos de dato son pasteles. Medidos, dan 1.3–1.7:1 contra blanco
+   y su peor par —rosa contra verde— da ΔE 9,5 en visión normal, debajo del
+   piso de 15. Es decir: el color NO puede ser quien identifica una serie.
+   Por eso, en esta hoja, toda marca pastel lleva dos cosas obligatorias:
+     1. contorno de tinta (--contorno), que la separa del blanco;
+     2. su NOMBRE escrito al lado o dentro, nunca solo el color.
+   Con eso el pastel acompaña y el texto identifica, que es al revés de como
+   estaba antes.
+
+   AIRE
+   Las tarjetas no llevan borde: se separan por espacio y una sombra muy
+   suave sobre un lienzo apenas teñido. Una línea alrededor de cada bloque
+   es ruido cuando ya hay aire suficiente.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root{
   color-scheme: light;
 
   /* ── tinta y superficies ───────────────────────────────────────────── */
-  --tinta:#0a0d0b;            /* el negro del equipo */
-  --tinta2:#4e5652;
-  --tinta3:#838d88;
-  --plano:#eceee8;            /* fondo: gris sesgado al verde salvia */
-  --sup:#ffffff;              /* panel y tarjetas */
+  --tinta:#0a0d0b;
+  --tinta2:#545c57;
+  --tinta3:#8b938e;
+  --plano:#eceee8;            /* fondo de la página */
+  --lienzo:#fbfcf9;           /* panel: apenas teñido, para que el blanco flote */
+  --sup:#ffffff;              /* tarjetas */
   --sup2:#f5f7f2;             /* tarjeta hundida */
-  --linea:#e2e5dd;
-  --linea2:#eef0ea;
+  --linea:#e6e9e1;
+  --linea2:#eff1ea;
 
-  /* ── pasteles del equipo · SUPERFICIE ──────────────────────────────── */
+  /* ── los pasteles del equipo ───────────────────────────────────────── */
   --salvia:#d0e4bb;
   --rosa:#f3d7e9;
   --cielo:#a1caed;
+  --lila:#cdc4ef;             /* cuarto tono, en el mismo registro pastel */
+  --piedra:#dfe1da;           /* neutro: lo que no tiene identidad */
 
-  /* ── marcas de dato · categóricas, validadas ───────────────────────── */
-  --mercadeo:#4189c6;         /* azul   · Redes sociales */
-  --producto:#6c9a40;         /* verde  · Página web */
-  --ventas:#cf5c96;           /* rosa   · Directo / Referidos */
-  --cuarto:#7a6cda;           /* violeta· WhatsApp / Chat */
-  --abierto:#8a938d;          /* neutro · sin identidad (Sin fuente / Abierto) */
+  /* ── marcas de dato · TODAS pastel, todas con contorno ──────────────── */
+  --mercadeo:var(--cielo);    /* Redes sociales · Mercadeo */
+  --producto:var(--salvia);   /* Página web · Producto */
+  --ventas:var(--rosa);       /* Directo / Referidos · Ventas */
+  --cuarto:var(--lila);       /* WhatsApp / Chat */
+  --abierto:var(--piedra);    /* Sin fuente · Abierto */
+  --contorno:rgba(10,13,11,.30);
 
-  /* ── embudo · secuencial de un solo tono, claro → oscuro ───────────── */
-  --e1:#c3dcf0; --e2:#a1caed; --e3:#6ba5da; --e4:#4189c6; --e5:#245e94;
+  /* ── embudo · un solo tono pastel de claro a lleno; el final en salvia
+        porque es el desenlace, no un escalón más ─────────────────────── */
+  --e1:#e9f3fc; --e2:#d4e8f7; --e3:#bcdaf2; --e4:#a1caed; --e5:#d0e4bb;
 
   /* ── estado · reservado, nunca serie ───────────────────────────────── */
   --alerta:#c0392b;
-  --alerta-fondo:#fbecea;
+  --alerta-fondo:#fdf0ed;
 
-  --r-panel:30px;             /* el radio grande del panel */
-  --r-tarjeta:18px;
-  --r-chico:12px;
-  --sombra:0 1px 2px rgba(10,13,11,.04), 0 8px 24px -12px rgba(10,13,11,.10);
-  --sombra-alta:0 2px 6px rgba(10,13,11,.05), 0 18px 40px -18px rgba(10,13,11,.18);
+  --r-panel:34px;
+  --r-tarjeta:20px;
+  --r-chico:13px;
+  --sombra:0 1px 2px rgba(10,13,11,.03), 0 6px 18px -10px rgba(10,13,11,.09);
+  --sombra-alta:0 2px 6px rgba(10,13,11,.05), 0 20px 44px -20px rgba(10,13,11,.17);
 }
 
 *{box-sizing:border-box}
@@ -64,352 +76,335 @@ body{
   background:var(--plano);
   color:var(--tinta);
   font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:15px;line-height:1.55;margin:0;
-  padding-inline:16px;padding-block:16px 40px;
+  font-size:15px;line-height:1.62;margin:0;
+  padding-inline:18px;padding-block:18px 52px;
   -webkit-font-smoothing:antialiased;
 }
 
 h1,h2,h3{font-family:Outfit,"IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0}
-h1{font-size:clamp(27px,4vw,40px);font-weight:600;letter-spacing:-.025em;line-height:1.08}
-h2{font-size:clamp(18px,2.4vw,22px);font-weight:600;letter-spacing:-.015em}
+h1{font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.025em;line-height:1.06}
+h2{font-size:clamp(19px,2.5vw,24px);font-weight:600;letter-spacing:-.018em}
 h3{font-size:15px;font-weight:600;letter-spacing:-.005em}
 p{margin:0}
 a{color:inherit}
 .mono,.cifra{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
-.rotulo{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.11em;
+.rotulo{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--tinta3);font-weight:500}
 
 :where(a,button,select,summary,[tabindex]):focus-visible{
-  outline:2px solid var(--mercadeo);outline-offset:2px;border-radius:4px}
+  outline:2px solid var(--tinta);outline-offset:2px;border-radius:5px}
 
-/* ═══ 1 · la carcasa: riel oscuro + panel blanco flotando ═════════════ */
+/* ═══ 1 · carcasa ═════════════════════════════════════════════════════ */
 
 .app{
-  max-width:1340px;margin:0 auto;
-  display:grid;grid-template-columns:74px minmax(0,1fr);gap:14px;
-  align-items:start;
+  max-width:1400px;margin:0 auto;
+  display:grid;grid-template-columns:76px minmax(0,1fr);gap:18px;align-items:start;
 }
 
-/* ── el riel. Sus iconos SON las secciones del informe: no es decoración,
-      es el índice. ────────────────────────────────────────────────────── */
+/* El riel es el índice del informe: cada icono ES una sección, y cada una
+   tiene su propio tono pastel cuando está activa. */
 .riel{
-  position:sticky;top:16px;
-  background:var(--tinta);border-radius:26px;
-  padding:16px 0;display:flex;flex-direction:column;align-items:center;gap:4px;
+  position:sticky;top:18px;
+  background:var(--tinta);border-radius:28px;
+  padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:5px;
   box-shadow:var(--sombra-alta);
 }
 .riel .marca{
-  width:40px;height:40px;border-radius:13px;background:var(--salvia);
-  display:grid;place-items:center;margin-bottom:14px;flex:none;
+  width:42px;height:42px;border-radius:14px;background:var(--salvia);
+  display:grid;place-items:center;margin-bottom:16px;flex:none;color:var(--tinta);
 }
-.riel .marca svg{width:21px;height:21px}
+.riel .marca svg{width:22px;height:22px}
 .riel a{
-  width:42px;height:42px;border-radius:13px;flex:none;
+  width:44px;height:44px;border-radius:14px;flex:none;
   display:grid;place-items:center;color:#9aa49e;
-  text-decoration:none;transition:background .15s,color .15s;position:relative;
+  text-decoration:none;transition:background .16s,color .16s;position:relative;
 }
 .riel a svg{width:19px;height:19px;stroke-width:1.6}
-.riel a:hover{background:rgba(255,255,255,.09);color:#fff}
-.riel a.activo{background:var(--salvia);color:var(--tinta)}
+.riel a:hover{background:rgba(255,255,255,.10);color:#fff}
+.riel a.activo{background:var(--tono,var(--salvia));color:var(--tinta)}
 .riel .globo-riel{
-  position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
+  position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);
   background:var(--tinta);color:#fff;font-size:12px;white-space:nowrap;
-  padding:5px 9px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .12s;
+  padding:6px 10px;border-radius:9px;opacity:0;pointer-events:none;transition:opacity .12s;
   box-shadow:var(--sombra-alta);z-index:60;
 }
 .riel a:hover .globo-riel,.riel a:focus-visible .globo-riel{opacity:1}
 .riel .separa{flex:1}
 
 .lienzo{
-  background:var(--sup);border-radius:var(--r-panel);
+  background:var(--lienzo);border-radius:var(--r-panel);
   box-shadow:var(--sombra-alta);overflow:clip;min-width:0;
 }
 
-/* ── barra de filtros, en píldoras ─────────────────────────────────── */
 .barra{
-  position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);
+  position:sticky;top:0;z-index:40;background:rgba(251,252,249,.92);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--linea2);
 }
-.barra .interior{
-  padding:13px 26px;display:flex;flex-wrap:wrap;gap:9px 10px;align-items:center;
-}
-.campo{display:flex;align-items:center;gap:7px;min-width:0;
-  background:var(--sup2);border:1px solid var(--linea);border-radius:999px;padding:5px 6px 5px 13px}
-.campo>.rotulo{font-size:9.5px;letter-spacing:.09em}
+.barra .interior{padding:15px 44px;display:flex;flex-wrap:wrap;gap:10px 11px;align-items:center}
+.campo{display:flex;align-items:center;gap:8px;min-width:0;
+  background:var(--sup);border-radius:999px;padding:6px 7px 6px 14px;box-shadow:var(--sombra)}
+.campo>.rotulo{font-size:9.5px;letter-spacing:.1em}
 .campo select{
   font-family:inherit;font-size:13px;font-weight:500;color:var(--tinta);
   background:transparent;border:0;border-radius:999px;padding:3px 4px;
   min-width:112px;max-width:100%;cursor:pointer;
 }
-.campo:has(.reiniciar){background:none;border:0;padding:0}
+.campo:has(.reiniciar){background:none;box-shadow:none;padding:0}
 .campo:has(.reiniciar) .rotulo{display:none}
 .reiniciar{
   font-family:inherit;font-size:12.5px;font-weight:500;color:var(--tinta);
-  background:var(--salvia);border:0;border-radius:999px;padding:8px 15px;cursor:pointer;
+  background:var(--salvia);border:0;border-radius:999px;padding:9px 17px;cursor:pointer;
   transition:filter .15s;
 }
 .reiniciar:hover{filter:brightness(.95)}
 .en-vista{
   margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
   color:var(--tinta2);font-variant-numeric:tabular-nums;
-  background:var(--sup2);border:1px solid var(--linea);border-radius:999px;padding:6px 13px;
+  background:var(--sup);border-radius:999px;padding:7px 15px;box-shadow:var(--sombra);
 }
 .en-vista b{color:var(--tinta);font-weight:600}
 
-.envoltura{padding:0 26px 40px}
+.envoltura{padding:0 44px 56px}
 
 /* ═══ 2 · encabezado ══════════════════════════════════════════════════ */
 
-.cabecera{
-  padding-block:30px 26px;display:grid;gap:22px;
-  grid-template-columns:minmax(0,1fr) auto;align-items:end;
-}
-.cabecera .pregunta{font-size:16px;color:var(--tinta2);max-width:60ch;margin-top:11px}
-.cabecera h1{margin-top:7px}
-.cabecera .meta{display:flex;gap:9px;flex-wrap:wrap}
+.cabecera{padding-block:46px 38px;display:grid;gap:30px;
+  grid-template-columns:minmax(0,1fr) auto;align-items:end}
+.cabecera h1{margin-top:10px}
+.cabecera .pregunta{font-size:16.5px;color:var(--tinta2);max-width:58ch;margin-top:16px}
+.cabecera .meta{display:flex;gap:10px;flex-wrap:wrap}
 .cabecera .meta div{
-  background:var(--sup2);border:1px solid var(--linea);border-radius:var(--r-chico);
-  padding:9px 14px;display:flex;flex-direction:column;gap:1px;
+  background:var(--sup);border-radius:var(--r-chico);padding:11px 16px;
+  display:flex;flex-direction:column;gap:2px;box-shadow:var(--sombra);
 }
-.cabecera .meta b{
-  font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;
-  font-variant-numeric:tabular-nums;color:var(--tinta);
-}
+.cabecera .meta b{font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--tinta)}
 
 /* ═══ 3 · secciones ═══════════════════════════════════════════════════ */
 
-section{margin-bottom:38px;scroll-margin-top:76px}
-.titulo-sec{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:5px}
-.nota-sec{color:var(--tinta2);font-size:14px;max-width:74ch;margin-bottom:16px}
+section{margin-bottom:66px;scroll-margin-top:78px}
+.titulo-sec{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:7px}
+.nota-sec{color:var(--tinta2);font-size:14.5px;max-width:72ch;margin-bottom:26px}
 
-/* ── KPIs: la cifra es el punto de la página, así que sí van en tarjeta
-      de número grande. Cada una con su cuadro pastel. ─────────────────── */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:12px}
+/* ── KPIs ─────────────────────────────────────────────────────────────── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(205px,100%),1fr));gap:16px}
 .kpi{
-  background:var(--sup);border:1px solid var(--linea);border-radius:var(--r-tarjeta);
-  padding:16px 17px 17px;display:grid;grid-template-columns:auto minmax(0,1fr);
-  gap:2px 12px;align-items:start;
+  background:var(--sup);border-radius:var(--r-tarjeta);box-shadow:var(--sombra);
+  padding:22px 22px 24px;display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:3px 14px;align-items:start;
 }
-.kpi .icono{
-  grid-row:1/4;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
-  background:var(--sup2);color:var(--tinta);
-}
+.kpi .icono{grid-row:1/4;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;
+  background:var(--sup2);color:var(--tinta)}
 .kpi:nth-child(5n+1) .icono{background:var(--cielo)}
 .kpi:nth-child(5n+2) .icono{background:var(--salvia)}
 .kpi:nth-child(5n+3) .icono{background:var(--rosa)}
-.kpi:nth-child(5n+4) .icono{background:var(--cielo)}
+.kpi:nth-child(5n+4) .icono{background:var(--lila)}
 .kpi:nth-child(5n+5) .icono{background:var(--salvia)}
-.kpi .icono svg{width:18px;height:18px;stroke-width:1.7}
+.kpi .icono svg{width:19px;height:19px;stroke-width:1.7}
 .kpi .rotulo{font-size:10px}
-.kpi .v{
-  font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:600;letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;line-height:1.05;
-}
-.kpi .d{font-size:12px;color:var(--tinta3)}
-.kpi.alerta{border-color:var(--alerta);background:var(--alerta-fondo)}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:31px;font-weight:600;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
+.kpi .d{font-size:12px;color:var(--tinta3);margin-top:2px}
+.kpi.alerta{background:var(--alerta-fondo)}
 .kpi.alerta .icono{background:var(--alerta);color:#fff}
 .kpi.alerta .v,.kpi.alerta .d{color:var(--alerta)}
 
-/* ── el veredicto: la tarjeta negra. Es la respuesta a la pregunta del
-      encabezado, así que se lleva el único bloque oscuro de la página. ── */
-.veredicto{
-  background:var(--tinta);color:#fff;border-radius:24px;padding:24px 26px;
-  box-shadow:var(--sombra-alta);
-}
-.veredicto .leyenda span{color:#c9d0cb}
+/* ── veredicto: la única tarjeta oscura, porque es la respuesta ──────── */
+.veredicto{background:var(--tinta);color:#fff;border-radius:26px;padding:32px 34px;
+  box-shadow:var(--sombra-alta)}
+.veredicto .leyenda span{color:#cbd2cd}
 .veredicto .leyenda b{color:#fff}
-.apilada{display:flex;width:100%;height:52px;gap:3px;margin:8px 0 16px}
-.apilada span{
-  display:flex;align-items:center;justify-content:center;color:var(--tinta);
+.apilada{display:flex;width:100%;height:64px;gap:4px;margin:10px 0 22px}
+.apilada>span{
+  display:flex;align-items:center;justify-content:center;gap:7px;color:var(--tinta);
   font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;overflow:hidden;
-  border-radius:3px;cursor:default;
+  border-radius:4px;cursor:default;padding-inline:8px;white-space:nowrap;
+  box-shadow:inset 0 0 0 1px var(--contorno);
 }
-.apilada span:first-child{border-radius:9px 3px 3px 9px}
-.apilada span:last-child{border-radius:3px 9px 9px 3px}
-.leyenda{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:13px}
-.leyenda i{
-  width:10px;height:10px;border-radius:3px;display:inline-block;flex:none;
-  box-shadow:inset 0 0 0 1px rgba(10,13,11,.22);
-}
-.leyenda span{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--tinta2)}
+.apilada>span .et{font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis}
+.apilada>span:first-child{border-radius:12px 4px 4px 12px}
+.apilada>span:last-child{border-radius:4px 12px 12px 4px}
+.leyenda{display:flex;flex-wrap:wrap;gap:9px 20px;margin-bottom:14px}
+.leyenda i{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none;
+  box-shadow:inset 0 0 0 1px var(--contorno)}
+.leyenda span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--tinta2)}
 .leyenda b{color:var(--tinta);font-family:"IBM Plex Mono",monospace;
   font-variant-numeric:tabular-nums;font-weight:600}
-.lectura{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px;
-  border-top:1px solid rgba(255,255,255,.14);padding-top:16px;
-}
-.lectura h3{margin-bottom:5px;color:#fff}
-.lectura p{font-size:14px;color:#b9c1bc}
+.lectura{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:26px;
+  border-top:1px solid rgba(255,255,255,.15);padding-top:22px}
+.lectura h3{margin-bottom:7px;color:#fff}
+.lectura p{font-size:14px;color:#bcc4bf}
 .lectura b{color:#fff;font-weight:600}
 
-/* ── embudo ───────────────────────────────────────────────────────────── */
-.embudo{display:flex;flex-direction:column;gap:7px}
-.paso{
-  background:var(--sup);border:1px solid var(--linea);border-radius:14px;padding:13px 16px;
-  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center;
-  position:relative;overflow:hidden;
+/* ── embudo ───────────────────────────────────────────────────────────
+   Forma de embudo de verdad, como el widget del CRM, pero SIN sus dos
+   fallos: ahí las etiquetas salen truncadas al final de una línea guía
+   («Calificado Intere..») y los tramos delgados no se pueden leer. Aquí el
+   nombre y la cifra viven en columnas alineadas, a tamaño de texto real, y
+   la forma solo lleva la geometría. ──────────────────────────────────── */
+.embudo{display:flex;flex-direction:column;gap:0}
+.emb-fila{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,2.5fr) minmax(0,1.05fr);
+  gap:0 24px;align-items:center;
 }
-.paso .relleno{position:absolute;inset:0;right:auto;opacity:.30;z-index:0;border-radius:0 10px 10px 0}
-.paso>*{position:relative;z-index:1}
-.paso .nom{font-weight:600;font-size:14.5px}
-.paso .sub{font-size:12.5px;color:var(--tinta2);grid-column:1}
-.paso .num{
-  font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:600;
-  font-variant-numeric:tabular-nums;grid-row:1/3;text-align:right;letter-spacing:-.02em;
+.emb-forma{align-self:stretch;display:flex;align-items:center}
+.emb-et .emb-nom{font-weight:600;font-size:15px;letter-spacing:-.01em}
+.emb-et .emb-sub{font-size:12.5px;color:var(--tinta3);line-height:1.45}
+.emb-forma{min-width:0}
+.emb-forma svg{display:block;width:100%;height:auto;overflow:visible}
+.emb-cifra{text-align:right}
+.emb-cifra .emb-num{font-family:"IBM Plex Mono",monospace;font-size:25px;font-weight:600;
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em;line-height:1.15}
+.emb-cifra .emb-pct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--tinta3);
+  font-variant-numeric:tabular-nums}
+.emb-caida{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--tinta2);
+  margin-top:5px;font-variant-numeric:tabular-nums;
 }
-.salto{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--tinta3);
-  padding-left:16px;display:flex;align-items:center;gap:6px}
-.salto em{font-style:normal;color:var(--ventas);font-weight:600}
+.emb-caida em{font-style:normal;font-weight:600;color:var(--tinta)}
+.emb-caida .flecha{color:var(--tinta3)}
 
 /* ── tablas ───────────────────────────────────────────────────────────── */
-.marco-tabla{overflow-x:auto;background:var(--sup);border:1px solid var(--linea);
-  border-radius:var(--r-tarjeta)}
+.marco-tabla{overflow-x:auto;background:var(--sup);border-radius:var(--r-tarjeta);
+  box-shadow:var(--sombra)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
-th,td{text-align:right;padding:11px 14px;border-bottom:1px solid var(--linea2);white-space:nowrap}
+th,td{text-align:right;padding:13px 18px;border-bottom:1px solid var(--linea2);white-space:nowrap}
 th:first-child,td:first-child{text-align:left;white-space:normal;min-width:150px}
-thead th{
-  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.09em;
+thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--tinta3);font-weight:500;
-  border-bottom:1px solid var(--linea);position:sticky;top:0;background:var(--sup);
-}
+  border-bottom:1px solid var(--linea);position:sticky;top:0;background:var(--sup)}
 tbody tr:last-child td{border-bottom:none}
 tbody tr.total td{font-weight:600;background:var(--sup2)}
 td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
 td.clave{font-weight:600}
-.chip{
-  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
-  font-family:"IBM Plex Mono",monospace;background:var(--sup2);border:1px solid var(--linea);
-  border-radius:999px;padding:2px 10px 2px 7px;color:var(--tinta2);white-space:nowrap;
-}
-.chip i{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none;
-  box-shadow:inset 0 0 0 1px rgba(10,13,11,.22)}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;
+  font-family:"IBM Plex Mono",monospace;background:var(--sup2);border-radius:999px;
+  padding:3px 11px 3px 8px;color:var(--tinta2);white-space:nowrap}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;
+  box-shadow:inset 0 0 0 1px var(--contorno)}
 
 /* ── paneles ──────────────────────────────────────────────────────────── */
-.paneles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:16px}
-.panel{background:var(--sup);border:1px solid var(--linea);border-radius:var(--r-tarjeta);
-  padding:19px 20px}
-.panel h3{margin-bottom:3px}
-.panel .sub{font-size:13px;color:var(--tinta3);margin-bottom:15px}
-.fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:10px 0;
+.paneles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:20px}
+.panel{background:var(--sup);border-radius:var(--r-tarjeta);box-shadow:var(--sombra);padding:28px 28px 24px}
+.panel h3{margin-bottom:4px}
+.panel .sub{font-size:13px;color:var(--tinta3);margin-bottom:20px}
+.fila{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;padding:13px 0;
   border-top:1px solid var(--linea2)}
-.fila:first-of-type{border-top:none}
+.fila:first-of-type{border-top:none;padding-top:0}
 .fila .et{font-size:14px;font-weight:500;min-width:0;overflow-wrap:anywhere}
 .fila .et .chip{white-space:normal}
 .fila .ct{font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums;
   text-align:right;font-weight:600}
 .fila .pct{font-size:12px;color:var(--tinta3);text-align:right;font-family:"IBM Plex Mono",monospace}
-.barrita{grid-column:1/3;height:6px;border-radius:999px;background:var(--linea2);
-  overflow:hidden;margin-top:4px}
-.barrita i{display:block;height:100%;border-radius:999px}
-details{margin-top:11px;border-top:1px solid var(--linea2);padding-top:10px}
+.barrita{grid-column:1/3;height:7px;border-radius:999px;background:var(--linea2);
+  overflow:hidden;margin-top:6px}
+.barrita i{display:block;height:100%;border-radius:999px;box-shadow:inset 0 0 0 1px var(--contorno)}
+details{margin-top:16px;border-top:1px solid var(--linea2);padding-top:13px}
 summary{cursor:pointer;font-size:12.5px;color:var(--tinta2);font-family:"IBM Plex Mono",monospace}
 summary:hover{color:var(--tinta)}
-details ul{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
-details li{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--tinta2)}
+details ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+details li{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:var(--tinta2)}
 details li b{font-family:"IBM Plex Mono",monospace;color:var(--tinta);font-weight:500;
   font-variant-numeric:tabular-nums}
 
 /* ── gráficas ─────────────────────────────────────────────────────────── */
-.graficas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:16px}
-.tarjeta-g{background:var(--sup);border:1px solid var(--linea);border-radius:var(--r-tarjeta);
-  padding:19px 20px}
-.tarjeta-g h3{margin-bottom:3px}
-.tarjeta-g .sub{font-size:13px;color:var(--tinta3);margin-bottom:15px}
+.graficas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:20px}
+.tarjeta-g{background:var(--sup);border-radius:var(--r-tarjeta);box-shadow:var(--sombra);padding:28px}
+.tarjeta-g h3{margin-bottom:4px}
+.tarjeta-g .sub{font-size:13px;color:var(--tinta3);margin-bottom:20px}
 svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 .eje{fill:var(--tinta3);font-family:"IBM Plex Mono",monospace;font-size:10px}
 .rejilla{stroke:var(--linea2);stroke-width:1}
 .valor-g{fill:var(--tinta2);font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500}
 
-/* ── recomendaciones. La numeración se queda: son un orden de trabajo
-      priorizado, no una lista decorada. ──────────────────────────────── */
-.recos{display:flex;flex-direction:column;gap:11px;counter-reset:reco}
-.reco{
-  background:var(--sup);border:1px solid var(--linea);border-radius:var(--r-tarjeta);
-  padding:17px 19px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 15px;
-}
-.reco::before{
-  counter-increment:reco;content:counter(reco);grid-row:1/4;
+/* ── recomendaciones · el número es orden de trabajo, no adorno ──────── */
+.recos{display:flex;flex-direction:column;gap:14px;counter-reset:reco}
+.reco{background:var(--sup);border-radius:var(--r-tarjeta);box-shadow:var(--sombra);
+  padding:24px 26px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 18px}
+.reco::before{counter-increment:reco;content:counter(reco);grid-row:1/4;
   font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--tinta);
-  width:28px;height:28px;background:var(--salvia);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;margin-top:1px;
-}
+  width:30px;height:30px;background:var(--salvia);border-radius:11px;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
 .reco h3{font-size:15px}
 .reco .arg{font-size:14px;color:var(--tinta2)}
 .reco .cifras{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--tinta3);
-  font-variant-numeric:tabular-nums;margin-top:3px}
+  font-variant-numeric:tabular-nums;margin-top:5px}
 .reco .cifras b{color:var(--tinta);font-weight:600}
 
 /* ── notas ────────────────────────────────────────────────────────────── */
-.notas{background:var(--sup2);border:1px solid var(--linea);border-radius:var(--r-tarjeta);
-  padding:20px 22px}
-.notas dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 20px;font-size:13.5px}
-.notas dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+.notas{background:var(--sup2);border-radius:var(--r-tarjeta);padding:28px 30px}
+.notas dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px 24px;font-size:13.5px}
+.notas dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--tinta3);padding-top:3px;white-space:nowrap}
 .notas dd{margin:0;color:var(--tinta2)}
 .notas dd b{color:var(--tinta);font-weight:600}
-.aviso{
-  display:flex;gap:10px;align-items:flex-start;background:var(--alerta-fondo);
-  border:1px solid var(--alerta);border-radius:var(--r-chico);padding:11px 14px;
-  font-size:13.5px;color:var(--tinta);margin-bottom:14px;
-}
+.aviso{display:flex;gap:11px;align-items:flex-start;background:var(--alerta-fondo);
+  border-radius:var(--r-chico);padding:13px 16px;font-size:13.5px;color:var(--tinta);
+  margin-bottom:18px}
 .aviso .rotulo{color:var(--alerta)}
 
 /* ── tooltip ──────────────────────────────────────────────────────────── */
-#globo{
-  position:fixed;pointer-events:none;z-index:99;background:var(--tinta);color:#fff;
-  font-family:"IBM Plex Mono",monospace;font-size:11.5px;padding:7px 10px;border-radius:9px;
-  opacity:0;transition:opacity .1s;max-width:260px;line-height:1.45;
-  box-shadow:var(--sombra-alta);
-}
+#globo{position:fixed;pointer-events:none;z-index:99;background:var(--tinta);color:#fff;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;padding:8px 11px;border-radius:10px;
+  opacity:0;transition:opacity .1s;max-width:260px;line-height:1.45;box-shadow:var(--sombra-alta)}
 #globo.ver{opacity:1}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ═══ 4 · angosto ═════════════════════════════════════════════════════ */
 
-@media (max-width:1000px){
-  .app{grid-template-columns:minmax(0,1fr);gap:12px}
-  .riel{
-    position:sticky;top:8px;z-index:50;flex-direction:row;border-radius:20px;
-    padding:9px 12px;gap:3px;overflow-x:auto;justify-content:flex-start;
-  }
-  .riel .marca{margin-bottom:0;margin-right:8px;width:34px;height:34px;border-radius:11px}
-  .riel a{width:38px;height:38px}
+@media (max-width:1060px){
+  .app{grid-template-columns:minmax(0,1fr);gap:14px}
+  .riel{position:sticky;top:10px;z-index:50;flex-direction:row;border-radius:22px;
+    padding:10px 14px;gap:4px;overflow-x:auto;justify-content:flex-start}
+  .riel .marca{margin-bottom:0;margin-right:10px;width:36px;height:36px;border-radius:12px}
+  .riel a{width:40px;height:40px}
   .riel .separa{display:none}
-  .riel .globo-riel{left:50%;top:calc(100% + 8px);transform:translateX(-50%)}
+  .riel .globo-riel{left:50%;top:calc(100% + 9px);transform:translateX(-50%)}
   .cabecera{grid-template-columns:minmax(0,1fr)}
+  .envoltura{padding:0 32px 44px}
+  .barra .interior{padding:14px 32px}
 }
 
-@media (max-width:700px){
-  body{padding-inline:10px;padding-block:10px 28px}
-  :root{--r-panel:22px}
-  .barra .interior{padding:11px 16px}
-  .envoltura{padding:0 16px 30px}
+@media (max-width:760px){
+  body{padding-inline:11px;padding-block:11px 32px}
+  :root{--r-panel:24px}
+  .barra .interior{padding:12px 18px}
+  .envoltura{padding:0 18px 34px}
+  section{margin-bottom:48px}
   table{min-width:560px}
   .en-vista{margin-left:0;width:100%;text-align:center}
-  .notas dl{grid-template-columns:1fr;gap:3px 0}
-  .notas dt{white-space:normal;padding-top:11px}
-  .notas{padding:17px}
+  .notas dl{grid-template-columns:1fr;gap:4px 0}
+  .notas dt{white-space:normal;padding-top:14px}
+  .notas{padding:20px}
   .campo{flex:1 1 150px}
   .campo select{min-width:0;width:100%}
-  .veredicto{padding:19px 18px;border-radius:18px}
-  .kpi .v{font-size:27px}
-  .cabecera{padding-block:22px 20px}
+  .veredicto{padding:22px 20px;border-radius:20px}
+  .cabecera{padding-block:30px 26px}
+  .kpi{padding:18px}
+  .panel,.tarjeta-g{padding:22px}
+  /* El embudo pasa a una columna: nombre, forma y cifra en bloque. */
+  .emb-fila{grid-template-columns:minmax(0,1fr);gap:4px;
+    padding:14px 0;border-top:1px solid var(--linea2)}
+  .emb-fila:first-of-type{border-top:none}
+  .emb-cifra{text-align:left;display:flex;align-items:baseline;gap:10px}
+  .emb-caida{margin-top:2px}
 }
 </style>
 
 <div class="app">
   <nav class="riel" aria-label="Secciones del informe">
     <span class="marca" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M13.2 13.2 18.5 18.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
-    <a href="#s-kpis" data-sec="s-kpis" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los cinco números</span></a>
-    <a href="#s-veredicto" data-sec="s-veredicto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span class="globo-riel">¿Leads malos o cierre?</span></a>
-    <a href="#s-embudo" data-sec="s-embudo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">El embudo</span></a>
-    <a href="#s-canal" data-sec="s-canal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span class="globo-riel">Rendimiento por canal</span></a>
-    <a href="#s-paneles" data-sec="s-paneles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg><span class="globo-riel">Dónde se caen</span></a>
-    <a href="#s-mes" data-sec="s-mes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg><span class="globo-riel">Mes a mes</span></a>
-    <a href="#s-vendedor" data-sec="s-vendedor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="globo-riel">Cierre por vendedor</span></a>
-    <a href="#s-recos" data-sec="s-recos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span class="globo-riel">Recomendaciones</span></a>
-    <a href="#s-notas" data-sec="s-notas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="globo-riel">Notas de método</span></a>
+    <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los cinco números</span></a>
+    <a href="#s-veredicto" data-sec="s-veredicto" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span class="globo-riel">¿Leads malos o cierre?</span></a>
+    <a href="#s-embudo" data-sec="s-embudo" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">El embudo</span></a>
+    <a href="#s-canal" data-sec="s-canal" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span class="globo-riel">Rendimiento por canal</span></a>
+    <a href="#s-paneles" data-sec="s-paneles" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg><span class="globo-riel">Dónde se caen</span></a>
+    <a href="#s-mes" data-sec="s-mes" style="--tono:var(--cielo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg><span class="globo-riel">Mes a mes</span></a>
+    <a href="#s-vendedor" data-sec="s-vendedor" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="globo-riel">Cierre por vendedor</span></a>
+    <a href="#s-recos" data-sec="s-recos" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span class="globo-riel">Recomendaciones</span></a>
+    <a href="#s-notas" data-sec="s-notas" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="globo-riel">Notas de método</span></a>
     <span class="separa"></span>
   </nav>
   <div class="lienzo">
@@ -627,7 +622,8 @@ function pintaVeredicto(c){
     const p = 100*c.reparto[a]/tot;
     return '<span style="flex:'+c.reparto[a]+' 0 0;background:'+COLOR_AREA[a]+'" data-tip="'+
       esc(a)+': '+nf(c.reparto[a])+' leads · '+pf(c.reparto[a],tot)+' de los '+nf(tot)+' sin venta">'+
-      (p>7?pf(c.reparto[a],tot,0):"")+'</span>';
+      (p>=13?'<span class="et">'+esc(a==="Producto / Comercial"?"Producto":a)+'</span>':"")+
+      (p>=6?pf(c.reparto[a],tot,0):"")+'</span>';
   }).join("");
   const merc = c.reparto["Mercadeo"], vent = c.reparto["Ventas"], prod = c.reparto["Producto / Comercial"];
   const cont = c.t.filter(r=>r[4]==="closed lost"&&r[6]==="Contactabilidad").reduce((a,r)=>a+r[8],0)
@@ -654,18 +650,34 @@ function pintaEmbudo(c){
     ["Ganados",c.ganados,"var(--e5)","closed won"]
   ];
   const base = c.leads||1;
+  // La forma lleva SOLO la geometría. El nombre y la cifra viven en columnas
+  // alineadas, a tamaño de texto real: es lo que arregla el problema del
+  // widget del CRM, donde la etiqueta sale truncada al final de una guía.
+  const W=600, H=74, CEN=W/2, MIN=30;
+  const medio = v => Math.max(MIN, (W-10)*(v/base))/2;
   let h="";
   pasos.forEach((p,i)=>{
-    const prev = i? pasos[i-1][1] : null;
-    h += '<div class="paso"><div class="relleno" style="background:'+p[2]+';width:'+
-      Math.max(100*p[1]/base,1.2)+'%"></div>'+
-      '<div class="nom">'+esc(p[0])+'</div><div class="num">'+nf(p[1])+'</div>'+
-      '<div class="sub">'+esc(p[3])+' · '+pf(p[1],base)+' del total'+
-      (prev!==null?' · '+pf(p[1],prev)+' del paso anterior':'')+'</div></div>';
-    if(i<pasos.length-1){
-      const caen = p[1]-pasos[i+1][1];
-      h += '<div class="salto">↓ se quedaron <em>'+nf(caen)+'</em> ('+pf(caen,p[1])+' de este paso)</div>';
-    }
+    const arr = medio(p[1]);
+    const aba = medio(i<pasos.length-1 ? pasos[i+1][1] : p[1]);
+    // Sin solapes ni huecos entre bandas: el borde inferior de una es el
+    // superior de la siguiente, así la silueta se lee como un embudo y no
+    // como cinco figuras sueltas.
+    const d = "M"+(CEN-arr)+" 0 L"+(CEN+arr)+" 0 L"+(CEN+aba)+" "+H+" L"+(CEN-aba)+" "+H+" Z";
+    const tip = p[0]+": "+nf(p[1])+" · "+pf(p[1],base)+" del total";
+    // La caída se cuelga del escalón donde ATERRIZA, no en el hueco de en
+    // medio: así las bandas quedan pegadas y el dato no se pierde.
+    const caen = i ? pasos[i-1][1]-p[1] : 0;
+    h += '<div class="emb-fila">'+
+      '<div class="emb-et"><div class="emb-nom">'+esc(p[0])+'</div>'+
+      '<div class="emb-sub">'+esc(p[3])+'</div></div>'+
+      '<div class="emb-forma"><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(tip)+'">'+
+      '<path d="'+d+'" fill="'+p[2]+'" stroke="var(--contorno)" stroke-width="1.1" '+
+      'data-tip="'+esc(tip)+'"/></svg></div>'+
+      '<div class="emb-cifra"><div class="emb-num">'+nf(p[1])+'</div>'+
+      '<div class="emb-pct">'+pf(p[1],base)+' del total</div>'+
+      (i?'<div class="emb-caida"><span class="flecha">&#8595;</span> se quedaron <em>'+
+         nf(caen)+'</em> ('+pf(caen,pasos[i-1][1])+')</div>':'')+
+      '</div></div>';
   });
   document.getElementById("embudo").innerHTML = h;
 }
@@ -753,7 +765,8 @@ function barrasApiladas(cont,leyenda,datos,claves,colores,fmt){
       const v = d.v[k]||0; if(!v) return;
       const alto = (H-mt-mb)*v/max, yy = y(acum+v);
       g += '<rect x="'+x+'" y="'+yy+'" width="'+ancho+'" height="'+Math.max(alto-2,0.5)+'" rx="2" '+
-           'fill="'+colores[k]+'" data-tip="'+esc(d.et+' · '+k+': '+nf(v)+' leads')+'"/>';
+           'fill="'+colores[k]+'" stroke="var(--contorno)" stroke-width="1" '+
+           'data-tip="'+esc(d.et+' · '+k+': '+nf(v)+' leads')+'"/>';
       acum += v;
     });
     g += '<text class="valor-g" x="'+(x+ancho/2)+'" y="'+(y(acum)-5)+'" text-anchor="middle">'+nf(acum)+'</text>';
@@ -790,7 +803,7 @@ function pintaMes(c){
   pts.forEach((p,i)=>{
     const x = ml+paso*i+(paso-ancho)/2, alto=(H-mt-mb)*p.p/max;
     const curso = p.m===Q.mes_en_curso;
-    s += '<rect x="'+x+'" y="'+y(p.p)+'" width="'+ancho+'" height="'+Math.max(alto,0.5)+'" rx="2" fill="var(--e3)"'+
+    s += '<rect x="'+x+'" y="'+y(p.p)+'" width="'+ancho+'" height="'+Math.max(alto,0.5)+'" rx="2" fill="var(--e4)" stroke="var(--contorno)" stroke-width="1"'+
          (curso?' opacity="0.55"':'')+' data-tip="'+esc(p.et+': '+p.k+' de '+p.t+' leads · '+p.p.toFixed(1).replace(".",",")+'%')+'"/>'+
          '<text class="valor-g" x="'+(x+ancho/2)+'" y="'+(y(p.p)-5)+'" text-anchor="middle">'+p.p.toFixed(0)+'%</text>'+
          '<text class="eje" x="'+(x+ancho/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(p.et)+(curso?"*":"")+'</text>';
@@ -936,20 +949,52 @@ function pinta(){
   pintaCanal(c); pintaPaneles(c); pintaMes(c); pintaVendedor();
 }
 pintaFiltros(); pinta(); pintaRecos(); pintaNotas();
-/* El riel marca la sección que se está leyendo. Arranca con la primera ya
-   marcada: la página tiene que verse correcta en reposo, sin scroll. */
+/* El riel marca la sección que se está leyendo.
+   La versión anterior usaba IntersectionObserver y tomaba la PRIMERA sección
+   que tocara la banda de observación; con el margen inferior de -55%, la
+   sección anterior —que es alta— seguía tocándola, así que al hacer clic se
+   marcaba otra. Ahora la regla es determinista: la última sección cuyo borde
+   superior ya pasó la línea de lectura. Y el clic manda: fija su sección y
+   bloquea el recálculo mientras dura el desplazamiento. */
 (function riel(){
   const enlaces = [...document.querySelectorAll(".riel a[data-sec]")];
   const secciones = enlaces.map(a => document.getElementById(a.dataset.sec)).filter(Boolean);
-  if (!secciones.length || !("IntersectionObserver" in window)) return;
-  const visibles = new Set();
-  const obs = new IntersectionObserver((entradas) => {
-    for (const e of entradas) e.isIntersecting ? visibles.add(e.target.id) : visibles.delete(e.target.id);
-    const primera = secciones.find(sec => visibles.has(sec.id));
-    if (!primera) return;
-    for (const a of enlaces) a.classList.toggle("activo", a.dataset.sec === primera.id);
-  }, { rootMargin: "-72px 0px -55% 0px" });
-  secciones.forEach(sec => obs.observe(sec));
+  if (secciones.length !== enlaces.length || !secciones.length) return;
+  const LINEA = 110;
+  let fijadoHasta = 0;
+  const marca = (id) => {
+    for (const a of enlaces) a.classList.toggle("activo", a.dataset.sec === id);
+  };
+  const calcula = () => {
+    if (performance.now() < fijadoHasta) return;
+    const raiz = document.documentElement;
+    // Al final del documento las últimas secciones ya no pueden llegar a la
+    // línea: sin esto, nunca se marcarían.
+    if (window.innerHeight + window.scrollY >= raiz.scrollHeight - 4)
+      return marca(secciones[secciones.length-1].id);
+    let actual = secciones[0].id;
+    for (const sec of secciones)
+      if (sec.getBoundingClientRect().top <= LINEA) actual = sec.id;
+    marca(actual);
+  };
+  let pendiente = false;
+  const alDesplazar = () => {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(() => { pendiente = false; calcula(); });
+  };
+  addEventListener("scroll", alDesplazar, { passive: true });
+  addEventListener("resize", alDesplazar, { passive: true });
+  const BLOQUEO = 700;
+  for (const a of enlaces) a.addEventListener("click", () => {
+    marca(a.dataset.sec);
+    fijadoHasta = performance.now() + BLOQUEO;
+    // Recalcular al vencer el bloqueo. Sin esto, si nadie vuelve a
+    // desplazarse el marcador se queda donde lo dejó el clic aunque la
+    // página ya esté en otro sitio: el bloqueo se tragaba el estado final.
+    setTimeout(calcula, BLOQUEO + 50);
+  });
+  calcula();
 })();
 
 })();
