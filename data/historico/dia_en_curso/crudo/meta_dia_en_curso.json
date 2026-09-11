@@ -1,0 +1,111 @@
+{
+  "_metadatos": {
+    "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+    "fecha_consulta": "2026-09-11",
+    "hora_consulta": "2026-09-11T15:35:38+00:00",
+    "parametros": {
+      "ad_account_id": "225318458221662",
+      "level": "campaign",
+      "time_range": {
+        "since": "2026-09-11",
+        "until": "2026-09-11"
+      },
+      "breakdowns": [
+        "country"
+      ],
+      "fields": [
+        "id",
+        "name",
+        "results",
+        "cost_per_result",
+        "spend",
+        "impressions"
+      ],
+      "limit": 1000
+    },
+    "_que_es": "El DIA EN CURSO. No es un dia cerrado y no se guarda en data/historico/pauta_meses/: no entra a `piezas`, no lo suma el filtro y ninguna grafica lo promedia (ADR-065).",
+    "_se_mueve": "Este archivo caduca solo. Dos consultas separadas por minutos el 2026-09-11 dieron $7,53 y $7,93 de gasto en la campana de GT (1.012 y 1.032 impresiones). Por eso se guarda la hora, no solo la fecha.",
+    "_la_hora_es_utc": "La hora es del entorno, en UTC. NO es la hora de la cuenta publicitaria: su zona horaria esta declarada como desconocida y no se supone.",
+    "_fidelidad": "Volcado parseado de la respuesta. El espacio duro (NBSP) esta intacto.",
+    "_nota": "Agregado por campana x pais del 11 de SEPTIEMBRE 2026, dia en curso."
+  },
+  "ad_entities": [
+    {
+      "country": "GT",
+      "results": {
+        "indicator": "actions:link_click",
+        "values": [
+          {
+            "attribution_windows": [
+              "default"
+            ],
+            "value": "190"
+          }
+        ]
+      },
+      "cost_per_result": {
+        "value": "$0,00 USD (Link clicks)"
+      },
+      "amount_spent": "$0,69 USD",
+      "impressions": "1530",
+      "id": "120238382458610783",
+      "name": "Plan Free Tráfico 2026"
+    },
+    {
+      "country": "GT",
+      "results": {
+        "indicator": "actions:lead",
+        "values": [
+          {
+            "attribution_windows": [
+              "default"
+            ],
+            "value": "2"
+          }
+        ]
+      },
+      "cost_per_result": {
+        "value": "$3,96 USD (Leads)"
+      },
+      "amount_spent": "$7,93 USD",
+      "impressions": "1032",
+      "id": "120249908467400783",
+      "name": "Campaña Punto de Venta GT"
+    },
+    {
+      "country": "SV",
+      "results": {
+        "indicator": "actions:lead",
+        "values": [
+          {
+            "attribution_windows": [
+              "default"
+            ],
+            "value": "6"
+          }
+        ]
+      },
+      "cost_per_result": {
+        "value": "$0,71 USD (Leads)"
+      },
+      "amount_spent": "$4,28 USD",
+      "impressions": "1072",
+      "id": "120249959697280783",
+      "name": "Campaña Punto de Venta SV"
+    },
+    {
+      "country": "GT",
+      "results": {
+        "indicator": "actions:lead",
+        "value": "Not available"
+      },
+      "cost_per_result": {
+        "value": "Not available (Leads)"
+      },
+      "amount_spent": "$0,04 USD",
+      "impressions": "13",
+      "id": "120249959697280783",
+      "name": "Campaña Punto de Venta SV"
+    }
+  ]
+}

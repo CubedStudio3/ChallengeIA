@@ -4385,3 +4385,139 @@ la capacidad `assets`, cuyas URL son del mismo origen y el visor sí carga — q
 es lo que haría que se vean DENTRO del tablero en vez de en otra pestaña.
 
 El código está en el historial de git, en el commit de ADR-062.
+
+---
+
+## ADR-065 · El día en curso entra al tablero, pero aparte
+
+**Fecha:** 2026-09-11
+**Estado:** aceptado
+**Pedido de Mercadeo, literal:** «pero y si yo quisiera agarrar tambien el dia
+de hoy no se puede? la idea es que tengamos los datos reales en tiempo real»
+
+### El contexto
+
+El filtro llegaba hasta el 6 de septiembre. No era un tope del filtro: era el
+borde del dato en disco. El par de crudos de septiembre se pidió el día 7 con
+`until: 2026-09-06`, y desde entonces nadie volvió a pedir nada. `rango_disponible`
+sale del dato, así que decía la verdad — pero la verdad era «esto está viejo».
+
+### Lo que se midió antes de decidir
+
+**1. Meta sí devuelve el día en curso.** No hay ningún límite de acceso.
+
+**2. Un día en curso no es comparable con un día cerrado.** El 11 de septiembre,
+contra el promedio de los días completos previos:
+
+| mercado | hoy | día típico | avance |
+|---|---|---|---|
+| GT | $7.97 · 1,045 impr. | $29.65 · 5,072 | **27% del gasto, 21% de las impresiones** |
+| SV | $4.28 · 1,072 impr. | $20.01 · 4,932 | **21% del gasto, 22% de las impresiones** |
+
+Puesto en la misma serie que los días cerrados, eso dibuja un desplome del 75%
+que es puro horario.
+
+**3. Cuánto se mueve un día DESPUÉS de cerrar.** Se volvió a pedir el 4–6 de
+septiembre, guardado desde una consulta del día 7, y se comparó fila por fila:
+
+| día | consultado a | cambió en 4 días |
+|---|---|---|
+| 4 sep | 3 días después | **idéntico, fila por fila** |
+| 5 sep | 2 días después | **idéntico, fila por fila** |
+| 6 sep | 1 día después | sí: +$0.07, +4 impresiones, +2 clics |
+
+**Los leads no se movieron en ninguno.** Un día queda firme a los ~2 días de
+cerrar; el día siguiente todavía respira.
+
+**4. El día en curso se mueve mientras se mira.** Dos consultas separadas por
+minutos el 11 de septiembre dieron **$7.53 y $7.93** en GT (1,012 y 1,032
+impresiones). Por eso el crudo guarda `hora_consulta`, no solo la fecha: un
+número sin el momento en que se leyó no se puede volver a comprobar.
+
+### La decisión
+
+**El día en curso se muestra, y NO entra a `piezas`.**
+
+`piezas` es lo único que el filtro suma. Dejar el día en curso fuera de esa
+lista significa que no lo suma ningún total, no lo promedia ninguna gráfica y no
+toca ningún costo por lead — y eso es cierto por construcción, no por un rótulo.
+La franja de la pantalla solo hace visible una separación que ya existe en el
+dato.
+
+Se rechazó la alternativa de meterlo en la serie con una nota al pie. Es
+exactamente el error del ADR-057: si hay que leer una advertencia para no leer
+mal un número, el problema es el número que se eligió mostrar.
+
+### El rótulo dice un porcentaje, no una hora
+
+«Van 6 horas del día» exigiría saber la zona horaria de la cuenta, que es una
+constante **declarada como desconocida** en este proyecto. «Va al 27% del gasto
+de un día típico» sale del promedio de días completos y no supone nada. La hora
+que sí se muestra es la de la lectura, rotulada como UTC —la del entorno—,
+precisamente para que nadie la confunda con la de la cuenta.
+
+El promedio se calcula sobre los últimos 7 días completos **anteriores** al día
+en curso: siete cubre la semana entera, así que un lunes no se compara solo
+contra fines de semana. Si hay menos, se usan los que haya y el bloque declara
+cuántos fueron.
+
+### Qué se hizo
+
+- Los crudos de septiembre se re-pidieron del **4 al 10** y reemplazaron al par
+  del 4 al 6. La compuerta de reconciliación los aceptó: 7 días, 15 valores al
+  centavo. `rango_disponible` pasó de `2026-09-06` a **`2026-09-10`**, y el
+  filtro de 1,229 a **1,245 piezas**.
+- `src/modulo1/dia_en_curso.py` — lee su propio crudo, agrupa por indicador y
+  calcula el avance contra los días completos. Devuelve `None` si no hay
+  archivo, que es una ausencia legítima y no un dato faltante.
+- `data/historico/dia_en_curso/crudo/` — vive fuera de `pauta_meses/` a
+  propósito: lo que está ahí adentro es dato cerrado.
+- La franja del tablero, pegada al filtro.
+- `pruebas/dia_en_curso.js` (`npm run prueba:hoy`) — 22 comprobaciones. La que
+  importa: con el filtro **abierto de par en par** —la ventana que más dato
+  muestra— la inversión sigue siendo la de las piezas y **no** la que saldría si
+  el día en curso se sumara. Y un sabotaje: marcar el bloque como no-de-hoy y
+  comprobar que el rótulo cambia.
+- Rutina **diaria** `trig_01G5JLyctdfbuViKw79AEMgS`, 06:00 GT, separada de la
+  semanal.
+
+### El archivo se queda viejo solo, y eso se guarda
+
+`dia_en_curso.arma()` recibe el `--hoy` de la corrida y declara `es_de_hoy`.
+
+No es hipotético: **la corrida semanal también regenera el tablero** y tomaría
+el crudo que hubiera en disco. Un lunes habría mostrado la lectura del viernes
+rotulada «día en curso» —fecha correcta, afirmación falsa—. Cuando `es_de_hoy`
+es falso la franja no se borra, porque «lo último que se leyó» sigue siendo
+cierto y útil: pasa a llamarse **«Último día leído»**, avisa **«No es hoy»** y
+deja de prometer que se mueve mientras se mira.
+
+### Por qué una Rutina NUEVA y no la semanal cambiada a diaria
+
+Son dos trabajos distintos y se rompen distinto. La semanal rehace el análisis
+completo: estrategia, cartas, copys, competencia. La diaria **solo mueve el
+dato** —los días cerrados que falten y el día en curso— y vuelve a generar el
+tablero con la MISMA `ventana_de_la_corrida`.
+
+Volver diaria la semanal habría recalculado la estrategia y las cartas todos los
+días mientras la mesa trabaja encima de ellas, y habría vuelto a consultar la Ad
+Library a diario —que solo responde «qué está activo ahora»— para un análisis
+que es semanal. Separarlas mantiene el compromiso escrito con Mercadeo del
+2026-09-07: **el periodo del análisis se escribe siempre desde la corrida, nunca
+desde el rango de dato disponible.**
+
+La Rutina diaria descubre la corrida vigente en disco en vez de traer la ruta
+escrita: la semanal crea una carpeta nueva cada lunes, y una ruta fija habría
+quedado refrescando el dato de una corrida vieja mientras el tablero muestra
+otra.
+
+### Lo que sigue sin resolverse
+
+**Las dos Rutinas están guardadas sin conectores.** El parámetro sigue cerrado
+para esta organización —la creación de hoy devolvió la misma advertencia— así
+que hay que adjuntarlos desde la interfaz de Routines en claude.ai. Sin eso la
+Rutina diaria se detiene en su Compuerta 0 y **no toca el tablero**, a propósito.
+
+Y «tiempo real» literal —que la página le pregunte a Meta cada vez que alguien
+la abre— **no se puede**: el visor bloquea todo `fetch` externo y la única
+capacidad MCP declarada es Zoho Sprints. La frescura viene de volver a correr.

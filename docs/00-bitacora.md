@@ -1336,3 +1336,72 @@ ADR-062 se queda, porque sin él ADR-064 no explica qué revierte. Un hallazgo n
 se borra porque la función que lo descubrió se haya quitado.
 
 Detalle en ADR-064.
+
+---
+
+## Sesión 20 · 2026-09-11 · «datos reales en tiempo real»
+
+**Pregunta de Mercadeo, en dos tiempos:** primero «porque me dice que solo
+podemos ver hasta al 6 de septiembre?», y al contestarla, «pero y si yo quisiera
+agarrar tambien el dia de hoy no se puede? la idea es que tengamos los datos
+reales en tiempo real».
+
+### Por qué el filtro se detenía el 6 de septiembre
+
+No era un tope del filtro. Era el borde del dato: el par de crudos de septiembre
+se pidió el día 7 con `until: 2026-09-06`, y nadie volvió a pedir nada. El día 6
+era el último completo en ese momento, y el 4 el primero para no pisar la
+corrida del 25 de agosto al 3 de septiembre. `rango_disponible` decía la verdad
+—sale del dato— pero la verdad era que el dato se había quedado atrás.
+
+### Se midió antes de decidir
+
+1. **Meta sí devuelve el día en curso.** No hay límite de acceso.
+2. **Va al 20-27% de un día completo.** GT $7.97 contra $29.65 de día típico;
+   SV $4.28 contra $20.01. Las impresiones, al 21-22%.
+3. **Un día queda firme a los ~2 días de cerrar.** Se volvió a pedir el 4-6 de
+   septiembre y se comparó fila por fila contra lo guardado: el 4 y el 5,
+   idénticos; el 6 —consultado un día después de cerrar— se movió $0.07. Los
+   leads, quietos en los tres.
+4. **El día en curso se mueve mientras se mira:** dos consultas con minutos de
+   diferencia dieron $7.53 y $7.93 en GT.
+
+### Qué quedó hecho
+
+- Septiembre re-pedido del **4 al 10**. Compuerta en verde: 7 días, 15 valores
+  al centavo. `rango_disponible` → **2026-09-10**; el filtro, **1,245 piezas**.
+- `dia_en_curso.py` y su crudo aparte. **Fuera de `piezas`**, que es lo único
+  que el filtro suma: la separación es de dato, no de rótulo.
+- La franja del tablero, pegada al filtro, con el avance en **porcentaje** —la
+  zona horaria de la cuenta sigue siendo desconocida— y la hora de lectura
+  rotulada UTC.
+- `npm run prueba:hoy`, 15 comprobaciones. La que importa: con el filtro abierto
+  de par en par, la inversión sigue sin incluir el día en curso.
+- Rutina **diaria** `trig_01G5JLyctdfbuViKw79AEMgS` (06:00 GT), separada de la
+  semanal: solo mueve el dato, nunca el análisis.
+
+### Lo que no quedó resuelto
+
+- **Las dos Rutinas siguen sin conectores.** La creación de hoy devolvió la misma
+  advertencia de siempre: el parámetro está cerrado para esta organización y hay
+  que adjuntarlos desde la interfaz de Routines en claude.ai. Sin eso la diaria
+  se detiene en su Compuerta 0 y no toca el tablero.
+- **«Tiempo real» literal no existe acá** y se dijo así: el visor bloquea todo
+  `fetch` externo, la única capacidad MCP declarada es Zoho Sprints, y la
+  frescura viene de volver a correr.
+
+### Un agujero cerrado antes de publicar
+
+El crudo del día en curso lo refresca la Rutina diaria — pero **la corrida
+semanal también regenera el tablero**, y habría tomado el archivo que hubiera en
+disco. Un lunes habría mostrado la lectura del viernes rotulada «día en curso».
+El bloque ahora declara `es_de_hoy` contra el `--hoy` de la corrida, y la franja
+pasa a «Último día leído · No es hoy» en vez de mentir. Con su sabotaje en
+`prueba:hoy`.
+
+### Un error propio, anotado
+
+`prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían» ir
+$13,898.54. El tablero tenía razón: la prueba había sumado los seis indicadores
+de 2026 en un solo número, que es exactamente lo que ADR-013 prohíbe. El
+esperado de una prueba puede cometer la trampa que el producto ya esquiva.

@@ -1,7 +1,7 @@
 {
   "corrida": {
     "rango": "2026-08-25 a 2026-09-03",
-    "hoy": "2026-09-04",
+    "hoy": "2026-09-11",
     "dry_run": false
   },
   "integridad": {
@@ -12422,9 +12422,9 @@
         "n": "Campaña Punto de Venta GT",
         "p": "GT",
         "k": "actions:lead",
-        "g": 33.44,
+        "g": 33.51,
         "r": 5.0,
-        "i": 5529.0
+        "i": 5533.0
       },
       {
         "f": "2026-09-06",
@@ -12434,7 +12434,7 @@
         "k": "actions:lead",
         "g": 0.13,
         "r": null,
-        "i": 37.0
+        "i": 38.0
       },
       {
         "f": "2026-09-06",
@@ -12444,7 +12444,7 @@
         "k": "actions:lead",
         "g": 21.15,
         "r": 8.0,
-        "i": 4833.0
+        "i": 4834.0
       },
       {
         "f": "2026-09-06",
@@ -12453,26 +12453,186 @@
         "p": "GT",
         "k": "actions:link_click",
         "g": 5.2,
-        "r": 1891.0,
+        "r": 1893.0,
         "i": 5108.0
+      },
+      {
+        "f": "2026-09-07",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.38,
+        "r": 5.0,
+        "i": 4767.0
+      },
+      {
+        "f": "2026-09-07",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.16,
+        "r": null,
+        "i": 50.0
+      },
+      {
+        "f": "2026-09-07",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 20.53,
+        "r": 12.0,
+        "i": 4908.0
+      },
+      {
+        "f": "2026-09-07",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.1,
+        "r": 1159.0,
+        "i": 4639.0
+      },
+      {
+        "f": "2026-09-08",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 31.97,
+        "r": 9.0,
+        "i": 5146.0
+      },
+      {
+        "f": "2026-09-08",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.39,
+        "r": null,
+        "i": 69.0
+      },
+      {
+        "f": "2026-09-08",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 22.59,
+        "r": 19.0,
+        "i": 5520.0
+      },
+      {
+        "f": "2026-09-08",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 6.46,
+        "r": 2075.0,
+        "i": 5652.0
+      },
+      {
+        "f": "2026-09-09",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 28.75,
+        "r": 5.0,
+        "i": 4909.0
+      },
+      {
+        "f": "2026-09-09",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.11,
+        "r": null,
+        "i": 51.0
+      },
+      {
+        "f": "2026-09-09",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 20.41,
+        "r": 10.0,
+        "i": 5045.0
+      },
+      {
+        "f": "2026-09-09",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 4.32,
+        "r": 1260.0,
+        "i": 3263.0
+      },
+      {
+        "f": "2026-09-10",
+        "c": "120249908467400783",
+        "n": "Campaña Punto de Venta GT",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 29.82,
+        "r": 12.0,
+        "i": 5135.0
+      },
+      {
+        "f": "2026-09-10",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "GT",
+        "k": "actions:lead",
+        "g": 0.13,
+        "r": null,
+        "i": 60.0
+      },
+      {
+        "f": "2026-09-10",
+        "c": "120249959697280783",
+        "n": "Campaña Punto de Venta SV",
+        "p": "SV",
+        "k": "actions:lead",
+        "g": 20.17,
+        "r": 12.0,
+        "i": 5546.0
+      },
+      {
+        "f": "2026-09-10",
+        "c": "120238382458610783",
+        "n": "Plan Free Tráfico 2026",
+        "p": "GT",
+        "k": "actions:link_click",
+        "g": 3.69,
+        "r": 1089.0,
+        "i": 2372.0
       }
     ],
     "rango_disponible": {
       "desde": "2026-01-03",
-      "hasta": "2026-09-06"
+      "hasta": "2026-09-10"
     },
-    "dias_con_dato": 243,
+    "dias_con_dato": 247,
     "primer_dia": "2026-01-03",
-    "ultimo_dia": "2026-09-06",
+    "ultimo_dia": "2026-09-10",
     "mercados": [
       "GT",
       "SV"
     ],
     "fuera_de_mercado": {
       "HN": {
-        "gasto": 0.06,
-        "impresiones": 25.0,
-        "dias": 15,
+        "gasto": 0.07,
+        "impresiones": 27.0,
+        "dias": 16,
         "campanas": [
           "Campaña Punto de Venta SV"
         ],
@@ -12608,6 +12768,61 @@
     "_los_huecos": "`r` en null es un día con gasto y sin resultado atribuido. Para sumar aporta cero, y eso está medido, no supuesto: los días con número de Qpayshop dan 12, su total agregado exacto.",
     "_el_corte_por_mercado": "Cada pieza trae su país, así que GT y SV se recalculan dentro de la ventana igual que el total. Es un requisito de Mercadeo (2026-09-03), no un efecto lateral: sin país no se pueden aplicar las exclusiones y el total volvería a incluir Honduras.",
     "_gasto_sin_resultado": "Un día con gasto y `r` en null cuenta su gasto. El agregado por periodo lo descartaba entero por no ser «utilizable», y así se perdían $1.30 reales. Esa regla sirve para una fila agregada; aplicada por día borraría inversión de verdad.",
+    "dia_en_curso": {
+      "fecha": "2026-09-11",
+      "es_de_hoy": true,
+      "hoy_de_la_corrida": "2026-09-11",
+      "consultado_a": "2026-09-11T15:35:38+00:00",
+      "por_mercado": {
+        "GT": {
+          "indicador": "actions:lead",
+          "gasto": 7.97,
+          "resultados": 2.0,
+          "impresiones": 1045,
+          "gasto_sin_resultado": 0.04,
+          "costo_por_resultado": 3.985,
+          "otros_indicadores": [
+            "actions:link_click"
+          ],
+          "referencia": {
+            "dias": 7,
+            "desde": "2026-09-04",
+            "hasta": "2026-09-10",
+            "gasto": 29.65,
+            "impresiones": 5072
+          },
+          "avance": {
+            "gasto": 0.269,
+            "impresiones": 0.206
+          }
+        },
+        "SV": {
+          "indicador": "actions:lead",
+          "gasto": 4.28,
+          "resultados": 6.0,
+          "impresiones": 1072,
+          "gasto_sin_resultado": 0,
+          "costo_por_resultado": 0.7133,
+          "otros_indicadores": [],
+          "referencia": {
+            "dias": 7,
+            "desde": "2026-09-04",
+            "hasta": "2026-09-10",
+            "gasto": 20.01,
+            "impresiones": 4932
+          },
+          "avance": {
+            "gasto": 0.214,
+            "impresiones": 0.217
+          }
+        }
+      },
+      "fuera_de_mercado": {},
+      "_no_entra_a_piezas": "Este bloque NO está en `piezas`. El filtro no lo suma, ninguna gráfica lo promedia y ningún costo por lead lo incluye. Un día al 20-25% de su gasto puesto al lado de días completos dibuja una caída que es puro horario (ADR-065).",
+      "_por_que_un_porcentaje_y_no_una_hora": "La zona horaria de la cuenta está declarada como DESCONOCIDA, así que «van N horas del día» no se puede afirmar. El avance se mide contra el promedio de días completos, que sale del dato.",
+      "_si_no_es_de_hoy": "Cuando `es_de_hoy` es falso, el crudo se quedó viejo: se leyó otro día y nadie lo refrescó. No se borra —lo último leído sigue siendo cierto— pero la franja deja de decir «día en curso» y dice de qué día es. Un dato viejo rotulado como de hoy es peor que no tenerlo.",
+      "_se_mueve": "El día en curso cambia mientras se mira: dos consultas separadas por minutos el 2026-09-11 dieron $7.53 y $7.93 en GT. Por eso el bloque guarda la hora de su consulta."
+    },
     "meses_historicos": {
       "meses": [
         {
@@ -12729,10 +12944,10 @@
         {
           "mes": "2026-09",
           "entra": true,
-          "piezas": 12,
-          "dias_con_dato": 3,
-          "campanas_comparadas": 5,
-          "valores_comparados": 13,
+          "piezas": 28,
+          "dias_con_dato": 7,
+          "campanas_comparadas": 6,
+          "valores_comparados": 15,
           "dias_quitados_por_solape": 0,
           "indicadores": [
             "actions:lead",
@@ -12752,7 +12967,7 @@
         "2026-09"
       ],
       "rechazados": [],
-      "piezas": 1193,
+      "piezas": 1209,
       "_que_es": "Meses anteriores de pauta, día por día. Sirven SOLO para que el filtro de fechas y las gráficas puedan mirar atrás. El análisis, la estrategia y las cartas son de la corrida de la semana y no se recalculan con estos días: es un requisito de Mercadeo (2026-09-07), no un efecto lateral.",
       "_la_compuerta": "Cada mes se reconcilió contra SU PROPIO agregado, al centavo, por campaña y por país. Un mes que no cuadra no entra y queda declarado en `meses_rechazados`."
     },
@@ -13058,7 +13273,7 @@
           "nota_estrategica": null,
           "moneda": "USD",
           "plantillas_sin_renderizar": 2,
-          "lanzados_10d": 13,
+          "lanzados_10d": 0,
           "lanzados_3d": 0,
           "cohortes": [
             {
@@ -13089,8 +13304,8 @@
               "cuota": 0.9473684210526315,
               "sobre_anuncios": 38,
               "con_titular_legible": 36,
-              "dias_vivo": 109,
-              "dias_desde_el_ultimo": 8,
+              "dias_vivo": 116,
+              "dias_desde_el_ultimo": 15,
               "primer_lanzamiento": "2026-05-18"
             }
           ],
@@ -13126,8 +13341,8 @@
               "cuota": 0.5,
               "sobre_anuncios": 6,
               "con_titular_legible": 6,
-              "dias_vivo": 42,
-              "dias_desde_el_ultimo": 42,
+              "dias_vivo": 49,
+              "dias_desde_el_ultimo": 49,
               "primer_lanzamiento": "2026-07-24"
             },
             {
@@ -13136,8 +13351,8 @@
               "cuota": 0.5,
               "sobre_anuncios": 6,
               "con_titular_legible": 6,
-              "dias_vivo": 42,
-              "dias_desde_el_ultimo": 42,
+              "dias_vivo": 49,
+              "dias_desde_el_ultimo": 49,
               "primer_lanzamiento": "2026-07-24"
             }
           ],
@@ -13159,7 +13374,7 @@
           "nota_estrategica": "Inventario GLOBAL, no de este mercado: no pauta en GT ni en SV, así que se lee sin filtro de país. Es un referente —se mira para aprender— y no cuenta como presión competitiva. NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
           "moneda": "USD",
           "plantillas_sin_renderizar": 0,
-          "lanzados_10d": 50,
+          "lanzados_10d": 0,
           "lanzados_3d": 0,
           "cohortes": [
             {
@@ -13182,8 +13397,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 10,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 17,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-25"
             },
             {
@@ -13192,8 +13407,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 9,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 16,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-26"
             },
             {
@@ -13202,8 +13417,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 9,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 16,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-26"
             },
             {
@@ -13212,8 +13427,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 10,
-              "dias_desde_el_ultimo": 10,
+              "dias_vivo": 17,
+              "dias_desde_el_ultimo": 17,
               "primer_lanzamiento": "2026-08-25"
             },
             {
@@ -13222,8 +13437,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 8,
-              "dias_desde_el_ultimo": 8,
+              "dias_vivo": 15,
+              "dias_desde_el_ultimo": 15,
               "primer_lanzamiento": "2026-08-27"
             }
           ],
@@ -13259,8 +13474,8 @@
               "cuota": 0.6666666666666666,
               "sobre_anuncios": 3,
               "con_titular_legible": 2,
-              "dias_vivo": 21,
-              "dias_desde_el_ultimo": 21,
+              "dias_vivo": 28,
+              "dias_desde_el_ultimo": 28,
               "primer_lanzamiento": "2026-08-14"
             }
           ],
@@ -13282,7 +13497,7 @@
           "moneda": "USD",
           "plantillas_sin_renderizar": 0,
           "lanzados_10d": 25,
-          "lanzados_3d": 25,
+          "lanzados_3d": 0,
           "cohortes": [
             {
               "fecha": "2026-09-04",
@@ -13300,8 +13515,8 @@
               "cuota": 0.12,
               "sobre_anuncios": 25,
               "con_titular_legible": 20,
-              "dias_vivo": 0,
-              "dias_desde_el_ultimo": 0,
+              "dias_vivo": 7,
+              "dias_desde_el_ultimo": 7,
               "primer_lanzamiento": "2026-09-04"
             },
             {
@@ -13310,8 +13525,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 25,
               "con_titular_legible": 20,
-              "dias_vivo": 1,
-              "dias_desde_el_ultimo": 1,
+              "dias_vivo": 8,
+              "dias_desde_el_ultimo": 8,
               "primer_lanzamiento": "2026-09-03"
             },
             {
@@ -13320,8 +13535,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 25,
               "con_titular_legible": 20,
-              "dias_vivo": 0,
-              "dias_desde_el_ultimo": 0,
+              "dias_vivo": 7,
+              "dias_desde_el_ultimo": 7,
               "primer_lanzamiento": "2026-09-04"
             },
             {
@@ -13330,8 +13545,8 @@
               "cuota": 0.04,
               "sobre_anuncios": 25,
               "con_titular_legible": 20,
-              "dias_vivo": 1,
-              "dias_desde_el_ultimo": 1,
+              "dias_vivo": 8,
+              "dias_desde_el_ultimo": 8,
               "primer_lanzamiento": "2026-09-03"
             },
             {
@@ -13340,8 +13555,8 @@
               "cuota": 0.04,
               "sobre_anuncios": 25,
               "con_titular_legible": 20,
-              "dias_vivo": 1,
-              "dias_desde_el_ultimo": 1,
+              "dias_vivo": 8,
+              "dias_desde_el_ultimo": 8,
               "primer_lanzamiento": "2026-09-03"
             }
           ],
@@ -13362,7 +13577,7 @@
           "nota_estrategica": null,
           "moneda": "USD",
           "plantillas_sin_renderizar": 0,
-          "lanzados_10d": 2,
+          "lanzados_10d": 0,
           "lanzados_3d": 0,
           "cohortes": [
             {
@@ -13393,8 +13608,8 @@
               "cuota": 0.125,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-07"
             },
             {
@@ -13403,8 +13618,8 @@
               "cuota": 0.125,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 28,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 35,
               "primer_lanzamiento": "2026-08-07"
             },
             {
@@ -13413,8 +13628,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 163,
-              "dias_desde_el_ultimo": 163,
+              "dias_vivo": 170,
+              "dias_desde_el_ultimo": 170,
               "primer_lanzamiento": "2026-03-25"
             },
             {
@@ -13423,8 +13638,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 81,
-              "dias_desde_el_ultimo": 81,
+              "dias_vivo": 88,
+              "dias_desde_el_ultimo": 88,
               "primer_lanzamiento": "2026-06-15"
             },
             {
@@ -13433,8 +13648,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 28,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 35,
               "primer_lanzamiento": "2026-08-07"
             }
           ],
@@ -13505,7 +13720,7 @@
           "nota_estrategica": "Inventario GLOBAL, no de este mercado: no pauta en GT ni en SV, así que se lee sin filtro de país. Es un referente —se mira para aprender— y no cuenta como presión competitiva. NO pauta en Guatemala. Sus 130 anuncios activos estan en libras esterlinas y en ingles, es decir Reino Unido y otros mercados. Como competidor de pauta en GT hoy no existe; su relevancia es como referencia creativa, no como disputa de territorio.",
           "moneda": "USD",
           "plantillas_sin_renderizar": 0,
-          "lanzados_10d": 50,
+          "lanzados_10d": 0,
           "lanzados_3d": 0,
           "cohortes": [
             {
@@ -13528,8 +13743,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 10,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 17,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-25"
             },
             {
@@ -13538,8 +13753,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 9,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 16,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-26"
             },
             {
@@ -13548,8 +13763,8 @@
               "cuota": 0.1,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 9,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 16,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-26"
             },
             {
@@ -13558,8 +13773,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 10,
-              "dias_desde_el_ultimo": 10,
+              "dias_vivo": 17,
+              "dias_desde_el_ultimo": 17,
               "primer_lanzamiento": "2026-08-25"
             },
             {
@@ -13568,8 +13783,8 @@
               "cuota": 0.08,
               "sobre_anuncios": 50,
               "con_titular_legible": 50,
-              "dias_vivo": 8,
-              "dias_desde_el_ultimo": 8,
+              "dias_vivo": 15,
+              "dias_desde_el_ultimo": 15,
               "primer_lanzamiento": "2026-08-27"
             }
           ],
@@ -13630,8 +13845,8 @@
               "cuota": 0.2727272727272727,
               "sobre_anuncios": 11,
               "con_titular_legible": 9,
-              "dias_vivo": 22,
-              "dias_desde_el_ultimo": 22,
+              "dias_vivo": 29,
+              "dias_desde_el_ultimo": 29,
               "primer_lanzamiento": "2026-08-13"
             },
             {
@@ -13640,8 +13855,8 @@
               "cuota": 0.2727272727272727,
               "sobre_anuncios": 11,
               "con_titular_legible": 9,
-              "dias_vivo": 22,
-              "dias_desde_el_ultimo": 22,
+              "dias_vivo": 29,
+              "dias_desde_el_ultimo": 29,
               "primer_lanzamiento": "2026-08-13"
             },
             {
@@ -13650,8 +13865,8 @@
               "cuota": 0.18181818181818182,
               "sobre_anuncios": 11,
               "con_titular_legible": 9,
-              "dias_vivo": 57,
-              "dias_desde_el_ultimo": 57,
+              "dias_vivo": 64,
+              "dias_desde_el_ultimo": 64,
               "primer_lanzamiento": "2026-07-09"
             },
             {
@@ -13660,8 +13875,8 @@
               "cuota": 0.09090909090909091,
               "sobre_anuncios": 11,
               "con_titular_legible": 9,
-              "dias_vivo": 57,
-              "dias_desde_el_ultimo": 57,
+              "dias_vivo": 64,
+              "dias_desde_el_ultimo": 64,
               "primer_lanzamiento": "2026-07-09"
             }
           ],
@@ -13682,7 +13897,7 @@
           "nota_estrategica": null,
           "moneda": "USD",
           "plantillas_sin_renderizar": 0,
-          "lanzados_10d": 2,
+          "lanzados_10d": 0,
           "lanzados_3d": 0,
           "cohortes": [
             {
@@ -13713,8 +13928,8 @@
               "cuota": 0.125,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 9,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 16,
               "primer_lanzamiento": "2026-08-07"
             },
             {
@@ -13723,8 +13938,8 @@
               "cuota": 0.125,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 28,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 35,
               "primer_lanzamiento": "2026-08-07"
             },
             {
@@ -13733,8 +13948,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 163,
-              "dias_desde_el_ultimo": 163,
+              "dias_vivo": 170,
+              "dias_desde_el_ultimo": 170,
               "primer_lanzamiento": "2026-03-25"
             },
             {
@@ -13743,8 +13958,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 81,
-              "dias_desde_el_ultimo": 81,
+              "dias_vivo": 88,
+              "dias_desde_el_ultimo": 88,
               "primer_lanzamiento": "2026-06-15"
             },
             {
@@ -13753,8 +13968,8 @@
               "cuota": 0.0625,
               "sobre_anuncios": 16,
               "con_titular_legible": 13,
-              "dias_vivo": 28,
-              "dias_desde_el_ultimo": 28,
+              "dias_vivo": 35,
+              "dias_desde_el_ultimo": 35,
               "primer_lanzamiento": "2026-08-07"
             }
           ],
@@ -13828,7 +14043,7 @@
           "mensaje": "Gestiona tu Negocio Fácil",
           "cuota": 0.947,
           "repeticiones": 36,
-          "dias_vivo": 109,
+          "dias_vivo": 116,
           "lectura": "Paggo concentra 95% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
         },
         {
@@ -13837,7 +14052,7 @@
           "mensaje": "Recibe pagos con oro digital",
           "cuota": 0.5,
           "repeticiones": 3,
-          "dias_vivo": 42,
+          "dias_vivo": 49,
           "lectura": "Recurrente concentra 50% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
         }
       ],
@@ -15967,7 +16182,7 @@
         "mediana": 11.0,
         "comentarios": 9,
         "sin_comentarios": 8,
-        "edad_promedio_dias": 29.2
+        "edad_promedio_dias": 36.2
       },
       "FEED": {
         "publicaciones": 15,
@@ -15976,7 +16191,7 @@
         "mediana": 3,
         "comentarios": 0,
         "sin_comentarios": 15,
-        "edad_promedio_dias": 30.9
+        "edad_promedio_dias": 37.9
       }
     },
     "carrusel": {
@@ -15991,7 +16206,7 @@
       "promedio_feed": 3.9,
       "mediana_reels": 11.0,
       "mediana_feed": 3,
-      "_control_de_edad": "29.2 dias de edad promedio en reels contra 30.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
+      "_control_de_edad": "36.2 dias de edad promedio en reels contra 37.9 en feed: la brecha es de 1.7 días, así que la diferencia no es antigüedad.",
       "comentarios_reels": 9,
       "comentarios_feed": 0,
       "feed_sin_comentarios": "15 de 15",
@@ -16002,35 +16217,35 @@
       {
         "interacciones": 70,
         "formato": "REELS",
-        "dias": 2,
+        "dias": 9,
         "texto": "Lo que no se puede medir no se puede modificar…",
         "url": "https://www.instagram.com/reel/DczMtqyukd7/"
       },
       {
         "interacciones": 37,
         "formato": "REELS",
-        "dias": 10,
+        "dias": 17,
         "texto": "La importancia de la resiliencia junto a @byanaceci ",
         "url": "https://www.instagram.com/reel/DcewIZROC6k/"
       },
       {
         "interacciones": 32,
         "formato": "REELS",
-        "dias": 45,
+        "dias": 52,
         "texto": "La llamada que hará mas PRO tu negocio",
         "url": "https://www.instagram.com/reel/DbD8PacuHSw/"
       },
       {
         "interacciones": 15,
         "formato": "REELS",
-        "dias": 37,
+        "dias": 44,
         "texto": "the new evolution era",
         "url": "https://www.instagram.com/reel/DbYvbZeuOT6/"
       },
       {
         "interacciones": 13,
         "formato": "REELS",
-        "dias": 43,
+        "dias": 50,
         "texto": "Esto le hicimos pensando en ti, para que tu negocio sea mas PRO",
         "url": "https://www.instagram.com/reel/DbKAQ5tM85I/"
       }
@@ -17532,7 +17747,7 @@
         "id": "disputar-el-flanco",
         "nombre": "Ocupar el flanco que Paggo deja libre",
         "en_pocas_palabras": "Ir al mismo público con la promesa que la competencia no cubre.",
-        "por_que": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 109 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
+        "por_que": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 116 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
         "evidencia": [
           "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
           "Registro de competencia · mensajes saturados detectados: Paggo, Recurrente"
@@ -17605,15 +17820,15 @@
             "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
           },
           "apuesta": {
-            "frase": "Hablamos de Salones y barberías, Tienda en Línea, Liquidación diaria y 4 más. Por qué ahora: Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 109 días vivo— y ninguno de esos ángulos lo toca.",
+            "frase": "Hablamos de Salones y barberías, Tienda en Línea, Liquidación diaria y 4 más. Por qué ahora: Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 116 días vivo— y ninguno de esos ángulos lo toca.",
             "que_decimos": "Salones y barberías, Tienda en Línea, Liquidación diaria y 4 más",
             "a_quien_cuantos": 9,
-            "por_que_ahora": "Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 109 días vivo— y ninguno de esos ángulos lo toca",
+            "por_que_ahora": "Paggo paga por «Gestiona tu Negocio Fácil» —95% de sus activos, 116 días vivo— y ninguno de esos ángulos lo toca",
             "_de_donde": "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. La frase no se escribe a mano: se arma de las cartas que la estrategia activa, así que no puede contradecirlas. El «por qué ahora» sale de la Ad Library, que solo publica lo que está activo hoy; cuando no hay señal temporal medida, no se escribe.",
             "_ojo_ancho": "Ancha: 7 ángulos, públicos distintos (ADR-060)."
           },
           "origen": {
-            "linea": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 109 días vivo)",
+            "linea": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 116 días vivo)",
             "contra": "el siguiente más concentrado es Recurrente con 50%",
             "fuente": "Meta Ad Library · anuncios activos hoy"
           },
@@ -17750,7 +17965,7 @@
         "id": "arte-contra-paggo-GT",
         "tipo": "arte",
         "titulo": "Contra-ángulo frente a Paggo en GT",
-        "porque": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "porque": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 116 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
         "evidencia": [
           "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
           "Ad Library · foto del periodo, 36 anuncios con ese titular"
@@ -17795,7 +18010,7 @@
         "marca": "[MC:2026-W35::arte::contra-Paggo-GT]",
         "sprint": {
           "name": "Contra-ángulo frente a Paggo en GT [MC:2026-W35::arte::contra-Paggo-GT]",
-          "description": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 109 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Gestiona tu Negocio Fácil» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT\n  · Ad Library · foto del periodo, 36 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 2 — 2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 repeticiones, 116 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Gestiona tu Negocio Fácil» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT\n  · Ad Library · foto del periodo, 36 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 2 — 2 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -17804,7 +18019,7 @@
         "id": "arte-contra-recurrente-GT",
         "tipo": "arte",
         "titulo": "Contra-ángulo frente a Recurrente en GT",
-        "porque": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
+        "porque": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 49 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
         "evidencia": [
           "Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT",
           "Ad Library · foto del periodo, 3 anuncios con ese titular"
@@ -17849,7 +18064,7 @@
         "marca": "[MC:2026-W35::arte::contra-Recurrente-GT]",
         "sprint": {
           "name": "Contra-ángulo frente a Recurrente en GT [MC:2026-W35::arte::contra-Recurrente-GT]",
-          "description": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 42 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT\n  · Ad Library · foto del periodo, 3 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Recurrente concentra 50% de sus anuncios activos en un solo mensaje (3 repeticiones, 49 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Recibe pagos con oro digital» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Recurrente · «Recibe pagos con oro digital» en 50% de sus activos en GT\n  · Ad Library · foto del periodo, 3 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -18259,25 +18474,6 @@
       "advertencia": null
     },
     {
-      "titulo": "Square está escalando ahora",
-      "afirmacion": "100% del inventario activo observado de Square se lanzó en los últimos 10 días. No es un estado estable.",
-      "evidencia": [
-        {
-          "dato": "Lanzamientos recientes de Square",
-          "valor": "50 de 50 anuncios en los últimos 10 días",
-          "fuente": "adlibrary_square_GLOBAL.json"
-        },
-        {
-          "dato": "Cohorte más grande",
-          "valor": "4 anuncios creados el 2026-08-27 (hace 8 días)",
-          "fuente": "adlibrary_square_GLOBAL.json"
-        }
-      ],
-      "tipo": "riesgo",
-      "calculo": null,
-      "advertencia": "los titulares son muestra del 40.7% (50 de 123): el tope de 50 sin paginación impide enumerar el universo"
-    },
-    {
       "titulo": "GuatePOS concentra su mensaje",
       "afirmacion": "67% de los anuncios observados de GuatePOS usan el titular \"api.whatsapp.com\".",
       "evidencia": [
@@ -18302,7 +18498,7 @@
         },
         {
           "dato": "Cohorte más grande",
-          "valor": "10 anuncios creados el 2026-09-04 (hace 0 días)",
+          "valor": "10 anuncios creados el 2026-09-04 (hace 7 días)",
           "fuente": "adlibrary_bi_GT.json"
         }
       ],
@@ -18311,32 +18507,13 @@
       "advertencia": "los titulares son muestra del 4.2% (25 de 598): el tope de 50 sin paginación impide enumerar el universo"
     },
     {
-      "titulo": "Square está escalando ahora",
-      "afirmacion": "100% del inventario activo observado de Square se lanzó en los últimos 10 días. No es un estado estable.",
-      "evidencia": [
-        {
-          "dato": "Lanzamientos recientes de Square",
-          "valor": "50 de 50 anuncios en los últimos 10 días",
-          "fuente": "adlibrary_square_GLOBAL.json"
-        },
-        {
-          "dato": "Cohorte más grande",
-          "valor": "4 anuncios creados el 2026-08-27 (hace 8 días)",
-          "fuente": "adlibrary_square_GLOBAL.json"
-        }
-      ],
-      "tipo": "riesgo",
-      "calculo": null,
-      "advertencia": "los titulares son muestra del 40.7% (50 de 123): el tope de 50 sin paginación impide enumerar el universo"
-    },
-    {
       "titulo": "SV sin disputa medida",
       "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
       "evidencia": [
         {
           "dato": "Competencia activa en SV",
           "valor": "0 anuncios",
-          "fuente": "Ad Library, SV, foto del 2026-09-04"
+          "fuente": "Ad Library, SV, foto del 2026-09-11"
         },
         {
           "dato": "Inversión propia en SV",
@@ -18384,7 +18561,7 @@
           {
             "dato": "Competencia activa en SV",
             "valor": "0 anuncios",
-            "fuente": "Ad Library, SV, foto del 2026-09-04"
+            "fuente": "Ad Library, SV, foto del 2026-09-11"
           },
           {
             "dato": "Inversión propia en SV",
@@ -18399,7 +18576,7 @@
       }
     ],
     "fuentes_usadas": [
-      "Ad Library, SV, foto del 2026-09-04",
+      "Ad Library, SV, foto del 2026-09-11",
       "adlibrary_paggo_GT.json",
       "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
     ]

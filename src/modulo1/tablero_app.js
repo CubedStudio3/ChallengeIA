@@ -646,6 +646,11 @@
       /* El filtro de fechas va aquí arriba porque es de toda la página, no de
          una sección. */
       (controlFechas() ? '<div class="mt-6">' + controlFechas() + "</div>" : "") +
+      /* El día en curso va PEGADO al filtro y no dentro de él: lo que se
+         está diciendo es «además de la ventana que elegiste, esto es lo que
+         va del día», y eso solo se entiende al lado del rango. */
+      (franjaDiaEnCurso() ? '<div class="mt-4">' + franjaDiaEnCurso() +
+        "</div>" : "") +
       "</header>";
   }
 
@@ -1790,6 +1795,98 @@
       ? "Las fechas están al revés: se está usando " +
         rangoFecha(R.desde, R.hasta) + "."
       : "";
+  }
+
+  /* ═════════════ el día que todavía no termina ═════════════
+
+     Pedido literal de Mercadeo (2026-09-11): «la idea es que tengamos los
+     datos reales en tiempo real». Meta sí devuelve el día en curso. Lo que no
+     se puede es meterlo en la misma serie que los días cerrados: medido, va al
+     20-27% del gasto de un día típico, así que dibujaría un desplome del 75%
+     que es puro horario.
+
+     Por eso esta franja está FUERA de las tarjetas y se ve distinta: no es un
+     KPI más, es un dato aparte. `dia_en_curso` no vive en `piezas`, así que el
+     filtro no lo suma y ninguna gráfica lo promedia — la separación es de
+     dato, no de maquetación, y esto solo la hace visible.
+
+     El avance se dice en PORCENTAJE, no en horas: la zona horaria de la cuenta
+     está declarada como desconocida y «van 6 horas del día» sería una
+     suposición. El porcentaje sale del promedio de días completos. */
+  function franjaDiaEnCurso() {
+    var PD = pautaDia(), H = PD && PD.dia_en_curso;
+    if (!H || !H.por_mercado) return "";
+    var mk = Object.keys(H.por_mercado);
+    if (!mk.length) return "";
+
+    var cols = mk.map(function (m) {
+      var d = H.por_mercado[m] || {};
+      /* El avance puede faltar —un mercado sin días completos detrás no tiene
+         contra qué compararse—. Ahí se dice que falta, no se pone un 0%. */
+      var av = d.avance && d.avance.gasto != null
+        ? Math.round(d.avance.gasto * 100) + "% del gasto de un día típico"
+        : "sin días completos detrás para comparar";
+      /* La procedencia del «día típico» va en SU PROPIA línea. Pegada a la
+         anterior daba un renglón de ~420 px que empujaba el segundo mercado a
+         una fila nueva: con dos mercados, eso es toda la maquetación. El ancho
+         máximo obliga a envolver dentro de la columna en vez de estirarla. */
+      var ref = d.referencia
+        ? "típico = promedio de " + d.referencia.dias + " días · " +
+          esc(rangoFecha(d.referencia.desde, d.referencia.hasta))
+        : "";
+      return '<div class="min-w-[150px] max-w-[240px]">' +
+        '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
+        'uppercase">' + esc(m) + "</div>" +
+        '<div class="text-[19px] font-bold text-slate-800 tabular-nums ' +
+        'leading-tight mt-0.5">' + dinero(d.gasto) + "</div>" +
+        '<div class="text-[11px] text-slate-500 leading-tight">' +
+        ent(d.resultados) + " " + esc(enClaro(d.indicador).toLowerCase()) +
+        (d.costo_por_resultado != null
+          ? " · " + dinero(d.costo_por_resultado) + " c/u" : "") +
+        "</div>" +
+        '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">va al ' +
+        esc(av) + "</div>" +
+        (ref ? '<div class="text-[10px] text-slate-400 leading-tight">' +
+          ref + "</div>" : "") + "</div>";
+    }).join("");
+
+    /* Este archivo se queda viejo solo: la corrida semanal también regenera el
+       tablero y tomaría el crudo que hubiera en disco. Un lunes mostraría la
+       lectura del viernes rotulada «día en curso», que es una fecha correcta
+       contando una mentira. Cuando no es de hoy la franja no se borra —lo
+       último leído sigue siendo cierto— pero deja de llamarse «día en curso». */
+    var deHoy = H.es_de_hoy !== false;
+    return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
+      'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
+      'items-start gap-x-8 gap-y-4">' +
+      '<div class="min-w-[170px]">' +
+      '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
+      'uppercase">' + (deHoy ? "Día en curso" : "Último día leído") + "</div>" +
+      '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
+      'mt-0.5">' + esc(fecha(H.fecha)) + "</div>" +
+      '<div class="text-[10.5px] text-slate-500 leading-snug mt-1">' +
+      (deHoy ? "" : "<b>No es hoy</b>: este dato se leyó ese día y no se ha " +
+        "vuelto a pedir. ") +
+      "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
+      "gráfica lo promedia.</div></div>" +
+      cols +
+      '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
+      "Leído " + esc(horaLectura(H.consultado_a)) +
+      (deHoy ? ". Un día sin cerrar se mueve mientras se mira: dos lecturas " +
+        "con minutos de diferencia dieron $7.53 y $7.93 en GT."
+             : " y no se ha vuelto a pedir desde entonces.") +
+      "</div></div>";
+  }
+
+  /* «a las 15:35 UTC». La hora se muestra en UTC y rotulada como tal: es la
+     hora del entorno que consultó, NO la de la cuenta publicitaria, cuya zona
+     horaria es una constante declarada como desconocida. Rotularla mal sería
+     peor que no ponerla. */
+  function horaLectura(iso) {
+    var t = String(iso || "");
+    var m = /T(\d{2}):(\d{2})/.exec(t);
+    if (!m) return t ? "el " + esc(fecha(t.slice(0, 10))) : "sin hora registrada";
+    return "a las " + m[1] + ":" + m[2] + " UTC";
   }
 
   function controlFechas() {

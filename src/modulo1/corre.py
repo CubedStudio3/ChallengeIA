@@ -23,6 +23,7 @@ from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
                             normaliza_campanas, valores_de_desglose)
 from . import analiza as A
 from . import cartas as CARTAS
+from . import dia_en_curso as DHOY
 from . import estrategia as E
 from . import formato as FMT
 from . import redes as R
@@ -269,6 +270,21 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             acc["impresiones"] += e.get("impresiones", 0)
             acc["dias"] += e.get("dias", 0)
             acc["campanas"] = sorted(set(acc["campanas"]) | set(e.get("campanas") or []))
+    # ── el dia que todavia no termina ──────────────────────────────────────
+    #
+    # Pedido literal de Mercadeo (2026-09-11): «pero y si yo quisiera agarrar
+    # tambien el dia de hoy no se puede? la idea es que tengamos los datos
+    # reales en tiempo real». Si se puede, y aqui esta — pero FUERA de
+    # `piezas`, que es lo unico que el filtro suma. Un dia al 20-25% de su
+    # gasto junto a dias completos dibuja una caida que es puro horario.
+    #
+    # Va DESPUES de mezclar los meses historicos porque su rotulo «va al N% de
+    # un dia tipico» se calcula contra los dias completos que ya estan en
+    # `piezas`. Antes de la mezcla solo tendria la semana de la corrida.
+    pauta_dia["dia_en_curso"] = DHOY.arma(
+        piezas=pauta_dia["piezas"], hoy=hoy.isoformat(),
+        declarados=declarados, excluidos=excluidos)
+
     pauta_dia["meses_historicos"] = {
         "meses": hist["meses"],
         "entran": hist["meses_que_entran"],

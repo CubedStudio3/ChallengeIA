@@ -28,7 +28,9 @@ Verificado contra sistemas reales, no contra documentación:
 - ✅ **Zoho Sprints** — lectura Y **escritura**: ciclo crear/verificar/borrar
   ejecutado contra producción el 2026-08-31 (ADR-029)
 - ✅ **Tablero** — publicado, con estado compartido que sobrevive a republicaciones
-- ✅ **Rutina semanal** — `trig_01CWh3gdJWfDKGzR4MDB6qhs`, lunes 07:00 GT.
+- ✅ **Rutinas** — semanal `trig_01CWh3gdJWfDKGzR4MDB6qhs` (lunes 07:00 GT, el
+  análisis completo) y diaria `trig_01G5JLyctdfbuViKw79AEMgS` (06:00 GT, solo
+  el dato: días cerrados y el día en curso).
   ⚠️ **Le faltan los conectores**: el parámetro no está disponible para esta
   organización, así que hay que adjuntarlos desde la interfaz de Routines en
   claude.ai. Sin ellos la Rutina se detiene en su Compuerta 0 y NO toca el
@@ -49,10 +51,20 @@ El número **nunca** se escribe a mano en el config (ADR-042).
 
 El filtro de fechas mira **todo 2026**: los nueve meses de pauta día por día
 están en `data/historico/pauta_meses/`, cada uno reconciliado contra su propio
-agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-06** (el 3 de
-enero es el primer día con entrega, no el borde del mes). 1,229 piezas en el
+agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-10** (el 3 de
+enero es el primer día con entrega, no el borde del mes). 1,245 piezas en el
 filtro. El periodo del **análisis** sigue siendo el de la corrida y no se
 unifica con el del dato disponible: son dos campos distintos.
+
+Y desde el 2026-09-11 el tablero muestra **el día en curso, aparte** (ADR-065).
+Meta sí lo devuelve; lo que no se puede es ponerlo en la misma serie que los
+días cerrados, porque va al **20-27% de un día completo** y dibujaría un
+desplome que es puro horario. No entra a `piezas` —que es lo único que el filtro
+suma— así que la separación es de dato, no de rótulo. El avance se dice en
+porcentaje y no en horas: la zona horaria de la cuenta sigue siendo desconocida.
+La Rutina **diaria** `trig_01G5JLyctdfbuViKw79AEMgS` (06:00 GT) lo refresca, y
+es distinta de la semanal a propósito: solo mueve el dato, nunca el análisis.
+⚠️ **También está guardada sin conectores**, igual que la semanal.
 
 Desde el 2026-09-10 los **tres** orígenes de trabajo del tablero crean su work
 item con el mismo botón: la carta, la tarea de estrategia y la **idea que la
@@ -540,10 +552,15 @@ cometidos; no hay tiempo de repetirlos.
   Leer solo el primero habría hecho nacer el item sin dueño mientras la tarjeta
   mostraba un nombre — el agujero exacto del 2026-09-07, en la otra lista.
 
-- **Seis de los dieciocho archivos crudos de pauta NO son copia byte a byte de
-  la respuesta.** Medido el 2026-09-11: el espacio duro (NBSP, `\u00a0`) que la
-  API pone entre el número y «USD» se perdió en `2026-01/dia` (0 de 154),
-  `2026-02/dia` (200 de 202) y en los agregados de julio, agosto y septiembre.
+- **Tres de los veinte archivos crudos de pauta NO son copia byte a byte de
+  la respuesta.** Medido el 2026-09-11 con `\$[\d.,]+[\s\u00a0]USD`: el espacio
+  duro (NBSP, `\u00a0`) que la API pone entre el número y «USD» falta en
+  `2026-01/dia` (0 de 154) y en los agregados de julio (0 de 14) y agosto
+  (0 de 16). **Eran seis**; los dos de septiembre se volvieron a pedir a la API
+  ese mismo día y ahora sí son fieles, que es el único arreglo defendible.
+  La cuenta de febrero estaba mal: se anotó «200 de 202, dos perdieron el
+  NBSP» y lo medido es **200 de 201, uno solo** —el 202.º «USD» no es un monto—.
+  Un error de conteo en la evidencia no cambia la conclusión, pero se corrige.
   Pasa cuando el crudo se transcribe a mano en vez de volcarse parseado.
   **Ningún número cambia y es verificable:** `parsea_numero()` en
   `src/base/normaliza.py` hace `re.sub(r"[^\d,.\-]", "", limpio)`, así que el
@@ -603,6 +620,53 @@ cometidos; no hay tiempo de repetirlos.
   media hora antes habría ahorrado el resto. **Verificar lo barato antes de
   construir lo caro** (ADR-064).
 
+- **«Hasta cuándo llega el dato» no es una decisión, es un residuo.** El filtro
+  se detenía el 6 de septiembre porque el crudo se pidió el día 7 con
+  `until: 2026-09-06` y nadie volvió a pedirlo. `rango_disponible` decía la
+  verdad —sale del dato— pero la verdad era «esto está viejo». Un rango
+  derivado no avisa de que se quedó atrás: hay que ir a refrescarlo.
+- **Un día en curso NO es un día flojo, es un día a medias.** Medido el
+  2026-09-11: GT al **27% del gasto** de un día típico y SV al **21%**, con las
+  impresiones al 21-22%. Ponerlo en la misma serie que los días cerrados dibuja
+  un desplome del 75% que es puro horario. Por eso no entra a `piezas` (ADR-065).
+- **Un día queda firme a los ~2 días de cerrar, no antes.** Se volvió a pedir el
+  4-6 de septiembre, guardado desde una consulta del día 7: el **4 y el 5 salieron
+  idénticos fila por fila** cuatro días después, y el 6 —consultado un solo día
+  después de cerrar— se movió +$0.07, +4 impresiones y +2 clics. **Los leads no
+  se movieron en ninguno.** Lo que se asienta tarde es el gasto y las
+  impresiones del día más reciente.
+- **El día en curso cambia mientras lo mirás.** Dos consultas separadas por
+  minutos dieron **$7.53 y $7.93** en GT (1,012 y 1,032 impresiones). Un número
+  del día en curso sin la hora en que se leyó no se puede volver a comprobar:
+  por eso el crudo guarda `hora_consulta`, y rotulada **UTC** —la del entorno—,
+  porque la de la cuenta sigue siendo desconocida.
+- **«Tiempo real» tiene un techo que no es de esfuerzo.** La página no puede
+  preguntarle a Meta: el visor bloquea todo `fetch` externo y la única capacidad
+  MCP declarada es Zoho Sprints. La frescura viene de volver a correr, no de la
+  página. Decirlo es más honesto que prometer un vivo que no existe.
+- **Dos trabajos que se rompen distinto no comparten Rutina.** Volver diaria la
+  corrida semanal habría recalculado estrategia y cartas todos los días mientras
+  la mesa trabaja encima, y habría consultado a diario una Ad Library que solo
+  responde «qué está activo ahora». La diaria solo mueve el dato; el análisis
+  sigue siendo semanal (ADR-065).
+- **Una Rutina con la ruta de la corrida escrita a mano caduca el lunes.** La
+  semanal crea carpeta nueva cada semana: una ruta fija habría quedado
+  refrescando el dato de una corrida vieja mientras el tablero muestra otra. La
+  diaria descubre la corrida vigente en disco.
+- **Un archivo de «ahora» se queda viejo solo.** El crudo del día en curso lo
+  refresca la Rutina diaria, pero **la corrida semanal también regenera el
+  tablero** y tomaría el que hubiera en disco: un lunes habría mostrado la
+  lectura del viernes rotulada «día en curso». Fecha correcta, afirmación
+  falsa. Por eso el bloque declara `es_de_hoy` y la franja cambia de rótulo en
+  vez de borrarse: lo último leído sigue siendo cierto, lo que caduca es
+  llamarlo «hoy».
+- **Un esperado de prueba también puede caer en la trampa que el producto
+  esquiva.** `prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían»
+  ir $13,898.54: la prueba había sumado los seis indicadores de 2026 en un solo
+  número. El tablero tenía razón y la prueba estaba cometiendo el ADR-013.
+  Agrupar por indicador antes de sumar aplica a quien mide, no solo a quien
+  muestra.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -651,6 +715,9 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `pruebas/payload_idea.py` | El esperado de la idea del equipo, pedido a `sprint.plan()` en el momento. Existe porque es el único payload que NO arma Python: la idea nace en el navegador |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
+| `src/modulo1/dia_en_curso.py` | **El día que no terminó.** Lee su propio crudo y calcula el avance contra los días completos. NO entra a `piezas`: no lo suma el filtro ni lo promedia ninguna gráfica |
+| `data/historico/dia_en_curso/crudo/` | El crudo de hoy, con la hora de su lectura. Vive fuera de `pauta_meses/` porque ahí adentro va dato cerrado |
+| `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. `npm run prueba:hoy` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |
