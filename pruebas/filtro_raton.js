@@ -108,6 +108,19 @@ const rangoTextoDia = iso => String(Number(iso.slice(8, 10)));
 const money = x => x == null ? "—" : "$" + x.toLocaleString("en-US",
   { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+/* Como se VE un conteo de leads en la pantalla, en un solo lugar.
+
+   La página le pone separador de miles, y hasta hoy ninguna ventana de esta
+   prueba había pasado de 999: con nueve meses cargados el total llegó a 1,665 y
+   dos comprobaciones se pusieron en rojo comparando «1665» contra «1,665».
+   El formato de la página es el correcto; el esperado era el que no lo tenía.
+
+   Estaba arreglado en UNO de los tres sitios que comparan leads —el tercero ya
+   usaba `toLocaleString`— así que el arreglo existía y no se había aplicado a
+   los otros dos. Una familia de comparaciones se da de alta en todos sus
+   lados o en ninguno. */
+const leads = (n) => Number(n).toLocaleString("en-US");
+
 /* Teclea una fecha en un campo como lo haría una persona: enfocar y escribir
    dígitos. Sin fill(), sin dispatchEvent. */
 async function teclea(pg, id, iso) {
@@ -156,7 +169,7 @@ async function teclea(pg, id, iso) {
   ok("los dos campos quedaron en el mismo día", f.desde === f.hasta, true);
   const E = suma(f.desde, f.hasta);
   if (E) {
-    ok("leads", f.leads, String(E.resultados));
+    ok("leads", f.leads, leads(E.resultados));
     ok("inversión", f.inversion, money(E.gasto));
     ok("costo", f.costo, money(Math.round(E.costo * 100) / 100));
     ok("el apoyo dice 1 día", /·\s*1 día en la ventana/.test(f.apoyo || ""), true);
@@ -171,7 +184,7 @@ async function teclea(pg, id, iso) {
   console.log("    campos: " + f.desde + " .. " + f.hasta);
   ok("quedó un rango de más de un día", f.desde < f.hasta, true);
   const E2 = suma(f.desde, f.hasta);
-  ok("leads", f.leads, String(E2.resultados));
+  ok("leads", f.leads, leads(E2.resultados));
   ok("inversión", f.inversion, money(E2.gasto));
   ok("costo", f.costo, money(Math.round(E2.costo * 100) / 100));
 
@@ -242,7 +255,7 @@ async function teclea(pg, id, iso) {
        (new Date(ULTIMO_TOPE) - new Date(PRIMERO_TOPE)) / 86400000) + 1) : "7");
   const E7 = suma(sieteIni, ULTIMO_TOPE);
   ok("inversión", f.inversion, money(E7.gasto));
-  ok("leads", f.leads, E7.resultados.toLocaleString("en-US"));
+  ok("leads", f.leads, leads(E7.resultados));
   ok("costo", f.costo, money(Math.round(E7.costo * 100) / 100));
 
   console.log("\n═══ 6 · vaciar deshace una ventana manual ═══");

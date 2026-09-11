@@ -14,9 +14,33 @@ const ARCHIVO = process.argv[2] || "/home/user/ChallengeIA/salidas/tablero-mesa-
    —al cambiar el periodo quedaron fuera del rango disponible y el tablero las
    ignoró, correctamente, con 31 comprobaciones en rojo señalando un defecto
    inexistente. Una fecha escrita a mano en una prueba caduca sola. */
-const FIXT = process.argv[3] ||
-  (process.env.CORRIDA || "data/historico/2026-09-04_25ago_a_03sep") +
-  "/analisis/esperado_filtro.json";
+const CORRIDA = process.env.CORRIDA || "data/historico/2026-09-04_25ago_a_03sep";
+const FIXT = process.argv[3] || CORRIDA + "/analisis/esperado_filtro.json";
+
+/* Y se REGENERA acá, en cada corrida de la prueba.
+
+   TERCERA vez que un esperado viejo acusa al producto en este proyecto. Las dos
+   anteriores están en el comentario de arriba, y el arreglo de entonces —traer
+   el cálculo al repositorio y derivar las ventanas del dato— fue correcto pero
+   no llegó al fondo: la derivación era buena y quedó CACHEADA en un archivo que
+   nada refrescaba. Al cargar enero a mayo, `rango_disponible` pasó de junio a
+   enero y la ventana «fuera del tope» —calculada como 90 días antes del dato—
+   cayó DENTRO del dato: el tablero la aplicó, correctamente, y cuatro
+   comprobaciones se pusieron en rojo señalando un defecto inexistente.
+
+   Un archivo que hay que acordarse de regenerar es un esperado escrito a mano
+   con más pasos. Se le pide a Python en el momento, como hace `prueba:boton`
+   con el payload de la idea del equipo. */
+if (!process.argv[3]) {
+  const r = require("child_process").spawnSync(
+    "python3", ["pruebas/esperado_pauta.py", CORRIDA],
+    { encoding: "utf8", env: { ...process.env, PYTHONPATH: "src" } });
+  if (r.status !== 0) {
+    console.error("no se pudieron calcular los esperados:\n" +
+      (r.stderr || r.stdout || "").trim());
+    process.exit(2);
+  }
+}
 if (!fs.existsSync(FIXT)) {
   console.error("faltan los esperados: " + FIXT +
     "\n  correr: python3 pruebas/esperado_pauta.py <dir_corrida>");

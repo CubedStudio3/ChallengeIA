@@ -1233,3 +1233,72 @@ el proyecto de producción con el payload exacto de una idea del equipo. Zoho lo
 aceptó (`I1187`), la lectura lo devolvió como `1187` —la trampa del doble número
 confirmada en un segundo item, no solo en el de ADR-054—, el item nació con su
 responsable, y se borró dejando el backlog como estaba.
+
+---
+
+## Sesión 18 · 2026-09-10 / 11 · la referencia visual y todo 2026
+
+Dos pedidos que llegaron juntos: un botón para generar el arte de una carta con
+Higgsfield sin salir del tablero, y cargar enero a mayo de pauta porque «al
+pedir enero parece que el filtro no responde».
+
+### El botón de imagen
+
+Se midió antes de escribir, y lo medido cambió el diseño entero. **Generar sí;
+mostrar no.** El visor de artefactos bloquea toda carga externa de imágenes y
+todo `fetch`, sin error visible — así que la imagen no se puede mostrar dentro
+del tablero ni con `<img>` ni bajándola para subirla con `assets`. Se entrega
+como enlace y la tarjeta lo dice, porque un rectángulo gris bloqueado se lee
+como un error del tablero.
+
+El segundo muro es de otra clase: `d8j0ntlcm91z4.cloudfront.net` está bloqueado
+**también en el entorno de esta sesión** (`connect_rejected · 403`). Eso es
+política de egreso y se cambia — y mientras no se cambie, **nadie de este lado
+puede ver una imagen generada**. Tercera vez que este proyecto anota como
+límite algo que era «no está permitido todavía».
+
+El prompt lo arma Python, por la misma razón que el payload de Sprints. Tres
+reglas dentro: ninguna medición entra a la imagen —la guardia de ADR-042 se
+subió de la prueba al código, porque ahora la usan dos módulos—, el logo no se
+genera, y un formato desconocido detiene la petición en vez de caer en un
+cuadrado.
+
+Tres defectos que aparecieron al escribirlo: el collage (las tres tarjetas de un
+carrusel en una imagen no son ninguna de las tres), la justificación de
+`no_mostrar` escrita DENTRO del arte («marcada REVISIÓN LEGAL»), y el cero-falsy
+en `poll_after_seconds || 10`. Los dos primeros los vi leyendo la salida; el
+tercero lo encontró la prueba.
+
+Detalle en ADR-062.
+
+### Los nueve meses
+
+Enero se trajo a mano y pasó la compuerta —81 piezas, 30 valores reconciliados—
+y con la receta probada se delegaron febrero a mayo a `analista-meta`. Dos
+agentes murieron por límite de sesión y uno no reportó, pero **lo que importa no
+es su reporte: es la compuerta**. Al medir el disco, marzo, abril y mayo estaban
+completos y reconciliaban al centavo; solo faltaba el diario de febrero.
+
+**El tope de 200 filas dejó de ser hipotético:** abril devolvió 212 y marzo 195.
+Sin el `limit=1000` explícito, abril habría salido truncado en silencio.
+
+**Aparecieron dos indicadores que no estaban en ninguna parte de esta
+documentación:** `actions:onsite_conversion.lead_grouped` y
+`actions:leadgen.other`. Con eso 2026 tiene seis. En enero, `link_click` son
+8,740 «resultados» al lado de 243 leads.
+
+**Y un defecto de evidencia, propio.** Al transcribir el diario de enero a mano
+se perdió el espacio duro que la API pone antes de «USD». Midiendo se vio que
+no era solo enero: seis de dieciocho archivos crudos no son copia byte a byte,
+incluidos tres de sesiones anteriores. Ningún número cambia —`parsea_numero()`
+borra todo lo que no sea dígito, coma, punto o signo, y los nueve meses
+reconcilian— pero la promesa de que el crudo es copia fiel de la consulta es
+falsa en esos seis. **No se arregló insertando los NBSP a mano:** un crudo
+editado a mano es peor evidencia que uno declarado como no fiel.
+
+De paso, el agente de febrero reportó una fidelidad que no tenía —dijo 200
+ocurrencias «igual que su agregado» sobre un archivo con 202 montos—. Un reporte
+de subagente es una hipótesis; lo que verifica es la compuerta.
+
+`rango_disponible` quedó en **2026-01-03**, no 01-01: el 3 es el primer día con
+entrega. Un rango que empezara el 1 afirmaría dato donde no hay.

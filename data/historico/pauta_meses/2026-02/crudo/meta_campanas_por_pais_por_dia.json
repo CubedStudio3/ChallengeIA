@@ -1,0 +1,2397 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-11",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "object_ids": [
+    "120214962248700783",
+    "120238309141120783",
+    "120238382458610783",
+    "120238463709460783",
+    "120239087216350783",
+    "120239103799530783",
+    "120239334653690783",
+    "120239427144470783",
+    "120239785210480783",
+    "120240092477970783"
+   ],
+   "time_range": {
+    "since": "2026-02-01",
+    "until": "2026-02-28"
+   },
+   "time_increment": "1",
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "limit": 1000
+  },
+  "_el_limit_no_es_opcional": "Sin `limit` la consulta TRUNCA en 200 filas, en silencio y sin cursor, y con `object_ids` no hay paginacion que avise: un truncamiento se ve igual de completo que el dato completo (ADR-050). Este mes devolvio 106 filas, muy por debajo de 1000, asi que no esta truncado.",
+  "_nota": "Desglose DIARIO por campana x pais de FEBRERO 2026. Solo aporta piezas para que el filtro del tablero pueda mirar atras; no toca consolidados, por_mercado, cartas ni estrategia. Los 10 object_ids son los ids unicos del agregado del mes ya en disco; 6 de los 10 devolvieron filas diarias y 4 NO devolvieron ninguna: 120214962248700783, 120238463709460783, 120239087216350783 y 120239103799530783. En el agregado esos cuatro solo aparecen con $0,00 USD y 0 impresiones (fila country=unknown, y ademas una fila SV en $0,00 para 120239103799530783), asi que no hay gasto ni impresiones sin desglosar; tampoco se inventa una fila diaria en cero para ellos. Por la misma razon ninguna fila country=unknown del agregado tiene contraparte diaria. Filas copiadas tal como vinieron, sin reescribir ningun valor: el espacio entre el numero y USD es NBSP (U+00A0)."
+ },
+ "ad_entities": [
+  {
+   "date_start": "2026-02-01",
+   "date_stop": "2026-02-01",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,00 USD (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-02-02",
+   "date_stop": "2026-02-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,00 USD (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-02-02",
+   "date_stop": "2026-02-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "260"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,89 USD",
+   "impressions": "7340",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-02",
+   "date_stop": "2026-02-02",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,00 USD (Leads (form))"
+   },
+   "amount_spent": "$40,00 USD",
+   "impressions": "8950",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-02",
+   "date_stop": "2026-02-02",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,63 USD (Leads (form))"
+   },
+   "amount_spent": "$3,25 USD",
+   "impressions": "945",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-03",
+   "date_stop": "2026-02-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,00 USD (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-02-03",
+   "date_stop": "2026-02-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "344"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,00 USD",
+   "impressions": "6950",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-03",
+   "date_stop": "2026-02-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,32 USD (Leads (form))"
+   },
+   "amount_spent": "$43,21 USD",
+   "impressions": "9406",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-03",
+   "date_stop": "2026-02-03",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,39 USD (Leads (form))"
+   },
+   "amount_spent": "$5,56 USD",
+   "impressions": "1311",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-04",
+   "date_stop": "2026-02-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,00 USD (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-02-04",
+   "date_stop": "2026-02-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "299"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,98 USD",
+   "impressions": "6916",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-04",
+   "date_stop": "2026-02-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,34 USD (Leads (form))"
+   },
+   "amount_spent": "$36,78 USD",
+   "impressions": "8924",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-04",
+   "date_stop": "2026-02-04",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,43 USD (Leads (form))"
+   },
+   "amount_spent": "$4,29 USD",
+   "impressions": "1254",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-05",
+   "date_stop": "2026-02-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "357"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,44 USD",
+   "impressions": "8749",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-05",
+   "date_stop": "2026-02-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,14 USD (Leads (form))"
+   },
+   "amount_spent": "$30,71 USD",
+   "impressions": "7289",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-05",
+   "date_stop": "2026-02-05",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads (form))"
+   },
+   "amount_spent": "$4,12 USD",
+   "impressions": "1086",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-06",
+   "date_stop": "2026-02-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "290"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,55 USD",
+   "impressions": "7295",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-06",
+   "date_stop": "2026-02-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,61 USD (Leads (form))"
+   },
+   "amount_spent": "$28,05 USD",
+   "impressions": "5686",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-06",
+   "date_stop": "2026-02-06",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,24 USD (Leads (form))"
+   },
+   "amount_spent": "$12,48 USD",
+   "impressions": "3122",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-07",
+   "date_stop": "2026-02-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "383"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,05 USD",
+   "impressions": "16678",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-07",
+   "date_stop": "2026-02-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,89 USD (Leads (form))"
+   },
+   "amount_spent": "$17,78 USD",
+   "impressions": "4332",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-07",
+   "date_stop": "2026-02-07",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$10,35 USD (Leads (form))"
+   },
+   "amount_spent": "$20,70 USD",
+   "impressions": "6275",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-08",
+   "date_stop": "2026-02-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "285"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,06 USD",
+   "impressions": "7578",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-08",
+   "date_stop": "2026-02-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,23 USD (Leads (form))"
+   },
+   "amount_spent": "$32,28 USD",
+   "impressions": "5792",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-08",
+   "date_stop": "2026-02-08",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,52 USD (Leads (form))"
+   },
+   "amount_spent": "$21,09 USD",
+   "impressions": "5717",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-09",
+   "date_stop": "2026-02-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "263"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,04 USD",
+   "impressions": "5805",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-09",
+   "date_stop": "2026-02-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,59 USD (Leads (form))"
+   },
+   "amount_spent": "$32,10 USD",
+   "impressions": "6169",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-09",
+   "date_stop": "2026-02-09",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$12,51 USD (Leads (form))"
+   },
+   "amount_spent": "$25,01 USD",
+   "impressions": "7670",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-10",
+   "date_stop": "2026-02-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "254"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,83 USD",
+   "impressions": "6046",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-10",
+   "date_stop": "2026-02-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,09 USD (Leads (form))"
+   },
+   "amount_spent": "$36,84 USD",
+   "impressions": "6610",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-10",
+   "date_stop": "2026-02-10",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,93 USD (Leads (form))"
+   },
+   "amount_spent": "$26,34 USD",
+   "impressions": "6493",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-11",
+   "date_stop": "2026-02-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "264"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,00 USD",
+   "impressions": "4911",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-11",
+   "date_stop": "2026-02-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$9,65 USD (Leads (form))"
+   },
+   "amount_spent": "$38,59 USD",
+   "impressions": "9016",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-11",
+   "date_stop": "2026-02-11",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,70 USD (Leads (form))"
+   },
+   "amount_spent": "$28,18 USD",
+   "impressions": "6378",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-12",
+   "date_stop": "2026-02-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "254"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,82 USD",
+   "impressions": "5564",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-12",
+   "date_stop": "2026-02-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$11,44 USD (Leads (form))"
+   },
+   "amount_spent": "$34,32 USD",
+   "impressions": "6370",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-12",
+   "date_stop": "2026-02-12",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,21 USD (Leads (form))"
+   },
+   "amount_spent": "$21,07 USD",
+   "impressions": "3822",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-13",
+   "date_stop": "2026-02-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "249"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,80 USD",
+   "impressions": "5361",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-13",
+   "date_stop": "2026-02-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,45 USD (Leads (form))"
+   },
+   "amount_spent": "$34,47 USD",
+   "impressions": "6030",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-13",
+   "date_stop": "2026-02-13",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,29 USD (Leads (form))"
+   },
+   "amount_spent": "$29,71 USD",
+   "impressions": "5947",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-13",
+   "date_stop": "2026-02-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,29 USD",
+   "impressions": "95",
+   "id": "120239785210480783",
+   "name": "Campaña El Salvador 2026"
+  },
+  {
+   "date_start": "2026-02-14",
+   "date_stop": "2026-02-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "278"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,36 USD",
+   "impressions": "4855",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-14",
+   "date_stop": "2026-02-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,83 USD (Leads (form))"
+   },
+   "amount_spent": "$23,30 USD",
+   "impressions": "4934",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-14",
+   "date_stop": "2026-02-14",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,97 USD (Leads (form))"
+   },
+   "amount_spent": "$13,82 USD",
+   "impressions": "2946",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-15",
+   "date_stop": "2026-02-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "300"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,12 USD",
+   "impressions": "4505",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-15",
+   "date_stop": "2026-02-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$14,70 USD (Leads (form))"
+   },
+   "amount_spent": "$29,40 USD",
+   "impressions": "6575",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-15",
+   "date_stop": "2026-02-15",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "22"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,33 USD (Leads (form))"
+   },
+   "amount_spent": "$29,34 USD",
+   "impressions": "8287",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-16",
+   "date_stop": "2026-02-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "292"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,30 USD",
+   "impressions": "7214",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-16",
+   "date_stop": "2026-02-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,46 USD (Leads (form))"
+   },
+   "amount_spent": "$34,57 USD",
+   "impressions": "6387",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-16",
+   "date_stop": "2026-02-16",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "17"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,54 USD (Leads (form))"
+   },
+   "amount_spent": "$26,24 USD",
+   "impressions": "8622",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-17",
+   "date_stop": "2026-02-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "269"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,07 USD",
+   "impressions": "4607",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-17",
+   "date_stop": "2026-02-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,50 USD (Leads (form))"
+   },
+   "amount_spent": "$32,48 USD",
+   "impressions": "10063",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-17",
+   "date_stop": "2026-02-17",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "18"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,09 USD (Leads (form))"
+   },
+   "amount_spent": "$19,68 USD",
+   "impressions": "5725",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-18",
+   "date_stop": "2026-02-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "238"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,66 USD",
+   "impressions": "5060",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-18",
+   "date_stop": "2026-02-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,55 USD (Leads (form))"
+   },
+   "amount_spent": "$27,29 USD",
+   "impressions": "6053",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-18",
+   "date_stop": "2026-02-18",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "18"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,13 USD (Leads (form))"
+   },
+   "amount_spent": "$20,37 USD",
+   "impressions": "5655",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-19",
+   "date_stop": "2026-02-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "217"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,68 USD",
+   "impressions": "3838",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-19",
+   "date_stop": "2026-02-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,68 USD (Leads (form))"
+   },
+   "amount_spent": "$25,79 USD",
+   "impressions": "4751",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-19",
+   "date_stop": "2026-02-19",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,84 USD (Leads (form))"
+   },
+   "amount_spent": "$14,21 USD",
+   "impressions": "5548",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-19",
+   "date_stop": "2026-02-19",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,62 USD (Leads)"
+   },
+   "amount_spent": "$4,86 USD",
+   "impressions": "1256",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-19",
+   "date_stop": "2026-02-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "7",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-20",
+   "date_stop": "2026-02-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "256"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,66 USD",
+   "impressions": "8452",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-20",
+   "date_stop": "2026-02-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,73 USD (Leads (form))"
+   },
+   "amount_spent": "$26,90 USD",
+   "impressions": "5416",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-20",
+   "date_stop": "2026-02-20",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,34 USD (Leads (form))"
+   },
+   "amount_spent": "$14,74 USD",
+   "impressions": "3201",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-20",
+   "date_stop": "2026-02-20",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,96 USD (Leads)"
+   },
+   "amount_spent": "$9,79 USD",
+   "impressions": "2353",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-20",
+   "date_stop": "2026-02-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "8",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-21",
+   "date_stop": "2026-02-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "224"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,44 USD",
+   "impressions": "3379",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-21",
+   "date_stop": "2026-02-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,79 USD (Leads (form))"
+   },
+   "amount_spent": "$33,56 USD",
+   "impressions": "6813",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-21",
+   "date_stop": "2026-02-21",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,94 USD (Leads (form))"
+   },
+   "amount_spent": "$13,60 USD",
+   "impressions": "3611",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-21",
+   "date_stop": "2026-02-21",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,64 USD (Leads)"
+   },
+   "amount_spent": "$8,19 USD",
+   "impressions": "2226",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-21",
+   "date_stop": "2026-02-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "8",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-22",
+   "date_stop": "2026-02-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "285"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,55 USD",
+   "impressions": "3650",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-22",
+   "date_stop": "2026-02-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,21 USD (Leads (form))"
+   },
+   "amount_spent": "$31,24 USD",
+   "impressions": "5463",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-22",
+   "date_stop": "2026-02-22",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,44 USD (Leads (form))"
+   },
+   "amount_spent": "$14,43 USD",
+   "impressions": "3724",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-22",
+   "date_stop": "2026-02-22",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,16 USD (Leads)"
+   },
+   "amount_spent": "$10,32 USD",
+   "impressions": "2824",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-22",
+   "date_stop": "2026-02-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,03 USD",
+   "impressions": "14",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-23",
+   "date_stop": "2026-02-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "213"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,62 USD",
+   "impressions": "4651",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-23",
+   "date_stop": "2026-02-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,55 USD (Leads (form))"
+   },
+   "amount_spent": "$31,82 USD",
+   "impressions": "4966",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-23",
+   "date_stop": "2026-02-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,32 USD (Leads (form))"
+   },
+   "amount_spent": "$11,89 USD",
+   "impressions": "3267",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-23",
+   "date_stop": "2026-02-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,37 USD (Leads)"
+   },
+   "amount_spent": "$9,47 USD",
+   "impressions": "2332",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-23",
+   "date_stop": "2026-02-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,03 USD",
+   "impressions": "16",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-24",
+   "date_stop": "2026-02-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "206"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,79 USD",
+   "impressions": "3965",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-24",
+   "date_stop": "2026-02-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,94 USD (Leads (form))"
+   },
+   "amount_spent": "$29,72 USD",
+   "impressions": "4920",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-24",
+   "date_stop": "2026-02-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,03 USD (Leads (form))"
+   },
+   "amount_spent": "$14,20 USD",
+   "impressions": "3766",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-24",
+   "date_stop": "2026-02-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$10,82 USD (Leads)"
+   },
+   "amount_spent": "$10,82 USD",
+   "impressions": "2525",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-24",
+   "date_stop": "2026-02-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "6",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-25",
+   "date_stop": "2026-02-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "194"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,72 USD",
+   "impressions": "3256",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-25",
+   "date_stop": "2026-02-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,72 USD (Leads (form))"
+   },
+   "amount_spent": "$37,18 USD",
+   "impressions": "7489",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-25",
+   "date_stop": "2026-02-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,86 USD (Leads (form))"
+   },
+   "amount_spent": "$14,57 USD",
+   "impressions": "4408",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-25",
+   "date_stop": "2026-02-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,62 USD (Leads)"
+   },
+   "amount_spent": "$11,36 USD",
+   "impressions": "2656",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-25",
+   "date_stop": "2026-02-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,04 USD",
+   "impressions": "18",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-26",
+   "date_stop": "2026-02-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "190"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,39 USD",
+   "impressions": "3164",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-26",
+   "date_stop": "2026-02-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,30 USD (Leads (form))"
+   },
+   "amount_spent": "$27,59 USD",
+   "impressions": "4017",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-26",
+   "date_stop": "2026-02-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,91 USD (Leads (form))"
+   },
+   "amount_spent": "$14,54 USD",
+   "impressions": "3954",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-26",
+   "date_stop": "2026-02-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,06 USD (Leads)"
+   },
+   "amount_spent": "$10,32 USD",
+   "impressions": "2673",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-26",
+   "date_stop": "2026-02-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,01 USD",
+   "impressions": "6",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-27",
+   "date_stop": "2026-02-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "196"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,29 USD",
+   "impressions": "3978",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-27",
+   "date_stop": "2026-02-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,43 USD (Leads (form))"
+   },
+   "amount_spent": "$25,30 USD",
+   "impressions": "5332",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-27",
+   "date_stop": "2026-02-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,89 USD (Leads (form))"
+   },
+   "amount_spent": "$14,67 USD",
+   "impressions": "4077",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-27",
+   "date_stop": "2026-02-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,06 USD (Leads)"
+   },
+   "amount_spent": "$6,19 USD",
+   "impressions": "1410",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-27",
+   "date_stop": "2026-02-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,02 USD",
+   "impressions": "7",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-28",
+   "date_stop": "2026-02-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "321"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,58 USD",
+   "impressions": "5742",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-02-28",
+   "date_stop": "2026-02-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,51 USD (Leads (form))"
+   },
+   "amount_spent": "$25,07 USD",
+   "impressions": "3724",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-28",
+   "date_stop": "2026-02-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,89 USD (Leads (form))"
+   },
+   "amount_spent": "$31,09 USD",
+   "impressions": "8887",
+   "id": "120239427144470783",
+   "name": "SV Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-02-28",
+   "date_stop": "2026-02-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,77 USD (Leads)"
+   },
+   "amount_spent": "$11,30 USD",
+   "impressions": "3279",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  },
+  {
+   "date_start": "2026-02-28",
+   "date_stop": "2026-02-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,07 USD",
+   "impressions": "16",
+   "id": "120240092477970783",
+   "name": "SV | POS Físico | Leads Directos"
+  }
+ ]
+}

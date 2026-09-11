@@ -4198,3 +4198,112 @@ con eso, se bajan acá y se suben con la capacidad `assets`, cuyas URL son del
 mismo origen y el visor sí las carga. Es configuración, no desarrollo — y hasta
 que esté, **nadie de este lado puede ver una imagen generada**, así que no se
 afirma que el prompt produzca buen arte: solo que produce el prompt correcto.
+
+---
+
+## ADR-063 · Todo 2026 en el filtro, y un esperado que se calcula en vez de guardarse
+
+**Fecha:** 2026-09-11
+**Estado:** implementado, los nueve meses reconcilian
+**Pedido:** Mercadeo — cargar enero a mayo de 2026 «para que el filtro del
+tablero vea todo el año», porque «al pedir enero parece que el filtro no
+responde».
+
+### El filtro no estaba roto
+
+Estaba diciendo la verdad. El dato empezaba el 2026-06-01 y una fecha anterior
+se ignora a propósito —hace falta, o teclear con un rango corto es imposible—.
+Lo que faltaba era el dato, no el arreglo.
+
+Ahora hay nueve meses día por día, cada uno reconciliado contra su propio
+agregado al centavo, por campaña y por país. **1,229 piezas** en el filtro.
+`rango_disponible` = `2026-01-03 → 2026-09-06`.
+
+**El 3 de enero, no el 1.** El rango sale del primer día CON ENTREGA, no del
+borde del mes: los días 1 y 2 no tuvieron pauta, y un rango que empezara el 1
+afirmaría dato donde no hay.
+
+Y el periodo del **análisis** sigue siendo el de la corrida. Son dos campos
+distintos y no se unifican (compromiso escrito, 2026-09-07). Agosto perdió 24
+días por solape con la semana de la corrida — la compuerta anti-duplicado
+haciendo su trabajo, visible en `dias_quitados_por_solape`.
+
+### Lo que el dato nuevo enseñó
+
+- **2026 tiene SEIS indicadores, no cuatro.** Aparecieron
+  `actions:onsite_conversion.lead_grouped` y `actions:leadgen.other`, que no
+  estaban en ninguna parte de esta documentación. En enero, `link_click` son
+  8,740 «resultados» al lado de 243 leads: sumarlos daría un número sin
+  significado. ADR-013 deja de ser una precaución teórica en cinco meses más.
+- **El tope de 200 filas dejó de ser hipotético.** Abril devolvió **212** filas
+  y marzo **195**. Sin el `limit=1000` explícito abril habría salido truncado en
+  silencio y con cara de completo (ADR-050).
+
+### Delegar la adquisición, y por qué se puede
+
+Con la receta probada en enero, febrero a mayo se delegaron a `analista-meta` —
+el agente que la regla 4 define justamente para esto: lee y produce archivos,
+nunca escribe en un sistema externo—. Dos agentes murieron por límite de sesión
+y uno no reportó.
+
+**No importó, y eso es el punto.** Lo que decide si un mes entra no es el reporte
+del agente: es la compuerta. Al medir el disco, marzo, abril y mayo estaban
+completos y reconciliaban al centavo; solo faltaba un archivo. Un reporte de
+subagente es una hipótesis.
+
+De hecho uno reportó una fidelidad que no tenía: dijo «200 ocurrencias
+literales, igual que su agregado» sobre un archivo con 202 montos.
+
+### El crudo no es copia fiel, y se declara en vez de arreglarse a mano
+
+Medido: seis de los dieciocho archivos crudos de pauta perdieron el espacio duro
+(NBSP) que la API pone entre el número y «USD» — `2026-01/dia` (0 de 154),
+`2026-02/dia` (200 de 202) y los agregados de julio, agosto y septiembre, estos
+últimos de sesiones anteriores. Pasa cuando el crudo se transcribe a mano en vez
+de volcarse parseado.
+
+**Ningún número cambia, y es verificable:** `parsea_numero()` hace
+`re.sub(r"[^\d,.\-]", "", limpio)`, así que el tipo de espacio le es
+indiferente, y los nueve meses reconcilian.
+
+**No se arregla insertándoles el NBSP a mano.** Un crudo editado a mano es peor
+evidencia que uno declarado como no fiel: la única fidelidad defendible viene de
+volver a pedirlo a la API. Queda declarado; la trazabilidad hasta la consulta la
+da `_metadatos.parametros`, que sí está completo.
+
+### La tercera vez del mismo error, y el arreglo que faltaba
+
+`prueba:filtro` se puso en rojo con cuatro comprobaciones señalando un defecto
+inexistente. La causa: lee los esperados de `analisis/esperado_filtro.json`, un
+archivo que **nada regeneraba**. La ventana «fuera del tope» se calcula como 90
+días antes del dato; con el dato empezando en junio eso daba marzo, y al cargar
+enero **esa ventana cayó DENTRO del dato**. El tablero la aplicó, correctamente.
+
+Es la TERCERA vez en este proyecto, y las dos anteriores están escritas en la
+cabecera de ese mismo archivo. El arreglo de entonces —traer el cálculo al
+repositorio y derivar las ventanas del dato— fue correcto pero no llegó al
+fondo: **la derivación era buena y quedó cacheada en un archivo que nadie
+refrescaba.** Un archivo que hay que acordarse de regenerar es un esperado
+escrito a mano con más pasos.
+
+Ahora `pauta_filtro.js` llama a `esperado_pauta.py` al arrancar, como
+`prueba:boton` le pide a `sprint.plan()` el payload de la idea del equipo.
+
+### Y una familia de comparaciones a medio dar de alta
+
+`prueba:raton` comparaba «1665» contra «1,665»: la página pone separador de
+miles y ninguna ventana de la prueba había pasado de 999 hasta que el total
+llegó a 1,665. El formato de la página es el correcto.
+
+Lo revelador es que **ya estaba arreglado en uno de los tres sitios** que
+comparan leads —el tercero usaba `toLocaleString`— así que el arreglo existía y
+no se aplicó a los otros dos. Misma forma que la clase CSS de ADR-034 dada de
+alta en un lado y no en el otro: una familia se da de alta en todos sus lados o
+en ninguno. Ahora hay un solo `leads()`.
+
+### Lo que queda abierto
+
+Pedir una fecha anterior al dato **revierte el campo** en vez de recortar a la
+intersección y declarar el hueco. Con 2026 cargado la queja original desaparece
+para casi todo el año, pero pedir desde 2025 va a seguir sintiéndose roto. Es un
+cambio de comportamiento, no un arreglo: no se hace en silencio.

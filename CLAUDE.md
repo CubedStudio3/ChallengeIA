@@ -47,6 +47,19 @@ aprobación con su mercado, la referencia medida, y los dos campos que llena la
 mesa —campaña y fecha— **vacíos a propósito**. 10 cartas · 5 artes y 5 videos.
 El número **nunca** se escribe a mano en el config (ADR-042).
 
+El filtro de fechas mira **todo 2026**: los nueve meses de pauta día por día
+están en `data/historico/pauta_meses/`, cada uno reconciliado contra su propio
+agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-06** (el 3 de
+enero es el primer día con entrega, no el borde del mes). 1,229 piezas en el
+filtro. El periodo del **análisis** sigue siendo el de la corrida y no se
+unifica con el del dato disponible: son dos campos distintos.
+
+Y cada carta puede **generar su referencia visual** con el conector de
+Higgsfield de quien abre la página (ADR-062). Se entrega como enlace: el visor
+no puede mostrar imágenes de otro dominio, y eso no se configura. Sale rotulada
+«es referencia, no arte final», porque el titular dentro de la imagen lo escribe
+un modelo y esto es fintech.
+
 Desde el 2026-09-10 los **tres** orígenes de trabajo del tablero crean su work
 item con el mismo botón: la carta, la tarea de estrategia y la **idea que la
 mesa escribe en la reunión** (ADR-061). La idea es la única cuyo payload NO lo
@@ -533,6 +546,59 @@ cometidos; no hay tiempo de repetirlos.
   Leer solo el primero habría hecho nacer el item sin dueño mientras la tarjeta
   mostraba un nombre — el agujero exacto del 2026-09-07, en la otra lista.
 
+- **Seis de los dieciocho archivos crudos de pauta NO son copia byte a byte de
+  la respuesta.** Medido el 2026-09-11: el espacio duro (NBSP, `\u00a0`) que la
+  API pone entre el número y «USD» se perdió en `2026-01/dia` (0 de 154),
+  `2026-02/dia` (200 de 202) y en los agregados de julio, agosto y septiembre.
+  Pasa cuando el crudo se transcribe a mano en vez de volcarse parseado.
+  **Ningún número cambia y es verificable:** `parsea_numero()` en
+  `src/base/normaliza.py` hace `re.sub(r"[^\d,.\-]", "", limpio)`, así que el
+  tipo de espacio le es indiferente, y los nueve meses reconcilian al centavo.
+  Lo que se pierde es la promesa de que el crudo es copia fiel de la consulta.
+  **No se arregla insertándoles el NBSP a mano:** un crudo editado a mano es
+  peor evidencia que uno declarado como no fiel. Si hace falta fidelidad real,
+  el único camino defendible es volver a pedirlo a la API.
+- **Un agente puede reportar una fidelidad que no tiene.** El de febrero dijo
+  «200 ocurrencias literales, igual que su agregado» y el archivo tiene 202
+  montos: dos perdieron el NBSP. La medición lo encontró; el reporte no. Un
+  reporte de subagente es una hipótesis, no una verificación — lo que verifica
+  es la compuerta.
+- **`rango_disponible` sale del primer día CON ENTREGA, no del borde del mes.**
+  Con enero cargado quedó en `2026-01-03`, no `2026-01-01`, porque los dos
+  primeros días de enero no tuvieron pauta. Es lo correcto: un rango que
+  empezara el 1 afirmaría dato donde no hay.
+- **2026 tiene SEIS indicadores distintos, no cuatro.** A los ya conocidos se
+  sumaron `actions:onsite_conversion.lead_grouped` y `actions:leadgen.other`, que
+  no estaban en ninguna parte de esta documentación. En enero, `link_click` son
+  8,740 «resultados» al lado de 243 leads: sumarlos daría un número sin
+  significado. Agrupar por indicador antes de sumar, siempre (ADR-013).
+- **El tope de 200 filas dejó de ser hipotético.** Abril devolvió **212** filas
+  día por día y marzo **195**: sin el `limit=1000` explícito, abril habría salido
+  truncado en silencio y con cara de completo. Ya no es «podría pasar» (ADR-050).
+
+- **Una imagen generada no se puede mostrar dentro del tablero.** El visor
+  bloquea toda carga externa de imágenes y todo `fetch`, sin error visible, así
+  que ni `<img>` ni bajarla para subirla con `assets` funcionan desde la página.
+  La referencia se entrega como **enlace** —que es navegación, no carga de
+  recurso— y la tarjeta lo dice: un rectángulo gris bloqueado se lee como un
+  error del tablero (ADR-062).
+- **`d8j0ntlcm91z4.cloudfront.net` está bloqueado en el entorno**, no solo en el
+  visor: `connect_rejected · gateway answered 403`. Es política de egreso y se
+  cambia. Mientras no se cambie, **nadie de este lado puede ver una imagen
+  generada**, así que no se afirma que el prompt produzca buen arte: solo que
+  produce el prompt correcto. Tercera vez que este proyecto anota como límite
+  algo que era «no está permitido todavía».
+- **Un prompt de imagen escribe lo que le pongas, incluido lo que no querés.**
+  `no_mostrar` viene como «cosa: por qué», y pasar el porqué entero hacía que el
+  modelo escribiera «marcada REVISIÓN LEGAL» DENTRO del arte. Al prompt va solo
+  el sujeto de la prohibición.
+- **Pedir varias escenas en una imagen da un collage, no una pieza.** Las tres
+  tarjetas de un carrusel en una sola imagen no son ninguna de las tres. La
+  referencia cubre el arranque y declara con cuántos tramos sigue.
+- **El cero-falsy, otra vez.** `poll_after_seconds || 10` trataba el `0` —«volvé
+  a preguntar ya»— como ausente y esperaba diez segundos. Se pregunta por el
+  TIPO, con piso para que un cero no vuelva el sondeo un bucle caliente.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -579,6 +645,8 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `data/historico/pauta_meses/` | Un par por mes —agregado + desglose diario— cada uno reconciliado contra sí mismo |
 | `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado, en los **tres** orígenes —carta, tarea e idea del equipo—: que el item **nazca** con su responsable, que reasignar mande `delusers`, y que la idea escrita en el navegador mande el payload que arma Python. `npm run prueba:boton` |
 | `pruebas/payload_idea.py` | El esperado de la idea del equipo, pedido a `sprint.plan()` en el momento. Existe porque es el único payload que NO arma Python: la idea nace en el navegador |
+| `src/modulo1/prompt_visual.py` | **El prompt de imagen de una carta.** Lo arma Python, no el navegador. Ninguna medición entra a la imagen, el logo no se genera, y un formato desconocido detiene la petición. `npm run prompt:imagen -- --corrida <carpeta>` |
+| `pruebas/imagen_boton.js` | El botón de imagen con un conector de Higgsfield simulado: que el prompt sea el de Python, que el sondeo esté acotado, que un trabajo pagado no se pierda, y que NO se intente mostrar la imagen con una etiqueta que el visor bloquea. `npm run prueba:imagen` |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
