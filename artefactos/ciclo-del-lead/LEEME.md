@@ -54,38 +54,82 @@ siguiente build lo pisa.
   regla de componente sin recurrir a `!`. Probado: `p-12` sobre `.kpi` pasa de
   `14px 15px 15px` a `48px`.
 
-## Paleta: no hay colores nuevos
+## Solo modo claro (2026-09-11)
 
-El tema de la página vive en variables CSS que ya cambian solas con claro/oscuro.
-Están mapeadas al tema de Tailwind, así que `bg-sup`, `text-tinta2` o
-`border-linea` siguen el modo **sin necesidad de una sola variante `dark:`**.
-Los nombres son los de la página: `plano sup sup2 linea linea2 tinta tinta2
-tinta3 mercadeo ventas producto abierto cuarto e1…e5 alerta alerta-fondo`.
+Por decisión de Mercadeo. No hay bloque `@media (prefers-color-scheme:dark)`,
+no hay `[data-theme]`, y Tailwind ya no genera la variante `dark:` (eso solo
+quitó 123 KB de reglas muertas).
 
-La variante `dark:` existe igual, para lo que no es color. **Ojo con cómo se
-define:** `darkMode: ["variant", [...]]` con una at-rule en la lista descarta el
-`@media` y deja `:where(:root:not([data-theme=light]) *)` suelto, que es
-verdadero en modo **claro** — `dark:bg-sup` se aplicaba siempre. Se arma con
-`addVariant`, que sí respeta la at-rule. Medido en los dos modos.
+Que la página se comprometa con un solo mundo visual **obliga** a pintar todo
+explícito: el visor compone el artefacto sobre un fondo que pinta él, en el
+tema del lector. Un `body` sin `background` heredaría el fondo oscuro del
+visor y dejaría texto oscuro sobre oscuro. Por eso `body` fija su fondo desde
+el token y `:root` declara `color-scheme: light`. La prueba lo vigila: carga
+la página con el visor en oscuro y compara contra claro; si algún día se cuela
+una regla de modo oscuro, se pone roja.
 
-## Qué se midió (2026-09-11)
+## Paleta
+
+Cuatro colores del equipo: `#d0e4bb` salvia · `#f3d7e9` rosa · `#a1caed`
+cielo · `#0a0d0b` tinta.
+
+**Los tres pasteles son SUPERFICIE, nunca marca.** Medidos contra blanco dan
+**1.36:1**, **1.34:1** y **1.72:1** — una línea o un punto de ese color es
+invisible. Con tinta encima dan **14.4:1**, **14.6:1** y **11.3:1**, que es
+donde sirven: cuadros de icono, chips, lavados, el botón Reiniciar, los
+números de las recomendaciones. Es exactamente ADR-034: *había que cambiar el
+tono, no la paleta.*
+
+**Las marcas de dato son pasos medios de los mismos tonos**, validados con el
+validador de paleta de la guía de dataviz, 5/5 en modo claro:
+
+| token | valor | rol | tinta encima |
+|---|---|---|---|
+| `--mercadeo` | `#4189c6` | Redes sociales · Mercadeo | 5.22:1 |
+| `--producto` | `#6c9a40` | Página web · Producto | 5.89:1 |
+| `--ventas` | `#cf5c96` | Directo / Referidos · Ventas | 5.23:1 |
+| `--cuarto` | `#7a6cda` | WhatsApp / Chat | 4.64:1 |
+| `--abierto` | `#8a938d` | sin identidad (Sin fuente / Abierto) | — |
+
+Separación para daltonismo: peor par ΔE 10.4 (deután) y 19.5 en visión normal.
+El par azul↔violeta queda en 6.5 para tritanopía —la tritanopía colapsa
+azul y violeta por naturaleza—, que es legal solo con codificación
+secundaria: la página tiene leyenda con nombre, etiquetas directas y tabla,
+así que la identidad nunca depende del color solo.
+
+El embudo (`--e1`…`--e5`) es **secuencial**: un solo tono, claro a oscuro. No
+es categórico y por eso no se le aplican las reglas de arriba.
+
+`--alerta` es **estado reservado** y nunca se usa como serie.
+
+## Qué se midió (`npm run prueba`)
+
+La prueba **ya no compara píxel a píxel** contra la versión anterior: el
+diseño cambió a propósito, así que ese esperado caducó. Ahora comprueba lo que
+puede romperse en silencio:
 
 | Comprobación | Resultado |
 |---|---|
-| Pintura antes/después a 1440, 834 y 390 px | **0 píxeles distintos** en los tres |
-| Errores de consola nuevos | ninguno |
-| Utilidades con variables del tema | `bg-mercadeo` → `rgb(42,120,214)` |
-| Cascada sobre regla propia | `p-12` sobre `.kpi` → `48px` |
-| `dark:` en claro / en oscuro | no se filtra / sí aplica |
-| Globales de las librerías | `lucide` `gsap` `Chart` `Alpine` presentes |
+| Carga sin errores de consola a 1440, 834 y 390 px | sin errores |
+| Scroll horizontal del cuerpo | 0 px en los tres anchos |
+| Se pinta igual con el visor en oscuro que en claro | idéntico |
+| El fondo es el token explícito, no heredado | `rgb(236,238,232)` |
+| Riel con sus 9 secciones, una marcada en reposo | 9 · 1 |
+| Los 5 KPI traen su icono | 5/5 |
+| Texto sobre el relleno de cada tramo apilado | 5.22 – 6.17:1 |
+| Tailwind operativo, sin variante `dark:` | sí · sin ella |
 
-## Peso
+Google Fonts sale bloqueado en las capturas locales: es la política de egreso
+de **este entorno**, no de la página —en el visor sí carga—. La prueba lo
+separa y lo reporta en vez de darlo por fallo, pero no lo calla.
+
+## Peso## Peso
 
 | | crudo | gzip |
 |---|---|---|
-| página sola | 133 KB | — |
-| + Tailwind | 427 KB | 61 KB |
-| + las 4 librerías | 1,090 KB | 253 KB |
+| página sola | 145 KB | — |
+| + Tailwind | 390 KB | 57 KB |
+| + las 4 librerías | 1,053 KB | 249 KB |
 
 Las librerías incrustadas son lucide 0.454.0 (iconos), gsap 3.12.5 (animación),
 chart.js 4.4.4 (gráficas) y alpinejs 3.14.1 (interactividad). **Hoy no las usa

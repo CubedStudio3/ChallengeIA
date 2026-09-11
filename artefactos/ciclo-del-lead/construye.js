@@ -48,7 +48,8 @@ if (conLibs) {
 }
 
 const salida = fuente.slice(0, corte) + bloque + fuente.slice(corte);
-const destino = "../ciclo-del-lead.html";
+const destino = process.env.SALIDA || "salida/ciclo-del-lead.html";
+fs.mkdirSync(path.dirname(destino), { recursive: true });
 fs.writeFileSync(destino, salida);
 const kb = (n) => (n / 1024).toFixed(0) + " KB";
 console.log(`escrito ${destino}`);
