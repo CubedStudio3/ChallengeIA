@@ -1,0 +1,21 @@
+{
+  "name": "artefacto-ciclo-del-lead",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Build del artefacto compartido 'Ciclo del Lead': Tailwind compilado + librerias de diseno incrustadas.",
+  "scripts": {
+    "css": "tailwindcss -c tailwind.config.js -i entrada.css -o tailwind.css --minify",
+    "construye": "npm run css && node construye.js --libs",
+    "prueba": "node prueba.js"
+  },
+  "devDependencies": {
+    "alpinejs": "3.14.1",
+    "chart.js": "4.4.4",
+    "gsap": "3.12.5",
+    "lucide": "0.454.0",
+    "pixelmatch": "5.3.0",
+    "playwright": "1.49.1",
+    "pngjs": "7.0.0",
+    "tailwindcss": "3.4.17"
+  }
+}
