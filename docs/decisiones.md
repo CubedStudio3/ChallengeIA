@@ -4307,3 +4307,81 @@ Pedir una fecha anterior al dato **revierte el campo** en vez de recortar a la
 intersección y declarar el hueco. Con 2026 cargado la queja original desaparece
 para casi todo el año, pero pedir desde 2025 va a seguir sintiéndose roto. Es un
 cambio de comportamiento, no un arreglo: no se hace en silencio.
+
+---
+
+## ADR-064 · Se quita la referencia visual con Higgsfield
+
+**Fecha:** 2026-09-11
+**Estado:** implementado — **revierte ADR-062**, que queda como registro
+**Pedido:** Mercadeo, 2026-09-11 — «quedó muy mal, mejor quitemos lo de
+Higgsfield, quita esa opción».
+
+### Por qué se quita
+
+Por lo único que importaba y lo único que yo no podía medir: **la imagen no
+sirve**. La mecánica funcionaba —el prompt salía de la carta, el conector
+respondía, el trabajo llegaba a `completed` con su URL— pero el resultado no
+era usable para una reunión de Mercadeo.
+
+Y ese veredicto solo lo podía dar Mercadeo, porque
+**`d8j0ntlcm91z4.cloudfront.net` está bloqueado por la política de egreso del
+entorno**: desde este lado no se pudo abrir ni una sola de las imágenes
+generadas. Por eso ADR-062 dice, textualmente, «no se afirma que el prompt
+produzca buen arte: solo que produce el prompt correcto». Esa reserva era la
+correcta, y resultó ser el punto entero.
+
+### La lección, que es la que vale
+
+**Se construyó una función completa sin poder ver su salida.** Prompt derivado
+de la carta, sondeo acotado, guardia contra mediciones, 28 comprobaciones en
+verde — y ninguna de esas 28 podía contestar «¿la imagen está bien?», porque
+todas miraban lo que pasa ANTES del generador. Un producto visual cuyo
+resultado el constructor no puede ver no está a medio probar: está probado en
+todo menos en lo que lo justifica.
+
+Lo que se debió hacer: **desbloquear el dominio primero, generar una, mirarla,
+y recién entonces decidir si valía la pena construir el botón.** Una imagen de
+0.5 créditos y diez minutos habrían ahorrado el resto. El orden estuvo mal, no
+el código.
+
+Es la misma familia que la lección de método de 2026-08-27 —agotar las formas
+de preguntar antes de concluir— en su versión cara: **verificar lo barato antes
+de construir lo caro.**
+
+### Qué se quitó
+
+- El botón y todo su render en la carta, la lógica de generación y sondeo, el
+  estado `E.imagenes` y sus dos entradas en el delegado de eventos.
+- `src/modulo1/prompt_visual.py` y `pruebas/imagen_boton.js`, borrados; sus dos
+  scripts de npm, fuera.
+- `corre.py` ya no adjunta `imagen` a las cartas.
+- La capacidad `mcp` del artefacto vuelve a declarar **solo Zoho Sprints**. Es
+  una declaración de conjunto completo: dejar Higgsfield adentro pediría al
+  visitante un permiso que la página ya no usa.
+- El alias `mcp`/`sprints` se revirtió a la variable única: con un solo
+  conector era indirección sin uso.
+
+### Qué se queda, y por qué
+
+1. **`MEDICION` sigue en `cartas.py`**, aunque hoy solo la lea `prueba:cartas`.
+   Es una regla del producto, no un detalle de la prueba; bajarla de vuelta solo
+   abriría la puerta a que la próxima vez se escriba dos veces.
+2. **Las trampas medidas siguen en CLAUDE.md.** Que el visor bloquee toda carga
+   externa de imágenes y que cloudfront esté bloqueado por política **siguen
+   siendo ciertas** y valen para cualquier intento futuro de mostrar una imagen
+   en el tablero. Un hallazgo no se borra porque la función que lo descubrió se
+   haya quitado.
+3. **ADR-062 no se borra.** Registra por qué se hizo, qué se midió y qué se
+   decidió. Borrarlo dejaría este ADR sin la mitad que explica qué se revierte.
+
+### Si se retoma
+
+El camino sigue siendo el mismo y el orden es lo que cambia: desbloquear
+cloudfront en la política de red del entorno, generar dos o tres referencias,
+**mirarlas**, y solo si sirven volver a poner el botón. Con el dominio abierto
+también se abre la mitad que nunca se pudo hacer: bajar la imagen y subirla con
+la capacidad `assets`, cuyas URL son del mismo origen y el visor sí carga — que
+es lo que haría que se vean DENTRO del tablero en vez de en otra pestaña.
+
+El código está en el historial de git, en el commit de ADR-062.

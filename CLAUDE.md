@@ -54,12 +54,6 @@ enero es el primer día con entrega, no el borde del mes). 1,229 piezas en el
 filtro. El periodo del **análisis** sigue siendo el de la corrida y no se
 unifica con el del dato disponible: son dos campos distintos.
 
-Y cada carta puede **generar su referencia visual** con el conector de
-Higgsfield de quien abre la página (ADR-062). Se entrega como enlace: el visor
-no puede mostrar imágenes de otro dominio, y eso no se configura. Sale rotulada
-«es referencia, no arte final», porque el titular dentro de la imagen lo escribe
-un modelo y esto es fintech.
-
 Desde el 2026-09-10 los **tres** orígenes de trabajo del tablero crean su work
 item con el mismo botón: la carta, la tarea de estrategia y la **idea que la
 mesa escribe en la reunión** (ADR-061). La idea es la única cuyo payload NO lo
@@ -576,12 +570,15 @@ cometidos; no hay tiempo de repetirlos.
   día por día y marzo **195**: sin el `limit=1000` explícito, abril habría salido
   truncado en silencio y con cara de completo. Ya no es «podría pasar» (ADR-050).
 
+- **La generación de imágenes con Higgsfield SE QUITÓ el 2026-09-11**
+  (ADR-064): la mecánica funcionaba, la imagen no servía. Lo que sigue abajo son
+  hechos medidos que valen para cualquier intento futuro; el botón ya no existe.
 - **Una imagen generada no se puede mostrar dentro del tablero.** El visor
   bloquea toda carga externa de imágenes y todo `fetch`, sin error visible, así
   que ni `<img>` ni bajarla para subirla con `assets` funcionan desde la página.
-  La referencia se entrega como **enlace** —que es navegación, no carga de
-  recurso— y la tarjeta lo dice: un rectángulo gris bloqueado se lee como un
-  error del tablero (ADR-062).
+  Un rectángulo gris bloqueado se lee como un error del tablero. La única vuelta
+  sería bajarla acá y subirla con `assets`, cuyas URL son del mismo origen — y
+  eso necesita el dominio desbloqueado (ADR-062).
 - **`d8j0ntlcm91z4.cloudfront.net` está bloqueado en el entorno**, no solo en el
   visor: `connect_rejected · gateway answered 403`. Es política de egreso y se
   cambia. Mientras no se cambie, **nadie de este lado puede ver una imagen
@@ -598,6 +595,13 @@ cometidos; no hay tiempo de repetirlos.
 - **El cero-falsy, otra vez.** `poll_after_seconds || 10` trataba el `0` —«volvé
   a preguntar ya»— como ausente y esperaba diez segundos. Se pregunta por el
   TIPO, con piso para que un cero no vuelva el sondeo un bucle caliente.
+- **No se construye una función visual sin poder ver su salida.** Se armó el
+  botón entero —prompt derivado de la carta, sondeo acotado, 28 comprobaciones
+  en verde— y **ninguna de las 28 podía contestar «¿la imagen está bien?»**,
+  porque todas miraban lo que pasa ANTES del generador. Mercadeo la vio y dijo
+  «quedó muy mal». Lo barato era desbloquear el dominio, generar UNA y mirarla:
+  media hora antes habría ahorrado el resto. **Verificar lo barato antes de
+  construir lo caro** (ADR-064).
 
 ### Lección de método (error propio, 2026-08-27)
 
@@ -645,8 +649,6 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `data/historico/pauta_meses/` | Un par por mes —agregado + desglose diario— cada uno reconciliado contra sí mismo |
 | `pruebas/sprint_boton.js` | El botón APROBAR con un conector simulado, en los **tres** orígenes —carta, tarea e idea del equipo—: que el item **nazca** con su responsable, que reasignar mande `delusers`, y que la idea escrita en el navegador mande el payload que arma Python. `npm run prueba:boton` |
 | `pruebas/payload_idea.py` | El esperado de la idea del equipo, pedido a `sprint.plan()` en el momento. Existe porque es el único payload que NO arma Python: la idea nace en el navegador |
-| `src/modulo1/prompt_visual.py` | **El prompt de imagen de una carta.** Lo arma Python, no el navegador. Ninguna medición entra a la imagen, el logo no se genera, y un formato desconocido detiene la petición. `npm run prompt:imagen -- --corrida <carpeta>` |
-| `pruebas/imagen_boton.js` | El botón de imagen con un conector de Higgsfield simulado: que el prompt sea el de Python, que el sondeo esté acotado, que un trabajo pagado no se pierda, y que NO se intente mostrar la imagen con una etiqueta que el visor bloquea. `npm run prueba:imagen` |
 | `pruebas/esperado_pauta.py` | Calcula los esperados del filtro aparte, y **deriva las ventanas del dato** para que no caduquen |
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |

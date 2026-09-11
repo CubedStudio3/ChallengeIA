@@ -41,12 +41,6 @@
      conecta una carta con una campaña —es una decisión de medios— y una fecha
      es una decisión de personas: derivarlas sería inventarlas. */
   if (!E.mesa) E.mesa = {};
-  /* Las referencias visuales generadas. Se guarda el ID DEL TRABAJO en cuanto
-     Higgsfield lo devuelve, ANTES de que la imagen esté lista: si alguien
-     recarga o se republica el tablero mientras se genera, el trabajo no se
-     pierde y se puede volver a consultar. Un trabajo pagado que se pierde por
-     un repintado es dinero tirado sin que nadie se entere. */
-  if (!E.imagenes) E.imagenes = {};
 
   var soloLectura = false, api = null;
   /* El conector de Zoho Sprints, si el visitante lo tiene. `null` significa
@@ -67,12 +61,8 @@
      persona saliendo del campo, y no puede tratarse igual. */
   var repintando = false;
   var SIN_DUENIO = "21897000000002005";
-  /* `mcp` es UN namespace para TODOS los conectores del visitante; el nombre
-     del servidor va en cada llamada. `sprints` quedó como alias porque lo usan
-     veinte sitios, pero los dos son el mismo objeto: no hay dos capacidades. */
-  var mcp = null, sprints = null;
+  var sprints = null;
   var SERVIDOR = "Zoho Sprints";
-  var SERVIDOR_IMG = "Higgsfield MCP";
 
   /* Vista local. Nunca se publica. */
   var V = { mercado: null, grupo: "competencia", categoria: "software",
@@ -1119,94 +1109,6 @@
                                   : "no hay responsable") + ".";
   }
 
-  /* Lo que la referencia NO cubre, dicho por la carta y no adivinado. Sale de
-     `_declara` de la petición: que cubre solo el arranque de un carrusel de
-     tres tarjetas, o que la carta no traía titular. */
-  function limiteImagen(c) {
-    var d = ((c.imagen || {})._declara) || [];
-    if (!d.length) return "";
-    return '<p class="text-[11px] text-slate-400 leading-relaxed mt-2">' +
-      esc("Cubre: " + d.join(" · ")) + "</p>";
-  }
-
-  function tramoImagen(c) {
-    if (!c.imagen) return "";
-    var s0 = (E.imagenes || {})[c.id];
-    var puede = !!mcp && !soloLectura;
-
-    if (s0 && s0.estado === "lista") {
-      /* El enlace, NO un `<img>`. El visor bloquea la carga externa sin decir
-         nada, así que una etiqueta de imagen dejaría un hueco que parece un
-         error del tablero. Y va con el rótulo de referencia: el texto que
-         escribe el modelo no es confiable con tildes, y esto es fintech. */
-      return '<div class="mt-4 rounded-2xl p-4" style="background:' +
-        'var(--bien-suave)"><p class="text-[12px] font-semibold" style="' +
-        'color:var(--bien-tex)">Referencia visual lista</p>' +
-        '<p class="text-[11.5px] mt-1 leading-relaxed" style="color:' +
-        'var(--bien-tex)">Se abre en otra pestaña: el visor de esta página no ' +
-        'puede mostrar imágenes de otro dominio.</p>' +
-        '<a href="' + esc(s0.url) + '" target="_blank" rel="noopener ' +
-        'noreferrer" class="enlace mt-2.5">Abrir la referencia</a>' +
-        '<p class="text-[11px] leading-relaxed mt-2.5" style="color:' +
-        'var(--falta-tex)"><b>Es referencia, no arte final.</b> El titular ' +
-        'dentro de la imagen lo escribió el modelo: revisá tildes y signos ' +
-        'antes de usarlo. El logo real lo pone diseño.</p>' +
-        limiteImagen(c) +
-        '<button type="button" data-imagen="' + esc(c.id) + '" ' +
-        'class="btn-claro mt-3"' + (puede ? "" : " disabled") + ">" +
-        "Generar otra</button>" +
-        '<p class="text-[11px] text-slate-400 mt-1.5">Genera una imagen ' +
-        "nueva y vuelve a cobrar créditos.</p></div>";
-    }
-    if (s0 && (s0.estado === "generando" || s0.estado === "esperando")) {
-      return '<div class="mt-4 rounded-2xl bg-slate-50 p-4">' +
-        '<p class="text-[12px] font-semibold text-slate-500">' +
-        (s0.estado === "generando" ? "Pidiendo la referencia…"
-                                   : "Higgsfield la está generando…") +
-        "</p></div>";
-    }
-    if (s0 && s0.estado === "lenta") {
-      /* Ni lista ni fallida. El trabajo sigue vivo y su id está guardado, así
-         que se ofrece CONSULTAR —gratis— y no generar de nuevo, que cobra. */
-      return '<div class="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-100 p-4">' +
-        '<p class="text-[12px] font-semibold text-amber-900 mb-1">' +
-        "Está tardando</p>" +
-        '<p class="text-[11.5px] text-amber-700 leading-relaxed">' +
-        esc(s0.detalle || "El trabajo sigue vivo en Higgsfield. No se generó " +
-            "otro: eso cobraría de nuevo.") + "</p>" +
-        (puede
-          ? '<button type="button" data-imagen-consulta="' + esc(c.id) + '" ' +
-            'class="btn-claro mt-3">Volver a consultar</button>'
-          : "") + "</div>";
-    }
-    if (s0 && s0.estado === "error") {
-      return '<div class="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-100 p-4">' +
-        '<p class="text-[12px] font-semibold text-amber-900 mb-1">' +
-        "No se generó la referencia</p>" +
-        '<p class="text-[11.5px] text-amber-700 leading-relaxed">' +
-        esc(s0.detalle || "") + "</p>" +
-        (puede
-          ? '<button type="button" data-imagen="' + esc(c.id) + '" ' +
-            'class="btn-claro mt-3">Volver a intentar</button>'
-          : "") + "</div>";
-    }
-    /* Todavía no se pidió. Un botón que gasta el dinero de quien lo pulsa no
-       puede sorprender a nadie: dice que cuesta y con qué conector. */
-    if (!mcp) {
-      return '<p class="text-[11px] text-slate-400 leading-relaxed mt-4">' +
-        "Con el conector de " + esc(SERVIDOR_IMG) + " agregado en claude.ai, " +
-        "esta carta puede generar su referencia visual desde aquí.</p>";
-    }
-    return '<div class="mt-4 rounded-2xl bg-slate-50 p-4">' +
-      '<button type="button" data-imagen="' + esc(c.id) + '" ' +
-      'class="btn-claro"' + (soloLectura ? " disabled" : "") + ">" +
-      "Generar referencia visual</button>" +
-      '<p class="text-[11px] text-slate-400 leading-relaxed mt-2">' +
-      "Usa tu conector de " + esc(SERVIDOR_IMG) + " y gasta tus créditos. " +
-      "El prompt sale de la dirección visual de esta carta, no se escribe " +
-      "a mano.</p>" + limiteImagen(c) + "</div>";
-  }
-
   function tramoSprint(c, estado) {
     var s0 = (E.sprint || {})[c.id];
     var puede = !!sprints && !!c.sprint;
@@ -1528,7 +1430,6 @@
         : "") +
 
       camposDeLaMesa(c) +
-      tramoImagen(c) +
       tramoSprint(c, estado) +
       '<div class="mt-auto pt-5 flex flex-wrap items-center gap-2">' +
       '<button type="button" data-decidir="' + esc(c.id) + '" ' +
@@ -4169,7 +4070,6 @@
 
   var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
     "[data-categoria],[data-estrategia],[data-decidir],[data-propia],[data-sprint]," +
-    "[data-imagen],[data-imagen-consulta]," +
     "[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
     "#bCsv,#bDecisiones,#bTodas,#bNada," +
     "#npAgregar,#limpiarBusqueda,#limpiarCopys";
@@ -4283,19 +4183,6 @@
       if (d.sprint) {
         if (soloLectura || !sprints) return;
         crearEnSprints(d.sprint); return;
-      }
-      if (d.imagen) { generaImagen(d.imagen); return; }
-      if (d.imagenConsulta) {
-        /* Consultar es gratis; generar cobra. Por eso son dos botones y no
-           uno que «reintenta». */
-        var s0 = (E.imagenes || {})[d.imagenConsulta];
-        if (s0 && s0.job) {
-          marcaImagen(d.imagenConsulta,
-                      { estado: "esperando", job: s0.job, en: s0.en });
-          pintar(true);
-          esperaImagen(d.imagenConsulta, s0.job, 0);
-        }
-        return;
       }
       if (d.propia) {
         var p = E.propias[d.propia];
@@ -4844,150 +4731,6 @@
       : (valor ? "Campaña guardada" : "Campaña quitada"), true);
   }
 
-  /* ═════════════ la referencia visual, con Higgsfield ═════════════
-
-     Lo que la mesa pidió: un botón que genere el arte de una carta sin salir
-     del tablero. Lo que se puede y lo que no, medido el 2026-09-10:
-
-     · GENERAR sí. La capacidad `mcp` llama al conector DEL VISITANTE con SUS
-       credenciales y SUS créditos, igual que con Sprints. La página nunca ve
-       un token.
-     · MOSTRAR la imagen aquí dentro, NO. El resultado vive en un dominio de
-       Higgsfield, y el visor de artefactos bloquea toda carga externa de
-       imágenes y todo `fetch` — sin error visible, simplemente no aparece. No
-       es un límite que se pueda configurar: es la lista de la plataforma.
-       Así que la referencia se entrega como ENLACE, que es navegación y no
-       carga de recurso. Se dice en la tarjeta en vez de dejar un hueco gris
-       que parezca una imagen que no cargó.
-
-     El prompt NO se arma acá: viene en `carta.imagen`, construido por
-     `modulo1/prompt_visual.py`. Misma razón que el payload de Sprints — si
-     cada camino armara su texto, dos personas pidiendo la referencia de la
-     misma carta obtendrían imágenes distintas y nadie sabría por qué. */
-
-  function marcaImagen(id, datos) {
-    E.imagenes = E.imagenes || {};
-    E.imagenes[id] = datos;
-  }
-
-  /* La carta con su petición de imagen. Las tareas y las ideas del equipo NO
-     tienen: su dirección visual no existe, y generar un arte para algo que no
-     la declara sería inventarla. */
-  function cartaConImagen(id) {
-    var cs = ((D.cartas || {}).cartas) || [];
-    for (var i = 0; i < cs.length; i++) {
-      if (cs[i].id === id && cs[i].imagen) return cs[i];
-    }
-    return null;
-  }
-
-  function generaImagen(id) {
-    if (soloLectura || !mcp) return;
-    var c = cartaConImagen(id);
-    if (!c) return;
-    var ya = (E.imagenes || {})[id];
-    /* Idempotente por accidente, no por diseño: acá no hay marca que consultar
-       como en Sprints, así que la única guardia contra pagar dos veces es no
-       relanzar mientras uno está en curso. Volver a generar a propósito SÍ se
-       puede, pero es otro botón y lo dice: cuesta créditos otra vez. */
-    if (ya && (ya.estado === "generando" || ya.estado === "esperando")) return;
-
-    /* Solo los campos de la petición. Las llaves con `_` son para la tarjeta
-       —lo que la referencia no cubre— y no son parámetros del modelo. */
-    var params = {};
-    for (var k in c.imagen) {
-      if (k.charAt(0) !== "_") params[k] = c.imagen[k];
-    }
-
-    marcaImagen(id, { estado: "generando", en: new Date().toISOString() });
-    pintar(true);
-
-    mcp.callTool(SERVIDOR_IMG, "generate_image", { params: params })
-      .then(function (r) {
-        var pl = r && r.payload;
-        var res = pl && pl.results;
-        var job = res && res[0] && res[0].id;
-        if (!job) {
-          marcaImagen(id, { estado: "error",
-                            detalle: "Higgsfield respondió sin id de trabajo." });
-          persistir("Higgsfield respondió sin id de trabajo"); return;
-        }
-        /* El id se guarda YA. Si la generación se corta acá, el trabajo sigue
-           existiendo y pagado: sin guardarlo, se perdería en silencio. */
-        marcaImagen(id, { estado: "esperando", job: job,
-                          en: new Date().toISOString() });
-        persistir();
-        esperaImagen(id, job, 0);
-      })
-      .catch(function (e) {
-        var x = explicaError(e);
-        marcaImagen(id, { estado: "error", detalle: x.txt,
-                          codigo: e && e.code,
-                          reintentable: !!x.ambiguo });
-        persistir(x.txt);
-      });
-  }
-
-  /* Higgsfield es asíncrono: `generate_image` devuelve un trabajo pendiente y
-     hay que preguntar por él. `jobs_wait` mantiene la conexión hasta 15 s y
-     dice si ya terminó.
-
-     El sondeo está ACOTADO. Un bucle sin techo contra un conector ajeno es la
-     forma de convertir un modelo lento en una página que consulta para
-     siempre; a los ~3 minutos se para, se dice, y queda el botón para volver
-     a consultar. El trabajo no se pierde: su id está guardado. */
-  var TOPE_ESPERAS = 12;
-
-  function esperaImagen(id, job, intento) {
-    if (!mcp || !job) return;
-    mcp.callTool(SERVIDOR_IMG, "jobs_wait", {
-      jobs: [{ index: 0, job_id: job }], timeout_seconds: 15
-    }, { cache: false }).then(function (r) {
-      var pl = r && r.payload;
-      var j = pl && pl.jobs && pl.jobs[0];
-      var est = j && j.status;
-
-      if (est === "completed" && j.result_url) {
-        marcaImagen(id, { estado: "lista", job: job, url: j.result_url,
-                          en: new Date().toISOString() });
-        persistir("Referencia visual lista");
-        return;
-      }
-      if (est === "failed" || (pl && pl.summary && pl.summary.failed)) {
-        marcaImagen(id, { estado: "error", job: job,
-                          detalle: "Higgsfield no pudo generar esta imagen. " +
-                                   "El trabajo terminó en error." });
-        persistir("Higgsfield no pudo generar esta imagen");
-        return;
-      }
-      if (intento + 1 >= TOPE_ESPERAS) {
-        /* Ni éxito ni error: sigue corriendo y ya se esperó bastante. NO se
-           declara fallida —el trabajo puede terminar bien— y NO se vuelve a
-           generar, que costaría otra vez. */
-        marcaImagen(id, { estado: "lenta", job: job,
-                          en: new Date().toISOString() });
-        persistir("La generación está tardando; el trabajo sigue vivo");
-        return;
-      }
-      /* `|| 10` estaba mal: un `poll_after_seconds` de 0 —que es lo que manda
-         el conector cuando dice «volvé a preguntar ya»— es FALSY, así que se
-         leía como ausente y esperaba diez segundos. El cero-falsy otra vez. Se
-         pregunta por el TIPO, y se pone un piso de un segundo para que un cero
-         no convierta el sondeo en un bucle caliente. */
-      var espera = (pl && typeof pl.poll_after_seconds === "number")
-        ? pl.poll_after_seconds : 10;
-      setTimeout(function () { esperaImagen(id, job, intento + 1); },
-                 Math.max(espera, 1) * 1000);
-    }).catch(function (e) {
-      var x = explicaError(e);
-      /* Que la CONSULTA falle no prueba que la imagen no se generó. Se guarda
-         como consultable, con su id, en vez de darla por perdida. */
-      marcaImagen(id, { estado: "lenta", job: job, detalle: x.txt,
-                        en: new Date().toISOString() });
-      persistir(x.txt);
-    });
-  }
-
   function marcaSprint(id, datos) {
     E.sprint = E.sprint || {};
     E.sprint[id] = datos;
@@ -5268,9 +5011,8 @@
        —nunca dentro de la primera corrida del script— así que la página se
        dibuja sin ella y el botón se enciende cuando resuelve. */
     window.claude.use("mcp").then(function (m) {
-      mcp = m || null;
-      sprints = mcp;
-      if (mcp) pintar(true);
-    }).catch(function () { mcp = null; sprints = null; });
+      sprints = m || null;
+      if (sprints) pintar(true);
+    }).catch(function () { sprints = null; });
   } else { soloLectura = true; pintar(true); }
 })();

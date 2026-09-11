@@ -27,10 +27,10 @@ import re
 PIEZA = {"arte": "Arte", "video": "Video"}
 
 # Lo que TIENE FORMA DE MEDICION, y por eso no puede estar escrito a mano en un
-# campo humano del config (ADR-042). Vivia dentro de `pruebas/cartas.py`, pero
-# es una REGLA DEL PRODUCTO, no un detalle de la prueba: desde que el prompt de
-# imagen tambien tiene que respetarla, escribirla en dos lados seria la tercera
-# copia divergente de la misma regla en este proyecto.
+# campo humano del config (ADR-042). Vivia dentro de `pruebas/cartas.py` y se
+# subio aqui: es una REGLA DEL PRODUCTO, no un detalle de la prueba. Se queda
+# aqui aunque hoy solo la lea esa prueba — la regla es del sistema, y bajarla
+# de vuelta solo abriria la puerta a que la proxima vez se escriba dos veces.
 #
 # La distincion que hace: «24 horas» SI —es una promesa de producto, la dice la
 # landing— y «$2.68», «95%» o «109 dias» NO, porque son mediciones de una

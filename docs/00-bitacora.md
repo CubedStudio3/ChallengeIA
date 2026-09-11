@@ -1302,3 +1302,37 @@ de subagente es una hipótesis; lo que verifica es la compuerta.
 
 `rango_disponible` quedó en **2026-01-03**, no 01-01: el 3 es el primer día con
 entrega. Un rango que empezara el 1 afirmaría dato donde no hay.
+
+---
+
+## Sesión 19 · 2026-09-11 · se quita la referencia visual
+
+Mercadeo la vio y fue directo: «quedó muy mal, mejor quitemos lo de Higgsfield».
+
+Se quitó entera —botón, render, lógica de sondeo, estado, el módulo del prompt,
+su prueba y sus dos scripts— y la capacidad `mcp` del artefacto vuelve a
+declarar solo Zoho Sprints. El alias `mcp`/`sprints` se revirtió a la variable
+única: con un conector era indirección sin uso.
+
+**La lección es la que vale, y es incómoda.** Se construyó una función visual
+completa sin poder ver su salida: `d8j0ntlcm91z4.cloudfront.net` está bloqueado
+por la política de egreso, así que desde acá no se abrió ni una sola imagen
+generada. Las 28 comprobaciones en verde miraban todas lo que pasa ANTES del
+generador —que el prompt fuera el de Python, que el sondeo estuviera acotado,
+que un trabajo pagado no se perdiera— y ninguna podía contestar la única
+pregunta que importaba.
+
+Por eso ADR-062 dice textualmente «no se afirma que el prompt produzca buen
+arte: solo que produce el prompt correcto». La reserva era correcta y resultó
+ser el punto entero.
+
+Lo barato era desbloquear el dominio, generar UNA imagen y mirarla. Media hora
+al principio habría ahorrado el resto. **Verificar lo barato antes de construir
+lo caro** — la versión cara de la lección de método del 2026-08-27.
+
+Lo que NO se borró: las trampas medidas sobre el visor y sobre la política de
+egreso siguen en CLAUDE.md, porque valen para cualquier intento futuro; y
+ADR-062 se queda, porque sin él ADR-064 no explica qué revierte. Un hallazgo no
+se borra porque la función que lo descubrió se haya quitado.
+
+Detalle en ADR-064.

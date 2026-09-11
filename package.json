@@ -15,9 +15,7 @@
     "prueba:cartas": "PYTHONPATH=src python3 pruebas/cartas.py",
     "prueba:boton": "node pruebas/sprint_boton.js",
     "prueba:estrategia": "node pruebas/estrategia_cartas.js",
-    "prueba:ficha": "node pruebas/cartas_ficha.js",
-    "prueba:imagen": "node pruebas/imagen_boton.js",
-    "prompt:imagen": "PYTHONPATH=src python3 -m modulo1.prompt_visual"
+    "prueba:ficha": "node pruebas/cartas_ficha.js"
   },
   "dependencies": {
     "pptxgenjs": "^4.0.1"
