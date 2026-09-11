@@ -261,6 +261,48 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
       </div>
     </section>
 
+    <section id="s-sinc">
+      <div class="titulo-sec"><h2>¿Llegan al CRM?</h2></div>
+      <p class="nota-sec">Leads que Meta dice haber entregado contra registros de redes que
+        aparecen en el CRM, mes por mes. Esta sección responde a los filtros de <b>País</b> y
+        <b>Mes</b>; los de Canal y Fuente no, porque la comparación es de redes por definición.</p>
+      <div class="kpis" id="kpis-sinc"></div>
+      <div class="graficas" style="margin-top:16px">
+        <div class="tarjeta-g">
+          <h3>Meta contra CRM</h3><p class="sub">Barras pareadas, mismo eje</p>
+          <div class="leyenda" id="leyenda-sinc"></div>
+          <div id="g-sinc"></div>
+        </div>
+        <div class="tarjeta-g">
+          <h3>La brecha, mes por mes</h3><p class="sub">CRM menos Meta. Bajo cero = faltan en el CRM</p>
+          <div id="g-brecha"></div>
+        </div>
+      </div>
+      <div class="marco-tabla" style="margin-top:16px"><table id="tabla-sinc"></table></div>
+      <p class="nota-sec" style="margin-top:12px">Los dos números <b>no son comparables al
+        registro</b> y no se presentan como una cuadratura: Meta cuenta eventos y el CRM cuenta
+        registros, Meta atribuye a la fecha del clic y el CRM a la fecha de creación, y el CRM
+        deduplica. Sirve para ver el <b>tamaño y la dirección</b> de la diferencia, no para
+        auditarla lead por lead.</p>
+    </section>
+
+    <section id="s-asignacion">
+      <div class="titulo-sec"><h2>¿A quién le caen?</h2></div>
+      <p class="nota-sec">Leads <b>sin Trato</b> según a quién los tiene asignados el CRM, y si esa
+        persona todavía puede entrar. Un lead asignado a un usuario desactivado no está sin asignar:
+        está asignado a alguien que no lo puede abrir. Esta sección no responde a los filtros de
+        País, Canal ni Fuente —el cubo de responsable no los lleva—; el de Mes sí, en la gráfica.</p>
+      <div id="aviso-asig"></div>
+      <div class="kpis" id="kpis-asig"></div>
+      <div class="tarjeta-g" style="margin-top:16px">
+        <h3>Asignación mes a mes</h3>
+        <p class="sub">Leads sin Trato creados cada mes, por estado del usuario que los recibió</p>
+        <div class="leyenda" id="leyenda-asig"></div>
+        <div id="g-asig"></div>
+      </div>
+      <div class="marco-tabla" style="margin-top:16px"><table id="tabla-asig"></table></div>
+    </section>
+
     <section id="s-mes">
       <div class="titulo-sec"><h2>Mes a mes</h2></div>
       <p class="nota-sec">Dos gráficas separadas, nunca doble eje: el volumen por canal y la tasa
@@ -309,6 +351,7 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 const D = JSON.parse(document.getElementById("datos").textContent);
 const L = D.leads, T = D.tratos, V = D.vendedores, SB = D.standby, META = D.meta, Q = D.calidad;
 const ABIERTAS = new Set(D.etapas_abiertas);
+const SINC = D.sinc, RESPM = D.resp_mes, RESPE = D.resp_estado;
 
 const AREAS = ["Mercadeo","Ventas","Producto / Comercial","Abierto"];
 const COLOR_AREA = {"Mercadeo":"var(--mercadeo)","Ventas":"var(--ventas)",
@@ -551,6 +594,155 @@ function barrasApiladas(cont,leyenda,datos,claves,colores,fmt){
   if(leyenda) leyenda.innerHTML = claves.map(k=>'<span><i style="background:'+colores[k]+'"></i>'+esc(k)+'</span>').join("");
 }
 
+function barrasPareadas(cont,leyenda,datos,claves,colores){
+  const W=560,H=210,ml=42,mr=8,mt=10,mb=30;
+  const max=Math.max(1,...datos.map(d=>Math.max(...claves.map(k=>d.v[k]||0))));
+  const paso=(W-ml-mr)/Math.max(datos.length,1);
+  const ancho=Math.min((paso*0.72)/claves.length,20);
+  const y=v=>mt+(H-mt-mb)*(1-v/max);
+  let g="",ejes="";
+  for(let i=0;i<=4;i++){const v=max*i/4;
+    ejes+='<line class="rejilla" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(v)+'" y2="'+y(v)+'"/>'+
+      '<text class="eje" x="'+(ml-7)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+nf(Math.round(v))+'</text>';}
+  datos.forEach((d,D2)=>{
+    const grupo=ancho*claves.length+2*(claves.length-1);
+    const x0=ml+paso*D2+(paso-grupo)/2;
+    claves.forEach((k,j)=>{
+      const v=d.v[k]||0, x=x0+j*(ancho+2), alto=(H-mt-mb)*v/max;
+      g+='<rect x="'+x+'" y="'+y(v)+'" width="'+ancho+'" height="'+Math.max(alto,0.5)+'" rx="2" fill="'+
+        colores[k]+'" data-tip="'+esc(d.et+' · '+k+': '+nf(v))+'"/>';
+      if(v) g+='<text class="valor-g" x="'+(x+ancho/2)+'" y="'+(y(v)-4)+'" text-anchor="middle">'+nf(v)+'</text>';
+    });
+    ejes+='<text class="eje" x="'+(x0+grupo/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(d.et)+'</text>';
+  });
+  cont.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Meta contra CRM por mes">'+ejes+g+'</svg>';
+  if(leyenda) leyenda.innerHTML=claves.map(k=>'<span><i style="background:'+colores[k]+'"></i>'+esc(k)+'</span>').join("");
+}
+
+function pintaSinc(){
+  const pais = f.pais==="Guatemala"?"GT":f.pais==="El Salvador"?"SV":f.pais==="Sin país"?"Sin país":"";
+  const filtra = r => (!pais||r[1]===pais) && (!f.mes||r[0]===f.mes);
+  const rs = SINC.filter(filtra);
+  const meta = rs.reduce((a,r)=>a+r[2],0), pixel = rs.reduce((a,r)=>a+r[3],0), crm = rs.reduce((a,r)=>a+r[4],0);
+  const brecha = crm-meta;
+  document.getElementById("kpis-sinc").innerHTML =
+    '<div class="kpi"><span class="rotulo">Leads que reporta Meta</span><span class="v">'+nf(meta)+
+      '</span><span class="d">Solo indicadores de lead</span></div>'+
+    '<div class="kpi"><span class="rotulo">Leads de redes en el CRM</span><span class="v">'+nf(crm)+
+      '</span><span class="d">Meta Ads, Facebook Ads, Facebook Lead, Instagram DM</span></div>'+
+    '<div class="kpi'+(meta&&brecha/meta<-0.10?" alerta":"")+'"><span class="rotulo">Diferencia</span><span class="v">'+
+      (brecha>0?"+":"")+nf(brecha)+'</span><span class="d">'+pf(Math.abs(brecha),meta)+' de lo que reporta Meta</span></div>'+
+    '<div class="kpi"><span class="rotulo">Del evento de pixel</span><span class="v">'+nf(pixel)+
+      '</span><span class="d">QualifiedLead: puede duplicarse con el formulario</span></div>';
+  const meses=[...new Set(SINC.map(r=>r[0]))].sort().filter(m=>!f.mes||m===f.mes);
+  const datos=meses.map(m=>{
+    const p=SINC.filter(r=>r[0]===m&&(!pais||r[1]===pais));
+    return {et:mesCorto(m),v:{"Meta":p.reduce((a,r)=>a+r[2],0),"CRM":p.reduce((a,r)=>a+r[4],0)},m};
+  });
+  barrasPareadas(document.getElementById("g-sinc"),document.getElementById("leyenda-sinc"),
+    datos,["Meta","CRM"],{"Meta":"var(--cuarto)","CRM":"var(--mercadeo)"});
+  // brecha
+  const W=560,H=210,ml=46,mr=8,mt=12,mb=30;
+  const gaps=datos.map(d=>({et:d.et,g:d.v.CRM-d.v.Meta}));
+  const tope=Math.max(20,...gaps.map(x=>Math.abs(x.g)))*1.15;
+  const y=v=>mt+(H-mt-mb)*(1-(v+tope)/(2*tope));
+  const paso=(W-ml-mr)/Math.max(gaps.length,1), ancho=Math.min(paso*0.6,34);
+  let sv='';
+  [-tope,-tope/2,0,tope/2,tope].forEach(v=>{
+    sv+='<line class="rejilla" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(v)+'" y2="'+y(v)+'"'+
+      (v===0?' stroke="var(--tinta3)"':'')+'/>'+
+      '<text class="eje" x="'+(ml-7)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+(v>0?"+":"")+nf(Math.round(v))+'</text>';});
+  gaps.forEach((x,i)=>{
+    const px=ml+paso*i+(paso-ancho)/2;
+    const y0=y(0), y1=y(x.g);
+    sv+='<rect x="'+px+'" y="'+Math.min(y0,y1)+'" width="'+ancho+'" height="'+Math.max(Math.abs(y1-y0),0.5)+
+      '" rx="2" fill="'+(x.g<0?"var(--ventas)":"var(--producto)")+'" data-tip="'+
+      esc(x.et+": "+(x.g>0?"+":"")+x.g+" contra lo que reporta Meta")+'"/>'+
+      '<text class="valor-g" x="'+(px+ancho/2)+'" y="'+(x.g<0?y1+12:y1-5)+'" text-anchor="middle">'+
+      (x.g>0?"+":"")+nf(x.g)+'</text>'+
+      '<text class="eje" x="'+(px+ancho/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(x.et)+'</text>';
+  });
+  document.getElementById("g-brecha").innerHTML='<svg viewBox="0 0 '+W+' '+H+
+    '" role="img" aria-label="Brecha entre Meta y el CRM por mes">'+sv+'</svg>';
+  // tabla
+  const fil = rs.slice().sort((a,b)=> a[0]===b[0] ? a[1].localeCompare(b[1]) : a[0].localeCompare(b[0]));
+  document.getElementById("tabla-sinc").innerHTML =
+    '<thead><tr><th>Mes</th><th>País</th><th>Meta</th><th>CRM</th><th>Diferencia</th><th>% sobre Meta</th>'+
+    '<th>Del pixel</th></tr></thead><tbody>'+
+    fil.map(r=>{const b=r[4]-r[2];
+      return '<tr><td class="clave">'+mesCorto(r[0])+'</td><td style="text-align:left">'+esc(r[1])+'</td>'+
+      '<td class="n">'+nf(r[2])+'</td><td class="n">'+nf(r[4])+'</td>'+
+      '<td class="n" style="color:'+(b<0?"var(--ventas)":"var(--producto)")+'">'+(b>0?"+":"")+nf(b)+'</td>'+
+      '<td class="n">'+(r[2]?((b>0?"+":"")+(100*b/r[2]).toFixed(1).replace(".",",")+"%"):"—")+'</td>'+
+      '<td class="n">'+(r[3]?nf(r[3]):"—")+'</td></tr>';}).join("")+
+    '<tr class="total"><td>Total</td><td></td><td class="n">'+nf(meta)+'</td><td class="n">'+nf(crm)+
+    '</td><td class="n">'+(brecha>0?"+":"")+nf(brecha)+'</td><td class="n">'+
+    (meta?((brecha>0?"+":"")+(100*brecha/meta).toFixed(1).replace(".",",")+"%"):"—")+
+    '</td><td class="n">'+nf(pixel)+'</td></tr></tbody>';
+}
+
+function pintaAsignacion(){
+  const rm = RESPM.filter(r=>!f.mes||r[0]===f.mes);
+  const inactivo = e => e!=="activo";
+  const total = rm.reduce((a,r)=>a+r[4],0);
+  const aInact = rm.filter(r=>inactivo(r[2])).reduce((a,r)=>a+r[4],0);
+  const vivosInact = RESPE.filter(r=>inactivo(r[1])&&r[5]===1).reduce((a,r)=>a+r[6],0);
+  const vivos = RESPE.filter(r=>r[5]===1).reduce((a,r)=>a+r[6],0);
+  document.getElementById("aviso-asig").innerHTML = vivosInact
+    ? '<div class="aviso"><span class="rotulo">Fuga</span><div><b>'+nf(vivosInact)+'</b> leads todavía '+
+      'vivos —en seguimiento o precalificados— están asignados a usuarios <b>desactivados o borrados</b>. '+
+      'Nadie los puede abrir. Son el <b>'+pf(vivosInact,vivos)+'</b> de todos los leads vivos sin Trato. '+
+      'Reasignarlos es una acción de un día, no un proyecto.</div></div>' : "";
+  document.getElementById("kpis-asig").innerHTML =
+    '<div class="kpi"><span class="rotulo">Leads sin Trato</span><span class="v">'+nf(total)+
+      '</span><span class="d">'+(f.mes?"creados en "+mesCorto(f.mes):"en el periodo")+'</span></div>'+
+    '<div class="kpi'+(total&&aInact/total>0.2?" alerta":"")+'"><span class="rotulo">A usuario inactivo</span><span class="v">'+
+      nf(aInact)+'</span><span class="d">'+pf(aInact,total)+' de los de esta vista</span></div>'+
+    '<div class="kpi"><span class="rotulo">Vivos en manos muertas</span><span class="v">'+nf(vivosInact)+
+      '</span><span class="d">Todo el periodo · no se filtra por mes</span></div>'+
+    '<div class="kpi"><span class="rotulo">Reglas de asignación</span><span class="v">'+Q.reglas_asignacion+
+      '</span><span class="d">GT tocada el '+Q.regla_gt_modificada+' · SV el '+Q.regla_sv_modificada+'</span></div>';
+  // grafica mes a mes
+  const meses=[...new Set(RESPM.map(r=>r[0]))].sort().filter(m=>!f.mes||m===f.mes);
+  const datos=meses.map(m=>{
+    const p=RESPM.filter(r=>r[0]===m);
+    return {et:mesCorto(m),v:{"Usuario activo":p.filter(r=>!inactivo(r[2])).reduce((a,r)=>a+r[4],0),
+                              "Usuario desactivado o borrado":p.filter(r=>inactivo(r[2])).reduce((a,r)=>a+r[4],0)}};
+  });
+  barrasApiladas(document.getElementById("g-asig"),document.getElementById("leyenda-asig"),datos,
+    ["Usuario activo","Usuario desactivado o borrado"],
+    {"Usuario activo":"var(--producto)","Usuario desactivado o borrado":"var(--ventas)"},
+    "Leads sin Trato por estado del usuario asignado");
+  // tabla por persona
+  const por={};
+  RESPE.forEach(r=>{
+    por[r[0]] = por[r[0]] || {estado:r[1],rol:r[2],n:0,vivos:0,det:{}};
+    por[r[0]].n += r[6];
+    if(r[5]===1) por[r[0]].vivos += r[6];
+    por[r[0]].det[r[3]] = (por[r[0]].det[r[3]]||0)+r[6];
+  });
+  const recientes={};
+  RESPM.filter(r=>r[0]>="2026-08").forEach(r=>recientes[r[1]]=(recientes[r[1]]||0)+r[4]);
+  const filas=Object.entries(por).sort((a,b)=>b[1].n-a[1].n);
+  document.getElementById("tabla-asig").innerHTML =
+    '<thead><tr><th>Responsable</th><th>Usuario</th><th>Leads sin Trato</th><th>Vivos</th>'+
+    '<th>Desde agosto</th><th>Estado que más repite</th></tr></thead><tbody>'+
+    filas.map(([k,v])=>{
+      const top=Object.entries(v.det).sort((a,b)=>b[1]-a[1])[0];
+      const mal=v.estado!=="activo";
+      return '<tr><td class="clave">'+esc(k)+'<br><span class="pct" style="text-align:left">'+esc(v.rol)+'</span></td>'+
+        '<td style="text-align:left"><span class="chip"><i style="background:'+
+        (mal?"var(--ventas)":"var(--producto)")+'"></i>'+esc(v.estado)+'</span></td>'+
+        '<td class="n">'+nf(v.n)+'</td>'+
+        '<td class="n"'+(mal&&v.vivos?' style="color:var(--ventas);font-weight:600"':'')+'>'+nf(v.vivos)+'</td>'+
+        '<td class="n">'+nf(recientes[k]||0)+'</td>'+
+        '<td style="text-align:left;white-space:normal">'+(top?esc(top[0])+' <span class="pct">('+top[1]+')</span>':"—")+'</td></tr>';
+    }).join("")+
+    '<tr class="total"><td>Total</td><td></td><td class="n">'+nf(RESPE.reduce((a,r)=>a+r[6],0))+
+    '</td><td class="n">'+nf(vivos)+'</td><td class="n">'+
+    nf(Object.values(recientes).reduce((a,b)=>a+b,0))+'</td><td></td></tr></tbody>';
+}
+
 function pintaMes(c){
   const meses = [...new Set(L.map(r=>r[0]))].sort().filter(m=>!f.mes||m===f.mes);
   const usados = CANALES.filter(k=>c.l.some(r=>r[2]===k));
@@ -653,7 +845,22 @@ function pintaRecos(){
   const cpl = g.gastoLead/g.leadsMeta;
   const cpCal = g.gastoLead/g.calRedes;
   const cpVenta = g.gastoLead/g.wonRedes;
+  const vivosInact = RESPE.filter(x=>x[1]!=="activo"&&x[5]===1).reduce((a,x)=>a+x[6],0);
+  const inact = RESPE.filter(x=>x[1]!=="activo").reduce((a,x)=>a+x[6],0);
+  const totalSin = RESPE.reduce((a,x)=>a+x[6],0);
+  const desdeAgo = RESPM.filter(x=>x[0]>="2026-08"&&x[2]!=="activo").reduce((a,x)=>a+x[4],0);
+  const totalAgo = RESPM.filter(x=>x[0]>="2026-08").reduce((a,x)=>a+x[4],0);
+  const metaT = SINC.reduce((a,x)=>a+x[2],0), crmT = SINC.reduce((a,x)=>a+x[4],0);
   const r = [
+    ["Ventas","Reasignar los leads vivos que están en manos de usuarios desactivados",
+     "No es que los leads no se asignen: se asignaron a gente que ya no tiene acceso al CRM. Nadie los ve, nadie los llama y nadie los va a cerrar mientras sigan ahí. Es una acción de un día con una lista de ids, no un proyecto.",
+     "<b>"+nf(vivosInact)+"</b> leads vivos con dueño desactivado o borrado · <b>"+nf(inact)+"</b> de <b>"+nf(totalSin)+"</b> leads sin Trato ("+pf(inact,totalSin)+") pertenecen a usuarios inactivos"],
+    ["Mercadeo","La asignación automática ya se arregló — el atraso no",
+     "La fuga se detuvo: desde agosto los leads nuevos llegan a gente activa, y las fechas coinciden con los cambios en las reglas de asignación. Lo que queda es el inventario acumulado de antes, que no se arregla solo.",
+     "Desde agosto: <b>"+nf(desdeAgo)+"</b> de <b>"+nf(totalAgo)+"</b> leads nuevos a usuarios inactivos ("+pf(desdeAgo,totalAgo)+") · en abril eran el <b>92,8%</b> · reglas GT y SV modificadas el "+Q.regla_gt_modificada+" y el "+Q.regla_sv_modificada],
+    ["Mercadeo","Meta entrega más leads de los que el CRM registra",
+     "La diferencia es demasiado grande para ser solo deduplicación, y demasiado pareja mes a mes para ser un incidente. Vale la pena revisar la integración de los formularios instantáneos antes de subir presupuesto: pagar por leads que no llegan al CRM es pagar dos veces.",
+     "Meta reporta <b>"+nf(metaT)+"</b> leads y el CRM registra <b>"+nf(crmT)+"</b> de redes: faltan <b>"+nf(metaT-crmT)+"</b> ("+pf(metaT-crmT,metaT)+"). Los dos números no son comparables al registro; la brecha es direccional"],
     ["Mercadeo","Meta optimiza al lead que llena el formulario, no al que compra",
      "Las campañas se pagan por lead y ese lead sale barato. El problema aparece después: de cada 100 leads de redes, solo "+pf(g.calRedes,g.leadsRedes,1).replace("%","")+" llegan a Trato. El costo por lead se ve bien y el costo por venta no lo ve nadie, porque el CRM no recibe el identificador de campaña.",
      "Inversión en campañas de lead <b>"+mf(g.gastoLead)+"</b> · Meta reporta <b>"+nf(g.leadsMeta)+"</b> leads a <b>"+mf(cpl)+"</b> · pero solo <b>"+nf(g.calRedes)+"</b> leads de redes llegaron a Trato (<b>"+mf(cpCal)+"</b> por lead calificado) y <b>"+nf(g.wonRedes)+"</b> a venta (<b>"+mf(cpVenta)+"</b> por venta)"],
@@ -696,6 +903,10 @@ function pintaNotas(){
     '<dt>Importe</dt><dd><b>'+nf(Q.ganados_monto_cero)+' de '+nf(Q.ganados_total)+'</b> Tratos ganados tienen Importe en <b>cero</b> —no nulo, cero—. No hay CAC ni ROAS calculable y no se calcula. La suma de Importes que sí existen no se publica como ingreso porque no lo es.</dd>'+
     '<dt>Campaña</dt><dd><span class="mono">Campa_a_MK</span> está vacío en los <b>'+nf(g.leads)+'</b> leads. <span class="mono">FB_Campaign_ID</span> sí trae valor en <b>'+nf(Q.leads_con_fb_campaign_id)+'</b> leads (5 campañas), pero <b>ninguno</b> de ellos llegó a Trato. El análisis no puede bajar a campaña, conjunto ni anuncio.</dd>'+
     '<dt>Costo de medios</dt><dd>El CRM no trae costo. La inversión viene de Meta Ads (cuenta <span class="mono">225318458221662</span>), <b>'+mf(g.gasto)+'</b> en el periodo, de los cuales <b>'+mf(g.gastoLead)+'</b> en campañas cuyo indicador es un lead. Los indicadores <b>no se suman entre sí</b>: los clics en enlace no son leads.</dd>'+
+    '<dt>Es una foto, no un vivo</dt><dd>El dato se extrajo el <b>'+esc(Q.foto)+'</b>. El CRM sigue recibiendo mientras tanto: durante la propia extracción entraron <b>4 leads nuevos</b>, lo que hizo que dos consultas de la misma hora dieran 3.983 y 3.987. Para volver a sacar la foto: <span class="mono">python3 src/modulo1/ciclo_lead.py && python3 src/modulo1/arma_tablero.py</span>.</dd>'+
+    '<dt>Al filtrar por un mes, los cortes son dos cohortes distintas</dt><dd>Los leads se cortan por su fecha de creación y los Tratos por la suya. Un Trato de agosto puede venir de un lead de julio, así que en un mes suelto «lead → venta» puede pasar de 100% o quedar en cero sin que nada esté mal. En el periodo completo el efecto desaparece.</dd>'+
+    '<dt>Meta contra CRM</dt><dd>Se comparan los <b>indicadores de lead</b> de Meta (<span class="mono">actions:lead</span>, <span class="mono">leadgen.other</span>, <span class="mono">onsite_conversion.lead_grouped</span> y el evento de pixel <span class="mono">QualifiedLead</span>) contra los leads del CRM cuya fuente es de redes. Los clics en enlace quedan fuera: no son leads y sus registros entran al CRM como «Página web». La lectura de Meta se hizo filtrando campañas con gasto para evitar el truncamiento silencioso en 200 campañas.</dd>'+
+    '<dt>Asignado no es lo mismo que atendido</dt><dd>Ningún lead del periodo está sin responsable. La pregunta útil es <b>si ese responsable puede entrar al CRM</b>: el estado del usuario viene de <span class="mono">getUsers</span>, y <span class="mono">Owner.name</span> llega en <span class="mono">null</span> justamente cuando el usuario está desactivado o borrado — por eso hay que resolver el id contra Usuarios en vez de leer el nombre.</dd>'+
     '<dt>Qué no responde a los filtros</dt><dd>La tabla de vendedores responde solo a País. El desglose de Stand By responde a País, Canal y Fuente, no a Mes. Las recomendaciones son del periodo completo. Todo lo demás se recalcula con los cuatro filtros.</dd>'+
     '<dt>Verificación</dt><dd>Cada cubo se comprobó contra una consulta independiente antes de entrar aquí: 3.983 no convertidos + 948 calificados + '+nf(Q.convertidos_sin_trato)+' convertidos sin Trato = <b>4.972</b> leads; 992 Tratos con sus 7 etapas cuadrando una por una. Además se sondeó por <span class="mono">offset</span>: 659 leads de Meta Ads en junio, 698 <span class="mono">closed won</span> y 179 <span class="mono">closed lost</span> — los tres, exactos.</dd>'+
     '<dt>Huecos declarados</dt><dd>No hay costo por campaña cruzable con ventas. No hay Importe utilizable. El país está vacío en '+nf(sum(L.filter(r=>r[1]==="Sin país"),8))+' leads y en 18 Tratos, y esos registros salen como «Sin país» en vez de repartirse.</dd>'+
@@ -721,7 +932,7 @@ document.addEventListener("mouseout",e=>{ if(!e.relatedTarget||!e.relatedTarget.
 function pinta(){
   const c = calcula();
   pintaCabecera(c); pintaKpis(c); pintaVeredicto(c); pintaEmbudo(c);
-  pintaCanal(c); pintaPaneles(c); pintaMes(c); pintaVendedor();
+  pintaCanal(c); pintaPaneles(c); pintaSinc(); pintaAsignacion(); pintaMes(c); pintaVendedor();
 }
 pintaFiltros(); pinta(); pintaRecos(); pintaNotas();
 })();

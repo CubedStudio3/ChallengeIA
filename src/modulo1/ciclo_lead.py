@@ -149,6 +149,28 @@ def main():
         celdas_vend.append([r["vendedor"], r["estado_usuario"], r["pais"] or "Sin país",
                             r["etapa"], raz, cat, area, int(r["n"])])
 
+    # --- sincronizacion Meta -> CRM y asignacion
+    sinc = [[r["mes"], r["pais"], int(r["meta_leads"]), int(r["meta_pixel"]),
+             int(r["crm_redes"])] for r in lee("sincronizacion.csv")]
+    usuarios = {r["nombre"]: r for r in lee("usuarios.csv")}
+    VIVO = set(BUCKETS[4][2])   # bucket "Vivo / en seguimiento"
+    resp_mes = []
+    for r in lee("responsables_mes.csv"):
+        u = usuarios.get(r["nombre"])
+        if u is None:
+            alto("responsable sin usuario en usuarios.csv: %r" % r["nombre"])
+        resp_mes.append([r["mes"], r["nombre"], u["estado_usuario"], u["rol"], int(r["n"])])
+    resp_estado = []
+    for r in lee("responsables_estado.csv"):
+        u = usuarios[r["nombre"]]
+        est = r["estado"]
+        if est not in ESTADO2BUCKET:
+            alto("estado sin bucket en responsables_estado: %r" % est)
+        bucket, area = ESTADO2BUCKET[est]
+        resp_estado.append([r["nombre"], u["estado_usuario"], u["rol"],
+                            est or "Sin estado", bucket,
+                            1 if est in VIVO else 0, int(r["n"])])
+
     celdas_sb = []
     for r in standby:
         raz = r["razon"]
@@ -166,6 +188,9 @@ def main():
         "vendedores": celdas_vend,
         "standby": celdas_sb,
         "meta": meta,
+        "sinc": sinc,
+        "resp_mes": resp_mes,
+        "resp_estado": resp_estado,
         "etapas_abiertas": sorted(ABIERTAS),
         "calidad": {
             "ganados_total": 698,
@@ -175,6 +200,10 @@ def main():
             "leads_con_fb_campaign_id_convertidos": 0,
             "convertidos_sin_trato": 41,
             "mes_en_curso": "2026-09",
+            "foto": "2026-09-11 13:10 GT",
+            "reglas_asignacion": 6,
+            "regla_gt_modificada": "2026-08-01",
+            "regla_sv_modificada": "2026-08-12",
         },
     }
     sal = os.path.join(BASE, "dataset.json")
@@ -189,6 +218,14 @@ def main():
     if cal != 948: alto("calificados %d != 948" % cal)
     if tot_t != 992: alto("tratos %d != 992" % tot_t)
     if won != 698 or lost != 179: alto("won/lost %d/%d" % (won, lost))
+    rm = sum(r[4] for r in resp_mes); re_ = sum(r[6] for r in resp_estado)
+    if rm != 3987 or re_ != 3987:
+        alto("cubos de responsable %d / %d != 3987" % (rm, re_))
+    por_persona_mes, por_persona_est = {}, {}
+    for r in resp_mes: por_persona_mes[r[1]] = por_persona_mes.get(r[1], 0) + r[4]
+    for r in resp_estado: por_persona_est[r[0]] = por_persona_est.get(r[0], 0) + r[6]
+    if por_persona_mes != por_persona_est:
+        alto("los dos cubos de responsable no cuadran por persona")
     print("dataset: %s (%d bytes)" % (sal, os.path.getsize(sal)))
     print("leads %d · calificados %d (%.1f%%) · tratos %d · ganados %d · perdidos %d"
           % (tot_l, cal, 100.0*cal/tot_l, tot_t, won, lost))

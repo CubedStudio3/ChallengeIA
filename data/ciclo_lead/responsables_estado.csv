@@ -1,0 +1,127 @@
+nombre,estado,n
+Hugo García,,2
+Hugo García,No Contactado,1
+Mariana Rendon,,1
+Mariana Rendon,No Contactado,3
+Mariana Rendon,En Seguimiento,10
+Alejandra Colindres,Contacto no calificado,1
+Alejandra Colindres,Contacto no Calificado - No cuenta con RTU,4
+Alejandra Colindres,Contacto no calificado - Negocio Prohibido,2
+Alejandra Colindres,No les interesa (Solo quieren Información),21
+Alejandra Colindres,No contesta,6
+Alejandra Colindres,Sin Datos,4
+Alejandra Colindres,Contacto Duplicado,3
+Alejandra Colindres,Contacto no Calificado - No tiene RRSS o página Web,9
+Alejandra Colindres,No tiene listo el negocio,11
+Alejandra Colindres,No tiene regimen,57
+Alejandra Colindres,SPAM,5
+Alejandra Colindres,Información plan FREE,2
+Alejandra Colindres,No tiene plata suficiente para invertir,2
+Alejandra Colindres,Cuotas Banrural e Industrial,2
+Alejandra Colindres,Necesita POS físico,2
+Alejandra Colindres,Número Incorrecto,1
+Layla Aranky,Contactado,2
+Layla Aranky,No Contactado,10
+Layla Aranky,Contacto no calificado,2
+Layla Aranky,Contacto no calificado - Negocio Prohibido,6
+Layla Aranky,No les interesa (Solo quieren Información),176
+Layla Aranky,No contesta,242
+Layla Aranky,Sin Datos,1
+Layla Aranky,Contacto Duplicado,25
+Layla Aranky,Ya contactó con otra pasarela de pago,11
+Layla Aranky,No tiene listo el negocio,50
+Layla Aranky,No tiene regimen,64
+Layla Aranky,SPAM,15
+Layla Aranky,Información plan FREE,6
+Layla Aranky,No tiene plata suficiente para invertir,4
+Layla Aranky,En Seguimiento,132
+Layla Aranky,El Salvador Seguimiento,4
+Layla Aranky,Necesita POS físico,15
+Layla Aranky,Número Incorrecto,24
+Layla Aranky,Contactar por IA,1
+Layla Aranky,no tiene NIT,13
+Layla Aranky,piensa que damos créditos,16
+Jacqueline Arroyo,Pre Calificado,2
+Jacqueline Arroyo,Contactado,1
+Jacqueline Arroyo,Contacto no calificado - Negocio Prohibido,1
+Jacqueline Arroyo,No les interesa (Solo quieren Información),153
+Jacqueline Arroyo,No contesta,140
+Jacqueline Arroyo,Sin Datos,6
+Jacqueline Arroyo,Ya contactó con otra pasarela de pago,10
+Jacqueline Arroyo,No tiene listo el negocio,3
+Jacqueline Arroyo,No tiene regimen,1
+Jacqueline Arroyo,SPAM,1
+Jacqueline Arroyo,Información plan FREE,173
+Jacqueline Arroyo,No tiene plata suficiente para invertir,5
+Jacqueline Arroyo,En Seguimiento,2
+Jacqueline Arroyo,El Salvador Seguimiento,9
+Jacqueline Arroyo,Número Incorrecto,8
+Jacqueline Arroyo,No quiere aperturar cuenta en el banco atlantida,4
+Jacqueline Arroyo,tasa de comisión muy alta Salv,13
+Jacqueline Arroyo,En Seguimiento ICP,110
+David Matias,Contacto no Calificado - No cuenta con RTU,1
+David Matias,En Seguimiento,1
+Marlon Ruiz,Pre Calificado,19
+Irene Cifuentes,Contacto no calificado - Negocio Prohibido,7
+Irene Cifuentes,Contacto ya es Cliente - Requiere Soporte,3
+Irene Cifuentes,No les interesa (Solo quieren Información),14
+Irene Cifuentes,No contesta,25
+Irene Cifuentes,Ya contactó con otra pasarela de pago,5
+Nohemi Urrutia,Contacto no Calificado - No cuenta con RTU,1
+Nohemi Urrutia,Contacto no calificado - Negocio Prohibido,13
+Nohemi Urrutia,No les interesa (Solo quieren Información),48
+Nohemi Urrutia,No contesta,66
+Nohemi Urrutia,Sin Datos,1
+Nohemi Urrutia,Contacto Duplicado,1
+Nohemi Urrutia,Ya contactó con otra pasarela de pago,16
+Nohemi Urrutia,No tiene regimen,2
+Nohemi Urrutia,Información plan FREE,3
+Nohemi Urrutia,No tiene plata suficiente para invertir,4
+Nohemi Urrutia,Necesita POS físico,6
+Edson Mejia,Contactado,1
+Edson Mejia,Contacto no calificado - Negocio Prohibido,1
+Edson Mejia,No les interesa (Solo quieren Información),4
+Edson Mejia,No contesta,24
+Edson Mejia,Ya contactó con otra pasarela de pago,4
+Edson Mejia,No tiene listo el negocio,1
+Edson Mejia,No tiene regimen,1
+Edson Mejia,SPAM,4
+Edson Mejia,Información plan FREE,3
+Edson Mejia,En Seguimiento,366
+Edson Mejia,El Salvador Seguimiento,12
+Edson Mejia,Número Incorrecto,9
+Edson Mejia,No quiere aperturar cuenta en el banco atlantida,14
+Edson Mejia,tasa de comisión muy alta Salv,7
+Ernesto Melara,Contacto no calificado,1
+Ernesto Melara,Contacto no calificado - Negocio Prohibido,1
+Ernesto Melara,No les interesa (Solo quieren Información),224
+Ernesto Melara,No contesta,201
+Ernesto Melara,Sin Datos,1
+Ernesto Melara,Contacto Duplicado,1
+Ernesto Melara,Ya contactó con otra pasarela de pago,44
+Ernesto Melara,No tiene listo el negocio,10
+Ernesto Melara,SPAM,29
+Ernesto Melara,Información plan FREE,7
+Ernesto Melara,No tiene plata suficiente para invertir,4
+Ernesto Melara,En Seguimiento,303
+Ernesto Melara,Número Incorrecto,26
+Ernesto Melara,No quiere aperturar cuenta en el banco atlantida,224
+Ernesto Melara,tasa de comisión muy alta Salv,158
+Scarlett Flores,Contacto no calificado - Negocio Prohibido,7
+Scarlett Flores,Contacto ya es Cliente - Requiere Soporte,2
+Scarlett Flores,No les interesa (Solo quieren Información),99
+Scarlett Flores,No contesta,156
+Scarlett Flores,Contacto Duplicado,8
+Scarlett Flores,Ya contactó con otra pasarela de pago,40
+Scarlett Flores,No tiene listo el negocio,13
+Scarlett Flores,No tiene regimen,43
+Scarlett Flores,SPAM,2
+Scarlett Flores,Información plan FREE,4
+Scarlett Flores,No tiene plata suficiente para invertir,11
+Scarlett Flores,En Seguimiento,39
+Scarlett Flores,Necesita POS físico,11
+Scarlett Flores,Número Incorrecto,13
+Scarlett Flores,No quiere aperturar cuenta en el banco atlantida,1
+Scarlett Flores,tasa de comisión muy alta Salv,2
+Scarlett Flores,no tiene NIT,3
+Scarlett Flores,piensa que damos créditos,2

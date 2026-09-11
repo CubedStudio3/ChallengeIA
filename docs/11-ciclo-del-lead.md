@@ -158,3 +158,98 @@ Regenerar: `python3 src/modulo1/ciclo_lead.py && python3 src/modulo1/arma_tabler
   sincronizados** —se verificó: los dos workspaces son «Marketing» (Facebook Ads)
   y «GERENCIA QPAYPRO» (billing, transacciones, Survey)—, así que publicar ahí
   significa crear tablas nuevas, no apuntar a las existentes.
+
+---
+
+## Ampliación del 2026-09-11 · sincronización Meta → CRM y asignación
+
+Pedido: monitorear que los leads lleguen al CRM, ver la diferencia contra Meta y
+saber dónde se quedan, porque «no se están asignando al equipo de ventas».
+
+### Primero, una corrección
+
+Los **44** que reportó la primera entrega **no eran la brecha con Meta**: eran
+Tratos sin lead de origen (992 Tratos contra 948 leads calificados). La brecha
+Meta↔CRM es de otro orden y se midió aparte.
+
+### Un agujero real en la verificación anterior
+
+La compuerta decía «3.983 = 3.983 ✅». Las **dos** consultas agrupaban por
+`Lead_Source`, así que compartían el mismo sesgo y la compuerta se aprobó a sí
+misma. El conteo directo (`group by Converted__s`, una sola columna) da **3.987**.
+
+La diferencia no era un error de extracción: **entraron 4 leads nuevos durante la
+sesión** (09:59, 11:46, 12:16 y 12:58 del 11 de septiembre). El CRM está vivo y
+la extracción es una foto. Ahora el tablero declara la hora de la foto.
+
+**La lección de método:** una compuerta que compara dos consultas construidas
+igual no verifica nada. La comprobación tiene que venir por un camino distinto —
+aquí, agrupar por una columna sin nulos, o el sondeo por `offset`.
+
+### La brecha Meta → CRM
+
+| | |
+|---|---|
+| Leads que reporta Meta (indicadores de lead) | **4.777** |
+| Leads de redes registrados en el CRM | **4.075** |
+| Diferencia | **−702 · 14,7%** |
+| De los de Meta, del evento de pixel `QualifiedLead` | 412 |
+
+Mes por mes la brecha es negativa en 15 de los 19 cortes país-mes, entre −8% y
+−90%. Dos excepciones que importan porque explican el mecanismo:
+
+- **Junio GT: +234 a favor del CRM.** Ese mes hay **$805,39 con indicador
+  `mixed` y cero resultados atribuidos**. Los leads existen y llegaron; Meta no
+  los contó bajo ningún indicador.
+- **Mayo y julio GT** salen levemente positivos, coherente con desfase de
+  atribución.
+
+**Los dos números no son comparables al registro** y el tablero lo dice: Meta
+cuenta eventos y el CRM registros, Meta atribuye a la fecha del clic y el CRM a
+la de creación, y el CRM deduplica. Sirve para el tamaño y la dirección.
+
+### Dónde caen los leads: el hallazgo
+
+Ningún lead del periodo está sin responsable. El problema es **quién** es ese
+responsable.
+
+- **2.674 de 3.987** leads sin Trato (**67,1%**) están asignados a usuarios
+  **desactivados o borrados**.
+- De esos, **804 siguen vivos** —en seguimiento o precalificados—: el **79,4%**
+  de todos los leads vivos sin Trato.
+- Los dos casos más grandes: **Edson Mejia** (desactivado) con 451 leads, **378
+  vivos**; **Ernesto Melara** (desactivado) con 1.234 leads, **303 vivos**.
+
+`Owner.name` llega en `null` justamente para esos usuarios. Leerlo como «sin
+asignar» habría contado mal el problema; hay que resolver el id contra
+`getUsers`, que devuelve `status` `disabled` o `deleted`.
+
+### Y la buena noticia: ya se arregló el flujo
+
+| Mes | Leads sin Trato | A usuario inactivo |
+|---|---|---|
+| enero | 210 | 113 (54%) |
+| febrero | 362 | 270 (75%) |
+| marzo | 664 | 560 (84%) |
+| abril | 691 | 641 (**93%**) |
+| mayo | 561 | 440 (78%) |
+| junio | 668 | 377 (56%) |
+| julio | 428 | 262 (61%) |
+| **agosto** | 278 | **11 (4%)** |
+| **septiembre** | 125 | **0 (0%)** |
+
+La fuga se cortó en agosto. Las fechas coinciden con `getAssignmentRules`: la
+regla **GT ASIGNACION AUTOMATICA QPAYPRO** se modificó el **2026-08-01** y **SV
+ASIGNACION AUTOMATICA QPAYPRO** el **2026-08-12**. Hay 6 reglas activas sobre
+Leads, todas con `default_assignee` Mariana Rendon o el usuario conectado.
+
+**El flujo nuevo está sano; el atraso no se movió solo.** Los 804 leads vivos
+siguen donde estaban.
+
+### Trampa nueva
+
+- **Al filtrar por un mes, leads y Tratos son dos cohortes distintas.** Cada uno
+  se corta por su propia fecha de creación, así que un Trato de agosto puede
+  venir de un lead de julio. En agosto, WhatsApp/Chat da «lead → venta 200%» (1
+  lead, 2 ganados) sin que nada esté mal. En el periodo completo el efecto
+  desaparece. Queda declarado en las notas del tablero.
