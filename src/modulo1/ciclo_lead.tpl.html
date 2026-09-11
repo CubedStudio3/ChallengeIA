@@ -544,6 +544,14 @@ ${r?'Expression: "'+r+`"
         </div>
       </div>
       <div class="marco-tabla" style="margin-top:16px"><table id="tabla-sinc"></table></div>
+      <div class="aviso" style="margin-top:16px"><span class="rotulo">Ojo</span><div>El informe
+        <b>LEADS 2026</b> del propio CRM da un número más bajo que esta tabla, y no es que uno
+        esté mal: cuenta otra cosa. Se comprobó consulta por consulta que ese informe deja fuera
+        <b>El Salvador</b> y deja fuera los <b>leads ya convertidos</b> —los informes de Zoho
+        excluyen los convertidos por omisión—. Con esa fórmula da 207 en enero, 164 en julio,
+        201 en agosto y 60 en septiembre, exactamente lo que muestra. Septiembre completo en el
+        CRM son <b>162</b> leads, no 60. Antes de comparar contra Meta, revisar qué filtra el
+        informe.</div></div>
       <p class="nota-sec" style="margin-top:12px">Los dos números <b>no son comparables al
         registro</b> y no se presentan como una cuadratura: Meta cuenta eventos y el CRM cuenta
         registros, Meta atribuye a la fecha del clic y el CRM a la fecha de creación, y el CRM
@@ -1353,6 +1361,7 @@ function pintaNotas(){
     '<dt>Costo de medios</dt><dd>El CRM no trae costo. La inversión viene de Meta Ads (cuenta <span class="mono">225318458221662</span>), <b>'+mf(g.gasto)+'</b> en el periodo, de los cuales <b>'+mf(g.gastoLead)+'</b> en campañas cuyo indicador es un lead. Los indicadores <b>no se suman entre sí</b>: los clics en enlace no son leads.</dd>'+
     '<dt>Es una foto, no un vivo</dt><dd>El dato se extrajo el <b>'+esc(Q.foto)+'</b>. El CRM sigue recibiendo mientras tanto: durante la propia extracción entraron <b>4 leads nuevos</b>, lo que hizo que dos consultas de la misma hora dieran 3.983 y 3.987. Para volver a sacar la foto: <span class="mono">python3 src/modulo1/ciclo_lead.py && python3 src/modulo1/arma_tablero.py</span>.</dd>'+
     '<dt>Al filtrar por un mes, los cortes son dos cohortes distintas</dt><dd>Los leads se cortan por su fecha de creación y los Tratos por la suya. Un Trato de agosto puede venir de un lead de julio, así que en un mes suelto «lead → venta» puede pasar de 100% o quedar en cero sin que nada esté mal. En el periodo completo el efecto desaparece.</dd>'+
+    '<dt>Un informe del CRM no es «el CRM»</dt><dd>Los informes de Zoho sobre Posibles clientes <b>excluyen los convertidos por omisión</b>, y si además llevan un filtro de país muestran una parte. El informe <span class="mono">LEADS 2026</span> resultó ser «no convertidos, País Guatemala o vacío»: reproduce 207 · 164 · 201 · 60 en enero, julio, agosto y septiembre. Esta sección cuenta <b>todos</b> los leads de redes, convertidos incluidos y los dos países.</dd>'+
     '<dt>Meta contra CRM</dt><dd>Se comparan los <b>indicadores de lead</b> de Meta (<span class="mono">actions:lead</span>, <span class="mono">leadgen.other</span>, <span class="mono">onsite_conversion.lead_grouped</span> y el evento de pixel <span class="mono">QualifiedLead</span>) contra los leads del CRM cuya fuente es de redes. Los clics en enlace quedan fuera: no son leads y sus registros entran al CRM como «Página web». La lectura de Meta se hizo filtrando campañas con gasto para evitar el truncamiento silencioso en 200 campañas.</dd>'+
     '<dt>Asignado no es lo mismo que atendido</dt><dd>Ningún lead del periodo está sin responsable. La pregunta útil es <b>si ese responsable puede entrar al CRM</b>: el estado del usuario viene de <span class="mono">getUsers</span>, y <span class="mono">Owner.name</span> llega en <span class="mono">null</span> justamente cuando el usuario está desactivado o borrado — por eso hay que resolver el id contra Usuarios en vez de leer el nombre.</dd>'+
     '<dt>Qué no responde a los filtros</dt><dd>La tabla de vendedores responde solo a País. El desglose de Stand By responde a País, Canal y Fuente, no a Mes. Las recomendaciones son del periodo completo. Todo lo demás se recalcula con los cuatro filtros. «¿Llegan al CRM?» responde a País y Mes. «¿A quién le caen?» responde solo a Mes, y su columna de vivos es del periodo completo.</dd>'+

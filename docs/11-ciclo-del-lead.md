@@ -253,3 +253,44 @@ siguen donde estaban.
   venir de un lead de julio. En agosto, WhatsApp/Chat da «lead → venta 200%» (1
   lead, 2 ganados) sin que nada esté mal. En el periodo completo el efecto
   desaparece. Queda declarado en las notas del tablero.
+
+---
+
+## El informe «LEADS 2026» del CRM no cuenta lo que parece
+
+Mercadeo señaló el caso concreto: Meta reporta ~216 clientes potenciales del 1 al
+11 de septiembre y el informe **LEADS 2026** del CRM muestra **60**.
+
+Se buscó qué fórmula reproduce esa serie. **La encontrada, comprobada consulta por
+consulta contra el CRM:**
+
+> leads **no convertidos** cuyo **País es Guatemala o está vacío**
+
+| Mes | Informe | La fórmula |
+|---|---|---|
+| enero | 207 | **207** |
+| julio | (tapado por el globo) | 164 |
+| agosto | 201 | **201** |
+| septiembre | 60 | **60** |
+
+Calza al número. El informe deja fuera **El Salvador** y deja fuera los **leads ya
+convertidos** — los informes de Zoho sobre Posibles clientes excluyen los
+convertidos por omisión, y eso no se ve en el gráfico.
+
+**Septiembre de verdad, medido el 2026-09-11:**
+
+| | |
+|---|---|
+| Leads creados en septiembre (todos) | **162** |
+| De ellos, con fuente Meta Ads | **118** (116 sin convertir + 2 convertidos) |
+| Por país (Meta Ads) | GT **51** · SV **65** |
+| Lo que muestra el informe | 60 |
+| Lo que reporta Meta (1–11 sep) | **216** en el panel del usuario · 222 en la lectura por API |
+
+La brecha real de septiembre es **216 contra 118: −98, un 45%**. No es 216 contra
+60. El instinto era correcto —falta cerca de la mitad— pero el tamaño que sugería
+el informe estaba inflado por lo que el informe esconde.
+
+**La trampa, para que no se repita:** un informe del CRM no es «el CRM». Antes de
+comparar contra Meta hay que saber qué filtra: el país, y sobre todo los
+convertidos, que son justamente los leads que sí avanzaron.
