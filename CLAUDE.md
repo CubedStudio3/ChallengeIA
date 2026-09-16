@@ -808,6 +808,18 @@ cometidos; no hay tiempo de repetirlos.
   cobrar**. Y es el primero con presencia real de pagos en **SV** (24 activos
   contra 9 en GT), justo donde nuestro lead sale más barato. La lectura de que
   «nadie disputa el territorio de cobrar mejor» hay que volver a mirarla.
+- **Lo que el botón cambiaba vivía SOLO en memoria.** «Actualizar ahora»
+  mutaba `D.pauta_diaria.dia_en_curso` y no guardaba: al recargar volvía el dato
+  publicado y parecía que nadie lo había apretado. El arreglo fue una línea
+  —`persistir()`— porque `documento()` ya serializa `D` **entero**, no solo `E`.
+  Lo encontró Mercadeo recargando; ninguna de las pruebas miraba más allá del
+  clic. Ahora `prueba:actualizar` captura el HTML publicado.
+- **El escapado del FUENTE no es el del archivo.** `documento()` escribe
+  `"<\/script>"` en el JS, que produce `</script>` en el HTML; solo viaja
+  escapado lo que va DENTRO del JSON. Buscar el escapado dejaba el corte en -1
+  y parseaba el resto del documento. Y una expresión regular anidada en un
+  template literal da `Invalid regular expression flags` sin decir dónde: ese
+  parseo se hace en Node, fuera de la página.
 - **El dossier se indexaba por MARCA, sin mercado: la tarjeta de un mercado
   mostraba el inventario del otro.** `por_clave = {m["clave"]: m for ...}` en
   `recomendaciones.py` dejaba ganar al último perfil. n1co GT listaba sushi y

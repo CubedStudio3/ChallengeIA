@@ -1871,3 +1871,45 @@ GT daba 23 sobre 9; ahora las doce tarjetas cumplen.
 **La lección de método:** un dato correcto para una marca puede estar cruzado
 para otra, y con seis marcas de un solo mercado nadie lo nota. Una marca nueva
 no es solo una fila más — es un caso de prueba que el registro no tenía.
+
+### Sesión 26 · el botón sube, el refresco se guarda, y la marca sin nombre se va
+
+Tres pedidos de Mercadeo el 2026-09-16, por la tarde.
+
+**1 · La marca sin nombre, fuera.** Se retiró la entrada declarada-sin-medir
+(`110830594084656`). Se había agregado sin nombre confirmado y sin permiso de
+consultarla; una etiqueta genérica en una lista de competidores se lee como una
+marca real, y eso es peor que no tenerla. El id queda escrito en el registro por
+si vuelve a pedirse. `sin_medir` queda vacío en los dos mercados.
+
+**2 · «Actualizar ahora» sube a la cabecera.** Ocupa el lugar que tenía «Copiar
+para Sprint»: es lo que la mesa aprieta seguido, y la cabecera es donde se
+busca. Quedó **un solo** botón en la página — el de la franja se quitó, porque
+dos elementos con el mismo `id` es HTML inválido y el segundo no se ve pero sí
+se rompe. En la franja se quedan el aviso de la última llamada y los días de
+atraso, que hablan de ese dato y se leen junto a él.
+
+**«Copiar para Sprint» no se eliminó: bajó a enlace.** ADR-054 lo dejó escrito
+como **el único camino a Sprint para quien abre el tablero sin el conector**.
+Borrarlo del todo dejaría a esa persona sin salida y sin aviso, así que pierde
+el botón pero no la puerta. Si la mesa confirma que todos tienen conector, se va.
+
+**3 · El refresco ya no se pierde al recargar.** Era un defecto real: el botón
+mutaba `D.pauta_diaria.dia_en_curso` **solo en memoria**. Al recargar volvía el
+dato publicado y parecía que nadie lo había apretado.
+
+El arreglo es de una línea porque el mecanismo ya existía: `documento()`
+serializa `D` **entero**, no solo `E`, así que llamar a `persistir()` después de
+un refresco exitoso lo guarda — y de paso lo ve toda la mesa, que es lo que uno
+espera de un tablero compartido. No hacía falta inventar almacenamiento nuevo.
+
+**La guardia:** `prueba:actualizar` captura el HTML que la página publica y
+comprueba que traiga el día con `_leido_en_la_pagina`, su fecha y `es_de_hoy`.
+Sin esa captura, el defecto era invisible para toda prueba que solo mire la
+pantalla después del clic — que es justo lo que hacían las 28 anteriores.
+
+Dos tropiezos propios al escribir esa prueba, los dos de escapado: una expresión
+regular anidada dentro de un template literal (`Invalid regular expression
+flags`) y buscar el cierre `<\/script` cuando el documento escribe `</script>`
+—el escapado del fuente no es el del archivo—. El parseo se hace ahora en Node,
+fuera de la página, que es donde se lee.

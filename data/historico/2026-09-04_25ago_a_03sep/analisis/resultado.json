@@ -14064,18 +14064,7 @@
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105470425404552"
         }
       },
-      "sin_medir": [
-        {
-          "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
-          "rol": "competidor",
-          "categorias": [
-            "hardware"
-          ],
-          "estado": "DECLARADO_SIN_MEDIR",
-          "por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
-          "como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea."
-        }
-      ]
+      "sin_medir": []
     },
     "SV": {
       "presion_total": 5,
@@ -14535,18 +14524,7 @@
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=105470425404552"
         }
       },
-      "sin_medir": [
-        {
-          "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
-          "rol": "competidor",
-          "categorias": [
-            "hardware"
-          ],
-          "estado": "DECLARADO_SIN_MEDIR",
-          "por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
-          "como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea."
-        }
-      ]
+      "sin_medir": []
     }
   },
   "competencia_registro": {

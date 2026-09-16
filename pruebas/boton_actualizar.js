@@ -52,7 +52,11 @@ const runtime = (guion) => `(() => {
   window.__llamadas = [];
   const guion = ${JSON.stringify(guion)};
   window.claude = { use: async (n) => {
-    if (n === "artifact") return { publish: async () => ({ ok: true }) };
+    if (n === "artifact") return { publish: async (html) => {
+      // Se guarda lo publicado: es la unica forma de comprobar que el refresco
+      // SOBREVIVE a recargar. Mercadeo lo reporto el 2026-09-16.
+      window.__publicado = html; return { ok: true };
+    } };
     if (n !== "mcp") return null;
     return {
       callTool: async (server, tool, input, opts) => {
@@ -278,6 +282,43 @@ async function abre(nav, guion) {
       return JSON.stringify(d.pauta_diaria.dia_en_curso.por_mercado);
     })()`);
     ok("el dato de antes sigue intacto", antes === desp, { antes, desp });
+    ok("sin errores de JavaScript", errs.length === 0, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ 3c · el refresco se GUARDA: recargar no lo borra");
+  {
+    const filas = Array.isArray(CRUDO.ad_entities)
+      ? CRUDO.ad_entities : JSON.parse(CRUDO.ad_entities);
+    const { pg, errs } = await abre(nav, { payload: { ad_entities: filas } });
+    await pg.click("#bActualizaHoy");
+    await pg.waitForTimeout(1200);
+    /* El HTML publicado se trae ENTERO y se parsea acá, no dentro de la página:
+       una expresión regular anidada en un template literal es ilegible y ya
+       rompió una vez. */
+    const html = await pg.evaluate("window.__publicado || ''");
+    ok("el clic publicó el estado, no se quedó solo en memoria", !!html, !!html);
+    let dia = null;
+    if (html) {
+      const abre_ = html.indexOf('<script id="datos"');
+      const cuerpo = abre_ >= 0 ? html.slice(html.indexOf(">", abre_) + 1) : "";
+      /* El cierre real es `</script>`: `documento()` lo escribe como
+         "<\\/script>" en el fuente, que en JS ES `</script>`. Lo que sí viaja
+         escapado es cualquier `</script` DENTRO del JSON, y por eso se
+         desescapa abajo. Buscar el escapado dejaba `cierra` en -1 y parseaba
+         el resto del documento. */
+      const cierra = cuerpo.indexOf("</script");
+      try {
+        dia = JSON.parse(cuerpo.slice(0, cierra < 0 ? undefined : cierra)
+                               .replace(/<\\\//g, "</"))
+                  .pauta_diaria.dia_en_curso;
+      } catch (e) { dia = { _error: e.message }; }
+    }
+    ok("y lo publicado trae el día leído en la página",
+       !!(dia && dia._leido_en_la_pagina === true), dia && Object.keys(dia));
+    ok("con la fecha de hoy y marcado como de hoy",
+       !!(dia && dia.es_de_hoy === true && /^\d{4}-\d{2}-\d{2}$/.test(dia.fecha)),
+       dia && { fecha: dia.fecha, es_de_hoy: dia.es_de_hoy });
     ok("sin errores de JavaScript", errs.length === 0, errs);
     await pg.close();
   }

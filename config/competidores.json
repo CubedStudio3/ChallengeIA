@@ -4,8 +4,7 @@
   "_esquema_estado": [
     "VERIFICADO",
     "NO_VERIFICADO",
-    "PENDIENTE_DE_DATO",
-    "DECLARADO_SIN_MEDIR"
+    "PENDIENTE_DE_DATO"
   ],
   "categorias": {
     "software": {
@@ -378,21 +377,6 @@
       "_politica_motivo": "NO es monoproducto, aunque el nombre enganie. De sus 24 activos en SV, 8 son ofertas al consumidor -sushi, salon de belleza, chequeo medico- y 6 no traen angulo legible. Contar los 24 como presion de pagos seria repetir el error de BI al reves: inflar una amenaza con inventario que no disputa la categoria. La presion se mide, no se asume.",
       "_rol": "competidor",
       "_rol_motivo": "Disputa el mensaje de cobro y el punto de venta en GT y en SV. Es el solapamiento mas directo medido hasta hoy."
-    },
-    {
-      "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
-      "_nombre_pendiente": "Mercadeo tiene que dar el nombre. NO se consulto la pagina para sacarlo: la instruccion del 2026-09-16 fue 'no tomes su informacion ni nada'. Inventar o deducir un nombre de marca en un reporte que ve la mesa seria exactamente un dato inventado (regla 1).",
-      "page_id": null,
-      "_page_id_declarado": "110830594084656",
-      "_por_que_page_id_en_null": "En null A PROPOSITO, no por falta de dato. El campo `page_id` es lo que dispara la consulta a la Ad Library, y aca la instruccion explicita es que NO se consulte. Guardado aparte para no perderlo.",
-      "categorias": [
-        "hardware"
-      ],
-      "_estado": "DECLARADO_SIN_MEDIR",
-      "_por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
-      "_como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea.",
-      "_rol": "competidor",
-      "_rol_motivo": "Declarada por Mercadeo. Sin medir por instruccion explicita."
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
@@ -460,5 +444,6 @@
     "mindy": "es",
     "n1co": "es"
   },
-  "_ultima_medicion_por_marca": "La nota estrategica de cada marca se busca por SU fecha de medicion, no por `_ultima_medicion`. Con una clave global, una marca medida en otra fecha perdia su nota en silencio. Ver corre.py."
+  "_ultima_medicion_por_marca": "La nota estrategica de cada marca se busca por SU fecha de medicion, no por `_ultima_medicion`. Con una clave global, una marca medida en otra fecha perdia su nota en silencio. Ver corre.py.",
+  "_retirada_2026_09_16": "Se retiro la marca declarada sin medir (page_id 110830594084656) a pedido de Mercadeo el 2026-09-16: se agrego sin nombre confirmado y sin permiso de consultarla, y se quita antes de que una etiqueta generica se lea como una marca real. El id queda escrito aqui por si vuelve a pedirse."
 }

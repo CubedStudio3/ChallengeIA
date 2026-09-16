@@ -138,6 +138,12 @@
   ];
 
   var ico = {
+    /* Dos arcos con su punta de flecha: el gesto universal de «volver a
+       pedir». Trazo abierto, como el resto de la familia. */
+    refresco: '<path d="M20 11a8 8 0 00-13.7-5.7L4 7.5"/>' +
+              '<path d="M4 4v4h4"/>' +
+              '<path d="M4 13a8 8 0 0013.7 5.7L20 16.5"/>' +
+              '<path d="M20 20v-4h-4"/>',
     cuadros: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
     grafico: '<path d="M4 19V5M4 19h16M8 15l4-5 3 3 4-6"/>',
     corazon: '<path d="M12 20s-7-4.4-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.6-7 9-7 9z"/>',
@@ -689,11 +695,28 @@
          y todo lo que filtra por ella siguen en pie: si mañana vuelve, vuelve
          completo. Arrancar en cadena vacía deja los filtros inertes. */
       '<div class="flex items-center gap-3 flex-wrap">' +
-      '<button type="button" id="bCsv" class="btn-oscuro">' +
-      svg(ico.copiar, "w-4 h-4") + "Copiar para Sprint</button>" +
+      /* «Actualizar ahora» ocupa el lugar que tenia «Copiar para Sprint»
+         (pedido de Mercadeo, 2026-09-16): lo que se aprieta seguido es esto, y
+         la cabecera es donde se busca. Sin conector no se pinta un boton
+         muerto: se dice por que. */
+      (mcpApi
+        ? '<button type="button" id="bActualizaHoy" class="btn-oscuro" ' +
+          (refresco.cargando ? "disabled" : "") + ">" + svg(ico.refresco, "w-4 h-4") +
+          (refresco.cargando ? "Actualizando…" : "Actualizar ahora") + "</button>"
+        : '<span class="text-[11px] text-slate-400 max-w-[24ch] leading-snug">' +
+          "Abrí el tablero en claude.ai para poder actualizar.</span>") +
       '<button type="button" id="bDecisiones" class="btn-claro" ' +
       'title="JSON para la creación automática por API">' +
       svg(ico.copiar, "w-4 h-4") + "Decisiones</button>" +
+      /* «Copiar para Sprint» deja de ser botón y queda como enlace: Mercadeo
+         pidió su lugar para «Actualizar ahora» (2026-09-16). No se elimina
+         porque sigue siendo el ÚNICO camino a Sprint para quien abre el
+         tablero sin el conector (ADR-054); borrarlo los dejaría sin salida y
+         sin aviso. Si la mesa confirma que todos tienen conector, se va. */
+      '<button type="button" id="bCsv" class="text-[12px] text-slate-400 ' +
+      'hover:text-slate-600 underline bg-transparent" ' +
+      'title="CSV para importar a Sprints. El camino sin conector.">' +
+      "Copiar para Sprint</button>" +
       "</div></div>" +
       (chip ? '<div class="mt-5">' + chip + "</div>" : "") +
       /* El filtro de fechas va aquí arriba porque es de toda la página, no de
@@ -2250,6 +2273,12 @@
         _leido_en_la_pagina: true
       };
       refresco.hecho = Date.now();
+      /* Y se GUARDA. Sin esto, el refresco vivia solo en memoria: al recargar
+         volvia el dato publicado y parecia que nadie habia apretado el boton
+         (lo reporto Mercadeo el 2026-09-16). `documento()` serializa `D`
+         entero, asi que persistir basta — y de paso lo ve toda la mesa, que es
+         lo que uno espera de un tablero compartido. */
+      guardarRefresco = true;
     }).catch(function (err) {
       var c = (err && err.code) || "upstream_error";
       refresco.error = c;
@@ -2257,9 +2286,17 @@
       refresco.puedeReintentar = sePuedeReintentar(err);
     }).then(function () {
       refresco.cargando = false;
-      pintar(true);
+      if (guardarRefresco) {
+        guardarRefresco = false;
+        /* `persistir` ya repinta. Se le pasa el mensaje para que la mesa sepa
+           que el numero quedo guardado y no solo mostrado. */
+        persistir("Día en curso actualizado y guardado");
+      } else {
+        pintar(true);
+      }
     });
   }
+  var guardarRefresco = false;
 
   /* Cuántos días CERRADOS le faltan al dato, que es lo que el botón NO puede
      arreglar. Se mide contra la fecha del visitante, no contra la de
@@ -2371,18 +2408,15 @@
       "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
       "gráfica lo promedia.</div></div>" +
       cols +
-      /* El botón y lo que el botón NO puede arreglar, juntos: refrescar el día
-         en curso es una consulta sin compuerta, y los días cerrados que falten
-         necesitan la corrida. Ponerlos separados dejaría a la mesa creyendo
-         que el botón lo cubre todo. */
+      /* El BOTÓN vive en la cabecera desde el 2026-09-16 (pedido de Mercadeo).
+         Acá se queda lo que el botón NO puede arreglar —los días cerrados que
+         falten necesitan la corrida— y el aviso de la última llamada, porque
+         los dos hablan de ESTE dato y se leen junto a él. Un solo botón en la
+         página: dos elementos con el mismo id es HTML inválido, y el segundo
+         no se ve pero sí se rompe. */
       (function () {
         var atraso = diasDeAtraso();
-        var b = mcpApi
-          ? '<button type="button" id="bActualizaHoy" class="btn-claro" ' +
-            (refresco.cargando ? "disabled" : "") + ">" +
-            (refresco.cargando ? "Actualizando…" : "Actualizar ahora") + "</button>"
-          : '<span class="text-[10.5px] text-slate-400">Abrí el tablero en ' +
-            "claude.ai para poder actualizar.</span>";
+        var b = "";
         var msg = "";
         if (refresco.error) {
           msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
@@ -2401,8 +2435,8 @@
             "este botón —los días cerrados se reconcilian al centavo antes de " +
             "entrar— sino la corrida.</div>";
         }
-        return '<div class="basis-full flex flex-wrap items-center gap-3">' +
-          b + "</div>" + msg + at;
+        return (b ? '<div class="basis-full flex flex-wrap items-center gap-3">' +
+                    b + "</div>" : "") + msg + at;
       })() +
       '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
       "Leído " + esc(horaLectura(H.consultado_a)) +
@@ -4822,6 +4856,7 @@
          una LECTURA de Meta, no una decisión de la mesa. Una vista sin permiso
          de escribir igual necesita ver el dato de hoy. */
       if (t.id === "bActualizaHoy") { actualizaDiaEnCurso(); return; }
+
       if (t.id === "bCsv") { copiarCsv(); return; }
       if (t.id === "bDecisiones") { copiarDecisiones(); return; }
 
