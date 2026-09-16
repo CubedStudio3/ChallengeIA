@@ -31,12 +31,20 @@ Verificado contra sistemas reales, no contra documentación:
 - ✅ **Rutinas** — semanal `trig_01CWh3gdJWfDKGzR4MDB6qhs` (lunes 07:00 GT, el
   análisis completo) y diaria `trig_01G5JLyctdfbuViKw79AEMgS` (06:00 GT, solo
   el dato: días cerrados y el día en curso).
+  Desde el 2026-09-16 el tablero trae además un botón **«Actualizar ahora»**
+  que refresca el día en curso llamando a Meta con el conector de quien abre la
+  página (ADR-068). Los días **cerrados** no: eso pide la compuerta de
+  reconciliación, que vive en Python. El botón mide y declara cuántos días le
+  faltan al dato cerrado.
   ⚠️ **Les faltan los conectores, y ya se vio el efecto.** El 2026-09-16 las
   dos habían corrido —la diaria ese mismo día, la semanal el lunes— y las dos
   reportaban `SUCCEEDED`: **24 y 20 segundos**, o sea que se detuvieron en su
   Compuerta 0 sin tocar nada, que es lo correcto. Hay que adjuntarlos desde la
-  interfaz de Routines en claude.ai; el parámetro de la API sigue cerrado para
-  esta organización. Mientras tanto el refresco es a mano (ADR-066).
+  interfaz de Routines en claude.ai. **El parámetro de la API está cerrado para
+  la organización, con error textual** (reintentado el 2026-09-16):
+  `create_trigger: the connectors parameter is not available for this
+  organization`. No es un problema de cómo se llama: no hay vía programática.
+  Mientras tanto el refresco es a mano (ADR-066, ADR-068).
 
 La sección de Estrategia se rediseñó el 2026-09-10 alrededor de **la apuesta**
 (ADR-058): nombre, la apuesta en una frase con el mensaje y el mercado
@@ -735,6 +743,21 @@ cometidos; no hay tiempo de repetirlos.
   Inversión pasó a mostrar el total. Las dos veces el esperado estaba mal y la
   pantalla tenía razón. Los esperados ahora llevan nombres distintos: `gasto`
   es del indicador (costo por lead) y `_dinero` es de todos (Inversión).
+- **Un botón en la página puede leer, no puede reconciliar.** El día en curso
+  se refresca desde el navegador porque es una consulta agregada sin compuerta
+  —no hay agregado contra el cual reconciliarlo—; los días cerrados no, porque
+  esa compuerta al centavo vive en Python. Un navegador que metiera días a
+  `piezas` sin pasarla publicaría números sin verificar (ADR-068).
+- **Un puerto a JS de una regla de Python es una SEGUNDA copia, y acá ya
+  divergió una.** El botón reimplementa `parsea_numero()` y
+  `dia_en_curso.arma()`. La guardia es `prueba:actualizar`, que compara los dos
+  lados sobre los **3,060 valores distintos** de los veinte crudos —la lista sale
+  de los archivos, no se escribe a mano— y el bloque entero contra Python.
+- **Seis mensajes de error idénticos pasan una prueba que compara el texto de la
+  tarjeta.** La primera versión de `prueba:actualizar` leía la franja completa,
+  que comparte prefijo: los seis códigos habrían pasado con el mismo párrafo,
+  que es el anti-patrón que el contrato del `mcp` nombra. Se compara el aviso,
+  no el contenedor.
 - **Un esperado de prueba también puede caer en la trampa que el producto
   esquiva.** `prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían»
   ir $13,898.54: la prueba había sumado los seis indicadores de 2026 en un solo
@@ -794,6 +817,9 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `data/historico/dia_en_curso/crudo/` | El crudo de hoy, con la hora de su lectura. Vive fuera de `pauta_meses/` porque ahí adentro va dato cerrado |
 | `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. Incluye el sabotaje del reloj: adelantar el navegador cuatro días sin tocar el dato. `npm run prueba:hoy` |
 | `pruebas/inversion_total.js` | Que la Inversión sume TODOS los indicadores y que los resultados sigan sin sumarse. Las dos direcciones en la misma prueba. `npm run prueba:inversion` |
+| `pruebas/boton_actualizar.js` | El botón «Actualizar ahora»: que el parseo y el bloque del día coincidan con Python, que la llamada a Meta sea de lectura, que no toque `piezas`, y que cada error de conector diga qué hacer. `npm run prueba:actualizar` |
+| `pruebas/valores_reales.py` | Los 3,060 valores distintos de los veinte crudos, parseados por Python. Existe para comparar contra el puerto en JavaScript |
+| `pruebas/esperado_dia.py` | El bloque del día en curso según Python, para comparar contra el que arma el navegador |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |

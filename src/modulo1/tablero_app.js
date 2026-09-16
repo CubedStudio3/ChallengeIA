@@ -61,8 +61,11 @@
      persona saliendo del campo, y no puede tratarse igual. */
   var repintando = false;
   var SIN_DUENIO = "21897000000002005";
-  var sprints = null;
+  var mcpApi = null;
   var SERVIDOR = "Zoho Sprints";
+  /* El namespace `mcp` sirve a DOS conectores desde el 2026-09-16 —Zoho
+     Sprints para escribir work items y Meta para refrescar el día en curso—
+     así que la variable deja de llamarse `sprints`, que ya mentía. */
 
   /* Vista local. Nunca se publica. */
   var V = { mercado: null, grupo: "competencia", categoria: "software",
@@ -1139,7 +1142,7 @@
       return tiene ? "Asignada a " + nombrePersona(tiene) + " en Sprints."
                    : "Sin responsable en Sprints todavía.";
     }
-    if (!sprints) {
+    if (!mcpApi) {
       return "El responsable elegido acá (" + nombrePersona(quiere) + ") no " +
         "está en Sprints: hace falta el conector para mandarlo.";
     }
@@ -1149,7 +1152,7 @@
 
   function tramoSprint(c, estado) {
     var s0 = (E.sprint || {})[c.id];
-    var puede = !!sprints && !!c.sprint;
+    var puede = !!mcpApi && !!c.sprint;
 
     if (s0 && (s0.estado === "creado" || s0.estado === "existia")) {
       var mal = !!s0.detalle_resp || !!s0.resp_sin_confirmar;
@@ -1860,6 +1863,333 @@
     }).join(" + ");
   }
 
+  /* ═════════════ refrescar el día en curso desde Meta ═════════════
+
+     Pedido de Mercadeo (2026-09-16), después de que las Rutinas corrieran cinco
+     días sin actualizar nada: «¿no se si es posible como un boton que diga
+     actualizar? y que active algo para que se actualice automaticamente».
+
+     QUÉ PUEDE Y QUÉ NO PUEDE ESTE BOTÓN. Importa decirlo acá porque la
+     tentación es que haga todo:
+
+     · SÍ refresca el DÍA EN CURSO. Es una sola consulta agregada, no entra a
+       `piezas`, y no tiene compuerta que violar: el día en curso no se
+       reconcilia contra nada porque no hay un agregado con qué compararlo.
+     · NO toca los días CERRADOS. Eso pide el desglose día por día reconciliado
+       al centavo contra su agregado, y esa compuerta vive en Python. Un
+       navegador que metiera días a `piezas` sin pasarla estaría publicando
+       números sin verificar, que es la regla 1 del proyecto al revés.
+     · NO rehace el análisis. Estrategia, cartas y copys son de la corrida.
+
+     Por eso el botón, además de refrescar, MIDE cuánto le falta al dato
+     cerrado y lo dice. Convierte una obsolescencia silenciosa —la de hoy, que
+     nadie vio en cinco días— en una visible. */
+
+  var META = "Meta MCP";
+  var CUENTA = "225318458221662";
+
+  /* Los números vienen en formato local español: «$1.234,56 USD» —punto de
+     miles, coma decimal—. Esto es un PUERTO de `parsea_numero()` de
+     `src/base/normaliza.py`, y ser una segunda copia de la misma regla es
+     exactamente el riesgo que este proyecto ya pagó caro (el cuerpo del item de
+     una idea escrito en tres lados, que divergió sin que nadie lo viera).
+
+     La guardia no es la buena intención: `prueba:actualizar` toma TODOS los
+     valores distintos de los veinte crudos —nueve meses de formatos reales— y
+     compara este parseo contra el de Python, uno por uno. */
+  function parseaNumero(crudo) {
+    if (crudo == null) return null;
+    var texto = String(crudo).trim();
+    if (!texto || /^(not available|n\/?a|mixed|-|—)$/i.test(texto)) return null;
+    var limpio = texto.replace(/\([^)]*\)/g, "").replace(/[^\d,.\-]/g, "");
+    if (!limpio || limpio === "-" || limpio === "," || limpio === ".") return null;
+    if (limpio.indexOf(",") >= 0 && limpio.indexOf(".") >= 0) {
+      limpio = limpio.replace(/\./g, "").replace(",", ".");
+    } else if (limpio.indexOf(",") >= 0) {
+      var i = limpio.lastIndexOf(",");
+      var dec = limpio.slice(i + 1);
+      limpio = (dec.length === 1 || dec.length === 2)
+        ? limpio.slice(0, i) + "." + dec
+        : limpio.replace(/,/g, "");
+    }
+    var n = parseFloat(limpio);
+    return isFinite(n) ? n : null;
+  }
+
+  /* El indicador y el valor de `results`, con las dos formas que devuelve la
+     API: `{value: "Not available"}` y `{values: [{value: "107"}]}`. */
+  function leeResultado(r) {
+    var res = (r && r.results) || {};
+    var v = res.value;
+    if (v == null && res.values && res.values.length) v = res.values[0].value;
+    return { indicador: res.indicator || "?", valor: parseaNumero(v) };
+  }
+
+  /* PUERTO de `dia_en_curso.arma()`. Mismas reglas, en el mismo orden:
+     una fila sin gasto NI impresiones no es dato; el mercado excluido se
+     reporta aparte; se agrupa por indicador; el gasto suma de TODAS las filas y
+     los resultados solo de las que traen uno (ADR-013 + ADR-067).
+
+     `prueba:actualizar` compara el bloque entero contra el que arma Python
+     sobre el mismo crudo. */
+  function bloqueDelDia(filas, fecha, piezas, refPrevia) {
+    var decl = mercados();
+    var dentro = {}, fuera = {};
+    (filas || []).forEach(function (r) {
+      var g = parseaNumero(r.amount_spent) || 0;
+      var im = parseaNumero(r.impressions) || 0;
+      if (g === 0 && im === 0) return;
+      var pais = r.country || "?";
+      var q = leeResultado(r);
+      if (decl.indexOf(pais) < 0) {
+        var e = fuera[pais] || (fuera[pais] = { gasto: 0, impresiones: 0, campanas: {} });
+        e.gasto += g; e.impresiones += im; e.campanas[r.name || r.id] = 1;
+        return;
+      }
+      var m = dentro[pais] || (dentro[pais] = {});
+      var k = m[q.indicador] || (m[q.indicador] = {
+        gasto: 0, impresiones: 0, resultados: 0, sinRes: 0 });
+      k.gasto += g; k.impresiones += im;
+      if (q.valor == null) k.sinRes += g; else k.resultados += q.valor;
+    });
+
+    var porMercado = {};
+    Object.keys(dentro).sort().forEach(function (pais) {
+      var inds = dentro[pais];
+      var principal = Object.keys(inds).sort(function (a, b) {
+        return inds[b].gasto - inds[a].gasto;
+      })[0];
+      var e = inds[principal];
+      var gasto = Math.round(e.gasto * 100) / 100;
+      var ref = (refPrevia && refPrevia[pais] && refPrevia[pais].indicador === principal)
+        ? refPrevia[pais].referencia : referenciaDe(piezas, fecha, pais, principal);
+      porMercado[pais] = {
+        indicador: principal,
+        gasto: gasto,
+        resultados: e.resultados,
+        impresiones: Math.round(e.impresiones),
+        gasto_sin_resultado: Math.round(e.sinRes * 100) / 100,
+        costo_por_resultado: e.resultados ? Math.round(gasto / e.resultados * 10000) / 10000 : null,
+        otros_indicadores: Object.keys(inds).filter(function (k) { return k !== principal; }).sort(),
+        referencia: ref,
+        avance: (ref && ref.gasto)
+          ? { gasto: Math.round(gasto / ref.gasto * 1000) / 1000,
+              impresiones: ref.impresiones
+                ? Math.round(e.impresiones / ref.impresiones * 1000) / 1000 : null }
+          : null
+      };
+    });
+
+    Object.keys(fuera).forEach(function (p) {
+      fuera[p].gasto = Math.round(fuera[p].gasto * 100) / 100;
+      fuera[p].campanas = Object.keys(fuera[p].campanas).sort();
+    });
+    return { por_mercado: porMercado, fuera_de_mercado: fuera };
+  }
+
+  /* El «día típico»: promedio de los últimos DIAS_REFERENCIA días CERRADOS
+     anteriores, del mismo mercado y el mismo indicador. Puerto de
+     `_referencia()`; incluir el propio día parcial lo abarataría. */
+  var DIAS_REFERENCIA = 7;
+  function referenciaDe(piezas, fecha, mercado, indicador) {
+    var porDia = {};
+    (piezas || []).forEach(function (p) {
+      if (p.f >= fecha || p.p !== mercado || p.k !== indicador) return;
+      var d = porDia[p.f] || (porDia[p.f] = { gasto: 0, impresiones: 0 });
+      d.gasto += p.g; d.impresiones += p.i;
+    });
+    var dias = Object.keys(porDia).sort().slice(-DIAS_REFERENCIA);
+    if (!dias.length) return null;
+    var g = 0, i = 0;
+    dias.forEach(function (d) { g += porDia[d].gasto; i += porDia[d].impresiones; });
+    return { dias: dias.length, desde: dias[0], hasta: dias[dias.length - 1],
+             gasto: Math.round(g / dias.length * 100) / 100,
+             impresiones: Math.round(i / dias.length) };
+  }
+
+  /* Estado del refresco: lo que la franja necesita saber para pintarse.
+     `error` guarda el CÓDIGO, no un texto: cada código tiene un arreglo
+     distinto y colapsarlos en «algo salió mal» esconde justo la acción que
+     destraba la página. */
+  var refresco = { cargando: false, error: null, mensaje: "", hecho: null };
+
+  /* Las dos funciones que son un PUERTO de Python se exponen para que
+     `prueba:actualizar` pueda compararlas contra el original. No es una puerta
+     de atrás: son lecturas puras, sin efecto, y sin esto la única forma de
+     probarlas sería a través de la pantalla, que mide otra cosa. */
+  try {
+    window.__parseaNumero = function (x) { return parseaNumero(x); };
+    window.__bloqueDelDia = function (a, b, c, d) { return bloqueDelDia(a, b, c, d); };
+  } catch (e) { /* entorno sin window: la página funciona igual */ }
+
+  /* Qué hacer con cada falla. El `default` existe para los códigos que no
+     tienen un arreglo propio; lo que NO se hace es mandar todos ahí. */
+  function arregloDe(codigo, servidor) {
+    var s = servidor || META;
+    switch (codigo) {
+      case "server_not_connected":
+      case "selection_required":
+        return "Falta conectar «" + s + "» en claude.ai → Configuración → " +
+               "Conectores, o elegir cuál usar si hay más de uno.";
+      case "needs_reauth":
+        return "La sesión de «" + s + "» caducó. Reconectala en claude.ai → " +
+               "Configuración → Conectores.";
+      case "not_granted":
+      case "capability_disabled":
+      case "capability_removed":
+        return "Esta vista no puede llamar conectores. Abrí el tablero desde " +
+               "claude.ai en vez de una copia descargada.";
+      case "blocked_by_policy":
+      case "approval_required":
+        return "La política de la organización bloquea esta consulta. La " +
+               "puede habilitar quien administra los conectores.";
+      case "not_in_manifest":
+        return "Este tablero se publicó sin permiso para leer Meta. Hay que " +
+               "volver a publicarlo declarando el conector.";
+      case "tool_error":
+        return "Meta respondió con un error. El dato de abajo no cambió.";
+      case "server_unavailable":
+        return "Meta no respondió. Se puede volver a intentar.";
+      default:
+        return "No se pudo leer Meta. El dato de abajo no cambió.";
+    }
+  }
+
+  /* Los códigos que NO se reintentan solos jamás: repetir la llamada no puede
+     arreglarlos. El tipo lo dice con `retryable`, y se respeta eso antes que
+     cualquier lista propia. */
+  function sePuedeReintentar(err) {
+    return !!(err && err.retryable === true);
+  }
+
+  /* La consulta del día en curso, con los MISMOS parámetros que usa la corrida
+     —rango cerrado de un solo día, por campaña y país— para que el número que
+     sale acá sea el mismo que saldría por el otro camino. */
+  function peticionDelDia(fecha) {
+    return {
+      ad_account_id: CUENTA,
+      level: "campaign",
+      time_range: { since: fecha, until: fecha },
+      breakdowns: ["country"],
+      fields: ["id", "name", "results", "cost_per_result", "spend", "impressions"],
+      limit: 1000,
+      /* El conector exige las palabras del anunciante. Acá la petición es el
+         clic: se manda lo que dice el botón, no una frase inventada. */
+      advertiser_request: "actualizar el dia en curso",
+      client_conversation_id: idDeConversacion()
+    };
+  }
+
+  /* 20 caracteres, estable por carga de página: agrupa las llamadas de una
+     misma sesión de la mesa, que es para lo que existe. */
+  var _idConv = null;
+  function idDeConversacion() {
+    if (_idConv) return _idConv;
+    var abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var out = "";
+    for (var i = 0; i < 20; i++) out += abc[Math.floor(Math.random() * abc.length)];
+    _idConv = out;
+    return out;
+  }
+
+  /* El payload del conector llega como objeto o como texto JSON, y
+     `ad_entities` adentro puede venir de las dos formas otra vez. Se
+     normaliza acá y no en tres lugares. */
+  function filasDe(payload) {
+    var p = payload;
+    if (typeof p === "string") { try { p = JSON.parse(p); } catch (e) { return null; } }
+    if (!p || typeof p !== "object") return null;
+    var ae = p.ad_entities;
+    if (typeof ae === "string") { try { ae = JSON.parse(ae); } catch (e) { return null; } }
+    return Array.isArray(ae) ? ae : null;
+  }
+
+  /* El día que el VISITANTE está viviendo, en su fecha local. Es el mismo
+     criterio que usa `esFechaDeHoy`: el servidor no sabe cuándo lo van a
+     mirar. */
+  function hoyLocal() {
+    var d = new Date();
+    return d.getFullYear() + "-" +
+           String(d.getMonth() + 1).padStart(2, "0") + "-" +
+           String(d.getDate()).padStart(2, "0");
+  }
+
+  function actualizaDiaEnCurso() {
+    if (refresco.cargando) return;
+    if (!mcpApi) {
+      refresco.error = "not_granted";
+      refresco.mensaje = arregloDe("not_granted");
+      pintar(true);
+      return;
+    }
+    refresco.cargando = true;
+    refresco.error = null;
+    refresco.mensaje = "";
+    pintar(true);
+
+    var fecha = hoyLocal();
+    var PD = pautaDia();
+    var previo = (PD && PD.dia_en_curso) || null;
+
+    /* `refresh: true` salta la caché a propósito: el sentido del botón es
+       traer lo de AHORA, y servir un resultado de hace cinco minutos sería
+       repetir en pequeño el problema que vino a resolver. */
+    mcpApi.callTool(META, "ads_get_ad_entities", peticionDelDia(fecha),
+      { cache: { refresh: true } }
+    ).then(function (res) {
+      var filas = filasDe(res && res.payload);
+      if (!filas) {
+        refresco.error = "tool_error";
+        refresco.mensaje = "Meta respondió algo que no se pudo leer. El dato " +
+          "de abajo no cambió.";
+        return;
+      }
+      var b = bloqueDelDia(filas, fecha, (PD && PD.piezas) || [],
+                           previo && previo.por_mercado);
+      if (!Object.keys(b.por_mercado).length) {
+        /* Cero filas útiles NO es «cero gasto»: puede ser que el día todavía
+           no arranque. Se dice así y no se pinta un cero. */
+        refresco.error = null;
+        refresco.mensaje = "Meta todavía no reporta entrega de hoy.";
+        refresco.hecho = Date.now();
+        return;
+      }
+      PD.dia_en_curso = {
+        fecha: fecha,
+        es_de_hoy: true,
+        por_mercado: b.por_mercado,
+        fuera_de_mercado: b.fuera_de_mercado,
+        consultado_a: new Date().toISOString(),
+        _leido_en_la_pagina: true
+      };
+      refresco.hecho = Date.now();
+    }).catch(function (err) {
+      var c = (err && err.code) || "upstream_error";
+      refresco.error = c;
+      refresco.mensaje = arregloDe(c, err && err.server);
+      refresco.puedeReintentar = sePuedeReintentar(err);
+    }).then(function () {
+      refresco.cargando = false;
+      pintar(true);
+    });
+  }
+
+  /* Cuántos días CERRADOS le faltan al dato, que es lo que el botón NO puede
+     arreglar. Se mide contra la fecha del visitante, no contra la de
+     generación: es el mismo error que se arregló en ADR-066. */
+  function diasDeAtraso() {
+    var PD = pautaDia(), t = PD && PD.rango_disponible;
+    if (!t || !t.hasta) return null;
+    var ayer = new Date();
+    ayer.setDate(ayer.getDate() - 1);
+    var a = ayer.getFullYear() + "-" +
+            String(ayer.getMonth() + 1).padStart(2, "0") + "-" +
+            String(ayer.getDate()).padStart(2, "0");
+    if (t.hasta >= a) return 0;
+    var d1 = new Date(t.hasta + "T00:00:00Z"), d2 = new Date(a + "T00:00:00Z");
+    return Math.round((d2 - d1) / 86400000);
+  }
+
   /* ═════════════ el día que todavía no termina ═════════════
 
      Pedido literal de Mercadeo (2026-09-11): «la idea es que tengamos los
@@ -1954,6 +2284,39 @@
       "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
       "gráfica lo promedia.</div></div>" +
       cols +
+      /* El botón y lo que el botón NO puede arreglar, juntos: refrescar el día
+         en curso es una consulta sin compuerta, y los días cerrados que falten
+         necesitan la corrida. Ponerlos separados dejaría a la mesa creyendo
+         que el botón lo cubre todo. */
+      (function () {
+        var atraso = diasDeAtraso();
+        var b = mcpApi
+          ? '<button type="button" id="bActualizaHoy" class="btn-claro" ' +
+            (refresco.cargando ? "disabled" : "") + ">" +
+            (refresco.cargando ? "Actualizando…" : "Actualizar ahora") + "</button>"
+          : '<span class="text-[10.5px] text-slate-400">Abrí el tablero en ' +
+            "claude.ai para poder actualizar.</span>";
+        var msg = "";
+        if (refresco.error) {
+          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
+            'text-amber-700 font-semibold leading-snug">' +
+            esc(refresco.mensaje) + "</div>";
+        } else if (refresco.mensaje) {
+          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
+            'text-slate-500 leading-snug">' + esc(refresco.mensaje) + "</div>";
+        }
+        var at = "";
+        if (atraso && atraso > 0) {
+          at = '<div class="basis-full text-[10.5px] text-amber-700 ' +
+            'leading-snug">El dato de días cerrados llega al ' +
+            esc(fecha(pautaDia().rango_disponible.hasta)) + ": le faltan " +
+            atraso + (atraso === 1 ? " día" : " días") + ". Eso NO lo arregla " +
+            "este botón —los días cerrados se reconcilian al centavo antes de " +
+            "entrar— sino la corrida.</div>";
+        }
+        return '<div class="basis-full flex flex-wrap items-center gap-3">' +
+          b + "</div>" + msg + at;
+      })() +
       '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
       "Leído " + esc(horaLectura(H.consultado_a)) +
       /* Antes este pie citaba «$7.53 y $7.93 en GT», que eran dos lecturas
@@ -4273,7 +4636,7 @@
 
   var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
     "[data-categoria],[data-estrategia],[data-decidir],[data-propia],[data-sprint]," +
-    "[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
+    "#bActualizaHoy,[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
     "#bCsv,#bDecisiones,#bTodas,#bNada," +
     "#npAgregar,#limpiarBusqueda,#limpiarCopys";
 
@@ -4368,6 +4731,10 @@
       if (t.id === "limpiarBusqueda") {
         V.busqueda = ""; guardarVista(); pintar(true); return;
       }
+      /* Va ANTES de la compuerta de solo lectura: refrescar el día en curso es
+         una LECTURA de Meta, no una decisión de la mesa. Una vista sin permiso
+         de escribir igual necesita ver el dato de hoy. */
+      if (t.id === "bActualizaHoy") { actualizaDiaEnCurso(); return; }
       if (t.id === "bCsv") { copiarCsv(); return; }
       if (t.id === "bDecisiones") { copiarDecisiones(); return; }
 
@@ -4384,7 +4751,7 @@
       }
       if (d.decidir) { decidir(d.decidir, d.estado); return; }
       if (d.sprint) {
-        if (soloLectura || !sprints) return;
+        if (soloLectura || !mcpApi) return;
         crearEnSprints(d.sprint); return;
       }
       if (d.propia) {
@@ -4725,7 +5092,7 @@
      Sin conector no hay error: la decisión queda guardada y el CSV sigue
      estando para bajarla. */
   function creaSiHaceFalta(id) {
-    if (soloLectura || !sprints) return;
+    if (soloLectura || !mcpApi) return;
     var ya = (E.sprint || {})[id];
     if (ya && (ya.estado === "creado" || ya.estado === "existia" ||
                ya.estado === "creando")) return;
@@ -4876,7 +5243,7 @@
      forma de reconocer un item ya creado (regla 7). */
   function buscaEnSprints(carta) {
     var dst = destinoSprint();
-    return sprints.callTool(SERVIDOR, "ZohoSprints_GetItems", {
+    return mcpApi.callTool(SERVIDOR, "ZohoSprints_GetItems", {
       headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
       path_variables: dst ? { teamId: dst.teamId, projectId: dst.projectId,
                               sprintId: dst.sprintId } : {},
@@ -4941,7 +5308,7 @@
 
   function crearEnSprints(id) {
     var carta = piezaSprint(id);
-    if (!sprints || !carta || !carta.sprint) return;
+    if (!mcpApi || !carta || !carta.sprint) return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) {
       marcaSprint(id, { estado: "error",
@@ -4990,7 +5357,7 @@
         if (resp && resp !== (ya.responsable || null)) sincronizaResponsable(id);
         return;
       }
-      return sprints.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
+      return mcpApi.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
         headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
         path_variables: { teamId: dst.teamId, projectId: dst.projectId,
                           sprintId: dst.sprintId },
@@ -5055,7 +5422,7 @@
      escribe con lo que Sprints DICE que quedó, no con lo que se pidió. */
   function sincronizaResponsable(id) {
     var s0 = (E.sprint || {})[id];
-    if (!sprints || !s0 || !s0.itemId) return;
+    if (!mcpApi || !s0 || !s0.itemId) return;
     if (s0.estado !== "creado" && s0.estado !== "existia") return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) return;
@@ -5070,7 +5437,7 @@
 
     s0.sincronizando = true;
     pintar(true);
-    sprints.callTool(SERVIDOR, "ZohoSprints_UpdateItem", {
+    mcpApi.callTool(SERVIDOR, "ZohoSprints_UpdateItem", {
       headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
       path_variables: { teamId: dst.teamId, projectId: dst.projectId,
                         /* El item puede haberse movido a un sprint en Sprints;
@@ -5214,8 +5581,8 @@
        —nunca dentro de la primera corrida del script— así que la página se
        dibuja sin ella y el botón se enciende cuando resuelve. */
     window.claude.use("mcp").then(function (m) {
-      sprints = m || null;
-      if (sprints) pintar(true);
-    }).catch(function () { sprints = null; });
+      mcpApi = m || null;
+      if (mcpApi) pintar(true);
+    }).catch(function () { mcpApi = null; });
   } else { soloLectura = true; pintar(true); }
 })();

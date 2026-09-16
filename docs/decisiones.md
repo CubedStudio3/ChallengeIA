@@ -4761,3 +4761,101 @@ crudo de la corrida. Los dos están explicados y medidos, pero **el tablero no
 los muestra juntos en ningún lado**: quien compare con Ads Manager va a
 encontrar esa diferencia y va a tener que preguntar, igual que hoy. Queda
 escrito y sin hacer.
+
+---
+
+## ADR-068 · Un botón para el día en curso, y por qué no puede hacer más
+
+**Fecha:** 2026-09-16
+**Estado:** aceptado
+**Pedido de Mercadeo, literal:** «y mira como podemos arreglar para que no pase
+lo de hoy que no se actualizo nada en automatico? ¿no se si es posible como un
+boton que diga actualizar? y que active algo para que se actualice
+automaticamente»
+
+Son dos pedidos y tienen dos respuestas distintas. Conviene no mezclarlos.
+
+### Lo automático: sigue bloqueado, y ahora con el error textual
+
+Se volvió a intentar adjuntar conectores a una Rutina por API —con una Rutina de
+prueba, de usar y tirar—. La respuesta:
+
+```
+create_trigger: the connectors parameter is not available for this organization.
+Omit the connectors parameter.
+```
+
+No es una limitación de esta sesión ni de cómo se llamó: **el parámetro está
+cerrado para la organización.** La única vía es la interfaz de Routines en
+claude.ai, y es una acción humana. Nada de lo que se construya de este lado la
+reemplaza, y decir lo contrario sería vender un automático que no existe.
+
+### El botón: qué puede y qué NO
+
+La página declara ahora el conector de Meta además del de Zoho Sprints, y el
+botón **«Actualizar ahora»** en la franja del día en curso llama
+`ads_get_ad_entities` con las credenciales de quien abre el tablero.
+
+**Puede** refrescar el día en curso: es una sola consulta agregada, no entra a
+`piezas`, y **no tiene compuerta que violar** — el día en curso no se reconcilia
+contra nada porque no existe un agregado con qué compararlo.
+
+**No puede** traer días cerrados. Eso exige el desglose día por día reconciliado
+al centavo contra su agregado, por campaña y por país, y esa compuerta vive en
+Python. Un navegador que metiera días a `piezas` sin pasarla estaría publicando
+números sin verificar — la regla 1 al revés.
+
+Por eso el botón **mide y declara lo que no puede arreglar**: cuando el dato
+cerrado se queda atrás, la franja dice cuántos días le faltan y que eso lo
+arregla la corrida, no el botón. Convierte la obsolescencia silenciosa —la que
+nadie vio durante cinco días— en una visible.
+
+### El riesgo que introduce: una segunda copia de dos reglas
+
+El botón interpreta la respuesta de Meta **en el navegador**. Eso crea una
+segunda implementación de dos cosas que ya vivían en Python:
+
+- `parsea_numero()` — el formato español, `$1.234,56 USD`, punto de miles y coma
+  decimal, más los huecos (`Not available`).
+- `dia_en_curso.arma()` — agrupar por indicador, el gasto de todas las filas y
+  los resultados solo de las que traen uno, el «día típico» de 7 días cerrados.
+
+**Este proyecto ya pagó exactamente este error**: el cuerpo del item de una idea
+del equipo estaba escrito en tres lados y uno divergió —`"  - "` contra
+`"  · "`— sin que nadie lo viera hasta que ya no servía enterarse.
+
+La guardia no es la buena intención, es `npm run prueba:actualizar`:
+
+1. **3,060 valores DISTINTOS** —todos los que aparecen en los veinte crudos,
+   nueve meses de formatos reales— parseados por los dos lados y comparados uno
+   por uno. La lista no se escribe a mano: sale de los archivos en disco, así
+   que un formato nuevo entra solo.
+2. **El bloque entero** contra el que arma Python sobre el mismo crudo: gasto,
+   resultados, impresiones, gasto sin resultado, costo, el día típico con sus
+   fechas exactas y el avance.
+3. Que la llamada sea de **lectura** (`ads_get_` — regla 8), con rango cerrado
+   de un día, corte por país, `limit` explícito (ADR-050) y saltándose la caché.
+4. Que después del clic **`piezas` y la Inversión no cambien**.
+
+### Los errores de conector, uno por uno
+
+El contrato del `mcp` nombra como anti-patrón colapsar todos los códigos en un
+«algo salió mal»: esconde la única acción que destraba la página. Cada código
+tiene su arreglo escrito —falta conectar, la sesión caducó, la política lo
+bloquea, el tablero se publicó sin el permiso— y en todos **el dato anterior
+sigue en pantalla**: una falla de red no borra lo último que sí se leyó.
+
+La prueba comprueba que los seis mensajes sean **distintos entre sí**. Su primera
+versión daba eso por bueno comparando el texto de la franja completa, que
+comparte prefijo: seis mensajes idénticos habrían pasado. Se compara el aviso.
+
+### Lo que se decidió NO hacer
+
+- **Sondeo automático en la página** (`watchTool` con `refetchInterval`).
+  Es posible y mantendría el día en curso vivo mientras el tablero está abierto,
+  pero pide consentimiento del conector a cada visitante al abrir, y este tablero
+  se abre en una reunión. Queda ofrecido, sin hacer.
+- **Que el botón dispare la Rutina.** El conector de Claude Code Remote existe en
+  la organización y `fire_trigger` la lanzaría — pero la Rutina seguiría sin
+  conectores y se detendría en su Compuerta 0 igual. Un botón que dispara algo
+  que no puede funcionar es peor que no tenerlo.

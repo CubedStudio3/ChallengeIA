@@ -1532,3 +1532,47 @@ El tablero da $648.24 contra $648.42 de la cuenta. Los 18 centavos están
 explicados —Honduras y asentamiento— pero **no se muestran juntos en ningún
 lado**, así que quien compare con Ads Manager los va a encontrar y va a tener
 que preguntar.
+
+---
+
+## Sesión 23 · 2026-09-16 · «un botón que diga actualizar»
+
+Mercadeo, después del refresco a mano: «¿no se si es posible como un boton que
+diga actualizar? y que active algo para que se actualice automaticamente».
+
+### Lo automático sigue bloqueado, y ahora con el error textual
+
+Se reintentó adjuntar conectores a una Rutina por API, con una de prueba:
+
+```
+create_trigger: the connectors parameter is not available for this organization.
+```
+
+No es cómo se llamó: **el parámetro está cerrado para la organización.** Solo
+queda la interfaz de Routines, y es una acción humana.
+
+### El botón, con su alcance escrito
+
+«Actualizar ahora» en la franja del día en curso. Llama a Meta con el conector
+de quien abre la página.
+
+- **Puede** el día en curso: una consulta agregada, sin compuerta que violar.
+- **No puede** los días cerrados: eso pide la reconciliación al centavo, que
+  vive en Python. El botón **mide** cuántos días faltan y lo dice.
+
+### El riesgo que introduce, y su guardia
+
+El botón interpreta la respuesta en el navegador: segunda copia de
+`parsea_numero()` y de `dia_en_curso.arma()`. Este proyecto ya vio divergir una
+tercera copia de un texto sin que nadie lo notara.
+
+`npm run prueba:actualizar` compara contra Python **3,060 valores distintos**
+—todos los de los veinte crudos, y la lista sale de los archivos, no a mano— y
+el bloque entero. Más: que la llamada sea de lectura, que no toque `piezas`, y
+que los seis errores de conector digan cosas distintas.
+
+### Un error propio en la prueba
+
+La primera versión comparaba el texto de la franja completa para ver si los
+mensajes de error diferían. Comparten prefijo: seis mensajes idénticos habrían
+pasado, que es justo el anti-patrón que el contrato nombra. Se compara el aviso.
