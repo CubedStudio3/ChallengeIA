@@ -16,7 +16,8 @@
     "prueba:boton": "node pruebas/sprint_boton.js",
     "prueba:estrategia": "node pruebas/estrategia_cartas.js",
     "prueba:ficha": "node pruebas/cartas_ficha.js",
-    "prueba:hoy": "node pruebas/dia_en_curso.js"
+    "prueba:hoy": "node pruebas/dia_en_curso.js",
+    "prueba:inversion": "node pruebas/inversion_total.js"
   },
   "dependencies": {
     "pptxgenjs": "^4.0.1"

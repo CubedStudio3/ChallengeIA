@@ -701,6 +701,40 @@ cometidos; no hay tiempo de repetirlos.
   tablero. La exención va atada al **host** que falla, no al código: un recurso
   propio que no cargue se sigue reportando. Agregar un cuarto código solo
   aplazaba la próxima vez.
+- **El DINERO se suma entre indicadores; los RESULTADOS no.** ADR-013 prohíbe
+  sumar resultados de indicadores distintos —194 leads y 14,324 clics no son
+  14,518 de nada— y esa regla se aplicó **de más al gasto**. El tablero mostraba
+  $591.42 de Inversión para la semana del 25 de agosto y Meta decía **$648.42**
+  en la cuenta: faltaban los **$56.82 de «Plan Free Tráfico 2026»**, que optimiza
+  por `link_click`. La campaña estaba leída y en `piezas`; lo que la dejaba fuera
+  era el número que se eligió mostrar. **Un dólar gastado en una campaña de clics
+  es el mismo dólar.** Lo encontró Mercadeo, y acertó cuál era (ADR-067).
+- **El rótulo lo estaba delatando y nadie lo leyó.** El pie decía «2 campañas con
+  entrega» cuando entregaron tres. Un contador que no cuadra con la lista de al
+  lado es la señal más barata que hay, y pasó desapercibida dos semanas.
+- **Es el reverso del error de siempre.** La trampa conocida es sumar lo que no
+  se puede; ésta fue **negarse a sumar lo que sí**, y el precio fue un total que
+  no cuadraba con la fuente. Por eso `prueba:inversion` vigila las DOS
+  direcciones: que el dinero sume todo y que los resultados sigan sin sumarse.
+- **Arreglar el KPI no arregla el titular.** Con los KPI ya corregidos, la
+  tarjeta grande del Resumen seguía diciendo «2 campañas con entrega · $591.42
+  invertidos» mientras el KPI a diez centímetros mostraba $648.24 y 3 campañas:
+  dos números distintos para la misma cosa en la misma pantalla. Un dato que se
+  muestra en dos lados se arregla en los dos, y la prueba compara uno contra el
+  otro (ADR-067).
+- **Tres pruebas en verde estaban FIRMANDO el error, no vigilándolo.** Al
+  arreglar la Inversión se pusieron rojas `prueba:filtro` (23 fallos),
+  `prueba:raton` y `prueba:hoy`. Ninguna encontró un defecto: **las tres
+  comparaban contra el gasto del indicador principal**, o sea que verificaban
+  activamente que la campaña Free quedara fuera. Llevaban dos semanas así. Una
+  prueba que pasa mientras el producto miente es una segunda firma sobre el
+  mismo error.
+- **`prueba:hoy` se equivocó dos veces en direcciones OPUESTAS el mismo día.**
+  Primero sumó los seis indicadores contra el KPI de leads —el error de
+  ADR-013—; al corregirla se ató al indicador principal, justo cuando la
+  Inversión pasó a mostrar el total. Las dos veces el esperado estaba mal y la
+  pantalla tenía razón. Los esperados ahora llevan nombres distintos: `gasto`
+  es del indicador (costo por lead) y `_dinero` es de todos (Inversión).
 - **Un esperado de prueba también puede caer en la trampa que el producto
   esquiva.** `prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían»
   ir $13,898.54: la prueba había sumado los seis indicadores de 2026 en un solo
@@ -759,6 +793,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/dia_en_curso.py` | **El día que no terminó.** Lee su propio crudo y calcula el avance contra los días completos. NO entra a `piezas`: no lo suma el filtro ni lo promedia ninguna gráfica |
 | `data/historico/dia_en_curso/crudo/` | El crudo de hoy, con la hora de su lectura. Vive fuera de `pauta_meses/` porque ahí adentro va dato cerrado |
 | `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. Incluye el sabotaje del reloj: adelantar el navegador cuatro días sin tocar el dato. `npm run prueba:hoy` |
+| `pruebas/inversion_total.js` | Que la Inversión sume TODOS los indicadores y que los resultados sigan sin sumarse. Las dos direcciones en la misma prueba. `npm run prueba:inversion` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |

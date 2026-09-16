@@ -33,6 +33,15 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 0.003966769058922089
+     },
+     "_dinero": {
+      "gasto": 648.24,
+      "impresiones": 340737.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:link_click"
+      ]
      }
     },
     "GT": {
@@ -51,6 +60,15 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 0.003966769058922089
+     },
+     "_dinero": {
+      "gasto": 415.12,
+      "impresiones": 281093.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:link_click"
+      ]
      }
     },
     "SV": {
@@ -61,6 +79,14 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 2.6795402298850575
+     },
+     "_dinero": {
+      "gasto": 233.12,
+      "impresiones": 59644.0,
+      "campanas": 1,
+      "indicadores": [
+       "actions:lead"
+      ]
      }
     }
    }
@@ -119,6 +145,19 @@
       "dias": 48,
       "gasto_sin_resultado": 4.03,
       "costo": 1.2072330097087378
+     },
+     "_dinero": {
+      "gasto": 14177.7,
+      "impresiones": 7235596.0,
+      "campanas": 26,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped",
+       "mixed"
+      ]
      }
     },
     "GT": {
@@ -169,6 +208,19 @@
       "dias": 30,
       "gasto_sin_resultado": 4.03,
       "costo": null
+     },
+     "_dinero": {
+      "gasto": 8728.18,
+      "impresiones": 4899938.0,
+      "campanas": 19,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped",
+       "mixed"
+      ]
      }
     },
     "SV": {
@@ -211,6 +263,18 @@
       "dias": 48,
       "gasto_sin_resultado": 0.0,
       "costo": 1.1974514563106797
+     },
+     "_dinero": {
+      "gasto": 5449.52,
+      "impresiones": 2335658.0,
+      "campanas": 10,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     }
    }
@@ -253,6 +317,17 @@
       "dias": 103,
       "gasto_sin_resultado": 39.49,
       "costo": 2.8465893271461717
+     },
+     "_dinero": {
+      "gasto": 7180.36,
+      "impresiones": 3477850.0,
+      "campanas": 17,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     },
     "GT": {
@@ -287,6 +362,17 @@
       "dias": 100,
       "gasto_sin_resultado": 35.37,
       "costo": 3.629290322580645
+     },
+     "_dinero": {
+      "gasto": 3802.8,
+      "impresiones": 1945809.0,
+      "campanas": 11,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     },
     "SV": {
@@ -321,6 +407,17 @@
       "dias": 67,
       "gasto_sin_resultado": 0.0,
       "costo": 0.01734470341102331
+     },
+     "_dinero": {
+      "gasto": 3377.56,
+      "impresiones": 1532041.0,
+      "campanas": 7,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     }
    }
@@ -371,6 +468,18 @@
       "dias": 48,
       "gasto_sin_resultado": 4.03,
       "costo": 1.2072330097087378
+     },
+     "_dinero": {
+      "gasto": 7047.66,
+      "impresiones": 3793782.0,
+      "campanas": 15,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "mixed"
+      ]
      }
     },
     "GT": {
@@ -413,6 +522,18 @@
       "dias": 30,
       "gasto_sin_resultado": 4.03,
       "costo": null
+     },
+     "_dinero": {
+      "gasto": 4937.82,
+      "impresiones": 2969735.0,
+      "campanas": 12,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "mixed"
+      ]
      }
     },
     "SV": {
@@ -447,6 +568,17 @@
       "dias": 48,
       "gasto_sin_resultado": 0.0,
       "costo": 1.1974514563106797
+     },
+     "_dinero": {
+      "gasto": 2109.84,
+      "impresiones": 824047.0,
+      "campanas": 6,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     }
    }
@@ -481,6 +613,16 @@
       "dias": 1,
       "gasto_sin_resultado": 0.0,
       "costo": 0.015985401459854016
+     },
+     "_dinero": {
+      "gasto": 50.32,
+      "impresiones": 36036.0,
+      "campanas": 6,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     },
     "GT": {
@@ -507,6 +649,16 @@
       "dias": 1,
       "gasto_sin_resultado": 0.0,
       "costo": 0.016935483870967744
+     },
+     "_dinero": {
+      "gasto": 12.44,
+      "impresiones": 15606.0,
+      "campanas": 4,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     },
     "SV": {
@@ -533,6 +685,16 @@
       "dias": 1,
       "gasto_sin_resultado": 0.0,
       "costo": 5.52
+     },
+     "_dinero": {
+      "gasto": 37.88,
+      "impresiones": 20430.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     }
    }
@@ -543,9 +705,30 @@
    "hasta": "2026-02-01",
    "nota": "dentro del rango disponible y sin una sola pieza: el tablero tiene que DECLARARLO vacio, no mostrar el total",
    "esperado": {
-    "total": {},
-    "GT": {},
-    "SV": {}
+    "total": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    },
+    "GT": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    },
+    "SV": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    }
    }
   },
   {

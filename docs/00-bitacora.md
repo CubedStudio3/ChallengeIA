@@ -1462,3 +1462,73 @@ available` en resultados**. Se reporta el gasto, los resultados quedan en 0 y
 Las Rutinas **siguen sin conectores**. Van a seguir disparándose a diario,
 reportando éxito, y sin actualizar nada hasta que alguien se los adjunte desde
 la interfaz de Routines en claude.ai.
+
+---
+
+## Sesión 22 · 2026-09-16 · «el presupuesto no cuadra con lo que dice Meta»
+
+Mercadeo, después del refresco: «¿no te esta faltando alguna campaña? (Talvez la
+que es el free)». **Tenía razón y acertó cuál era.**
+
+### La medición
+
+Meta, cuenta completa, 25 ago – 3 sep: **$648.42**. El tablero mostraba
+**$591.42**. La diferencia: los **$56.82 de «Plan Free Tráfico 2026»**.
+
+Con Honduras ($0.02, excluido y declarado) y el asentamiento posterior ($0.16),
+la cuenta cierra exacta.
+
+### No era el dato, era el número que se eligió mostrar
+
+La campaña Free está leída, está en `piezas`, la suma el filtro y sale en la
+tabla de campañas del mercado. Lo que la dejaba fuera del KPI es que *Inversión*
+salía del **indicador principal** (`actions:lead`) y el Free optimiza por
+`link_click`.
+
+**El rótulo lo estaba delatando:** decía «2 campañas con entrega» cuando
+entregaron tres. Dos semanas ahí, sin que nadie —yo incluido— lo leyera.
+
+### La causa
+
+ADR-013 prohíbe sumar RESULTADOS de indicadores distintos, y sigue siendo
+correcta. Esa prohibición se extendió al GASTO, donde no aplica: **un dólar
+gastado en una campaña de clics es el mismo dólar.**
+
+Es el reverso del error de siempre. La trampa conocida es sumar lo que no se
+puede; ésta fue negarse a sumar lo que sí.
+
+### Qué cambia
+
+- **Inversión** = todo el dinero, con su reparto en el pie: «3 campañas con
+  entrega · $591.42 en leads + $56.82 en clics en el enlace».
+- **Campañas con entrega** cuenta todas las que entregaron.
+- **Costo por lead y Leads NO cambian**: siguen siendo de un indicador.
+- El objeto `total` **no tiene campo `resultados`**, a propósito.
+- `npm run prueba:inversion` vigila las dos direcciones a la vez.
+
+### El titular lo repetía
+
+Arreglados los KPI, la tarjeta grande seguía diciendo «2 campañas con entrega ·
+$591.42 invertidos» mientras el KPI de abajo mostraba $648.24 y 3 campañas. La
+prueba ahora comprueba que los dos digan lo mismo.
+
+### Tres pruebas se pusieron rojas, y eso fue lo interesante
+
+`prueba:filtro` (23 fallos), `prueba:raton` y `prueba:hoy`. **Ninguna encontró
+un defecto: las tres lo estaban firmando** — comparaban la Inversión contra el
+gasto del indicador principal, o sea que verificaban que el Free quedara fuera.
+Dos semanas en verde.
+
+`prueba:hoy` se equivocó dos veces en direcciones opuestas el mismo día: primero
+sumó los seis indicadores contra el KPI de leads, y al corregirla se ató al
+principal justo cuando la Inversión pasó a mostrar el total.
+
+Los esperados ahora distinguen `gasto` (del indicador, para el costo por lead)
+de `_dinero` (de todos, para la Inversión), y `_dinero` no tiene `resultados`.
+
+### Queda escrito y sin hacer
+
+El tablero da $648.24 contra $648.42 de la cuenta. Los 18 centavos están
+explicados —Honduras y asentamiento— pero **no se muestran juntos en ningún
+lado**, así que quien compare con Ads Manager los va a encontrar y va a tener
+que preguntar.

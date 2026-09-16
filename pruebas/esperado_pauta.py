@@ -64,6 +64,20 @@ def agrega(piezas):
                   "gasto_sin_resultado": round(e["gasto_sin_resultado"], 2),
                   # Una sola división. Sin resultados no hay costo, y no es 0.
                   "costo": (gasto / e["resultados"]) if e["resultados"] else None}
+
+    # El DINERO de todos los indicadores junto, que es lo que muestra el KPI de
+    # Inversión desde ADR-067. Va bajo una llave con guion bajo para que no se
+    # confunda con un indicador: `_dinero` no es un `actions:*`.
+    #
+    # Deliberadamente SIN `resultados`. Sumar leads con clics daría un número
+    # sin significado (ADR-013) y no tenerlo aquí es lo que impide que alguien
+    # lo use por descuido. El gasto sí se suma: un dólar es un dólar.
+    out["_dinero"] = {
+        "gasto": round(sum(e["gasto"] for e in ind.values()), 2),
+        "impresiones": sum(e["impresiones"] for e in ind.values()),
+        "campanas": len({c for e in ind.values() for c in e["camp"]}),
+        "indicadores": sorted(ind),
+    }
     return out
 
 

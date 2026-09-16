@@ -110,21 +110,24 @@ const RUNTIME = `(() => {
   const money = x => "$" + Number(x).toLocaleString("en-US",
     { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  /* El KPI es de UN indicador, no de todo el gasto. Esta prueba sumó al
-     principio las piezas de los seis indicadores de 2026 y acusó al tablero de
-     mostrar $6,164.71 donde «debían» ir $13,898.54 — que es exactamente el
-     error que ADR-013 prohíbe: `actions:leadgen.other` y `link_click` no se
-     suman con `actions:lead`. El esperado estaba mal, no la pantalla.
+  /* Esta comparación se equivocó DOS veces en direcciones opuestas, y las dos
+     valen la pena de recordar:
 
-     Se agrupa por indicador ANTES de sumar, y el día en curso se compara
-     contra el MISMO indicador que él mismo declara por mercado. */
-  const IND = "actions:lead";
-  const totalPiezas = D.piezas
-    .filter(p => p.k === IND).reduce((a, p) => a + (p.g || 0), 0);
+     1. Primero sumó los seis indicadores de 2026 para compararlos contra el
+        KPI de leads y acusó al tablero de mostrar $6,164.71 donde «debían» ir
+        $13,898.54 — el error que ADR-013 prohíbe.
+     2. Al corregirla se ató al indicador principal... justo cuando el KPI de
+        Inversión pasó a mostrar TODO el dinero (ADR-067). Otra vez roja, y
+        otra vez el esperado era el equivocado.
+
+     Lo que vale es la distinción: la Inversión suma TODOS los indicadores
+     —dólares— y el costo por lead sale de UNO —resultados—. Acá se compara
+     contra el total, que es lo que el KPI muestra. */
+  const totalPiezas = D.piezas.reduce((a, p) => a + (p.g || 0), 0);
   const gastoHoy = Object.values(D.hoy.por_mercado)
-    .filter(m => m.indicador === IND).reduce((a, m) => a + (m.gasto || 0), 0);
+    .reduce((a, m) => a + (m.gasto || 0), 0);
 
-  ok("la inversión mostrada es la de las piezas de ese indicador",
+  ok("la inversión mostrada es la de TODAS las piezas cerradas",
      V.inversion === money(totalPiezas.toFixed(2)),
      { pantalla: V.inversion, piezas: money(totalPiezas.toFixed(2)) });
   ok("y NO es la que saldría si el día en curso se sumara",

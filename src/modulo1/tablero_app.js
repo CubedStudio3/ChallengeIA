@@ -389,9 +389,42 @@
 
     var fs = Object.keys(dias).sort();
     var k = indicadorPrincipal();
+
+    /* EL DINERO SÍ SE SUMA ENTRE INDICADORES. LOS RESULTADOS NO.
+       ────────────────────────────────────────────────────────────
+       ADR-013 prohíbe sumar `resultados` de indicadores distintos, y con razón:
+       158 leads y 10,771 clics no son 10,929 de nada. Pero esa regla se aplicó
+       de más al GASTO, y un dólar gastado en una campaña de clics es el mismo
+       dólar que uno gastado en una de leads.
+
+       Consecuencia medida el 2026-09-16, y la encontró Mercadeo: el tablero
+       mostraba $591.42 de Inversión para la semana del 25 de agosto y Meta
+       decía $648.42 en la cuenta. La diferencia eran los $56.82 de «Plan Free
+       Tráfico 2026», que optimiza por `actions:link_click`. La campaña estaba
+       LEÍDA y en el dato; lo que la dejaba fuera era el número que se eligió
+       mostrar. El rótulo decía «2 campañas con entrega» cuando entregaron 3.
+
+       `total` NO tiene `resultados` a propósito. No es un olvido: es para que
+       nadie pueda sumarlos desde acá ni por accidente. Lo que se puede sumar
+       está; lo que no, no existe en este objeto. */
+    var tot = { gasto: 0, impresiones: 0, camp: {}, porIndicador: [] };
+    Object.keys(ind).forEach(function (kk) {
+      var e = ind[kk];
+      tot.gasto += e.gasto;
+      tot.impresiones += e.impresiones;
+      (e.campanas_nombres || []).forEach(function (n) { tot.camp[n] = 1; });
+      tot.porIndicador.push({ indicador: kk, gasto: e.gasto,
+                              campanas: e.campanas });
+    });
+    tot.gasto = Math.round(tot.gasto * 100) / 100;
+    tot.campanas = Object.keys(tot.camp).length;
+    tot.porIndicador.sort(function (a, b) { return b.gasto - a.gasto; });
+    delete tot.camp;
+
     return {
       indicadores: ind,
       principal: ind[k] || null,
+      total: tot,
       indicador_principal: k,
       /* `recortada` = «esta vista es mas angosta que el dato que hay», que NO
          es lo mismo que `propio` = «alguien la acoto a mano». Antes coincidian
@@ -1812,6 +1845,21 @@
     return iso === dd;
   }
 
+  /* El pie de Inversión: cuántas campañas entregaron y cómo se reparte el
+     dinero entre indicadores.
+
+     El reparto se escribe solo cuando hay MÁS DE UNO. Con un indicador la línea
+     repetiría el total y sería ruido; con dos es la explicación de por qué el
+     número es mayor que el de leads. */
+  function pieInversion(T) {
+    if (!T) return "";
+    var n = ent(T.campanas) + " campañas con entrega";
+    if (!T.porIndicador || T.porIndicador.length < 2) return n;
+    return n + " · " + T.porIndicador.map(function (x) {
+      return dinero(x.gasto) + " en " + enClaro(x.indicador).toLowerCase();
+    }).join(" + ");
+  }
+
   /* ═════════════ el día que todavía no termina ═════════════
 
      Pedido literal de Mercadeo (2026-09-11): «la idea es que tengamos los
@@ -2553,16 +2601,24 @@
     } else if (L && L.resultados) {
       titular = 'La pauta trajo <b class="font-bold">' + ent(L.resultados) +
         " leads</b> a " + dinero(costoL) + " cada uno.";
-      apoyo = ent(L.campanas) + " campañas con entrega · " + dinero(L.gasto) +
-        " invertidos" +
+      /* El titular es lo primero que se lee, así que el mismo arreglo de los
+         KPI tiene que llegar acá: «invertidos» es TODO el dinero y «campañas
+         con entrega» son todas las que entregaron. Decía «2 campañas · $591.42»
+         mientras entregaban 3 y se gastaron $648.24 (ADR-067).
+
+         Los LEADS del titular y su costo siguen siendo del indicador: ahí la
+         regla de ADR-013 sí aplica y no se toca. */
+      apoyo = ent(P && P.total ? P.total.campanas : L.campanas) +
+        " campañas con entrega · " +
+        dinero(P && P.total ? P.total.gasto : L.gasto) + " invertidos" +
         (P && P.recortada ? " · " + P.dias + (P.dias === 1 ? " día" : " días") +
                             " en la ventana" : "");
     } else if (L && L.gasto) {
       /* Gasto sin un solo resultado en la ventana. Pasa de verdad si la ventana
          cae en días flacos, y decirlo es mejor que un costo por lead infinito. */
       titular = "Hubo inversión y ningún lead atribuido en el rango elegido.";
-      apoyo = dinero(L.gasto) + " invertidos · sin resultados, así que no hay " +
-        "costo por lead que calcular";
+      apoyo = dinero(P && P.total ? P.total.gasto : L.gasto) +
+        " invertidos · sin resultados, así que no hay costo por lead que calcular";
     } else {
       titular = "Esta corrida no trae rendimiento de pauta.";
       apoyo = "Sin el dato no se escribe la frase de la semana.";
@@ -2712,12 +2768,14 @@
         (P && P.vacia)
           ? "ningún día de pauta en el rango"
           : "indicador " + (P ? P.indicador_principal : "actions:lead")),
-      kpi("Inversión", dinero(L && L.gasto),
-        (P && P.vacia) ? "ningún día de pauta en el rango" :
-        L ? (ent(L.campanas) + " campañas con entrega" +
-             (L.gasto_sin_resultado
-                ? " · " + dinero(L.gasto_sin_resultado) + " sin resultado"
-                : "")) : ""),
+      /* Inversión = TODO el dinero de la ventana, no solo el del indicador
+         principal. Mostrar el del indicador dejaba fuera «Plan Free Tráfico
+         2026» y el total no cuadraba con Meta (ADR-067). El costo por lead de
+         más abajo sigue saliendo de UN indicador, que es donde la regla sí
+         aplica. */
+      kpi("Inversión", dinero(P && P.total ? P.total.gasto : (L && L.gasto)),
+        (P && P.vacia) ? "ningún día de pauta en el rango"
+                       : pieInversion(P && P.total)),
       /* Sin resultados no sale $0.00 ni infinito: sale por qué no se calcula. */
       kpi("Costo por lead",
         (L && (L.costo != null || L.costo_por_resultado != null))
@@ -2856,14 +2914,22 @@
     var kpis = (PM && PM.vacia) ? "" : (p ? [
       kpi(enClaro(d.indicador_principal), ent(p.resultados),
         "indicador " + (d.indicador_principal || "—")),
-      kpi("Inversión", dinero(p.gasto),
-        p.gasto_sin_resultado
-          ? dinero(p.gasto_sin_resultado) + " sin resultado atribuido" : ""),
+      /* Mismo arreglo que en el resumen: el mercado invirtió TODO lo que
+         gastó, no solo lo del indicador principal. En GT eso son los $56.82
+         del Free que no aparecían (ADR-067). */
+      kpi("Inversión", dinero(PM && PM.total ? PM.total.gasto : p.gasto),
+        pieInversion(PM && PM.total) ||
+        (p.gasto_sin_resultado
+          ? dinero(p.gasto_sin_resultado) + " sin resultado atribuido" : "")),
       kpi("Costo por lead", costoP != null ? dinero(costoP) : "—",
         costoP == null && p.gasto ? "sin leads en el rango" : ""),
       /* Ahora sí es «con entrega EN LA VENTANA», que es un número distinto y
          mejor que el del periodo completo. Por eso ya no lleva sello. */
-      kpi("Campañas con entrega", ent(p.campanas),
+      /* Cuenta TODAS las que entregaron, no las del indicador principal. En GT
+         decía «1» mientras entregaban dos —Punto de Venta y el Free—, que es el
+         mismo error que escondía los $56.82 (ADR-067). */
+      kpi("Campañas con entrega",
+        ent(PM && PM.total ? PM.total.campanas : p.campanas),
         (PM && PM.recortada ? "con entrega en la ventana" : "") ||
         "no es lo mismo que activas hoy"),
     ].join("") : "");
