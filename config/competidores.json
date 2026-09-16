@@ -303,15 +303,81 @@
     },
     {
       "nombre": "n1co",
-      "page_id": null,
+      "page_id": "105470425404552",
+      "page_name_confirmado": "n1co",
       "categorias": [
-        "software"
+        "software",
+        "hardware"
       ],
-      "_estado": "PENDIENTE_DE_DATO",
-      "_por_que_falta": "No se obtuvo el page_id. Mercadeo mando dos URL bajo el rotulo 'n1co': una es una BUSQUEDA POR FRASE EXACTA, que no devuelve un page_id, y la otra resulto ser la pagina de Cubo Guatemala. La busqueda por palabra clave se probo el 2026-09-16 y devolvio 140,672 resultados sin relacion -japones, vietnamita, polaco-: es la trampa ya documentada, la Ad Library no es confiable por texto.",
-      "_como_obtenerlo": "Abrir la pagina de n1co en la Ad Library y copiar el view_all_page_id de la URL, igual que se hizo con Shopify y con estos dos. Lo tiene que confirmar una persona: adivinarlo pondria a otra marca en su lugar, que es exactamente lo que acaba de pasar.",
+      "_categoria_nota": "Mercadeo lo pidio en 'software'. Se agrega TAMBIEN hardware porque lo medido lo exige: 'Tu celular ahora es tu POS de cobro' y 'n1co tap' son punto de venta, aunque el aparato sea el telefono. Dejarlo solo en software lo sacaria de la comparacion de POS, que es justo donde mas aprieta.",
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search. El page_id NO salia de la URL: Mercadeo mando dos ad_id (1374931158070671 y 2180779279455963) y una captura. Los DOS aparecen en la respuesta de page_ids=[105470425404552] con page_name 'n1co'. Esa coincidencia es la verificacion: el anuncio que Mercadeo tenia en pantalla es de esta pagina.",
+      "_como_se_encontro": "Buscar 'n1co' por texto devuelve 140,672 resultados sin relacion. Lo que SI funciono fue search_terms con un termino del propio creativo -'n1coCuotas'- acotado a SV: 25 resultados, y entre ellos el ad_id exacto de la captura. Un ad_id conocido convierte una busqueda ruidosa en una verificacion: no hay que confiar en el ranking, solo encontrar la fila.",
+      "medicion_2026_09_16": {
+        "activos_gt": 9,
+        "activos_sv": 24,
+        "moneda": "USD",
+        "_muestra_completa": "9 de 9 y 24 de 24: ninguna de las dos consultas toco el tope de 50, asi que la clasificacion de abajo es del universo, no de una muestra.",
+        "clasificacion_gt": {
+          "pagos_cobro_pos": {
+            "n": 3,
+            "titulares": [
+              "Soluciones de cobro digital con n1co business",
+              "Tu celular ahora es tu POS de cobro",
+              "Tu cel ahora es tu POS con n1co tap"
+            ]
+          },
+          "credito_y_cuotas": {
+            "n": 3,
+            "titulares": [
+              "Construi tu record crediticio con n1co",
+              "Tus planes sin pausas con n1co Cuotas",
+              "Disfruta hoy y paga despues"
+            ]
+          },
+          "negocio_generico": {
+            "n": 2,
+            "titulares": [
+              "Haz crecer tu negocio con n1co",
+              "Aumenta tus ventas hoy"
+            ]
+          },
+          "ofertas_al_consumidor": {
+            "n": 1
+          }
+        },
+        "clasificacion_sv": {
+          "pagos_cobro_pos": {
+            "n": 5,
+            "titulares": [
+              "Transforma tu celular en un POS con n1co tap",
+              "Acepta todas las tarjetas con el ecosistema n1co",
+              "Aumenta tus ventas cobrando desde el celular",
+              "Equipa tu negocio con la tecnologia de n1co business",
+              "Multiplica tus ventas con n1co Business"
+            ]
+          },
+          "facturacion_electronica": {
+            "n": 2
+          },
+          "credito_y_cuotas": {
+            "n": 3
+          },
+          "ofertas_al_consumidor": {
+            "n": 8
+          },
+          "sin_angulo_legible": {
+            "n": 6,
+            "_nota": "'App Redirect' x4, uno sin titular y uno que repite la marca."
+          }
+        },
+        "_nota_estrategica": "ES EL COMPETIDOR MAS CERCANO DEL REGISTRO. Es el unico que dice lo que decimos nosotros: 'tu celular ahora es tu POS de cobro', 'acepta todas las tarjetas', 'cobrando desde el celular'. Paggo ocupa 'gestiona tu negocio facil' y Shopify 'crea tu tienda': ninguno de los dos habla de COBRAR. n1co si, y en los dos mercados. Ademas es el PRIMERO del registro con presencia real de pagos en El Salvador -24 activos contra 9 en Guatemala-, que es justo donde nuestro lead sale mas barato. El hueco que se habia leido como 'nadie habla de cobrar mejor' hay que volver a mirarlo con esto encima."
+      },
+      "_clave_archivo": "n1co",
+      "_politica_solapamiento": "medido",
+      "_politica_motivo": "NO es monoproducto, aunque el nombre enganie. De sus 24 activos en SV, 8 son ofertas al consumidor -sushi, salon de belleza, chequeo medico- y 6 no traen angulo legible. Contar los 24 como presion de pagos seria repetir el error de BI al reves: inflar una amenaza con inventario que no disputa la categoria. La presion se mide, no se asume.",
       "_rol": "competidor",
-      "_rol_motivo": "Declarado por Mercadeo como competencia de software. Sin medir."
+      "_rol_motivo": "Disputa el mensaje de cobro y el punto de venta en GT y en SV. Es el solapamiento mas directo medido hasta hoy."
     },
     {
       "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
@@ -391,7 +457,8 @@
     "square_us": "en",
     "square_uk": "en",
     "cubo": "es",
-    "mindy": "es"
+    "mindy": "es",
+    "n1co": "es"
   },
   "_ultima_medicion_por_marca": "La nota estrategica de cada marca se busca por SU fecha de medicion, no por `_ultima_medicion`. Con una clave global, una marca medida en otra fecha perdia su nota en silencio. Ver corre.py."
 }

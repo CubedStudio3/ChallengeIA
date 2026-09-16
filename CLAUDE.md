@@ -793,8 +793,26 @@ cometidos; no hay tiempo de repetirlos.
   **es** la verificación, y por eso se guarda en `page_name_confirmado`.
 - **La búsqueda por palabra clave sigue siendo inutilizable, y ahora con
   número.** `search_terms: "n1co"` devolvió **140,672** resultados: japonés,
-  vietnamita, polaco, una peluquería en Colombia. Ni uno de la marca. Se
-  vuelve a confirmar la regla: **solo page_ids**.
+  vietnamita, polaco, una peluquería en Colombia. Ni uno de la marca.
+- **Pero un `ad_id` conocido convierte esa búsqueda ruidosa en una
+  verificación.** Mercadeo no encontró el `view_all_page_id` y mandó dos
+  **ad_id** y una captura. Buscando por un término del propio creativo
+  —`n1coCuotas`, no la marca— acotado a SV, salieron 25 filas y entre ellas
+  **los dos ad_id exactos**, con `page_id 105470425404552`. No hace falta
+  confiar en el ranking: basta encontrar la fila que ya se sabe cuál es. Es la
+  salida cuando alguien tiene el anuncio a la vista y no el id de la página.
+- **n1co es el competidor más cercano del registro, y se descubrió de casualidad.**
+  Es el único que dice lo que decimos nosotros —«tu celular ahora es tu POS de
+  cobro», «aceptá todas las tarjetas», «cobrando desde el celular»—. Paggo ocupa
+  «gestioná tu negocio fácil» y Shopify «creá tu tienda»: **ninguno habla de
+  cobrar**. Y es el primero con presencia real de pagos en **SV** (24 activos
+  contra 9 en GT), justo donde nuestro lead sale más barato. La lectura de que
+  «nadie disputa el territorio de cobrar mejor» hay que volver a mirarla.
+- **Un nombre de marca no dice si es monoproducto.** De los 24 activos de n1co
+  en SV, **8 son ofertas al consumidor** —sushi, salón de belleza, chequeo
+  médico— y 6 no traen ángulo legible. Contar los 24 como presión de pagos
+  sería el error de BI al revés: inflar la amenaza con inventario que no
+  disputa la categoría. Va con política `medido`.
 - **La nota estratégica de una marca se buscaba con una fecha GLOBAL.**
   `medicion_{_ultima_medicion}` significaba que una marca medida en otra fecha
   perdía su «por qué importa» en silencio —tarjeta sin nota, cero avisos—. Se

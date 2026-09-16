@@ -1662,3 +1662,49 @@ la información que se pidió no tomar.
 buscaba con `medicion_{_ultima_medicion}`, una fecha **global**. Una marca
 medida en otra fecha perdía su nota en silencio. Ahora se busca por la fecha
 propia de cada entrada.
+
+### n1co, encontrado por el ad_id · y es el competidor más cercano que hay
+
+Mercadeo no encontró el `view_all_page_id` —la Ad Library no lo muestra en la
+ficha de un anuncio— y mandó otra cosa: **dos `ad_id` y una captura**.
+
+Eso alcanzó. Buscar «n1co» por texto da 140,672 resultados sin relación, pero
+buscar un término del **propio creativo** —`n1coCuotas`— acotado a SV devolvió
+25 filas, y entre ellas **el ad_id exacto de la captura**, con
+`page_id 105470425404552` y `page_name "n1co"`. El segundo ad_id apareció
+después en la consulta por página. **Un ad_id conocido convierte una búsqueda
+ruidosa en una verificación:** no hay que confiar en el ranking, solo encontrar
+la fila que uno ya sabe cuál es.
+
+**Y lo que apareció importa más que cómo se encontró.**
+
+| | GT | SV |
+|---|---|---|
+| activos | 9 | 24 |
+| de cobro / POS | 3 | 5 |
+| crédito y cuotas | 3 | 3 |
+| ofertas al consumidor | 1 | 8 |
+| sin ángulo legible | 0 | 6 |
+
+Ninguna de las dos consultas tocó el tope de 50, así que esto es el universo y
+no una muestra.
+
+**n1co es el único competidor del registro que dice lo que decimos nosotros:**
+«tu celular ahora es tu POS de cobro», «aceptá todas las tarjetas», «cobrando
+desde el celular». Paggo ocupa «gestioná tu negocio fácil», Shopify «creá tu
+tienda» — ninguno de los dos habla de **cobrar**. La lectura del 2026-08-31
+—«el hueco más claro que ha aparecido: nadie habla de cobrar mejor»— hay que
+volver a mirarla con esto encima.
+
+Y es el **primero con presencia real de pagos en El Salvador**: 24 activos
+contra 9 en Guatemala, justo el mercado donde nuestro lead sale más barato
+($2.68 contra $3.35).
+
+**Política `medido`, no `total`.** El nombre engaña: 8 de sus 24 activos en SV
+son ofertas al consumidor —sushi, salón de belleza, chequeo médico— y 6 no
+traen ángulo legible. Contar los 24 como presión de pagos sería el error de BI
+al revés: inflar la amenaza con inventario que no disputa la categoría.
+
+Entra también en `hardware`, contra lo que pidió Mercadeo: «Tu celular ahora es
+tu POS» es punto de venta aunque el aparato sea el teléfono, y dejarlo solo en
+software lo sacaría de la comparación donde más aprieta.
