@@ -31,10 +31,12 @@ Verificado contra sistemas reales, no contra documentación:
 - ✅ **Rutinas** — semanal `trig_01CWh3gdJWfDKGzR4MDB6qhs` (lunes 07:00 GT, el
   análisis completo) y diaria `trig_01G5JLyctdfbuViKw79AEMgS` (06:00 GT, solo
   el dato: días cerrados y el día en curso).
-  ⚠️ **Le faltan los conectores**: el parámetro no está disponible para esta
-  organización, así que hay que adjuntarlos desde la interfaz de Routines en
-  claude.ai. Sin ellos la Rutina se detiene en su Compuerta 0 y NO toca el
-  tablero, a propósito.
+  ⚠️ **Les faltan los conectores, y ya se vio el efecto.** El 2026-09-16 las
+  dos habían corrido —la diaria ese mismo día, la semanal el lunes— y las dos
+  reportaban `SUCCEEDED`: **24 y 20 segundos**, o sea que se detuvieron en su
+  Compuerta 0 sin tocar nada, que es lo correcto. Hay que adjuntarlos desde la
+  interfaz de Routines en claude.ai; el parámetro de la API sigue cerrado para
+  esta organización. Mientras tanto el refresco es a mano (ADR-066).
 
 La sección de Estrategia se rediseñó el 2026-09-10 alrededor de **la apuesta**
 (ADR-058): nombre, la apuesta en una frase con el mensaje y el mercado
@@ -51,9 +53,10 @@ El número **nunca** se escribe a mano en el config (ADR-042).
 
 El filtro de fechas mira **todo 2026**: los nueve meses de pauta día por día
 están en `data/historico/pauta_meses/`, cada uno reconciliado contra su propio
-agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-10** (el 3 de
-enero es el primer día con entrega, no el borde del mes). 1,245 piezas en el
-filtro. El periodo del **análisis** sigue siendo el de la corrida y no se
+agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-15** (el 3 de
+enero es el primer día con entrega, no el borde del mes). 1,265 piezas en el
+filtro. **Refrescado a mano el 2026-09-16**, porque las Rutinas siguen sin
+conectores y no lo hicieron ellas. El periodo del **análisis** sigue siendo el de la corrida y no se
 unifica con el del dato disponible: son dos campos distintos.
 
 Y desde el 2026-09-11 el tablero muestra **el día en curso, aparte** (ADR-065).
@@ -660,6 +663,44 @@ cometidos; no hay tiempo de repetirlos.
   falsa. Por eso el bloque declara `es_de_hoy` y la franja cambia de rótulo en
   vez de borrarse: lo último leído sigue siendo cierto, lo que caduca es
   llamarlo «hoy».
+- **`SUCCEEDED` en una Rutina significa «la sesión terminó», no «el trabajo se
+  hizo».** El 2026-09-16 las dos Rutinas reportaban éxito y el tablero llevaba
+  cinco días sin moverse: **duraron 24 y 20 segundos**, o sea que se detuvieron
+  en su Compuerta 0 por falta de conectores. Hicieron lo correcto. Lo que
+  engaña es el estado: **mirar `last_run.status` no basta, hay que mirar cuánto
+  duró** — una corrida de verdad no cabe en veinte segundos (ADR-066).
+- **Una guardia contra «el dato se quedó viejo» que se evalúa UNA vez, cuando el
+  dato es nuevo, no es una guardia.** `es_de_hoy` lo calculaba Python al
+  generar, así que se congelaba al publicar: protegía de re-generar con un crudo
+  viejo —el escenario que imaginé— y no de una página publicada que nadie vuelve
+  a tocar, que es el que pasó. Cinco días después el tablero decía «Día en curso
+  · vie 11 sep» con el flag en `true`. Ahora se exigen las dos cosas: el flag de
+  Python **y** la fecha del navegador de quien abre (ADR-066).
+- **La fecha del visitante se toma LOCAL, no UTC.** `toISOString().slice(0,10)`
+  en Guatemala (UTC-6) devuelve el día siguiente desde las 18:00: un tablero
+  abierto de noche habría declarado viejo un dato de esa misma tarde.
+- **Un día se asienta ~2 días después de cerrar · segunda muestra.** Se
+  re-pidieron los días 4 al 10 de septiembre, guardados el 11: **del 4 al 9 no
+  cambió ni una fila en cinco días**, y el 10 —guardado con UN solo día de
+  cerrado— se movió +$0.09 en GT, +$0.11 en SV y +12 impresiones en cada uno,
+  con los leads quietos. Guardar un día recién cerrado deja un número que
+  todavía va a cambiar.
+- **`Not available` es un hueco, y esta vez lo pintó de cero la INTERFAZ.** El
+  cálculo estaba bien —`resultados` en 0, `costo_por_resultado` en `null`— y el
+  texto de la franja escribía «0 leads» al lado de $6.31 de gasto visible, que
+  afirma que se midió y dio cero. Ahora dice «sin leads atribuidos todavía». La
+  trampa está anotada desde el principio; lo nuevo es que puede entrar por el
+  lado que dibuja, no solo por el que suma.
+- **Un dato cierto de OTRO día compite con el de la pantalla.** El pie de la
+  franja citaba «$7.53 y $7.93 en GT» —dos lecturas reales del 11 de
+  septiembre— junto a los $6.31 de hoy. La frase sin la cifra dice lo mismo.
+- **Una prueba que ignora fallos por CÓDIGO de error caduca.** `prueba:tablero`
+  exceptuaba `ERR_CONNECTION_RESET` y dos códigos más para las fuentes de
+  Google; el 2026-09-16 el entorno empezó a devolver `ERR_CERT_AUTHORITY_INVALID`
+  —Chromium no confía en la CA del proxy— y la prueba se puso roja culpando al
+  tablero. La exención va atada al **host** que falla, no al código: un recurso
+  propio que no cargue se sigue reportando. Agregar un cuarto código solo
+  aplazaba la próxima vez.
 - **Un esperado de prueba también puede caer en la trampa que el producto
   esquiva.** `prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían»
   ir $13,898.54: la prueba había sumado los seis indicadores de 2026 en un solo
@@ -717,7 +758,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `pruebas/reporte.js` | Prueba del reporte de Ad Library. `npm run prueba:reporte` |
 | `src/modulo1/dia_en_curso.py` | **El día que no terminó.** Lee su propio crudo y calcula el avance contra los días completos. NO entra a `piezas`: no lo suma el filtro ni lo promedia ninguna gráfica |
 | `data/historico/dia_en_curso/crudo/` | El crudo de hoy, con la hora de su lectura. Vive fuera de `pauta_meses/` porque ahí adentro va dato cerrado |
-| `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. `npm run prueba:hoy` |
+| `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. Incluye el sabotaje del reloj: adelantar el navegador cuatro días sin tocar el dato. `npm run prueba:hoy` |
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |

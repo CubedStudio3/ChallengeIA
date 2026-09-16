@@ -1,13 +1,13 @@
 {
   "_metadatos": {
     "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
-    "fecha_consulta": "2026-09-11",
+    "fecha_consulta": "2026-09-16",
     "parametros": {
       "ad_account_id": "225318458221662",
       "level": "campaign",
       "time_range": {
         "since": "2026-09-04",
-        "until": "2026-09-10"
+        "until": "2026-09-15"
       },
       "breakdowns": [
         "country"
@@ -22,10 +22,11 @@
       ],
       "limit": 1000
     },
-    "_paginacion": "Se pidio con limit=1000. La respuesta trajo menos filas que el tope de 200 en el que la API trunca en silencio, y la COMPUERTA de reconciliacion —dia por dia contra este mismo agregado, al centavo— es lo que verifica que no falte nada: un truncamiento se ve igual de completo que el dato completo, asi que no se verifica leyendo, se verifica cuadrando (ADR-050).",
-    "_fidelidad": "Volcado parseado de la respuesta, no transcrito a mano: el espacio duro (NBSP) entre el numero y USD esta en las 100% de las filas. Seis archivos viejos lo perdieron por transcribirlos a mano (medido 2026-09-11).",
-    "_por_que_hasta_el_10": "Septiembre esta PARTIDO a proposito. Del 1 al 3 lo trae la corrida del 2026-09-04; del 4 al 10 lo trae este par. No hay solape ni hueco. El 11 —hoy— NO entra aca: un dia en curso va al 20-25% de un dia completo y sumarlo a dias completos dibuja una caida que no existe. Se pide aparte, se guarda aparte y el tablero lo rotula aparte (ADR-065).",
-    "_nota": "Agregado por campana x pais del 4 al 10 de SEPTIEMBRE 2026."
+    "_paginacion": "Se pidio con limit=1000. La COMPUERTA de reconciliacion —dia por dia contra este mismo agregado, al centavo— es lo que verifica que no falte nada: un truncamiento se ve igual de completo que el dato completo (ADR-050).",
+    "_fidelidad": "Volcado parseado de la respuesta, no transcrito a mano: el espacio duro (NBSP) esta en todas las filas.",
+    "_por_que_hasta_el_15": "Septiembre esta PARTIDO a proposito. Del 1 al 3 lo trae la corrida del 2026-09-04; del 4 al 15 lo trae este par. No hay solape ni hueco. El 16 —hoy— NO entra aca: va aparte, en dia_en_curso/ (ADR-065).",
+    "_se_re_pidio_el_4_al_10": "Ya estaban guardados desde el 2026-09-11 y se volvieron a pedir. Medido: del 4 al 9 NO cambio una sola fila en cinco dias; el 10 —guardado cuando llevaba UN dia cerrado— se movio +$0.09 en GT y +$0.11 en SV, con los leads quietos. Confirma que un dia se asienta ~2 dias despues de cerrar.",
+    "_nota": "Agregado por campana x pais del 4 al 15 de SEPTIEMBRE 2026."
   },
   "ad_entities": [
     {
@@ -37,15 +38,15 @@
             "attribution_windows": [
               "default"
             ],
-            "value": "10669"
+            "value": "18137"
           }
         ]
       },
       "cost_per_result": {
         "value": "$0,00 USD (Link clicks)"
       },
-      "amount_spent": "$31,91 USD",
-      "impressions": "29094",
+      "amount_spent": "$59,40 USD",
+      "impressions": "54988",
       "id": "120238382458610783",
       "name": "Plan Free Tráfico 2026"
     },
@@ -58,15 +59,15 @@
             "attribution_windows": [
               "default"
             ],
-            "value": "73"
+            "value": "110"
           }
         ]
       },
       "cost_per_result": {
-        "value": "$2,83 USD (Leads)"
+        "value": "$3,25 USD (Leads)"
       },
-      "amount_spent": "$206,43 USD",
-      "impressions": "35135",
+      "amount_spent": "$357,26 USD",
+      "impressions": "60564",
       "id": "120249908467400783",
       "name": "Campaña Punto de Venta GT"
     },
@@ -79,15 +80,15 @@
             "attribution_windows": [
               "default"
             ],
-            "value": "77"
+            "value": "129"
           }
         ]
       },
       "cost_per_result": {
-        "value": "$1,82 USD (Leads)"
+        "value": "$1,86 USD (Leads)"
       },
-      "amount_spent": "$140,07 USD",
-      "impressions": "34522",
+      "amount_spent": "$239,85 USD",
+      "impressions": "62281",
       "id": "120249959697280783",
       "name": "Campaña Punto de Venta SV"
     },
@@ -100,8 +101,8 @@
       "cost_per_result": {
         "value": "Not available (Leads)"
       },
-      "amount_spent": "$1,14 USD",
-      "impressions": "366",
+      "amount_spent": "$2,20 USD",
+      "impressions": "705",
       "id": "120249959697280783",
       "name": "Campaña Punto de Venta SV"
     },

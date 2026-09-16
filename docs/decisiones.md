@@ -4521,3 +4521,117 @@ Rutina diaria se detiene en su Compuerta 0 y **no toca el tablero**, a propósit
 Y «tiempo real» literal —que la página le pregunte a Meta cada vez que alguien
 la abre— **no se puede**: el visor bloquea todo `fetch` externo y la única
 capacidad MCP declarada es Zoho Sprints. La frescura viene de volver a correr.
+
+---
+
+## ADR-066 · «Hoy» lo decide el reloj de quien abre la página
+
+**Fecha:** 2026-09-16
+**Estado:** aceptado
+**Lo que reportó Mercadeo, literal:** «hola, mira no se me actualizo»
+
+### Qué pasó
+
+Cinco días después de publicar ADR-065, el tablero seguía mostrando el dato del
+10 de septiembre y una franja que decía **«Día en curso · vie 11 sep»**.
+
+Dos fallas distintas, y conviene no confundirlas.
+
+### Falla 1 · las Rutinas nunca corrieron el trabajo
+
+Las dos se dispararon y las dos reportan `SUCCEEDED`:
+
+| Rutina | disparó | duró |
+|---|---|---|
+| diaria | 2026-09-16 12:17 UTC | **24 segundos** |
+| semanal | 2026-09-14 13:15 UTC | **20 segundos** |
+
+Veinte segundos no alcanzan ni para una consulta. Las dos se detuvieron en su
+Compuerta 0 por la misma razón que está escrita desde el principio:
+`"mcp_connections": []`. **Hicieron exactamente lo que se les pidió** —no tocar
+el tablero sin fuentes— y el tablero siguió mostrando la última corrida buena,
+que es el comportamiento correcto.
+
+**`SUCCEEDED` significa «la sesión terminó sin error», no «el trabajo se hizo».**
+Una Rutina que se detiene en su compuerta y lo reporta es un éxito para el
+runtime y un no-evento para el negocio. Mirar el estado no basta; hay que mirar
+**cuánto duró**.
+
+### Falla 2 · la guardia de ADR-065 no cubría el caso que ocurrió
+
+`es_de_hoy` lo calcula Python con el `--hoy` de la corrida. Eso protege de
+**re-generar** el tablero tomando un crudo viejo. No protege de **una página
+publicada que se queda quieta**: el flag se congela al publicar y sigue diciendo
+`true` para siempre.
+
+Es decir: la guardia se escribió el mismo día que el dato, contra un escenario
+imaginado, y el escenario real —que nadie vuelva a correr nada en cinco días—
+la atravesó sin tocarla. **Una guardia contra «el dato se quedó viejo» que se
+evalúa una sola vez, cuando el dato es nuevo, no es una guardia.**
+
+**La decisión:** «hoy» se juzga contra el reloj del visitante, y se exigen las
+dos cosas — `es_de_hoy` de Python **y** que la fecha coincida con la del
+navegador. Si cualquiera dice que no, la franja pasa a «Último día leído · No es
+hoy». Un dato del lado del servidor no puede saber cuándo lo van a mirar; el
+navegador sí, y es gratis.
+
+La fecha del visitante se toma **local**, no UTC: quien abre esto está en GT
+(UTC-6), y desde las 18:00 `toISOString()` ya devuelve el día siguiente — habría
+declarado viejo un dato de esa misma tarde.
+
+Su prueba adelanta el reloj del navegador cuatro días **sin tocar el dato** y
+comprueba que la franja se da cuenta igual.
+
+### Lo que se midió de paso
+
+Se re-pidieron los días 4 al 10 de septiembre, guardados el día 11, y se
+compararon fila por fila contra la consulta de hoy:
+
+- **Del 4 al 9: ni una fila distinta en cinco días.**
+- **El 10 sí se movió:** +$0.09 en GT, +$0.11 en SV, +12 impresiones en cada
+  uno, **con los leads quietos**. Es justo el día que se guardó cuando llevaba
+  UN solo día cerrado.
+
+Segunda muestra independiente que confirma lo de ADR-065: **un día se asienta
+~2 días después de cerrar.** Guardar un día con un solo día de cerrado deja un
+número que todavía va a cambiar.
+
+### El hueco de hoy, que no es un cero
+
+El 16 de septiembre la campaña de GT trae `Not available` en resultados con
+**$6.31 de gasto**: todavía no tiene ningún lead atribuido. El bloque reporta el
+gasto, deja los resultados en 0 y **no calcula costo por lead para GT** — un
+`$6.31 / 0` no existe, y un «$0.00» ahí sería una invención.
+
+### Dos cosas más que aparecieron al mirar la pantalla
+
+**Un hueco pintado de cero, en la interfaz.** GT trajo `Not available` con
+$6.31 de gasto y la franja escribía «0 leads». Al lado de una inversión visible,
+eso afirma que se midió y dio cero. El cálculo estaba bien —`resultados` en 0 y
+`costo_por_resultado` en `null`— y lo rompió el texto. Ahora dice **«sin leads
+atribuidos todavía»**, con su prueba. La trampa de `Not available` está anotada
+desde el principio del proyecto; esta vez la cometió el lado que dibuja.
+
+**El pie citaba números de otro día.** Decía «dos lecturas con minutos de
+diferencia dieron $7.53 y $7.93 en GT» —cierto, medido el 11 de septiembre— al
+lado de los $6.31 de hoy. Un dato correcto compitiendo con el dato de la
+pantalla. La frase quedó sin la cifra: dice lo mismo y no confunde.
+
+**Y una prueba que culpaba al producto por el entorno.** `prueba:tablero`
+ignoraba fallos de red por CÓDIGO de error (`ERR_CONNECTION_RESET` y dos más).
+Hoy el entorno empezó a devolver `ERR_CERT_AUTHORITY_INVALID` al cargar las
+fuentes de Google —Chromium no confía en la CA del proxy— y la prueba se puso
+roja señalando al tablero. La exención ahora va atada al **host** que falla, no
+al código: un recurso propio que no cargue se sigue reportando, venga con el
+código que venga. Agregar un cuarto código solo habría aplazado la próxima vez.
+
+### Estado del dato
+
+`rango_disponible` pasó de `2026-09-10` a **`2026-09-15`**; el filtro, de 1,245
+a **1,265 piezas**. Los nueve meses siguen entrando, ninguno rechazado.
+
+### Lo que sigue sin resolverse, y es lo único que importa
+
+**Las dos Rutinas siguen sin conectores.** Mientras no se los adjunten desde la
+interfaz de Routines en claude.ai, van a seguir disparándose todos los días,
+reportando `SUCCEEDED`, y no actualizando nada. Este refresco se hizo a mano.

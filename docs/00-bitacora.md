@@ -1405,3 +1405,60 @@ pasa a «Último día leído · No es hoy» en vez de mentir. Con su sabotaje en
 $13,898.54. El tablero tenía razón: la prueba había sumado los seis indicadores
 de 2026 en un solo número, que es exactamente lo que ADR-013 prohíbe. El
 esperado de una prueba puede cometer la trampa que el producto ya esquiva.
+
+---
+
+## Sesión 21 · 2026-09-16 · «no se me actualizó»
+
+Cinco días después de ADR-065 el tablero seguía en el dato del 10 de septiembre,
+con una franja que decía «Día en curso · vie 11 sep».
+
+### Dos fallas, y no son la misma
+
+**1 · Las Rutinas corrieron y no hicieron nada — correctamente.** Las dos
+reportan `SUCCEEDED`. La diaria duró **24 segundos**; la semanal del lunes,
+**20**. Se detuvieron en su Compuerta 0 por `mcp_connections: []`, que es
+exactamente lo que se les pidió hacer sin fuentes. El engaño está en el estado:
+`SUCCEEDED` dice que la sesión terminó, no que el trabajo se hizo.
+
+**2 · La guardia de ADR-065 no cubría el caso real.** `es_de_hoy` se calculaba
+al generar y se congelaba al publicar. Protegía de re-generar con un crudo viejo
+—lo que imaginé— y no de una página publicada que nadie vuelve a tocar —lo que
+pasó—.
+
+### Qué se hizo
+
+- Refresco a mano: septiembre del **4 al 15**, compuerta en verde (12 días, 15
+  valores al centavo). `rango_disponible` → **2026-09-15**; el filtro, **1,265
+  piezas**. Día en curso, el 16.
+- **«Hoy» ahora lo decide el reloj del visitante**, además del flag de Python.
+  Fecha local, no UTC: en GT (UTC-6) `toISOString()` cambia de día a las 18:00.
+- Su sabotaje en `prueba:hoy`: adelantar el reloj del navegador cuatro días
+  **sin tocar el dato** y comprobar que la franja se da cuenta igual.
+
+### Medido de paso
+
+Re-pedidos los días 4 al 10 (guardados el 11) y comparados fila por fila:
+**del 4 al 9, ni una diferencia en cinco días**; el 10 se movió +$0.09 / +$0.11
+con los leads quietos. Segunda muestra que confirma el asentamiento a ~2 días.
+
+Y el día de hoy trae un hueco de verdad: GT con **$6.31 de gasto y `Not
+available` en resultados**. Se reporta el gasto, los resultados quedan en 0 y
+**no se calcula costo por lead para GT**.
+
+### Tres cosas que aparecieron al mirar la pantalla, no el JSON
+
+- **GT decía «0 leads» con $6.31 de gasto.** Meta devolvió `Not available`: es
+  un hueco, no un cero. El cálculo estaba bien y lo rompió el texto. Ahora dice
+  «sin leads atribuidos todavía».
+- **El pie citaba $7.53 y $7.93 del 11 de septiembre** al lado de los $6.31 de
+  hoy. Cierto y confuso; quedó sin la cifra.
+- **`prueba:tablero` se puso roja por el entorno.** Ignoraba fallos de red por
+  código de error y hoy apareció uno nuevo (`ERR_CERT_AUTHORITY_INVALID`, la CA
+  del proxy). La exención ahora va por host.
+
+### Lo que sigue pendiente, y es lo único que importa
+
+Las Rutinas **siguen sin conectores**. Van a seguir disparándose a diario,
+reportando éxito, y sin actualizar nada hasta que alguien se los adjunte desde
+la interfaz de Routines en claude.ai.

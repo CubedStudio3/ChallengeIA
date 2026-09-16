@@ -1797,6 +1797,21 @@
       : "";
   }
 
+  /* ¿Este ISO es el día de hoy para quien está mirando la pantalla?
+
+     Se arma con getFullYear/getMonth/getDate —la fecha LOCAL— en vez de
+     `toISOString().slice(0,10)`, que es UTC: en Guatemala (UTC-6) las dos
+     difieren desde las 18:00, y un tablero abierto de noche habría declarado
+     viejo un dato de esa misma tarde. */
+  function esFechaDeHoy(iso) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(iso || ""))) return false;
+    var d = new Date();
+    var dd = d.getFullYear() + "-" +
+             String(d.getMonth() + 1).padStart(2, "0") + "-" +
+             String(d.getDate()).padStart(2, "0");
+    return iso === dd;
+  }
+
   /* ═════════════ el día que todavía no termina ═════════════
 
      Pedido literal de Mercadeo (2026-09-11): «la idea es que tengamos los
@@ -1840,9 +1855,18 @@
         '<div class="text-[19px] font-bold text-slate-800 tabular-nums ' +
         'leading-tight mt-0.5">' + dinero(d.gasto) + "</div>" +
         '<div class="text-[11px] text-slate-500 leading-tight">' +
-        ent(d.resultados) + " " + esc(enClaro(d.indicador).toLowerCase()) +
-        (d.costo_por_resultado != null
-          ? " · " + dinero(d.costo_por_resultado) + " c/u" : "") +
+        /* Cero resultados con TODO el gasto sin atribuir no es «cero leads»,
+           es que Meta todavía no atribuyó ninguno: devolvió `Not available`,
+           no un 0. Escribir «0 leads» al lado de $6.31 de inversión dice que
+           se midió y dio cero, que es la trampa de siempre —un hueco pintado
+           de cero—. Sin resultados no hay costo por lead y tampoco se finge
+           uno. */
+        (d.resultados > 0
+          ? ent(d.resultados) + " " + esc(enClaro(d.indicador).toLowerCase()) +
+            (d.costo_por_resultado != null
+              ? " · " + dinero(d.costo_por_resultado) + " c/u" : "")
+          : "sin " + esc(enClaro(d.indicador).toLowerCase()) +
+            " atribuidos todavía") +
         "</div>" +
         '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">va al ' +
         esc(av) + "</div>" +
@@ -1850,12 +1874,24 @@
           ref + "</div>" : "") + "</div>";
     }).join("");
 
-    /* Este archivo se queda viejo solo: la corrida semanal también regenera el
-       tablero y tomaría el crudo que hubiera en disco. Un lunes mostraría la
-       lectura del viernes rotulada «día en curso», que es una fecha correcta
-       contando una mentira. Cuando no es de hoy la franja no se borra —lo
-       último leído sigue siendo cierto— pero deja de llamarse «día en curso». */
-    var deHoy = H.es_de_hoy !== false;
+    /* «Hoy» se juzga contra el reloj de QUIEN ABRE LA PÁGINA, no contra el día
+       en que se generó.
+
+       `es_de_hoy` lo calcula Python con el `--hoy` de la corrida, y eso protege
+       de un caso: re-generar el tablero tomando un crudo viejo. No protege del
+       caso que de verdad pasó —una página publicada que se queda quieta cinco
+       días— porque ese flag se congela en el momento de publicar. El 2026-09-16
+       el tablero seguía diciendo «Día en curso · vie 11 sep», que es la mentira
+       exacta que la guardia venía a impedir.
+
+       Un dato del lado del servidor no puede saber cuándo lo van a mirar. El
+       navegador sí, y es gratis. Se exige que las DOS cosas den «hoy»: si
+       cualquiera de las dos dice que no, no se rotula como día en curso.
+
+       La fecha del visitante se toma en LOCAL, no en UTC: quien abre esto está
+       en GT (UTC-6), y a las 7 de la noche `toISOString()` ya devolvería el día
+       siguiente y marcaría como viejo un dato que acaba de llegar. */
+    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
     return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
       'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
       'items-start gap-x-8 gap-y-4">' +
@@ -1872,8 +1908,12 @@
       cols +
       '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
       "Leído " + esc(horaLectura(H.consultado_a)) +
-      (deHoy ? ". Un día sin cerrar se mueve mientras se mira: dos lecturas " +
-        "con minutos de diferencia dieron $7.53 y $7.93 en GT."
+      /* Antes este pie citaba «$7.53 y $7.93 en GT», que eran dos lecturas
+         reales del 11 de septiembre. Cierto, y aun así confuso: son números de
+         OTRO día puestos al lado de los de hoy. La frase sin la cifra dice lo
+         mismo y no compite con el dato de arriba. */
+      (deHoy ? ". Un día sin cerrar se mueve mientras se mira: una lectura de " +
+        "la mañana no es la del cierre."
              : " y no se ha vuelto a pedir desde entonces.") +
       "</div></div>";
   }

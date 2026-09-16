@@ -154,6 +154,26 @@ const RUNTIME = `(() => {
        /\d{2}:\d{2} UTC/.test(P.txt));
   }
 
+  console.log("\n══ 4b · un hueco NO se pinta como un cero");
+  /* El 2026-09-16 GT trajo $6.31 de gasto con `Not available` en resultados:
+     Meta no había atribuido ninguno todavía. La franja escribía «0 leads», que
+     al lado de $6.31 de inversión afirma que se midió y dio cero. Es la trampa
+     de siempre —`Not available` es un hueco, no un cero— y esta vez la cometió
+     la interfaz, no el cálculo. */
+  for (const [m, b] of Object.entries(D.hoy.por_mercado)) {
+    const col = P && P.txt;
+    if (!col) break;
+    if (b.resultados > 0) continue;
+    ok(`${m}: sin resultados atribuidos, NO dice «0 ` +
+       `${(b.indicador || "").replace(/^actions:/, "")}»`,
+       !/\b0 (leads|clics en el enlace)\b/i.test(col),
+       { gasto: b.gasto, gasto_sin_resultado: b.gasto_sin_resultado });
+    ok(`${m}: lo dice como lo que es`,
+       /sin .* atribuidos todavía/i.test(col));
+    ok(`${m}: y NO inventa un costo por resultado`,
+       b.costo_por_resultado == null);
+  }
+
   console.log("\n══ 5 · el porcentaje sale del dato, no está escrito a mano");
   /* Se recalcula acá con los mismos ingredientes y tiene que dar lo mismo. Si
      alguien congelara el número en el config, esta comprobación se pondría
@@ -212,6 +232,70 @@ const RUNTIME = `(() => {
     ok("y avisa explícitamente que no es hoy", /No es hoy/i.test(V2));
     ok("ya no promete que se mueve mientras se mira",
        !/se mueve mientras se mira/i.test(V2));
+  }
+
+  console.log("\n══ 7 · SABOTAJE: la página se queda quieta y pasan los días");
+  /* Éste es el caso que de verdad ocurrió. `es_de_hoy` lo calcula Python al
+     generar, así que se CONGELA al publicar: el 16 de septiembre el tablero
+     seguía diciendo «Día en curso · vie 11 sep» con el flag en true. La
+     guardia protegía de re-generar con un crudo viejo y no de una página
+     publicada que nadie vuelve a tocar.
+
+     Un dato del servidor no puede saber cuándo lo van a mirar; el navegador
+     sí. Acá se adelanta el reloj del visitante SIN tocar el dato —el flag
+     sigue en true— y la franja tiene que darse cuenta igual. */
+  {
+    const pg2 = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
+    const errs2 = [];
+    pg2.on("pageerror", e => errs2.push(e.message));
+    const futuro = new Date(D.hoy.fecha + "T12:00:00Z");
+    futuro.setDate(futuro.getDate() + 4);
+    /* El stub va en el MISMO <script> que ya corre antes del tablero, no en
+       addInitScript: con setContent los init scripts no llegan a aplicarse y
+       la primera versión de esta prueba se puso roja culpando al producto.
+       Acá el orden está garantizado por el documento. */
+    const RELOJ = `(() => {
+      const Real = Date, fijo = ${futuro.getTime()};
+      function Falsa(...a) {
+        return a.length ? new Real(...a) : new Real(fijo);
+      }
+      Falsa.prototype = Real.prototype;
+      Falsa.now = () => fijo;
+      Falsa.parse = Real.parse;
+      Falsa.UTC = Real.UTC;
+      window.Date = Falsa;
+    })()`;
+    await pg2.setContent(
+      '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
+      "</head><body><script>" + RELOJ + "<\/script><script>" + RUNTIME +
+      "<\/script>" +
+      sinEstado(fs.readFileSync(ARCHIVO, "utf8")) + "</body></html>",
+      { waitUntil: "load" });
+    await pg2.waitForTimeout(1200);
+
+    const F = await pg2.evaluate(`(() => {
+      const f = document.getElementById("diaEnCurso");
+      const d = JSON.parse(document.getElementById("datos").textContent);
+      return { txt: f ? f.textContent.replace(/\\s+/g, " ").trim() : null,
+               flag: d.pauta_diaria.dia_en_curso.es_de_hoy };
+    })()`);
+    /* Primero: ¿el reloj falso se aplicó? Sin esta comprobación, un stub que
+       no llega se lee como un fallo del producto — que es justo lo que pasó
+       en el primer intento de esta prueba. */
+    const reloj = await pg2.evaluate("new Date().getFullYear() + '-' + " +
+      "String(new Date().getMonth()+1).padStart(2,'0') + '-' + " +
+      "String(new Date().getDate()).padStart(2,'0')");
+    ok("el reloj del navegador quedó adelantado", reloj > D.hoy.fecha,
+       { navegador: reloj, dato: D.hoy.fecha });
+    ok("el dato NO cambió: es_de_hoy sigue en true", F.flag === true);
+    ok("la franja sigue ahí", !!F.txt);
+    if (F.txt) {
+      ok("aun así YA NO dice «Día en curso»", !/Día en curso/i.test(F.txt));
+      ok("dice «Último día leído»", /Último día leído/i.test(F.txt));
+      ok("y avisa que no es hoy", /No es hoy/i.test(F.txt));
+    }
+    ok("sin errores de JavaScript con el reloj movido", errs2.length === 0, errs2);
+    await pg2.close();
   }
 
   ok("sin errores de JavaScript", errs.length === 0, errs);
