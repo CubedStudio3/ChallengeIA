@@ -808,6 +808,26 @@ cometidos; no hay tiempo de repetirlos.
   cobrar**. Y es el primero con presencia real de pagos en **SV** (24 activos
   contra 9 en GT), justo donde nuestro lead sale más barato. La lectura de que
   «nadie disputa el territorio de cobrar mejor» hay que volver a mirarla.
+- **El dossier se indexaba por MARCA, sin mercado: la tarjeta de un mercado
+  mostraba el inventario del otro.** `por_clave = {m["clave"]: m for ...}` en
+  `recomendaciones.py` dejaba ganar al último perfil. n1co GT listaba sushi y
+  un salón de belleza —sus anuncios de SV— con las cuotas sobre 24 en vez de
+  sobre 9. **Ya tocaba a BI y a Shopify**, las únicas con perfil en los dos
+  mercados: la tarjeta de BI en GT venía mostrando sus remesas de SV. n1co no
+  lo introdujo, lo hizo **visible**, porque es la primera marca cuyo inventario
+  se distingue a simple vista entre mercados. Se busca por `(marca, mercado)`;
+  el único otro corte legítimo es el referente GLOBAL (ADR-017) y se declara.
+- **El invariante que lo agarra: la suma de creativos de «qué repite» no puede
+  pasar los anuncios leídos de esa tarjeta.** n1co GT daba **19 mensajes
+  distintos sobre 9 anuncios**. Un contador que no cuadra con la lista de al
+  lado sigue siendo la señal más barata que hay.
+- **Una marca nueva no es una fila más: es un caso de prueba que el registro no
+  tenía.** Con seis marcas de un solo mercado, el cruce GT/SV era invisible.
+- **El análisis profundo es un paso APARTE de la corrida.** Agregar una marca al
+  registro y correr `corre.py` da la tarjeta básica; «a quién le habla», «qué
+  repite» y «los que llevan más tiempo» salen de `corre_profundo.py`, que hay
+  que correr también. Y tiene que convivir con marcas sin `page_id`: leía
+  `_clave_archivo` directo y una entrada declarada-sin-medir lo reventaba.
 - **«Lo que se ve» y «lo que se cuenta» son dos predicados, no uno.** La carta
   huérfana se muestra en todas las vistas para no perderla, pero **no suma** al
   rótulo de una apuesta a la que no sirve: contarla sería ADR-057. En la página

@@ -276,12 +276,36 @@ def dossier(marcas: list[dict], profundo: dict) -> list[dict]:
     primeros de cada lista y despliega el resto. Los `mensajes` salen del
     análisis profundo y NO de la lectura por país — son dos universos, y en la
     tarjeta se declara cuál se está viendo."""
-    por_clave = {m.get("clave"): m for m in profundo.get("marcas", [])}
+    # El perfil se busca por (marca, MERCADO), no solo por marca. Con una sola
+    # clave, una marca con perfil en GT y en SV se quedaba con el ULTIMO y la
+    # tarjeta de un mercado mostraba el inventario del otro: la de n1co en GT
+    # listaba sushi y un salon de belleza, que son sus anuncios de SV, con las
+    # cuotas calculadas sobre 24 en vez de sobre 9. El defecto YA existia y
+    # tocaba a BI y a Shopify —las unicas con perfil en los dos— pero solo se
+    # vio al entrar una marca cuyo inventario es obviamente distinto entre
+    # mercados. Lo hizo visible n1co, no lo introdujo.
+    por_mercado = {(m.get("clave"), m.get("mercado")): m
+                   for m in profundo.get("marcas", [])}
+    perfiles_de = {}
+    for m in profundo.get("marcas", []):
+        perfiles_de.setdefault(m.get("clave"), []).append(m)
     fecha = (profundo.get("_corrida") or {}).get("fecha_consulta")
     salida = []
     for r in marcas:
-        crudo = dict(por_clave.get(r["clave"]) or {})
+        exacto = por_mercado.get((r["clave"], r.get("mercado")))
+        de_otro = None
+        if exacto is None:
+            # Un REFERENTE se perfila sobre su inventario GLOBAL y se muestra
+            # en los dos mercados a proposito (ADR-017). Ese es el unico caso
+            # en que vale usar un perfil de otro corte, y se DECLARA.
+            otros = perfiles_de.get(r["clave"]) or []
+            if len(otros) == 1:
+                exacto = otros[0]
+                de_otro = exacto.get("mercado")
+        crudo = dict(exacto or {})
         crudo["_fecha"] = fecha
+        if de_otro:
+            crudo["_perfil_de_otro_corte"] = de_otro
         verts = sorted((r.get("verticales_todas") or {}).items(),
                        key=lambda x: -x[1])
         tot = sum(n for _, n in verts) or 1
@@ -310,6 +334,13 @@ def dossier(marcas: list[dict], profundo: dict) -> list[dict]:
         d["dias_vivo_mediana"] = lon.get("dias_vivo_mediana")
         d["lectura"] = lectura_estrategica(r, crudo)
         d["cobranding"] = crudo.get("cobranding") or {}
+        # De que corte salieron «que repite» y «los que llevan mas tiempo». Si
+        # no es el mercado de la tarjeta hay que decirlo: un referente se
+        # perfila GLOBAL a proposito, pero el lector no puede adivinarlo.
+        d["_perfil_de_otro_corte"] = crudo.get("_perfil_de_otro_corte")
+        # Y si no hubo perfil para este mercado, la tarjeta no hereda el del
+        # otro: se queda sin esas secciones, que es la verdad.
+        d["_sin_perfil_en_este_mercado"] = not crudo.get("clave")
         salida.append(d)
     return salida
 

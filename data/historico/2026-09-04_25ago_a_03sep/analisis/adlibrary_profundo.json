@@ -1,7 +1,7 @@
 {
  "_corrida": {
   "periodo": "2026-08-25 a 2026-09-03",
-  "fecha_consulta": "2026-09-04",
+  "fecha_consulta": "2026-09-16",
   "_fuente": "mcp__Meta_MCP__ads_library_search",
   "_limite": "La Ad Library no publica rendimiento de anunciantes comerciales: no hay impresiones, ni gasto, ni conversiones. Lo medible es cuanto repiten y que no retiran."
  },
@@ -37,8 +37,8 @@
      "mensaje": "Gestiona tu Negocio Fácil",
      "creativos": 36,
      "cuota": 0.947,
-     "dias_vivo_max": 109,
-     "dias_vivo_min": 8,
+     "dias_vivo_max": 121,
+     "dias_vivo_min": 20,
      "primera_creacion": "2026-05-18",
      "ultima_creacion": "2026-08-27",
      "ejemplo_id": "1378915160446528"
@@ -47,8 +47,8 @@
      "mensaje": "{{product.name}}",
      "creativos": 2,
      "cuota": 0.053,
-     "dias_vivo_max": 79,
-     "dias_vivo_min": 79,
+     "dias_vivo_max": 91,
+     "dias_vivo_min": 91,
      "primera_creacion": "2026-06-17",
      "ultima_creacion": "2026-06-17",
      "ejemplo_id": "1562389372112505"
@@ -75,80 +75,80 @@
      {
       "id": "26620958677575099",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 109,
+      "dias_vivo": 121,
       "entrega_desde": "2026-05-18",
       "url": "https://www.facebook.com/ads/library/?id=26620958677575099"
      },
      {
       "id": "1293243899679840",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 109,
+      "dias_vivo": 121,
       "entrega_desde": "2026-05-18",
       "url": "https://www.facebook.com/ads/library/?id=1293243899679840"
      },
      {
       "id": "1357926956250285",
       "mensaje": "{{product.name}}",
-      "dias_vivo": 79,
+      "dias_vivo": 91,
       "entrega_desde": "2026-06-17",
       "url": "https://www.facebook.com/ads/library/?id=1357926956250285"
      },
      {
       "id": "1562389372112505",
       "mensaje": "{{product.name}}",
-      "dias_vivo": 79,
+      "dias_vivo": 91,
       "entrega_desde": "2026-06-17",
       "url": "https://www.facebook.com/ads/library/?id=1562389372112505"
      },
      {
       "id": "1887802498872348",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 16,
+      "dias_vivo": 28,
       "entrega_desde": "2026-08-19",
       "url": "https://www.facebook.com/ads/library/?id=1887802498872348"
      },
      {
       "id": "1554289652858568",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 16,
+      "dias_vivo": 28,
       "entrega_desde": "2026-08-19",
       "url": "https://www.facebook.com/ads/library/?id=1554289652858568"
      },
      {
       "id": "1347303467477998",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 16,
+      "dias_vivo": 28,
       "entrega_desde": "2026-08-19",
       "url": "https://www.facebook.com/ads/library/?id=1347303467477998"
      },
      {
       "id": "1378385277588743",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 16,
+      "dias_vivo": 28,
       "entrega_desde": "2026-08-19",
       "url": "https://www.facebook.com/ads/library/?id=1378385277588743"
      },
      {
       "id": "935765245534989",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 15,
+      "dias_vivo": 27,
       "entrega_desde": "2026-08-20",
       "url": "https://www.facebook.com/ads/library/?id=935765245534989"
      },
      {
       "id": "1371547778459181",
       "mensaje": "Gestiona tu Negocio Fácil",
-      "dias_vivo": 11,
+      "dias_vivo": 23,
       "entrega_desde": "2026-08-24",
       "url": "https://www.facebook.com/ads/library/?id=1371547778459181"
      }
     ],
-    "dias_vivo_mediana": 11
+    "dias_vivo_mediana": 23
    },
    "velocidad": {
     "primera_creacion": "2026-05-18",
     "ultima_creacion": "2026-08-27",
-    "dias_desde_la_ultima": 8,
+    "dias_desde_la_ultima": 20,
     "dias_de_actividad": 5,
     "span_dias": 101,
     "creativos_por_semana": 2.6,
@@ -238,8 +238,8 @@
      "mensaje": "Recibe pagos con oro digital",
      "creativos": 3,
      "cuota": 0.5,
-     "dias_vivo_max": 42,
-     "dias_vivo_min": 41,
+     "dias_vivo_max": 54,
+     "dias_vivo_min": 53,
      "primera_creacion": "2026-07-24",
      "ultima_creacion": "2026-07-24",
      "ejemplo_id": "1743357080341279"
@@ -248,8 +248,8 @@
      "mensaje": "Recibe pagos con USDT en Guatemala",
      "creativos": 3,
      "cuota": 0.5,
-     "dias_vivo_max": 42,
-     "dias_vivo_min": 41,
+     "dias_vivo_max": 54,
+     "dias_vivo_min": 53,
      "primera_creacion": "2026-07-24",
      "ultima_creacion": "2026-07-24",
      "ejemplo_id": "28137499115868209"
@@ -270,52 +270,52 @@
      {
       "id": "37834302472820619",
       "mensaje": "Recibe pagos con oro digital",
-      "dias_vivo": 42,
+      "dias_vivo": 54,
       "entrega_desde": "2026-07-24",
       "url": "https://www.facebook.com/ads/library/?id=37834302472820619"
      },
      {
       "id": "1385097710250258",
       "mensaje": "Recibe pagos con USDT en Guatemala",
-      "dias_vivo": 42,
+      "dias_vivo": 54,
       "entrega_desde": "2026-07-24",
       "url": "https://www.facebook.com/ads/library/?id=1385097710250258"
      },
      {
       "id": "1743357080341279",
       "mensaje": "Recibe pagos con oro digital",
-      "dias_vivo": 41,
+      "dias_vivo": 53,
       "entrega_desde": "2026-07-25",
       "url": "https://www.facebook.com/ads/library/?id=1743357080341279"
      },
      {
       "id": "28137499115868209",
       "mensaje": "Recibe pagos con USDT en Guatemala",
-      "dias_vivo": 41,
+      "dias_vivo": 53,
       "entrega_desde": "2026-07-25",
       "url": "https://www.facebook.com/ads/library/?id=28137499115868209"
      },
      {
       "id": "1037128235730742",
       "mensaje": "Recibe pagos con oro digital",
-      "dias_vivo": 41,
+      "dias_vivo": 53,
       "entrega_desde": "2026-07-25",
       "url": "https://www.facebook.com/ads/library/?id=1037128235730742"
      },
      {
       "id": "1755819768903559",
       "mensaje": "Recibe pagos con USDT en Guatemala",
-      "dias_vivo": 41,
+      "dias_vivo": 53,
       "entrega_desde": "2026-07-25",
       "url": "https://www.facebook.com/ads/library/?id=1755819768903559"
      }
     ],
-    "dias_vivo_mediana": 41
+    "dias_vivo_mediana": 53
    },
    "velocidad": {
     "primera_creacion": "2026-07-24",
     "ultima_creacion": "2026-07-24",
-    "dias_desde_la_ultima": 42,
+    "dias_desde_la_ultima": 54,
     "dias_de_actividad": 1,
     "span_dias": 0,
     "creativos_por_semana": null,
@@ -368,8 +368,8 @@
      "mensaje": "Get started with Square",
      "creativos": 5,
      "cuota": 0.1,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 3,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 15,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1626012805755897"
@@ -378,8 +378,8 @@
      "mensaje": "Square",
      "creativos": 5,
      "cuota": 0.1,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 7,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 19,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1830129241667173"
@@ -388,8 +388,8 @@
      "mensaje": "Stop juggling tools to run your business",
      "creativos": 5,
      "cuota": 0.1,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 6,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 18,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "4036744539962381"
@@ -398,8 +398,8 @@
      "mensaje": "Run your whole beauty business on Square",
      "creativos": 4,
      "cuota": 0.08,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 3,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 15,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1702405630979714"
@@ -408,8 +408,8 @@
      "mensaje": "Up to $200 Off Hardware",
      "creativos": 4,
      "cuota": 0.08,
-     "dias_vivo_max": 8,
-     "dias_vivo_min": 7,
+     "dias_vivo_max": 20,
+     "dias_vivo_min": 19,
      "primera_creacion": "2026-08-27",
      "ultima_creacion": "2026-08-27",
      "ejemplo_id": "1485748456907405"
@@ -418,8 +418,8 @@
      "mensaje": "Payment security — built in.",
      "creativos": 3,
      "cuota": 0.06,
-     "dias_vivo_max": 10,
-     "dias_vivo_min": -3,
+     "dias_vivo_max": 22,
+     "dias_vivo_min": 9,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1089061606838877"
@@ -428,8 +428,8 @@
      "mensaje": "See the client picture most booking apps miss.",
      "creativos": 3,
      "cuota": 0.06,
-     "dias_vivo_max": 10,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 22,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1092147796792134"
@@ -438,8 +438,8 @@
      "mensaje": "Grow with Square",
      "creativos": 3,
      "cuota": 0.06,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 2,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 14,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1049815487654857"
@@ -448,8 +448,8 @@
      "mensaje": "Smart tools. Smart choices.",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 10,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 22,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1749050759702845"
@@ -458,8 +458,8 @@
      "mensaje": "Start selling today",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 8,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 20,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "2517262758697589"
@@ -468,8 +468,8 @@
      "mensaje": "Built to grow with you",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 6,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 18,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1779259926743826"
@@ -478,8 +478,8 @@
      "mensaje": "Square · For do-it-all businesses",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1730761828220815"
@@ -488,8 +488,8 @@
      "mensaje": "Your bookings, your payments, your sales — one dashboard.",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1703244104697273"
@@ -498,8 +498,8 @@
      "mensaje": "Appointments that work with everything else.",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 8,
-     "dias_vivo_min": 6,
+     "dias_vivo_max": 20,
+     "dias_vivo_min": 18,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "28007285875603105"
@@ -508,8 +508,8 @@
      "mensaje": "Why sellers choose Square.",
      "creativos": 2,
      "cuota": 0.04,
-     "dias_vivo_max": 6,
-     "dias_vivo_min": -4,
+     "dias_vivo_max": 18,
+     "dias_vivo_min": 8,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1818034946041017"
@@ -518,8 +518,8 @@
      "mensaje": "Save time and get paid faster.",
      "creativos": 1,
      "cuota": 0.02,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1657608909264141"
@@ -528,8 +528,8 @@
      "mensaje": "Square Register · Complete POS System · Square Reader",
      "creativos": 1,
      "cuota": 0.02,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "2145679486327237"
@@ -538,8 +538,8 @@
      "mensaje": "One system. Counter to kitchen.",
      "creativos": 1,
      "cuota": 0.02,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "2403962683460117"
@@ -548,8 +548,8 @@
      "mensaje": "All-in-One Payments and Receipts",
      "creativos": 1,
      "cuota": 0.02,
-     "dias_vivo_max": 7,
-     "dias_vivo_min": 7,
+     "dias_vivo_max": 19,
+     "dias_vivo_min": 19,
      "primera_creacion": "2026-08-25",
      "ultima_creacion": "2026-08-25",
      "ejemplo_id": "1797227854609917"
@@ -613,7 +613,7 @@
    "velocidad": {
     "primera_creacion": "2026-08-25",
     "ultima_creacion": "2026-08-27",
-    "dias_desde_la_ultima": 8,
+    "dias_desde_la_ultima": 20,
     "dias_de_actividad": 3,
     "span_dias": 2,
     "creativos_por_semana": null,
@@ -693,8 +693,8 @@
      "mensaje": "api.whatsapp.com",
      "creativos": 2,
      "cuota": 0.667,
-     "dias_vivo_max": 21,
-     "dias_vivo_min": 21,
+     "dias_vivo_max": 33,
+     "dias_vivo_min": 33,
      "primera_creacion": "2026-08-14",
      "ultima_creacion": "2026-08-14",
      "ejemplo_id": "2096308025102930"
@@ -716,31 +716,31 @@
      {
       "id": "2096308025102930",
       "mensaje": "api.whatsapp.com",
-      "dias_vivo": 21,
+      "dias_vivo": 33,
       "entrega_desde": "2026-08-14",
       "url": "https://www.facebook.com/ads/library/?id=2096308025102930"
      },
      {
       "id": "1952340028778354",
       "mensaje": "api.whatsapp.com",
-      "dias_vivo": 21,
+      "dias_vivo": 33,
       "entrega_desde": "2026-08-14",
       "url": "https://www.facebook.com/ads/library/?id=1952340028778354"
      },
      {
       "id": "3250839388449338",
       "mensaje": "(sin titular)",
-      "dias_vivo": 21,
+      "dias_vivo": 33,
       "entrega_desde": "2026-08-14",
       "url": "https://www.facebook.com/ads/library/?id=3250839388449338"
      }
     ],
-    "dias_vivo_mediana": 21
+    "dias_vivo_mediana": 33
    },
    "velocidad": {
     "primera_creacion": "2026-08-14",
     "ultima_creacion": "2026-08-14",
-    "dias_desde_la_ultima": 21,
+    "dias_desde_la_ultima": 33,
     "dias_de_actividad": 1,
     "span_dias": 0,
     "creativos_por_semana": null,
@@ -793,8 +793,8 @@
      "mensaje": "Démosle con Música: Alux Nahual",
      "creativos": 3,
      "cuota": 0.12,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "4446063918973010"
@@ -803,8 +803,8 @@
      "mensaje": "Banco Industrial · Prepárate para tu futuro · Alcanza tus metas",
      "creativos": 2,
      "cuota": 0.08,
-     "dias_vivo_max": 1,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 13,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "951074727304847"
@@ -813,8 +813,8 @@
      "mensaje": "Haz tu solicitud",
      "creativos": 2,
      "cuota": 0.08,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "1084360960619495"
@@ -823,8 +823,8 @@
      "mensaje": "Banco Industrial · Alcanza tus metas · Beneficios exclusivos",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 1,
-     "dias_vivo_min": 1,
+     "dias_vivo_max": 13,
+     "dias_vivo_min": 13,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "2229952240880684"
@@ -833,8 +833,8 @@
      "mensaje": "Ropa y calzado pagados en cuotas - Cuotas Bi · Tarjetas de Crédito Banco Industrial Guatemala",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 1,
-     "dias_vivo_min": 1,
+     "dias_vivo_max": 13,
+     "dias_vivo_min": 13,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "1887308398900375"
@@ -843,8 +843,8 @@
      "mensaje": "Solicita el módulo Gestiones 💳",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "1364757918979394"
@@ -853,8 +853,8 @@
      "mensaje": "Solicítala",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "1763875461372237"
@@ -863,8 +863,8 @@
      "mensaje": "Solicítala aquí",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "2137126343824393"
@@ -873,8 +873,8 @@
      "mensaje": "Beneficios Exclusivos",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-04",
      "ultima_creacion": "2026-09-04",
      "ejemplo_id": "1060076723561674"
@@ -883,8 +883,8 @@
      "mensaje": "Banco Industrial · Construye tu futuro · Alcanza tus metas",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "1343105844697615"
@@ -893,8 +893,8 @@
      "mensaje": "Solicítalo aquí",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "2126349638265288"
@@ -903,8 +903,8 @@
      "mensaje": "Plan de ahorro",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "1770622550624357"
@@ -913,8 +913,8 @@
      "mensaje": "Banco Industrial · Tu ahorro crece, tus sueños también · Cada aporte te acerca más",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "1595725838683193"
@@ -923,8 +923,8 @@
      "mensaje": "Crédito Hogar",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "28013895104970398"
@@ -933,8 +933,8 @@
      "mensaje": "Crédito Hogar · Galaxy Z Fold8 Ultra · Galaxy Z Fold8",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "2841047769603877"
@@ -943,8 +943,8 @@
      "mensaje": "Solicítalo ahora",
      "creativos": 1,
      "cuota": 0.04,
-     "dias_vivo_max": 0,
-     "dias_vivo_min": 0,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
      "primera_creacion": "2026-09-03",
      "ultima_creacion": "2026-09-03",
      "ejemplo_id": "1577156580517852"
@@ -983,7 +983,7 @@
    "velocidad": {
     "primera_creacion": "2026-09-03",
     "ultima_creacion": "2026-09-04",
-    "dias_desde_la_ultima": 0,
+    "dias_desde_la_ultima": 12,
     "dias_de_actividad": 2,
     "span_dias": 1,
     "creativos_por_semana": null,
@@ -1042,8 +1042,8 @@
      "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
      "creativos": 3,
      "cuota": 0.273,
-     "dias_vivo_max": 22,
-     "dias_vivo_min": 22,
+     "dias_vivo_max": 34,
+     "dias_vivo_min": 34,
      "primera_creacion": "2026-08-13",
      "ultima_creacion": "2026-08-13",
      "ejemplo_id": "1345638717628673"
@@ -1052,8 +1052,8 @@
      "mensaje": "Consulta aquí para más información",
      "creativos": 3,
      "cuota": 0.273,
-     "dias_vivo_max": 22,
-     "dias_vivo_min": 22,
+     "dias_vivo_max": 34,
+     "dias_vivo_min": 34,
      "primera_creacion": "2026-08-13",
      "ultima_creacion": "2026-08-13",
      "ejemplo_id": "1452002793429735"
@@ -1062,8 +1062,8 @@
      "mensaje": "Banco Industrial",
      "creativos": 2,
      "cuota": 0.182,
-     "dias_vivo_max": 57,
-     "dias_vivo_min": 57,
+     "dias_vivo_max": 69,
+     "dias_vivo_min": 69,
      "primera_creacion": "2026-07-09",
      "ultima_creacion": "2026-07-09",
      "ejemplo_id": "1397521175612942"
@@ -1072,8 +1072,8 @@
      "mensaje": "{{product.name}}",
      "creativos": 2,
      "cuota": 0.182,
-     "dias_vivo_max": 57,
-     "dias_vivo_min": 57,
+     "dias_vivo_max": 69,
+     "dias_vivo_min": 69,
      "primera_creacion": "2026-07-09",
      "ultima_creacion": "2026-07-09",
      "ejemplo_id": "2822928661439948"
@@ -1082,8 +1082,8 @@
      "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
      "creativos": 1,
      "cuota": 0.091,
-     "dias_vivo_max": 57,
-     "dias_vivo_min": 57,
+     "dias_vivo_max": 69,
+     "dias_vivo_min": 69,
      "primera_creacion": "2026-07-09",
      "ultima_creacion": "2026-07-09",
      "ejemplo_id": "2221435242044558"
@@ -1105,80 +1105,80 @@
      {
       "id": "2822928661439948",
       "mensaje": "{{product.name}}",
-      "dias_vivo": 57,
+      "dias_vivo": 69,
       "entrega_desde": "2026-07-09",
       "url": "https://www.facebook.com/ads/library/?id=2822928661439948"
      },
      {
       "id": "2221435242044558",
       "mensaje": "Banco Industrial · Realiza tu envío de manera segura y rápida.​ ​",
-      "dias_vivo": 57,
+      "dias_vivo": 69,
       "entrega_desde": "2026-07-09",
       "url": "https://www.facebook.com/ads/library/?id=2221435242044558"
      },
      {
       "id": "1014745758077615",
       "mensaje": "{{product.name}}",
-      "dias_vivo": 57,
+      "dias_vivo": 69,
       "entrega_desde": "2026-07-09",
       "url": "https://www.facebook.com/ads/library/?id=1014745758077615"
      },
      {
       "id": "2084321612150432",
       "mensaje": "Banco Industrial",
-      "dias_vivo": 57,
+      "dias_vivo": 69,
       "entrega_desde": "2026-07-09",
       "url": "https://www.facebook.com/ads/library/?id=2084321612150432"
      },
      {
       "id": "1397521175612942",
       "mensaje": "Banco Industrial",
-      "dias_vivo": 57,
+      "dias_vivo": 69,
       "entrega_desde": "2026-07-09",
       "url": "https://www.facebook.com/ads/library/?id=1397521175612942"
      },
      {
       "id": "1069919342152893",
       "mensaje": "Consulta aquí para más información",
-      "dias_vivo": 22,
+      "dias_vivo": 34,
       "entrega_desde": "2026-08-13",
       "url": "https://www.facebook.com/ads/library/?id=1069919342152893"
      },
      {
       "id": "1452002793429735",
       "mensaje": "Consulta aquí para más información",
-      "dias_vivo": 22,
+      "dias_vivo": 34,
       "entrega_desde": "2026-08-13",
       "url": "https://www.facebook.com/ads/library/?id=1452002793429735"
      },
      {
       "id": "4429319267334722",
       "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
-      "dias_vivo": 22,
+      "dias_vivo": 34,
       "entrega_desde": "2026-08-13",
       "url": "https://www.facebook.com/ads/library/?id=4429319267334722"
      },
      {
       "id": "28098318826429161",
       "mensaje": "Consulta aquí para más información",
-      "dias_vivo": 22,
+      "dias_vivo": 34,
       "entrega_desde": "2026-08-13",
       "url": "https://www.facebook.com/ads/library/?id=28098318826429161"
      },
      {
       "id": "1735453967654546",
       "mensaje": "Envía dinero desde Guatemala · Visita tu Agencia Bi · Tarifa de Q75.00",
-      "dias_vivo": 22,
+      "dias_vivo": 34,
       "entrega_desde": "2026-08-13",
       "url": "https://www.facebook.com/ads/library/?id=1735453967654546"
      }
     ],
-    "dias_vivo_mediana": 22
+    "dias_vivo_mediana": 34
    },
    "velocidad": {
     "primera_creacion": "2026-07-09",
     "ultima_creacion": "2026-08-13",
-    "dias_desde_la_ultima": 22,
+    "dias_desde_la_ultima": 34,
     "dias_de_actividad": 2,
     "span_dias": 35,
     "creativos_por_semana": 2.2,
@@ -1241,8 +1241,8 @@
      "mensaje": "Comienza a vender más rápido",
      "creativos": 2,
      "cuota": 0.125,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1682824302808297"
@@ -1251,8 +1251,8 @@
      "mensaje": "Pon en marcha tu negocio con Shopify",
      "creativos": 2,
      "cuota": 0.125,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1066441425835107"
@@ -1261,8 +1261,8 @@
      "mensaje": "Vende más con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 163,
-     "dias_vivo_min": 163,
+     "dias_vivo_max": 175,
+     "dias_vivo_min": 175,
      "primera_creacion": "2026-03-25",
      "ultima_creacion": "2026-03-25",
      "ejemplo_id": "889599310806471"
@@ -1271,8 +1271,8 @@
      "mensaje": "Haz lo que amas con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 81,
-     "dias_vivo_min": 81,
+     "dias_vivo_max": 93,
+     "dias_vivo_min": 93,
      "primera_creacion": "2026-06-15",
      "ultima_creacion": "2026-06-15",
      "ejemplo_id": "2679318102468690"
@@ -1281,8 +1281,8 @@
      "mensaje": "Impulsa tu idea con Shopify.",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "2316269725444335"
@@ -1291,8 +1291,8 @@
      "mensaje": "Dale vida a tu idea con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1749243509418880"
@@ -1301,8 +1301,8 @@
      "mensaje": "Tu idea de negocio, lista para crecer",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "2666567863788796"
@@ -1311,8 +1311,8 @@
      "mensaje": "Todo lo que necesitas para empezar",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "3265429456975893"
@@ -1321,8 +1321,8 @@
      "mensaje": "Crea tu tienda rápido con IA",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1548747316183693"
@@ -1331,8 +1331,8 @@
      "mensaje": "Vende en todas partes.",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1524903975575954"
@@ -1341,8 +1341,8 @@
      "mensaje": "Crea tu tienda gratis",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1781305012999600"
@@ -1379,80 +1379,80 @@
      {
       "id": "889599310806471",
       "mensaje": "Vende más con Shopify",
-      "dias_vivo": 163,
+      "dias_vivo": 175,
       "entrega_desde": "2026-03-25",
       "url": "https://www.facebook.com/ads/library/?id=889599310806471"
      },
      {
       "id": "2679318102468690",
       "mensaje": "Haz lo que amas con Shopify",
-      "dias_vivo": 81,
+      "dias_vivo": 93,
       "entrega_desde": "2026-06-15",
       "url": "https://www.facebook.com/ads/library/?id=2679318102468690"
      },
      {
       "id": "1358998209538323",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=1358998209538323"
      },
      {
       "id": "2217143392369589",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=2217143392369589"
      },
      {
       "id": "1337669978536648",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=1337669978536648"
      },
      {
       "id": "1066441425835107",
       "mensaje": "Pon en marcha tu negocio con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1066441425835107"
      },
      {
       "id": "2121980418413329",
       "mensaje": "Comienza a vender más rápido",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=2121980418413329"
      },
      {
       "id": "1047885671291107",
       "mensaje": "Pon en marcha tu negocio con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1047885671291107"
      },
      {
       "id": "1749243509418880",
       "mensaje": "Dale vida a tu idea con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1749243509418880"
      },
      {
       "id": "2316269725444335",
       "mensaje": "Impulsa tu idea con Shopify.",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=2316269725444335"
      }
     ],
-    "dias_vivo_mediana": 28
+    "dias_vivo_mediana": 40
    },
    "velocidad": {
     "primera_creacion": "2026-03-25",
     "ultima_creacion": "2026-08-26",
-    "dias_desde_la_ultima": 9,
+    "dias_desde_la_ultima": 21,
     "dias_de_actividad": 5,
     "span_dias": 154,
     "creativos_por_semana": 0.7,
@@ -1518,8 +1518,8 @@
      "mensaje": "Comienza a vender más rápido",
      "creativos": 2,
      "cuota": 0.125,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1682824302808297"
@@ -1528,8 +1528,8 @@
      "mensaje": "Pon en marcha tu negocio con Shopify",
      "creativos": 2,
      "cuota": 0.125,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1066441425835107"
@@ -1538,8 +1538,8 @@
      "mensaje": "Vende más con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 163,
-     "dias_vivo_min": 163,
+     "dias_vivo_max": 175,
+     "dias_vivo_min": 175,
      "primera_creacion": "2026-03-25",
      "ultima_creacion": "2026-03-25",
      "ejemplo_id": "889599310806471"
@@ -1548,8 +1548,8 @@
      "mensaje": "Haz lo que amas con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 81,
-     "dias_vivo_min": 81,
+     "dias_vivo_max": 93,
+     "dias_vivo_min": 93,
      "primera_creacion": "2026-06-15",
      "ultima_creacion": "2026-06-15",
      "ejemplo_id": "2679318102468690"
@@ -1558,8 +1558,8 @@
      "mensaje": "Impulsa tu idea con Shopify.",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "2316269725444335"
@@ -1568,8 +1568,8 @@
      "mensaje": "Dale vida a tu idea con Shopify",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1749243509418880"
@@ -1578,8 +1578,8 @@
      "mensaje": "Tu idea de negocio, lista para crecer",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "2666567863788796"
@@ -1588,8 +1588,8 @@
      "mensaje": "Todo lo que necesitas para empezar",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "3265429456975893"
@@ -1598,8 +1598,8 @@
      "mensaje": "Crea tu tienda rápido con IA",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1548747316183693"
@@ -1608,8 +1608,8 @@
      "mensaje": "Vende en todas partes.",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 28,
-     "dias_vivo_min": 28,
+     "dias_vivo_max": 40,
+     "dias_vivo_min": 40,
      "primera_creacion": "2026-08-07",
      "ultima_creacion": "2026-08-07",
      "ejemplo_id": "1524903975575954"
@@ -1618,8 +1618,8 @@
      "mensaje": "Crea tu tienda gratis",
      "creativos": 1,
      "cuota": 0.062,
-     "dias_vivo_max": 9,
-     "dias_vivo_min": 9,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
      "primera_creacion": "2026-08-26",
      "ultima_creacion": "2026-08-26",
      "ejemplo_id": "1781305012999600"
@@ -1656,80 +1656,80 @@
      {
       "id": "889599310806471",
       "mensaje": "Vende más con Shopify",
-      "dias_vivo": 163,
+      "dias_vivo": 175,
       "entrega_desde": "2026-03-25",
       "url": "https://www.facebook.com/ads/library/?id=889599310806471"
      },
      {
       "id": "2679318102468690",
       "mensaje": "Haz lo que amas con Shopify",
-      "dias_vivo": 81,
+      "dias_vivo": 93,
       "entrega_desde": "2026-06-15",
       "url": "https://www.facebook.com/ads/library/?id=2679318102468690"
      },
      {
       "id": "1358998209538323",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=1358998209538323"
      },
      {
       "id": "2217143392369589",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=2217143392369589"
      },
      {
       "id": "1337669978536648",
       "mensaje": "(sin titular)",
-      "dias_vivo": 50,
+      "dias_vivo": 62,
       "entrega_desde": "2026-07-16",
       "url": "https://www.facebook.com/ads/library/?id=1337669978536648"
      },
      {
       "id": "1066441425835107",
       "mensaje": "Pon en marcha tu negocio con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1066441425835107"
      },
      {
       "id": "2121980418413329",
       "mensaje": "Comienza a vender más rápido",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=2121980418413329"
      },
      {
       "id": "1047885671291107",
       "mensaje": "Pon en marcha tu negocio con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1047885671291107"
      },
      {
       "id": "1749243509418880",
       "mensaje": "Dale vida a tu idea con Shopify",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=1749243509418880"
      },
      {
       "id": "2316269725444335",
       "mensaje": "Impulsa tu idea con Shopify.",
-      "dias_vivo": 28,
+      "dias_vivo": 40,
       "entrega_desde": "2026-08-07",
       "url": "https://www.facebook.com/ads/library/?id=2316269725444335"
      }
     ],
-    "dias_vivo_mediana": 28
+    "dias_vivo_mediana": 40
    },
    "velocidad": {
     "primera_creacion": "2026-03-25",
     "ultima_creacion": "2026-08-26",
-    "dias_desde_la_ultima": 9,
+    "dias_desde_la_ultima": 21,
     "dias_de_actividad": 5,
     "span_dias": 154,
     "creativos_por_semana": 0.7,
@@ -1763,6 +1763,919 @@
    "rol": "referente",
    "mercado": "SV",
    "idioma": "es"
+  },
+  {
+   "clave": "cubo",
+   "pagina": "Cubo Guatemala",
+   "page_id": "115248238288708",
+   "moneda": "USD",
+   "pais_consultado": "GT",
+   "activos_declarados": 11,
+   "leidos": 11,
+   "muestra_completa": true,
+   "_advertencia_muestra": null,
+   "estructura": {
+    "tarjeta_unica": 11,
+    "carrusel": 0,
+    "sin_titular": 0,
+    "_sin_titular_significa": "El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.",
+    "tarjetas_max": 1,
+    "tarjetas_promedio": 1,
+    "_que_mide": "Cuántas tarjetas tiene el creativo, derivado de los separadores del titular. NO es el tipo de medio: la API no dice si es video o imagen, y esa pregunta queda sin responder."
+   },
+   "cobranding": {
+    "anuncios_con_tercero": 0,
+    "terceros_nombrados": [],
+    "cuota": 0.0,
+    "ejemplos": [],
+    "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+   },
+   "mensajes": [
+    {
+     "mensaje": "Pide tu Cubo Go hoy",
+     "creativos": 6,
+     "cuota": 0.545,
+     "dias_vivo_max": 14,
+     "dias_vivo_min": 0,
+     "primera_creacion": "2026-09-02",
+     "ultima_creacion": "2026-09-03",
+     "ejemplo_id": "2601146283664093"
+    },
+    {
+     "mensaje": "Pide tu Cubo Más",
+     "creativos": 4,
+     "cuota": 0.364,
+     "dias_vivo_max": 14,
+     "dias_vivo_min": 14,
+     "primera_creacion": "2026-09-02",
+     "ultima_creacion": "2026-09-02",
+     "ejemplo_id": "1815322509473734"
+    },
+    {
+     "mensaje": "ideal para tu negocio",
+     "creativos": 1,
+     "cuota": 0.091,
+     "dias_vivo_max": 14,
+     "dias_vivo_min": 14,
+     "primera_creacion": "2026-09-02",
+     "ultima_creacion": "2026-09-02",
+     "ejemplo_id": "866175896449070"
+    }
+   ],
+   "concentracion": 0.545,
+   "_concentracion_significa": "Cuota del inventario leído que carga el mensaje más repetido. Alta concentración = una sola apuesta; baja = cartera repartida.",
+   "audiencia_inferida": [
+    {
+     "vertical": "gestión del negocio",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 1.0
+    },
+    {
+     "vertical": "no clasificable por el titular",
+     "anuncios": 10,
+     "cuota_del_total_clasificado": null,
+     "_nota": "El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia."
+    }
+   ],
+   "longevidad": {
+    "_respondible": true,
+    "top": [
+     {
+      "id": "1058173843806630",
+      "mensaje": "Pide tu Cubo Go hoy",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=1058173843806630"
+     },
+     {
+      "id": "1586373376549657",
+      "mensaje": "Pide tu Cubo Más",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=1586373376549657"
+     },
+     {
+      "id": "1815322509473734",
+      "mensaje": "Pide tu Cubo Más",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=1815322509473734"
+     },
+     {
+      "id": "1408942547839496",
+      "mensaje": "Pide tu Cubo Más",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=1408942547839496"
+     },
+     {
+      "id": "1813115203442991",
+      "mensaje": "Pide tu Cubo Go hoy",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=1813115203442991"
+     },
+     {
+      "id": "4466746583594197",
+      "mensaje": "Pide tu Cubo Go hoy",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=4466746583594197"
+     },
+     {
+      "id": "866175896449070",
+      "mensaje": "ideal para tu negocio",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=866175896449070"
+     },
+     {
+      "id": "2131102434486696",
+      "mensaje": "Pide tu Cubo Más",
+      "dias_vivo": 14,
+      "entrega_desde": "2026-09-02",
+      "url": "https://www.facebook.com/ads/library/?id=2131102434486696"
+     },
+     {
+      "id": "2601146283664093",
+      "mensaje": "Pide tu Cubo Go hoy",
+      "dias_vivo": 13,
+      "entrega_desde": "2026-09-03",
+      "url": "https://www.facebook.com/ads/library/?id=2601146283664093"
+     },
+     {
+      "id": "1611246270388089",
+      "mensaje": "Pide tu Cubo Go hoy",
+      "dias_vivo": 0,
+      "entrega_desde": "2026-09-16",
+      "url": "https://www.facebook.com/ads/library/?id=1611246270388089"
+     }
+    ],
+    "dias_vivo_mediana": 14
+   },
+   "velocidad": {
+    "primera_creacion": "2026-09-02",
+    "ultima_creacion": "2026-09-03",
+    "dias_desde_la_ultima": 13,
+    "dias_de_actividad": 2,
+    "span_dias": 1,
+    "creativos_por_semana": null,
+    "_cadencia": "NO se calcula. Las creaciones observadas caben en 1 dia(s), asi que una tasa semanal seria un artefacto de dividir por una ventana diminuta. Lo que si dice el dato: los 11 creativos leidos se crearon en 2 dia(s) distintos.",
+    "dia_mas_activo": [
+     "2026-09-02",
+     10
+    ],
+    "rafagas": [],
+    "creativos_en_rafaga": 0,
+    "cuota_en_rafaga": 0.0,
+    "por_dia": {
+     "2026-09-02": 10,
+     "2026-09-03": 1
+    },
+    "_que_es_una_rafaga": "Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una."
+   },
+   "marca": "Cubo Guatemala",
+   "rol": "competidor",
+   "mercado": "GT",
+   "idioma": "es"
+  },
+  {
+   "clave": "mindy",
+   "pagina": "Mindy.gt",
+   "page_id": "600625056467735",
+   "moneda": "GTQ",
+   "pais_consultado": "GT",
+   "activos_declarados": 4,
+   "leidos": 4,
+   "muestra_completa": true,
+   "_advertencia_muestra": null,
+   "estructura": {
+    "tarjeta_unica": 1,
+    "carrusel": 0,
+    "sin_titular": 3,
+    "_sin_titular_significa": "El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.",
+    "tarjetas_max": 1,
+    "tarjetas_promedio": 1,
+    "_que_mide": "Cuántas tarjetas tiene el creativo, derivado de los separadores del titular. NO es el tipo de medio: la API no dice si es video o imagen, y esa pregunta queda sin responder."
+   },
+   "cobranding": {
+    "anuncios_con_tercero": 0,
+    "terceros_nombrados": [],
+    "cuota": 0.0,
+    "ejemplos": [],
+    "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+   },
+   "mensajes": [
+    {
+     "mensaje": "Mindy.gt",
+     "creativos": 1,
+     "cuota": 0.25,
+     "dias_vivo_max": 11,
+     "dias_vivo_min": 11,
+     "primera_creacion": "2026-09-04",
+     "ultima_creacion": "2026-09-04",
+     "ejemplo_id": "2975857552761478"
+    }
+   ],
+   "concentracion": 0.25,
+   "_concentracion_significa": "Cuota del inventario leído que carga el mensaje más repetido. Alta concentración = una sola apuesta; baja = cartera repartida.",
+   "audiencia_inferida": [
+    {
+     "vertical": "no clasificable por el titular",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": null,
+     "_nota": "El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia."
+    }
+   ],
+   "longevidad": {
+    "_respondible": true,
+    "top": [
+     {
+      "id": "1532489124492383",
+      "mensaje": "(sin titular)",
+      "dias_vivo": 222,
+      "entrega_desde": "2026-02-06",
+      "url": "https://www.facebook.com/ads/library/?id=1532489124492383"
+     },
+     {
+      "id": "2975857552761478",
+      "mensaje": "Mindy.gt",
+      "dias_vivo": 11,
+      "entrega_desde": "2026-09-05",
+      "url": "https://www.facebook.com/ads/library/?id=2975857552761478"
+     },
+     {
+      "id": "901612782806539",
+      "mensaje": "(sin titular)",
+      "dias_vivo": 1,
+      "entrega_desde": "2026-09-15",
+      "url": "https://www.facebook.com/ads/library/?id=901612782806539"
+     },
+     {
+      "id": "1075335832090335",
+      "mensaje": "(sin titular)",
+      "dias_vivo": 1,
+      "entrega_desde": "2026-09-15",
+      "url": "https://www.facebook.com/ads/library/?id=1075335832090335"
+     }
+    ],
+    "dias_vivo_mediana": 6
+   },
+   "velocidad": {
+    "primera_creacion": "2026-02-06",
+    "ultima_creacion": "2026-09-15",
+    "dias_desde_la_ultima": 1,
+    "dias_de_actividad": 4,
+    "span_dias": 221,
+    "creativos_por_semana": 0.1,
+    "_cadencia": "4 creativos repartidos en 221 dias de ventana observada.",
+    "dia_mas_activo": [
+     "2026-02-06",
+     1
+    ],
+    "rafagas": [],
+    "creativos_en_rafaga": 0,
+    "cuota_en_rafaga": 0.0,
+    "por_dia": {
+     "2026-02-06": 1,
+     "2026-09-04": 1,
+     "2026-09-14": 1,
+     "2026-09-15": 1
+    },
+    "_que_es_una_rafaga": "Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una."
+   },
+   "marca": "Mindy.gt",
+   "rol": "competidor",
+   "mercado": "GT",
+   "idioma": "es"
+  },
+  {
+   "clave": "n1co",
+   "pagina": "n1co",
+   "page_id": "105470425404552",
+   "moneda": "USD",
+   "pais_consultado": "GT",
+   "activos_declarados": 9,
+   "leidos": 9,
+   "muestra_completa": true,
+   "_advertencia_muestra": null,
+   "estructura": {
+    "tarjeta_unica": 7,
+    "carrusel": 2,
+    "sin_titular": 0,
+    "_sin_titular_significa": "El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.",
+    "tarjetas_max": 2,
+    "tarjetas_promedio": 1.2,
+    "_que_mide": "Cuántas tarjetas tiene el creativo, derivado de los separadores del titular. NO es el tipo de medio: la API no dice si es video o imagen, y esa pregunta queda sin responder."
+   },
+   "cobranding": {
+    "anuncios_con_tercero": 0,
+    "terceros_nombrados": [],
+    "cuota": 0.0,
+    "ejemplos": [],
+    "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+   },
+   "mensajes": [
+    {
+     "mensaje": "🚀 Aumenta tus ventas hoy",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 111,
+     "dias_vivo_min": 111,
+     "primera_creacion": "2026-05-27",
+     "ultima_creacion": "2026-05-27",
+     "ejemplo_id": "27742450985356757"
+    },
+    {
+     "mensaje": "Haz crecer tu negocio con n1co 🚀",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 103,
+     "dias_vivo_min": 103,
+     "primera_creacion": "2026-06-05",
+     "ultima_creacion": "2026-06-05",
+     "ejemplo_id": "1725026105171168"
+    },
+    {
+     "mensaje": "Tu celular ahora es tu POS de cobro ⚡",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 71,
+     "dias_vivo_min": 71,
+     "primera_creacion": "2026-07-07",
+     "ultima_creacion": "2026-07-07",
+     "ejemplo_id": "28451736057762466"
+    },
+    {
+     "mensaje": "📱 ¡Tu cel ahora es tu POS con n1co tap!",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 70,
+     "dias_vivo_min": 70,
+     "primera_creacion": "2026-07-07",
+     "ultima_creacion": "2026-07-07",
+     "ejemplo_id": "1555884206082187"
+    },
+    {
+     "mensaje": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1041521018759853"
+    },
+    {
+     "mensaje": "Soluciones de cobro digital con n1co business",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 19,
+     "dias_vivo_min": 19,
+     "primera_creacion": "2026-08-27",
+     "ultima_creacion": "2026-08-27",
+     "ejemplo_id": "2100049620619275"
+    },
+    {
+     "mensaje": "Construí tu récord crediticio con n1co 📈",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "1578038493870312"
+    },
+    {
+     "mensaje": "Tus planes sin pausas con n1co Cuotas",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "2274193463328673"
+    },
+    {
+     "mensaje": "Disfrutá hoy y pagá después 📈",
+     "creativos": 1,
+     "cuota": 0.111,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "1393831326189989"
+    }
+   ],
+   "concentracion": 0.111,
+   "_concentracion_significa": "Cuota del inventario leído que carga el mensaje más repetido. Alta concentración = una sola apuesta; baja = cartera repartida.",
+   "audiencia_inferida": [
+    {
+     "vertical": "gestión del negocio",
+     "anuncios": 2,
+     "cuota_del_total_clasificado": 0.4
+    },
+    {
+     "vertical": "punto de venta / hardware",
+     "anuncios": 2,
+     "cuota_del_total_clasificado": 0.4
+    },
+    {
+     "vertical": "crédito y financiamiento",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 0.2
+    },
+    {
+     "vertical": "no clasificable por el titular",
+     "anuncios": 4,
+     "cuota_del_total_clasificado": null,
+     "_nota": "El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia."
+    }
+   ],
+   "longevidad": {
+    "_respondible": true,
+    "top": [
+     {
+      "id": "27742450985356757",
+      "mensaje": "🚀 Aumenta tus ventas hoy",
+      "dias_vivo": 111,
+      "entrega_desde": "2026-05-28",
+      "url": "https://www.facebook.com/ads/library/?id=27742450985356757"
+     },
+     {
+      "id": "1725026105171168",
+      "mensaje": "Haz crecer tu negocio con n1co 🚀",
+      "dias_vivo": 103,
+      "entrega_desde": "2026-06-05",
+      "url": "https://www.facebook.com/ads/library/?id=1725026105171168"
+     },
+     {
+      "id": "28451736057762466",
+      "mensaje": "Tu celular ahora es tu POS de cobro ⚡",
+      "dias_vivo": 71,
+      "entrega_desde": "2026-07-07",
+      "url": "https://www.facebook.com/ads/library/?id=28451736057762466"
+     },
+     {
+      "id": "1555884206082187",
+      "mensaje": "📱 ¡Tu cel ahora es tu POS con n1co tap!",
+      "dias_vivo": 70,
+      "entrega_desde": "2026-07-08",
+      "url": "https://www.facebook.com/ads/library/?id=1555884206082187"
+     },
+     {
+      "id": "1041521018759853",
+      "mensaje": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+      "dias_vivo": 21,
+      "entrega_desde": "2026-08-26",
+      "url": "https://www.facebook.com/ads/library/?id=1041521018759853"
+     },
+     {
+      "id": "2100049620619275",
+      "mensaje": "Soluciones de cobro digital con n1co business",
+      "dias_vivo": 19,
+      "entrega_desde": "2026-08-28",
+      "url": "https://www.facebook.com/ads/library/?id=2100049620619275"
+     },
+     {
+      "id": "1393831326189989",
+      "mensaje": "Disfrutá hoy y pagá después 📈",
+      "dias_vivo": 5,
+      "entrega_desde": "2026-09-11",
+      "url": "https://www.facebook.com/ads/library/?id=1393831326189989"
+     },
+     {
+      "id": "2274193463328673",
+      "mensaje": "Tus planes sin pausas con n1co Cuotas",
+      "dias_vivo": 5,
+      "entrega_desde": "2026-09-11",
+      "url": "https://www.facebook.com/ads/library/?id=2274193463328673"
+     },
+     {
+      "id": "1578038493870312",
+      "mensaje": "Construí tu récord crediticio con n1co 📈",
+      "dias_vivo": 5,
+      "entrega_desde": "2026-09-11",
+      "url": "https://www.facebook.com/ads/library/?id=1578038493870312"
+     }
+    ],
+    "dias_vivo_mediana": 21
+   },
+   "velocidad": {
+    "primera_creacion": "2026-05-27",
+    "ultima_creacion": "2026-09-11",
+    "dias_desde_la_ultima": 5,
+    "dias_de_actividad": 6,
+    "span_dias": 107,
+    "creativos_por_semana": 0.6,
+    "_cadencia": "9 creativos repartidos en 107 dias de ventana observada.",
+    "dia_mas_activo": [
+     "2026-09-11",
+     3
+    ],
+    "rafagas": [
+     {
+      "instante": "2026-07-07",
+      "creativos": 2
+     }
+    ],
+    "creativos_en_rafaga": 2,
+    "cuota_en_rafaga": 0.222,
+    "por_dia": {
+     "2026-05-27": 1,
+     "2026-06-05": 1,
+     "2026-07-07": 2,
+     "2026-08-26": 1,
+     "2026-08-27": 1,
+     "2026-09-11": 3
+    },
+    "_que_es_una_rafaga": "Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una."
+   },
+   "marca": "n1co",
+   "rol": "competidor",
+   "mercado": "GT",
+   "idioma": "es"
+  },
+  {
+   "clave": "n1co",
+   "pagina": "n1co",
+   "page_id": "105470425404552",
+   "moneda": "USD",
+   "pais_consultado": "SV",
+   "activos_declarados": 24,
+   "leidos": 24,
+   "muestra_completa": true,
+   "_advertencia_muestra": null,
+   "estructura": {
+    "tarjeta_unica": 20,
+    "carrusel": 3,
+    "sin_titular": 1,
+    "_sin_titular_significa": "El anuncio no trae `ad_creative_link_title`. Puede ser un formato sin enlace (video de marca, historia) o un creativo donde el título no se completó. NO se puede distinguir entre esos casos, así que no se cuenta como ninguno de los dos.",
+    "tarjetas_max": 7,
+    "tarjetas_promedio": 1.5,
+    "_que_mide": "Cuántas tarjetas tiene el creativo, derivado de los separadores del titular. NO es el tipo de medio: la API no dice si es video o imagen, y esa pregunta queda sin responder."
+   },
+   "cobranding": {
+    "anuncios_con_tercero": 0,
+    "terceros_nombrados": [],
+    "cuota": 0.0,
+    "ejemplos": [],
+    "_que_es_y_que_no": "Señal de CO-BRANDING en el titular, no un conteo de partnerships con creadores. El rótulo «with @handle» vive en el anuncio renderizado, y facebook.com está bloqueado por la política de red del entorno. Desde la API, un caso de cliente y una colaboración pagada se ven idénticos."
+   },
+   "mensajes": [
+    {
+     "mensaje": "App Redirect",
+     "creativos": 4,
+     "cuota": 0.167,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 20,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1876505979978197"
+    },
+    {
+     "mensaje": "🤩 Tus restaurantes favoritos con grandes descuentos🎟️",
+     "creativos": 2,
+     "cuota": 0.083,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "4448993878580178"
+    },
+    {
+     "mensaje": "n1co · Multiplica tus ventas con n1co Business🚀 · Multiplica tus ventas con n1co Business 🚀",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 109,
+     "dias_vivo_min": 109,
+     "primera_creacion": "2026-05-28",
+     "ultima_creacion": "2026-05-28",
+     "ejemplo_id": "1272485364643193"
+    },
+    {
+     "mensaje": "🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 · No pierda más ventas: acepte tarjetas sin aparatos extras 💸",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 94,
+     "dias_vivo_min": 94,
+     "primera_creacion": "2026-06-14",
+     "ultima_creacion": "2026-06-14",
+     "ejemplo_id": "1180520327553626"
+    },
+    {
+     "mensaje": "💳 ¡Aceptá todas las tarjetas con el ecosistema n1co! 📲",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 79,
+     "dias_vivo_min": 79,
+     "primera_creacion": "2026-06-29",
+     "ultima_creacion": "2026-06-29",
+     "ejemplo_id": "1561842335507975"
+    },
+    {
+     "mensaje": "n1co · n1co App - App Store",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 72,
+     "dias_vivo_min": 72,
+     "primera_creacion": "2026-07-06",
+     "ultima_creacion": "2026-07-06",
+     "ejemplo_id": "1374931158070671"
+    },
+    {
+     "mensaje": "2x1 en Cappuccino de Juan Valdez",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 35,
+     "dias_vivo_min": 35,
+     "primera_creacion": "2026-08-11",
+     "ultima_creacion": "2026-08-11",
+     "ejemplo_id": "1054652540655266"
+    },
+    {
+     "mensaje": "📲 Transformá tu celular en un POS con n1co tap 💳",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 34,
+     "dias_vivo_min": 34,
+     "primera_creacion": "2026-08-12",
+     "ultima_creacion": "2026-08-12",
+     "ejemplo_id": "1003359389360276"
+    },
+    {
+     "mensaje": "🍱 Banquete de Sushi para 4 personas por $25.99",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 22,
+     "dias_vivo_min": 22,
+     "primera_creacion": "2026-08-25",
+     "ultima_creacion": "2026-08-25",
+     "ejemplo_id": "2180779279455963"
+    },
+    {
+     "mensaje": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "1041521018759853"
+    },
+    {
+     "mensaje": "✨ Consentí tu cabello por $12 en Olivo Beauty Studio",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 21,
+     "dias_vivo_min": 21,
+     "primera_creacion": "2026-08-26",
+     "ultima_creacion": "2026-08-26",
+     "ejemplo_id": "2318212362353816"
+    },
+    {
+     "mensaje": "✨ Uñas, cabello y faciales con descuentos increíbles",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 16,
+     "dias_vivo_min": 16,
+     "primera_creacion": "2026-08-31",
+     "ultima_creacion": "2026-08-31",
+     "ejemplo_id": "2222648981611698"
+    },
+    {
+     "mensaje": "🛒 Equipá tu negocio con la tecnología de n1co business",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 16,
+     "dias_vivo_min": 16,
+     "primera_creacion": "2026-08-31",
+     "ultima_creacion": "2026-08-31",
+     "ejemplo_id": "1716980599529981"
+    },
+    {
+     "mensaje": "Facturación electrónica para tu negocio",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
+     "primera_creacion": "2026-09-03",
+     "ultima_creacion": "2026-09-03",
+     "ejemplo_id": "1501221868513996"
+    },
+    {
+     "mensaje": "Facturá electrónico desde $15 al mes",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 12,
+     "dias_vivo_min": 12,
+     "primera_creacion": "2026-09-03",
+     "ultima_creacion": "2026-09-03",
+     "ejemplo_id": "899887532958735"
+    },
+    {
+     "mensaje": "Construí tu récord crediticio con n1co 📈",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "1578038493870312"
+    },
+    {
+     "mensaje": "Tus planes sin pausas con n1co Cuotas",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "2274193463328673"
+    },
+    {
+     "mensaje": "Disfrutá hoy y pagá después 📈",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 5,
+     "dias_vivo_min": 5,
+     "primera_creacion": "2026-09-11",
+     "ultima_creacion": "2026-09-11",
+     "ejemplo_id": "1393831326189989"
+    },
+    {
+     "mensaje": "Chequeo respiratorio 5 en 1 por $54.99 🩺",
+     "creativos": 1,
+     "cuota": 0.042,
+     "dias_vivo_max": 0,
+     "dias_vivo_min": 0,
+     "primera_creacion": "2026-09-16",
+     "ultima_creacion": "2026-09-16",
+     "ejemplo_id": "1439379318098049"
+    }
+   ],
+   "concentracion": 0.167,
+   "_concentracion_significa": "Cuota del inventario leído que carga el mensaje más repetido. Alta concentración = una sola apuesta; baja = cartera repartida.",
+   "audiencia_inferida": [
+    {
+     "vertical": "gestión del negocio",
+     "anuncios": 4,
+     "cuota_del_total_clasificado": 0.235
+    },
+    {
+     "vertical": "promoción y precio",
+     "anuncios": 3,
+     "cuota_del_total_clasificado": 0.176
+    },
+    {
+     "vertical": "punto de venta / hardware",
+     "anuncios": 3,
+     "cuota_del_total_clasificado": 0.176
+    },
+    {
+     "vertical": "cobros y pagos",
+     "anuncios": 2,
+     "cuota_del_total_clasificado": 0.118
+    },
+    {
+     "vertical": "restaurante",
+     "anuncios": 2,
+     "cuota_del_total_clasificado": 0.118
+    },
+    {
+     "vertical": "crédito y financiamiento",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 0.059
+    },
+    {
+     "vertical": "belleza y citas",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 0.059
+    },
+    {
+     "vertical": "retail y tienda",
+     "anuncios": 1,
+     "cuota_del_total_clasificado": 0.059
+    },
+    {
+     "vertical": "no clasificable por el titular",
+     "anuncios": 11,
+     "cuota_del_total_clasificado": null,
+     "_nota": "El titular no contiene vocabulario de ninguna vertical. Forzarlo a un cajón sería inventar una audiencia."
+    }
+   ],
+   "longevidad": {
+    "_respondible": true,
+    "top": [
+     {
+      "id": "1272485364643193",
+      "mensaje": "n1co · Multiplica tus ventas con n1co Business🚀 · Multiplica tus ventas con n1co Business 🚀",
+      "dias_vivo": 109,
+      "entrega_desde": "2026-05-30",
+      "url": "https://www.facebook.com/ads/library/?id=1272485364643193"
+     },
+     {
+      "id": "1180520327553626",
+      "mensaje": "🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 · No pierda más ventas: acepte tarjetas sin aparatos extras 💸",
+      "dias_vivo": 94,
+      "entrega_desde": "2026-06-14",
+      "url": "https://www.facebook.com/ads/library/?id=1180520327553626"
+     },
+     {
+      "id": "1561842335507975",
+      "mensaje": "💳 ¡Aceptá todas las tarjetas con el ecosistema n1co! 📲",
+      "dias_vivo": 79,
+      "entrega_desde": "2026-06-29",
+      "url": "https://www.facebook.com/ads/library/?id=1561842335507975"
+     },
+     {
+      "id": "1374931158070671",
+      "mensaje": "n1co · n1co App - App Store",
+      "dias_vivo": 72,
+      "entrega_desde": "2026-07-06",
+      "url": "https://www.facebook.com/ads/library/?id=1374931158070671"
+     },
+     {
+      "id": "1054652540655266",
+      "mensaje": "2x1 en Cappuccino de Juan Valdez",
+      "dias_vivo": 35,
+      "entrega_desde": "2026-08-12",
+      "url": "https://www.facebook.com/ads/library/?id=1054652540655266"
+     },
+     {
+      "id": "1003359389360276",
+      "mensaje": "📲 Transformá tu celular en un POS con n1co tap 💳",
+      "dias_vivo": 34,
+      "entrega_desde": "2026-08-13",
+      "url": "https://www.facebook.com/ads/library/?id=1003359389360276"
+     },
+     {
+      "id": "2180779279455963",
+      "mensaje": "🍱 Banquete de Sushi para 4 personas por $25.99",
+      "dias_vivo": 22,
+      "entrega_desde": "2026-08-25",
+      "url": "https://www.facebook.com/ads/library/?id=2180779279455963"
+     },
+     {
+      "id": "1386334626231763",
+      "mensaje": "App Redirect",
+      "dias_vivo": 21,
+      "entrega_desde": "2026-08-26",
+      "url": "https://www.facebook.com/ads/library/?id=1386334626231763"
+     },
+     {
+      "id": "1041521018759853",
+      "mensaje": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+      "dias_vivo": 21,
+      "entrega_desde": "2026-08-26",
+      "url": "https://www.facebook.com/ads/library/?id=1041521018759853"
+     },
+     {
+      "id": "2318212362353816",
+      "mensaje": "✨ Consentí tu cabello por $12 en Olivo Beauty Studio",
+      "dias_vivo": 21,
+      "entrega_desde": "2026-08-26",
+      "url": "https://www.facebook.com/ads/library/?id=2318212362353816"
+     }
+    ],
+    "dias_vivo_mediana": 20
+   },
+   "velocidad": {
+    "primera_creacion": "2026-05-28",
+    "ultima_creacion": "2026-09-16",
+    "dias_desde_la_ultima": 0,
+    "dias_de_actividad": 13,
+    "span_dias": 111,
+    "creativos_por_semana": 1.5,
+    "_cadencia": "24 creativos repartidos en 111 dias de ventana observada.",
+    "dia_mas_activo": [
+     "2026-08-26",
+     7
+    ],
+    "rafagas": [],
+    "creativos_en_rafaga": 0,
+    "cuota_en_rafaga": 0.0,
+    "por_dia": {
+     "2026-05-28": 1,
+     "2026-06-14": 1,
+     "2026-06-29": 1,
+     "2026-07-06": 1,
+     "2026-08-11": 1,
+     "2026-08-12": 1,
+     "2026-08-25": 2,
+     "2026-08-26": 7,
+     "2026-08-31": 2,
+     "2026-09-01": 1,
+     "2026-09-03": 2,
+     "2026-09-11": 3,
+     "2026-09-16": 1
+    },
+    "_que_es_una_rafaga": "Dos o más creativos con el mismo segundo de creación. Es una carga masiva: creativo dinámico o una subida en lote, no piezas pensadas una por una."
+   },
+   "marca": "n1co",
+   "rol": "competidor",
+   "mercado": "SV",
+   "idioma": "es"
   }
  ],
  "sin_perfil": [
@@ -1780,6 +2693,21 @@
    "marca": "GuatePOS",
    "mercado": "SV",
    "motivo": "leida, cero anuncios activos"
+  },
+  {
+   "marca": "Cubo Guatemala",
+   "mercado": "SV",
+   "motivo": "leida, cero anuncios activos"
+  },
+  {
+   "marca": "Mindy.gt",
+   "mercado": "SV",
+   "motivo": "leida, cero anuncios activos"
+  },
+  {
+   "marca": "Marca declarada por Mercadeo · sin nombre confirmado",
+   "mercado": "—",
+   "motivo": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta."
   }
  ],
  "no_respondible": [

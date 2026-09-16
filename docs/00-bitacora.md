@@ -1820,3 +1820,54 @@ un comentario que vive en un template literal rompe el archivo entero
 (`SyntaxError: Unexpected identifier`). Pasó en `prueba:actualizar` por la
 mañana y en `prueba:estrategia` por la tarde. En esos comentarios no van
 acentos graves.
+
+### Sesión 25 · las tarjetas nuevas salían pobres, y al arreglarlo apareció un cruce de mercados
+
+Mercadeo: «pero no me aparece como los demás». Las tarjetas de Cubo, Mindy y
+n1co traían solo «lo que repite»; les faltaban «a quién le habla», «qué repite»
+y «sus anuncios que llevan más tiempo».
+
+**Causa:** esas secciones salen del **análisis profundo**
+(`corre_profundo.py`), que es un paso aparte de la corrida y que no se había
+vuelto a correr después de agregar las marcas. Se corrió: 12 perfiles, los
+cuatro nuevos incluidos.
+
+Antes hubo que hacerlo convivir con una marca **sin `page_id`**: leía
+`e["_clave_archivo"]` directo y la entrada declarada-sin-medir lo habría hecho
+reventar con `KeyError`. Ahora se declara y sigue.
+
+**Y ahí apareció lo importante.** La tarjeta de n1co en GT listaba *sushi*,
+*Juan Valdez* y *un salón de belleza* —anuncios suyos de **El Salvador**— con
+las cuotas calculadas sobre 24 en vez de sobre 9. El contador lo estaba
+gritando: **19 mensajes distintos sobre 9 anuncios leídos**, un imposible.
+
+La causa, en una línea de `recomendaciones.py`:
+
+```python
+por_clave = {m.get("clave"): m for m in profundo.get("marcas", [])}
+```
+
+**Indexado por marca, sin mercado.** Una marca con perfil en GT y en SV se
+quedaba con el último, y la tarjeta de un mercado mostraba el inventario del
+otro.
+
+**El defecto YA existía y tocaba a Banco Industrial y a Shopify** —las únicas
+dos con perfil en los dos mercados—. La tarjeta de BI en GT venía mostrando
+«Envía dinero desde Guatemala · Tarifa de Q75.00», que es su inventario de
+**remesas en SV**. Está en la captura que mandó Mercadeo. n1co no introdujo el
+error: lo hizo **visible**, porque es la primera marca cuyo inventario es
+obviamente distinto entre los dos mercados —aparatos de cobro en GT, ofertas de
+restaurante en SV— y el cruce se lee a simple vista.
+
+Ahora se busca por `(marca, mercado)`. El único caso legítimo de usar otro
+corte es el **referente perfilado GLOBAL** (ADR-017), y cuando pasa se declara
+con `_perfil_de_otro_corte`. Si no hay perfil para ese mercado, la tarjeta **no
+hereda** el del otro: se queda sin esas secciones, con `_sin_perfil_en_este_mercado`.
+
+**La comprobación es un invariante, no un ojo:** la suma de creativos de
+«qué repite» **no puede pasar** los anuncios leídos de esa tarjeta. Antes n1co
+GT daba 23 sobre 9; ahora las doce tarjetas cumplen.
+
+**La lección de método:** un dato correcto para una marca puede estar cruzado
+para otra, y con seis marcas de un solo mercado nadie lo nota. Una marca nueva
+no es solo una fila más — es un caso de prueba que el registro no tenía.
