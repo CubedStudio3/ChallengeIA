@@ -1708,3 +1708,115 @@ al revés: inflar la amenaza con inventario que no disputa la categoría.
 Entra también en `hardware`, contra lo que pidió Mercadeo: «Tu celular ahora es
 tu POS» es punto de venta aunque el aparato sea el teléfono, y dejarlo solo en
 software lo sacaría de la comparación donde más aprieta.
+
+### La corrida con las marcas nuevas · y la recomendación que se cayó sola
+
+Mercadeo: «pero no me aparece ninguno de lo que te pedí que agregaras». Cierto:
+el registro las tenía, pero el tablero se llena con la corrida.
+
+Se re-corrió **sobre la misma corrida y el mismo periodo**, agregando solo los
+seis crudos nuevos. El dato propio no se tocó: `consolidados_detalle` y
+`por_mercado` salieron **idénticos**. Lo único que se movió fue competencia — y
+lo que colgaba de ella.
+
+**El Salvador pasó de 0 a 5 de presión, y de «sin dominante» a n1co.**
+
+| | GT antes → ahora | SV antes → ahora |
+|---|---|---|
+| presión total | 164 → **182** | 0 → **5** |
+| dominante | BI → BI | ninguno → **n1co** |
+
+n1co entra con **presión 3 sobre 9 activos en GT** y **5 sobre 24 en SV**: la
+política `medido` funcionando. Sumar sus 24 habría inflado SV de 0 a 24.
+
+**Y una recomendación desapareció sola. Es lo más importante de la corrida.**
+
+Antes decía: *«SV sin disputa medida. Ninguno de los competidores medidos
+(Paggo, Recurrente, GuatePOS, Banco Industrial) tiene anuncios activos en SV, y
+ahí ya hay inversión propia con resultados.»*
+
+Ahora no está, porque **es falsa**. No se cayó por un error: se cayó porque su
+premisa dejó de ser cierta en cuanto n1co entró al registro. La recomendación
+nunca estuvo mal calculada — estaba bien calculada **sobre un registro
+incompleto**, que es peor, porque no hay forma de verlo desde adentro.
+
+Las dos cartas de SV que colgaban de esa premisa salen marcadas
+`premisa_movida: true` y cambiaron su texto solas:
+
+- antes · «Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa
+  atención no se le compra a nadie.»
+- ahora · «Ojo: SV ya NO está sin disputa. Los competidores medidos tienen 5
+  anuncios activos ahí.»
+
+**La lección no es del código, es del método.** Un registro curado a mano es una
+fuente de datos como cualquier otra, y una marca que le falta no produce un
+hueco declarado: produce una afirmación segura y equivocada. «Nadie compite en
+SV» se leía como un hallazgo y era un reflejo de a quién habíamos mirado. La
+guardia que existe —`sin_medir`— solo cubre las marcas que alguien ya pensó en
+poner.
+
+Los crudos nuevos van con `_fidelidad` declarada: son volcados parseados de la
+respuesta del 2026-09-16, no copias byte a byte.
+
+### Y la corrida destapó un enganche roto entre cartas y estrategias
+
+Al entrar n1co, `prueba:ficha` y `prueba:estrategia` se pusieron **rojas**. No
+por la marca nueva: por un enganche que llevaba ahí desde siempre y que nadie
+había podido ver, porque **nunca se había caído una estrategia**.
+
+**El orden es el problema.** Las cartas se arman ANTES que las estrategias y
+reparten estrategia con un mapa **estático** de evidencia → estrategia
+(`ESTRATEGIA_DE_EVIDENCIA` en `cartas.py`). Las estrategias, en cambio, se
+calculan contra el dato vivo. Cuando `mercado-sin-disputa` dejó de sostenerse,
+tres cartas siguieron apuntándole:
+
+- `copy-sv-liquidacion-a` · le quedaban otras dos
+- `copy-pdv-video-cierre` · le quedaban otras dos, **y ni siquiera estaba
+  marcada con premisa movida**
+- `copy-sv-liquidacion-b` · **era la única que tenía**
+
+El tablero pintaba el **id crudo** —«mercado-sin-disputa»— donde va un nombre.
+Un id se lee como un nombre raro, no como un error: por eso pasó la revisión
+visual y lo agarró la prueba.
+
+**Y borrar la referencia no alcanzaba.** `copy-sv-liquidacion-b` se habría
+quedado con `estrategias: []` y `siempre: false`, o sea **invisible en todos los
+filtros, sin que nada avisara**. Es el agujero de ADR-061 otra vez, por otra
+puerta.
+
+Lo que se hizo, en `corre.py` después de calcular las estrategias:
+
+1. Se quitan las referencias muertas.
+2. La carta queda marcada `premisa_movida` — **perder la estrategia ES que la
+   premisa se movió**, y `copy-pdv-video-cierre` lo prueba: el flag y la
+   referencia se calculaban por separado.
+3. Las que se quedan sin ninguna llevan `sin_estrategia_viva` y **siguen
+   visibles en todas las vistas**, con su propio rótulo ámbar «Su apuesta se
+   cayó». No se vuelven `siempre`: eso afirmaría que sirven a las tres y lo que
+   pasa es lo contrario.
+4. Sale un hueco declarado con qué estrategia se cayó y a qué cartas sostenía.
+
+Y `nombreEstrategia()` ya no devuelve el id cuando no lo resuelve: devuelve
+«apuesta no disponible (id)». Un identificador visible tiene que leerse como lo
+que es.
+
+**Una estrategia que se cae no invalida el copy: invalida el porqué con que se
+eligió.** Por eso las cartas no se borran — se marcan.
+
+**Y la prueba de estrategia también confundía las dos cosas.** Al separar en la
+página «lo que se ve» de «lo que se cuenta», la prueba siguió midiendo las dos
+con un solo predicado y acusó al producto: decía que el rótulo estaba mal
+cuando el rótulo era el correcto (9) y la prueba contaba 10. Ahora el esperado
+trae **las dos cuentas** —`cartas` visible y `cartas_cuenta`— y cada
+comprobación usa la que le toca: que no se pierda ninguna de la pantalla, y que
+los rótulos digan la verdad.
+
+También se quitó el **3 escrito a mano** en «se midieron las tres tarjetas». Las
+estrategias bajaron a 2 porque una se cayó, y ese 3 acusaba al producto de un
+cambio correcto. Se deriva del dato, como todo lo demás.
+
+**Segunda vez hoy con el mismo tropiezo de sintaxis:** un acento grave dentro de
+un comentario que vive en un template literal rompe el archivo entero
+(`SyntaxError: Unexpected identifier`). Pasó en `prueba:actualizar` por la
+mañana y en `prueba:estrategia` por la tarde. En esos comentarios no van
+acentos graves.

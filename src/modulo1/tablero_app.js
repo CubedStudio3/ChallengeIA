@@ -263,8 +263,25 @@
      cartas. Dos listas que responden la misma pregunta terminan divergiendo.
 
      `siempre` gana sobre todo: es la pieza que sirve a las tres. */
+  /* CUENTA: solo lo que de verdad sirve a la estrategia. Se separa de `sirveA`
+     porque una carta huerfana —la suya se cayo— se MUESTRA para no perderla,
+     pero contarla en «N cartas» de una apuesta a la que no sirve seria un
+     rotulo que induce al error, que es ADR-057. Se ve, no se suma. */
+  function cuentaPara(x, act) {
+    if (x.siempre) return true;
+    if (x.sin_estrategia_viva) return false;
+    if (!act) return true;
+    return (x.estrategias || []).indexOf(act.id) >= 0;
+  }
+
   function sirveA(x, act) {
     if (x.siempre) return true;
+    /* Una carta que se quedó SIN estrategia viva —la suya se cayó porque su
+       premisa dejó de ser cierta— tampoco se esconde. No es lo mismo que
+       `siempre`: aquella sirve a las tres, ésta no sirve a ninguna. Se ve en
+       todas y con su propio rótulo, porque esconder una pieza producible sin
+       que nada avise es el agujero de ADR-061. */
+    if (x.sin_estrategia_viva) return true;
     if (!act) return true;
     return (x.estrategias || []).indexOf(act.id) >= 0;
   }
@@ -1225,7 +1242,11 @@
         NOMBRE_ESTRATEGIA[e.id] = e.nombre;
       });
     }
-    return NOMBRE_ESTRATEGIA[id] || id;
+    /* Un id que no resuelve a nombre NO se pinta crudo. Eso fue justo el
+       defecto del 2026-09-16: «mercado-sin-disputa» salía donde va un nombre
+       porque la estrategia se había caído y la carta seguía apuntándole. Un id
+       visible se lee como un nombre raro, no como un error. */
+    return NOMBRE_ESTRATEGIA[id] || "apuesta no disponible (" + id + ")";
   }
 
   /* La FICHA de la carta: los campos que hacen falta para producir sin abrir
@@ -1309,8 +1330,14 @@
               esc(nombreEstrategia(id)) + "</a>";
           }).join(" ")
         : (c.siempre
-            ? '<span class="etiqueta-gris">Sirve a las tres</span>' : ""),
-        "Sin estrategia derivada de su evidencia.") +
+            ? '<span class="etiqueta-gris">Sirve a las tres</span>'
+            : c.sin_estrategia_viva
+              ? '<span class="etiqueta-ambar">Su apuesta se cayó · ' +
+                esc((c._estrategias_caidas || []).join(", ")) + "</span>"
+              : ""),
+        c.sin_estrategia_viva
+          ? "La apuesta que la sostenía dejó de cumplirse en esta corrida."
+          : "Sin estrategia derivada de su evidencia.") +
       "</div>";
   }
 
@@ -4115,8 +4142,8 @@
              llamarlos igual invitaba a sumarlos. */
           '<span class="text-[12px] text-slate-400">Activa ' +
           cuenta(((est.tareas) || []).filter(function (t) {
-            return sirveA(t, e); }).length, "ángulo", "ángulos") + " · " +
-          cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+            return cuentaPara(t, e); }).length, "ángulo", "ángulos") + " · " +
+          cuenta(cartas().filter(function (c) { return cuentaPara(c, e); }).length,
                  "carta", "cartas") + "</span>" +
           /* El camino de ida: de la estrategia a SUS cartas. La sección de
              cartas ya está filtrada por la elegida, así que el enlace lleva
@@ -4125,7 +4152,7 @@
              enlace. La vuelta —de la carta a su estrategia— la pone la ficha
              de la carta. */
           (on ? '<a href="#cartas" class="enlace shrink-0">Ver sus ' +
-            cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+            cuenta(cartas().filter(function (c) { return cuentaPara(c, e); }).length,
                    "carta", "cartas") + "</a>" : "") +
           (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
             'class="btn-claro"' + (soloLectura ? " disabled" : "") +

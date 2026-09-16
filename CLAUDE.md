@@ -808,6 +808,41 @@ cometidos; no hay tiempo de repetirlos.
   cobrar**. Y es el primero con presencia real de pagos en **SV** (24 activos
   contra 9 en GT), justo donde nuestro lead sale más barato. La lectura de que
   «nadie disputa el territorio de cobrar mejor» hay que volver a mirarla.
+- **«Lo que se ve» y «lo que se cuenta» son dos predicados, no uno.** La carta
+  huérfana se muestra en todas las vistas para no perderla, pero **no suma** al
+  rótulo de una apuesta a la que no sirve: contarla sería ADR-057. En la página
+  son `sirveA` y `cuentaPara`; la prueba tuvo que aprender el mismo par, porque
+  con uno solo acusó al producto de un rótulo que estaba bien.
+- **Un acento grave dentro de un comentario que vive en un template literal
+  rompe el archivo entero.** `SyntaxError: Unexpected identifier`, sin pista de
+  que el problema es una comilla. Pasó **dos veces el mismo día** —
+  `prueba:actualizar` y `prueba:estrategia`—. En esos comentarios no van.
+- **Las cartas reparten estrategia con un mapa ESTÁTICO; las estrategias se
+  calculan con el dato vivo.** Mientras nunca se cayó una, nadie vio el
+  enganche. Al caerse `mercado-sin-disputa` tres cartas siguieron apuntándole y
+  el tablero pintó el **id crudo** donde va un nombre — que se lee como un
+  nombre raro, no como un error. Ahora `corre.py` reconcilia después de
+  calcular las estrategias, y `nombreEstrategia()` devuelve «apuesta no
+  disponible (id)» en vez del id pelado.
+- **Borrar la referencia muerta no alcanza: la carta desaparece.** La que tenía
+  esa estrategia como única quedaba con `estrategias: []` y `siempre: false`,
+  o sea **invisible en todos los filtros y en silencio** — ADR-061 por otra
+  puerta. Va con `sin_estrategia_viva`, visible en todas las vistas y con
+  rótulo ámbar propio. No se vuelve `siempre`: eso afirmaría que sirve a las
+  tres, y lo que pasa es que no sirve a ninguna.
+- **Perder la estrategia ES que la premisa se movió, y se calculaban aparte.**
+  `copy-pdv-video-cierre` apuntaba a la estrategia caída y NO estaba marcada
+  con `premisa_movida`. Dos señales de la misma cosa, computadas por caminos
+  distintos, es como una se queda atrás.
+- **Una marca que falta en el registro NO produce un hueco declarado: produce
+  una afirmación segura y equivocada.** El tablero recomendaba «SV sin disputa
+  medida: ninguno de los competidores medidos tiene anuncios activos en SV».
+  Al entrar n1co esa recomendación **desapareció sola, por falsa**: SV pasó de
+  presión 0 a 5 y de «sin dominante» a n1co. Nunca estuvo mal calculada —
+  estaba bien calculada sobre un registro incompleto, que es peor, porque desde
+  adentro no se distingue. La guardia `sin_medir` solo cubre las marcas que
+  alguien ya pensó en poner. Las dos cartas de SV que colgaban de esa premisa
+  salieron marcadas `premisa_movida` y reescribieron su propio porqué.
 - **Un nombre de marca no dice si es monoproducto.** De los 24 activos de n1co
   en SV, **8 son ofertas al consumidor** —sushi, salón de belleza, chequeo
   médico— y 6 no traen ángulo legible. Contar los 24 como presión de pagos

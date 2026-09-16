@@ -1,0 +1,131 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-16",
+  "parametros": {
+   "page_ids": [
+    "115248238288708"
+   ],
+   "countries": [
+    "GT"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda. La Ad Library es una FOTO DEL DIA de la consulta: no acepta rango de fechas.",
+  "_fidelidad": "Volcado parseado de la respuesta de ads_library_search del 2026-09-16. Los ocho campos vienen tal cual los devuelve la API."
+ },
+ "estimated_total_count": 11,
+ "ads": [
+  {
+   "id": "2601146283664093",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788450014,
+   "ad_delivery_start_time": 1788463227,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2601146283664093",
+   "currency": "USD"
+  },
+  {
+   "id": "1715481942841341",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788391818,
+   "ad_delivery_start_time": 1789580962,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1715481942841341",
+   "currency": "USD"
+  },
+  {
+   "id": "1611246270388089",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788391625,
+   "ad_delivery_start_time": 1789580896,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1611246270388089",
+   "currency": "USD"
+  },
+  {
+   "id": "1815322509473734",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Más",
+   "ad_creation_time": 1788362789,
+   "ad_delivery_start_time": 1788367781,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1815322509473734",
+   "currency": "USD"
+  },
+  {
+   "id": "1586373376549657",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Más",
+   "ad_creation_time": 1788362732,
+   "ad_delivery_start_time": 1788367753,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1586373376549657",
+   "currency": "USD"
+  },
+  {
+   "id": "1408942547839496",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Más",
+   "ad_creation_time": 1788362686,
+   "ad_delivery_start_time": 1788368261,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1408942547839496",
+   "currency": "USD"
+  },
+  {
+   "id": "2131102434486696",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Más",
+   "ad_creation_time": 1788362657,
+   "ad_delivery_start_time": 1788375393,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2131102434486696",
+   "currency": "USD"
+  },
+  {
+   "id": "866175896449070",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "ideal para tu negocio",
+   "ad_creation_time": 1788362571,
+   "ad_delivery_start_time": 1788373649,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=866175896449070",
+   "currency": "USD"
+  },
+  {
+   "id": "1813115203442991",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788362524,
+   "ad_delivery_start_time": 1788368262,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1813115203442991",
+   "currency": "USD"
+  },
+  {
+   "id": "4466746583594197",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788362486,
+   "ad_delivery_start_time": 1788368440,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4466746583594197",
+   "currency": "USD"
+  },
+  {
+   "id": "1058173843806630",
+   "page_id": 115248238288708,
+   "page_name": "Cubo Guatemala",
+   "ad_creative_link_title": "Pide tu Cubo Go hoy",
+   "ad_creation_time": 1788362482,
+   "ad_delivery_start_time": 1788367553,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1058173843806630",
+   "currency": "USD"
+  }
+ ]
+}

@@ -1,0 +1,113 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-16",
+  "parametros": {
+   "page_ids": [
+    "105470425404552"
+   ],
+   "countries": [
+    "GT"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda. La Ad Library es una FOTO DEL DIA de la consulta: no acepta rango de fechas.",
+  "_fidelidad": "Volcado parseado de la respuesta de ads_library_search del 2026-09-16. Los ocho campos vienen tal cual los devuelve la API.",
+  "_solapamiento_medido": 3,
+  "_metodo": "La muestra NO esta truncada (9 de 9), asi que el solapamiento se midio LEYENDO LOS NUEVE titulares, que es mas fuerte que contar coincidencias de termino. En categoria: 'Soluciones de cobro digital con n1co business', 'Tu celular ahora es tu POS de cobro' y 'Tu cel ahora es tu POS con n1co tap' = 3. Fuera: 3 de credito/cuotas y 1 de ofertas al consumidor. AMBIGUOS y NO contados: 'Haz crecer tu negocio con n1co' y 'Aumenta tus ventas hoy' -hablan al dueno de negocio sin nombrar cobro-; contarlos daria 5. Corroboracion con page_ids + search_terms: 'cobro'=3, 'POS'=2, union de 4 ids distintos. Los dos metodos NO coinciden, que es la advertencia de siempre: search_terms busca en el texto del creativo y la ausencia de un termino es evidencia debil. Con muestra completa manda la lectura."
+ },
+ "estimated_total_count": 9,
+ "ads": [
+  {
+   "id": "1578038493870312",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Construí tu récord crediticio con n1co 📈",
+   "ad_creation_time": 1789149791,
+   "ad_delivery_start_time": 1789155099,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1578038493870312",
+   "currency": "USD"
+  },
+  {
+   "id": "2274193463328673",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Tus planes sin pausas con n1co Cuotas",
+   "ad_creation_time": 1789149778,
+   "ad_delivery_start_time": 1789155050,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2274193463328673",
+   "currency": "USD"
+  },
+  {
+   "id": "1393831326189989",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Disfrutá hoy y pagá después 📈",
+   "ad_creation_time": 1789084977,
+   "ad_delivery_start_time": 1789102208,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1393831326189989",
+   "currency": "USD"
+  },
+  {
+   "id": "2100049620619275",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Soluciones de cobro digital con n1co business",
+   "ad_creation_time": 1787873975,
+   "ad_delivery_start_time": 1787879742,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2100049620619275",
+   "currency": "USD"
+  },
+  {
+   "id": "1041521018759853",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+   "ad_creation_time": 1787758224,
+   "ad_delivery_start_time": 1787762758,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1041521018759853",
+   "currency": "USD"
+  },
+  {
+   "id": "28451736057762466",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Tu celular ahora es tu POS de cobro ⚡ | Tu celular ahora es tu POS de cobro ⚡",
+   "ad_creation_time": 1783455619,
+   "ad_delivery_start_time": 1783465936,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=28451736057762466",
+   "currency": "USD"
+  },
+  {
+   "id": "1555884206082187",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "📱 ¡Tu cel ahora es tu POS con n1co tap! | 📱 ¡Tu cel ahora es tu POS con n1co tap!",
+   "ad_creation_time": 1783455619,
+   "ad_delivery_start_time": 1783489710,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1555884206082187",
+   "currency": "USD"
+  },
+  {
+   "id": "1725026105171168",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Haz crecer tu negocio con n1co 🚀",
+   "ad_creation_time": 1780680269,
+   "ad_delivery_start_time": 1780685460,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1725026105171168",
+   "currency": "USD"
+  },
+  {
+   "id": "27742450985356757",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🚀 Aumenta tus ventas hoy",
+   "ad_creation_time": 1779913503,
+   "ad_delivery_start_time": 1779940216,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=27742450985356757",
+   "currency": "USD"
+  }
+ ]
+}

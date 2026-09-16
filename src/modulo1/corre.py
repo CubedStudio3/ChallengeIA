@@ -693,6 +693,58 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                     piezas_diarias=(pauta_dia or {}).get("piezas") or [],
                     rango_corrida=rango.etiqueta())
 
+    # --- Reconciliacion cartas ↔ estrategias ---
+    # Las cartas se arman ANTES que las estrategias y reparten estrategia con un
+    # mapa ESTATICO de evidencia→estrategia. Cuando una estrategia se CAE porque
+    # su premisa dejo de ser cierta —SV paso de «sin disputa» a tener a n1co con
+    # 24 activos— la carta seguia apuntandole, y el tablero pintaba el ID CRUDO
+    # («mercado-sin-disputa») donde va un nombre. Lo agarro `prueba:ficha`.
+    #
+    # No alcanza con borrar la referencia: una carta que se queda SIN ninguna
+    # estrategia viva desaparece de TODOS los filtros, en silencio, que es el
+    # agujero de ADR-061 otra vez. Se declara y se sigue viendo.
+    vivas = {e["id"] for e in (estrat.get("estrategias") or [])}
+    caidas_totales = {}
+    for c in (cartas or {}).get("cartas") or []:
+        caidas = [e for e in (c.get("estrategias") or []) if e not in vivas]
+        if not caidas:
+            continue
+        for x in caidas:
+            caidas_totales.setdefault(x, []).append(c["id"])
+        c["estrategias"] = [e for e in c["estrategias"] if e in vivas]
+        # Perder la estrategia ES que la premisa se movio. Sin esto, una carta
+        # podia quedarse huerfana sin el sello ambar que avisa a la mesa.
+        c["premisa_movida"] = True
+        c["_estrategias_caidas"] = caidas
+        c["_por_que_caidas"] = (
+            "Esta carta se apoyaba en una apuesta que esta corrida ya no "
+            "sostiene: su premisa dejo de ser cierta. El texto sigue siendo "
+            "producible, pero el ARGUMENTO con el que se eligio hay que "
+            "volver a mirarlo en la mesa.")
+        if not c["estrategias"]:
+            # NO se vuelve `siempre`: eso afirmaria que sirve a las tres, y lo
+            # que pasa es lo contrario —se quedo sin ninguna—. Se marca aparte
+            # para que siga visible con su propio rotulo.
+            c["sin_estrategia_viva"] = True
+    if caidas_totales:
+        huecos.append({
+            "fuente": "estrategias caidas",
+            "descripcion": (
+                f"{len(caidas_totales)} estrategia(s) dejaron de sostenerse con "
+                f"esta corrida: {', '.join(sorted(caidas_totales))}"),
+            "detalle": "; ".join(
+                f"{k} sostenia {len(v)} carta(s): {', '.join(v)}"
+                for k, v in sorted(caidas_totales.items())),
+            "impacto": ("Esas cartas quedan marcadas con premisa movida. Las que "
+                        "se quedaron sin ninguna estrategia viva NO se ocultan: "
+                        "se muestran declaradas, porque esconder una pieza "
+                        "producible sin avisar es peor que mostrarla con su "
+                        "advertencia."),
+            "remedio": ("Revisar en la mesa el argumento de esas cartas. Una "
+                        "estrategia que se cae no invalida el copy, invalida el "
+                        "porque con que se eligio."),
+        })
+
     # Y cada TAREA de estrategia se lleva su payload de CreateItem, igual que
     # las cartas. Sin esto, el boton del tablero guardaba «Aceptada» y no creaba
     # nada: `decidir()` solo sabia crear cartas, y una tarea sin payload no

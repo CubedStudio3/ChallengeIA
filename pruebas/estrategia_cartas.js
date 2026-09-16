@@ -46,10 +46,22 @@ const ESPERADO = `(() => {
   const D = JSON.parse(document.getElementById("datos").textContent);
   const est = D.estrategia || {};
   const cs = ((D.cartas || {}).cartas) || [];
-  const sirve = (x, id) => x.siempre || (x.estrategias || []).indexOf(id) >= 0;
+  /* Tres clases de visibilidad, no dos: siempre sirve a todas, y
+   sin_estrategia_viva no sirve a ninguna -su apuesta se cayo- pero se MUESTRA
+   igual para no perder una pieza producible (ADR-061). Lo que NO hace es
+   contar: eso lo mide cuentaPara en la pagina. Sin acentos graves: parte de
+   esto vive dentro de un template literal. */
+  const sirve = (x, id) => x.siempre || x.sin_estrategia_viva ||
+                           (x.estrategias || []).indexOf(id) >= 0;
+  /* Y el par de conteo, aparte. Se devuelven LAS DOS cuentas porque la prueba
+     comprueba dos cosas distintas con ellas: que no se pierda ninguna carta de
+     la pantalla (visible) y que los rotulos digan la verdad (cuenta). */
+  const suma = (x, id) => (x.siempre && !x.sin_estrategia_viva) ||
+                          (x.estrategias || []).indexOf(id) >= 0;
   return (est.estrategias || []).map(e => ({
     id: e.id, nombre: e.nombre, recomendada: !!e.recomendada,
     cartas: cs.filter(c => sirve(c, e.id)).length,
+    cartas_cuenta: cs.filter(c => suma(c, e.id)).length,
     tareas: (est.tareas || []).filter(t => sirve(t, e.id)).length,
   }));
 })()`;
@@ -105,9 +117,13 @@ const VISIBLE = `(() => {
      filtre. La primera versión del mapeo daba 10 de 10 a `disputar-el-flanco`. */
   const total = await pg.evaluate(
     `((JSON.parse(document.getElementById("datos").textContent).cartas||{}).cartas||[]).length`);
+  /* Se mide con la cuenta, no con lo visible: la carta huerfana se ve en
+     todas las vistas a proposito, asi que contarla aqui haria que cualquier
+     estrategia pareciera quedarse con todas. Lo que este guardia vigila es que
+     ELEGIR una estrategia active un subconjunto propio. */
   ok("ninguna estrategia se queda con todas las cartas",
-     esp.every(e => e.cartas < total),
-     esp.map(e => e.id + ":" + e.cartas + "/" + total));
+     esp.every(e => e.cartas_cuenta < total),
+     esp.map(e => e.id + ":" + e.cartas_cuenta + "/" + total));
   ok("todas activan al menos una carta", esp.every(e => e.cartas > 0),
      esp.map(e => e.cartas));
   ok("las tres reparten distinto (hay al menos dos tamaños)",
@@ -161,7 +177,8 @@ const VISIBLE = `(() => {
         .map(b => b.getAttribute("data-decidir")).filter(id => ids.has(id));
       return vis.filter(id => {
         const c = cs.filter(x => x.id === id)[0];
-        return !(c.siempre || (c.estrategias||[]).indexOf(${JSON.stringify(e.id)}) >= 0);
+        return !(c.siempre || c.sin_estrategia_viva ||
+                 (c.estrategias||[]).indexOf(${JSON.stringify(e.id)}) >= 0);
       });
     })()`);
     ok("    ninguna carta visible es de otra estrategia", bien.length === 0, bien);
@@ -176,7 +193,13 @@ const VISIBLE = `(() => {
     const planes = await pg.evaluate(`(() => {
       const D = JSON.parse(document.getElementById("datos").textContent);
       const cs = ((D.cartas || {}).cartas) || [];
-      const sirve = (x, id) => x.siempre || (x.estrategias || []).indexOf(id) >= 0;
+      /* CUENTA, no visibilidad. La carta huerfana -su apuesta se cayo- se VE en
+         todas las vistas para no perderla, pero no SUMA a una apuesta a la que
+         no sirve: un rotulo que la contara induciria al error (ADR-057). Es el
+         mismo par que sirveA y cuentaPara en la pagina. Sin acentos graves:
+         esto vive dentro de un template literal. */
+      const sirve = (x, id) => (x.siempre && !x.sin_estrategia_viva) ||
+                               (x.estrategias || []).indexOf(id) >= 0;
       return (((D.estrategia || {}).estrategias) || []).map(e => {
         const mias = cs.filter(c => sirve(c, e.id));
         const pl = e.plan || {};
@@ -312,8 +335,8 @@ const VISIBLE = `(() => {
       const e = esp.filter(x => x.id === r.id)[0];
       ok("    el rótulo de «" + (e ? e.nombre : r.id) + "» cuenta bien",
          !!r.rotulo && r.rotulo.indexOf(String(e.tareas)) >= 0 &&
-         r.rotulo.indexOf(String(e.cartas)) >= 0,
-         { rotulo: r.rotulo, tareas: e.tareas, cartas: e.cartas });
+         r.rotulo.indexOf(String(e.cartas_cuenta)) >= 0,
+         { rotulo: r.rotulo, tareas: e.tareas, cartas: e.cartas_cuenta });
     }
     /* Dice «ángulos» y no «tareas» desde que el plan cuenta las CARTAS: las
        cartas son las piezas y los ángulos las agrupan, así que llamarlos igual
@@ -347,7 +370,13 @@ const VISIBLE = `(() => {
     const filas = await pg.evaluate(`(() => {
       const D = JSON.parse(document.getElementById("datos").textContent);
       const cs = ((D.cartas || {}).cartas) || [];
-      const sirve = (x, id) => x.siempre || (x.estrategias || []).indexOf(id) >= 0;
+      /* CUENTA, no visibilidad. La carta huerfana -su apuesta se cayo- se VE en
+         todas las vistas para no perderla, pero no SUMA a una apuesta a la que
+         no sirve: un rotulo que la contara induciria al error (ADR-057). Es el
+         mismo par que sirveA y cuentaPara en la pagina. Sin acentos graves:
+         esto vive dentro de un template literal. */
+      const sirve = (x, id) => (x.siempre && !x.sin_estrategia_viva) ||
+                               (x.estrategias || []).indexOf(id) >= 0;
       const num = (txt) => (txt.match(/[0-9]+/g) || []).map(Number);
       return (((D.estrategia || {}).estrategias) || []).map(e => {
         const mias = cs.filter(c => sirve(c, e.id));
@@ -450,7 +479,16 @@ const VISIBLE = `(() => {
                    frasesLargas: permitidas.filter(q => q.length > ${TOPE_FRASE}) };
         });
     })()`);
-    ok("se midieron las tres tarjetas", tarjetas.length === 3, tarjetas.length);
+    /* Cuantas estrategias hay lo dice el DATO, no esta prueba. El 2026-09-16
+       bajaron de 3 a 2 porque «mercado-sin-disputa» dejo de sostenerse al
+       entrar n1co, y un 3 escrito a mano acuso al producto de un cambio
+       correcto. Es la misma leccion del esperado que vive fuera del dato. */
+    const cuantas = await pg.evaluate(`(() => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      return (((D.estrategia || {}).estrategias) || []).length;
+    })()`);
+    ok(`se midieron las ${cuantas} tarjetas`, tarjetas.length === cuantas,
+       { medidas: tarjetas.length, estrategias: cuantas });
     for (const t of tarjetas) {
       ok("  «" + t.nombre + "» sin textos largos a la vista",
          t.largos.length === 0,

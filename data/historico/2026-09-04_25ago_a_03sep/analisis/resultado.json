@@ -13455,7 +13455,7 @@
   },
   "competencia": {
     "GT": {
-      "presion_total": 164,
+      "presion_total": 182,
       "dominante": "Banco Industrial (BI)",
       "detalle": {
         "Paggo": {
@@ -13854,13 +13854,232 @@
             }
           ],
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880"
+        },
+        "Cubo Guatemala": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "115248238288708",
+          "activos_declarados": 11,
+          "anuncios_en_muestra": 11,
+          "metodo": null,
+          "presion_real": 11,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Pauta en GT y no en SV. Su mensaje es de APARATO y de pedido: 'Pide tu Cubo Go hoy'. Ni Paggo ('gestiona tu negocio facil') ni Shopify ('crea tu tienda') ocupan ese territorio, asi que Cubo es el primero del registro que compite por el punto de venta fisico en GT con volumen.",
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-09-03",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-09-02",
+              "anuncios": 10
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Pide tu Cubo Go hoy",
+              "repeticiones": 6,
+              "cuota": 0.5454545454545454,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 11,
+              "dias_vivo": 14,
+              "dias_desde_el_ultimo": 13,
+              "primer_lanzamiento": "2026-09-02"
+            },
+            {
+              "titular": "Pide tu Cubo Más",
+              "repeticiones": 4,
+              "cuota": 0.36363636363636365,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 11,
+              "dias_vivo": 14,
+              "dias_desde_el_ultimo": 14,
+              "primer_lanzamiento": "2026-09-02"
+            },
+            {
+              "titular": "ideal para tu negocio",
+              "repeticiones": 1,
+              "cuota": 0.09090909090909091,
+              "sobre_anuncios": 11,
+              "con_titular_legible": 11,
+              "dias_vivo": 14,
+              "dias_desde_el_ultimo": 14,
+              "primer_lanzamiento": "2026-09-02"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=115248238288708"
+        },
+        "Mindy.gt": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "600625056467735",
+          "activos_declarados": 4,
+          "anuncios_en_muestra": 4,
+          "metodo": null,
+          "presion_real": 4,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales, cuatro activos y cero en SV. Misma escala que GuatePOS. Su peso competitivo es bajo; entra al registro porque Mercadeo lo pidio para punto de venta.",
+          "moneda": "GTQ",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 2,
+          "lanzados_3d": 2,
+          "cohortes": [
+            {
+              "fecha": "2026-09-15",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-09-14",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-09-04",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-02-06",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "Mindy.gt",
+              "repeticiones": 1,
+              "cuota": 0.25,
+              "sobre_anuncios": 4,
+              "con_titular_legible": 1,
+              "dias_vivo": 12,
+              "dias_desde_el_ultimo": 12,
+              "primer_lanzamiento": "2026-09-04"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=600625056467735"
+        },
+        "n1co": {
+          "rol": "competidor",
+          "categorias": [
+            "software",
+            "hardware"
+          ],
+          "page_id": "105470425404552",
+          "activos_declarados": 9,
+          "anuncios_en_muestra": 9,
+          "metodo": "La muestra NO esta truncada (9 de 9), asi que el solapamiento se midio LEYENDO LOS NUEVE titulares, que es mas fuerte que contar coincidencias de termino. En categoria: 'Soluciones de cobro digital con n1co business', 'Tu celular ahora es tu POS de cobro' y 'Tu cel ahora es tu POS con n1co tap' = 3. Fuera: 3 de credito/cuotas y 1 de ofertas al consumidor. AMBIGUOS y NO contados: 'Haz crecer tu negocio con n1co' y 'Aumenta tus ventas hoy' -hablan al dueno de negocio sin nombrar cobro-; contarlos daria 5. Corroboracion con page_ids + search_terms: 'cobro'=3, 'POS'=2, union de 4 ids distintos. Los dos metodos NO coinciden, que es la advertencia de siempre: search_terms busca en el texto del creativo y la ausencia de un termino es evidencia debil. Con muestra completa manda la lectura.",
+          "presion_real": 3,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "ES EL COMPETIDOR MAS CERCANO DEL REGISTRO. Es el unico que dice lo que decimos nosotros: 'tu celular ahora es tu POS de cobro', 'acepta todas las tarjetas', 'cobrando desde el celular'. Paggo ocupa 'gestiona tu negocio facil' y Shopify 'crea tu tienda': ninguno de los dos habla de COBRAR. n1co si, y en los dos mercados. Ademas es el PRIMERO del registro con presencia real de pagos en El Salvador -24 activos contra 9 en Guatemala-, que es justo donde nuestro lead sale mas barato. El hueco que se habia leido como 'nadie habla de cobrar mejor' hay que volver a mirarlo con esto encima.",
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 3,
+          "lanzados_3d": 0,
+          "cohortes": [
+            {
+              "fecha": "2026-09-11",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-08-27",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-07-07",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-06-05",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-05-27",
+              "anuncios": 1
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "🚀 Aumenta tus ventas hoy",
+              "repeticiones": 1,
+              "cuota": 0.1111111111111111,
+              "sobre_anuncios": 9,
+              "con_titular_legible": 9,
+              "dias_vivo": 112,
+              "dias_desde_el_ultimo": 112,
+              "primer_lanzamiento": "2026-05-27"
+            },
+            {
+              "titular": "Haz crecer tu negocio con n1co 🚀",
+              "repeticiones": 1,
+              "cuota": 0.1111111111111111,
+              "sobre_anuncios": 9,
+              "con_titular_legible": 9,
+              "dias_vivo": 103,
+              "dias_desde_el_ultimo": 103,
+              "primer_lanzamiento": "2026-06-05"
+            },
+            {
+              "titular": "Tu celular ahora es tu POS de cobro ⚡",
+              "repeticiones": 1,
+              "cuota": 0.1111111111111111,
+              "sobre_anuncios": 9,
+              "con_titular_legible": 9,
+              "dias_vivo": 71,
+              "dias_desde_el_ultimo": 71,
+              "primer_lanzamiento": "2026-07-07"
+            },
+            {
+              "titular": "📱 ¡Tu cel ahora es tu POS con n1co tap!",
+              "repeticiones": 1,
+              "cuota": 0.1111111111111111,
+              "sobre_anuncios": 9,
+              "con_titular_legible": 9,
+              "dias_vivo": 71,
+              "dias_desde_el_ultimo": 71,
+              "primer_lanzamiento": "2026-07-07"
+            },
+            {
+              "titular": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+              "repeticiones": 1,
+              "cuota": 0.1111111111111111,
+              "sobre_anuncios": 9,
+              "con_titular_legible": 9,
+              "dias_vivo": 21,
+              "dias_desde_el_ultimo": 21,
+              "primer_lanzamiento": "2026-08-26"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105470425404552"
         }
       },
-      "sin_medir": []
+      "sin_medir": [
+        {
+          "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "estado": "DECLARADO_SIN_MEDIR",
+          "por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
+          "como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea."
+        }
+      ]
     },
     "SV": {
-      "presion_total": 0,
-      "dominante": null,
+      "presion_total": 5,
+      "dominante": "n1co",
       "detalle": {
         "Paggo": {
           "rol": "competidor",
@@ -14174,9 +14393,160 @@
             }
           ],
           "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=20409006880"
+        },
+        "Cubo Guatemala": {
+          "rol": "competidor",
+          "categorias": [
+            "software"
+          ],
+          "page_id": "115248238288708",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Pauta en GT y no en SV. Su mensaje es de APARATO y de pedido: 'Pide tu Cubo Go hoy'. Ni Paggo ('gestiona tu negocio facil') ni Shopify ('crea tu tienda') ocupan ese territorio, asi que Cubo es el primero del registro que compite por el punto de venta fisico en GT con volumen.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=115248238288708"
+        },
+        "Mindy.gt": {
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "page_id": "600625056467735",
+          "activos_declarados": 0,
+          "anuncios_en_muestra": 0,
+          "metodo": null,
+          "presion_real": 0,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "Operacion pequena y local: presupuesto en quetzales, cuatro activos y cero en SV. Misma escala que GuatePOS. Su peso competitivo es bajo; entra al registro porque Mercadeo lo pidio para punto de venta.",
+          "moneda": null,
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 0,
+          "lanzados_3d": 0,
+          "cohortes": [],
+          "mensajes": [],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=600625056467735"
+        },
+        "n1co": {
+          "rol": "competidor",
+          "categorias": [
+            "software",
+            "hardware"
+          ],
+          "page_id": "105470425404552",
+          "activos_declarados": 24,
+          "anuncios_en_muestra": 24,
+          "metodo": "Muestra NO truncada (24 de 24): mismo metodo que en GT, leyendo los 24 titulares. En categoria: 'Transforma tu celular en un POS con n1co tap', 'Acepta todas las tarjetas con el ecosistema n1co', 'Aumenta tus ventas cobrando desde el celular', 'Equipa tu negocio con la tecnologia de n1co business' y 'Multiplica tus ventas con n1co Business' = 5. Fuera: 8 ofertas al consumidor -sushi, salon de belleza, chequeo medico-, 3 de credito, 2 de facturacion electronica -herramienta de negocio, no adquirencia- y 6 sin angulo legible ('App Redirect' x4, uno vacio, uno que repite la marca). Corroboracion con search_terms: 'POS'=2, 'cobrar'=3, union de 3 ids. Da MENOS que la lectura porque 'Multiplica tus ventas con n1co Business' no usa ninguno de los dos terminos: es exactamente el caso de la advertencia.",
+          "presion_real": 5,
+          "presion_medida": true,
+          "advertencia_muestra": null,
+          "nota_estrategica": "ES EL COMPETIDOR MAS CERCANO DEL REGISTRO. Es el unico que dice lo que decimos nosotros: 'tu celular ahora es tu POS de cobro', 'acepta todas las tarjetas', 'cobrando desde el celular'. Paggo ocupa 'gestiona tu negocio facil' y Shopify 'crea tu tienda': ninguno de los dos habla de COBRAR. n1co si, y en los dos mercados. Ademas es el PRIMERO del registro con presencia real de pagos en El Salvador -24 activos contra 9 en Guatemala-, que es justo donde nuestro lead sale mas barato. El hueco que se habia leido como 'nadie habla de cobrar mejor' hay que volver a mirarlo con esto encima.",
+          "moneda": "USD",
+          "plantillas_sin_renderizar": 0,
+          "lanzados_10d": 4,
+          "lanzados_3d": 1,
+          "cohortes": [
+            {
+              "fecha": "2026-09-16",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-09-11",
+              "anuncios": 3
+            },
+            {
+              "fecha": "2026-09-03",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-09-01",
+              "anuncios": 1
+            },
+            {
+              "fecha": "2026-08-31",
+              "anuncios": 2
+            },
+            {
+              "fecha": "2026-08-26",
+              "anuncios": 7
+            }
+          ],
+          "mensajes": [
+            {
+              "titular": "App Redirect",
+              "repeticiones": 4,
+              "cuota": 0.16666666666666666,
+              "sobre_anuncios": 24,
+              "con_titular_legible": 23,
+              "dias_vivo": 22,
+              "dias_desde_el_ultimo": 21,
+              "primer_lanzamiento": "2026-08-25"
+            },
+            {
+              "titular": "🤩 Tus restaurantes favoritos con grandes descuentos🎟️",
+              "repeticiones": 2,
+              "cuota": 0.08333333333333333,
+              "sobre_anuncios": 24,
+              "con_titular_legible": 23,
+              "dias_vivo": 21,
+              "dias_desde_el_ultimo": 21,
+              "primer_lanzamiento": "2026-08-26"
+            },
+            {
+              "titular": "n1co | Multiplica tus ventas con n1co Business🚀 | Multiplica tus ventas con n1co Business 🚀 | Multiplica tus ventas con n1co Business 🚀 |   |   |",
+              "repeticiones": 1,
+              "cuota": 0.041666666666666664,
+              "sobre_anuncios": 24,
+              "con_titular_legible": 23,
+              "dias_vivo": 111,
+              "dias_desde_el_ultimo": 111,
+              "primer_lanzamiento": "2026-05-28"
+            },
+            {
+              "titular": "🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | 🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | 🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | No pierda más ventas: acepte tarjetas sin aparatos extras 💸",
+              "repeticiones": 1,
+              "cuota": 0.041666666666666664,
+              "sobre_anuncios": 24,
+              "con_titular_legible": 23,
+              "dias_vivo": 94,
+              "dias_desde_el_ultimo": 94,
+              "primer_lanzamiento": "2026-06-14"
+            },
+            {
+              "titular": "💳 ¡Aceptá todas las tarjetas con el ecosistema n1co! 📲",
+              "repeticiones": 1,
+              "cuota": 0.041666666666666664,
+              "sobre_anuncios": 24,
+              "con_titular_legible": 23,
+              "dias_vivo": 79,
+              "dias_desde_el_ultimo": 79,
+              "primer_lanzamiento": "2026-06-29"
+            }
+          ],
+          "url_biblioteca": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SV&view_all_page_id=105470425404552"
         }
       },
-      "sin_medir": []
+      "sin_medir": [
+        {
+          "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
+          "rol": "competidor",
+          "categorias": [
+            "hardware"
+          ],
+          "estado": "DECLARADO_SIN_MEDIR",
+          "por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
+          "como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea."
+        }
+      ]
     }
   },
   "competencia_registro": {
@@ -14224,14 +14594,14 @@
         "dimension": "Anuncios activos disputando pagos · GT",
         "qpaypro": "1 campañas con entrega, 107 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "Square: 123, Banco Industrial (BI): 117, Paggo: 38, Shopify: 16, Recurrente: 6, GuatePOS: 3",
+        "competencia": "Square: 123, Banco Industrial (BI): 117, Paggo: 38, Shopify: 16, Cubo Guatemala: 11, Recurrente: 6, Mindy.gt: 4, GuatePOS: 3, n1co: 3",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
       },
       {
         "dimension": "Anuncios activos disputando pagos · SV",
         "qpaypro": "1 campañas con entrega, 87 leads",
         "referentes": "0 (ninguno pauta en este mercado)",
-        "competencia": "Square: 123, Shopify: 16",
+        "competencia": "Square: 123, Shopify: 16, n1co: 5",
         "lectura": "Nuestro lado son campañas con entrega y leads; el suyo son anuncios activos. Son unidades distintas y no se restan: la fila sirve para ver quién está en el terreno, no para declarar un ganador."
       }
     ],
@@ -14254,14 +14624,18 @@
           "repeticiones": 3,
           "dias_vivo": 54,
           "lectura": "Recurrente concentra 50% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
+        },
+        {
+          "mercado": "GT",
+          "de": "Cubo Guatemala",
+          "mensaje": "Pide tu Cubo Go hoy",
+          "cuota": 0.545,
+          "repeticiones": 6,
+          "dias_vivo": 14,
+          "lectura": "Cubo Guatemala concentra 55% de sus anuncios activos en este mensaje. Es el terreno que está pagando por ocupar."
         }
       ],
-      "libres": [
-        {
-          "mercado": "SV",
-          "lectura": "Ninguno de los competidores medidos tiene anuncios activos aquí. El terreno está sin disputa medida — con la salvedad de que solo se midieron los competidores del registro."
-        }
-      ]
+      "libres": []
     },
     "busquedas": [
       {
@@ -14289,11 +14663,11 @@
         "_estado": "BUSQUEDA_NO_CURADA"
       },
       {
-        "tema": "Creativo propio para SV",
-        "consulta": "local market payments campaign key visual",
+        "tema": "Contra-ángulo frente a Cubo Guatemala",
+        "consulta": "payments brand differentiation poster minimal",
         "formato": "arte",
-        "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
-        "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+        "motivo": "Cubo Guatemala ocupa «Pide tu Cubo Go hoy» en 55% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+        "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
         "_estado": "BUSQUEDA_NO_CURADA"
       }
     ],
@@ -16502,7 +16876,6 @@
       {
         "id": "copy-sv-liquidacion-a",
         "estrategias": [
-          "mercado-sin-disputa",
           "repetir-lo-propio",
           "disputar-el-flanco"
         ],
@@ -16525,7 +16898,7 @@
         "de_que_hablar": "Liquidación diaria · el argumento más fuerte, y solo existe en SV",
         "como_hablarlo": "Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.",
         "porque": [
-          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
+          "Ojo: SV ya NO está sin disputa. Los competidores medidos tienen 5 anuncios activos ahi.",
           "En SV el lead cuesta $2.68 · GT $3.35.",
           "En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.",
           "«Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor."
@@ -16567,7 +16940,7 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "Ad Library · SV · 0 anuncios activos de 6 marcas",
+          "Ad Library · SV · presion 5",
           "pauta de Meta · SV · 87 leads · $233.12 · $2.68 por lead",
           "ads_get_ig_media + Zoho Analytics · 10 reels y 15 piezas de feed con alcance",
           "numerador consistente: likes + comentarios de ads_get_ig_media, el mismo en las dos cohortes",
@@ -16576,7 +16949,7 @@
           "Ad Library · Paggo Guatemala · 36 de 38 anuncios con ese titular"
         ],
         "faltantes": [],
-        "premisa_movida": false,
+        "premisa_movida": true,
         "bloqueada_en": [
           "GT"
         ],
@@ -16585,16 +16958,18 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Video · Pasarela de Pagos · SV [MC:2026-W35::video::copy-sv-liquidacion-a]",
-          "description": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.\n\nENFOCARSE EN: Liquidación diaria · el argumento más fuerte, y solo existe en SV\n\nCÓMO HABLARLO: Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.\n\nLO QUE DICE EL ANÁLISIS:\n  · Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.\n  · En SV el lead cuesta $2.68 · GT $3.35.\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · «Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Tu dinero cada 24 horas\n  Cuerpo: Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.\n  CTA: Empezar ahora\n\nNO DICE: Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · Una pantalla de banca con el saldo del día siguiente, no un billete genérico\n  · El negocio real abriendo: cortina, caja, primer cliente\n  · El plazo en pantalla como número grande: 24 h\n\nQUE NO VAYA:\n  · Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta\n  · Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido\n\nREFERENCIA · Shopify (referente)\n  Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2 de septiembre.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un video de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que espera el cierre de semana para ver su dinero.\n\nENFOCARSE EN: Liquidación diaria · el argumento más fuerte, y solo existe en SV\n\nCÓMO HABLARLO: Directo y en segunda persona. El beneficio en el primer segundo —«tu dinero»— y el plazo como número, no como adjetivo. Nada de «rápido»: 24 horas.\n\nLO QUE DICE EL ANÁLISIS:\n  · Ojo: SV ya NO está sin disputa. Los competidores medidos tienen 5 anuncios activos ahi.\n  · En SV el lead cuesta $2.68 · GT $3.35.\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · «Gestiona tu Negocio Fácil» ya tiene dueño: Paggo Guatemala lo carga en 95% de sus 38 anuncios en GT, y lo lleva 109 días vivo. Ahí no se entra con una versión mejor.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Tu dinero cada 24 horas\n  Cuerpo: Liquidación diaria. Cobras hoy y mañana está en tu cuenta, sin esperar el cierre de la semana.\n  CTA: Empezar ahora\n\nNO DICE: Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido, y su número está arriba, en el análisis. Aquí no se repite para que no queden dos cifras distintas de lo mismo.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · Una pantalla de banca con el saldo del día siguiente, no un billete genérico\n  · El negocio real abriendo: cortina, caja, primer cliente\n  · El plazo en pantalla como número grande: 24 h\n\nQUE NO VAYA:\n  · Calendarios ni relojes de arena: el mensaje es que no hay espera, no que la espera es corta\n  · Nada de «gestiona tu negocio»: ese mensaje tiene dueño medido\n\nREFERENCIA · Shopify (referente)\n  Repetir UNA promesa corta de beneficio, no de producto, y sostenerla meses en vez de rotarla cada semana.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala. Confirmado por Mercadeo el 2 de septiembre.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
-        }
+        },
+        "_estrategias_caidas": [
+          "mercado-sin-disputa"
+        ],
+        "_por_que_caidas": "Esta carta se apoyaba en una apuesta que esta corrida ya no sostiene: su premisa dejo de ser cierta. El texto sigue siendo producible, pero el ARGUMENTO con el que se eligio hay que volver a mirarlo en la mesa."
       },
       {
         "id": "copy-sv-liquidacion-b",
-        "estrategias": [
-          "mercado-sin-disputa"
-        ],
+        "estrategias": [],
         "siempre": false,
         "canales": [
           "pauta"
@@ -16613,7 +16988,7 @@
         "de_que_hablar": "Liquidación diaria · con el patrón de fricción primero",
         "como_hablarlo": "El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.",
         "porque": [
-          "Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.",
+          "Ojo: SV ya NO está sin disputa. Los competidores medidos tienen 5 anuncios activos ahi.",
           "Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.",
           "Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%)."
         ],
@@ -16654,14 +17029,14 @@
           "_ojo": "Meta no publica impresiones de anunciantes comerciales: «el mejor anuncio» de un competidor no se puede saber. Lo medible es qué repite y qué no retira."
         },
         "evidencia": [
-          "Ad Library · SV · 0 anuncios activos de 6 marcas",
+          "Ad Library · SV · presion 5",
           "Ad Library · referentes 26 de 82",
           "Ad Library · competidores 22 de 83",
           "el carrusel se detecta porque el titular llega con las tarjetas pegadas por « | »",
           "Ad Library · mediana de concentracion · competidores 50% sobre 5 marcas · referentes 12% sobre 3"
         ],
         "faltantes": [],
-        "premisa_movida": false,
+        "premisa_movida": true,
         "bloqueada_en": [
           "GT"
         ],
@@ -16670,10 +17045,15 @@
         "_por_que_pendiente": "Ningún copy se publica sin aprobación humana (regla 5). La carta propone; la mesa decide.",
         "sprint": {
           "name": "Arte · Pasarela de Pagos · SV [MC:2026-W35::arte::copy-sv-liquidacion-b]",
-          "description": "Producir un arte de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que ya cobra con tarjeta y no sabe cuándo le llega.\n\nENFOCARSE EN: Liquidación diaria · con el patrón de fricción primero\n\nCÓMO HABLARLO: El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.\n\nLO QUE DICE EL ANÁLISIS:\n  · Cero anuncios activos en SV entre las 6 marcas medidas. Hoy esa atención no se le compra a nadie.\n  · Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.\n  · Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%).\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Cobraste el lunes. ¿Cuándo lo ves?\n  Cuerpo: Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.\n  CTA: Calcula tu cobro\n\nNO DICE: No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.\n\nESTRUCTURA: Carrusel de 3 a 12 tarjetas — Los referentes lo usan en 32% de sus anuncios contra 26% de los competidores, y llegan hasta 12 tarjetas.\n\nQUÉ MOSTRAR:\n  · Tarjeta 1: la pregunta sola sobre fondo plano\n  · Tarjeta 2: la respuesta con el plazo\n  · Tarjeta 3: el cierre «sin sorpresas ni letra pequeña»\n\nQUE NO VAYA:\n  · La comisión: si se incluye va con la letra chica completa y marcada REVISIÓN LEGAL\n  · Iconos de moneda de otro país: es SV\n\nREFERENCIA · Shopify (referente)\n  Contar por pasos en varias tarjetas en vez de meter todo en una imagen.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "description": "Producir un arte de Pasarela de Pagos para SV, para el dueño de negocio en El Salvador que ya cobra con tarjeta y no sabe cuándo le llega.\n\nENFOCARSE EN: Liquidación diaria · con el patrón de fricción primero\n\nCÓMO HABLARLO: El patrón de las landings de Qpaypro: nombrar la fricción como pregunta y resolverla en la línea siguiente. Cerrar con «sin sorpresas ni letra pequeña», que es frase textual de su calculadora.\n\nLO QUE DICE EL ANÁLISIS:\n  · Ojo: SV ya NO está sin disputa. Los competidores medidos tienen 5 anuncios activos ahi.\n  · Los referentes usan carrusel en 32% de sus anuncios y los competidores locales en 26%. Hay margen para contar algo por pasos en vez de una sola imagen.\n  · Los competidores apuestan a un solo mensaje —la mediana concentra 50% de su inventario— y los referentes lo reparten (12%).\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Cobraste el lunes. ¿Cuándo lo ves?\n  Cuerpo: Con liquidación diaria, al día siguiente. Sin sorpresas ni letra pequeña.\n  CTA: Calcula tu cobro\n\nNO DICE: No menciona la comisión. Si se quiere incluir, va con la letra chica completa y marcada REVISIÓN LEGAL.\n\nESTRUCTURA: Carrusel de 3 a 12 tarjetas — Los referentes lo usan en 32% de sus anuncios contra 26% de los competidores, y llegan hasta 12 tarjetas.\n\nQUÉ MOSTRAR:\n  · Tarjeta 1: la pregunta sola sobre fondo plano\n  · Tarjeta 2: la respuesta con el plazo\n  · Tarjeta 3: el cierre «sin sorpresas ni letra pequeña»\n\nQUE NO VAYA:\n  · La comisión: si se incluye va con la letra chica completa y marcada REVISIÓN LEGAL\n  · Iconos de moneda de otro país: es SV\n\nREFERENCIA · Shopify (referente)\n  Contar por pasos en varias tarjetas en vez de meter todo en una imagen.\n  Medido: Su titular más repetido es «Comienza a vender más rápido» (12% de 16 anuncios leídos, 28 días vivo). Carrusel en 56% de sus piezas, hasta 4 tarjetas. Sube en modo goteo.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=20409006880\n\nNO USAR EN: GT — La liquidación diaria NO aplica en Guatemala.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
-        }
+        },
+        "_estrategias_caidas": [
+          "mercado-sin-disputa"
+        ],
+        "_por_que_caidas": "Esta carta se apoyaba en una apuesta que esta corrida ya no sostiene: su premisa dejo de ser cierta. El texto sigue siendo producible, pero el ARGUMENTO con el que se eligio hay que volver a mirarlo en la mesa.",
+        "sin_estrategia_viva": true
       },
       {
         "id": "copy-belleza-anticipo",
@@ -17016,8 +17396,7 @@
         "id": "copy-pdv-video-cierre",
         "estrategias": [
           "repetir-lo-propio",
-          "disputar-el-flanco",
-          "mercado-sin-disputa"
+          "disputar-el-flanco"
         ],
         "siempre": false,
         "canales": [
@@ -17087,7 +17466,7 @@
           "pauta de Meta · GT · 107 leads · $358.30 · $3.35 por lead"
         ],
         "faltantes": [],
-        "premisa_movida": false,
+        "premisa_movida": true,
         "bloqueada_en": [],
         "_por_que_bloqueada": null,
         "aprobacion": "PENDIENTE",
@@ -17097,7 +17476,11 @@
           "description": "Producir un video de Punto de Venta para GT y SV, para el dueño que cierra caja a mano cada noche.\n\nENFOCARSE EN: Punto de Venta · la fricción del cierre de caja, en video\n\nCÓMO HABLARLO: Video con la fricción en el primer segundo, sin logo al inicio. Las dos frases son literales de la landing de punto de venta; el resto es escena, no locución.\n\nLO QUE DICE EL ANÁLISIS:\n  · En nuestra cuenta el reel llega a 8.1x más personas que la pieza de feed (7,192 de alcance contra 890). De los que alcanza engancha a menos: 2.64% contra 6.63% del feed. Para que lo vea gente nueva, reel.\n  · De los 50 anuncios de competidores con titular clasificable, solo 1 toca «punto de venta / hardware».\n  · En GT el lead cuesta $3.35 · SV $2.68.\n\nCOPY (pendiente de aprobación · regla 5):\n  Titular: Cerrar caja no debería tomar media hora\n  Cuerpo: El corte se arma con lo que pasó por el sistema. Sin cuadernos ni cuentas a mano.\n  CTA: Ver Punto de Venta\n\nNO DICE: No nombra el modelo: en GT es POS Cute y en SV es POS A920.\n\nESTRUCTURA: Reel vertical 9:16, no video de feed — El reel llega a 8.1x más personas que la pieza de feed en la cuenta propia. Esa es la razón para usarlo: alcance, no tasa.\n\nQUÉ MOSTRAR:\n  · El mostrador al cierre, no el equipo en estudio\n  · La pantalla del corte con el total ya armado\n  · El cuaderno guardándose\n\nQUE NO VAYA:\n  · El modelo del POS: en GT es Cute y en SV es A920\n  · Gráficas ni tableros: el mensaje es el tiempo, no el reporte\n\nREFERENCIA · Paggo Guatemala (competidor)\n  Su cadencia de subida, no su promesa: repite y no retira. El mensaje de «gestión» es suyo y medido.\n  Medido: Su titular más repetido es «Gestiona tu Negocio Fácil» (95% de 38 anuncios leídos, 109 días vivo). Carrusel en 5% de sus piezas, hasta 4 tarjetas. Sube en modo ráfaga.\n  https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=GT&view_all_page_id=105294361957860\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
-        }
+        },
+        "_estrategias_caidas": [
+          "mercado-sin-disputa"
+        ],
+        "_por_que_caidas": "Esta carta se apoyaba en una apuesta que esta corrida ya no sostiene: su premisa dejo de ser cierta. El texto sigue siendo producible, pero el ARGUMENTO con el que se eligio hay que volver a mirarlo en la mesa."
       },
       {
         "id": "copy-pasarela-arte-whatsapp",
@@ -17829,136 +18212,22 @@
   "estrategia": {
     "estrategias": [
       {
-        "id": "mercado-sin-disputa",
-        "nombre": "Empujar SV, que hoy no se le disputa a nadie",
-        "en_pocas_palabras": "Concentrar la semana en SV, con creativo hecho para SV.",
-        "por_que": "Es el único mercado donde se juntan las dos cosas: el costo por resultado más bajo ($2.68 contra GT $3.35) y cero anuncios activos entre los competidores medidos. Cuando nadie más compra esa atención, el creativo no compite por ella.",
-        "evidencia": [
-          "meta_campanas_por_pais.json · SV · $2.68 por resultado",
-          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
-        ],
-        "cuando_no_conviene": "Si el equipo comercial de SV no puede atender más leads. Y hay un techo que no se puede medir desde aquí: SV concentra solo el 39% de la inversión del periodo ($233.12), así que duplicar ahí mueve menos dinero en términos absolutos que un punto de mejora en el mercado grande.",
-        "tareas": [
-          "arte-mercado-libre-SV"
-        ],
-        "recomendada": true,
-        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto.",
-        "plan": {
-          "piezas": {
-            "arte": {
-              "cuantas": 2,
-              "capacidad": 5,
-              "cabe": true,
-              "holgura": 3
-            },
-            "video": {
-              "cuantas": 2,
-              "capacidad": 5,
-              "cabe": true,
-              "holgura": 3
-            }
-          },
-          "total": 4,
-          "veredicto": "cabe",
-          "veredicto_texto": "Cabe en la semana, y sobra capacidad para 3 artes y 3 videos más.",
-          "veredicto_corto": "Sobran 3 artes y 3 videos",
-          "canal": {
-            "particion": {
-              "solo_pauta": 1,
-              "solo_organico": 0,
-              "en_los_dos": 2,
-              "sin_canal": 1
-            },
-            "pauta": {
-              "cuantas": 3,
-              "solo": 1,
-              "titulos": [
-                "Arte · Pasarela de Pagos"
-              ]
-            },
-            "organico": {
-              "cuantas": 2,
-              "solo": 0,
-              "titulos": []
-            },
-            "ambos": {
-              "cuantas": 2,
-              "titulos": [
-                "Video · Pasarela de Pagos",
-                "Video · Punto de Venta"
-              ]
-            },
-            "solo_ejecucion": {
-              "cuantas": 1,
-              "titulos": [
-                "Arte · Pasarela de Pagos"
-              ]
-            },
-            "total": 4,
-            "_como_se_cuenta": "Por el canal donde se MIDIÓ la evidencia de cada carta, no por una predicción de dónde va a rendir. Meta Ads y la Ad Library son pauta —la Ad Library solo muestra anuncios pagados—; la cuenta propia es orgánico.",
-            "_por_que_particion": "Lo que se pinta son los cuatro grupos de `particion`, que no se solapan y suman el total de cartas. `pauta` y `organico` de aquí abajo SÍ se solapan —una carta con evidencia de los dos cuenta en los dos— y por eso no se muestran como si fueran una lista de partes."
-          },
-          "apuesta": {
-            "frase": "Hablamos de Liquidación diaria, Pasarela de Pagos, Punto de Venta, concentrado en SV. Por qué ahora: hoy ninguna de las 6 marcas medidas tiene anuncios activos en SV.",
-            "que_decimos": "Liquidación diaria, Pasarela de Pagos, Punto de Venta",
-            "a_quien_cuantos": 4,
-            "por_que_ahora": "hoy ninguna de las 6 marcas medidas tiene anuncios activos en SV",
-            "_de_donde": "Los ángulos son los de SUS PROPIAS cartas, contados por frecuencia. La frase no se escribe a mano: se arma de las cartas que la estrategia activa, así que no puede contradecirlas. El «por qué ahora» sale de la Ad Library, que solo publica lo que está activo hoy; cuando no hay señal temporal medida, no se escribe.",
-            "_ojo_ancho": null
-          },
-          "origen": {
-            "linea": "En SV el lead cuesta $2.68",
-            "contra": "12% bajo el promedio de la cuenta ($3.05) · 20% bajo GT ($3.35)",
-            "anterior": {
-              "costo": 2.1097,
-              "resultados": 70,
-              "desde": "2026-08-15",
-              "hasta": "2026-08-24",
-              "dias_con_dato": 8,
-              "dias_con_dato_corrida": 9,
-              "variacion": 0.2701,
-              "peor": true,
-              "_ojo_dias": "La ventana anterior tuvo 8 días con entrega y esta 9. El costo por resultado es una razón y aguanta la diferencia; los totales de gasto NO son comparables."
-            },
-            "fuente": "pauta de Meta · agrupado por indicador (ADR-013)"
-          },
-          "diferencia": "Es la que aparta el foco a un mercado en vez de repartir. Las otras miran los anuncios activos del competidor y la cuenta propia.",
-          "direccion": {
-            "metrica": "costo por lead en SV",
-            "hacia": "abajo",
-            "hoy": "$2.68"
-          },
-          "medir": {
-            "base": [
-              "GT · 107 leads a $3.35",
-              "SV · 87 leads a $2.68",
-              "orgánico · 118 interacciones en 10 publicaciones",
-              "reel contra feed · 4.87x"
-            ],
-            "base_corta": "GT $3.35 · SV $2.68 · orgánico 118 inter. · reel 4.87x",
-            "apuesta": "El costo por lead del mercado sin disputa.",
-            "_como_leerlo": "Es la BASE de esta corrida, no una meta. La corrida de la semana que viene compara contra estos números. No se escribe un objetivo porque nadie midió qué pasa si se mueve el presupuesto: sería un pronóstico con cara de dato.",
-            "_ojo": "El orgánico no se puede partir por mercado con una sola marca conectada en Zoho Social, así que su base es de los dos juntos."
-          },
-          "_la_unidad": "Las piezas se cuentan de las CARTAS que esta estrategia activa: es la unidad que la mesa aprueba (ADR-042). El bloque de ángulos de abajo reparte la MISMA capacidad a un grano más grueso —un ángulo agrupa cartas—, así que no son piezas adicionales y no se suman."
-        }
-      },
-      {
         "id": "disputar-el-flanco",
         "nombre": "Ocupar el flanco que Paggo deja libre",
         "en_pocas_palabras": "Ir al mismo público con la promesa que la competencia no cubre.",
         "por_que": "Paggo concentra 95% de sus anuncios activos en un solo mensaje (36 anuncios, 121 días vivo). Un mensaje tan repetido y tan longevo es una apuesta que no han querido matar. Entrar con la misma promesa es pelear de frente contra un presupuesto que ya ocupó ese terreno; entrar por al lado cuesta menos atención.",
         "evidencia": [
           "Ad Library · Paggo · «Gestiona tu Negocio Fácil» en 95% de sus activos en GT",
-          "Registro de competencia · mensajes saturados detectados: Paggo, Recurrente"
+          "Registro de competencia · mensajes saturados detectados: Cubo Guatemala, Paggo, Recurrente"
         ],
         "cuando_no_conviene": "Si el mensaje que ellos repiten es el que de verdad describe nuestro producto. Ceder el argumento correcto por no chocar sería peor que chocar. Eso no lo dice el dato: lo decide la mesa.",
         "tareas": [
           "arte-contra-paggo-GT",
-          "arte-contra-recurrente-GT"
+          "arte-contra-recurrente-GT",
+          "arte-contra-cubo-guatemala-GT"
         ],
-        "recomendada": false,
-        "_por_que_recomendada": null,
+        "recomendada": true,
+        "_por_que_recomendada": "El análisis la propone porque su premisa se apoya en dos señales independientes (costo por resultado y competencia medida), no en una. Es una lectura del dato, NO un pronóstico: nadie midió qué pasa si se mueve el presupuesto.",
         "plan": {
           "piezas": {
             "arte": {
@@ -18032,7 +18301,7 @@
             "contra": "el siguiente más concentrado es Recurrente con 50%",
             "fuente": "Meta Ad Library · anuncios activos hoy"
           },
-          "diferencia": "Es la que se define por lo que hace la competencia, no por nuestro dato. Las otras miran el costo por lead por mercado y la cuenta propia.",
+          "diferencia": "Es la que se define por lo que hace la competencia, no por nuestro dato. Las otras miran la cuenta propia.",
           "direccion": {
             "metrica": "costo por lead en GT, donde está el competidor saturado",
             "hacia": "abajo",
@@ -18137,7 +18406,7 @@
             "fuente": "ads_get_ig_media + Zoho Analytics · cuenta propia",
             "_sin_periodo_anterior": "El orgánico NO se compara con el periodo anterior: su serie es acumulada al día de la consulta, no histórica."
           },
-          "diferencia": "Es la que no mira afuera: su premisa se midió en nuestra propia audiencia. Las otras miran el costo por lead por mercado y los anuncios activos del competidor.",
+          "diferencia": "Es la que no mira afuera: su premisa se midió en nuestra propia audiencia. Las otras miran los anuncios activos del competidor.",
           "direccion": {
             "metrica": "interacciones del orgánico",
             "hacia": "arriba",
@@ -18159,7 +18428,7 @@
         }
       }
     ],
-    "recomendada": "mercado-sin-disputa",
+    "recomendada": "disputar-el-flanco",
     "tareas": [
       {
         "id": "arte-contra-paggo-GT",
@@ -18270,34 +18539,34 @@
         }
       },
       {
-        "id": "arte-mercado-libre-SV",
+        "id": "arte-contra-cubo-guatemala-GT",
         "tipo": "arte",
-        "titulo": "Creativo propio para SV: nadie más está pautando ahí",
-        "porque": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.",
+        "titulo": "Contra-ángulo frente a Cubo Guatemala en GT",
+        "porque": "Cubo Guatemala concentra 55% de sus anuncios activos en un solo mensaje (6 repeticiones, 14 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.",
         "evidencia": [
-          "meta_campanas_por_pais.json · SV · costo por resultado $2.68",
-          "Ad Library · SV · 0 anuncios activos entre los competidores medidos"
+          "Ad Library · Cubo Guatemala · «Pide tu Cubo Go hoy» en 55% de sus activos en GT",
+          "Ad Library · foto del periodo, 6 anuncios con ese titular"
         ],
-        "angulo": "Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.",
-        "no_decir": null,
-        "formato": "arte estático + video corto",
+        "angulo": "Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.",
+        "no_decir": "Pide tu Cubo Go hoy",
+        "formato": "arte estático + variante para historia",
         "rol_sugerido": "diseño",
         "piezas": 1,
         "piezas_motivo": "1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.",
         "referencias": [
           {
-            "tema": "Creativo propio para SV",
-            "consulta": "local market payments campaign key visual",
+            "tema": "Contra-ángulo frente a Cubo Guatemala",
+            "consulta": "payments brand differentiation poster minimal",
             "formato": "arte",
-            "motivo": "SV no tiene competencia medida en pauta. Un creativo hecho para ese mercado no compite contra nadie por la atención.",
-            "url": "https://www.pinterest.com/search/pins/?q=local+market+payments+campaign+key+visual",
+            "motivo": "Cubo Guatemala ocupa «Pide tu Cubo Go hoy» en 55% de sus anuncios en GT. Buscar referencias que resuelvan el mismo problema con otra promesa.",
+            "url": "https://www.pinterest.com/search/pins/?q=payments+brand+differentiation+poster+minimal",
             "_estado": "BUSQUEDA_NO_CURADA"
           }
         ],
         "requiere_humano": false,
         "instruccion_exacta": null,
         "estrategias": [
-          "mercado-sin-disputa"
+          "disputar-el-flanco"
         ],
         "siempre": false,
         "copy": {
@@ -18313,12 +18582,12 @@
           "donde": ".claude/skills/contexto-marca/SKILL.md",
           "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
         },
-        "idempotencia": "2026-W35::arte::mercado-libre-SV",
+        "idempotencia": "2026-W35::arte::contra-Cubo Guatemala-GT",
         "_estado_inicial": "propuesta",
-        "marca": "[MC:2026-W35::arte::mercado-libre-SV]",
+        "marca": "[MC:2026-W35::arte::contra-Cubo Guatemala-GT]",
         "sprint": {
-          "name": "Creativo propio para SV: nadie más está pautando ahí [MC:2026-W35::arte::mercado-libre-SV]",
-          "description": "En SV el costo por resultado es $2.68 y es el más barato de los mercados medidos (GT $3.35), y ninguno de los competidores medidos tiene anuncios activos. Hoy se compite ahí contra nadie.\n\nÁNGULO: Hablarle a SV como SV, no reciclar el creativo del otro mercado. El nombre de campaña no es dato de mercado: ya hubo una campaña con el país en el nombre entregando en otro país.\n\nEVIDENCIA:\n  · meta_campanas_por_pais.json · SV · costo por resultado $2.68\n  · Ad Library · SV · 0 anuncios activos entre los competidores medidos\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
+          "name": "Contra-ángulo frente a Cubo Guatemala en GT [MC:2026-W35::arte::contra-Cubo Guatemala-GT]",
+          "description": "Cubo Guatemala concentra 55% de sus anuncios activos en un solo mensaje (6 repeticiones, 14 días vivo). Repetir su promesa es competir de frente contra el presupuesto que ya la ocupa.\n\nÁNGULO: Resolver el mismo problema del dueño de negocio con otra promesa. El terreno adyacente está libre; el de ellos no.\n\nNO DECIR: «Pide tu Cubo Go hoy» — ese terreno ya lo paga la competencia.\n\nEVIDENCIA:\n  · Ad Library · Cubo Guatemala · «Pide tu Cubo Go hoy» en 55% de sus activos en GT\n  · Ad Library · foto del periodo, 6 anuncios con ese titular\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nPIEZAS: 1 — 1 de las 5 artes de capacidad semanal, repartidas entre las 4 tareas de este tipo que propone la corrida (la capacidad es un promedio declarado por el equipo, no un tope duro). Si la mesa descarta alguna, las que queden pueden absorber lo que libera. Es la MISMA capacidad que cuenta el plan de la estrategia: un ángulo agrupa cartas, así que estas piezas no se suman con las de las cartas.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
@@ -18418,58 +18687,12 @@
           "projitemtypeid": "21897000000139035",
           "projpriorityid": "21897000000139007"
         }
-      },
-      {
-        "id": "pauta-mover-presupuesto",
-        "tipo": "pauta",
-        "titulo": "Decidir en la mesa si se mueve presupuesto hacia SV",
-        "porque": "Hoy SV trae el lead 20% más barato que GT ($2.68 contra $3.35) y concentra solo el 39% de la inversión del periodo. Que sea más barato hoy NO garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una decisión de la mesa y no una recomendación del sistema.",
-        "evidencia": [
-          "pauta de Meta · SV · $2.68 por lead",
-          "pauta de Meta · GT · $3.35 por lead",
-          "pauta de Meta · SV concentra 39% de la inversión"
-        ],
-        "angulo": "No es creativo: es reparto de presupuesto entre mercados.",
-        "no_decir": null,
-        "formato": "",
-        "rol_sugerido": "pauta",
-        "piezas": null,
-        "piezas_motivo": "No aplica: es un cambio de configuración, no producción.",
-        "referencias": [],
-        "requiere_humano": true,
-        "instruccion_exacta": "NO lo aplica el sistema. Si la mesa decide moverlo: en Meta Ads Manager, subir el presupuesto diario de Campaña Punto de Venta SV [SV] y bajar el de las de GT en la misma proporción. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. Medir una semana antes de mover otra vez.",
-        "estrategias": [
-          "mercado-sin-disputa"
-        ],
-        "siempre": false,
-        "copy": {
-          "estado": "BLOQUEADO",
-          "motivo": "El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.",
-          "falta": [
-            "Tono de voz y ejemplos de lo que sí suena a QPayPro",
-            "Claims permitidos y prohibidos en fintech regulada (GT y SV)",
-            "Nombres oficiales de producto y cómo se escriben",
-            "Diferenciadores verificables frente a competencia",
-            "Quién aprueba un copy antes de publicarse"
-          ],
-          "donde": ".claude/skills/contexto-marca/SKILL.md",
-          "_nota": "Lo que sí entrega el sistema es el ÁNGULO: qué territorio atacar y cuál evitar. Eso sale de la medición, no del tono."
-        },
-        "idempotencia": "2026-W35::pauta::mover-presupuesto",
-        "_estado_inicial": "propuesta",
-        "marca": "[MC:2026-W35::pauta::mover-presupuesto]",
-        "sprint": {
-          "name": "Decidir en la mesa si se mueve presupuesto hacia SV [MC:2026-W35::pauta::mover-presupuesto]",
-          "description": "Hoy SV trae el lead 20% más barato que GT ($2.68 contra $3.35) y concentra solo el 39% de la inversión del periodo. Que sea más barato hoy NO garantiza que aguante más volumen: eso no lo dice el dato, y por eso es una decisión de la mesa y no una recomendación del sistema.\n\nÁNGULO: No es creativo: es reparto de presupuesto entre mercados.\n\nINSTRUCCIÓN EXACTA: NO lo aplica el sistema. Si la mesa decide moverlo: en Meta Ads Manager, subir el presupuesto diario de Campaña Punto de Venta SV [SV] y bajar el de las de GT en la misma proporción. NO cambiar el objetivo de optimización: un ad set con historial de entrega no se edita, se duplica. Medir una semana antes de mover otra vez.\n\nLO APLICA UNA PERSONA: el sistema no escribe en Meta Ads (regla 8, ADR-012). Esta tarea es la instrucción.\n\nEVIDENCIA:\n  · pauta de Meta · SV · $2.68 por lead\n  · pauta de Meta · GT · $3.35 por lead\n  · pauta de Meta · SV concentra 39% de la inversión\n\nCopy: BLOQUEADO — El copy publicable requiere el contexto de marca, que hoy está incompleto a propósito. Escribirlo sin eso sería inventarlo.\n\nGenerado por Mesa Creativa · corrida 2026-08-25 a 2026-09-03",
-          "projitemtypeid": "21897000000139035",
-          "projpriorityid": "21897000000139007"
-        }
       }
     ],
     "conteo": {
       "creativas": 4,
-      "de_pauta": 2,
-      "total": 6
+      "de_pauta": 1,
+      "total": 5
     },
     "asignacion": {
       "habilitada": true,
@@ -18688,23 +18911,37 @@
       "advertencia": null
     },
     {
-      "titulo": "SV sin disputa medida",
-      "afirmacion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados.",
+      "titulo": "Cubo Guatemala concentra su mensaje",
+      "afirmacion": "55% de los anuncios observados de Cubo Guatemala usan el titular \"Pide tu Cubo Go hoy\".",
       "evidencia": [
         {
-          "dato": "Competencia activa en SV",
-          "valor": "0 anuncios",
-          "fuente": "Ad Library, SV, foto del 2026-09-16"
-        },
-        {
-          "dato": "Inversión propia en SV",
-          "valor": "$233.12 · 87 resultados · $2.68 por resultado",
-          "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+          "dato": "Titular dominante de Cubo Guatemala",
+          "valor": "\"Pide tu Cubo Go hoy\" en 6 de 11 anuncios",
+          "fuente": "adlibrary_cubo_GT.json"
         }
       ],
-      "tipo": "oportunidad",
+      "tipo": "riesgo",
       "calculo": null,
-      "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
+      "advertencia": null
+    },
+    {
+      "titulo": "Mindy.gt está escalando ahora",
+      "afirmacion": "50% del inventario activo observado de Mindy.gt se lanzó en los últimos 10 días. No es un estado estable.",
+      "evidencia": [
+        {
+          "dato": "Lanzamientos recientes de Mindy.gt",
+          "valor": "2 de 4 anuncios en los últimos 10 días",
+          "fuente": "adlibrary_mindy_GT.json"
+        },
+        {
+          "dato": "Cohorte más grande",
+          "valor": "1 anuncios creados el 2026-09-15 (hace 1 días)",
+          "fuente": "adlibrary_mindy_GT.json"
+        }
+      ],
+      "tipo": "riesgo",
+      "calculo": null,
+      "advertencia": null
     }
   ],
   "verificacion_semana_anterior": "No aplicable: no existe corrida de la semana anterior. No es un dato faltante, es la primera corrida.",
@@ -18734,32 +18971,10 @@
         "no_cuantificable": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
         "dato_que_falta": "Para cuantificar cuántas piezas dedicar a cada ángulo se necesitaría rendimiento propio por ángulo, que hoy no se captura de forma estructurada.",
         "advertencia": null
-      },
-      {
-        "titulo": "SV sin disputa medida",
-        "accion": "Ninguno de los competidores medidos (Paggo, Recurrente, GuatePOS, Banco Industrial (BI)) tiene anuncios activos en SV, y ahí ya hay inversión propia con resultados. Evaluar en la mesa si conviene aumentar la inversión ahí antes de que entre competencia.",
-        "evidencia": [
-          {
-            "dato": "Competencia activa en SV",
-            "valor": "0 anuncios",
-            "fuente": "Ad Library, SV, foto del 2026-09-16"
-          },
-          {
-            "dato": "Inversión propia en SV",
-            "valor": "$233.12 · 87 resultados · $2.68 por resultado",
-            "fuente": "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
-          }
-        ],
-        "cantidad": null,
-        "no_cuantificable": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
-        "dato_que_falta": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
-        "advertencia": "Solo se midieron los competidores del registro curado. La ausencia de ellos no prueba ausencia de toda competencia."
       }
     ],
     "fuentes_usadas": [
-      "Ad Library, SV, foto del 2026-09-16",
-      "adlibrary_paggo_GT.json",
-      "meta_campanas_por_pais.json · 2026-08-25 a 2026-09-03"
+      "adlibrary_paggo_GT.json"
     ]
   },
   "tareas_propuestas": [
@@ -18778,14 +18993,6 @@
       "justificacion": "La decisión de ángulo es estratégica y humana. El dato sustenta la pregunta, no la respuesta.",
       "origen": "recomendación sin dato suficiente",
       "idempotencia": "2026-W35::dato::Decidir posición frente al mensaje dominante del competidor"
-    },
-    {
-      "titulo": "Obtener el dato que falta: SV sin disputa medida",
-      "descripcion": "Capacidad de seguimiento del equipo comercial en ese mercado: cuántos leads por semana puede atender sin degradar la tasa de contacto.",
-      "tipo": "obtener_dato",
-      "justificacion": "Cuánto aumentar depende de la capacidad de atención comercial del mercado, que no es un dato de pauta.",
-      "origen": "recomendación sin dato suficiente",
-      "idempotencia": "2026-W35::dato::SV sin disputa medida"
     },
     {
       "titulo": "Quitar HN de la segmentación geográfica",
@@ -18814,6 +19021,13 @@
       "descripcion": "SIN LAS EXPORTACIONES COMPLETAS DE ZOHO ANALYTICS",
       "impacto": "El corte reel contra feed SI tiene alcance y su tasa se calcula. Lo que no hay es el bloque de alcance por red: faltan la vista de publicaciones de Instagram (fecha, formato y texto) y la de Facebook (Impressions).",
       "remedio": "Exportar a `crudo/analytics/`: `ig_media.csv` (vista «Media» del perfil de Instagram) y `fb_post_insights.csv` (vista `1909408000026703149`, Post Insights de Paginas de Facebook). Las dos de alcance de Instagram ya estan. Los ids y la receta, en docs/09-alcance-por-zoho-analytics.md."
+    },
+    {
+      "fuente": "estrategias caidas",
+      "descripcion": "1 estrategia(s) dejaron de sostenerse con esta corrida: mercado-sin-disputa",
+      "detalle": "mercado-sin-disputa sostenia 3 carta(s): copy-sv-liquidacion-a, copy-sv-liquidacion-b, copy-pdv-video-cierre",
+      "impacto": "Esas cartas quedan marcadas con premisa movida. Las que se quedaron sin ninguna estrategia viva NO se ocultan: se muestran declaradas, porque esconder una pieza producible sin avisar es peor que mostrarla con su advertencia.",
+      "remedio": "Revisar en la mesa el argumento de esas cartas. Una estrategia que se cae no invalida el copy, invalida el porque con que se eligio."
     }
   ]
 }

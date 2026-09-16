@@ -1,0 +1,21 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-16",
+  "parametros": {
+   "page_ids": [
+    "115248238288708"
+   ],
+   "countries": [
+    "SV"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda. La Ad Library es una FOTO DEL DIA de la consulta: no acepta rango de fechas.",
+  "_fidelidad": "Volcado parseado de la respuesta de ads_library_search del 2026-09-16. Los ocho campos vienen tal cual los devuelve la API.",
+  "_cero_medido": "Consulta hecha y devolvio CERO. Es un cero MEDIDO, no un hueco: la marca no pauta en este mercado."
+ },
+ "estimated_total_count": 0,
+ "ads": []
+}
