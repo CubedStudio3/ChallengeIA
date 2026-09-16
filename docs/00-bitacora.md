@@ -1576,3 +1576,89 @@ que los seis errores de conector digan cosas distintas.
 La primera versión comparaba el texto de la franja completa para ver si los
 mensajes de error diferían. Comparten prefijo: seis mensajes idénticos habrían
 pasado, que es justo el anti-patrón que el contrato nombra. Se compara el aviso.
+
+---
+
+## Sesión 24 · 2026-09-16 (tarde) · el botón salió roto y lo encontró quien lo usó
+
+Mercadeo apretó «Actualizar ahora» apenas se publicó. La franja contestó **«Meta
+respondió con un error. El dato de abajo no cambió.»** El botón nunca funcionó.
+
+**La causa, en una línea:** `time_range` se mandó como objeto y el esquema del
+conector lo declara `type: "string"` — va JSON serializado, que es lo que hace
+`Rango.como_time_range()` desde la V0. Meta devolvió `tool_error`.
+
+**Por qué las 28 comprobaciones lo dieron por bueno.** La prueba sacaba la forma
+esperada del crudo: `CRUDO._metadatos.parametros.time_range.since`. Ese bloque
+es un **registro legible escrito a mano** para dejar trazado qué se pidió, no el
+payload que viajó. La prueba comparó el puerto contra mi propia transcripción
+prettificada, y con eso verificó activamente la forma equivocada. Cuarta vez en
+el proyecto que un esperado propio firma el defecto; la primera en que sale de
+un archivo que yo mismo escribí como documentación.
+
+**Lo que se arregló**
+
+1. `time_range: JSON.stringify({since, until})` en `peticionDelDia()`.
+2. La prueba exige las dos cosas: que sea **texto**, y que ese texto parsee a un
+   rango cerrado de un solo día. Sólo la segunda habría pasado con un objeto.
+3. `tool_error` ahora **adjunta el texto que manda Meta**, recortado a 180
+   caracteres. Sin él lo único reportable era «salió error».
+4. Un ayudante nuevo se había llamado `recorta()` y ese nombre **ya existía** en
+   `tablero_app.js` para listas, usado en ocho lugares: la segunda declaración
+   ganó en silencio. Renombrado a `recortaTexto()`. Lo agarró la prueba.
+
+**Lo que no se arregla con una prueba.** Ninguna comprobación de este lado podía
+contestar «¿a Meta le gusta esta llamada?». Es el mismo error de método de
+ADR-064 —construir lo caro sin verificar lo barato— dos veces en una semana. Lo
+único que lo encuentra es la llamada real, y esta vez la hizo el usuario.
+
+Las once suites en verde después del arreglo.
+
+**Y al hacer por fin la llamada real, apareció una tercera cosa.** La respuesta
+trae `pagination.next_cursor` y el botón no lo seguía. Se fue a ver qué había
+detrás: **la página siguiente vino vacía**. Meta manda el cursor aunque no quede
+nada, así que su presencia no prueba que falte dato — pero su ausencia sí prueba
+que no falta. El botón ahora lo sigue hasta que no haya, con tope de 5 vueltas, y
+si al quinto sigue habiendo **no publica el número**: dice que la lectura quedó
+incompleta y deja el anterior. La prueba cubre las dos direcciones. Ninguna de
+las dos cosas se veía sin hacer la llamada.
+
+### Competencia · cuatro marcas pedidas, tres medidas, una sin nombre
+
+Mercadeo mandó cuatro URL de la Ad Library el 2026-09-16.
+
+| Pedido | Lo que resultó ser | Estado |
+|---|---|---|
+| «n1co» (búsqueda por frase) | una búsqueda, no da page_id | `PENDIENTE_DE_DATO` |
+| «n1co» (`view_all_page_id=115248238288708`) | **Cubo Guatemala**, otra marca | medida: 11 activos GT, 0 SV, 17 global |
+| punto de venta (`600625056467735`) | **Mindy.gt** | medida: 4 activos GT, 0 SV, GTQ |
+| «pantomima» (`110830594084656`) | no se consultó, por instrucción | `DECLARADO_SIN_MEDIR` |
+
+**Las dos URL de «n1co» eran cosas distintas y ninguna era n1co.** La segunda
+devolvió `page_name: "Cubo Guatemala"` en los 17 anuncios. Archivarla bajo n1co
+habría puesto el inventario de una marca a nombre de otra. Se intentó la
+búsqueda por texto para encontrar el page_id real: **140,672 resultados**, sin
+uno solo de la marca. La regla del registro —solo page_ids confirmados por una
+persona— se vuelve a confirmar con número.
+
+**Cubo es el primero del registro que disputa el punto de venta físico en GT con
+volumen:** 17 creativos, 16 subidos el mismo día —ráfaga, no goteo—, todos
+vendiendo el aparato («Pide tu Cubo Go hoy»). Ni Paggo ni Shopify ocupan ese
+territorio. Mercadeo lo pidió en «software» y ahí queda; lo medido apunta
+también a hardware y se anota sin reclasificar por cuenta propia.
+
+**Mindy.gt no se puede leer.** 3 de sus 4 anuncios vienen sin titular y el
+cuarto repite el nombre de la página. La Ad Library entrega ocho campos y
+ninguno trae el cuerpo del copy (ADR-032): su mensaje **no es que no diga nada,
+es que no lo podemos ver**. Para saberlo hay que abrir los snapshots a mano.
+
+**La cuarta se agregó sin consultarla.** `page_id` en `null` —que es el campo
+que dispara la consulta— y el id real guardado en `_page_id_declarado`. Sale
+declarada en el tablero y ningún número suyo entra a ninguna cuenta. Falta el
+nombre, y se pide en vez de deducirlo: sacarlo de la página sería tomar justo
+la información que se pidió no tomar.
+
+**Un hueco que apareció al agregar marcas nuevas:** la nota estratégica se
+buscaba con `medicion_{_ultima_medicion}`, una fecha **global**. Una marca
+medida en otra fecha perdía su nota en silencio. Ahora se busca por la fecha
+propia de cada entrada.

@@ -62,6 +62,14 @@ const runtime = (guion) => `(() => {
           Object.assign(e, guion.error);
           throw e;
         }
+        /* guion.paginas sirve una respuesta por llamada, en orden, para
+           poder probar que el boton SIGUE el cursor. La ultima de la lista se
+           repite si se pide mas: asi se simula un cursor que nunca se apaga.
+           Sin acentos graves: esto vive dentro de un template literal. */
+        if (guion.paginas) {
+          const i = Math.min(window.__llamadas.length - 1, guion.paginas.length - 1);
+          return { payload: guion.paginas[i] };
+        }
         return { payload: guion.payload };
       },
       listTools: async () => ({ servers: [] })
@@ -174,8 +182,17 @@ async function abre(nav, guion) {
          c.tool === "ads_get_ad_entities", c.tool);
       ok("sobre la cuenta del proyecto",
          c.input.ad_account_id === "225318458221662", c.input.ad_account_id);
-      ok("con rango CERRADO de un solo día",
-         c.input.time_range.since === c.input.time_range.until,
+      /* El esquema del conector declara `time_range` como `type: "string"`:
+         va JSON serializado, igual que `Rango.como_time_range()` en Python.
+         Mandarlo como objeto devuelve `tool_error` y la primera version de
+         esta prueba lo dio por bueno porque derivó la forma del CRUDO, donde
+         `parametros` es un registro legible y no el payload que viajó. */
+      ok("con `time_range` como TEXTO JSON, no como objeto",
+         typeof c.input.time_range === "string", typeof c.input.time_range);
+      const TR = (() => { try { return JSON.parse(c.input.time_range); }
+                          catch (e) { return null; } })();
+      ok("que parsea a un rango CERRADO de un solo día",
+         !!TR && TR.since === TR.until && /^\d{4}-\d{2}-\d{2}$/.test(TR.since),
          c.input.time_range);
       ok("con el corte por país", JSON.stringify(c.input.breakdowns) ===
          JSON.stringify(["country"]), c.input.breakdowns);
@@ -192,7 +209,80 @@ async function abre(nav, guion) {
          /^ads_get_/.test(c.tool), c.tool);
     }
 
-    console.log("\n══ 4 · y NO toca nada más que la franja");
+    /* Medido contra Meta el 2026-09-16: la respuesta trae `next_cursor` AUNQUE
+     no quede nada —la página siguiente vino vacía—, así que el cursor no se
+     puede ignorar por «seguro que cabe en una». Un truncamiento silencioso se
+     ve igual de completo que el dato completo (ADR-050). */
+  console.log("\n══ 3b · el cursor se sigue, y si no se apaga NO se publica");
+  {
+    const filas = Array.isArray(CRUDO.ad_entities)
+      ? CRUDO.ad_entities : JSON.parse(CRUDO.ad_entities);
+    const corte = Math.max(1, Math.floor(filas.length / 2));
+    const { pg, errs } = await abre(nav, { paginas: [
+      { ad_entities: filas.slice(0, corte), pagination: { next_cursor: "CUR-1" } },
+      { ad_entities: filas.slice(corte) }
+    ] });
+    await pg.click("#bActualizaHoy");
+    await pg.waitForTimeout(900);
+    const L = await pg.evaluate("window.__llamadas");
+    ok("partido en dos páginas, hubo DOS llamadas", L.length === 2, L.length);
+    ok("la segunda mandó el cursor de la primera",
+       L[1] && L[1].input.cursor === "CUR-1", L[1] && L[1].input.cursor);
+    ok("y todo lo demás viajó idéntico, que es lo que pide el esquema",
+       L[1] && ["ad_account_id", "level", "time_range", "limit",
+                "client_conversation_id"].every(
+         k => JSON.stringify(L[0].input[k]) === JSON.stringify(L[1].input[k])),
+       L[1] && L[1].input);
+    const franja = await pg.evaluate(
+      `document.getElementById("avisoHoy") ? "" : "sin aviso"`);
+    ok("sin aviso de error: la lectura se completó", franja === "sin aviso", franja);
+    /* Lo que importa no es que llame dos veces, sino que el número que sale
+       sea el MISMO que con las filas juntas. */
+    const partido = await pg.evaluate(`(() => {
+      const d = JSON.parse(document.getElementById("datos").textContent);
+      return d.pauta_diaria.dia_en_curso.por_mercado;
+    })()`);
+    const entero = await pg.evaluate(`(() => {
+      const d = JSON.parse(document.getElementById("datos").textContent);
+      return window.__bloqueDelDia(${JSON.stringify(filas)},
+        ${JSON.stringify(CRUDO._metadatos.parametros.time_range.since)},
+        d.pauta_diaria.piezas, null).por_mercado;
+    })()`);
+    ok("dos páginas dan el mismo número que una sola",
+       JSON.stringify(partido) === JSON.stringify(entero),
+       { partido, entero });
+    ok("sin errores de JavaScript", errs.length === 0, errs);
+    await pg.close();
+  }
+  {
+    const filas = Array.isArray(CRUDO.ad_entities)
+      ? CRUDO.ad_entities : JSON.parse(CRUDO.ad_entities);
+    const { pg, errs } = await abre(nav, { paginas: [
+      { ad_entities: filas, pagination: { next_cursor: "NUNCA-SE-APAGA" } }
+    ] });
+    const antes = await pg.evaluate(`(() => {
+      const d = JSON.parse(document.getElementById("datos").textContent);
+      return JSON.stringify(d.pauta_diaria.dia_en_curso.por_mercado);
+    })()`);
+    await pg.click("#bActualizaHoy");
+    await pg.waitForTimeout(1200);
+    const L = await pg.evaluate("window.__llamadas");
+    ok("un cursor que no se apaga se corta en 5 vueltas, no gira para siempre",
+       L.length === 5, L.length);
+    const aviso = await pg.evaluate(
+      `(document.getElementById("avisoHoy") || {}).textContent || ""`);
+    ok("y lo DICE en vez de publicar un total parcial",
+       /incompleta/.test(aviso), aviso);
+    const desp = await pg.evaluate(`(() => {
+      const d = JSON.parse(document.getElementById("datos").textContent);
+      return JSON.stringify(d.pauta_diaria.dia_en_curso.por_mercado);
+    })()`);
+    ok("el dato de antes sigue intacto", antes === desp, { antes, desp });
+    ok("sin errores de JavaScript", errs.length === 0, errs);
+    await pg.close();
+  }
+
+  console.log("\n══ 4 · y NO toca nada más que la franja");
     const desp = await pg.evaluate(`(() => {
       const d = JSON.parse(document.getElementById("datos").textContent);
       return { piezas: d.pauta_diaria.piezas.length,

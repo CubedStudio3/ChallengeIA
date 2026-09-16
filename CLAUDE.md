@@ -33,7 +33,9 @@ Verificado contra sistemas reales, no contra documentación:
   el dato: días cerrados y el día en curso).
   Desde el 2026-09-16 el tablero trae además un botón **«Actualizar ahora»**
   que refresca el día en curso llamando a Meta con el conector de quien abre la
-  página (ADR-068). Los días **cerrados** no: eso pide la compuerta de
+  página (ADR-068). **Salió roto en su primera publicación** —mandaba
+  `time_range` como objeto y el esquema lo pide como texto JSON— y lo encontró
+  Mercadeo apretándolo, no las 28 comprobaciones; corregido el mismo día. Los días **cerrados** no: eso pide la compuerta de
   reconciliación, que vive en Python. El botón mide y declara cuántos días le
   faltan al dato cerrado.
   ⚠️ **Les faltan los conectores, y ya se vio el efecto.** El 2026-09-16 las
@@ -758,6 +760,60 @@ cometidos; no hay tiempo de repetirlos.
   que comparte prefijo: los seis códigos habrían pasado con el mismo párrafo,
   que es el anti-patrón que el contrato del `mcp` nombra. Se compara el aviso,
   no el contenedor.
+- **El botón salió publicado ROTO y las 28 comprobaciones lo firmaron.**
+  `time_range` viaja como **texto JSON**, no como objeto: el esquema del
+  conector lo declara `type: "string"` y así lo manda `Rango.como_time_range()`
+  desde la V0. El puerto a JS lo mandó como objeto y Meta contestó
+  `tool_error`. **La prueba derivó la forma esperada del CRUDO**
+  (`_metadatos.parametros.time_range.since`), que es un registro **legible
+  escrito a mano** para dejar trazado qué se pidió, no el payload que viajó:
+  comparó el puerto contra mi propia transcripción prettificada y verificó
+  activamente la forma equivocada. Un esperado se saca del ESQUEMA de la
+  herramienta, nunca de la documentación del dato. Cuarta vez que un esperado
+  propio firma el defecto (ADR-050, ADR-054, ADR-067, ADR-068).
+- **Lo encontró apretar el botón en el visor real, no las pruebas.** Ninguna de
+  este lado podía contestar «¿a Meta le gusta esta llamada?», igual que ninguna
+  de las 28 de la generación de imágenes podía contestar «¿la imagen está
+  bien?» (ADR-064). **Mismo error de método, dos veces en una semana:**
+  construir sobre una interfaz sin probarla contra el sistema real cuando
+  probarla era barato.
+- **Un `tool_error` sin el texto de upstream esconde el arreglo.** El código
+  estaba bien clasificado —no era el anti-patrón de colapsar todo— pero en
+  `tool_error` el mensaje que manda Meta ES la acción: sin él lo único que se
+  puede reportar es «salió error». Se adjunta recortado.
+- **Dos funciones con el mismo nombre no dan ningún error: la segunda gana.**
+  El ayudante nuevo se llamó `recorta()` y ya existía `recorta()` para listas,
+  usado en ocho lugares. Silencioso hasta que corre la sección que lo usa. Un
+  nombre nuevo en un archivo de 5,000 líneas se busca antes de escribirlo.
+- **Una URL de la Ad Library puede no ser de la marca que uno cree.** Mercadeo
+  mandó dos URL juntas bajo el rótulo «n1co»: una era una **búsqueda por frase
+  exacta** —que no da page_id— y la otra, `view_all_page_id=115248238288708`,
+  resultó ser **Cubo Guatemala**, otra marca. Archivarla como n1co habría
+  puesto sus 17 anuncios bajo un nombre ajeno. El `page_name` de la respuesta
+  **es** la verificación, y por eso se guarda en `page_name_confirmado`.
+- **La búsqueda por palabra clave sigue siendo inutilizable, y ahora con
+  número.** `search_terms: "n1co"` devolvió **140,672** resultados: japonés,
+  vietnamita, polaco, una peluquería en Colombia. Ni uno de la marca. Se
+  vuelve a confirmar la regla: **solo page_ids**.
+- **La nota estratégica de una marca se buscaba con una fecha GLOBAL.**
+  `medicion_{_ultima_medicion}` significaba que una marca medida en otra fecha
+  perdía su «por qué importa» en silencio —tarjeta sin nota, cero avisos—. Se
+  busca por la fecha propia de cada entrada. Lo encontró agregar una marca
+  nueva, no una revisión.
+- **«Ponlo pero no midas nada» tiene un lugar en el esquema, no es una
+  excepción.** Una marca declarada por Mercadeo sin permiso de consultarla va
+  con `page_id: null` —que es lo que dispara la consulta— y el id real en
+  `_page_id_declarado`, con estado `DECLARADO_SIN_MEDIR`. Sale en el tablero
+  como declarada y ningún número suyo entra a ninguna cuenta. Y el **nombre**
+  se pide: deducirlo de la página sería tomar justo la información que se
+  pidió no tomar.
+- **Meta manda `next_cursor` AUNQUE no quede nada.** Medido el 2026-09-16 al
+  hacer por fin la llamada real: la página siguiente vino vacía. La presencia
+  del cursor no prueba que falte dato; su **ausencia** sí prueba que no falta,
+  y eso es lo único que se puede perseguir. El botón lo sigue hasta que no
+  haya, con tope de 5 vueltas, y si al quinto sigue habiendo **no publica el
+  número**: un total parcial se ve igual de completo que el entero (ADR-050,
+  ADR-068).
 - **Un esperado de prueba también puede caer en la trampa que el producto
   esquiva.** `prueba:hoy` acusó al tablero de mostrar $6,164.71 donde «debían»
   ir $13,898.54: la prueba había sumado los seis indicadores de 2026 en un solo

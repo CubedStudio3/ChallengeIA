@@ -4859,3 +4859,84 @@ comparte prefijo: seis mensajes idénticos habrían pasado. Se compara el aviso.
   la organización y `fire_trigger` la lanzaría — pero la Rutina seguiría sin
   conectores y se detendría en su Compuerta 0 igual. Un botón que dispara algo
   que no puede funcionar es peor que no tenerlo.
+
+### Corrección del mismo día · el botón salía roto y las pruebas lo firmaban
+
+Mercadeo lo apretó apenas se publicó y la franja contestó **«Meta respondió con
+un error»**. El botón nunca funcionó: la primera versión mandaba
+
+```js
+time_range: { since: fecha, until: fecha }     // objeto
+```
+
+y el esquema del conector declara ese parámetro como **`type: "string"`** — va
+JSON serializado, que es exactamente lo que hace `Rango.como_time_range()` en
+`src/base/convenciones.py` desde la V0. Meta devolvió `tool_error`.
+
+**Por qué ninguna de las 28 comprobaciones lo vio.** La prueba derivaba la forma
+esperada del **crudo**:
+
+```js
+const fecha = CRUDO._metadatos.parametros.time_range.since;   // objeto
+```
+
+y `_metadatos.parametros` es un **registro legible escrito a mano para dejar
+trazado qué se pidió** — no el payload que viajó por el cable. La prueba
+comparó el puerto contra mi propia transcripción prettificada del payload, no
+contra el esquema, y verificó activamente la forma equivocada. **Cuarta vez en
+este proyecto que un esperado escrito por mí firma el defecto en vez de
+vigilarlo** (ADR-050, ADR-054, ADR-067 y ésta), y la primera en que el esperado
+sale de un archivo que yo mismo escribí como documentación.
+
+Ahora la prueba exige lo que exige el esquema: que `time_range` sea **texto**,
+y que ese texto parsee a un rango cerrado de un solo día. Las dos cosas, porque
+sólo la segunda habría pasado con un objeto.
+
+**Lo que hizo falta para encontrarlo fue apretar el botón en el visor real.** Lo
+dije al publicar y era cierto: ninguna prueba de este lado podía contestar «¿la
+llamada le gusta a Meta?», igual que ninguna de las 28 de la generación de
+imágenes podía contestar «¿la imagen está bien?» (ADR-064). **El mismo error de
+método, dos veces en una semana:** construir sobre una interfaz que no se probó
+contra el sistema real cuando probarla era barato.
+
+### Y el mensaje de error escondía el arreglo
+
+`tool_error` decía «Meta respondió con un error» **sin el texto de Meta**. El
+código estaba bien clasificado —no era el anti-patrón de colapsar todo en un
+banner— pero el mensaje que Meta manda ES el arreglo en ese caso: sin él,
+Mercadeo no tenía nada que reportar más que «salió error». Ahora se adjunta,
+recortado a 180 caracteres al cerrar una palabra.
+
+### Una tercera cosa, encontrada al arreglar la segunda
+
+El ayudante nuevo se llamó `recorta()` y **ya existía un `recorta()`** en
+`tablero_app.js`, para listas, usado en ocho lugares. Dos declaraciones con el
+mismo nombre en el mismo ámbito **no dan ningún error**: la segunda gana y se
+lleva por delante a la primera. Lo agarró la prueba —`recorta(...).join is not a
+function`— porque hay una sección que sí la usa. Un nombre nuevo en un archivo
+de 5,000 líneas se busca antes de escribirlo.
+
+### Y una tercera cosa, encontrada al hacer por fin la llamada real
+
+Con `time_range` ya corregido, la llamada de verdad —de lectura, regla 8—
+devolvió las filas **y un `pagination.next_cursor`**. El botón no lo seguía.
+
+Se fue a ver qué había detrás: **la página siguiente vino vacía**. O sea que
+**Meta manda el cursor aunque no quede nada**, y por lo tanto su presencia NO
+prueba que falte dato. Pero la implicación al revés sí vale: su **ausencia**
+prueba que no falta. Ignorarlo por «un agregado de un día por campaña y país
+cabe de sobra en una página» habría sido razonamiento, no medición, y este
+proyecto ya se quemó con eso (ADR-050: el tope de 200 filas dejó de ser
+hipotético en abril).
+
+El botón ahora **sigue el cursor hasta que no haya**, con tope de 5 vueltas. Si
+al quinto sigue habiendo, **no publica el número**: dice que la lectura quedó
+incompleta y deja el dato anterior en pantalla. Un total parcial diría menos de
+lo que hay y se vería exactamente igual de completo.
+
+La prueba cubre las dos direcciones, como la de Inversión: que con el dato
+partido en dos páginas **salga el mismo número** que con las filas juntas y sin
+aviso, y que un cursor que nunca se apaga **se corte en 5 y lo diga**.
+
+Nada de esto se veía sin hacer la llamada. Es la misma conclusión que la de
+arriba, medida dos veces el mismo día.

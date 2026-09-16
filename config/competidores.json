@@ -4,7 +4,8 @@
   "_esquema_estado": [
     "VERIFICADO",
     "NO_VERIFICADO",
-    "PENDIENTE_DE_DATO"
+    "PENDIENTE_DE_DATO",
+    "DECLARADO_SIN_MEDIR"
   ],
   "categorias": {
     "software": {
@@ -231,6 +232,101 @@
         "_hallazgo": "Se esperaba un referente SIN presencia en nuestros mercados, como Square (0 anuncios). Shopify SI pauta aqui: 16 anuncios activos, todos en espanol. Eso lo hace un referente OBSERVABLE, que es mas util que uno teorico.",
         "_lectura_estrategica": "Shopify ocupa el territorio de EMPEZAR el negocio; Paggo el de GESTIONARLO facil. Ninguno de los dos habla de cobrar mejor. Es el hueco mas claro que ha aparecido, y no salio de una hipotesis sino de leer los dos inventarios."
       }
+    },
+    {
+      "nombre": "Cubo Guatemala",
+      "page_id": "115248238288708",
+      "page_name_confirmado": "Cubo Guatemala",
+      "categorias": [
+        "software"
+      ],
+      "_categoria_nota": "Mercadeo lo pidio en 'software' (2026-09-16) y asi queda. Lo MEDIDO apunta tambien a hardware: los 17 anuncios activos venden un aparato -'Pide tu Cubo Go hoy', 'Pide tu Cubo Mas'-, no una pasarela. Se deja anotado en vez de reclasificarlo por cuenta propia: la categoria la decide Mercadeo, igual que con Shopify.",
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search · page_id tomado del view_all_page_id de la URL que mando Mercadeo. La consulta devolvio page_name 'Cubo Guatemala' en los 17 anuncios: el ID es correcto, pero NO es n1co - ver _ojo_no_es_n1co.",
+      "_ojo_no_es_n1co": "Mercadeo mando dos URL juntas bajo el rotulo 'n1co': una busqueda por frase exacta \"n1co\" y esta pagina. La pagina es Cubo Guatemala, otra marca. n1co queda SIN page_id y aparte en el registro.",
+      "medicion_2026_09_16": {
+        "activos_gt": 11,
+        "activos_sv": 0,
+        "activos_global": 17,
+        "moneda": "USD",
+        "titulares": {
+          "Pide tu Cubo Go hoy": 9,
+          "Pide tu Cubo Mas": 6,
+          "ideal para tu negocio": 2
+        },
+        "_titulares_sobre": "los 17 globales",
+        "rafaga": {
+          "2026-09-02": 16,
+          "2026-09-03": 1,
+          "_lectura": "16 de 17 creativos subidos el MISMO dia. Es una carga en lote, no un goteo: el patron de quien despliega una campana de una vez, no de quien testea pieza por pieza."
+        },
+        "_nota_estrategica": "Pauta en GT y no en SV. Su mensaje es de APARATO y de pedido: 'Pide tu Cubo Go hoy'. Ni Paggo ('gestiona tu negocio facil') ni Shopify ('crea tu tienda') ocupan ese territorio, asi que Cubo es el primero del registro que compite por el punto de venta fisico en GT con volumen."
+      },
+      "_clave_archivo": "cubo",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de pagos y punto de venta: todo su inventario disputa la categoria.",
+      "_rol": "competidor",
+      "_rol_motivo": "Pauta en GT y disputa el punto de venta, que es producto nuestro."
+    },
+    {
+      "nombre": "Mindy.gt",
+      "page_id": "600625056467735",
+      "page_name_confirmado": "Mindy.gt",
+      "categorias": [
+        "hardware"
+      ],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search · page_id del view_all_page_id que mando Mercadeo. Los 4 anuncios devuelven page_name 'Mindy.gt'.",
+      "medicion_2026_09_16": {
+        "activos_gt": 4,
+        "activos_sv": 0,
+        "moneda": "GTQ",
+        "titulares": {
+          "Mindy.gt": 1,
+          "(sin titular)": 3
+        },
+        "_mensaje_no_legible": "3 de los 4 anuncios vienen SIN titular y el cuarto repite el nombre de la pagina. La Ad Library entrega ocho campos y ninguno trae el cuerpo del copy (ADR-032), asi que por esta via su mensaje NO se puede leer. No es que no diga nada: es que no lo podemos ver. Para saberlo hay que abrir los ad_snapshot_url a mano.",
+        "goteo": {
+          "2026-02-06": 1,
+          "2026-09-04": 1,
+          "2026-09-14": 1,
+          "2026-09-15": 1,
+          "_lectura": "Cuatro anuncios repartidos en siete meses, uno por fecha. Es lo contrario de la rafaga de Cubo: goteo, no despliegue."
+        },
+        "_nota_estrategica": "Operacion pequena y local: presupuesto en quetzales, cuatro activos y cero en SV. Misma escala que GuatePOS. Su peso competitivo es bajo; entra al registro porque Mercadeo lo pidio para punto de venta."
+      },
+      "_clave_archivo": "mindy",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Operacion local de punto de venta, monoproducto.",
+      "_rol": "competidor",
+      "_rol_motivo": "Pauta en GT en punto de venta."
+    },
+    {
+      "nombre": "n1co",
+      "page_id": null,
+      "categorias": [
+        "software"
+      ],
+      "_estado": "PENDIENTE_DE_DATO",
+      "_por_que_falta": "No se obtuvo el page_id. Mercadeo mando dos URL bajo el rotulo 'n1co': una es una BUSQUEDA POR FRASE EXACTA, que no devuelve un page_id, y la otra resulto ser la pagina de Cubo Guatemala. La busqueda por palabra clave se probo el 2026-09-16 y devolvio 140,672 resultados sin relacion -japones, vietnamita, polaco-: es la trampa ya documentada, la Ad Library no es confiable por texto.",
+      "_como_obtenerlo": "Abrir la pagina de n1co en la Ad Library y copiar el view_all_page_id de la URL, igual que se hizo con Shopify y con estos dos. Lo tiene que confirmar una persona: adivinarlo pondria a otra marca en su lugar, que es exactamente lo que acaba de pasar.",
+      "_rol": "competidor",
+      "_rol_motivo": "Declarado por Mercadeo como competencia de software. Sin medir."
+    },
+    {
+      "nombre": "Marca declarada por Mercadeo · sin nombre confirmado",
+      "_nombre_pendiente": "Mercadeo tiene que dar el nombre. NO se consulto la pagina para sacarlo: la instruccion del 2026-09-16 fue 'no tomes su informacion ni nada'. Inventar o deducir un nombre de marca en un reporte que ve la mesa seria exactamente un dato inventado (regla 1).",
+      "page_id": null,
+      "_page_id_declarado": "110830594084656",
+      "_por_que_page_id_en_null": "En null A PROPOSITO, no por falta de dato. El campo `page_id` es lo que dispara la consulta a la Ad Library, y aca la instruccion explicita es que NO se consulte. Guardado aparte para no perderlo.",
+      "categorias": [
+        "hardware"
+      ],
+      "_estado": "DECLARADO_SIN_MEDIR",
+      "_por_que_falta": "No se mide POR DECISION, no por bloqueo. Mercadeo la pidio el 2026-09-16 con estas palabras: «de este no tomes informacion solo ponla porque me pidieron que lo pusiera pero no tomes su informacion ni nada solo ponlo asi como pantomima». Aparece en el registro y en el tablero como declarada; ningun numero suyo entra a ninguna cuenta.",
+      "_como_obtenerlo": "Si algun dia Mercadeo quiere medirla, mover `_page_id_declarado` a `page_id` y correr la adquisicion. Es un cambio de una linea.",
+      "_rol": "competidor",
+      "_rol_motivo": "Declarada por Mercadeo. Sin medir por instruccion explicita."
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
@@ -293,6 +389,9 @@
     "bi": "es",
     "shopify": "es",
     "square_us": "en",
-    "square_uk": "en"
-  }
+    "square_uk": "en",
+    "cubo": "es",
+    "mindy": "es"
+  },
+  "_ultima_medicion_por_marca": "La nota estrategica de cada marca se busca por SU fecha de medicion, no por `_ultima_medicion`. Con una clave global, una marca medida en otra fecha perdia su nota en silencio. Ver corre.py."
 }

@@ -2024,7 +2024,7 @@
 
   /* Qué hacer con cada falla. El `default` existe para los códigos que no
      tienen un arreglo propio; lo que NO se hace es mandar todos ahí. */
-  function arregloDe(codigo, servidor) {
+  function arregloDe(codigo, servidor, detalle) {
     var s = servidor || META;
     switch (codigo) {
       case "server_not_connected":
@@ -2047,12 +2047,30 @@
         return "Este tablero se publicó sin permiso para leer Meta. Hay que " +
                "volver a publicarlo declarando el conector.";
       case "tool_error":
-        return "Meta respondió con un error. El dato de abajo no cambió.";
+        /* El texto de Meta ES el arreglo acá: sin él, «respondió con un
+           error» no le dice a nadie qué tocar. Se recorta para que no
+           desborde la franja, pero no se esconde. */
+        return "Meta respondió con un error. El dato de abajo no cambió." +
+               (detalle ? " Dijo: " + recortaTexto(detalle, 180) : "");
       case "server_unavailable":
         return "Meta no respondió. Se puede volver a intentar.";
       default:
-        return "No se pudo leer Meta. El dato de abajo no cambió.";
+        return "No se pudo leer Meta. El dato de abajo no cambió." +
+               (detalle ? " Dijo: " + recortaTexto(detalle, 180) : "");
     }
+  }
+
+  /* Un mensaje de upstream puede venir larguísimo. Se recorta al cerrar una
+     palabra, no a la mitad de una. Se llama `recortaTexto` y no `recorta`
+     porque ese nombre YA existe en este archivo para listas: dos
+     declaraciones con el mismo nombre no dan error, la segunda gana y se
+     lleva por delante los ocho usos de la primera. */
+  function recortaTexto(txt, n) {
+    var s = String(txt).replace(/\s+/g, " ").trim();
+    if (s.length <= n) return s;
+    var corte = s.slice(0, n);
+    var esp = corte.lastIndexOf(" ");
+    return (esp > n * 0.6 ? corte.slice(0, esp) : corte) + "…";
   }
 
   /* Los códigos que NO se reintentan solos jamás: repetir la llamada no puede
@@ -2065,11 +2083,15 @@
   /* La consulta del día en curso, con los MISMOS parámetros que usa la corrida
      —rango cerrado de un solo día, por campaña y país— para que el número que
      sale acá sea el mismo que saldría por el otro camino. */
-  function peticionDelDia(fecha) {
-    return {
+  function peticionDelDia(fecha, cursor) {
+    var p = {
       ad_account_id: CUENTA,
       level: "campaign",
-      time_range: { since: fecha, until: fecha },
+      /* `time_range` viaja como TEXTO JSON, no como objeto: lo exige el
+         esquema del conector (`type: "string"`) y es lo que hace
+         `Rango.como_time_range()` en Python. Un objeto acá devuelve
+         `tool_error` sin decir por qué. */
+      time_range: JSON.stringify({ since: fecha, until: fecha }),
       breakdowns: ["country"],
       fields: ["id", "name", "results", "cost_per_result", "spend", "impressions"],
       limit: 1000,
@@ -2078,6 +2100,10 @@
       advertiser_request: "actualizar el dia en curso",
       client_conversation_id: idDeConversacion()
     };
+    /* El cursor viaja con TODO lo demás sin cambiar ni un parámetro: el
+       esquema dice que cualquier otra diferencia lo invalida. */
+    if (cursor) p.cursor = cursor;
+    return p;
   }
 
   /* 20 caracteres, estable por carga de página: agrupa las llamadas de una
@@ -2101,8 +2127,21 @@
     if (!p || typeof p !== "object") return null;
     var ae = p.ad_entities;
     if (typeof ae === "string") { try { ae = JSON.parse(ae); } catch (e) { return null; } }
-    return Array.isArray(ae) ? ae : null;
+    if (!Array.isArray(ae)) return null;
+    /* El cursor se devuelve junto a las filas porque decide si hay que
+       volver a preguntar. Medido el 2026-09-16: Meta manda `next_cursor`
+       aunque NO quede nada —la página siguiente vino vacía—, así que su
+       presencia no prueba que falte dato. Su AUSENCIA sí prueba que no
+       falta, y eso es lo que se persigue. */
+    var cur = (p.pagination && p.pagination.next_cursor) || p.next_cursor || null;
+    return { filas: ae, cursor: cur || null };
   }
+
+  /* Tope de páginas. Un agregado de un día por campaña y país son unas pocas
+     filas; cinco vueltas sobran y evitan que un cursor que nunca se apaga
+     deje la página girando. Si al quinto SIGUE habiendo cursor, el número no
+     se publica: se declara la lectura como incompleta (regla 1). */
+  var MAX_PAGINAS = 5;
 
   /* El día que el VISITANTE está viviendo, en su fecha local. Es el mismo
      criterio que usa `esFechaDeHoy`: el servidor no sabe cuándo lo van a
@@ -2132,18 +2171,39 @@
     var previo = (PD && PD.dia_en_curso) || null;
 
     /* `refresh: true` salta la caché a propósito: el sentido del botón es
-       traer lo de AHORA, y servir un resultado de hace cinco minutos sería
-       repetir en pequeño el problema que vino a resolver. */
-    mcpApi.callTool(META, "ads_get_ad_entities", peticionDelDia(fecha),
-      { cache: { refresh: true } }
-    ).then(function (res) {
-      var filas = filasDe(res && res.payload);
-      if (!filas) {
+       traer lo de AHORA. Y se sigue el cursor hasta que no haya: un
+       truncamiento silencioso se ve igual de completo que el dato completo
+       (ADR-050), y acá no hay compuerta de reconciliación que lo agarre. */
+    function pagina(cursor, acumulado, vuelta) {
+      return mcpApi.callTool(META, "ads_get_ad_entities",
+        peticionDelDia(fecha, cursor), { cache: { refresh: true } }
+      ).then(function (res) {
+        var r = filasDe(res && res.payload);
+        if (!r) return null;
+        var todo = acumulado.concat(r.filas);
+        if (!r.cursor) return { filas: todo, completo: true };
+        if (vuelta >= MAX_PAGINAS) return { filas: todo, completo: false };
+        return pagina(r.cursor, todo, vuelta + 1);
+      });
+    }
+
+    pagina(null, [], 1).then(function (res) {
+      if (!res) {
         refresco.error = "tool_error";
         refresco.mensaje = "Meta respondió algo que no se pudo leer. El dato " +
           "de abajo no cambió.";
         return;
       }
+      if (!res.completo) {
+        /* Publicar la suma de lo que llegó sería afirmar un total que no se
+           leyó entero. Se dice y no se toca el dato de abajo. */
+        refresco.error = "lectura_incompleta";
+        refresco.mensaje = "Meta siguió pidiendo más páginas después de " +
+          MAX_PAGINAS + ": la lectura quedó incompleta y un total parcial " +
+          "diría menos de lo que hay. El dato de abajo no cambió.";
+        return;
+      }
+      var filas = res.filas;
       var b = bloqueDelDia(filas, fecha, (PD && PD.piezas) || [],
                            previo && previo.por_mercado);
       if (!Object.keys(b.por_mercado).length) {
@@ -2166,7 +2226,7 @@
     }).catch(function (err) {
       var c = (err && err.code) || "upstream_error";
       refresco.error = c;
-      refresco.mensaje = arregloDe(c, err && err.server);
+      refresco.mensaje = arregloDe(c, err && err.server, err && err.message);
       refresco.puedeReintentar = sePuedeReintentar(err);
     }).then(function () {
       refresco.cargando = false;

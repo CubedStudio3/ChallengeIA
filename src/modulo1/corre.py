@@ -126,7 +126,14 @@ def carga_competencia(
                     remedio="Medirlo con page_ids + search_terms y guardarlo como "
                             "_solapamiento_medido en el crudo. Asumir el total "
                             "inflaria la presion competitiva.")
-        medicion = entrada.get(f"medicion_{registro['_ultima_medicion'].replace('-', '_')}", {})
+        # La medicion se busca por la fecha PROPIA de la marca, no por una
+        # global. Con una sola clave (`_ultima_medicion`), una marca medida en
+        # otra fecha perdia su nota estrategica en silencio: la tarjeta salia
+        # sin el «por que importa» y nada avisaba. Se toma la mas reciente de
+        # las que la entrada declare.
+        claves_medicion = sorted(k for k in entrada
+                                 if k.startswith("medicion_"))
+        medicion = entrada.get(claves_medicion[-1], {}) if claves_medicion else {}
         comps.append(normaliza_adlibrary(
             datos, nombre=entrada["nombre"], page_id=entrada["page_id"],
             categorias=entrada.get("categorias", []), mercado=mercado,
