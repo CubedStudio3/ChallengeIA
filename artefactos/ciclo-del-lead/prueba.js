@@ -297,6 +297,19 @@ const contraste = (a, b) => {
     ok(logo.riel && logo.riel.w > 20, `se ve en el riel (${logo.riel?.w}×${logo.riel?.h})`);
     ok(logo.titulo && logo.titulo.w > 35, `y junto al título (${logo.titulo?.w}×${logo.titulo?.h})`);
     ok(logo.qVieja === 0, `la Q anterior ya no está`);
+
+    // El nombre vive en tres sitios: el <title> que nombra el artefacto en la
+    // galería, el <h1> visible y la etiqueta accesible del logo. Renombrar
+    // uno solo deja la página diciendo dos cosas distintas.
+    const NOMBRE = "Lead Magnet";
+    const nombres = await pgL.evaluate(() => ({
+      titulo: document.querySelector("title")?.textContent.trim(),
+      h1: document.querySelector("h1")?.textContent.trim(),
+      aria: document.querySelector(".riel .marca svg")?.getAttribute("aria-label"),
+    }));
+    ok(nombres.titulo === NOMBRE, `el <title> dice «${nombres.titulo}»`);
+    ok(nombres.h1 === NOMBRE, `el título visible dice «${nombres.h1}»`);
+    ok((nombres.aria || "").includes(NOMBRE), `la etiqueta del logo lo acompaña (${nombres.aria})`);
     await ctxL.close();
   }
 
