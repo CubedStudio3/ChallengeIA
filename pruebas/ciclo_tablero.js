@@ -92,51 +92,6 @@ async function ventana(p, pais, desde, hasta) {
     const sw = await p.evaluate(() => document.documentElement.scrollWidth);
     ok(sw <= ancho, "sin desborde horizontal", "scrollWidth " + sw);
 
-    // El embudo: cuatro pasos, sin «Tratos cerrados», y cada banda ocupando
-    // EXACTAMENTE su fila. Lo segundo no se ve en una captura si solo se
-    // compara el borde de arriba: hay que comparar tambien el alto.
-    const emb = await p.evaluate(() => {
-      const e = document.getElementById("embudo-web");
-      const izq = [...e.querySelectorAll(".emb-celda:not(.emb-der-celda)")];
-      const der = [...e.querySelectorAll(".emb-der-celda")];
-      const ban = [...e.querySelectorAll(".emb-banda")];
-      const desbordan = [...izq, ...der]
-        .filter(c => c.scrollHeight > c.clientHeight + 1).length;
-      const descalzadas = ban.filter((x, i) => {
-        const a = x.querySelector("svg").getBoundingClientRect();
-        const c = izq[i].getBoundingClientRect();
-        return Math.abs(a.top - c.top) > 1 || Math.abs(a.height - c.height) > 1;
-      }).length;
-      return {
-        pasos: izq.map(x => x.querySelector(".emb-nom").textContent.trim()),
-        bandas: ban.length, desbordan, descalzadas,
-      };
-    });
-    ok(emb.pasos.length === 4, "el embudo tiene cuatro pasos", emb.pasos.join(" → "));
-    ok(!emb.pasos.some(x => /Tratos cerrados/i.test(x)),
-       "sin el paso «Tratos cerrados»", emb.pasos.join(" → "));
-    ok(emb.bandas === emb.pasos.length, "una banda por paso",
-       emb.bandas + " bandas para " + emb.pasos.length + " pasos");
-    ok(emb.desbordan === 0, "ninguna celda del embudo desborda su fila",
-       emb.desbordan + " desbordan");
-    ok(emb.descalzadas === 0, "cada banda ocupa exactamente su fila",
-       emb.descalzadas + " descalzadas");
-
-    // La invariante del embudo: NINGUN paso puede ser mayor que el anterior.
-    // Se rompio de verdad —50 leads, 38 calificados y 39 ganados, con un «se
-    // quedaron -1»— porque el ultimo paso contaba Tratos y los otros leads.
-    // Se comprueba en las DOS figuras y en varias ventanas, porque con el
-    // periodo entero el defecto no aparecia.
-    for (const [id, nombre] of [["embudo-web", "web"], ["embudo-meta", "Meta"]]) {
-      const n = await p.evaluate(x => [...document.getElementById(x)
-        .querySelectorAll(".emb-num")].map(e => Number(e.textContent.replace(/[.,]/g, ""))), id);
-      const crece = n.map((v, i) => i && v > n[i-1] ? i : 0).filter(Boolean);
-      ok(crece.length === 0, "el embudo de " + nombre + " no crece en ningún paso",
-         n.join(" → "));
-      const neg = await p.evaluate(x => [...document.getElementById(x)
-        .querySelectorAll(".emb-caida")].some(e => /-\d/.test(e.textContent)), id);
-      ok(!neg, "el embudo de " + nombre + " no declara una caída negativa");
-    }
     await p.close();
   }
 
@@ -179,35 +134,6 @@ async function ventana(p, pais, desde, hasta) {
        "no hay porcentaje que mezcle las dos fechas", v.rotulos.join(" · "));
     ok(!/Calificados/.test(v.rotulos.join(" ")) && !/sobre Tratos/.test(v.rotulos.join(" ")),
        "no quedan tarjetas de etapas intermedias", v.rotulos.join(" · "));
-
-    // El pie de cada embudo trae la OTRA lectura —ventas por fecha de cierre—
-    // y tiene que cuadrar con el recuento hecho aparte. Existe porque un
-    // «Ganados 0» de la cohorte se leia como «este canal no vendio nada».
-    for (const [id, canal, nombre] of [["cierre-web", "Página web", "web"],
-                                       ["cierre-meta", "Redes sociales (Meta)", "Meta"]]) {
-      const txt = await p.evaluate(x => document.getElementById(x).textContent, id);
-      const esp = await p.evaluate(([c, desde, hasta, pais]) => {
-        const D = JSON.parse(document.getElementById("datos").textContent);
-        const V = D.dic, F = V.fecha, gan = V.etapa.indexOf("closed won");
-        const ic = V.canal.indexOf(c);
-        return D.tratos.filter(r => r[4] === gan && r[2] === ic && r[15] >= 0
-          && F[r[15]] >= desde && F[r[15]] <= hasta
-          && (!pais || V.pais[r[1]] === pais)).length;
-      }, [canal, desde, hasta, pais]);
-      const n = (txt.match(/se cerraron ([\d.,]+)/) || [])[1];
-      ok(esp === 0 ? /ninguna venta/.test(txt) : Number(String(n).replace(/[.,]/g, "")) === esp,
-         "el pie de " + nombre + " dice las ventas por fecha de cierre",
-         "dice " + (n || "ninguna") + " y el dataset da " + esp);
-    }
-
-    // La invariante del embudo, en ESTA ventana. Con el periodo entero no
-    // aparecia: hizo falta un mes corto para que un paso creciera.
-    for (const [id, cual] of [["embudo-web", "web"], ["embudo-meta", "Meta"]]) {
-      const n = await p.evaluate(x => [...document.getElementById(x)
-        .querySelectorAll(".emb-num")].map(e => Number(e.textContent.replace(/[.,]/g, ""))), id);
-      ok(n.every((v, i) => !i || v <= n[i-1]),
-         "embudo " + cual + ": ningún paso crece", n.join(" → "));
-    }
 
     // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
     //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo

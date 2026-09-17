@@ -813,3 +813,57 @@ El embudo de una ventana reciente **siempre** subestima: sus leads no han tenido
 tiempo. En el periodo completo, el formulario de Meta convierte 213 de 4.124
 (5,2%); en una quincena, 2 de 163 (1,2%). No es que haya empeorado — es que la
 mitad de esos leads tiene menos de una semana.
+
+---
+
+## 17. Recorte del 2026-09-17 · el tablero queda en dos secciones
+
+Mercadeo lo dijo sin rodeos: **«de los embudos para abajo vamos de peor en peor,
+no cuadra nada»**. La decisión fue suya y es la correcta: una sección que la mesa
+no puede reconciliar con lo que ve en su CRM no aporta, resta confianza a las que
+sí cuadran.
+
+**Quedan dos:**
+
+| Sección | Por qué se queda |
+|---|---|
+| **Los números** | Leads por fecha de creación y ventas por fecha de cierre, cada tarjeta declarando sobre qué fecha cuenta. Es lo que Mercadeo validó registro por registro: 132 · Free 31 · de pago 5 en su captura de GT |
+| **¿Llegan al CRM?** | La única comparación contra Meta que cuadra **al registro**, porque separa las dos puertas. La captura del 17 de septiembre da GT **146 = 83 en Meta + 63 sitio web**, y el tablero muestra **83** del formulario de Meta para esa misma ventana |
+
+**Se fueron:** los dos embudos, ¿Son leads malos o es el cierre?, Rendimiento por
+canal, ¿A quién le caen?, En el tiempo, Acciones a tomar y Cómo leer este
+tablero. Con ellas se fue su marcado, el JavaScript que las pintaba (8 funciones)
+y sus 109 reglas de CSS: una sección borrada a medias deja código muerto que la
+próxima persona cree vivo.
+
+### Por qué los embudos nunca iban a cuadrar con la captura de Meta
+
+No es que estuvieran mal: es que **no cuentan lo mismo** y la página no lo decía
+con la fuerza necesaria.
+
+- La captura de Meta cuenta **eventos de conversión** de la cuenta publicitaria,
+  atribuidos a la fecha del **clic**, en dos puertas que Meta suma (146 = 83 + 63).
+- El embudo contaba **registros del CRM** por fecha de **creación**, de **un**
+  canal, y seguía a esa cohorte hasta la venta.
+
+Dos universos, dos fechas y dos unidades. Podían convivir rotulados —eso se
+intentó dos veces, con el pie por fecha de cierre y con la suma escrita— pero
+cada rótulo nuevo era una advertencia más que había que leer para no concluir de
+más. **Si hace falta un párrafo para que un número no engañe, el problema es el
+número que se eligió mostrar.** Es la quinta vez en este proyecto.
+
+### El error propio que destapó el recorte
+
+Al quitar el CSS muerto, **tres comprobaciones que comparaban texto con tildes se
+pusieron rojas**: «Por fecha de creación del lead» dejó de coincidir. Nada del
+contenido había cambiado — lo que cambió fueron los **primeros bytes del
+archivo**, y con ellos la adivinanza de codificación del navegador.
+
+La plantilla **nunca declaró `<meta charset="utf-8">`**. En el visor de artefactos
+no se notaba porque el servidor manda la codificación en la cabecera; en la
+prueba local, que abre un `file://`, Chromium la sniffea. Mientras hubo un
+comentario largo con acentos cerca del inicio acertó; al quitarlo, no.
+
+Ya está declarado. La lección: **un archivo que depende de que alguien adivine su
+codificación funciona hasta que se le toca el principio**, y el síntoma aparece
+lejos de la causa.

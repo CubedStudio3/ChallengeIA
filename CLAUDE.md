@@ -679,6 +679,26 @@ cometidos; no hay tiempo de repetirlos.
   a preguntar ya»— como ausente y esperaba diez segundos. Se pregunta por el
   TIPO, con piso para que un cero no vuelva el sondeo un bucle caliente.
 
+- **Un archivo sin `<meta charset>` funciona hasta que se le tocan los primeros
+  bytes.** La plantilla del Ciclo del Lead nunca lo declaró: el visor de
+  artefactos manda la codificación en la cabecera y nadie lo notó, pero la prueba
+  local abre un `file://` y Chromium la adivina. Al quitar 109 reglas de CSS
+  muerto cambió el arranque del archivo, la adivinanza falló y **tres
+  comprobaciones que comparaban texto con tildes se pusieron rojas** sin que
+  ningún contenido hubiera cambiado. El síntoma aparece lejísimos de la causa.
+- **Borrar una sección es borrar tres cosas.** El marcado, el JavaScript que la
+  pinta y su CSS. Dejar cualquiera de las tres es dejar código que la próxima
+  persona cree vivo — y un `getElementById` de un id que ya no existe revienta
+  el `pinta()` entero, no solo su sección.
+- **Si hace falta un párrafo para que un número no engañe, el número está mal
+  elegido.** Los dos embudos contaban registros del CRM por fecha de creación de
+  un canal; la captura de Meta cuenta eventos por fecha del clic sumando dos
+  puertas. Se intentó dos veces hacerlos convivir con rótulos —el pie por fecha
+  de cierre, la suma escrita— y cada rótulo era una advertencia más que había
+  que leer. Mercadeo pidió quitarlos: **una sección que la mesa no puede
+  reconciliar con su CRM le resta confianza a las que sí cuadran.** Quinta vez
+  en el proyecto (2026-09-17).
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
