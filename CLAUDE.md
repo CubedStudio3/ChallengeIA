@@ -724,6 +724,20 @@ cometidos; no hay tiempo de repetirlos.
   fallo, es que el CRM se mueve — pero sin «CRM al 17 de septiembre» a la vista,
   esa diferencia de horas se lee como un tablero roto.
 
+- **«De dónde vienen los leads» y «de dónde vienen las ventas» son dos
+  preguntas con fechas distintas, y por eso van una al lado de la otra pero
+  NUNCA divididas entre sí.** Los leads por fecha de creación, las ventas por
+  fecha de cierre; el «% de» de cada lado es sobre su propio total. Medido en GT
+  del 1 al 16 de septiembre: **Meta trae el 54,5% de los leads y deja el 0% de
+  las ventas**; página web trae el 35,6% y deja el 88,1%. Esa tabla contesta en
+  una fila lo que los dos embudos dejaban a medias, porque cubre TODOS los
+  canales y no solo los dos que tienen embudo.
+- **La guía de cuadratura vive en `docs/12`, §18.** Antes de reportar que un
+  número «no cuadra»: buscarlo ahí y aplicar el filtro que dice. Las doce cifras
+  del tablero se midieron en vivo contra el CRM y contra Meta el 2026-09-17 y
+  coinciden; lo único que no coincide con una vista de Zoho son los convertidos,
+  que la vista esconde.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco

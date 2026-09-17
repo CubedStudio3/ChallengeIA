@@ -247,6 +247,37 @@ async function ventana(p, pais, desde, hasta) {
     ok(eZ.conv >= eZ.cal, "ningun Trato sale de un lead no convertido",
        eZ.conv + " convertidos, " + eZ.cal + " con Trato");
 
+    // «De dónde vienen»: las dos columnas se recuentan aparte y cada una tiene
+    // que cerrar contra SU tarjeta. Los leads por fecha de creación contra
+    // «Leads que entraron»; las ventas por fecha de cierre contra «Compraron».
+    // Es la tabla que reemplaza la suma escrita de los embudos: aquí se ven
+    // TODOS los canales, no solo los dos que tienen embudo.
+    const tc = await p.evaluate(() => {
+      const f = [...document.querySelectorAll("#tabla-canal tbody tr")];
+      const n = x => Number(x.replace(/[.,]/g, ""));
+      const lee = r => ({ canal: r.children[0].textContent.trim(),
+                          leads: n(r.children[1].textContent),
+                          cal: n(r.children[3].textContent),
+                          ven: n(r.children[5].textContent) });
+      return { filas: f.filter(r => !r.classList.contains("total")).map(lee),
+               total: lee(f[f.length - 1]) };
+    });
+    const sum = (a, k) => a.reduce((x, y) => x + y[k], 0);
+    ok(tc.total.leads === e.leads, "la tabla de canal cierra en los leads de la tarjeta",
+       tc.total.leads + " vs " + e.leads);
+    ok(tc.total.ven === e.compraron, "y en las ventas de la tarjeta",
+       tc.total.ven + " vs " + e.compraron);
+    ok(sum(tc.filas, "leads") === tc.total.leads, "las filas suman su total de leads",
+       sum(tc.filas, "leads") + " vs " + tc.total.leads);
+    ok(sum(tc.filas, "ven") === tc.total.ven, "las filas suman su total de ventas",
+       sum(tc.filas, "ven") + " vs " + tc.total.ven);
+    // Ningun canal puede tener mas ventas cerradas que leads calificados... no:
+    // SI puede, y por eso no se dividen. Lo que no puede es tener calificados
+    // por encima de sus leads, que seria la misma contradiccion del embudo.
+    const rotas = tc.filas.filter(x => x.cal > x.leads);
+    ok(rotas.length === 0, "ningún canal califica más de lo que entró",
+       rotas.map(x => x.canal).join(", "));
+
     // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
     //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo
     //     que se vigila es que los nombres REALES no se pierdan: tienen que

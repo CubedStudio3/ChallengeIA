@@ -867,3 +867,77 @@ comentario largo con acentos cerca del inicio acertó; al quitarlo, no.
 Ya está declarado. La lección: **un archivo que depende de que alguien adivine su
 codificación funciona hasta que se le toca el principio**, y el síntoma aparece
 lejos de la causa.
+
+---
+
+## 18. Contra qué se compara cada número · la guía de cuadratura
+
+Escrita el 2026-09-17 después de medir cada fila **en vivo** contra el CRM y
+contra Meta. Antes de reportar que algo «no cuadra», buscar el número en esta
+tabla y aplicar el filtro de la última columna.
+
+### Los leads
+
+| Número del tablero | Con qué cuadra | Filtro que hay que aplicar allá |
+|---|---|---|
+| **Leads que entraron** | El módulo **Posibles clientes** completo | **Incluir los convertidos.** Toda vista e informe de Zoho los esconde por omisión. Es la causa número uno de descuadre |
+| El mismo, menos los convertidos | La vista **Leads Guatemala** | Ya viene filtrada: país GT o vacío, sin convertidos |
+| **Redes sociales (Meta)** | `Lead_Source` en Meta Ads, Facebook Ads, Facebook Lead, Instagram DM | Sumar las cuatro fuentes; en el CRM son etiquetas distintas |
+| **Página web** | `Lead_Source = Página web` | — |
+| **Del formulario de Meta** (¿Llegan al CRM?) | El tooltip de **Clientes potenciales en Meta** | Es un **sumando**, no el total: el total incluye los del sitio web por pixel |
+
+### Las ventas
+
+| Número del tablero | Con qué cuadra | Filtro que hay que aplicar allá |
+|---|---|---|
+| **Compraron** | Tratos en etapa **closed won** | Por **`Closing_Date`** dentro del rango, **no** por fecha de creación ni de última actividad |
+| **Ventas** por canal | Lo mismo, cortado por `Lead_Source` del Trato | Igual: fecha de cierre |
+| **Free / de pago** | El campo **`Producto`** del Trato | «De pago» agrupa los siete planes con precio; el CRM no devuelve una fila «Premium» |
+| **Calificados** | Leads con Trato asociado | Es casi lo mismo que «convertidos», con 44 excepciones en 2026 (convertidos sin Trato) |
+
+### Medición de control · Guatemala, 1 al 16 de septiembre de 2026
+
+Preguntado al CRM el 2026-09-17 por la tarde, aparte de la extracción:
+
+```sql
+-- siguen como Lead ............................................ 79
+select COUNT(id) from Leads
+ where ((Created_Time >= '2026-09-01T00:00:00-06:00'
+     and Created_Time <= '2026-09-16T23:59:59-06:00') and Pa_s = 'Guatemala')
+
+-- ya convertidos .............................................. 53
+--   (la misma consulta + `and Converted__s = true`)
+
+-- total de registros ......................................... 132   ← el tablero
+-- la vista «Leads Guatemala» muestra ......................... 80    (79 + 1 sin país)
+```
+
+Por canal, sumando las dos consultas: **página web 47 · Meta 72 · WhatsApp/Chat
+5 · Directo/Referidos 8 = 132**.
+
+Ventas por fecha de cierre:
+
+```sql
+select Lead_Source, COUNT(id) from Deals
+ where (((Closing_Date >= '2026-09-01' and Closing_Date <= '2026-09-16')
+     and Pa_s_Operaci_n = 'Guatemala') and Stage = 'closed won')
+ group by Lead_Source
+-- Página web 37 · Chat/WhatsApp 3 · Llamada en Frío 1 · Referido 1 = 42
+```
+
+Y Meta, misma ventana: **GT 146 clientes potenciales = 83 en Meta + 63 del
+sitio web**.
+
+**Las doce cifras coinciden con las del tablero.** Lo que no coincide con la
+vista de Zoho son los 53 convertidos, y esa diferencia ahora está escrita en la
+página.
+
+### La sección «De dónde vienen»
+
+Dos preguntas en una tabla, y **nunca una dividida entre la otra**: los leads se
+cuentan por fecha de creación y las ventas por fecha de cierre. El «% de» de
+cada lado es sobre su propio total, que es lo único que se puede sumar.
+
+En Guatemala del 1 al 16 de septiembre la tabla dice lo que el resto del tablero
+no decía tan claro: **Meta trae el 54,5% de los leads y deja el 0% de las
+ventas**, mientras página web trae el 35,6% y deja el 88,1%.

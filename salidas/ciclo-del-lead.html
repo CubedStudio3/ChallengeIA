@@ -514,6 +514,7 @@ ${r?'Expression: "'+r+`"
     <span class="marca"><svg viewBox="0 0 64 64" role="img" aria-label="QPayPro · Lead Magnet"><use href="#logo-iman"/></svg></span>
     <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los números</span></a>
     <a href="#s-embudos" data-sec="s-embudos" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">Los dos embudos</span></a>
+    <a href="#s-canal" data-sec="s-canal" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span class="globo-riel">Rendimiento por canal</span></a>
     <a href="#s-sinc" data-sec="s-sinc" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/><path d="M10 18 4 12l6-6"/></svg><span class="globo-riel">¿Llegan al CRM?</span></a>
     <span class="separa"></span>
   </nav>
@@ -550,6 +551,17 @@ ${r?'Expression: "'+r+`"
             </div>
           </div>
           <p class="nota-sec" id="embudos-zoho" style="margin-top:16px"></p>
+        </section>
+
+        <section id="s-canal">
+          <div class="titulo-sec"><h2>De dónde vienen</h2></div>
+          <p class="nota-sec">A la izquierda de dónde vienen los <b>leads</b>, contados por
+            <b>fecha de creación</b>; a la derecha de dónde vienen las <b>ventas</b>, contadas por
+            <b>fecha de cierre</b>. Son dos fechas distintas a propósito: una venta puede cerrarse
+            con un lead que entró antes de esta ventana, así que las dos columnas no se dividen
+            entre sí.</p>
+          <div class="marco-tabla"><table id="tabla-canal"></table></div>
+          <p class="nota-sec" id="canal-pie" style="margin-top:16px"></p>
         </section>
         <section id="s-sinc">
           <div class="titulo-sec"><h2>¿Llegan al CRM?</h2></div>
@@ -996,6 +1008,48 @@ function pintaEmbudos(c){
     'planes con precio; el plan solo existe desde «Calificados»</span>';
 }
 
+/* ── de donde vienen ──────────────────────────────────────────────────────
+   Dos preguntas en una tabla y NUNCA una dividida entre la otra: los leads
+   van por fecha de creacion y las ventas por fecha de cierre. El «% de» de
+   cada lado es sobre SU propio total, que es lo unico que se puede sumar. */
+function pintaCanal(c){
+  const ventas = c.v.filter(x=>x[tET]===GANADO);
+  const filas = CANALES.map(k=>{
+    const ic = iCanal[k];
+    const lc = c.l.filter(x=>x[lCA]===ic);
+    return {k, leads:lc.length,
+      cal: lc.filter(x=>x[lCL]===1).length,
+      ven: ventas.filter(x=>x[tCA]===ic).length};
+  }).filter(x=>x.leads||x.ven).sort((a,b)=>b.leads-a.leads||b.ven-a.ven);
+  const tot = filas.reduce((a,x)=>({leads:a.leads+x.leads,cal:a.cal+x.cal,ven:a.ven+x.ven}),
+                           {leads:0,cal:0,ven:0});
+  const fila = (x,cls) => '<tr class="'+(cls||"")+'"><td class="clave">'+
+    (cls?esc(x.k):'<span class="chip"><i style="background:'+(COLOR_CANAL[x.k]||"var(--piedra)")+
+      '"></i>'+esc(x.k)+'</span>')+'</td>'+
+    '<td class="n">'+nf(x.leads)+'</td><td class="n">'+pf(x.leads,tot.leads)+'</td>'+
+    '<td class="n">'+nf(x.cal)+'</td><td class="n">'+pf(x.cal,x.leads)+'</td>'+
+    '<td class="n"><b>'+nf(x.ven)+'</b></td><td class="n">'+pf(x.ven,tot.ven)+'</td></tr>';
+  document.getElementById("tabla-canal").innerHTML =
+    '<thead><tr><th>Canal</th><th>Leads</th><th>% de los leads</th><th>Calificados</th>'+
+    '<th>% calif.</th><th>Ventas</th><th>% de las ventas</th></tr></thead><tbody>'+
+    filas.map(x=>fila(x)).join("")+(filas.length?fila({k:"Total",...tot},"total"):"")+'</tbody>';
+
+  /* El pie nombra el canal que mas leads trae y el que mas ventas deja, porque
+     casi nunca son el mismo y esa es toda la lectura de la tabla. */
+  const masLeads = filas.slice().sort((a,b)=>b.leads-a.leads)[0];
+  const masVentas = filas.slice().sort((a,b)=>b.ven-a.ven)[0];
+  const pie = document.getElementById("canal-pie");
+  if(!masLeads || !tot.leads){ pie.textContent = ""; return; }
+  pie.innerHTML = 'El canal que más leads trae es <b>'+esc(masLeads.k)+'</b> con <b>'+
+    nf(masLeads.leads)+'</b> ('+pf(masLeads.leads,tot.leads)+' de los leads)'+
+    (masVentas && masVentas.ven ?
+      (masVentas.k===masLeads.k
+        ? ', y es también el que más ventas deja: <b>'+nf(masVentas.ven)+'</b>.'
+        : ', y el que más ventas deja es <b>'+esc(masVentas.k)+'</b> con <b>'+nf(masVentas.ven)+
+          '</b> de <b>'+nf(tot.ven)+'</b>. No son el mismo canal.')
+      : ', y en esta ventana no se cerró ninguna venta.');
+}
+
 function pintaSinc(c){
   const m = fM();
   const forma = m.reduce((a,r)=>a+r[mEM],0);              // dentro de Meta
@@ -1112,7 +1166,7 @@ document.addEventListener("mouseout",e=>{
 
 function pinta(){
   const c = calcula();
-  pintaEnVista(c); pintaKpis(c); pintaEmbudos(c); pintaSinc(c);
+  pintaEnVista(c); pintaKpis(c); pintaEmbudos(c); pintaCanal(c); pintaSinc(c);
 }
 pintaFiltros(); pinta();
 
