@@ -1,11 +1,11 @@
 <meta charset="utf-8">
-<title>Ciclo del Lead</title>
+<title>Lead Magnet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 /* ═══════════════════════════════════════════════════════════════════════════
-   Ciclo del Lead · QPayPro
+   Lead Magnet · QPayPro
    SOLO MODO CLARO, por decisión de Mercadeo (2026-09-11). No hay bloque de
    preferencia de color ni [data-theme]: la página se compromete con un solo
    mundo visual y por eso pinta SIEMPRE su fondo y sus colores explícitos,
@@ -115,10 +115,13 @@ a{color:inherit}
   box-shadow:var(--sombra-alta);
 }
 .riel .marca{
-  width:42px;height:42px;border-radius:14px;background:var(--salvia);
+  width:42px;height:42px;border-radius:14px;background:var(--sup);
   display:grid;place-items:center;margin-bottom:16px;flex:none;color:var(--tinta);
 }
-.riel .marca svg{width:22px;height:22px}
+.riel .marca svg{width:34px;height:34px}
+.titulo-con-logo{display:flex;align-items:center;gap:15px}
+.logo-marca{flex:none;display:block}
+.logo-marca svg{display:block;width:clamp(44px,5.4vw,58px);height:clamp(44px,5.4vw,58px)}
 .riel a{
   width:44px;height:44px;border-radius:14px;flex:none;
   display:grid;place-items:center;color:#9aa49e;
@@ -311,6 +314,7 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   .riel{position:sticky;top:10px;z-index:50;flex-direction:row;border-radius:22px;
     padding:10px 14px;gap:4px;overflow-x:auto;justify-content:flex-start}
   .riel .marca{margin-bottom:0;margin-right:10px;width:36px;height:36px;border-radius:12px}
+  .riel .marca svg{width:29px;height:29px}
   .riel a{width:40px;height:40px}
   .riel .separa{display:none}
   .riel .globo-riel{left:50%;top:calc(100% + 9px);transform:translateX(-50%)}
@@ -455,9 +459,13 @@ ${r?'Expression: "'+r+`"
 </script>
 <script>if(window.lucide&&lucide.createIcons)lucide.createIcons();</script>
 
+<!-- El logo del imán. Redibujo en SVG: los adjuntos de la conversación no
+     aterrizan en el disco de la sesión, así que no hay archivo original que
+     incrustar. Para poner el oficial, reemplazar este símbolo. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="logo-iman" viewBox="0 0 64 64"><g transform="rotate(40 32 32)"><path d="M20.0 17.0 L20.0 34.0 A12.0 12.0 0 0 0 44.0 34.0 L44.0 17.0" fill="none" stroke="var(--tinta)" stroke-width="12.0" stroke-linecap="butt"/><path d="M12.6 22.5 L27.4 22.5" fill="none" stroke="var(--sup)" stroke-width="3" stroke-linecap="butt"/><path d="M36.6 22.5 L51.4 22.5" fill="none" stroke="var(--sup)" stroke-width="3" stroke-linecap="butt"/></g><path d="M30.5 1.8 L35.8 11.4 L26.6 10.2 Z" fill="var(--salvia)"/><path d="M40.8 5.2 L46.6 16.0 L36.6 14.4 Z" fill="var(--rosa)"/><path d="M53.4 8.0 L59.4 18.2 L49.6 17.0 Z" fill="var(--cielo)"/><path d="M46.0 19.6 L51.4 29.0 L42.2 27.8 Z" fill="var(--salvia)"/><path d="M58.2 24.4 L62.6 33.2 L54.4 32.0 Z" fill="var(--cielo)"/></symbol></defs></svg>
 <div class="app">
   <nav class="riel" aria-label="Secciones del informe">
-    <span class="marca" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M13.2 13.2 18.5 18.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+    <span class="marca"><svg viewBox="0 0 64 64" role="img" aria-label="QPayPro · Lead Magnet"><use href="#logo-iman"/></svg></span>
     <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los números</span></a>
     <a href="#s-sinc" data-sec="s-sinc" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/><path d="M10 18 4 12l6-6"/></svg><span class="globo-riel">¿Llegan al CRM?</span></a>
     <span class="separa"></span>
@@ -466,7 +474,7 @@ ${r?'Expression: "'+r+`"
     <div class="barra"><div class="interior" id="filtros"></div></div>
 
     <div class="envoltura">
-      <header class="cabecera"><h1>Ciclo del Lead</h1></header>
+      <header class="cabecera"><div class="titulo-con-logo"><span class="logo-marca" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#logo-iman"/></svg></span><h1>Lead Magnet</h1></div></header>
 
       <main>
         <section id="s-kpis">
