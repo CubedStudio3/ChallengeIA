@@ -409,3 +409,51 @@ pasada.
 - Se cayeron dos limitaciones que estaban declaradas: la tabla de vendedores y
   el desglose de Stand By ahora responden a todos los filtros, porque el dato
   por fila los soporta.
+
+---
+
+## Rediseño del 2026-09-18 · seis cambios de presentación
+
+Ninguno necesitó dato nuevo. Todos son de cómo se lee.
+
+1. **Embudos completos.** Antes cada escalón era un SVG suelto con su propia
+   fila, así que la silueta se leía como cinco figuras sueltas. Ahora cada
+   embudo es **un solo SVG** con las cinco bandas pegadas —el borde de abajo de
+   una es el de arriba de la siguiente— y el texto vive en dos columnas
+   alineadas por una rejilla de filas de altura fija.
+
+2. **«¿Son leads malos o es el cierre?» ahora se explica solo.** El problema no
+   era el dato: la barra decía «Mercadeo 36%» sin decir qué cuenta como
+   Mercadeo. Ahora cada área abre una tarjeta con **los criterios que la
+   componen**, separados en los que nunca llegaron a Trato y los que llegaron y
+   se cayeron, más una frase de qué significa el área y el detalle exacto en un
+   desplegable. Las cuatro tarjetas suman el total.
+
+3. **«¿A quién le caen?»** quedó en el aviso y la tabla de responsables. Fuera
+   la gráfica de asignación en el tiempo, los cuatro KPI y el párrafo.
+
+4. **«¿Llegan al CRM?»** pasó de cuatro tarjetas a tres: Meta, CRM de redes —que
+   ahora lleva la diferencia en su propia línea— y **leads de página web**. La
+   brecha sigue viéndose completa en la gráfica y en la tabla.
+
+5. **«Lectura y recomendaciones» → «Acciones a tomar».** Ocho acciones, cada una
+   con quién la ejecuta, **los pasos concretos**, un esfuerzo estimado rotulado
+   como juicio y no como dato, y la cifra medida que la justifica.
+
+6. **Las notas se partieron en tres bloques rotulados**: *Glosario* (qué
+   significa cada palabra), *Dónde es fácil equivocarse* (las cinco lecturas que
+   parecen obvias y están mal, cada una salida de un error real) y *Estado del
+   dato* (qué tan fresco, qué falta, cómo se regenera). Antes era un muro sin
+   jerarquía y no se entendía si era glosario o notas.
+
+### Dos defectos que encontró la prueba en navegador
+
+- **Una regla CSS muerta seguía ganando.** `.emb-barra` tenía `flex: 0 1 220px`
+  del diseño anterior; dentro de un flex en **columna** ese 220px es **altura**,
+  así que la barra de plan de 6 px se dibujaba de 220 px y se comía las filas.
+  Se borraron las 33 reglas del embudo por filas —su marcado ya no existe— en
+  vez de taparlas con una regla más específica.
+- **Mover un bloque cambia su fondo.** La leyenda entró al cuadro oscuro y
+  quedó gris sobre negro; la lectura salió del cuadro y quedó blanca sobre
+  blanco. Las dos heredaban colores escritos para el otro fondo. Cada elemento
+  toma ahora su color del mismo juego que la superficie que tiene detrás.
