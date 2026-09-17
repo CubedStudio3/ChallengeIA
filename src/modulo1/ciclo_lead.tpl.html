@@ -372,6 +372,9 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
    barra sola obliga a estimar a ojo. */
 
 .en-vista b{white-space:nowrap}
+/* La fecha de la foto. El tablero es un corte, no una ventana en vivo: sin
+   esta linea una diferencia de horas contra el CRM parece un error. */
+.en-vista .foto{color:var(--tinta3)}
 @media (max-width:700px){
   .campo input[type="date"]{min-width:0;width:100%}
 }/* ── rediseño del 2026-09-18 ────────────────────────────────────────────── *//* Embudo completo: tres columnas en una rejilla de filas de altura fija, para
@@ -396,6 +399,49 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 @media (max-width:760px){
 }/* ── compactado del 2026-09-18 ──────────────────────────────────────────── *//* Acciones: rejilla de tarjetas cortas. Lo que se decide queda a la vista y el
    cómo se abre solo si hace falta. *//* Notas: tres columnas de una línea por entrada. */
+
+/* ── el embudo, devuelto el 2026-09-17 ─────────────────────────────────── */
+.emb-fila{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,2.5fr) minmax(0,1.05fr);
+  gap:0 24px;align-items:center;
+}
+@media (max-width:760px){
+  .emb-fila{grid-template-columns:minmax(0,1fr);gap:4px;
+    padding:14px 0;border-top:1px solid var(--linea2)}
+}
+.embudos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(520px,100%),1fr));
+  gap:20px;align-items:start}
+.embudos>.panel{min-width:0}
+.emb-plan-t b{color:var(--tinta);font-weight:600}
+@media (max-width:700px){
+  .embudos{grid-template-columns:minmax(0,1fr)}
+}
+.emb-full{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(74px,.85fr) minmax(0,1.15fr);
+  gap:0 14px;align-items:stretch;grid-auto-rows:minmax(var(--emb-fila),auto)}
+.emb-banda{min-width:0;position:relative}
+.emb-banda svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+.emb-celda{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0}
+.emb-der-celda{align-items:flex-end;text-align:right}
+.emb-nom{font-weight:600;font-size:13.5px;letter-spacing:-.01em;line-height:1.25}
+.emb-sub{font-size:11px;color:var(--tinta3);line-height:1.35}
+.emb-num{font-family:"IBM Plex Mono",monospace;font-size:21px;font-weight:600;
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em;line-height:1.1}
+.emb-pct{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--tinta3);
+  font-variant-numeric:tabular-nums}
+.emb-plan{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-top:5px;width:100%}
+.emb-barra{display:flex;flex:none;height:6px;width:100%;max-width:130px;gap:2px}
+.emb-plan-t{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--tinta2);
+  font-variant-numeric:tabular-nums;line-height:1.3}
+.emb-plan-t b{color:var(--tinta);font-weight:600}
+.emb-cierre{margin-top:14px;padding-top:12px;border-top:1px solid var(--linea2);
+  font-size:12.5px;color:var(--tinta2);line-height:1.55}
+.emb-cierre .rotulo{display:inline;margin-right:6px}
+.emb-cierre b{color:var(--tinta);font-weight:600}
+@media (max-width:760px){
+  .emb-full{grid-template-columns:minmax(0,1fr) minmax(56px,.6fr) minmax(0,1fr);gap:0 8px}
+  .emb-sub{display:none}
+  .emb-num{font-size:18px}
+}
 </style>
 <!-- ────────────────────────────────────────────────────────────────────────
      Tailwind CSS 3.4.17 — COMPILADO, no CDN.
@@ -467,6 +513,7 @@ ${r?'Expression: "'+r+`"
   <nav class="riel" aria-label="Secciones del informe">
     <span class="marca"><svg viewBox="0 0 64 64" role="img" aria-label="QPayPro · Lead Magnet"><use href="#logo-iman"/></svg></span>
     <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los números</span></a>
+    <a href="#s-embudos" data-sec="s-embudos" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">Los dos embudos</span></a>
     <a href="#s-sinc" data-sec="s-sinc" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/><path d="M10 18 4 12l6-6"/></svg><span class="globo-riel">¿Llegan al CRM?</span></a>
     <span class="separa"></span>
   </nav>
@@ -480,6 +527,29 @@ ${r?'Expression: "'+r+`"
         <section id="s-kpis">
           <div class="titulo-sec"><h2>Los números</h2></div>
           <div class="kpis" id="kpis"></div>
+        </section>
+
+        <section id="s-embudos">
+          <div class="titulo-sec"><h2>Los dos embudos</h2></div>
+          <p class="nota-sec">A la izquierda, lo que entra por la <b>página web</b>; a la derecha,
+            lo que entra por el <b>formulario de Meta</b>. No se suman: son dos caminos con tasas
+            propias. El plan —Free o de pago— solo existe desde que el lead llega a Trato.</p>
+          <div class="leyenda" id="leyenda-planes"></div>
+          <div class="embudos">
+            <div class="tarjeta-g">
+              <h3>Página web</h3>
+              <p class="sub">Formulario del sitio · aquí se elige plan</p>
+              <div class="emb-full" id="embudo-web"></div>
+              <div class="emb-cierre" id="cierre-web"></div>
+            </div>
+            <div class="tarjeta-g">
+              <h3>Formulario de Meta</h3>
+              <p class="sub">Meta Ads, Facebook Ads, Facebook Lead, Instagram DM</p>
+              <div class="emb-full" id="embudo-meta"></div>
+              <div class="emb-cierre" id="cierre-meta"></div>
+            </div>
+          </div>
+          <p class="nota-sec" id="embudos-zoho" style="margin-top:16px"></p>
         </section>
         <section id="s-sinc">
           <div class="titulo-sec"><h2>¿Llegan al CRM?</h2></div>
@@ -536,7 +606,7 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 /* Columnas. El dataset viene con diccionarios de índices: cada fila es un
    registro y cada texto es un entero. Así el filtro por rango de fechas es una
    comparación de enteros y no de cadenas. */
-const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9,lWON=10;
+const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9,lWON=10,lCO=11;
 // lWON: si el Trato de ESE lead quedo en closed won. Lo usa el EMBUDO, que
 // es una figura de cohorte y tiene que contar sus cuatro pasos sobre los
 // mismos leads. La tarjeta «Compraron» de arriba cuenta por fecha de
@@ -698,7 +768,8 @@ function pintaEnVista(c){
   document.getElementById("en-vista").innerHTML =
     (iDesde>iHasta ? '<b>Sin datos</b> en ese rango'
      : 'Del <b>'+largo(FECHAS[iDesde])+'</b> al <b>'+largo(FECHAS[iHasta])+'</b> · '+
-       nf(c.leads)+' leads · '+nf(c.t.length)+' tratos');
+       nf(c.leads)+' leads · '+nf(c.t.length)+' tratos')
+     + ' <span class="foto">· CRM al '+largo(Q.foto)+'</span>';
 }
 
 function pintaKpis(c){
@@ -791,6 +862,140 @@ function barrasPareadas(cont,leyenda,datos,claves,colores){
    sitio web se declara como lo que es: una comparacion de tamaño, no una
    cuadratura, porque al canal «Página web» del CRM tambien llega quien no
    vino de pauta. */
+/* ── embudo completo: UNA sola figura continua ───────────────────────────── */
+/* Las cinco bandas van pegadas dentro de un mismo SVG —el borde de abajo de una
+   es el de arriba de la siguiente—, así la silueta se lee como un embudo y no
+   como cinco figuras sueltas. El nombre y la cifra viven en columnas de texto
+   real, alineadas con las bandas por una rejilla de filas de altura fija. */
+// El alto de banda sale del CSS, que es donde vive la rejilla del texto.
+// Dos copias del mismo numero se desincronizan: la del SVG y la de la
+// rejilla tienen que ser la MISMA o el texto deja de calzar con la forma.
+const EMB_H = parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--emb-fila')) || 112;
+
+// Los CUATRO pasos salen del mismo conjunto de leads. El ultimo salia de los
+// Tratos creados en la ventana —otra poblacion— y podia quedar por ENCIMA de
+// «Calificados»: 50 leads, 38 calificados y 39 ganados, con un «se quedaron -1»
+// que es imposible en un embudo. Contando sobre la misma cohorte, cada paso es
+// por construccion menor o igual que el anterior.
+function embudo(cont, l, conPlan){
+  const leads = l.length;
+  const invalidos = l.filter(x=>x[lBU]===INVALIDO).length;
+  const cal = l.filter(x=>x[lCL]===1);
+  const won = l.filter(x=>x[lWON]===1);
+  const plan = (rows,col) => conPlan ? {
+    Free: rows.filter(x=>x[col]===iPlan.Free).length,
+    Premium: rows.filter(x=>x[col]===iPlan.Premium).length } : null;
+  const pasos = [
+    ["Leads que entraron",leads,"var(--e1)","Todo registro creado en el rango",null],
+    ["Leads elegibles",leads-invalidos,"var(--e2)","Menos "+nf(invalidos)+" de dato inválido",null],
+    ["Calificados",cal.length,"var(--e3)","Tienen un Trato asociado",plan(cal,lPL)],
+    // Sin el paso de «Tratos cerrados», por pedido de Mercadeo (2026-09-19):
+    // mezclaba ganados con perdidos en un solo escalon y no era una decision
+    // que nadie tome. El embudo va de lo que entro a lo que compro.
+    ["Ganados",won.length,"var(--e5)","closed won · de estos mismos leads",plan(won,lPL)]
+  ];
+  const base = leads||1, n = pasos.length;
+  const W = 100, CEN = W/2, MIN = 7;
+  const medio = v => Math.max(MIN, (W-4)*(v/base))/2;
+
+  // Una banda por PASO, cada una su propio SVG dentro de su celda de la
+  // rejilla. Antes era un solo SVG de alto fijo (5 filas de 96px) al lado de
+  // dos columnas de filas tambien fijas: media exacto mientras el texto
+  // cupiera, y no cabia. Medido: la celda mas alta pide 89px a 1100 de ancho y
+  // 148px a 390. Ningun numero fijo sirve para los dos.
+  // Asi la banda mide lo que mida su fila, a cualquier ancho, sin medir nada.
+  const banda = i => {
+    const arr = medio(pasos[i][1]);
+    const aba = medio(i < n-1 ? pasos[i+1][1] : pasos[i][1]);
+    const tip = pasos[i][0]+": "+nf(pasos[i][1])+" · "+pf(pasos[i][1],base)+" del total";
+    return '<div class="emb-banda"><svg viewBox="0 0 '+W+' 100" preserveAspectRatio="none" '+
+      'aria-hidden="true"><path d="M'+(CEN-arr)+' 0 L'+(CEN+arr)+' 0 L'+(CEN+aba)+
+      ' 100 L'+(CEN-aba)+' 100 Z" fill="'+pasos[i][2]+'" stroke="var(--contorno)" '+
+      'stroke-width="1" vector-effect="non-scaling-stroke" data-tip="'+esc(tip)+
+      '"/></svg></div>';
+  };
+  const izq = i => '<div class="emb-celda"><div class="emb-nom">'+esc(pasos[i][0])+
+    '</div><div class="emb-sub">'+esc(pasos[i][3])+'</div></div>';
+  const der = i => {
+    const p = pasos[i], caen = i ? pasos[i-1][1]-p[1] : 0;
+    let sp = "";
+    if(p[4] && (p[4].Free || p[4].Premium)){
+      const tt = p[4].Free+p[4].Premium;
+      sp = '<div class="emb-plan"><span class="emb-barra" data-tip="'+
+        esc(p[0]+" · Free "+p[4].Free+" · de pago "+p[4].Premium)+'">'+
+        (p[4].Free?'<i style="flex:'+p[4].Free+';background:'+COLOR_PLAN.Free+'"></i>':'')+
+        (p[4].Premium?'<i style="flex:'+p[4].Premium+';background:'+COLOR_PLAN.Premium+'"></i>':'')+
+        '</span><span class="emb-plan-t">Free <b>'+nf(p[4].Free)+'</b> · de pago <b>'+
+        nf(p[4].Premium)+'</b>'+(tt<p[1]?' · s/plan <b>'+nf(p[1]-tt)+'</b>':'')+'</span></div>';
+    }
+    return '<div class="emb-celda emb-der-celda"><div class="emb-num">'+nf(p[1])+'</div>'+
+      '<div class="emb-pct">'+pf(p[1],base)+' del total</div>'+
+      (i?'<div class="emb-caida">se quedaron <em>'+nf(caen)+'</em> ('+pf(caen,pasos[i-1][1])+')</div>':'')+
+      sp+'</div>';
+  };
+  // En orden de FILA —izquierda, banda, derecha— porque las tres columnas son
+  // ahora una sola rejilla: asi comparten el alto de cada fila y no hay nada
+  // que sincronizar.
+  let html = '';
+  for(let i=0;i<n;i++) html += izq(i)+banda(i)+der(i);
+  cont.innerHTML = html;
+}
+
+function pintaEmbudos(c){
+  embudo(document.getElementById("embudo-web"), c.l.filter(x=>x[lCA]===WEB), true);
+  embudo(document.getElementById("embudo-meta"), c.l.filter(x=>x[lCA]===REDES), true);
+
+  // Debajo de cada embudo, la OTRA lectura: las ventas cerradas en la ventana
+  // por ese canal, vengan de donde vengan sus leads. Hace falta porque el
+  // embudo es una cohorte y un «Ganados 0» se lee como «este canal no vendió
+  // nada», que es falso: en el 1–16 de septiembre el formulario de Meta cerró
+  // una venta cuyo lead habia entrado el 29 de agosto. Los dos numeros son
+  // ciertos y contestan preguntas distintas, asi que van los dos, rotulados.
+  const pieCierre = (id, canal, cohorte) => {
+    const v = c.v.filter(x=>x[tCA]===canal);
+    const el = document.getElementById(id);
+    if(!v.length && !cohorte){ el.innerHTML =
+      '<span class="rotulo">En la ventana</span> ninguna venta de este canal se '+
+      'cerró en estas fechas.'; return; }
+    el.innerHTML = '<span class="rotulo">En la ventana</span> se cerraron <b>'+nf(v.length)+
+      '</b> venta'+(v.length===1?'':'s')+' de este canal, contando por <b>fecha de cierre</b>'+
+      (v.length!==cohorte ? ' — no son las mismas <b>'+nf(cohorte)+'</b> de arriba: '+
+        'ahí se cuentan solo las de leads que entraron en la ventana, y una venta '+
+        'puede cerrarse con un lead más viejo.' : '.');
+  };
+  pieCierre("cierre-web", WEB, c.l.filter(x=>x[lCA]===WEB && x[lWON]===1).length);
+  pieCierre("cierre-meta", REDES, c.l.filter(x=>x[lCA]===REDES && x[lWON]===1).length);
+  /* La razon numero uno de que este tablero «no cuadre» con Zoho: una vista o
+     un informe del CRM ESCONDE los leads ya convertidos, y los convertidos son
+     justo los que avanzan. Medido en vivo el 2026-09-17 para Guatemala del 1 al
+     16 de septiembre: la vista muestra 79 y el CRM tiene 132, y los 53 de
+     diferencia son exactamente los «Calificados» de estos embudos. Decirlo aqui
+     evita la busqueda del error que no existe. */
+  const cal = c.l.filter(x=>x[lCL]===1).length;
+  const convertidos = c.l.filter(x=>x[lCO]===1).length;
+  const sigue = c.l.length - convertidos;
+  const huerfanos = convertidos - cal;
+  /* Cada cifra sale marcada con `data-z`: la prueba la busca por nombre y no
+     por su posicion en la frase. Un numero repetido en la prosa —«vas a ver
+     4.036»— hacia que contar de izquierda a derecha comparara lo que no era. */
+  const z = (k,v) => '<b data-z="'+k+'">'+nf(v)+'</b>';
+  document.getElementById("embudos-zoho").innerHTML =
+    'De los '+z("total",c.l.length)+' leads de esta ventana, '+z("conv",convertidos)+
+    ' ya se convirtieron y '+z("sigue",sigue)+' siguen como Lead. Una vista o un informe '+
+    'de Zoho <b>esconde los convertidos</b>, así que ahí vas a ver '+z("sigue",sigue)+
+    ', no '+z("total",c.l.length)+': es el mismo dato con los que avanzaron quitados. '+
+    'De los convertidos, '+z("cal",cal)+' tienen su Trato —son los <b>Calificados</b> de '+
+    'estos embudos—'+(huerfanos ? ' y '+z("huerfanos",huerfanos)+' quedaron convertidos '+
+      '<b>sin Trato asociado</b>, que es un dato roto del CRM y no un lead perdido.' : '.');
+
+  document.getElementById("leyenda-planes").innerHTML =
+    '<span><i style="background:'+COLOR_PLAN.Free+'"></i>Free</span>'+
+    '<span><i style="background:'+COLOR_PLAN.Premium+'"></i>De pago</span>'+
+    '<span class="pista">«De pago» agrupa Premium Anual, Premium Mensual, Elite Anual y los demás '+
+    'planes con precio; el plan solo existe desde «Calificados»</span>';
+}
+
 function pintaSinc(c){
   const m = fM();
   const forma = m.reduce((a,r)=>a+r[mEM],0);              // dentro de Meta
@@ -907,7 +1112,7 @@ document.addEventListener("mouseout",e=>{
 
 function pinta(){
   const c = calcula();
-  pintaEnVista(c); pintaKpis(c); pintaSinc(c);
+  pintaEnVista(c); pintaKpis(c); pintaEmbudos(c); pintaSinc(c);
 }
 pintaFiltros(); pinta();
 

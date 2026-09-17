@@ -212,9 +212,14 @@ def main():
                 alto("estado de lead sin bucket: %r" % estado)
             bucket, area = ESTADO2BUCKET[estado]
             plan, producto = "", ""
+        # `convertido` NO es `calif`. Un lead convertido sin Trato asociado existe
+        # —44 en 2026— y esa diferencia importa: lo que una vista de Zoho esconde
+        # son los CONVERTIDOS, no los que tienen Trato. Usar uno por el otro
+        # erraria por esos 44 justo en el numero que sirve para reconciliar.
         celdas_lead.append([fecha, r.get("Pa_s") or "Sin país", canal(fuente),
                             fuente or "Sin fuente", estado or "Sin estado",
-                            bucket, area, calif, plan, producto, ganado, 1])
+                            bucket, area, calif, plan, producto, ganado, 1,
+                            1 if r["Converted__s"] else 0])
 
     celdas_trato = []
     for t in tratos:
@@ -355,7 +360,7 @@ def main():
     vro = vocab("rol", [c[3] for c in celdas_resp])
 
     L = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], ve[c[4]], vb[c[5]], va[c[6]],
-          c[7], vpl[c[8]], vpr[c[9]], c[10]] for c in celdas_lead]
+          c[7], vpl[c[8]], vpr[c[9]], c[10], c[12]] for c in celdas_lead]
     T = [[ifecha[c[0]] if en_banda(c[0]) else -1,
           vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
           va[c[7]], vr[c[8]], vca[c[9]], va[c[10]], vpl[c[11]], vpr[c[12]], vv[c[13]],

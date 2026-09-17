@@ -699,6 +699,31 @@ cometidos; no hay tiempo de repetirlos.
   reconciliar con su CRM le resta confianza a las que sí cuadran.** Quinta vez
   en el proyecto (2026-09-17).
 
+- **«Convertido» y «tiene Trato» NO son el mismo campo, y confundirlos erraba
+  justo en el número que sirve para reconciliar.** Lo que una vista de Zoho
+  esconde son los **convertidos** (1.010 en 2026); los que tienen Trato asociado
+  son **966**. Los 44 de diferencia son convertidos sin Trato —dato roto del
+  CRM—. La nota que predice «en Zoho vas a ver N» tiene que salir de
+  `Converted__s`, no de `calif`, o se equivoca por esos 44. El dataset lleva
+  ahora las dos marcas por separado y la prueba comprueba que `convertidos ≥
+  con Trato`, que es la invariante.
+- **Quitar el embudo no arregló nada: lo que faltaba era decir en voz alta por
+  qué no cuadra.** Medido en vivo el 2026-09-17 para Guatemala del 1 al 16 de
+  septiembre: la vista `Leads Guatemala` muestra **80**, el CRM tiene **132**, y
+  los **53** de diferencia son exactamente los convertidos —o sea, los que el
+  embudo cuenta como «Calificados»—. El embudo no causa el descuadre: es lo
+  único que lo explica. Ahora la página lo escribe con los números de la ventana
+  que estés mirando.
+- **Una prueba que cuenta números «de izquierda a derecha» en una frase se rompe
+  con la prosa.** `[\d.,]+` casa también con la coma y el punto del texto, y un
+  número repetido —«vas a ver 4.036»— corre todos los índices. Cada cifra sale
+  marcada con `data-z` y la prueba la busca por nombre.
+- **Un tablero sin la fecha de su foto invita a buscar un error que no existe.**
+  Entre la extracción de las 16:11 y una consulta de la tarde, dos leads de
+  Guatemala se convirtieron: la página decía 81/51 y el CRM 79/53. No es un
+  fallo, es que el CRM se mueve — pero sin «CRM al 17 de septiembre» a la vista,
+  esa diferencia de horas se lee como un tablero roto.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
