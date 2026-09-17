@@ -61,8 +61,11 @@
      persona saliendo del campo, y no puede tratarse igual. */
   var repintando = false;
   var SIN_DUENIO = "21897000000002005";
-  var sprints = null;
+  var mcpApi = null;
   var SERVIDOR = "Zoho Sprints";
+  /* El namespace `mcp` sirve a DOS conectores desde el 2026-09-16 —Zoho
+     Sprints para escribir work items y Meta para refrescar el día en curso—
+     así que la variable deja de llamarse `sprints`, que ya mentía. */
 
   /* Vista local. Nunca se publica. */
   var V = { mercado: null, grupo: "competencia", categoria: "software",
@@ -135,6 +138,12 @@
   ];
 
   var ico = {
+    /* Dos arcos con su punta de flecha: el gesto universal de «volver a
+       pedir». Trazo abierto, como el resto de la familia. */
+    refresco: '<path d="M20 11a8 8 0 00-13.7-5.7L4 7.5"/>' +
+              '<path d="M4 4v4h4"/>' +
+              '<path d="M4 13a8 8 0 0013.7 5.7L20 16.5"/>' +
+              '<path d="M20 20v-4h-4"/>',
     cuadros: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
     grafico: '<path d="M4 19V5M4 19h16M8 15l4-5 3 3 4-6"/>',
     corazon: '<path d="M12 20s-7-4.4-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.6-7 9-7 9z"/>',
@@ -260,8 +269,25 @@
      cartas. Dos listas que responden la misma pregunta terminan divergiendo.
 
      `siempre` gana sobre todo: es la pieza que sirve a las tres. */
+  /* CUENTA: solo lo que de verdad sirve a la estrategia. Se separa de `sirveA`
+     porque una carta huerfana —la suya se cayo— se MUESTRA para no perderla,
+     pero contarla en «N cartas» de una apuesta a la que no sirve seria un
+     rotulo que induce al error, que es ADR-057. Se ve, no se suma. */
+  function cuentaPara(x, act) {
+    if (x.siempre) return true;
+    if (x.sin_estrategia_viva) return false;
+    if (!act) return true;
+    return (x.estrategias || []).indexOf(act.id) >= 0;
+  }
+
   function sirveA(x, act) {
     if (x.siempre) return true;
+    /* Una carta que se quedó SIN estrategia viva —la suya se cayó porque su
+       premisa dejó de ser cierta— tampoco se esconde. No es lo mismo que
+       `siempre`: aquella sirve a las tres, ésta no sirve a ninguna. Se ve en
+       todas y con su propio rótulo, porque esconder una pieza producible sin
+       que nada avise es el agujero de ADR-061. */
+    if (x.sin_estrategia_viva) return true;
     if (!act) return true;
     return (x.estrategias || []).indexOf(act.id) >= 0;
   }
@@ -389,9 +415,42 @@
 
     var fs = Object.keys(dias).sort();
     var k = indicadorPrincipal();
+
+    /* EL DINERO SÍ SE SUMA ENTRE INDICADORES. LOS RESULTADOS NO.
+       ────────────────────────────────────────────────────────────
+       ADR-013 prohíbe sumar `resultados` de indicadores distintos, y con razón:
+       158 leads y 10,771 clics no son 10,929 de nada. Pero esa regla se aplicó
+       de más al GASTO, y un dólar gastado en una campaña de clics es el mismo
+       dólar que uno gastado en una de leads.
+
+       Consecuencia medida el 2026-09-16, y la encontró Mercadeo: el tablero
+       mostraba $591.42 de Inversión para la semana del 25 de agosto y Meta
+       decía $648.42 en la cuenta. La diferencia eran los $56.82 de «Plan Free
+       Tráfico 2026», que optimiza por `actions:link_click`. La campaña estaba
+       LEÍDA y en el dato; lo que la dejaba fuera era el número que se eligió
+       mostrar. El rótulo decía «2 campañas con entrega» cuando entregaron 3.
+
+       `total` NO tiene `resultados` a propósito. No es un olvido: es para que
+       nadie pueda sumarlos desde acá ni por accidente. Lo que se puede sumar
+       está; lo que no, no existe en este objeto. */
+    var tot = { gasto: 0, impresiones: 0, camp: {}, porIndicador: [] };
+    Object.keys(ind).forEach(function (kk) {
+      var e = ind[kk];
+      tot.gasto += e.gasto;
+      tot.impresiones += e.impresiones;
+      (e.campanas_nombres || []).forEach(function (n) { tot.camp[n] = 1; });
+      tot.porIndicador.push({ indicador: kk, gasto: e.gasto,
+                              campanas: e.campanas });
+    });
+    tot.gasto = Math.round(tot.gasto * 100) / 100;
+    tot.campanas = Object.keys(tot.camp).length;
+    tot.porIndicador.sort(function (a, b) { return b.gasto - a.gasto; });
+    delete tot.camp;
+
     return {
       indicadores: ind,
       principal: ind[k] || null,
+      total: tot,
       indicador_principal: k,
       /* `recortada` = «esta vista es mas angosta que el dato que hay», que NO
          es lo mismo que `propio` = «alguien la acoto a mano». Antes coincidian
@@ -636,16 +695,38 @@
          y todo lo que filtra por ella siguen en pie: si mañana vuelve, vuelve
          completo. Arrancar en cadena vacía deja los filtros inertes. */
       '<div class="flex items-center gap-3 flex-wrap">' +
-      '<button type="button" id="bCsv" class="btn-oscuro">' +
-      svg(ico.copiar, "w-4 h-4") + "Copiar para Sprint</button>" +
+      /* «Actualizar ahora» ocupa el lugar que tenia «Copiar para Sprint»
+         (pedido de Mercadeo, 2026-09-16): lo que se aprieta seguido es esto, y
+         la cabecera es donde se busca. Sin conector no se pinta un boton
+         muerto: se dice por que. */
+      (mcpApi
+        ? '<button type="button" id="bActualizaHoy" class="btn-oscuro" ' +
+          (refresco.cargando ? "disabled" : "") + ">" + svg(ico.refresco, "w-4 h-4") +
+          (refresco.cargando ? "Actualizando…" : "Actualizar ahora") + "</button>"
+        : '<span class="text-[11px] text-slate-400 max-w-[24ch] leading-snug">' +
+          "Abrí el tablero en claude.ai para poder actualizar.</span>") +
       '<button type="button" id="bDecisiones" class="btn-claro" ' +
       'title="JSON para la creación automática por API">' +
       svg(ico.copiar, "w-4 h-4") + "Decisiones</button>" +
+      /* «Copiar para Sprint» deja de ser botón y queda como enlace: Mercadeo
+         pidió su lugar para «Actualizar ahora» (2026-09-16). No se elimina
+         porque sigue siendo el ÚNICO camino a Sprint para quien abre el
+         tablero sin el conector (ADR-054); borrarlo los dejaría sin salida y
+         sin aviso. Si la mesa confirma que todos tienen conector, se va. */
+      '<button type="button" id="bCsv" class="text-[12px] text-slate-400 ' +
+      'hover:text-slate-600 underline bg-transparent" ' +
+      'title="CSV para importar a Sprints. El camino sin conector.">' +
+      "Copiar para Sprint</button>" +
       "</div></div>" +
       (chip ? '<div class="mt-5">' + chip + "</div>" : "") +
       /* El filtro de fechas va aquí arriba porque es de toda la página, no de
          una sección. */
       (controlFechas() ? '<div class="mt-6">' + controlFechas() + "</div>" : "") +
+      /* El día en curso va PEGADO al filtro y no dentro de él: lo que se
+         está diciendo es «además de la ventana que elegiste, esto es lo que
+         va del día», y eso solo se entiende al lado del rango. */
+      (franjaDiaEnCurso() ? '<div class="mt-4">' + franjaDiaEnCurso() +
+        "</div>" : "") +
       "</header>";
   }
 
@@ -1095,14 +1176,13 @@
   function lineaResponsable(c, s0) {
     if (s0.sincronizando) return "Enviando el responsable a Sprints…";
     if (s0.detalle_resp) return s0.detalle_resp;
-    var d = E.decisiones[c.id] || {};
-    var quiere = d.responsable ? String(d.responsable) : null;
+    var quiere = responsableDe(c.id);
     var tiene = s0.responsable ? String(s0.responsable) : null;
     if (quiere === tiene) {
       return tiene ? "Asignada a " + nombrePersona(tiene) + " en Sprints."
                    : "Sin responsable en Sprints todavía.";
     }
-    if (!sprints) {
+    if (!mcpApi) {
       return "El responsable elegido acá (" + nombrePersona(quiere) + ") no " +
         "está en Sprints: hace falta el conector para mandarlo.";
     }
@@ -1112,7 +1192,7 @@
 
   function tramoSprint(c, estado) {
     var s0 = (E.sprint || {})[c.id];
-    var puede = !!sprints && !!c.sprint;
+    var puede = !!mcpApi && !!c.sprint;
 
     if (s0 && (s0.estado === "creado" || s0.estado === "existia")) {
       var mal = !!s0.detalle_resp || !!s0.resp_sin_confirmar;
@@ -1129,9 +1209,12 @@
            tarea que lleva «la dirección visual y la referencia» sería
            describir un item que no es ese. El texto sale de lo que la pieza
            es, no de una frase única para las dos. */
-        (esCarta(c.id)
+        (origenDe(c.id) === "carta"
           ? ", con el copy, la dirección visual y la referencia adentro."
-          : ", con el ángulo, la evidencia y la instrucción exacta adentro.") +
+          : origenDe(c.id) === "idea"
+            ? ", con el detalle, sus referencias y la nota de que la propuso " +
+              "el equipo y no el análisis."
+            : ", con el ángulo, la evidencia y la instrucción exacta adentro.") +
         (s0._nota ? " " + esc(s0._nota) : "") + "</p>" +
         '<p class="text-[11.5px] mt-1.5 leading-relaxed" style="color:' +
         (mal ? "var(--falta-tex)" : "var(--bien-tex)") + '">' +
@@ -1182,7 +1265,11 @@
         NOMBRE_ESTRATEGIA[e.id] = e.nombre;
       });
     }
-    return NOMBRE_ESTRATEGIA[id] || id;
+    /* Un id que no resuelve a nombre NO se pinta crudo. Eso fue justo el
+       defecto del 2026-09-16: «mercado-sin-disputa» salía donde va un nombre
+       porque la estrategia se había caído y la carta seguía apuntándole. Un id
+       visible se lee como un nombre raro, no como un error. */
+    return NOMBRE_ESTRATEGIA[id] || "apuesta no disponible (" + id + ")";
   }
 
   /* La FICHA de la carta: los campos que hacen falta para producir sin abrir
@@ -1266,8 +1353,14 @@
               esc(nombreEstrategia(id)) + "</a>";
           }).join(" ")
         : (c.siempre
-            ? '<span class="etiqueta-gris">Sirve a las tres</span>' : ""),
-        "Sin estrategia derivada de su evidencia.") +
+            ? '<span class="etiqueta-gris">Sirve a las tres</span>'
+            : c.sin_estrategia_viva
+              ? '<span class="etiqueta-ambar">Su apuesta se cayó · ' +
+                esc((c._estrategias_caidas || []).join(", ")) + "</span>"
+              : ""),
+        c.sin_estrategia_viva
+          ? "La apuesta que la sostenía dejó de cumplirse en esta corrida."
+          : "Sin estrategia derivada de su evidencia.") +
       "</div>";
   }
 
@@ -1788,6 +1881,630 @@
       ? "Las fechas están al revés: se está usando " +
         rangoFecha(R.desde, R.hasta) + "."
       : "";
+  }
+
+  /* ¿Este ISO es el día de hoy para quien está mirando la pantalla?
+
+     Se arma con getFullYear/getMonth/getDate —la fecha LOCAL— en vez de
+     `toISOString().slice(0,10)`, que es UTC: en Guatemala (UTC-6) las dos
+     difieren desde las 18:00, y un tablero abierto de noche habría declarado
+     viejo un dato de esa misma tarde. */
+  function esFechaDeHoy(iso) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(iso || ""))) return false;
+    var d = new Date();
+    var dd = d.getFullYear() + "-" +
+             String(d.getMonth() + 1).padStart(2, "0") + "-" +
+             String(d.getDate()).padStart(2, "0");
+    return iso === dd;
+  }
+
+  /* El pie de Inversión: cuántas campañas entregaron y cómo se reparte el
+     dinero entre indicadores.
+
+     El reparto se escribe solo cuando hay MÁS DE UNO. Con un indicador la línea
+     repetiría el total y sería ruido; con dos es la explicación de por qué el
+     número es mayor que el de leads. */
+  function pieInversion(T) {
+    if (!T) return "";
+    var n = ent(T.campanas) + " campañas con entrega";
+    if (!T.porIndicador || T.porIndicador.length < 2) return n;
+    return n + " · " + T.porIndicador.map(function (x) {
+      return dinero(x.gasto) + " en " + enClaro(x.indicador).toLowerCase();
+    }).join(" + ");
+  }
+
+  /* ═════════════ refrescar el día en curso desde Meta ═════════════
+
+     Pedido de Mercadeo (2026-09-16), después de que las Rutinas corrieran cinco
+     días sin actualizar nada: «¿no se si es posible como un boton que diga
+     actualizar? y que active algo para que se actualice automaticamente».
+
+     QUÉ PUEDE Y QUÉ NO PUEDE ESTE BOTÓN. Importa decirlo acá porque la
+     tentación es que haga todo:
+
+     · SÍ refresca el DÍA EN CURSO. Es una sola consulta agregada, no entra a
+       `piezas`, y no tiene compuerta que violar: el día en curso no se
+       reconcilia contra nada porque no hay un agregado con qué compararlo.
+     · NO toca los días CERRADOS. Eso pide el desglose día por día reconciliado
+       al centavo contra su agregado, y esa compuerta vive en Python. Un
+       navegador que metiera días a `piezas` sin pasarla estaría publicando
+       números sin verificar, que es la regla 1 del proyecto al revés.
+     · NO rehace el análisis. Estrategia, cartas y copys son de la corrida.
+
+     Por eso el botón, además de refrescar, MIDE cuánto le falta al dato
+     cerrado y lo dice. Convierte una obsolescencia silenciosa —la de hoy, que
+     nadie vio en cinco días— en una visible. */
+
+  var META = "Meta MCP";
+  var CUENTA = "225318458221662";
+
+  /* Los números vienen en formato local español: «$1.234,56 USD» —punto de
+     miles, coma decimal—. Esto es un PUERTO de `parsea_numero()` de
+     `src/base/normaliza.py`, y ser una segunda copia de la misma regla es
+     exactamente el riesgo que este proyecto ya pagó caro (el cuerpo del item de
+     una idea escrito en tres lados, que divergió sin que nadie lo viera).
+
+     La guardia no es la buena intención: `prueba:actualizar` toma TODOS los
+     valores distintos de los veinte crudos —nueve meses de formatos reales— y
+     compara este parseo contra el de Python, uno por uno. */
+  function parseaNumero(crudo) {
+    if (crudo == null) return null;
+    var texto = String(crudo).trim();
+    if (!texto || /^(not available|n\/?a|mixed|-|—)$/i.test(texto)) return null;
+    var limpio = texto.replace(/\([^)]*\)/g, "").replace(/[^\d,.\-]/g, "");
+    if (!limpio || limpio === "-" || limpio === "," || limpio === ".") return null;
+    if (limpio.indexOf(",") >= 0 && limpio.indexOf(".") >= 0) {
+      limpio = limpio.replace(/\./g, "").replace(",", ".");
+    } else if (limpio.indexOf(",") >= 0) {
+      var i = limpio.lastIndexOf(",");
+      var dec = limpio.slice(i + 1);
+      limpio = (dec.length === 1 || dec.length === 2)
+        ? limpio.slice(0, i) + "." + dec
+        : limpio.replace(/,/g, "");
+    }
+    var n = parseFloat(limpio);
+    return isFinite(n) ? n : null;
+  }
+
+  /* El indicador y el valor de `results`, con las dos formas que devuelve la
+     API: `{value: "Not available"}` y `{values: [{value: "107"}]}`. */
+  function leeResultado(r) {
+    var res = (r && r.results) || {};
+    var v = res.value;
+    if (v == null && res.values && res.values.length) v = res.values[0].value;
+    return { indicador: res.indicator || "?", valor: parseaNumero(v) };
+  }
+
+  /* PUERTO de `dia_en_curso.arma()`. Mismas reglas, en el mismo orden:
+     una fila sin gasto NI impresiones no es dato; el mercado excluido se
+     reporta aparte; se agrupa por indicador; el gasto suma de TODAS las filas y
+     los resultados solo de las que traen uno (ADR-013 + ADR-067).
+
+     `prueba:actualizar` compara el bloque entero contra el que arma Python
+     sobre el mismo crudo. */
+  function bloqueDelDia(filas, fecha, piezas, refPrevia) {
+    var decl = mercados();
+    var dentro = {}, fuera = {};
+    (filas || []).forEach(function (r) {
+      var g = parseaNumero(r.amount_spent) || 0;
+      var im = parseaNumero(r.impressions) || 0;
+      if (g === 0 && im === 0) return;
+      var pais = r.country || "?";
+      var q = leeResultado(r);
+      if (decl.indexOf(pais) < 0) {
+        var e = fuera[pais] || (fuera[pais] = { gasto: 0, impresiones: 0, campanas: {} });
+        e.gasto += g; e.impresiones += im; e.campanas[r.name || r.id] = 1;
+        return;
+      }
+      var m = dentro[pais] || (dentro[pais] = {});
+      var k = m[q.indicador] || (m[q.indicador] = {
+        gasto: 0, impresiones: 0, resultados: 0, sinRes: 0 });
+      k.gasto += g; k.impresiones += im;
+      if (q.valor == null) k.sinRes += g; else k.resultados += q.valor;
+    });
+
+    var porMercado = {};
+    Object.keys(dentro).sort().forEach(function (pais) {
+      var inds = dentro[pais];
+      var principal = Object.keys(inds).sort(function (a, b) {
+        return inds[b].gasto - inds[a].gasto;
+      })[0];
+      var e = inds[principal];
+      var gasto = Math.round(e.gasto * 100) / 100;
+      var ref = (refPrevia && refPrevia[pais] && refPrevia[pais].indicador === principal)
+        ? refPrevia[pais].referencia : referenciaDe(piezas, fecha, pais, principal);
+      porMercado[pais] = {
+        indicador: principal,
+        gasto: gasto,
+        resultados: e.resultados,
+        impresiones: Math.round(e.impresiones),
+        gasto_sin_resultado: Math.round(e.sinRes * 100) / 100,
+        costo_por_resultado: e.resultados ? Math.round(gasto / e.resultados * 10000) / 10000 : null,
+        otros_indicadores: Object.keys(inds).filter(function (k) { return k !== principal; }).sort(),
+        referencia: ref,
+        avance: (ref && ref.gasto)
+          ? { gasto: Math.round(gasto / ref.gasto * 1000) / 1000,
+              impresiones: ref.impresiones
+                ? Math.round(e.impresiones / ref.impresiones * 1000) / 1000 : null }
+          : null
+      };
+    });
+
+    Object.keys(fuera).forEach(function (p) {
+      fuera[p].gasto = Math.round(fuera[p].gasto * 100) / 100;
+      fuera[p].campanas = Object.keys(fuera[p].campanas).sort();
+    });
+    return { por_mercado: porMercado, fuera_de_mercado: fuera };
+  }
+
+  /* El «día típico»: promedio de los últimos DIAS_REFERENCIA días CERRADOS
+     anteriores, del mismo mercado y el mismo indicador. Puerto de
+     `_referencia()`; incluir el propio día parcial lo abarataría. */
+  var DIAS_REFERENCIA = 7;
+  function referenciaDe(piezas, fecha, mercado, indicador) {
+    var porDia = {};
+    (piezas || []).forEach(function (p) {
+      if (p.f >= fecha || p.p !== mercado || p.k !== indicador) return;
+      var d = porDia[p.f] || (porDia[p.f] = { gasto: 0, impresiones: 0 });
+      d.gasto += p.g; d.impresiones += p.i;
+    });
+    var dias = Object.keys(porDia).sort().slice(-DIAS_REFERENCIA);
+    if (!dias.length) return null;
+    var g = 0, i = 0;
+    dias.forEach(function (d) { g += porDia[d].gasto; i += porDia[d].impresiones; });
+    return { dias: dias.length, desde: dias[0], hasta: dias[dias.length - 1],
+             gasto: Math.round(g / dias.length * 100) / 100,
+             impresiones: Math.round(i / dias.length) };
+  }
+
+  /* Estado del refresco: lo que la franja necesita saber para pintarse.
+     `error` guarda el CÓDIGO, no un texto: cada código tiene un arreglo
+     distinto y colapsarlos en «algo salió mal» esconde justo la acción que
+     destraba la página. */
+  var refresco = { cargando: false, error: null, mensaje: "", hecho: null };
+
+  /* Las dos funciones que son un PUERTO de Python se exponen para que
+     `prueba:actualizar` pueda compararlas contra el original. No es una puerta
+     de atrás: son lecturas puras, sin efecto, y sin esto la única forma de
+     probarlas sería a través de la pantalla, que mide otra cosa. */
+  try {
+    window.__parseaNumero = function (x) { return parseaNumero(x); };
+    window.__bloqueDelDia = function (a, b, c, d) { return bloqueDelDia(a, b, c, d); };
+  } catch (e) { /* entorno sin window: la página funciona igual */ }
+
+  /* Qué hacer con cada falla. El `default` existe para los códigos que no
+     tienen un arreglo propio; lo que NO se hace es mandar todos ahí. */
+  function arregloDe(codigo, servidor, detalle) {
+    var s = servidor || META;
+    switch (codigo) {
+      case "server_not_connected":
+      case "selection_required":
+        return "Falta conectar «" + s + "» en claude.ai → Configuración → " +
+               "Conectores, o elegir cuál usar si hay más de uno.";
+      case "needs_reauth":
+        return "La sesión de «" + s + "» caducó. Reconectala en claude.ai → " +
+               "Configuración → Conectores.";
+      case "not_granted":
+      case "capability_disabled":
+      case "capability_removed":
+        return "Esta vista no puede llamar conectores. Abrí el tablero desde " +
+               "claude.ai en vez de una copia descargada.";
+      case "blocked_by_policy":
+      case "approval_required":
+        return "La política de la organización bloquea esta consulta. La " +
+               "puede habilitar quien administra los conectores.";
+      case "not_in_manifest":
+        return "Este tablero se publicó sin permiso para leer Meta. Hay que " +
+               "volver a publicarlo declarando el conector.";
+      case "tool_error":
+        /* El texto de Meta ES el arreglo acá: sin él, «respondió con un
+           error» no le dice a nadie qué tocar. Se recorta para que no
+           desborde la franja, pero no se esconde. */
+        return "Meta respondió con un error. El dato de abajo no cambió." +
+               (detalle ? " Dijo: " + recortaTexto(detalle, 180) : "");
+      case "server_unavailable":
+        return "Meta no respondió. Se puede volver a intentar.";
+      default:
+        return "No se pudo leer Meta. El dato de abajo no cambió." +
+               (detalle ? " Dijo: " + recortaTexto(detalle, 180) : "");
+    }
+  }
+
+  /* Un mensaje de upstream puede venir larguísimo. Se recorta al cerrar una
+     palabra, no a la mitad de una. Se llama `recortaTexto` y no `recorta`
+     porque ese nombre YA existe en este archivo para listas: dos
+     declaraciones con el mismo nombre no dan error, la segunda gana y se
+     lleva por delante los ocho usos de la primera. */
+  function recortaTexto(txt, n) {
+    var s = String(txt).replace(/\s+/g, " ").trim();
+    if (s.length <= n) return s;
+    var corte = s.slice(0, n);
+    var esp = corte.lastIndexOf(" ");
+    return (esp > n * 0.6 ? corte.slice(0, esp) : corte) + "…";
+  }
+
+  /* Los códigos que NO se reintentan solos jamás: repetir la llamada no puede
+     arreglarlos. El tipo lo dice con `retryable`, y se respeta eso antes que
+     cualquier lista propia. */
+  function sePuedeReintentar(err) {
+    return !!(err && err.retryable === true);
+  }
+
+  /* La consulta del día en curso, con los MISMOS parámetros que usa la corrida
+     —rango cerrado de un solo día, por campaña y país— para que el número que
+     sale acá sea el mismo que saldría por el otro camino. */
+  function peticionDelDia(fecha, cursor) {
+    var p = {
+      ad_account_id: CUENTA,
+      level: "campaign",
+      /* `time_range` viaja como TEXTO JSON, no como objeto: lo exige el
+         esquema del conector (`type: "string"`) y es lo que hace
+         `Rango.como_time_range()` en Python. Un objeto acá devuelve
+         `tool_error` sin decir por qué. */
+      time_range: JSON.stringify({ since: fecha, until: fecha }),
+      breakdowns: ["country"],
+      fields: ["id", "name", "results", "cost_per_result", "spend", "impressions"],
+      limit: 1000,
+      /* El conector exige las palabras del anunciante. Acá la petición es el
+         clic: se manda lo que dice el botón, no una frase inventada. */
+      advertiser_request: "actualizar el dia en curso",
+      client_conversation_id: idDeConversacion()
+    };
+    /* El cursor viaja con TODO lo demás sin cambiar ni un parámetro: el
+       esquema dice que cualquier otra diferencia lo invalida. */
+    if (cursor) p.cursor = cursor;
+    return p;
+  }
+
+  /* 20 caracteres, estable por carga de página: agrupa las llamadas de una
+     misma sesión de la mesa, que es para lo que existe. */
+  var _idConv = null;
+  function idDeConversacion() {
+    if (_idConv) return _idConv;
+    var abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var out = "";
+    for (var i = 0; i < 20; i++) out += abc[Math.floor(Math.random() * abc.length)];
+    _idConv = out;
+    return out;
+  }
+
+  /* El payload del conector llega como objeto o como texto JSON, y
+     `ad_entities` adentro puede venir de las dos formas otra vez. Se
+     normaliza acá y no en tres lugares. */
+  function filasDe(payload) {
+    var p = payload;
+    if (typeof p === "string") { try { p = JSON.parse(p); } catch (e) { return null; } }
+    if (!p || typeof p !== "object") return null;
+    var ae = p.ad_entities;
+    if (typeof ae === "string") { try { ae = JSON.parse(ae); } catch (e) { return null; } }
+    if (!Array.isArray(ae)) return null;
+    /* El cursor se devuelve junto a las filas porque decide si hay que
+       volver a preguntar. Medido el 2026-09-16: Meta manda `next_cursor`
+       aunque NO quede nada —la página siguiente vino vacía—, así que su
+       presencia no prueba que falte dato. Su AUSENCIA sí prueba que no
+       falta, y eso es lo que se persigue. */
+    var cur = (p.pagination && p.pagination.next_cursor) || p.next_cursor || null;
+    return { filas: ae, cursor: cur || null };
+  }
+
+  /* Tope de páginas. Un agregado de un día por campaña y país son unas pocas
+     filas; cinco vueltas sobran y evitan que un cursor que nunca se apaga
+     deje la página girando. Si al quinto SIGUE habiendo cursor, el número no
+     se publica: se declara la lectura como incompleta (regla 1). */
+  var MAX_PAGINAS = 5;
+
+  /* El día que el VISITANTE está viviendo, en su fecha local. Es el mismo
+     criterio que usa `esFechaDeHoy`: el servidor no sabe cuándo lo van a
+     mirar. */
+  /* El nombre corto del día para los avisos. `fecha()` ya existe y hace esto;
+     se envuelve para no repetir su contrato acá. */
+  function fecha_(iso) { return fecha(iso); }
+
+  function hoyLocal() {
+    var d = new Date();
+    return d.getFullYear() + "-" +
+           String(d.getMonth() + 1).padStart(2, "0") + "-" +
+           String(d.getDate()).padStart(2, "0");
+  }
+
+  function actualizaDiaEnCurso() {
+    if (refresco.cargando) return;
+    if (!mcpApi) {
+      refresco.error = "not_granted";
+      refresco.mensaje = arregloDe("not_granted");
+      pintar(true);
+      return;
+    }
+    refresco.cargando = true;
+    refresco.error = null;
+    refresco.mensaje = "";
+    pintar(true);
+
+    var fecha = hoyLocal();
+    var PD = pautaDia();
+    var previo = (PD && PD.dia_en_curso) || null;
+
+    /* `refresh: true` salta la caché a propósito: el sentido del botón es
+       traer lo de AHORA. Y se sigue el cursor hasta que no haya: un
+       truncamiento silencioso se ve igual de completo que el dato completo
+       (ADR-050), y acá no hay compuerta de reconciliación que lo agarre. */
+    function pagina(cursor, acumulado, vuelta) {
+      return mcpApi.callTool(META, "ads_get_ad_entities",
+        peticionDelDia(fecha, cursor), { cache: { refresh: true } }
+      ).then(function (res) {
+        var r = filasDe(res && res.payload);
+        if (!r) return null;
+        var todo = acumulado.concat(r.filas);
+        if (!r.cursor) return { filas: todo, completo: true };
+        if (vuelta >= MAX_PAGINAS) return { filas: todo, completo: false };
+        return pagina(r.cursor, todo, vuelta + 1);
+      });
+    }
+
+    pagina(null, [], 1).then(function (res) {
+      if (!res) {
+        refresco.error = "tool_error";
+        refresco.mensaje = "Meta respondió algo que no se pudo leer. El dato " +
+          "de abajo no cambió.";
+        return;
+      }
+      if (!res.completo) {
+        /* Publicar la suma de lo que llegó sería afirmar un total que no se
+           leyó entero. Se dice y no se toca el dato de abajo. */
+        refresco.error = "lectura_incompleta";
+        refresco.mensaje = "Meta siguió pidiendo más páginas después de " +
+          MAX_PAGINAS + ": la lectura quedó incompleta y un total parcial " +
+          "diría menos de lo que hay. El dato de abajo no cambió.";
+        return;
+      }
+      var filas = res.filas;
+      var b = bloqueDelDia(filas, fecha, (PD && PD.piezas) || [],
+                           previo && previo.por_mercado);
+      if (!Object.keys(b.por_mercado).length) {
+        /* Cero filas útiles NO es «cero gasto»: puede ser que el día todavía
+           no arranque. Se dice así y no se pinta un cero. */
+        refresco.error = null;
+        /* Se nombran LOS DOS días. Sin eso, «Meta todavía no reporta entrega
+           de hoy» queda pegado a los números de otro día y se lee como si los
+           contradijera: pasó el 2026-09-17, con la lectura del 16 en pantalla.
+           La frase era cierta y aun así confundía, que es la trampa de
+           siempre — un dato correcto presentado de una forma que induce al
+           error. */
+        var otro = previo && previo.fecha && previo.fecha !== fecha;
+        refresco.mensaje = "Meta todavía no reporta entrega de " +
+          fecha_(fecha) + "." +
+          (otro ? " Abajo sigue la última lectura, la de " +
+                  fecha_(previo.fecha) + "." : "");
+        refresco.hecho = Date.now();
+        return;
+      }
+      PD.dia_en_curso = {
+        fecha: fecha,
+        es_de_hoy: true,
+        por_mercado: b.por_mercado,
+        fuera_de_mercado: b.fuera_de_mercado,
+        consultado_a: new Date().toISOString(),
+        _leido_en_la_pagina: true
+      };
+      refresco.hecho = Date.now();
+      /* Y se GUARDA. Sin esto, el refresco vivia solo en memoria: al recargar
+         volvia el dato publicado y parecia que nadie habia apretado el boton
+         (lo reporto Mercadeo el 2026-09-16). `documento()` serializa `D`
+         entero, asi que persistir basta — y de paso lo ve toda la mesa, que es
+         lo que uno espera de un tablero compartido. */
+      guardarRefresco = true;
+    }).catch(function (err) {
+      var c = (err && err.code) || "upstream_error";
+      refresco.error = c;
+      refresco.mensaje = arregloDe(c, err && err.server, err && err.message);
+      refresco.puedeReintentar = sePuedeReintentar(err);
+    }).then(function () {
+      refresco.cargando = false;
+      if (guardarRefresco) {
+        guardarRefresco = false;
+        /* `persistir` ya repinta. Se le pasa el mensaje para que la mesa sepa
+           que el numero quedo guardado y no solo mostrado. */
+        persistir("Día en curso actualizado y guardado");
+      } else {
+        pintar(true);
+      }
+    });
+  }
+  var guardarRefresco = false;
+
+  /* Cuántos días CERRADOS le faltan al dato, que es lo que el botón NO puede
+     arreglar. Se mide contra la fecha del visitante, no contra la de
+     generación: es el mismo error que se arregló en ADR-066. */
+  function diasDeAtraso() {
+    var PD = pautaDia(), t = PD && PD.rango_disponible;
+    if (!t || !t.hasta) return null;
+    var ayer = new Date();
+    ayer.setDate(ayer.getDate() - 1);
+    var a = ayer.getFullYear() + "-" +
+            String(ayer.getMonth() + 1).padStart(2, "0") + "-" +
+            String(ayer.getDate()).padStart(2, "0");
+    if (t.hasta >= a) return 0;
+    var d1 = new Date(t.hasta + "T00:00:00Z"), d2 = new Date(a + "T00:00:00Z");
+    return Math.round((d2 - d1) / 86400000);
+  }
+
+  /* ═════════════ el día que todavía no termina ═════════════
+
+     Pedido literal de Mercadeo (2026-09-11): «la idea es que tengamos los
+     datos reales en tiempo real». Meta sí devuelve el día en curso. Lo que no
+     se puede es meterlo en la misma serie que los días cerrados: medido, va al
+     20-27% del gasto de un día típico, así que dibujaría un desplome del 75%
+     que es puro horario.
+
+     Por eso esta franja está FUERA de las tarjetas y se ve distinta: no es un
+     KPI más, es un dato aparte. `dia_en_curso` no vive en `piezas`, así que el
+     filtro no lo suma y ninguna gráfica lo promedia — la separación es de
+     dato, no de maquetación, y esto solo la hace visible.
+
+     El avance se dice en PORCENTAJE, no en horas: la zona horaria de la cuenta
+     está declarada como desconocida y «van 6 horas del día» sería una
+     suposición. El porcentaje sale del promedio de días completos. */
+  function franjaDiaEnCurso() {
+    var PD = pautaDia(), H = PD && PD.dia_en_curso;
+    if (!H || !H.por_mercado) return "";
+    var mk = Object.keys(H.por_mercado);
+    if (!mk.length) return "";
+
+    /* Se calcula ANTES de las columnas porque el tiempo verbal depende de
+       ello: un día que ya pasó no «va» a ningún ritmo. */
+    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
+    /* TRES casos, no dos. Un día que no es hoy puede estar COMPLETO —se
+       volvió a pedir después de que cerró— o quedarse a medias —la lectura se
+       tomó mientras corría y nadie volvió—. Los números se ven iguales y
+       significan cosas distintas: 78% de un día típico es «fue un día flojo»
+       en el primer caso y «solo alcanzamos a leer eso» en el segundo.
+
+       Se distingue con el dato que ya viaja: la FECHA en que se consultó
+       contra la fecha del día. Si se consultó después, el día ya había
+       cerrado. Nada que adivinar. */
+    var cerrado = !deHoy && H.consultado_a &&
+                  String(H.consultado_a).slice(0, 10) > String(H.fecha);
+    var cols = mk.map(function (m) {
+      var d = H.por_mercado[m] || {};
+      /* El avance puede faltar —un mercado sin días completos detrás no tiene
+         contra qué compararse—. Ahí se dice que falta, no se pone un 0%. */
+      var av = d.avance && d.avance.gasto != null
+        ? Math.round(d.avance.gasto * 100) + "% del gasto de un día típico"
+        : "sin días completos detrás para comparar";
+      /* La procedencia del «día típico» va en SU PROPIA línea. Pegada a la
+         anterior daba un renglón de ~420 px que empujaba el segundo mercado a
+         una fila nueva: con dos mercados, eso es toda la maquetación. El ancho
+         máximo obliga a envolver dentro de la columna en vez de estirarla. */
+      var ref = d.referencia
+        ? "típico = promedio de " + d.referencia.dias + " días · " +
+          esc(rangoFecha(d.referencia.desde, d.referencia.hasta))
+        : "";
+      return '<div class="min-w-[150px] max-w-[240px]">' +
+        '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
+        'uppercase">' + esc(m) + "</div>" +
+        '<div class="text-[19px] font-bold text-slate-800 tabular-nums ' +
+        'leading-tight mt-0.5">' + dinero(d.gasto) + "</div>" +
+        '<div class="text-[11px] text-slate-500 leading-tight">' +
+        /* Cero resultados con TODO el gasto sin atribuir no es «cero leads»,
+           es que Meta todavía no atribuyó ninguno: devolvió `Not available`,
+           no un 0. Escribir «0 leads» al lado de $6.31 de inversión dice que
+           se midió y dio cero, que es la trampa de siempre —un hueco pintado
+           de cero—. Sin resultados no hay costo por lead y tampoco se finge
+           uno. */
+        (d.resultados > 0
+          ? ent(d.resultados) + " " + esc(enClaro(d.indicador).toLowerCase()) +
+            (d.costo_por_resultado != null
+              ? " · " + dinero(d.costo_por_resultado) + " c/u" : "")
+          : "sin " + esc(enClaro(d.indicador).toLowerCase()) +
+            " atribuidos todavía") +
+        "</div>" +
+        /* «va al 58%» es PRESENTE y solo vale si el día sigue corriendo. Con
+           el día ya pasado, ese 58% no es un ritmo: es donde se quedó la
+           lectura. Decir «va al» ahí afirma un avance que nadie va a
+           completar. */
+        '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">' +
+        (deHoy ? "va al " : cerrado ? "cerró en " : "la lectura quedó en ") +
+        esc(av) + "</div>" +
+        (ref ? '<div class="text-[10px] text-slate-400 leading-tight">' +
+          ref + "</div>" : "") + "</div>";
+    }).join("");
+
+    /* «Hoy» se juzga contra el reloj de QUIEN ABRE LA PÁGINA, no contra el día
+       en que se generó.
+
+       `es_de_hoy` lo calcula Python con el `--hoy` de la corrida, y eso protege
+       de un caso: re-generar el tablero tomando un crudo viejo. No protege del
+       caso que de verdad pasó —una página publicada que se queda quieta cinco
+       días— porque ese flag se congela en el momento de publicar. El 2026-09-16
+       el tablero seguía diciendo «Día en curso · vie 11 sep», que es la mentira
+       exacta que la guardia venía a impedir.
+
+       Un dato del lado del servidor no puede saber cuándo lo van a mirar. El
+       navegador sí, y es gratis. Se exige que las DOS cosas den «hoy»: si
+       cualquiera de las dos dice que no, no se rotula como día en curso.
+
+       La fecha del visitante se toma en LOCAL, no en UTC: quien abre esto está
+       en GT (UTC-6), y a las 7 de la noche `toISOString()` ya devolvería el día
+       siguiente y marcaría como viejo un dato que acaba de llegar. */
+    return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
+      'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
+      'items-start gap-x-8 gap-y-4">' +
+      /* `max-w` y no solo `min-w`. Sin tope, este bloque se estira con su
+         propio texto: al cambiar el día aparece «No es hoy: este dato se leyó
+         ese día…» y el bloque crecía hasta empujar GT al borde y SV a una fila
+         nueva. La maquetación se rompía SOLO al día siguiente, que es por qué
+         nadie lo vio. Es exactamente el arreglo que ya lleva la columna de
+         cada mercado —anotado ahí mismo— y que no se le puso a éste. */
+      '<div class="min-w-[170px] max-w-[300px]">' +
+      '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
+      'uppercase">' + (deHoy ? "Día en curso" : "Último día leído") + "</div>" +
+      '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
+      'mt-0.5">' + esc(fecha(H.fecha)) + "</div>" +
+      '<div class="text-[10.5px] text-slate-500 leading-snug mt-1">' +
+      (deHoy ? ""
+             : cerrado
+               ? "<b>No es hoy</b>: es el último día con entrega, ya cerrado y "
+                 + "leído completo. "
+               : "<b>No es hoy</b>: este dato se leyó ese día y no se ha " +
+                 "vuelto a pedir, así que está a medias. ") +
+      "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
+      "gráfica lo promedia.</div></div>" +
+      cols +
+      /* El BOTÓN vive en la cabecera desde el 2026-09-16 (pedido de Mercadeo).
+         Acá se queda lo que el botón NO puede arreglar —los días cerrados que
+         falten necesitan la corrida— y el aviso de la última llamada, porque
+         los dos hablan de ESTE dato y se leen junto a él. Un solo botón en la
+         página: dos elementos con el mismo id es HTML inválido, y el segundo
+         no se ve pero sí se rompe. */
+      (function () {
+        var atraso = diasDeAtraso();
+        var b = "";
+        var msg = "";
+        if (refresco.error) {
+          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
+            'text-amber-700 font-semibold leading-snug">' +
+            esc(refresco.mensaje) + "</div>";
+        } else if (refresco.mensaje) {
+          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
+            'text-slate-500 leading-snug">' + esc(refresco.mensaje) + "</div>";
+        }
+        var at = "";
+        if (atraso && atraso > 0) {
+          at = '<div class="basis-full text-[10.5px] text-amber-700 ' +
+            'leading-snug">El dato de días cerrados llega al ' +
+            esc(fecha(pautaDia().rango_disponible.hasta)) + ": le " +
+            (atraso === 1 ? "falta 1 día" : "faltan " + atraso + " días") +
+            ". Eso NO lo arregla " +
+            "este botón —los días cerrados se reconcilian al centavo antes de " +
+            "entrar— sino la corrida.</div>";
+        }
+        return (b ? '<div class="basis-full flex flex-wrap items-center gap-3">' +
+                    b + "</div>" : "") + msg + at;
+      })() +
+      '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
+      "Leído " + esc(horaLectura(H.consultado_a)) +
+      /* Antes este pie citaba «$7.53 y $7.93 en GT», que eran dos lecturas
+         reales del 11 de septiembre. Cierto, y aun así confuso: son números de
+         OTRO día puestos al lado de los de hoy. La frase sin la cifra dice lo
+         mismo y no compite con el dato de arriba. */
+      (deHoy ? ". Un día sin cerrar se mueve mientras se mira: una lectura de " +
+        "la mañana no es la del cierre."
+             : cerrado
+               ? ", con el día ya cerrado. Un día recién cerrado todavía puede " +
+                 "moverse un poco en gasto e impresiones."
+               : " y no se ha vuelto a pedir desde entonces.") +
+      "</div></div>";
+  }
+
+  /* «a las 15:35 UTC». La hora se muestra en UTC y rotulada como tal: es la
+     hora del entorno que consultó, NO la de la cuenta publicitaria, cuya zona
+     horaria es una constante declarada como desconocida. Rotularla mal sería
+     peor que no ponerla. */
+  function horaLectura(iso) {
+    var t = String(iso || "");
+    var m = /T(\d{2}):(\d{2})/.exec(t);
+    if (!m) return t ? "el " + esc(fecha(t.slice(0, 10))) : "sin hora registrada";
+    return "a las " + m[1] + ":" + m[2] + " UTC";
   }
 
   function controlFechas() {
@@ -2414,16 +3131,24 @@
     } else if (L && L.resultados) {
       titular = 'La pauta trajo <b class="font-bold">' + ent(L.resultados) +
         " leads</b> a " + dinero(costoL) + " cada uno.";
-      apoyo = ent(L.campanas) + " campañas con entrega · " + dinero(L.gasto) +
-        " invertidos" +
+      /* El titular es lo primero que se lee, así que el mismo arreglo de los
+         KPI tiene que llegar acá: «invertidos» es TODO el dinero y «campañas
+         con entrega» son todas las que entregaron. Decía «2 campañas · $591.42»
+         mientras entregaban 3 y se gastaron $648.24 (ADR-067).
+
+         Los LEADS del titular y su costo siguen siendo del indicador: ahí la
+         regla de ADR-013 sí aplica y no se toca. */
+      apoyo = ent(P && P.total ? P.total.campanas : L.campanas) +
+        " campañas con entrega · " +
+        dinero(P && P.total ? P.total.gasto : L.gasto) + " invertidos" +
         (P && P.recortada ? " · " + P.dias + (P.dias === 1 ? " día" : " días") +
                             " en la ventana" : "");
     } else if (L && L.gasto) {
       /* Gasto sin un solo resultado en la ventana. Pasa de verdad si la ventana
          cae en días flacos, y decirlo es mejor que un costo por lead infinito. */
       titular = "Hubo inversión y ningún lead atribuido en el rango elegido.";
-      apoyo = dinero(L.gasto) + " invertidos · sin resultados, así que no hay " +
-        "costo por lead que calcular";
+      apoyo = dinero(P && P.total ? P.total.gasto : L.gasto) +
+        " invertidos · sin resultados, así que no hay costo por lead que calcular";
     } else {
       titular = "Esta corrida no trae rendimiento de pauta.";
       apoyo = "Sin el dato no se escribe la frase de la semana.";
@@ -2573,12 +3298,14 @@
         (P && P.vacia)
           ? "ningún día de pauta en el rango"
           : "indicador " + (P ? P.indicador_principal : "actions:lead")),
-      kpi("Inversión", dinero(L && L.gasto),
-        (P && P.vacia) ? "ningún día de pauta en el rango" :
-        L ? (ent(L.campanas) + " campañas con entrega" +
-             (L.gasto_sin_resultado
-                ? " · " + dinero(L.gasto_sin_resultado) + " sin resultado"
-                : "")) : ""),
+      /* Inversión = TODO el dinero de la ventana, no solo el del indicador
+         principal. Mostrar el del indicador dejaba fuera «Plan Free Tráfico
+         2026» y el total no cuadraba con Meta (ADR-067). El costo por lead de
+         más abajo sigue saliendo de UN indicador, que es donde la regla sí
+         aplica. */
+      kpi("Inversión", dinero(P && P.total ? P.total.gasto : (L && L.gasto)),
+        (P && P.vacia) ? "ningún día de pauta en el rango"
+                       : pieInversion(P && P.total)),
       /* Sin resultados no sale $0.00 ni infinito: sale por qué no se calcula. */
       kpi("Costo por lead",
         (L && (L.costo != null || L.costo_por_resultado != null))
@@ -2717,14 +3444,22 @@
     var kpis = (PM && PM.vacia) ? "" : (p ? [
       kpi(enClaro(d.indicador_principal), ent(p.resultados),
         "indicador " + (d.indicador_principal || "—")),
-      kpi("Inversión", dinero(p.gasto),
-        p.gasto_sin_resultado
-          ? dinero(p.gasto_sin_resultado) + " sin resultado atribuido" : ""),
+      /* Mismo arreglo que en el resumen: el mercado invirtió TODO lo que
+         gastó, no solo lo del indicador principal. En GT eso son los $56.82
+         del Free que no aparecían (ADR-067). */
+      kpi("Inversión", dinero(PM && PM.total ? PM.total.gasto : p.gasto),
+        pieInversion(PM && PM.total) ||
+        (p.gasto_sin_resultado
+          ? dinero(p.gasto_sin_resultado) + " sin resultado atribuido" : "")),
       kpi("Costo por lead", costoP != null ? dinero(costoP) : "—",
         costoP == null && p.gasto ? "sin leads en el rango" : ""),
       /* Ahora sí es «con entrega EN LA VENTANA», que es un número distinto y
          mejor que el del periodo completo. Por eso ya no lleva sello. */
-      kpi("Campañas con entrega", ent(p.campanas),
+      /* Cuenta TODAS las que entregaron, no las del indicador principal. En GT
+         decía «1» mientras entregaban dos —Punto de Venta y el Free—, que es el
+         mismo error que escondía los $56.82 (ADR-067). */
+      kpi("Campañas con entrega",
+        ent(PM && PM.total ? PM.total.campanas : p.campanas),
         (PM && PM.recortada ? "con entrega en la ventana" : "") ||
         "no es lo mismo que activas hoy"),
     ].join("") : "");
@@ -3487,8 +4222,8 @@
              llamarlos igual invitaba a sumarlos. */
           '<span class="text-[12px] text-slate-400">Activa ' +
           cuenta(((est.tareas) || []).filter(function (t) {
-            return sirveA(t, e); }).length, "ángulo", "ángulos") + " · " +
-          cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+            return cuentaPara(t, e); }).length, "ángulo", "ángulos") + " · " +
+          cuenta(cartas().filter(function (c) { return cuentaPara(c, e); }).length,
                  "carta", "cartas") + "</span>" +
           /* El camino de ida: de la estrategia a SUS cartas. La sección de
              cartas ya está filtrada por la elegida, así que el enlace lleva
@@ -3497,7 +4232,7 @@
              enlace. La vuelta —de la carta a su estrategia— la pone la ficha
              de la carta. */
           (on ? '<a href="#cartas" class="enlace shrink-0">Ver sus ' +
-            cuenta(cartas().filter(function (c) { return sirveA(c, e); }).length,
+            cuenta(cartas().filter(function (c) { return cuentaPara(c, e); }).length,
                    "carta", "cartas") + "</a>" : "") +
           (on ? "" : '<button type="button" data-estrategia="' + esc(e.id) + '" ' +
             'class="btn-claro"' + (soloLectura ? " disabled" : "") +
@@ -3653,7 +4388,14 @@
               (t.responsable === p.id_sprint ? " selected" : "") + ">" +
               esc(p.nombre) + "</option>";
           }).join("") + "</select>"
-        : "") + "</div></div>";
+        : "") + "</div>" +
+      /* El mismo tramo que las cartas y las tareas: qué pasó en Sprints, con su
+         reintento y su línea de responsable. La idea del equipo era la única de
+         las tres que no lo tenía —porque era la única que no escribía—, y sin
+         esto el arreglo de hoy habría cambiado «no crea nada» por «crea sin
+         decirlo», que en una mesa de trabajo es igual de malo. */
+      tramoSprint(ideaComoPieza(t) || t, estado) +
+      "</div>";
   }
 
   function formNuevaTarea(asig) {
@@ -3721,14 +4463,6 @@
       '<button type="button" id="bNada" class="btn-claro"' +
       (soloLectura ? " disabled" : "") + ">Limpiar</button></div>",
       selectorEstrategia() +
-      nota("Al terminar, <b class=\"text-slate-700 font-semibold\">Copiar para " +
-        "Sprint</b> da el CSV que se sube en <i>Configuración → Imports → Ítems " +
-        "de trabajo</i>." +
-        '<details class="inline"><summary class="inline cursor-pointer ' +
-        'font-semibold"> Por qué no se crean solas</summary>' +
-        "<span class=\"block mt-2\">Esta página vive en un navegador y no " +
-        "puede llamar a Zoho. Aceptar registra la decisión; la creación es un " +
-        "segundo paso. Zoho mapea las siete columnas solo.</span></details>") +
       /* LAS CARTAS VAN PRIMERO Y SOLAS. Antes esta sección tenía dos bloques
          que contestaban la misma pregunta con distinto nivel de detalle —las
          tareas arriba, los copys abajo— y quien produce tenía que juntarlos de
@@ -4069,7 +4803,7 @@
 
   var SELECTOR_CLIC = "[data-vertodo],[data-mercado],[data-grupo]," +
     "[data-categoria],[data-estrategia],[data-decidir],[data-propia],[data-sprint]," +
-    "[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
+    "#bActualizaHoy,[data-borrar],[data-nptipo],[data-pieza],[data-solucion],[data-rango]," +
     "#bCsv,#bDecisiones,#bTodas,#bNada," +
     "#npAgregar,#limpiarBusqueda,#limpiarCopys";
 
@@ -4164,6 +4898,11 @@
       if (t.id === "limpiarBusqueda") {
         V.busqueda = ""; guardarVista(); pintar(true); return;
       }
+      /* Va ANTES de la compuerta de solo lectura: refrescar el día en curso es
+         una LECTURA de Meta, no una decisión de la mesa. Una vista sin permiso
+         de escribir igual necesita ver el dato de hoy. */
+      if (t.id === "bActualizaHoy") { actualizaDiaEnCurso(); return; }
+
       if (t.id === "bCsv") { copiarCsv(); return; }
       if (t.id === "bDecisiones") { copiarDecisiones(); return; }
 
@@ -4180,20 +4919,34 @@
       }
       if (d.decidir) { decidir(d.decidir, d.estado); return; }
       if (d.sprint) {
-        if (soloLectura || !sprints) return;
+        if (soloLectura || !mcpApi) return;
         crearEnSprints(d.sprint); return;
       }
       if (d.propia) {
         var p = E.propias[d.propia];
         if (p) {
           p.estado = d.estado;
+          /* La decisión se guarda PRIMERO, como en `decidir`: crear en Sprints
+             es un efecto posterior que puede fallar, y un conector caído no se
+             puede llevar por delante lo que decidió la mesa. */
           persistir(d.estado === "aceptada" ? "Idea aceptada" : "Idea rechazada");
+          if (d.estado === "aceptada") creaSiHaceFalta(d.propia);
         }
         return;
       }
       if (d.borrar) {
         if (E.propias[d.borrar]) {
-          delete E.propias[d.borrar]; persistir("Idea quitada");
+          /* Si la idea ya tiene item en Sprints, quitarla de la página NO lo
+             borra: esta vista no borra nada en producción. Se dice qué quedó
+             allá, porque callarlo dejaría un item huérfano que nadie sabe que
+             existe. */
+          var s0 = (E.sprint || {})[d.borrar];
+          var quedo = s0 && (s0.estado === "creado" || s0.estado === "existia")
+            ? nroItem(s0.itemNo) : "";
+          delete E.propias[d.borrar];
+          persistir(quedo
+            ? "Idea quitada del tablero · " + quedo + " sigue en Sprints"
+            : "Idea quitada");
         }
         return;
       }
@@ -4297,6 +5050,10 @@
         if (p) {
           p.responsable = s.value || null;
           persistir(s.value ? "Responsable asignado" : "Sin asignar");
+          /* Y si el item ya existe, el cambio VIAJA. `users` solo se envía en
+             la creación, así que elegir a alguien después dejaba el item sin
+             dueño mientras la tarjeta mostraba un nombre. */
+          sincronizaResponsable(s.dataset.asignarPropia);
         }
       }
     });
@@ -4380,14 +5137,13 @@
     Object.keys(E.propias).forEach(function (k) {
       var t = E.propias[k];
       if (t.estado !== "aceptada") return;
-      var cuerpo = [t.detalle || ""];
-      cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
-        "la propuso una persona en la mesa.");
-      if ((t.referencias || []).length) {
-        cuerpo.push("\nREFERENCIAS:\n" + t.referencias.map(function (u) {
-          return "  - " + u; }).join("\n"));
-      }
-      filas.push([marcado(t.titulo, "equipo::" + t.id), cuerpo.join("\n"), "Task",
+      /* El texto sale de `payloadDeIdea`, el MISMO que manda el conector. Acá
+         había una tercera copia escrita a mano y ya había divergido: unía las
+         referencias con «  - » donde las otras dos usan «  · ». Nadie lo iba a
+         ver hasta comparar un item importado por CSV con uno creado por el
+         botón, que es exactamente cuando ya no sirve enterarse. */
+      var pl = payloadDeIdea(t);
+      filas.push([pl.name, pl.description, "Task",
                   "Medium", t.responsable || "", "Open",
                   "mesa-creativa," + t.tipo]);
     });
@@ -4469,6 +5225,10 @@
       ? "Idea agregada · " + (lineas.length - refs.length) +
         " línea(s) de referencia no eran un enlace y no se guardaron"
       : "Idea agregada a aceptadas");
+    /* Entra directo a aceptadas —lo dice el formulario—, así que entra directo
+       a Sprints. Pedirle a la mesa un segundo clic para lo que la etiqueta ya
+       prometió es la clase de paso que se olvida. */
+    creaSiHaceFalta(id);
   }
 
   function decidir(id, estado) {
@@ -4487,15 +5247,24 @@
        verdad importa. */
     persistir();
     if (quita || estado !== "aceptada") return;
-    if (!sprints) return;                  // sin conector: sigue el CSV
+    creaSiHaceFalta(id);
+  }
+
+  /* CARTA, TAREA O IDEA DEL EQUIPO. Empezó preguntando solo por cartas, así que
+     aceptar una tarea de estrategia guardaba «Aceptada» y no creaba nada —sin
+     aviso, que es el peor modo—; y después quedó la idea del equipo con el
+     mismo hueco. En la pantalla las tres se aceptan con un botón que se ve
+     igual, así que las tres escriben, o ninguna dice que escribe.
+
+     Idempotente: si el item ya está —o se está creando— no se vuelve a pedir.
+     Sin conector no hay error: la decisión queda guardada y el CSV sigue
+     estando para bajarla. */
+  function creaSiHaceFalta(id) {
+    if (soloLectura || !mcpApi) return;
     var ya = (E.sprint || {})[id];
-    if (ya && (ya.estado === "creado" || ya.estado === "existia")) return;
-    if (ya && ya.estado === "creando") return;
-    /* CARTA O TAREA. Antes preguntaba solo por cartas, así que aceptar una
-       tarea de estrategia guardaba «Aceptada» y no creaba nada —sin aviso, que
-       es el peor modo—. Lo reportó Mercadeo el 2026-09-09: en la pantalla las
-       dos se aceptan con el mismo botón, así que las dos tienen que escribir. */
-    if (piezaPorId(id)) crearEnSprints(id);
+    if (ya && (ya.estado === "creado" || ya.estado === "existia" ||
+               ya.estado === "creando")) return;
+    if (piezaSprint(id)) crearEnSprints(id);
   }
 
   /* ═════════════ crear el work item en Zoho Sprints ═════════════
@@ -4515,9 +5284,7 @@
 
   /* Lo que se puede crear en Sprints: una carta de producción o una tarea de
      estrategia. Las dos traen `idempotencia` y `sprint` —el payload que armó
-     Python—, que es todo lo que necesitan `buscaEnSprints` y `crearEnSprints`.
-     Las ideas del equipo NO están acá a propósito: las escribe una persona en
-     la página, así que Python no pudo armarles payload; se llevan por el CSV. */
+     Python—, que es todo lo que necesitan `buscaEnSprints` y `crearEnSprints`. */
   function esCarta(id) {
     var cs = ((D.cartas || {}).cartas) || [];
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return true;
@@ -4529,6 +5296,76 @@
     for (var i = 0; i < cs.length; i++) if (cs[i].id === id) return cs[i];
     var ts = ((D.estrategia || {}).tareas) || [];
     for (var j = 0; j < ts.length; j++) if (ts[j].id === id) return ts[j];
+    return null;
+  }
+
+  /* ── La idea del equipo, con su payload armado ACÁ ────────────────────────
+
+     Es la única escritura cuyo payload Python no puede preparar: la idea nace
+     en la reunión, escrita en este navegador, y Python ya corrió. Hasta hoy
+     eso la dejaba fuera —se aceptaba, quedaba en la página y había que bajarla
+     por el CSV—, mientras las cartas y las tareas sí creaban su item con el
+     mismo botón. Tres caminos para la misma acción y uno que no llegaba.
+
+     El texto es el MISMO que arma `sprint.py` en su rama `propias`, campo por
+     campo: el nombre con la marca `[MC:equipo::<id>]`, el detalle, la línea de
+     ORIGEN que dice que no tiene evidencia del sistema, y las referencias. Si
+     los dos armaran textos distintos, nadie lo notaría hasta comparar dos
+     items en Sprints. La prueba `prueba:boton` compara los dos payloads
+     llamando a Python de verdad, no contra un texto copiado a mano. */
+  function payloadDeIdea(p) {
+    var dst = destinoSprint() || {};
+    var cuerpo = [p.detalle || ""];
+    cuerpo.push("\nORIGEN: idea del equipo. NO tiene evidencia del sistema; " +
+                "la propuso una persona en la mesa.");
+    if ((p.referencias || []).length) {
+      cuerpo.push("\nREFERENCIAS:\n" + p.referencias.map(function (u) {
+        return "  \u00b7 " + u;
+      }).join("\n"));
+    }
+    return {
+      name: p.titulo + " [MC:equipo::" + p.id + "]",
+      description: cuerpo.join("\n").trim(),
+      projitemtypeid: String(dst.projitemtypeid || ""),
+      projpriorityid: String(dst.projpriorityid || ""),
+    };
+  }
+
+  /* La idea vestida de pieza, para que `crearEnSprints`, `buscaEnSprints` y
+     `tramoSprint` no tengan que saber de dónde salió. Lo único que piden es
+     `id`, `idempotencia` y `sprint`. */
+  function ideaComoPieza(p) {
+    if (!p || !p.id) return null;
+    return { id: p.id, titulo: p.titulo,
+             idempotencia: "equipo::" + p.id, sprint: payloadDeIdea(p) };
+  }
+
+  /* Cualquiera de los tres orígenes, resuelto por id. `crearEnSprints` usa
+     ESTA y no `piezaPorId`: si usara la otra, aceptar una idea seguiría sin
+     escribir nada. */
+  function piezaSprint(id) {
+    return piezaPorId(id) || ideaComoPieza((E.propias || {})[id]);
+  }
+
+  /* De dónde salió una pieza. No es cosmético: el sello de Sprints dice qué
+     lleva el item adentro, y de una idea del equipo NO se puede decir «con la
+     evidencia adentro» porque justamente no tiene. */
+  function origenDe(id) {
+    if (esCarta(id)) return "carta";
+    if ((E.propias || {})[id]) return "idea";
+    return "tarea";
+  }
+
+  /* El responsable elegido para una pieza, venga de donde venga. Las cartas y
+     las tareas lo guardan en `E.decisiones`; las ideas del equipo, en su
+     propio registro. Leer solo el primero dejaba a la idea sin dueño en
+     Sprints mientras su tarjeta mostraba un nombre — el mismo agujero que
+     reportó Mercadeo para las tareas, en la otra lista. */
+  function responsableDe(id) {
+    var d = (E.decisiones || {})[id] || {};
+    if (d.responsable) return String(d.responsable);
+    var p = (E.propias || {})[id];
+    if (p && p.responsable) return String(p.responsable);
     return null;
   }
 
@@ -4574,7 +5411,7 @@
      forma de reconocer un item ya creado (regla 7). */
   function buscaEnSprints(carta) {
     var dst = destinoSprint();
-    return sprints.callTool(SERVIDOR, "ZohoSprints_GetItems", {
+    return mcpApi.callTool(SERVIDOR, "ZohoSprints_GetItems", {
       headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
       path_variables: dst ? { teamId: dst.teamId, projectId: dst.projectId,
                               sprintId: dst.sprintId } : {},
@@ -4638,18 +5475,30 @@
   }
 
   function crearEnSprints(id) {
-    var carta = piezaPorId(id);
-    if (!sprints || !carta || !carta.sprint) return;
+    var carta = piezaSprint(id);
+    if (!mcpApi || !carta || !carta.sprint) return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) {
       marcaSprint(id, { estado: "error",
                         detalle: "La corrida no trae el destino de Sprints." });
       persistir(); return;
     }
+    /* El payload de una idea del equipo se arma acá, y necesita el tipo de item
+       y la prioridad del proyecto. Las corridas anteriores al 2026-09-10 no los
+       traían en el destino: si faltan, el item se crearía con los dos campos
+       vacíos y Zoho lo rechazaría o lo dejaría a medias. Se detiene y se dice
+       qué falta, en vez de mandar una escritura que no se puede sostener. */
+    if (!carta.sprint.projitemtypeid || !carta.sprint.projpriorityid) {
+      marcaSprint(id, { estado: "error",
+                        detalle: "Esta corrida no trae el tipo de ítem ni la " +
+                                 "prioridad del proyecto de Sprints. Hay que " +
+                                 "volver a correr el análisis para publicar un " +
+                                 "tablero que sí los traiga." });
+      persistir("Falta el tipo de ítem de Sprints en esta corrida"); return;
+    }
     marcaSprint(id, { estado: "creando" });
     pintar(true);
 
-    var d = E.decisiones[id] || {};
     var params = {};
     for (var k in carta.sprint) params[k] = carta.sprint[k];
     /* El responsable SOLO si la mesa lo eligió. Asignarle trabajo a alguien no
@@ -4660,7 +5509,7 @@
        agujero que reportó Mercadeo —el tablero decía Dulce y el item estaba
        sin dueño— y para reasignar hace falta el anterior, porque UpdateItem
        pide `delusers` con el que sale además de `newusers` con el que entra. */
-    var resp = d.responsable ? String(d.responsable) : null;
+    var resp = responsableDe(id);
     if (resp) params.users = JSON.stringify([resp]);
 
     buscaEnSprints(carta).then(function (ya) {
@@ -4676,7 +5525,7 @@
         if (resp && resp !== (ya.responsable || null)) sincronizaResponsable(id);
         return;
       }
-      return sprints.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
+      return mcpApi.callTool(SERVIDOR, "ZohoSprints_CreateItem", {
         headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
         path_variables: { teamId: dst.teamId, projectId: dst.projectId,
                           sprintId: dst.sprintId },
@@ -4741,13 +5590,12 @@
      escribe con lo que Sprints DICE que quedó, no con lo que se pidió. */
   function sincronizaResponsable(id) {
     var s0 = (E.sprint || {})[id];
-    if (!sprints || !s0 || !s0.itemId) return;
+    if (!mcpApi || !s0 || !s0.itemId) return;
     if (s0.estado !== "creado" && s0.estado !== "existia") return;
     var dst = destinoSprint();
     if (!dst || !dst.teamId) return;
 
-    var d = E.decisiones[id] || {};
-    var quiere = d.responsable ? String(d.responsable) : null;
+    var quiere = responsableDe(id);
     var tiene = s0.responsable ? String(s0.responsable) : null;
     if (quiere === tiene) return;
 
@@ -4757,7 +5605,7 @@
 
     s0.sincronizando = true;
     pintar(true);
-    sprints.callTool(SERVIDOR, "ZohoSprints_UpdateItem", {
+    mcpApi.callTool(SERVIDOR, "ZohoSprints_UpdateItem", {
       headers: { "x-za-ui-version": "v2", "X-convert-response": "true" },
       path_variables: { teamId: dst.teamId, projectId: dst.projectId,
                         /* El item puede haberse movido a un sprint en Sprints;
@@ -4782,8 +5630,8 @@
       } else {
         /* Sprints aceptó la llamada y dejó otro dueño. No se pinta como éxito:
            se dice qué quedó, que es lo único comprobado. */
-        s0.detalle_resp = "Sprints dejó otro responsable. Revisá I" +
-          String(s0.itemNo || "") + " en el proyecto.";
+        s0.detalle_resp = "Sprints dejó otro responsable. Revisá " +
+          nroItem(s0.itemNo) + " en el proyecto.";
         persistir(s0.detalle_resp);
       }
     }).catch(function (e) {
@@ -4901,8 +5749,8 @@
        —nunca dentro de la primera corrida del script— así que la página se
        dibuja sin ella y el botón se enciende cuando resuelve. */
     window.claude.use("mcp").then(function (m) {
-      sprints = m || null;
-      if (sprints) pintar(true);
-    }).catch(function () { sprints = null; });
+      mcpApi = m || null;
+      if (mcpApi) pintar(true);
+    }).catch(function () { mcpApi = null; });
   } else { soloLectura = true; pintar(true); }
 })();

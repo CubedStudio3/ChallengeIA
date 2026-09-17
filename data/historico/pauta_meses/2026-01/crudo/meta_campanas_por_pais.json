@@ -1,0 +1,289 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-10",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "time_range": {
+    "since": "2026-01-01",
+    "until": "2026-01-31"
+   },
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "sort": "spend_descending",
+   "limit": 100
+  },
+  "_paginacion": "Dos paginas: la primera trajo 14 filas y la segunda volvio vacia con el cursor de la primera. Muestra completa.",
+  "_nota": "Agregado por campana x pais de ENERO 2026. Es la referencia contra la que reconcilia el desglose diario del mismo mes. No alimenta ningun analisis: el analisis sale de la corrida de la semana (regla 9 del pedido de Mercadeo).",
+  "_indicadores_vistos": [
+   "actions:lead",
+   "actions:leadgen.other",
+   "actions:link_click",
+   "actions:onsite_conversion.lead_grouped"
+  ]
+ },
+ "ad_entities": [
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "20"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,65 USD (Leads (form))"
+   },
+   "amount_spent": "$72,94 USD",
+   "impressions": "19955",
+   "id": "120214962248700783",
+   "name": "Leads El Salvador Enero 2025"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1367"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$23,30 USD",
+   "impressions": "31923",
+   "id": "120235415971230783",
+   "name": "TOFU Qpaypro"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "243"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,19 USD (Leads)"
+   },
+   "amount_spent": "$774,52 USD",
+   "impressions": "196303",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8740"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$153,21 USD",
+   "impressions": "170532",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:link_click",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Link clicks)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$10,25 USD (Leads)"
+   },
+   "amount_spent": "$71,76 USD",
+   "impressions": "12444",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "country": "unknown",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$9,86 USD",
+   "impressions": "1539",
+   "id": "120239079790340783",
+   "name": "Campaña El Salvador 2026"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,02 USD (Meta leads)"
+   },
+   "amount_spent": "$120,28 USD",
+   "impressions": "20840",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,39 USD (Meta leads)"
+   },
+   "amount_spent": "$57,48 USD",
+   "impressions": "9988",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$1,06 USD",
+   "impressions": "218",
+   "id": "120239283879280783",
+   "name": "Leads SV Optimización 1"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120239330459550783",
+   "name": "Leads frios GT"
+  },
+  {
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,88 USD (Leads (form))"
+   },
+   "amount_spent": "$13,75 USD",
+   "impressions": "2739",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  }
+ ]
+}

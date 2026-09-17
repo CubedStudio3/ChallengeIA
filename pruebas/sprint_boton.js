@@ -18,6 +18,7 @@
 const { chromium } = require("../node_modules/playwright");
 const fs = require("fs");
 const { sinEstado } = require("./estado_limpio");
+const { execFileSync } = require("child_process");
 
 const ARCHIVO = process.argv[2] ||
   "/home/user/ChallengeIA/salidas/tablero-mesa-creativa.html";
@@ -82,15 +83,21 @@ const YA = (marca, duenio) => ({ payload: { status: "success", data: { items: [
 const REASIGNADO = (id) => ({ payload: { status: "success",
   data: { followers: [], ownerIds: [id], status: "success" } } });
 
-const abre = async (nav, guion) => {
+const abre = async (nav, guion, transforma) => {
   const pg = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
   const errs = [];
   pg.on("pageerror", e => errs.push(e.message));
+  /* `transforma` cambia el FRAGMENTO antes de cargarlo. Es la única forma de
+     probar la página con un dato distinto: `D` se lee una vez al arrancar, así
+     que editar `#datos` después no cambia nada, y `reload` no conserva lo que
+     puso `setContent`. */
+  let frag = sinEstado(fs.readFileSync(ARCHIVO, "utf8"));
+  if (transforma) frag = transforma(frag);
   await pg.setContent(
     '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
     '<style>body{margin:0;font:14px system-ui;background:#fbfbfa}</style>' +
     "</head><body><script>" + DOBLE(guion) + "<\/script>" +
-    sinEstado(fs.readFileSync(ARCHIVO, "utf8")) + "</body></html>",
+    frag + "</body></html>",
     { waitUntil: "load" });
   await pg.waitForTimeout(1400);
   return { pg, errs };
@@ -540,6 +547,192 @@ const leeCarta = (id) => `(() => {
     const hall = (t.txt || "").match(/I+9999/g) || [];
     ok("  " + caso.etq,
        hall.length > 0 && hall.every(x => x === "I9999"), hall);
+    await pg.close();
+  }
+
+  /* ── 9 · la IDEA DEL EQUIPO también crea su item ──────────────────────
+
+     El tercer camino, y el que llegó último. Lo pidió Mercadeo el 2026-09-10:
+     «quiero que cada idea que creemos se vuelva una tarea en sprint así». Se
+     aceptaba, quedaba dentro de la página y había que bajarla por el CSV,
+     mientras las cartas y las tareas creaban su item con un botón que se ve
+     igual. Tres caminos para la misma acción y uno que no llegaba — la misma
+     forma del hueco de las tareas, un mes después.
+
+     Y es el único cuyo payload NO lo arma Python: la idea nace escrita en este
+     navegador, Python ya corrió. Así que el esperado se le pide a Python EN
+     ESTE MOMENTO, llamando a `sprint.plan()` de verdad. Un esperado copiado a
+     mano en la prueba ya caducó dos veces en este proyecto. */
+  console.log("\n══ aceptar una IDEA DEL EQUIPO crea su item");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] });
+
+    const IDEA = { titulo: "Probar el flujo de la idea",
+                   detalle: "Un video corto para salones, 15 segundos.",
+                   refs: ["https://ejemplo.com/a", "https://ejemplo.com/b"] };
+
+    /* Con el teclado y el ratón, por el formulario, como en la reunión. */
+    await pg.fill("#npTitulo", IDEA.titulo);
+    await pg.fill("#npDetalle", IDEA.detalle);
+    await pg.fill("#npRefs", IDEA.refs.join("\n"));
+    await pg.click("#npAgregar");
+    await pg.waitForTimeout(1200);
+
+    const ll = await pg.evaluate("window.__llamadas");
+    ok("agregar la idea consulta la idempotencia y después crea",
+       ll.length === 2 && ll[0].tool === "ZohoSprints_GetItems" &&
+       ll[1].tool === "ZohoSprints_CreateItem",
+       ll.map(x => x.tool));
+
+    /* El id lo pone la página; se lee de la tarjeta que acaba de pintar. */
+    const id = await pg.evaluate(`(() => {
+      const b = [...document.querySelectorAll("[data-propia]")]
+        .find(x => (x.closest("div.bg-white") || {}).innerText &&
+                   x.closest("div.bg-white").innerText
+                     .indexOf(${JSON.stringify(IDEA.titulo)}) >= 0);
+      return b ? b.getAttribute("data-propia") : null;
+    })()`);
+    ok("la idea quedó con su id en la página", !!id, id);
+    ok("la búsqueda va por la marca de la idea",
+       ll[0] && ll[0].input.query_params.searchvalue === "equipo::" + id,
+       ll[0] && ll[0].input.query_params.searchvalue);
+    ok("la búsqueda NO se sirve de caché",
+       ll[0] && ll[0].opts && ll[0].opts.cache === false);
+
+    /* EL GUARDIA QUE IMPORTA. El esperado se le pide a Python ahora mismo. */
+    const dst = await pg.evaluate(`(() => {
+      return (JSON.parse(document.getElementById("datos").textContent)
+        .cartas || {})._sprint_destino || {};
+    })()`);
+    ok("la corrida trae el tipo de ítem y la prioridad en su destino",
+       !!dst.projitemtypeid && !!dst.projpriorityid,
+       { tipo: dst.projitemtypeid, prioridad: dst.projpriorityid });
+
+    const py = JSON.parse(execFileSync("python3",
+      ["-m", "pruebas.payload_idea"], {
+        cwd: __dirname + "/..",
+        input: JSON.stringify({
+          idea: { id: id, titulo: IDEA.titulo, detalle: IDEA.detalle,
+                  tipo: "arte", referencias: IDEA.refs, estado: "aceptada" },
+          proyecto: { item_type_id: dst.projitemtypeid,
+                      priority_id: dst.projpriorityid },
+        }),
+        encoding: "utf8",
+      }));
+    const env = ll[1] ? ll[1].input.query_params : {};
+    ok("manda EXACTAMENTE el payload que arma Python",
+       env.name === py.parametros.name &&
+       env.description === py.parametros.description,
+       { name: env.name === py.parametros.name,
+         description: env.description === py.parametros.description,
+         envio: (env.description || "").slice(0, 90),
+         python: (py.parametros.description || "").slice(0, 90) });
+    ok("el tipo de ítem y la prioridad son los del proyecto",
+       env.projitemtypeid === py.parametros.projitemtypeid &&
+       env.projpriorityid === py.parametros.projpriorityid,
+       { tipo: env.projitemtypeid, prioridad: env.projpriorityid });
+    ok("la marca de idempotencia coincide con la de Python",
+       ll[0].input.query_params.searchvalue === py.idempotencia);
+    ok("va al backlog del proyecto de la corrida",
+       ll[1].input.path_variables.projectId === "21897000000139001" &&
+       ll[1].input.path_variables.sprintId === "21897000000139025");
+    ok("sin responsable elegido NO se asigna a nadie",
+       env.users === undefined, env.users);
+
+    /* Y la tarjeta lo DICE. Cambiar «no crea nada» por «crea sin decirlo»
+       sería casi el mismo error. */
+    const txt = await pg.evaluate(`(() => {
+      const b = document.querySelector('[data-propia="${id}"]');
+      const c = b ? b.closest("div.bg-white") : null;
+      return c ? c.innerText : null;
+    })()`);
+    ok("la tarjeta de la idea confirma el item, con una sola I",
+       /(^|[^A-Za-z])I9999([^0-9]|$)/.test(txt || ""),
+       (txt || "").match(/I+9999/g));
+    /* No le atribuye evidencia: una idea del equipo justamente no la tiene, y
+       es la diferencia que esta sección de la página existe para conservar. */
+    ok("describe lo que la IDEA lleva, no la evidencia de un análisis",
+       /la propuso el equipo y no el análisis/.test(txt || "") &&
+       !/la evidencia y la instrucción exacta/.test(txt || "") &&
+       !/la dirección visual/.test(txt || ""));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  /* ── 10 · la idea aceptada NO se vuelve a crear ───────────────────────
+
+     Regla 7. Dos veces el mismo botón, o volver a la sección, no puede dar dos
+     items. La idempotencia se consulta ANTES, y si ya está no se crea. */
+  console.log("\n══ la idea ya creada no se duplica");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] });
+    await pg.fill("#npTitulo", "Idea que no se duplica");
+    await pg.click("#npAgregar");
+    await pg.waitForTimeout(1200);
+    const id = await pg.evaluate(`(() => {
+      const b = [...document.querySelectorAll("[data-propia]")][0];
+      return b ? b.getAttribute("data-propia") : null;
+    })()`);
+    ok("la idea se creó una vez", !!id, id);
+    /* Se vuelve a pulsar «Aceptada», que es el gesto que una persona repite
+       sin pensarlo. */
+    await pg.click('[data-propia="' + id + '"][data-estado="aceptada"]');
+    await pg.waitForTimeout(900);
+    const ll = await pg.evaluate("window.__llamadas");
+    ok("CreateItem se llamó UNA sola vez",
+       ll.filter(x => x.tool === "ZohoSprints_CreateItem").length === 1,
+       ll.map(x => x.tool));
+    ok("sin errores de JavaScript", !errs.length, errs);
+    await pg.close();
+  }
+
+  /* ── 11 · sin el tipo de ítem NO se crea, y se dice ───────────────────
+
+     Las corridas anteriores al 2026-09-10 no traían `projitemtypeid` en su
+     destino de Sprints, y un tablero publicado con una de ellas sigue vivo.
+     Crear con ese campo vacío dejaría un item a medias en producción, así que
+     la página se detiene y dice qué falta (regla 3) en vez de mandar una
+     escritura que no puede sostener. */
+  console.log("\n══ sin el tipo de ítem del proyecto, la idea NO se crea");
+  {
+    const { pg, errs } = await abre(nav, {
+      ZohoSprints_GetItems: [VACIO], ZohoSprints_CreateItem: [CREADO] },
+      /* El campo se borra del destino en el fragmento, dejando el de cada
+         carta intacto: así queda exactamente la forma de una corrida vieja. */
+      html => html.replace(/("_sprint_destino":\{[^}]*?)"projitemtypeid":"[^"]*",/,
+                           "$1"));
+    const quedo = await pg.evaluate(`(() => {
+      return ((JSON.parse(document.getElementById("datos").textContent)
+        .cartas || {})._sprint_destino || {}).projitemtypeid;
+    })()`);
+    ok("el fragmento quedó SIN el tipo de ítem, como una corrida vieja",
+       !quedo, quedo);
+
+    /* El título NO puede contener la frase que después se busca en la
+       tarjeta. La primera versión de esta prueba lo tituló «Idea sin tipo de
+       ítem» y la comprobación pasó leyendo su propio título, sin que el aviso
+       existiera: un falso verde escrito por la prueba misma. */
+    await pg.fill("#npTitulo", "Una idea cualquiera de la mesa");
+    await pg.click("#npAgregar");
+    await pg.waitForTimeout(1100);
+
+    const ll = await pg.evaluate("window.__llamadas");
+    ok("NO se llamó a CreateItem",
+       !ll.some(x => x.tool === "ZohoSprints_CreateItem"), ll.map(x => x.tool));
+    const txt = await pg.evaluate(`(() => {
+      const b = [...document.querySelectorAll("[data-propia]")][0];
+      const c = b ? b.closest("div.bg-white") : null;
+      return c ? c.innerText : "";
+    })()`);
+    ok("la tarjeta avisa que NO se creó",
+       /No se creó en Sprints/.test(txt || ""), (txt || "").slice(-260));
+    ok("y dice exactamente qué falta",
+       /tipo de ítem/i.test(txt || "") && /prioridad/i.test(txt || ""));
+    ok("y la idea NO se pierde: queda guardada en el tablero",
+       /Una idea cualquiera de la mesa/.test(txt || ""));
+    ok("sin errores de JavaScript", !errs.length, errs);
     await pg.close();
   }
 

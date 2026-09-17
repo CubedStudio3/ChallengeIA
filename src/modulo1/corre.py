@@ -23,6 +23,7 @@ from base.normaliza import (agrupa_por_indicador, consolida, filtra_desglose,
                             normaliza_campanas, valores_de_desglose)
 from . import analiza as A
 from . import cartas as CARTAS
+from . import dia_en_curso as DHOY
 from . import estrategia as E
 from . import formato as FMT
 from . import redes as R
@@ -125,7 +126,14 @@ def carga_competencia(
                     remedio="Medirlo con page_ids + search_terms y guardarlo como "
                             "_solapamiento_medido en el crudo. Asumir el total "
                             "inflaria la presion competitiva.")
-        medicion = entrada.get(f"medicion_{registro['_ultima_medicion'].replace('-', '_')}", {})
+        # La medicion se busca por la fecha PROPIA de la marca, no por una
+        # global. Con una sola clave (`_ultima_medicion`), una marca medida en
+        # otra fecha perdia su nota estrategica en silencio: la tarjeta salia
+        # sin el «por que importa» y nada avisaba. Se toma la mas reciente de
+        # las que la entrada declare.
+        claves_medicion = sorted(k for k in entrada
+                                 if k.startswith("medicion_"))
+        medicion = entrada.get(claves_medicion[-1], {}) if claves_medicion else {}
         comps.append(normaliza_adlibrary(
             datos, nombre=entrada["nombre"], page_id=entrada["page_id"],
             categorias=entrada.get("categorias", []), mercado=mercado,
@@ -269,6 +277,21 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             acc["impresiones"] += e.get("impresiones", 0)
             acc["dias"] += e.get("dias", 0)
             acc["campanas"] = sorted(set(acc["campanas"]) | set(e.get("campanas") or []))
+    # ── el dia que todavia no termina ──────────────────────────────────────
+    #
+    # Pedido literal de Mercadeo (2026-09-11): «pero y si yo quisiera agarrar
+    # tambien el dia de hoy no se puede? la idea es que tengamos los datos
+    # reales en tiempo real». Si se puede, y aqui esta — pero FUERA de
+    # `piezas`, que es lo unico que el filtro suma. Un dia al 20-25% de su
+    # gasto junto a dias completos dibuja una caida que es puro horario.
+    #
+    # Va DESPUES de mezclar los meses historicos porque su rotulo «va al N% de
+    # un dia tipico» se calcula contra los dias completos que ya estan en
+    # `piezas`. Antes de la mezcla solo tendria la semana de la corrida.
+    pauta_dia["dia_en_curso"] = DHOY.arma(
+        piezas=pauta_dia["piezas"], hoy=hoy.isoformat(),
+        declarados=declarados, excluidos=excluidos)
+
     pauta_dia["meses_historicos"] = {
         "meses": hist["meses"],
         "entran": hist["meses_que_entran"],
@@ -629,6 +652,12 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             "teamId": str(proy_sp.get("team_id") or ""),
             "projectId": str(proy_sp.get("project_id") or ""),
             "sprintId": str(proy_sp.get("sprint_id") or ""),
+            # El tipo y la prioridad viajan aparte del payload de cada carta
+            # porque hay UNA escritura que Python no puede preparar: la idea que
+            # el equipo escribe en la reunion. Nace en el navegador, asi que su
+            # payload se arma alli — y sin estos dos ids no podria armarlo.
+            "projitemtypeid": str(proy_sp.get("item_type_id") or ""),
+            "projpriorityid": str(proy_sp.get("priority_id") or ""),
             "_es": ("El backlog del proyecto, no un sprint. Un sprint caduca; el "
                     "backlog es donde corresponde el trabajo que aun no se "
                     "planifico."),
@@ -663,6 +692,58 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
                     # y que solo existe desde que hay meses historicos.
                     piezas_diarias=(pauta_dia or {}).get("piezas") or [],
                     rango_corrida=rango.etiqueta())
+
+    # --- Reconciliacion cartas ↔ estrategias ---
+    # Las cartas se arman ANTES que las estrategias y reparten estrategia con un
+    # mapa ESTATICO de evidencia→estrategia. Cuando una estrategia se CAE porque
+    # su premisa dejo de ser cierta —SV paso de «sin disputa» a tener a n1co con
+    # 24 activos— la carta seguia apuntandole, y el tablero pintaba el ID CRUDO
+    # («mercado-sin-disputa») donde va un nombre. Lo agarro `prueba:ficha`.
+    #
+    # No alcanza con borrar la referencia: una carta que se queda SIN ninguna
+    # estrategia viva desaparece de TODOS los filtros, en silencio, que es el
+    # agujero de ADR-061 otra vez. Se declara y se sigue viendo.
+    vivas = {e["id"] for e in (estrat.get("estrategias") or [])}
+    caidas_totales = {}
+    for c in (cartas or {}).get("cartas") or []:
+        caidas = [e for e in (c.get("estrategias") or []) if e not in vivas]
+        if not caidas:
+            continue
+        for x in caidas:
+            caidas_totales.setdefault(x, []).append(c["id"])
+        c["estrategias"] = [e for e in c["estrategias"] if e in vivas]
+        # Perder la estrategia ES que la premisa se movio. Sin esto, una carta
+        # podia quedarse huerfana sin el sello ambar que avisa a la mesa.
+        c["premisa_movida"] = True
+        c["_estrategias_caidas"] = caidas
+        c["_por_que_caidas"] = (
+            "Esta carta se apoyaba en una apuesta que esta corrida ya no "
+            "sostiene: su premisa dejo de ser cierta. El texto sigue siendo "
+            "producible, pero el ARGUMENTO con el que se eligio hay que "
+            "volver a mirarlo en la mesa.")
+        if not c["estrategias"]:
+            # NO se vuelve `siempre`: eso afirmaria que sirve a las tres, y lo
+            # que pasa es lo contrario —se quedo sin ninguna—. Se marca aparte
+            # para que siga visible con su propio rotulo.
+            c["sin_estrategia_viva"] = True
+    if caidas_totales:
+        huecos.append({
+            "fuente": "estrategias caidas",
+            "descripcion": (
+                f"{len(caidas_totales)} estrategia(s) dejaron de sostenerse con "
+                f"esta corrida: {', '.join(sorted(caidas_totales))}"),
+            "detalle": "; ".join(
+                f"{k} sostenia {len(v)} carta(s): {', '.join(v)}"
+                for k, v in sorted(caidas_totales.items())),
+            "impacto": ("Esas cartas quedan marcadas con premisa movida. Las que "
+                        "se quedaron sin ninguna estrategia viva NO se ocultan: "
+                        "se muestran declaradas, porque esconder una pieza "
+                        "producible sin avisar es peor que mostrarla con su "
+                        "advertencia."),
+            "remedio": ("Revisar en la mesa el argumento de esas cartas. Una "
+                        "estrategia que se cae no invalida el copy, invalida el "
+                        "porque con que se eligio."),
+        })
 
     # Y cada TAREA de estrategia se lleva su payload de CreateItem, igual que
     # las cartas. Sin esto, el boton del tablero guardaba «Aceptada» y no creaba

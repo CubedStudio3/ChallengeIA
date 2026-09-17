@@ -3935,3 +3935,1008 @@ Lo que hay que resolver antes:
 
 Ninguna de las tres es un bloqueo, pero las tres son decisiones de Mercadeo, no
 de código. Cuando toque, se decide con dos semanas de uso encima.
+
+---
+
+## ADR-061 · La idea del equipo también crea su item, y su payload se arma en el navegador
+
+**Fecha:** 2026-09-10
+**Estado:** implementado y probado
+**Pedido:** Mercadeo, 2026-09-10 — «en la sección de Ideas del equipo, quiero
+que cada idea que creemos se vuelva una tarea en Sprint así».
+
+### El hueco
+
+El tablero tiene TRES orígenes de trabajo y los tres se aceptan con un botón
+que se ve igual:
+
+| Origen | De dónde sale | ¿Creaba su item? |
+|---|---|---|
+| Carta de producción | del análisis (ADR-042) | ✅ desde el 2026-09-08 |
+| Tarea de estrategia | del análisis | ✅ desde ADR-054 |
+| **Idea del equipo** | la escribe una persona en la reunión | ❌ **no** |
+
+La idea quedaba guardada dentro de la página y había que bajarla por el CSV.
+Es la misma forma del hueco que ADR-054 arregló para las tareas, un mes después
+y en la otra lista: **un camino de tres que no llegaba, sin decirlo.**
+
+### Por qué se había quedado fuera
+
+Por una razón de verdad, no por olvido. Las cartas y las tareas traen su
+payload de `CreateItem` armado por Python (`params_de_carta`,
+`params_de_tarea`), y el botón solo lo reenvía. Eso es deliberado: dos caminos
+para la misma acción tienen que producir el mismo item, y si cada uno armara su
+texto nadie lo notaría hasta comparar dos items en Sprints.
+
+La idea del equipo **no puede tener payload de Python**: nace escrita en el
+navegador, en la reunión, cuando Python ya corrió. No hay forma de que Python
+la vea antes.
+
+### La decisión
+
+**El payload de la idea se arma en el navegador, y la prueba lo compara contra
+Python llamando a Python de verdad.**
+
+`payloadDeIdea()` reproduce campo por campo la rama `propias` de
+`sprint.plan()`: el nombre con la marca `[MC:equipo::<id>]`, el detalle, la
+línea de ORIGEN que dice que la idea no tiene evidencia del sistema, y las
+referencias. La garantía de que las dos no divergen NO es un acuerdo escrito:
+es `prueba:boton`, que agrega una idea con el ratón, captura el payload que
+salió hacia el conector y lo compara con el que devuelve
+`pruebas/payload_idea.py` — un módulo que llama a `sprint.plan()`. Un esperado
+copiado a mano en la prueba ya caducó dos veces en este proyecto (ADR-050).
+
+**Y ya había divergido.** El CSV tenía una TERCERA copia del mismo texto,
+escrita a mano, que unía las referencias con `"  - "` donde las otras dos usan
+`"  · "`. Nadie lo iba a ver hasta comparar un item importado por CSV con uno
+creado por el botón, que es exactamente cuando ya no sirve enterarse. El CSV
+ahora sale de `payloadDeIdea()`.
+
+### Lo que la decisión arrastró
+
+1. **`_sprint_destino` lleva dos ids nuevos.** `projitemtypeid` y
+   `projpriorityid` estaban solo dentro del payload de cada carta; para armar
+   el de una idea hacen falta sueltos. Los agrega `corre.py` desde
+   `config/equipo.json`, la misma fuente que usa `params_de_tarea`.
+
+2. **Una compuerta para el tablero viejo.** Un tablero publicado antes de hoy
+   no trae esos dos ids. Crear con los campos vacíos dejaría un item a medias
+   en producción, así que `crearEnSprints` se detiene y dice qué falta y cómo
+   arreglarlo (regla 3). La idea NO se pierde: queda guardada en la página.
+
+3. **`responsableDe(id)`.** El responsable de una carta o una tarea vive en
+   `E.decisiones`; el de una idea, en su propio registro. `crearEnSprints`,
+   `lineaResponsable` y `sincronizaResponsable` leían solo el primero, así que
+   una idea habría nacido sin dueño mientras su tarjeta mostraba un nombre —
+   el agujero exacto que reportó Mercadeo para las tareas el 2026-09-07,
+   reaparecido en la otra lista. Ahora los tres leen por el mismo camino, y
+   elegir responsable en una idea ya creada dispara su `UpdateItem`.
+
+4. **El sello de Sprints no le atribuye evidencia.** Decía «con el ángulo, la
+   evidencia y la instrucción exacta adentro» para todo lo que no fuera carta.
+   De una idea del equipo eso es **falso**: no tiene evidencia, y conservar esa
+   diferencia es justamente para lo que existe la sección. Hay un tercer texto,
+   por `origenDe(id)`.
+
+5. **Quitar una idea ya creada dice qué quedó en Sprints.** Esta vista no borra
+   nada en producción. Callarlo dejaría un item huérfano que nadie sabe que
+   existe.
+
+6. **El quinto `"I" + itemNo`.** ADR-054 normalizó cuatro; quedaba uno en el
+   aviso de «Sprints dejó otro responsable», que escribía `II1180`. Ahora pasa
+   por `nroItem()` como los otros.
+
+### Lo que se borró
+
+El texto que explicaba que «esta página vive en un navegador y no puede llamar
+a Zoho; aceptar registra la decisión, la creación es un segundo paso». Lo pidió
+Mercadeo, y además **ya era falso**: con la capacidad `mcp` la página llama al
+conector del visitante desde el 2026-09-08. Un texto que explica una limitación
+que ya no existe es peor que ninguno — enseña a no confiar en el botón que sí
+funciona.
+
+El botón «Copiar para Sprint» se queda: es el camino cuando el visitante no
+tiene el conector, y en ese caso la página lo dice en la tarjeta.
+
+### Idempotencia
+
+Regla 7. La marca `[MC:equipo::<id>]` viaja dentro del nombre y se consulta con
+`GetItems` ANTES de crear, igual que para cartas y tareas. Volver a pulsar
+«Aceptada» —el gesto que una persona repite sin pensarlo— no crea un segundo
+item; está probado.
+
+### Verificado contra producción, no contra el doble
+
+`prueba:boton` corre con un conector SIMULADO a propósito: una prueba que crea
+items de verdad cada vez es una prueba que nadie corre. Pero un doble no
+contesta si Zoho acepta el payload. Así que se ejecutó el ciclo de ADR-029
+—crear, leer, borrar— contra el proyecto de producción el **2026-09-10**, con el
+payload exacto que arma `payloadDeIdea()`:
+
+- `CreateItem` lo aceptó: `addedItemId 21897000001571030`, `itemNo` **`I1187`**.
+- `GetItems`, buscando por la marca `equipo::verificacion-2026-09-10`, lo
+  encontró con `itemNo` **`1187`** — sin la I. **La trampa del doble número
+  queda confirmada en un SEGUNDO item**, no solo en el de ADR-054: no era una
+  rareza de aquel, es cómo responden los dos endpoints.
+- `ownerId: ["21897000001319001"]` — Dulce. El item **nació con su responsable**,
+  que es exactamente lo que estaba roto para las tareas el 2026-09-07.
+- `itemTypeName: "Task"`, `statusName: "Por Hacer"`, `projPriorityId` el del
+  proyecto: los dos ids nuevos del destino son los correctos.
+- `DeleteItem` lo quitó y una segunda lectura devolvió `items: []`. El backlog
+  quedó como estaba.
+
+### Lección de método
+
+**Un hueco arreglado en un camino no está arreglado en los otros dos.** ADR-054
+existió porque una prueba que cubría cartas no decía nada de las tareas. Hoy la
+misma frase vale para las ideas: la prueba cubría dos de tres. La sección de
+`prueba:boton` que faltaba era la señal, y no estaba.
+
+---
+
+## ADR-062 · La referencia visual se genera desde el tablero, pero se entrega como enlace
+
+**Fecha:** 2026-09-10
+**Estado:** implementado y probado
+**Pedido:** Mercadeo, 2026-09-10 — «queremos que haya una opción para crear
+diseños en Higgsfield, que dentro de acá haya un botón para darle generar
+imagen y que nos aparezcan (obviamente con todos los datos recaudados)».
+
+### Lo que se midió antes de decidir
+
+Dos muros, y son de distinta naturaleza. La diferencia es toda la decisión:
+
+| Muro | ¿Se configura? |
+|---|---|
+| El visor de artefactos bloquea **toda** carga externa de imágenes y todo `fetch`. Su lista blanca son unos CDN de scripts y las fuentes de Google | ❌ **No.** Es de la plataforma |
+| `d8j0ntlcm91z4.cloudfront.net` —donde Higgsfield deja el resultado— está bloqueado **también en el entorno de esta sesión**: `connect_rejected · gateway answered 403` | ✅ Sí, es política de egreso |
+
+El segundo es, otra vez, el error de método que este proyecto ya tiene escrito:
+**«no está permitido todavía» no es «no se puede»** (ver la entrada de los
+dominios bloqueados, 2026-09-02). Se anotó como límite lo que era una política.
+
+**Consecuencia dura:** la página puede GENERAR —la capacidad `mcp` llama al
+conector del visitante con sus credenciales y sus créditos, igual que con
+Sprints— pero **no puede MOSTRAR** la imagen. Ni con `<img>` (bloqueado) ni
+bajándola para subirla con `assets` (el `fetch` también está bloqueado). No hay
+tercera puerta desde el navegador.
+
+### La decisión
+
+**Generar sí, mostrar no: la referencia se entrega como ENLACE.** Un enlace es
+navegación, no carga de recurso, así que la lista blanca no lo toca. Y se
+**dice** en la tarjeta: «se abre en otra pestaña, el visor de esta página no
+puede mostrar imágenes de otro dominio». Un `<img>` bloqueado dejaría un
+rectángulo gris que cualquiera leería como un error del tablero — un hueco que
+finge ser una imagen que no cargó es peor que una frase honesta.
+
+### El prompt no lo arma el navegador
+
+`src/modulo1/prompt_visual.py`, por la misma razón que `params_de_carta`: si
+cada camino armara su texto, dos personas pidiendo la referencia de la misma
+carta obtendrían imágenes distintas y nadie sabría por qué. La página reenvía
+`carta.imagen` y `prueba:imagen` compara lo enviado contra lo que armó Python,
+al carácter.
+
+Cada línea del prompt sale de un campo de la carta o de `config/tema.json` —la
+tipografía y los tres tonos son los que el equipo de diseño controla en su
+archivo, no un estilo de casa escrito a mano acá—.
+
+### Tres reglas dentro del prompt
+
+1. **Ninguna MEDICIÓN entra a la imagen.** Un número dentro de un arte no se
+   puede trazar hasta su consulta, y la imagen sobrevive a la corrida. La
+   guardia es la misma `MEDICION` de ADR-042 —«24 horas» sí, es una promesa de
+   producto; «$2.68» no, es una medición— y se **detiene**, no limpia en
+   silencio: un prompt recortado a la mitad produce una imagen que nadie pidió.
+   La regla se subió de `pruebas/cartas.py` al código, porque ahora la usan dos
+   módulos y escribirla dos veces sería la tercera copia divergente de la misma
+   regla en este proyecto.
+2. **El logo NO se genera.** Un modelo inventaría un logotipo de QPayPro
+   parecido y equivocado, y una marca falsa en una pieza de fintech es
+   exactamente el dato inventado que este proyecto no publica. El prompt lo
+   prohíbe; el logo real ya vive en `config/logo.svg`.
+3. **La relación de aspecto sale del formato, y un formato desconocido
+   detiene la petición.** No se cae en 1:1 por defecto: un reel cuadrado no es
+   un detalle de estilo, es otra pieza.
+
+### Dos defectos que aparecieron al escribirlo
+
+- **El collage.** Pasar las tres tarjetas de `visual.mostrar` a una sola imagen
+  produce un collage, que no es ninguna de las tres piezas. La referencia cubre
+  **el arranque** —primera tarjeta o primer cuadro— y declara con cuántos
+  tramos sigue la pieza.
+- **La justificación escrita dentro del arte.** `no_mostrar` viene como
+  «cosa: por qué», y meter el porqué entero hacía que el modelo lo ESCRIBIERA:
+  «marcada REVISIÓN LEGAL» terminaba impresa en la imagen. Al prompt va solo el
+  sujeto de la prohibición; el porqué se queda en la carta, donde lo lee una
+  persona.
+
+### El titular va dentro, y por eso la imagen se rotula
+
+Decisión de Mercadeo entre las dos opciones: el titular real dentro de la
+imagen. El costo de eso es que **el texto que escribe un modelo no es confiable
+con tildes y signos**, y esto es fintech. Así que cada referencia sale rotulada
+**«Es referencia, no arte final: revisá tildes y signos antes de usarlo»**, y esa
+frase es una comprobación de `prueba:imagen`, no un adorno. Si se cae, alguien
+manda un titular mal acentuado a aprobación legal.
+
+### El dinero también es una sorpresa que no se permite
+
+Generar gasta los créditos de quien pulsa. Así que la tarjeta dice, antes de
+pulsar, que usa su conector y sus créditos; «Generar otra» avisa que vuelve a
+cobrar; y `use_unlim` va en `false` **explícito** —omitirlo deja que el servidor
+pregunte por la cuota gratuita, y una página no puede contestar esa pregunta por
+una persona—.
+
+### El sondeo está acotado, y un trabajo pagado no se pierde
+
+Higgsfield es asíncrono: `generate_image` devuelve un trabajo y hay que
+preguntar por él con `jobs_wait`. Dos decisiones:
+
+- El id del trabajo se **guarda en cuanto llega**, antes de que la imagen esté
+  lista. Si alguien recarga o se republica el tablero mientras se genera, el
+  trabajo no se pierde: está pagado.
+- El sondeo para a las ~12 esperas. Un bucle sin techo contra un conector ajeno
+  convierte un modelo lento en una página que consulta para siempre. Al parar
+  **no** declara la imagen fallida —el trabajo puede terminar bien— y **no**
+  vuelve a generar, que cobraría otra vez: ofrece volver a consultar, que es
+  gratis. Son dos botones distintos a propósito.
+
+### Un defecto que encontró la prueba, no la vista
+
+`poll_after_seconds || 10` trataba el **0** como ausente —«volvé a preguntar
+ya» es falsy— y esperaba diez segundos. El cero-falsy otra vez. Se pregunta por
+el tipo, con piso de un segundo para que un cero no vuelva el sondeo un bucle
+caliente.
+
+### Lo que queda pendiente y por qué
+
+Que las imágenes se vean **dentro** del tablero es posible, pero pasa por
+desbloquear `d8j0ntlcm91z4.cloudfront.net` en la política de red del entorno:
+con eso, se bajan acá y se suben con la capacidad `assets`, cuyas URL son del
+mismo origen y el visor sí las carga. Es configuración, no desarrollo — y hasta
+que esté, **nadie de este lado puede ver una imagen generada**, así que no se
+afirma que el prompt produzca buen arte: solo que produce el prompt correcto.
+
+---
+
+## ADR-063 · Todo 2026 en el filtro, y un esperado que se calcula en vez de guardarse
+
+**Fecha:** 2026-09-11
+**Estado:** implementado, los nueve meses reconcilian
+**Pedido:** Mercadeo — cargar enero a mayo de 2026 «para que el filtro del
+tablero vea todo el año», porque «al pedir enero parece que el filtro no
+responde».
+
+### El filtro no estaba roto
+
+Estaba diciendo la verdad. El dato empezaba el 2026-06-01 y una fecha anterior
+se ignora a propósito —hace falta, o teclear con un rango corto es imposible—.
+Lo que faltaba era el dato, no el arreglo.
+
+Ahora hay nueve meses día por día, cada uno reconciliado contra su propio
+agregado al centavo, por campaña y por país. **1,229 piezas** en el filtro.
+`rango_disponible` = `2026-01-03 → 2026-09-06`.
+
+**El 3 de enero, no el 1.** El rango sale del primer día CON ENTREGA, no del
+borde del mes: los días 1 y 2 no tuvieron pauta, y un rango que empezara el 1
+afirmaría dato donde no hay.
+
+Y el periodo del **análisis** sigue siendo el de la corrida. Son dos campos
+distintos y no se unifican (compromiso escrito, 2026-09-07). Agosto perdió 24
+días por solape con la semana de la corrida — la compuerta anti-duplicado
+haciendo su trabajo, visible en `dias_quitados_por_solape`.
+
+### Lo que el dato nuevo enseñó
+
+- **2026 tiene SEIS indicadores, no cuatro.** Aparecieron
+  `actions:onsite_conversion.lead_grouped` y `actions:leadgen.other`, que no
+  estaban en ninguna parte de esta documentación. En enero, `link_click` son
+  8,740 «resultados» al lado de 243 leads: sumarlos daría un número sin
+  significado. ADR-013 deja de ser una precaución teórica en cinco meses más.
+- **El tope de 200 filas dejó de ser hipotético.** Abril devolvió **212** filas
+  y marzo **195**. Sin el `limit=1000` explícito abril habría salido truncado en
+  silencio y con cara de completo (ADR-050).
+
+### Delegar la adquisición, y por qué se puede
+
+Con la receta probada en enero, febrero a mayo se delegaron a `analista-meta` —
+el agente que la regla 4 define justamente para esto: lee y produce archivos,
+nunca escribe en un sistema externo—. Dos agentes murieron por límite de sesión
+y uno no reportó.
+
+**No importó, y eso es el punto.** Lo que decide si un mes entra no es el reporte
+del agente: es la compuerta. Al medir el disco, marzo, abril y mayo estaban
+completos y reconciliaban al centavo; solo faltaba un archivo. Un reporte de
+subagente es una hipótesis.
+
+De hecho uno reportó una fidelidad que no tenía: dijo «200 ocurrencias
+literales, igual que su agregado» sobre un archivo con 202 montos.
+
+### El crudo no es copia fiel, y se declara en vez de arreglarse a mano
+
+Medido: seis de los dieciocho archivos crudos de pauta perdieron el espacio duro
+(NBSP) que la API pone entre el número y «USD» — `2026-01/dia` (0 de 154),
+`2026-02/dia` (200 de 202) y los agregados de julio, agosto y septiembre, estos
+últimos de sesiones anteriores. Pasa cuando el crudo se transcribe a mano en vez
+de volcarse parseado.
+
+**Ningún número cambia, y es verificable:** `parsea_numero()` hace
+`re.sub(r"[^\d,.\-]", "", limpio)`, así que el tipo de espacio le es
+indiferente, y los nueve meses reconcilian.
+
+**No se arregla insertándoles el NBSP a mano.** Un crudo editado a mano es peor
+evidencia que uno declarado como no fiel: la única fidelidad defendible viene de
+volver a pedirlo a la API. Queda declarado; la trazabilidad hasta la consulta la
+da `_metadatos.parametros`, que sí está completo.
+
+### La tercera vez del mismo error, y el arreglo que faltaba
+
+`prueba:filtro` se puso en rojo con cuatro comprobaciones señalando un defecto
+inexistente. La causa: lee los esperados de `analisis/esperado_filtro.json`, un
+archivo que **nada regeneraba**. La ventana «fuera del tope» se calcula como 90
+días antes del dato; con el dato empezando en junio eso daba marzo, y al cargar
+enero **esa ventana cayó DENTRO del dato**. El tablero la aplicó, correctamente.
+
+Es la TERCERA vez en este proyecto, y las dos anteriores están escritas en la
+cabecera de ese mismo archivo. El arreglo de entonces —traer el cálculo al
+repositorio y derivar las ventanas del dato— fue correcto pero no llegó al
+fondo: **la derivación era buena y quedó cacheada en un archivo que nadie
+refrescaba.** Un archivo que hay que acordarse de regenerar es un esperado
+escrito a mano con más pasos.
+
+Ahora `pauta_filtro.js` llama a `esperado_pauta.py` al arrancar, como
+`prueba:boton` le pide a `sprint.plan()` el payload de la idea del equipo.
+
+### Y una familia de comparaciones a medio dar de alta
+
+`prueba:raton` comparaba «1665» contra «1,665»: la página pone separador de
+miles y ninguna ventana de la prueba había pasado de 999 hasta que el total
+llegó a 1,665. El formato de la página es el correcto.
+
+Lo revelador es que **ya estaba arreglado en uno de los tres sitios** que
+comparan leads —el tercero usaba `toLocaleString`— así que el arreglo existía y
+no se aplicó a los otros dos. Misma forma que la clase CSS de ADR-034 dada de
+alta en un lado y no en el otro: una familia se da de alta en todos sus lados o
+en ninguno. Ahora hay un solo `leads()`.
+
+### Lo que queda abierto
+
+Pedir una fecha anterior al dato **revierte el campo** en vez de recortar a la
+intersección y declarar el hueco. Con 2026 cargado la queja original desaparece
+para casi todo el año, pero pedir desde 2025 va a seguir sintiéndose roto. Es un
+cambio de comportamiento, no un arreglo: no se hace en silencio.
+
+---
+
+## ADR-064 · Se quita la referencia visual con Higgsfield
+
+**Fecha:** 2026-09-11
+**Estado:** implementado — **revierte ADR-062**, que queda como registro
+**Pedido:** Mercadeo, 2026-09-11 — «quedó muy mal, mejor quitemos lo de
+Higgsfield, quita esa opción».
+
+### Por qué se quita
+
+Por lo único que importaba y lo único que yo no podía medir: **la imagen no
+sirve**. La mecánica funcionaba —el prompt salía de la carta, el conector
+respondía, el trabajo llegaba a `completed` con su URL— pero el resultado no
+era usable para una reunión de Mercadeo.
+
+Y ese veredicto solo lo podía dar Mercadeo, porque
+**`d8j0ntlcm91z4.cloudfront.net` está bloqueado por la política de egreso del
+entorno**: desde este lado no se pudo abrir ni una sola de las imágenes
+generadas. Por eso ADR-062 dice, textualmente, «no se afirma que el prompt
+produzca buen arte: solo que produce el prompt correcto». Esa reserva era la
+correcta, y resultó ser el punto entero.
+
+### La lección, que es la que vale
+
+**Se construyó una función completa sin poder ver su salida.** Prompt derivado
+de la carta, sondeo acotado, guardia contra mediciones, 28 comprobaciones en
+verde — y ninguna de esas 28 podía contestar «¿la imagen está bien?», porque
+todas miraban lo que pasa ANTES del generador. Un producto visual cuyo
+resultado el constructor no puede ver no está a medio probar: está probado en
+todo menos en lo que lo justifica.
+
+Lo que se debió hacer: **desbloquear el dominio primero, generar una, mirarla,
+y recién entonces decidir si valía la pena construir el botón.** Una imagen de
+0.5 créditos y diez minutos habrían ahorrado el resto. El orden estuvo mal, no
+el código.
+
+Es la misma familia que la lección de método de 2026-08-27 —agotar las formas
+de preguntar antes de concluir— en su versión cara: **verificar lo barato antes
+de construir lo caro.**
+
+### Qué se quitó
+
+- El botón y todo su render en la carta, la lógica de generación y sondeo, el
+  estado `E.imagenes` y sus dos entradas en el delegado de eventos.
+- `src/modulo1/prompt_visual.py` y `pruebas/imagen_boton.js`, borrados; sus dos
+  scripts de npm, fuera.
+- `corre.py` ya no adjunta `imagen` a las cartas.
+- La capacidad `mcp` del artefacto vuelve a declarar **solo Zoho Sprints**. Es
+  una declaración de conjunto completo: dejar Higgsfield adentro pediría al
+  visitante un permiso que la página ya no usa.
+- El alias `mcp`/`sprints` se revirtió a la variable única: con un solo
+  conector era indirección sin uso.
+
+### Qué se queda, y por qué
+
+1. **`MEDICION` sigue en `cartas.py`**, aunque hoy solo la lea `prueba:cartas`.
+   Es una regla del producto, no un detalle de la prueba; bajarla de vuelta solo
+   abriría la puerta a que la próxima vez se escriba dos veces.
+2. **Las trampas medidas siguen en CLAUDE.md.** Que el visor bloquee toda carga
+   externa de imágenes y que cloudfront esté bloqueado por política **siguen
+   siendo ciertas** y valen para cualquier intento futuro de mostrar una imagen
+   en el tablero. Un hallazgo no se borra porque la función que lo descubrió se
+   haya quitado.
+3. **ADR-062 no se borra.** Registra por qué se hizo, qué se midió y qué se
+   decidió. Borrarlo dejaría este ADR sin la mitad que explica qué se revierte.
+
+### Si se retoma
+
+El camino sigue siendo el mismo y el orden es lo que cambia: desbloquear
+cloudfront en la política de red del entorno, generar dos o tres referencias,
+**mirarlas**, y solo si sirven volver a poner el botón. Con el dominio abierto
+también se abre la mitad que nunca se pudo hacer: bajar la imagen y subirla con
+la capacidad `assets`, cuyas URL son del mismo origen y el visor sí carga — que
+es lo que haría que se vean DENTRO del tablero en vez de en otra pestaña.
+
+El código está en el historial de git, en el commit de ADR-062.
+
+---
+
+## ADR-065 · El día en curso entra al tablero, pero aparte
+
+**Fecha:** 2026-09-11
+**Estado:** aceptado
+**Pedido de Mercadeo, literal:** «pero y si yo quisiera agarrar tambien el dia
+de hoy no se puede? la idea es que tengamos los datos reales en tiempo real»
+
+### El contexto
+
+El filtro llegaba hasta el 6 de septiembre. No era un tope del filtro: era el
+borde del dato en disco. El par de crudos de septiembre se pidió el día 7 con
+`until: 2026-09-06`, y desde entonces nadie volvió a pedir nada. `rango_disponible`
+sale del dato, así que decía la verdad — pero la verdad era «esto está viejo».
+
+### Lo que se midió antes de decidir
+
+**1. Meta sí devuelve el día en curso.** No hay ningún límite de acceso.
+
+**2. Un día en curso no es comparable con un día cerrado.** El 11 de septiembre,
+contra el promedio de los días completos previos:
+
+| mercado | hoy | día típico | avance |
+|---|---|---|---|
+| GT | $7.97 · 1,045 impr. | $29.65 · 5,072 | **27% del gasto, 21% de las impresiones** |
+| SV | $4.28 · 1,072 impr. | $20.01 · 4,932 | **21% del gasto, 22% de las impresiones** |
+
+Puesto en la misma serie que los días cerrados, eso dibuja un desplome del 75%
+que es puro horario.
+
+**3. Cuánto se mueve un día DESPUÉS de cerrar.** Se volvió a pedir el 4–6 de
+septiembre, guardado desde una consulta del día 7, y se comparó fila por fila:
+
+| día | consultado a | cambió en 4 días |
+|---|---|---|
+| 4 sep | 3 días después | **idéntico, fila por fila** |
+| 5 sep | 2 días después | **idéntico, fila por fila** |
+| 6 sep | 1 día después | sí: +$0.07, +4 impresiones, +2 clics |
+
+**Los leads no se movieron en ninguno.** Un día queda firme a los ~2 días de
+cerrar; el día siguiente todavía respira.
+
+**4. El día en curso se mueve mientras se mira.** Dos consultas separadas por
+minutos el 11 de septiembre dieron **$7.53 y $7.93** en GT (1,012 y 1,032
+impresiones). Por eso el crudo guarda `hora_consulta`, no solo la fecha: un
+número sin el momento en que se leyó no se puede volver a comprobar.
+
+### La decisión
+
+**El día en curso se muestra, y NO entra a `piezas`.**
+
+`piezas` es lo único que el filtro suma. Dejar el día en curso fuera de esa
+lista significa que no lo suma ningún total, no lo promedia ninguna gráfica y no
+toca ningún costo por lead — y eso es cierto por construcción, no por un rótulo.
+La franja de la pantalla solo hace visible una separación que ya existe en el
+dato.
+
+Se rechazó la alternativa de meterlo en la serie con una nota al pie. Es
+exactamente el error del ADR-057: si hay que leer una advertencia para no leer
+mal un número, el problema es el número que se eligió mostrar.
+
+### El rótulo dice un porcentaje, no una hora
+
+«Van 6 horas del día» exigiría saber la zona horaria de la cuenta, que es una
+constante **declarada como desconocida** en este proyecto. «Va al 27% del gasto
+de un día típico» sale del promedio de días completos y no supone nada. La hora
+que sí se muestra es la de la lectura, rotulada como UTC —la del entorno—,
+precisamente para que nadie la confunda con la de la cuenta.
+
+El promedio se calcula sobre los últimos 7 días completos **anteriores** al día
+en curso: siete cubre la semana entera, así que un lunes no se compara solo
+contra fines de semana. Si hay menos, se usan los que haya y el bloque declara
+cuántos fueron.
+
+### Qué se hizo
+
+- Los crudos de septiembre se re-pidieron del **4 al 10** y reemplazaron al par
+  del 4 al 6. La compuerta de reconciliación los aceptó: 7 días, 15 valores al
+  centavo. `rango_disponible` pasó de `2026-09-06` a **`2026-09-10`**, y el
+  filtro de 1,229 a **1,245 piezas**.
+- `src/modulo1/dia_en_curso.py` — lee su propio crudo, agrupa por indicador y
+  calcula el avance contra los días completos. Devuelve `None` si no hay
+  archivo, que es una ausencia legítima y no un dato faltante.
+- `data/historico/dia_en_curso/crudo/` — vive fuera de `pauta_meses/` a
+  propósito: lo que está ahí adentro es dato cerrado.
+- La franja del tablero, pegada al filtro.
+- `pruebas/dia_en_curso.js` (`npm run prueba:hoy`) — 22 comprobaciones. La que
+  importa: con el filtro **abierto de par en par** —la ventana que más dato
+  muestra— la inversión sigue siendo la de las piezas y **no** la que saldría si
+  el día en curso se sumara. Y un sabotaje: marcar el bloque como no-de-hoy y
+  comprobar que el rótulo cambia.
+- Rutina **diaria** `trig_01G5JLyctdfbuViKw79AEMgS`, 06:00 GT, separada de la
+  semanal.
+
+### El archivo se queda viejo solo, y eso se guarda
+
+`dia_en_curso.arma()` recibe el `--hoy` de la corrida y declara `es_de_hoy`.
+
+No es hipotético: **la corrida semanal también regenera el tablero** y tomaría
+el crudo que hubiera en disco. Un lunes habría mostrado la lectura del viernes
+rotulada «día en curso» —fecha correcta, afirmación falsa—. Cuando `es_de_hoy`
+es falso la franja no se borra, porque «lo último que se leyó» sigue siendo
+cierto y útil: pasa a llamarse **«Último día leído»**, avisa **«No es hoy»** y
+deja de prometer que se mueve mientras se mira.
+
+### Por qué una Rutina NUEVA y no la semanal cambiada a diaria
+
+Son dos trabajos distintos y se rompen distinto. La semanal rehace el análisis
+completo: estrategia, cartas, copys, competencia. La diaria **solo mueve el
+dato** —los días cerrados que falten y el día en curso— y vuelve a generar el
+tablero con la MISMA `ventana_de_la_corrida`.
+
+Volver diaria la semanal habría recalculado la estrategia y las cartas todos los
+días mientras la mesa trabaja encima de ellas, y habría vuelto a consultar la Ad
+Library a diario —que solo responde «qué está activo ahora»— para un análisis
+que es semanal. Separarlas mantiene el compromiso escrito con Mercadeo del
+2026-09-07: **el periodo del análisis se escribe siempre desde la corrida, nunca
+desde el rango de dato disponible.**
+
+La Rutina diaria descubre la corrida vigente en disco en vez de traer la ruta
+escrita: la semanal crea una carpeta nueva cada lunes, y una ruta fija habría
+quedado refrescando el dato de una corrida vieja mientras el tablero muestra
+otra.
+
+### Lo que sigue sin resolverse
+
+**Las dos Rutinas están guardadas sin conectores.** El parámetro sigue cerrado
+para esta organización —la creación de hoy devolvió la misma advertencia— así
+que hay que adjuntarlos desde la interfaz de Routines en claude.ai. Sin eso la
+Rutina diaria se detiene en su Compuerta 0 y **no toca el tablero**, a propósito.
+
+Y «tiempo real» literal —que la página le pregunte a Meta cada vez que alguien
+la abre— **no se puede**: el visor bloquea todo `fetch` externo y la única
+capacidad MCP declarada es Zoho Sprints. La frescura viene de volver a correr.
+
+---
+
+## ADR-066 · «Hoy» lo decide el reloj de quien abre la página
+
+**Fecha:** 2026-09-16
+**Estado:** aceptado
+**Lo que reportó Mercadeo, literal:** «hola, mira no se me actualizo»
+
+### Qué pasó
+
+Cinco días después de publicar ADR-065, el tablero seguía mostrando el dato del
+10 de septiembre y una franja que decía **«Día en curso · vie 11 sep»**.
+
+Dos fallas distintas, y conviene no confundirlas.
+
+### Falla 1 · las Rutinas nunca corrieron el trabajo
+
+Las dos se dispararon y las dos reportan `SUCCEEDED`:
+
+| Rutina | disparó | duró |
+|---|---|---|
+| diaria | 2026-09-16 12:17 UTC | **24 segundos** |
+| semanal | 2026-09-14 13:15 UTC | **20 segundos** |
+
+Veinte segundos no alcanzan ni para una consulta. Las dos se detuvieron en su
+Compuerta 0 por la misma razón que está escrita desde el principio:
+`"mcp_connections": []`. **Hicieron exactamente lo que se les pidió** —no tocar
+el tablero sin fuentes— y el tablero siguió mostrando la última corrida buena,
+que es el comportamiento correcto.
+
+**`SUCCEEDED` significa «la sesión terminó sin error», no «el trabajo se hizo».**
+Una Rutina que se detiene en su compuerta y lo reporta es un éxito para el
+runtime y un no-evento para el negocio. Mirar el estado no basta; hay que mirar
+**cuánto duró**.
+
+### Falla 2 · la guardia de ADR-065 no cubría el caso que ocurrió
+
+`es_de_hoy` lo calcula Python con el `--hoy` de la corrida. Eso protege de
+**re-generar** el tablero tomando un crudo viejo. No protege de **una página
+publicada que se queda quieta**: el flag se congela al publicar y sigue diciendo
+`true` para siempre.
+
+Es decir: la guardia se escribió el mismo día que el dato, contra un escenario
+imaginado, y el escenario real —que nadie vuelva a correr nada en cinco días—
+la atravesó sin tocarla. **Una guardia contra «el dato se quedó viejo» que se
+evalúa una sola vez, cuando el dato es nuevo, no es una guardia.**
+
+**La decisión:** «hoy» se juzga contra el reloj del visitante, y se exigen las
+dos cosas — `es_de_hoy` de Python **y** que la fecha coincida con la del
+navegador. Si cualquiera dice que no, la franja pasa a «Último día leído · No es
+hoy». Un dato del lado del servidor no puede saber cuándo lo van a mirar; el
+navegador sí, y es gratis.
+
+La fecha del visitante se toma **local**, no UTC: quien abre esto está en GT
+(UTC-6), y desde las 18:00 `toISOString()` ya devuelve el día siguiente — habría
+declarado viejo un dato de esa misma tarde.
+
+Su prueba adelanta el reloj del navegador cuatro días **sin tocar el dato** y
+comprueba que la franja se da cuenta igual.
+
+### Lo que se midió de paso
+
+Se re-pidieron los días 4 al 10 de septiembre, guardados el día 11, y se
+compararon fila por fila contra la consulta de hoy:
+
+- **Del 4 al 9: ni una fila distinta en cinco días.**
+- **El 10 sí se movió:** +$0.09 en GT, +$0.11 en SV, +12 impresiones en cada
+  uno, **con los leads quietos**. Es justo el día que se guardó cuando llevaba
+  UN solo día cerrado.
+
+Segunda muestra independiente que confirma lo de ADR-065: **un día se asienta
+~2 días después de cerrar.** Guardar un día con un solo día de cerrado deja un
+número que todavía va a cambiar.
+
+### El hueco de hoy, que no es un cero
+
+El 16 de septiembre la campaña de GT trae `Not available` en resultados con
+**$6.31 de gasto**: todavía no tiene ningún lead atribuido. El bloque reporta el
+gasto, deja los resultados en 0 y **no calcula costo por lead para GT** — un
+`$6.31 / 0` no existe, y un «$0.00» ahí sería una invención.
+
+### Dos cosas más que aparecieron al mirar la pantalla
+
+**Un hueco pintado de cero, en la interfaz.** GT trajo `Not available` con
+$6.31 de gasto y la franja escribía «0 leads». Al lado de una inversión visible,
+eso afirma que se midió y dio cero. El cálculo estaba bien —`resultados` en 0 y
+`costo_por_resultado` en `null`— y lo rompió el texto. Ahora dice **«sin leads
+atribuidos todavía»**, con su prueba. La trampa de `Not available` está anotada
+desde el principio del proyecto; esta vez la cometió el lado que dibuja.
+
+**El pie citaba números de otro día.** Decía «dos lecturas con minutos de
+diferencia dieron $7.53 y $7.93 en GT» —cierto, medido el 11 de septiembre— al
+lado de los $6.31 de hoy. Un dato correcto compitiendo con el dato de la
+pantalla. La frase quedó sin la cifra: dice lo mismo y no confunde.
+
+**Y una prueba que culpaba al producto por el entorno.** `prueba:tablero`
+ignoraba fallos de red por CÓDIGO de error (`ERR_CONNECTION_RESET` y dos más).
+Hoy el entorno empezó a devolver `ERR_CERT_AUTHORITY_INVALID` al cargar las
+fuentes de Google —Chromium no confía en la CA del proxy— y la prueba se puso
+roja señalando al tablero. La exención ahora va atada al **host** que falla, no
+al código: un recurso propio que no cargue se sigue reportando, venga con el
+código que venga. Agregar un cuarto código solo habría aplazado la próxima vez.
+
+### Estado del dato
+
+`rango_disponible` pasó de `2026-09-10` a **`2026-09-15`**; el filtro, de 1,245
+a **1,265 piezas**. Los nueve meses siguen entrando, ninguno rechazado.
+
+### Lo que sigue sin resolverse, y es lo único que importa
+
+**Las dos Rutinas siguen sin conectores.** Mientras no se los adjunten desde la
+interfaz de Routines en claude.ai, van a seguir disparándose todos los días,
+reportando `SUCCEEDED`, y no actualizando nada. Este refresco se hizo a mano.
+
+---
+
+## ADR-067 · El dinero se suma entre indicadores; los resultados no
+
+**Fecha:** 2026-09-16
+**Estado:** aceptado
+**Lo reportó Mercadeo, literal:** «solo fijate que no me cuadra lo de meta, el
+presupuesto no cuadra con lo que dice Meta ¿no te esta faltando alguna campaña?
+(Talvez la que es el free)»
+
+**Tenía razón, y acertó cuál era.**
+
+### La medición
+
+Meta, cuenta completa, 25 de agosto al 3 de septiembre: **$648.42**.
+
+| | |
+|---|---|
+| Campaña Punto de Venta GT | $356.37 |
+| Campaña Punto de Venta SV | $233.12 |
+| **Plan Free Tráfico 2026** | **$56.82** |
+| Honduras (excluido, reportado aparte) | $0.02 |
+| asentamiento posterior (medido el 2026-09-11) | $0.16 |
+| **total** | **$648.42** ✓ |
+
+El tablero mostraba **$591.42**. La diferencia era exactamente el Free.
+
+### Qué estaba mal
+
+**No era el dato: era el número que se eligió mostrar.** «Plan Free Tráfico
+2026» está leída, está en `piezas`, la suma el filtro y sale en la tabla de
+campañas del mercado. Lo que la dejaba fuera del KPI es que *Inversión* salía
+del **indicador principal** (`actions:lead`), y el Free optimiza por
+`actions:link_click`.
+
+El rótulo lo delataba y nadie lo leyó: decía **«2 campañas con entrega»** cuando
+entregaron tres.
+
+### La causa: una regla correcta aplicada de más
+
+ADR-013 prohíbe sumar `resultados` de indicadores distintos, y sigue siendo una
+de las reglas más importantes del proyecto: 194 leads y 14,324 clics no son
+14,518 de nada. Ese número no significaría absolutamente nada.
+
+Pero esa prohibición se extendió al **gasto**, y ahí no aplica. **Un dólar
+gastado en una campaña de clics es el mismo dólar que uno gastado en una de
+leads.** La moneda no cambia de unidad según el objetivo de la campaña; los
+resultados sí.
+
+Es el reverso exacto del error de siempre. La trampa conocida es sumar cosas que
+no se pueden sumar; ésta fue **negarse a sumar cosas que sí**, y el precio fue
+un total que no cuadraba con la fuente.
+
+### Qué cambia
+
+- **Inversión** = todo el dinero de la ventana, con su reparto en el pie:
+  «3 campañas con entrega · $591.42 en leads + $56.82 en clics en el enlace».
+  El reparto aparece solo cuando hay más de un indicador; con uno repetiría el
+  total.
+- **Campañas con entrega** cuenta todas las que entregaron, no las del indicador
+  principal. En GT decía «1» mientras entregaban dos.
+- Lo mismo en el KPI por mercado.
+- **Costo por lead y Leads NO cambian.** Siguen saliendo de un solo indicador,
+  que es donde la regla sí aplica y debe seguir aplicando.
+
+El objeto `total` que se agregó **no tiene campo `resultados`**, y eso es
+deliberado: no es un olvido, es para que nadie pueda sumarlos desde ahí ni por
+accidente. Lo que se puede sumar está; lo que no, no existe en ese objeto.
+
+### La prueba
+
+`npm run prueba:inversion` entra por el ratón y comprueba las dos mitades:
+
+1. La Inversión en pantalla es la suma de **todas** las piezas de la ventana, y
+   **no** la del indicador principal.
+2. Los **leads** en pantalla son los del indicador principal, y **no** la suma
+   de todos — con el número que saldría si se sumaran (14,518) escrito en el
+   fallo, para que quede claro qué se está impidiendo.
+
+Que la prueba vigile las dos direcciones es el punto: el arreglo de un lado no
+puede aflojar la regla del otro.
+
+### El titular lo repetía, y es lo primero que se lee
+
+Arreglados los KPI, la tarjeta grande del Resumen seguía diciendo **«2 campañas
+con entrega · $591.42 invertidos»** mientras el KPI a diez centímetros mostraba
+$648.24 y 3 campañas. Dos números distintos para la misma cosa, en la misma
+pantalla.
+
+Se arregló igual, y `prueba:inversion` ahora comprueba que el titular declare el
+mismo dinero y las mismas campañas que el KPI. Los **leads** del titular y su
+costo siguen siendo del indicador: ahí la regla de ADR-013 sí aplica.
+
+### Tres pruebas se pusieron rojas, y eso fue lo interesante
+
+Al cambiar el KPI, `prueba:filtro` (23 fallos), `prueba:raton` (1) y
+`prueba:hoy` (1) se pusieron en rojo. **Ninguna encontró un defecto: las tres
+estaban codificando el defecto.** Sus esperados comparaban la Inversión contra
+el gasto del indicador principal, o sea que verificaban activamente que la
+campaña Free quedara fuera.
+
+Una prueba que pasa mientras el producto miente no es una red de seguridad: es
+una segunda firma sobre el mismo error. Y estas tres llevaban dos semanas en
+verde.
+
+`prueba:hoy` es el caso más claro, porque se equivocó **dos veces en direcciones
+opuestas en el mismo día**: primero sumó los seis indicadores de 2026 para
+compararlos contra el KPI de leads —el error de ADR-013— y al corregirla se ató
+al indicador principal, justo cuando la Inversión pasó a mostrar el total. Las
+dos veces el esperado era el equivocado y la pantalla tenía razón.
+
+Los esperados ahora distinguen las dos cosas con nombres distintos: `gasto` es
+del indicador y alimenta el costo por lead; `_dinero` es de todos y alimenta la
+Inversión. En `esperado_pauta.py` la llave lleva guion bajo para que no se
+confunda con un `actions:*`, y **tampoco tiene `resultados`**.
+
+### Lo que queda sin cerrar
+
+El total del tablero da **$648.24** contra los **$648.42** de la cuenta. Los 18
+centavos son $0.02 de Honduras —excluido por decisión del usuario, con su gasto
+declarado aparte— y $0.16 de asentamiento posterior al día en que se guardó el
+crudo de la corrida. Los dos están explicados y medidos, pero **el tablero no
+los muestra juntos en ningún lado**: quien compare con Ads Manager va a
+encontrar esa diferencia y va a tener que preguntar, igual que hoy. Queda
+escrito y sin hacer.
+
+---
+
+## ADR-068 · Un botón para el día en curso, y por qué no puede hacer más
+
+**Fecha:** 2026-09-16
+**Estado:** aceptado
+**Pedido de Mercadeo, literal:** «y mira como podemos arreglar para que no pase
+lo de hoy que no se actualizo nada en automatico? ¿no se si es posible como un
+boton que diga actualizar? y que active algo para que se actualice
+automaticamente»
+
+Son dos pedidos y tienen dos respuestas distintas. Conviene no mezclarlos.
+
+### Lo automático: sigue bloqueado, y ahora con el error textual
+
+Se volvió a intentar adjuntar conectores a una Rutina por API —con una Rutina de
+prueba, de usar y tirar—. La respuesta:
+
+```
+create_trigger: the connectors parameter is not available for this organization.
+Omit the connectors parameter.
+```
+
+No es una limitación de esta sesión ni de cómo se llamó: **el parámetro está
+cerrado para la organización.** La única vía es la interfaz de Routines en
+claude.ai, y es una acción humana. Nada de lo que se construya de este lado la
+reemplaza, y decir lo contrario sería vender un automático que no existe.
+
+### El botón: qué puede y qué NO
+
+La página declara ahora el conector de Meta además del de Zoho Sprints, y el
+botón **«Actualizar ahora»** en la franja del día en curso llama
+`ads_get_ad_entities` con las credenciales de quien abre el tablero.
+
+**Puede** refrescar el día en curso: es una sola consulta agregada, no entra a
+`piezas`, y **no tiene compuerta que violar** — el día en curso no se reconcilia
+contra nada porque no existe un agregado con qué compararlo.
+
+**No puede** traer días cerrados. Eso exige el desglose día por día reconciliado
+al centavo contra su agregado, por campaña y por país, y esa compuerta vive en
+Python. Un navegador que metiera días a `piezas` sin pasarla estaría publicando
+números sin verificar — la regla 1 al revés.
+
+Por eso el botón **mide y declara lo que no puede arreglar**: cuando el dato
+cerrado se queda atrás, la franja dice cuántos días le faltan y que eso lo
+arregla la corrida, no el botón. Convierte la obsolescencia silenciosa —la que
+nadie vio durante cinco días— en una visible.
+
+### El riesgo que introduce: una segunda copia de dos reglas
+
+El botón interpreta la respuesta de Meta **en el navegador**. Eso crea una
+segunda implementación de dos cosas que ya vivían en Python:
+
+- `parsea_numero()` — el formato español, `$1.234,56 USD`, punto de miles y coma
+  decimal, más los huecos (`Not available`).
+- `dia_en_curso.arma()` — agrupar por indicador, el gasto de todas las filas y
+  los resultados solo de las que traen uno, el «día típico» de 7 días cerrados.
+
+**Este proyecto ya pagó exactamente este error**: el cuerpo del item de una idea
+del equipo estaba escrito en tres lados y uno divergió —`"  - "` contra
+`"  · "`— sin que nadie lo viera hasta que ya no servía enterarse.
+
+La guardia no es la buena intención, es `npm run prueba:actualizar`:
+
+1. **3,060 valores DISTINTOS** —todos los que aparecen en los veinte crudos,
+   nueve meses de formatos reales— parseados por los dos lados y comparados uno
+   por uno. La lista no se escribe a mano: sale de los archivos en disco, así
+   que un formato nuevo entra solo.
+2. **El bloque entero** contra el que arma Python sobre el mismo crudo: gasto,
+   resultados, impresiones, gasto sin resultado, costo, el día típico con sus
+   fechas exactas y el avance.
+3. Que la llamada sea de **lectura** (`ads_get_` — regla 8), con rango cerrado
+   de un día, corte por país, `limit` explícito (ADR-050) y saltándose la caché.
+4. Que después del clic **`piezas` y la Inversión no cambien**.
+
+### Los errores de conector, uno por uno
+
+El contrato del `mcp` nombra como anti-patrón colapsar todos los códigos en un
+«algo salió mal»: esconde la única acción que destraba la página. Cada código
+tiene su arreglo escrito —falta conectar, la sesión caducó, la política lo
+bloquea, el tablero se publicó sin el permiso— y en todos **el dato anterior
+sigue en pantalla**: una falla de red no borra lo último que sí se leyó.
+
+La prueba comprueba que los seis mensajes sean **distintos entre sí**. Su primera
+versión daba eso por bueno comparando el texto de la franja completa, que
+comparte prefijo: seis mensajes idénticos habrían pasado. Se compara el aviso.
+
+### Lo que se decidió NO hacer
+
+- **Sondeo automático en la página** (`watchTool` con `refetchInterval`).
+  Es posible y mantendría el día en curso vivo mientras el tablero está abierto,
+  pero pide consentimiento del conector a cada visitante al abrir, y este tablero
+  se abre en una reunión. Queda ofrecido, sin hacer.
+- **Que el botón dispare la Rutina.** El conector de Claude Code Remote existe en
+  la organización y `fire_trigger` la lanzaría — pero la Rutina seguiría sin
+  conectores y se detendría en su Compuerta 0 igual. Un botón que dispara algo
+  que no puede funcionar es peor que no tenerlo.
+
+### Corrección del mismo día · el botón salía roto y las pruebas lo firmaban
+
+Mercadeo lo apretó apenas se publicó y la franja contestó **«Meta respondió con
+un error»**. El botón nunca funcionó: la primera versión mandaba
+
+```js
+time_range: { since: fecha, until: fecha }     // objeto
+```
+
+y el esquema del conector declara ese parámetro como **`type: "string"`** — va
+JSON serializado, que es exactamente lo que hace `Rango.como_time_range()` en
+`src/base/convenciones.py` desde la V0. Meta devolvió `tool_error`.
+
+**Por qué ninguna de las 28 comprobaciones lo vio.** La prueba derivaba la forma
+esperada del **crudo**:
+
+```js
+const fecha = CRUDO._metadatos.parametros.time_range.since;   // objeto
+```
+
+y `_metadatos.parametros` es un **registro legible escrito a mano para dejar
+trazado qué se pidió** — no el payload que viajó por el cable. La prueba
+comparó el puerto contra mi propia transcripción prettificada del payload, no
+contra el esquema, y verificó activamente la forma equivocada. **Cuarta vez en
+este proyecto que un esperado escrito por mí firma el defecto en vez de
+vigilarlo** (ADR-050, ADR-054, ADR-067 y ésta), y la primera en que el esperado
+sale de un archivo que yo mismo escribí como documentación.
+
+Ahora la prueba exige lo que exige el esquema: que `time_range` sea **texto**,
+y que ese texto parsee a un rango cerrado de un solo día. Las dos cosas, porque
+sólo la segunda habría pasado con un objeto.
+
+**Lo que hizo falta para encontrarlo fue apretar el botón en el visor real.** Lo
+dije al publicar y era cierto: ninguna prueba de este lado podía contestar «¿la
+llamada le gusta a Meta?», igual que ninguna de las 28 de la generación de
+imágenes podía contestar «¿la imagen está bien?» (ADR-064). **El mismo error de
+método, dos veces en una semana:** construir sobre una interfaz que no se probó
+contra el sistema real cuando probarla era barato.
+
+### Y el mensaje de error escondía el arreglo
+
+`tool_error` decía «Meta respondió con un error» **sin el texto de Meta**. El
+código estaba bien clasificado —no era el anti-patrón de colapsar todo en un
+banner— pero el mensaje que Meta manda ES el arreglo en ese caso: sin él,
+Mercadeo no tenía nada que reportar más que «salió error». Ahora se adjunta,
+recortado a 180 caracteres al cerrar una palabra.
+
+### Una tercera cosa, encontrada al arreglar la segunda
+
+El ayudante nuevo se llamó `recorta()` y **ya existía un `recorta()`** en
+`tablero_app.js`, para listas, usado en ocho lugares. Dos declaraciones con el
+mismo nombre en el mismo ámbito **no dan ningún error**: la segunda gana y se
+lleva por delante a la primera. Lo agarró la prueba —`recorta(...).join is not a
+function`— porque hay una sección que sí la usa. Un nombre nuevo en un archivo
+de 5,000 líneas se busca antes de escribirlo.
+
+### Y una tercera cosa, encontrada al hacer por fin la llamada real
+
+Con `time_range` ya corregido, la llamada de verdad —de lectura, regla 8—
+devolvió las filas **y un `pagination.next_cursor`**. El botón no lo seguía.
+
+Se fue a ver qué había detrás: **la página siguiente vino vacía**. O sea que
+**Meta manda el cursor aunque no quede nada**, y por lo tanto su presencia NO
+prueba que falte dato. Pero la implicación al revés sí vale: su **ausencia**
+prueba que no falta. Ignorarlo por «un agregado de un día por campaña y país
+cabe de sobra en una página» habría sido razonamiento, no medición, y este
+proyecto ya se quemó con eso (ADR-050: el tope de 200 filas dejó de ser
+hipotético en abril).
+
+El botón ahora **sigue el cursor hasta que no haya**, con tope de 5 vueltas. Si
+al quinto sigue habiendo, **no publica el número**: dice que la lectura quedó
+incompleta y deja el dato anterior en pantalla. Un total parcial diría menos de
+lo que hay y se vería exactamente igual de completo.
+
+La prueba cubre las dos direcciones, como la de Inversión: que con el dato
+partido en dos páginas **salga el mismo número** que con las filas juntas y sin
+aviso, y que un cursor que nunca se apaga **se corte en 5 y lo diga**.
+
+Nada de esto se veía sin hacer la llamada. Es la misma conclusión que la de
+arriba, medida dos veces el mismo día.

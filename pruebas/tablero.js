@@ -39,15 +39,26 @@ function envuelve(frag) {
     const pag = await ctx.newPage();
     const errores = [];
     pag.on("pageerror", (e) => errores.push("pageerror: " + e.message));
+    /* Los unicos recursos externos de la pagina son las dos hojas de fuentes de
+       Google. En este entorno no bajan —se abre por file:// y el proxy deniega
+       los hosts de Google— y NO es un fallo de la pagina: la pila de respaldo
+       la cubre.
+
+       La exencion va atada al HOST que falla, no al codigo de error. Antes
+       listaba codigos (`ERR_CONNECTION_RESET`, `ERR_NAME_NOT_RESOLVED`,
+       `ERR_INTERNET_DISCONNECTED`) y el 2026-09-16 el entorno empezo a
+       devolver `ERR_CERT_AUTHORITY_INVALID` —Chromium no confia en la CA del
+       proxy—: la prueba se puso roja culpando al tablero por algo que pasaba
+       fuera de el. Agregar un cuarto codigo solo habria aplazado la siguiente
+       vez. Por host es mas estricto: un recurso propio que no cargue SI se
+       reporta, venga con el codigo que venga. */
+    var HOSTS_DE_FUENTE = /^https:\/\/fonts\.(googleapis|gstatic)\.com\//;
     pag.on("console", (m) => {
       if (m.type() !== "error") return;
-      /* En este entorno la pagina se abre por file:// y sin salida a
-         fonts.gstatic.com, asi que la fuente no baja. NO es un fallo de la
-         pagina: la pila de respaldo la cubre. Se ignora solo ese caso y se
-         deja pasar cualquier otro error de consola. */
-      if (/ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED/
-          .test(m.text())) return;
-      errores.push("console: " + m.text());
+      var url = (m.location() || {}).url || "";
+      if (/Failed to load resource/i.test(m.text()) && HOSTS_DE_FUENTE.test(url))
+        return;
+      errores.push("console: " + m.text() + (url ? "  <- " + url : ""));
     });
     /* Sin window.claude la pagina se declara de solo lectura y desactiva todos
        los botones de decision — que es lo correcto, pero deja las

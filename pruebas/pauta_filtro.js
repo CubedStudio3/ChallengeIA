@@ -14,9 +14,33 @@ const ARCHIVO = process.argv[2] || "/home/user/ChallengeIA/salidas/tablero-mesa-
    —al cambiar el periodo quedaron fuera del rango disponible y el tablero las
    ignoró, correctamente, con 31 comprobaciones en rojo señalando un defecto
    inexistente. Una fecha escrita a mano en una prueba caduca sola. */
-const FIXT = process.argv[3] ||
-  (process.env.CORRIDA || "data/historico/2026-09-04_25ago_a_03sep") +
-  "/analisis/esperado_filtro.json";
+const CORRIDA = process.env.CORRIDA || "data/historico/2026-09-04_25ago_a_03sep";
+const FIXT = process.argv[3] || CORRIDA + "/analisis/esperado_filtro.json";
+
+/* Y se REGENERA acá, en cada corrida de la prueba.
+
+   TERCERA vez que un esperado viejo acusa al producto en este proyecto. Las dos
+   anteriores están en el comentario de arriba, y el arreglo de entonces —traer
+   el cálculo al repositorio y derivar las ventanas del dato— fue correcto pero
+   no llegó al fondo: la derivación era buena y quedó CACHEADA en un archivo que
+   nada refrescaba. Al cargar enero a mayo, `rango_disponible` pasó de junio a
+   enero y la ventana «fuera del tope» —calculada como 90 días antes del dato—
+   cayó DENTRO del dato: el tablero la aplicó, correctamente, y cuatro
+   comprobaciones se pusieron en rojo señalando un defecto inexistente.
+
+   Un archivo que hay que acordarse de regenerar es un esperado escrito a mano
+   con más pasos. Se le pide a Python en el momento, como hace `prueba:boton`
+   con el payload de la idea del equipo. */
+if (!process.argv[3]) {
+  const r = require("child_process").spawnSync(
+    "python3", ["pruebas/esperado_pauta.py", CORRIDA],
+    { encoding: "utf8", env: { ...process.env, PYTHONPATH: "src" } });
+  if (r.status !== 0) {
+    console.error("no se pudieron calcular los esperados:\n" +
+      (r.stderr || r.stdout || "").trim());
+    process.exit(2);
+  }
+}
 if (!fs.existsSync(FIXT)) {
   console.error("faltan los esperados: " + FIXT +
     "\n  correr: python3 pruebas/esperado_pauta.py <dir_corrida>");
@@ -146,6 +170,11 @@ const money = x => x == null ? "—" :
 
     const E = V.esperado;
     const L = E.total["actions:lead"];
+    /* `_dinero` no es un indicador: es el gasto de TODOS juntos, que es lo que
+       muestra el KPI de Inversión desde ADR-067. Lleva guion bajo justamente
+       para no confundirse con un `actions:*`, y no trae `resultados` a
+       propósito. */
+    const DIN = E.total._dinero;
 
     if (!L) {
       const v = await pg.evaluate(VACIA("resumen"));
@@ -165,7 +194,10 @@ const money = x => x == null ? "—" :
       const kL = await pg.evaluate(LEE("resumen", "Leads del periodo"));
       ok("KPI leads", kL && kL.valor, L.resultados.toLocaleString("en-US"));
       const kI = await pg.evaluate(LEE("resumen", "Inversión"));
-      ok("KPI inversión", kI && kI.valor, money(L.gasto));
+      /* Contra el total, no contra el indicador. Este esperado codificaba el
+         defecto que encontró Mercadeo —la campaña Free fuera de la Inversión—
+         en vez de vigilarlo. */
+      ok("KPI inversión = TODO el dinero", kI && kI.valor, money(DIN.gasto));
       const kC = await pg.evaluate(LEE("resumen", "Costo por lead"));
       ok("KPI costo", kC && kC.valor, money(Math.round(L.costo * 100) / 100));
       console.log("      nota del costo: " + JSON.stringify(kC && kC.nota));
@@ -186,7 +218,9 @@ const money = x => x == null ? "—" :
            Así que se comprueba lo que de verdad importa: que no aparezca un
            costo por LEAD donde no hay leads, y que el indicador que sí hay
            salga nombrado. */
-        const otros = Object.keys(E[m]).length;
+        // `_dinero` no cuenta como indicador: si solo estuviera él, este
+        // mercado no tiene NINGUNA pieza en la ventana.
+        const otros = Object.keys(E[m]).filter(k => k !== "_dinero").length;
         if (!otros) {
           ok("rendimiento " + m + " declara vacío",
              await pg.evaluate(VACIA("rendimiento")), true);
@@ -205,12 +239,16 @@ const money = x => x == null ? "—" :
         continue;
       }
       const kv = await pg.evaluate(LEE("rendimiento", "Inversión"));
-      ok("rendimiento " + m + " inversión", kv && kv.valor, money(q.gasto));
+      ok("rendimiento " + m + " inversión = TODO el dinero",
+         kv && kv.valor, money(E[m]._dinero.gasto));
       const kc = await pg.evaluate(LEE("rendimiento", "Costo por lead"));
       ok("rendimiento " + m + " costo", kc && kc.valor,
          q.costo ? money(Math.round(q.costo * 100) / 100) : "—");
       const kk = await pg.evaluate(LEE("rendimiento", "Campañas con entrega"));
-      ok("rendimiento " + m + " campañas", kk && kk.valor, String(q.campanas));
+      /* Todas las que entregaron, no las del indicador. En GT decía «1»
+         mientras entregaban dos (ADR-067). */
+      ok("rendimiento " + m + " campañas con entrega",
+         kk && kk.valor, String(E[m]._dinero.campanas));
     }
     await mercado("GT");
   }

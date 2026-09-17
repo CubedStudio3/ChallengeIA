@@ -58,13 +58,24 @@ const CORR_INI = VC ? VC.desde : PRIMERO;
 const CORR_FIN = VC ? VC.hasta : ULTIMO;
 const MEDIO = DIAS[Math.floor(DIAS.length / 2)];
 const FUERA = (Number(PRIMERO.slice(0, 4)) - 1) + PRIMERO.slice(4);  // un año antes
+/* Dos cosas distintas y no se mezclan (ADR-013 + ADR-067):
+
+   · `resultados` y `costo` salen SOLO de `actions:lead`. Sumar leads con clics
+     daría un número sin significado.
+   · `dinero` suma TODOS los indicadores, porque un dólar es un dólar venga de
+     la campaña que venga. Este esperado decía $2,506.05 donde el tablero ya
+     mostraba $7,443.61: estaba codificando el defecto que encontró Mercadeo
+     —la campaña Free fuera del total— en vez de vigilarlo. */
 const suma = (a, b, m) => {
-  const ps = PIEZAS.filter(p => p.f >= a && p.f <= b && p.k === "actions:lead" &&
-                                (!m || p.p === m));
+  const enRango = p => p.f >= a && p.f <= b && (!m || p.p === m);
+  const ps = PIEZAS.filter(p => enRango(p) && p.k === "actions:lead");
+  const todas = PIEZAS.filter(enRango);
   const g = Math.round(ps.reduce((x, p) => x + p.g, 0) * 100) / 100;
   const r = ps.reduce((x, p) => x + (p.r || 0), 0);
   const c = new Set(ps.map(p => p.c)).size;
-  return ps.length ? { gasto: g, resultados: r, campanas: c,
+  const dinero = Math.round(todas.reduce((x, p) => x + p.g, 0) * 100) / 100;
+  return ps.length ? { gasto: g, resultados: r, campanas: c, dinero: dinero,
+                       campanas_todas: new Set(todas.map(p => p.c)).size,
                        costo: r ? g / r : null } : null;
 };
 const ESPERA = 700;   // > 350 ms del repintado diferido
@@ -107,6 +118,19 @@ const ok = (t, real, esp) => {
 const rangoTextoDia = iso => String(Number(iso.slice(8, 10)));
 const money = x => x == null ? "—" : "$" + x.toLocaleString("en-US",
   { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/* Como se VE un conteo de leads en la pantalla, en un solo lugar.
+
+   La página le pone separador de miles, y hasta hoy ninguna ventana de esta
+   prueba había pasado de 999: con nueve meses cargados el total llegó a 1,665 y
+   dos comprobaciones se pusieron en rojo comparando «1665» contra «1,665».
+   El formato de la página es el correcto; el esperado era el que no lo tenía.
+
+   Estaba arreglado en UNO de los tres sitios que comparan leads —el tercero ya
+   usaba `toLocaleString`— así que el arreglo existía y no se había aplicado a
+   los otros dos. Una familia de comparaciones se da de alta en todos sus
+   lados o en ninguno. */
+const leads = (n) => Number(n).toLocaleString("en-US");
 
 /* Teclea una fecha en un campo como lo haría una persona: enfocar y escribir
    dígitos. Sin fill(), sin dispatchEvent. */
@@ -156,8 +180,8 @@ async function teclea(pg, id, iso) {
   ok("los dos campos quedaron en el mismo día", f.desde === f.hasta, true);
   const E = suma(f.desde, f.hasta);
   if (E) {
-    ok("leads", f.leads, String(E.resultados));
-    ok("inversión", f.inversion, money(E.gasto));
+    ok("leads", f.leads, leads(E.resultados));
+    ok("inversión = TODO el dinero", f.inversion, money(E.dinero));
     ok("costo", f.costo, money(Math.round(E.costo * 100) / 100));
     ok("el apoyo dice 1 día", /·\s*1 día en la ventana/.test(f.apoyo || ""), true);
   }
@@ -171,8 +195,8 @@ async function teclea(pg, id, iso) {
   console.log("    campos: " + f.desde + " .. " + f.hasta);
   ok("quedó un rango de más de un día", f.desde < f.hasta, true);
   const E2 = suma(f.desde, f.hasta);
-  ok("leads", f.leads, String(E2.resultados));
-  ok("inversión", f.inversion, money(E2.gasto));
+  ok("leads", f.leads, leads(E2.resultados));
+  ok("inversión = TODO el dinero", f.inversion, money(E2.dinero));
   ok("costo", f.costo, money(Math.round(E2.costo * 100) / 100));
 
   /* VACIAR los campos es lo que devuelve la vista completa. «El periodo de la
@@ -193,7 +217,7 @@ async function teclea(pg, id, iso) {
   f = await pg.evaluate(FOTO);
   const E3 = suma(PRIMERO_TOPE, ULTIMO_TOPE);
   ok("los campos quedan vacíos", (f.desde || "") + (f.hasta || ""), "");
-  ok("inversión = todo el dato", f.inversion, money(E3.gasto));
+  ok("inversión = todo el dato", f.inversion, money(E3.dinero));
   ok("leads = todo el dato", f.leads, E3.resultados.toLocaleString("en-US"));
   /* «días en la ventana» solo debe salir si el periodo de la corrida RECORTA
      algo. Cuando el rango disponible es exactamente el periodo —una corrida sin
@@ -241,8 +265,8 @@ async function teclea(pg, id, iso) {
      sieteIni === PRIMERO_TOPE ? String(Math.round(
        (new Date(ULTIMO_TOPE) - new Date(PRIMERO_TOPE)) / 86400000) + 1) : "7");
   const E7 = suma(sieteIni, ULTIMO_TOPE);
-  ok("inversión", f.inversion, money(E7.gasto));
-  ok("leads", f.leads, E7.resultados.toLocaleString("en-US"));
+  ok("inversión = TODO el dinero", f.inversion, money(E7.dinero));
+  ok("leads", f.leads, leads(E7.resultados));
   ok("costo", f.costo, money(Math.round(E7.costo * 100) / 100));
 
   console.log("\n═══ 6 · vaciar deshace una ventana manual ═══");
@@ -250,7 +274,7 @@ async function teclea(pg, id, iso) {
      ventana estrecha: quien teclea una fecha corta tiene que poder salir. */
   await vacia();
   f = await pg.evaluate(FOTO);
-  ok("inversión = todo el dato", f.inversion, money(E3.gasto));
+  ok("inversión = todo el dato", f.inversion, money(E3.dinero));
   ok("los campos quedan vacíos", (f.desde || "") + (f.hasta || ""), "");
   /* El rótulo «N días en la ventana» sale si esta vista es más ANGOSTA que el
      dato disponible, que con tres meses cargados es cierto incluso mirando la
@@ -291,17 +315,23 @@ async function teclea(pg, id, iso) {
     // La verdad se calcula sobre lo que los CAMPOS muestran, no sobre lo tecleado.
     const dias = PIEZAS.filter(p => p.f >= f.desde && p.f <= f.hasta);
     const lead = dias.filter(p => p.k === "actions:lead");
+    /* `gasto` es del indicador, para el costo por lead. `dinero` es de todos,
+       para la Inversión. No son el mismo número y no se usan indistintamente
+       (ADR-067). */
     const gasto = Math.round(lead.reduce((a, p) => a + p.g, 0) * 100) / 100;
+    const dinero = Math.round(dias.reduce((a, p) => a + p.g, 0) * 100) / 100;
     const res = lead.reduce((a, p) => a + (p.r || 0), 0);
     console.log("    campos " + f.desde + ".." + f.hasta +
-      "  esperado: " + (lead.length ? res + " leads · " + money(gasto) : "sin pauta"));
+      "  esperado: " + (lead.length
+        ? res + " leads · " + money(dinero) + " invertidos (" +
+          money(gasto) + " del indicador)" : "sin pauta"));
     if (!lead.length) {
       ok("declara la ventana vacía",
          /Ningún día de pauta cae en el rango/.test(f.titular || ""), true);
       ok("costo sin dato", f.costo, "—");
     } else {
       ok("leads cuadran con los campos", f.leads, String(res));
-      ok("inversión cuadra con los campos", f.inversion, money(gasto));
+      ok("inversión cuadra con los campos", f.inversion, money(dinero));
       ok("costo cuadra con los campos", f.costo,
          res ? money(Math.round(gasto / res * 100) / 100) : "—");
     }
@@ -345,7 +375,7 @@ async function teclea(pg, id, iso) {
     await pg.waitForTimeout(500);
     const f8 = await pg.evaluate(FOTO);
     const E8 = suma(DES, HAS);
-    ok("inversión del rango tecleado", f8.inversion, money(E8.gasto));
+    ok("inversión del rango tecleado", f8.inversion, money(E8.dinero));
     ok("leads del rango tecleado", f8.leads, E8.resultados.toLocaleString("en-US"));
   }
 

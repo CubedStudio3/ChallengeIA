@@ -1,0 +1,61 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-16",
+  "parametros": {
+   "page_ids": [
+    "600625056467735"
+   ],
+   "countries": [
+    "GT"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda. La Ad Library es una FOTO DEL DIA de la consulta: no acepta rango de fechas.",
+  "_fidelidad": "Volcado parseado de la respuesta de ads_library_search del 2026-09-16. Los ocho campos vienen tal cual los devuelve la API."
+ },
+ "estimated_total_count": 4,
+ "ads": [
+  {
+   "id": "901612782806539",
+   "page_id": 600625056467735,
+   "page_name": "Mindy.gt",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1789430493,
+   "ad_delivery_start_time": 1789440858,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=901612782806539",
+   "currency": "GTQ"
+  },
+  {
+   "id": "1075335832090335",
+   "page_id": 600625056467735,
+   "page_name": "Mindy.gt",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1789430349,
+   "ad_delivery_start_time": 1789491577,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1075335832090335",
+   "currency": "GTQ"
+  },
+  {
+   "id": "2975857552761478",
+   "page_id": 600625056467735,
+   "page_name": "Mindy.gt",
+   "ad_creative_link_title": "Mindy.gt",
+   "ad_creation_time": 1788561682,
+   "ad_delivery_start_time": 1788573464,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2975857552761478",
+   "currency": "GTQ"
+  },
+  {
+   "id": "1532489124492383",
+   "page_id": 600625056467735,
+   "page_name": "Mindy.gt",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1770357941,
+   "ad_delivery_start_time": 1770390897,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1532489124492383",
+   "currency": "GTQ"
+  }
+ ]
+}

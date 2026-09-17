@@ -22,6 +22,15 @@ crudo = CORRIDA / "crudo"
 marcas = []
 saltadas = []   # nunca en silencio: un hueco no declarado es peor que un cero
 for e in reg["competidores"]:
+    # Una marca SIN page_id no se consulta —o no se pudo, o se declaro que no
+    # se midiera— y por eso tampoco tiene `_clave_archivo`. Se declara aqui en
+    # vez de reventar con KeyError: el registro admite marcas declaradas sin
+    # medir (DECLARADO_SIN_MEDIR) y este paso tiene que convivir con ellas.
+    if not e.get("page_id"):
+        saltadas.append({"marca": e["nombre"], "mercado": "—",
+                         "motivo": e.get("_por_que_falta")
+                                   or "sin page_id: no se consulto"})
+        continue
     clave = e["_clave_archivo"]
     # Un referente que no pauta aqui se perfila sobre su inventario GLOBAL:
     # con GT/SV daba cero anuncios y la marca quedaba sin perfil.

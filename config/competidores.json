@@ -231,6 +231,152 @@
         "_hallazgo": "Se esperaba un referente SIN presencia en nuestros mercados, como Square (0 anuncios). Shopify SI pauta aqui: 16 anuncios activos, todos en espanol. Eso lo hace un referente OBSERVABLE, que es mas util que uno teorico.",
         "_lectura_estrategica": "Shopify ocupa el territorio de EMPEZAR el negocio; Paggo el de GESTIONARLO facil. Ninguno de los dos habla de cobrar mejor. Es el hueco mas claro que ha aparecido, y no salio de una hipotesis sino de leer los dos inventarios."
       }
+    },
+    {
+      "nombre": "Cubo Guatemala",
+      "page_id": "115248238288708",
+      "page_name_confirmado": "Cubo Guatemala",
+      "categorias": [
+        "software"
+      ],
+      "_categoria_nota": "Mercadeo lo pidio en 'software' (2026-09-16) y asi queda. Lo MEDIDO apunta tambien a hardware: los 17 anuncios activos venden un aparato -'Pide tu Cubo Go hoy', 'Pide tu Cubo Mas'-, no una pasarela. Se deja anotado en vez de reclasificarlo por cuenta propia: la categoria la decide Mercadeo, igual que con Shopify.",
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search · page_id tomado del view_all_page_id de la URL que mando Mercadeo. La consulta devolvio page_name 'Cubo Guatemala' en los 17 anuncios: el ID es correcto, pero NO es n1co - ver _ojo_no_es_n1co.",
+      "_ojo_no_es_n1co": "Mercadeo mando dos URL juntas bajo el rotulo 'n1co': una busqueda por frase exacta \"n1co\" y esta pagina. La pagina es Cubo Guatemala, otra marca. n1co queda SIN page_id y aparte en el registro.",
+      "medicion_2026_09_16": {
+        "activos_gt": 11,
+        "activos_sv": 0,
+        "activos_global": 17,
+        "moneda": "USD",
+        "titulares": {
+          "Pide tu Cubo Go hoy": 9,
+          "Pide tu Cubo Mas": 6,
+          "ideal para tu negocio": 2
+        },
+        "_titulares_sobre": "los 17 globales",
+        "rafaga": {
+          "2026-09-02": 16,
+          "2026-09-03": 1,
+          "_lectura": "16 de 17 creativos subidos el MISMO dia. Es una carga en lote, no un goteo: el patron de quien despliega una campana de una vez, no de quien testea pieza por pieza."
+        },
+        "_nota_estrategica": "Pauta en GT y no en SV. Su mensaje es de APARATO y de pedido: 'Pide tu Cubo Go hoy'. Ni Paggo ('gestiona tu negocio facil') ni Shopify ('crea tu tienda') ocupan ese territorio, asi que Cubo es el primero del registro que compite por el punto de venta fisico en GT con volumen."
+      },
+      "_clave_archivo": "cubo",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Empresa monoproducto de pagos y punto de venta: todo su inventario disputa la categoria.",
+      "_rol": "competidor",
+      "_rol_motivo": "Pauta en GT y disputa el punto de venta, que es producto nuestro."
+    },
+    {
+      "nombre": "Mindy.gt",
+      "page_id": "600625056467735",
+      "page_name_confirmado": "Mindy.gt",
+      "categorias": [
+        "hardware"
+      ],
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search · page_id del view_all_page_id que mando Mercadeo. Los 4 anuncios devuelven page_name 'Mindy.gt'.",
+      "medicion_2026_09_16": {
+        "activos_gt": 4,
+        "activos_sv": 0,
+        "moneda": "GTQ",
+        "titulares": {
+          "Mindy.gt": 1,
+          "(sin titular)": 3
+        },
+        "_mensaje_no_legible": "3 de los 4 anuncios vienen SIN titular y el cuarto repite el nombre de la pagina. La Ad Library entrega ocho campos y ninguno trae el cuerpo del copy (ADR-032), asi que por esta via su mensaje NO se puede leer. No es que no diga nada: es que no lo podemos ver. Para saberlo hay que abrir los ad_snapshot_url a mano.",
+        "goteo": {
+          "2026-02-06": 1,
+          "2026-09-04": 1,
+          "2026-09-14": 1,
+          "2026-09-15": 1,
+          "_lectura": "Cuatro anuncios repartidos en siete meses, uno por fecha. Es lo contrario de la rafaga de Cubo: goteo, no despliegue."
+        },
+        "_nota_estrategica": "Operacion pequena y local: presupuesto en quetzales, cuatro activos y cero en SV. Misma escala que GuatePOS. Su peso competitivo es bajo; entra al registro porque Mercadeo lo pidio para punto de venta."
+      },
+      "_clave_archivo": "mindy",
+      "_politica_solapamiento": "total",
+      "_politica_motivo": "Operacion local de punto de venta, monoproducto.",
+      "_rol": "competidor",
+      "_rol_motivo": "Pauta en GT en punto de venta."
+    },
+    {
+      "nombre": "n1co",
+      "page_id": "105470425404552",
+      "page_name_confirmado": "n1co",
+      "categorias": [
+        "software",
+        "hardware"
+      ],
+      "_categoria_nota": "Mercadeo lo pidio en 'software'. Se agrega TAMBIEN hardware porque lo medido lo exige: 'Tu celular ahora es tu POS de cobro' y 'n1co tap' son punto de venta, aunque el aparato sea el telefono. Dejarlo solo en software lo sacaria de la comparacion de POS, que es justo donde mas aprieta.",
+      "_estado": "VERIFICADO",
+      "_verificado_en": "2026-09-16 · ads_library_search. El page_id NO salia de la URL: Mercadeo mando dos ad_id (1374931158070671 y 2180779279455963) y una captura. Los DOS aparecen en la respuesta de page_ids=[105470425404552] con page_name 'n1co'. Esa coincidencia es la verificacion: el anuncio que Mercadeo tenia en pantalla es de esta pagina.",
+      "_como_se_encontro": "Buscar 'n1co' por texto devuelve 140,672 resultados sin relacion. Lo que SI funciono fue search_terms con un termino del propio creativo -'n1coCuotas'- acotado a SV: 25 resultados, y entre ellos el ad_id exacto de la captura. Un ad_id conocido convierte una busqueda ruidosa en una verificacion: no hay que confiar en el ranking, solo encontrar la fila.",
+      "medicion_2026_09_16": {
+        "activos_gt": 9,
+        "activos_sv": 24,
+        "moneda": "USD",
+        "_muestra_completa": "9 de 9 y 24 de 24: ninguna de las dos consultas toco el tope de 50, asi que la clasificacion de abajo es del universo, no de una muestra.",
+        "clasificacion_gt": {
+          "pagos_cobro_pos": {
+            "n": 3,
+            "titulares": [
+              "Soluciones de cobro digital con n1co business",
+              "Tu celular ahora es tu POS de cobro",
+              "Tu cel ahora es tu POS con n1co tap"
+            ]
+          },
+          "credito_y_cuotas": {
+            "n": 3,
+            "titulares": [
+              "Construi tu record crediticio con n1co",
+              "Tus planes sin pausas con n1co Cuotas",
+              "Disfruta hoy y paga despues"
+            ]
+          },
+          "negocio_generico": {
+            "n": 2,
+            "titulares": [
+              "Haz crecer tu negocio con n1co",
+              "Aumenta tus ventas hoy"
+            ]
+          },
+          "ofertas_al_consumidor": {
+            "n": 1
+          }
+        },
+        "clasificacion_sv": {
+          "pagos_cobro_pos": {
+            "n": 5,
+            "titulares": [
+              "Transforma tu celular en un POS con n1co tap",
+              "Acepta todas las tarjetas con el ecosistema n1co",
+              "Aumenta tus ventas cobrando desde el celular",
+              "Equipa tu negocio con la tecnologia de n1co business",
+              "Multiplica tus ventas con n1co Business"
+            ]
+          },
+          "facturacion_electronica": {
+            "n": 2
+          },
+          "credito_y_cuotas": {
+            "n": 3
+          },
+          "ofertas_al_consumidor": {
+            "n": 8
+          },
+          "sin_angulo_legible": {
+            "n": 6,
+            "_nota": "'App Redirect' x4, uno sin titular y uno que repite la marca."
+          }
+        },
+        "_nota_estrategica": "ES EL COMPETIDOR MAS CERCANO DEL REGISTRO. Es el unico que dice lo que decimos nosotros: 'tu celular ahora es tu POS de cobro', 'acepta todas las tarjetas', 'cobrando desde el celular'. Paggo ocupa 'gestiona tu negocio facil' y Shopify 'crea tu tienda': ninguno de los dos habla de COBRAR. n1co si, y en los dos mercados. Ademas es el PRIMERO del registro con presencia real de pagos en El Salvador -24 activos contra 9 en Guatemala-, que es justo donde nuestro lead sale mas barato. El hueco que se habia leido como 'nadie habla de cobrar mejor' hay que volver a mirarlo con esto encima."
+      },
+      "_clave_archivo": "n1co",
+      "_politica_solapamiento": "medido",
+      "_politica_motivo": "NO es monoproducto, aunque el nombre enganie. De sus 24 activos en SV, 8 son ofertas al consumidor -sushi, salon de belleza, chequeo medico- y 6 no traen angulo legible. Contar los 24 como presion de pagos seria repetir el error de BI al reves: inflar una amenaza con inventario que no disputa la categoria. La presion se mide, no se asume.",
+      "_rol": "competidor",
+      "_rol_motivo": "Disputa el mensaje de cobro y el punto de venta en GT y en SV. Es el solapamiento mas directo medido hasta hoy."
     }
   ],
   "hallazgos_de_mercado_2026_08_27": {
@@ -293,6 +439,11 @@
     "bi": "es",
     "shopify": "es",
     "square_us": "en",
-    "square_uk": "en"
-  }
+    "square_uk": "en",
+    "cubo": "es",
+    "mindy": "es",
+    "n1co": "es"
+  },
+  "_ultima_medicion_por_marca": "La nota estrategica de cada marca se busca por SU fecha de medicion, no por `_ultima_medicion`. Con una clave global, una marca medida en otra fecha perdia su nota en silencio. Ver corre.py.",
+  "_retirada_2026_09_16": "Se retiro la marca declarada sin medir (page_id 110830594084656) a pedido de Mercadeo el 2026-09-16: se agrego sin nombre confirmado y sin permiso de consultarla, y se quita antes de que una etiqueta generica se lea como una marca real. El id queda escrito aqui por si vuelve a pedirse."
 }

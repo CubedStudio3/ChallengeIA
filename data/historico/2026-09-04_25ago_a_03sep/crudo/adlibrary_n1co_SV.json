@@ -1,0 +1,263 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_library_search",
+  "fecha_consulta": "2026-09-16",
+  "parametros": {
+   "page_ids": [
+    "105470425404552"
+   ],
+   "countries": [
+    "SV"
+   ],
+   "ad_active_status": "ACTIVE",
+   "limit": 50
+  },
+  "_nota": "Respuesta cruda. La Ad Library es una FOTO DEL DIA de la consulta: no acepta rango de fechas.",
+  "_fidelidad": "Volcado parseado de la respuesta de ads_library_search del 2026-09-16. Los ocho campos vienen tal cual los devuelve la API.",
+  "_solapamiento_medido": 5,
+  "_metodo": "Muestra NO truncada (24 de 24): mismo metodo que en GT, leyendo los 24 titulares. En categoria: 'Transforma tu celular en un POS con n1co tap', 'Acepta todas las tarjetas con el ecosistema n1co', 'Aumenta tus ventas cobrando desde el celular', 'Equipa tu negocio con la tecnologia de n1co business' y 'Multiplica tus ventas con n1co Business' = 5. Fuera: 8 ofertas al consumidor -sushi, salon de belleza, chequeo medico-, 3 de credito, 2 de facturacion electronica -herramienta de negocio, no adquirencia- y 6 sin angulo legible ('App Redirect' x4, uno vacio, uno que repite la marca). Corroboracion con search_terms: 'POS'=2, 'cobrar'=3, union de 3 ids. Da MENOS que la lectura porque 'Multiplica tus ventas con n1co Business' no usa ninguno de los dos terminos: es exactamente el caso de la advertencia."
+ },
+ "estimated_total_count": 24,
+ "ads": [
+  {
+   "id": "1439379318098049",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Chequeo respiratorio 5 en 1 por $54.99 🩺",
+   "ad_creation_time": 1789578175,
+   "ad_delivery_start_time": 1789583112,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1439379318098049",
+   "currency": "USD"
+  },
+  {
+   "id": "1578038493870312",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Construí tu récord crediticio con n1co 📈",
+   "ad_creation_time": 1789149791,
+   "ad_delivery_start_time": 1789155099,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1578038493870312",
+   "currency": "USD"
+  },
+  {
+   "id": "2274193463328673",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Tus planes sin pausas con n1co Cuotas",
+   "ad_creation_time": 1789149778,
+   "ad_delivery_start_time": 1789155050,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2274193463328673",
+   "currency": "USD"
+  },
+  {
+   "id": "1393831326189989",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Disfrutá hoy y pagá después 📈",
+   "ad_creation_time": 1789084977,
+   "ad_delivery_start_time": 1789102208,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1393831326189989",
+   "currency": "USD"
+  },
+  {
+   "id": "1501221868513996",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Facturación electrónica para tu negocio",
+   "ad_creation_time": 1788475272,
+   "ad_delivery_start_time": 1788481946,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1501221868513996",
+   "currency": "USD"
+  },
+  {
+   "id": "899887532958735",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "Facturá electrónico desde $15 al mes",
+   "ad_creation_time": 1788475270,
+   "ad_delivery_start_time": 1788485282,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=899887532958735",
+   "currency": "USD"
+  },
+  {
+   "id": "4112768169015497",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "",
+   "ad_creation_time": 1788281276,
+   "ad_delivery_start_time": 1788292344,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4112768169015497",
+   "currency": "USD"
+  },
+  {
+   "id": "2222648981611698",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "✨ Uñas, cabello y faciales con descuentos increíbles",
+   "ad_creation_time": 1788191658,
+   "ad_delivery_start_time": 1788196960,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2222648981611698",
+   "currency": "USD"
+  },
+  {
+   "id": "1716980599529981",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🛒 Equipá tu negocio con la tecnología de n1co business",
+   "ad_creation_time": 1788188291,
+   "ad_delivery_start_time": 1788192714,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1716980599529981",
+   "currency": "USD"
+  },
+  {
+   "id": "1876505979978197",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "App Redirect",
+   "ad_creation_time": 1787781692,
+   "ad_delivery_start_time": 1787792925,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1876505979978197",
+   "currency": "USD"
+  },
+  {
+   "id": "916136437749652",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "App Redirect",
+   "ad_creation_time": 1787781404,
+   "ad_delivery_start_time": 1787791848,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=916136437749652",
+   "currency": "USD"
+  },
+  {
+   "id": "1424482726253724",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "App Redirect",
+   "ad_creation_time": 1787781162,
+   "ad_delivery_start_time": 1787792892,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1424482726253724",
+   "currency": "USD"
+  },
+  {
+   "id": "4448993878580178",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🤩 Tus restaurantes favoritos con grandes descuentos🎟️",
+   "ad_creation_time": 1787775402,
+   "ad_delivery_start_time": 1787780511,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=4448993878580178",
+   "currency": "USD"
+  },
+  {
+   "id": "1372938854991510",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🤩 Tus restaurantes favoritos con grandes descuentos🎟️",
+   "ad_creation_time": 1787775334,
+   "ad_delivery_start_time": 1787780126,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1372938854991510",
+   "currency": "USD"
+  },
+  {
+   "id": "1041521018759853",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "👨‍👩‍👧‍👦 La salida familiar perfecta por solo $30.99",
+   "ad_creation_time": 1787758224,
+   "ad_delivery_start_time": 1787762758,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1041521018759853",
+   "currency": "USD"
+  },
+  {
+   "id": "2318212362353816",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "✨ Consentí tu cabello por $12 en Olivo Beauty Studio",
+   "ad_creation_time": 1787758193,
+   "ad_delivery_start_time": 1787763182,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2318212362353816",
+   "currency": "USD"
+  },
+  {
+   "id": "1386334626231763",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "App Redirect",
+   "ad_creation_time": 1787701516,
+   "ad_delivery_start_time": 1787707816,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1386334626231763",
+   "currency": "USD"
+  },
+  {
+   "id": "2180779279455963",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🍱 Banquete de Sushi para 4 personas por $25.99",
+   "ad_creation_time": 1787679124,
+   "ad_delivery_start_time": 1787684696,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=2180779279455963",
+   "currency": "USD"
+  },
+  {
+   "id": "1003359389360276",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "📲 Transformá tu celular en un POS con n1co tap 💳",
+   "ad_creation_time": 1786577164,
+   "ad_delivery_start_time": 1786583157,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1003359389360276",
+   "currency": "USD"
+  },
+  {
+   "id": "1054652540655266",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "2x1 en Cappuccino de Juan Valdez",
+   "ad_creation_time": 1786488068,
+   "ad_delivery_start_time": 1786498246,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1054652540655266",
+   "currency": "USD"
+  },
+  {
+   "id": "1374931158070671",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "n1co | n1co App - App Store | n1co App - App Store | n1co App - App Store | n1co App - App Store | n1co App - App Store | n1co App - App Store",
+   "ad_creation_time": 1783354710,
+   "ad_delivery_start_time": 1783356866,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1374931158070671",
+   "currency": "USD"
+  },
+  {
+   "id": "1561842335507975",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "💳 ¡Aceptá todas las tarjetas con el ecosistema n1co! 📲",
+   "ad_creation_time": 1782762882,
+   "ad_delivery_start_time": 1782769543,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1561842335507975",
+   "currency": "USD"
+  },
+  {
+   "id": "1180520327553626",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | 🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | 🚀 Aumenta tus ventas cobrando desde el celular. 📲💵 | No pierda más ventas: acepte tarjetas sin aparatos extras 💸",
+   "ad_creation_time": 1781464918,
+   "ad_delivery_start_time": 1781470421,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1180520327553626",
+   "currency": "USD"
+  },
+  {
+   "id": "1272485364643193",
+   "page_id": 105470425404552,
+   "page_name": "n1co",
+   "ad_creative_link_title": "n1co | Multiplica tus ventas con n1co Business🚀 | Multiplica tus ventas con n1co Business 🚀 | Multiplica tus ventas con n1co Business 🚀 |   |   |  ",
+   "ad_creation_time": 1779986087,
+   "ad_delivery_start_time": 1780110428,
+   "ad_snapshot_url": "https://www.facebook.com/ads/library/?id=1272485364643193",
+   "currency": "USD"
+  }
+ ]
+}

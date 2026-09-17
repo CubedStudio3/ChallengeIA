@@ -1,0 +1,1860 @@
+{
+ "_metadatos": {
+  "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
+  "fecha_consulta": "2026-09-10",
+  "parametros": {
+   "ad_account_id": "225318458221662",
+   "level": "campaign",
+   "object_ids": [
+    "120214962248700783",
+    "120235415971230783",
+    "120238309141120783",
+    "120238382458610783",
+    "120238463709460783",
+    "120239079790340783",
+    "120239087216350783",
+    "120239103799530783",
+    "120239283879280783",
+    "120239330459550783",
+    "120239334653690783"
+   ],
+   "time_range": {
+    "since": "2026-01-01",
+    "until": "2026-01-31"
+   },
+   "time_increment": "1",
+   "breakdowns": [
+    "country"
+   ],
+   "fields": [
+    "id",
+    "name",
+    "results",
+    "cost_per_result",
+    "spend",
+    "impressions"
+   ],
+   "limit": 1000
+  },
+  "_el_limit_no_es_opcional": "Sin `limit` la consulta TRUNCA en 200 filas, en silencio y sin cursor, y con `object_ids` no hay paginacion que avise: un truncamiento se ve igual de completo que el dato completo (ADR-050). Este mes devolvio 82 filas, muy por debajo de 1000, asi que no esta truncado.",
+  "_nota": "Desglose DIARIO por campana x pais de ENERO 2026. Solo aporta piezas para que el filtro del tablero pueda mirar atras; no toca consolidados, por_mercado, cartas ni estrategia."
+ },
+ "ad_entities": [
+  {
+   "date_start": "2026-01-03",
+   "date_stop": "2026-01-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "647"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$11,83 USD",
+   "impressions": "18889",
+   "id": "120235415971230783",
+   "name": "TOFU Qpaypro"
+  },
+  {
+   "date_start": "2026-01-03",
+   "date_stop": "2026-01-03",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,76 USD (Leads)"
+   },
+   "amount_spent": "$13,51 USD",
+   "impressions": "4292",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-04",
+   "date_stop": "2026-01-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "497"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$8,05 USD",
+   "impressions": "9566",
+   "id": "120235415971230783",
+   "name": "TOFU Qpaypro"
+  },
+  {
+   "date_start": "2026-01-04",
+   "date_stop": "2026-01-04",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,48 USD (Leads)"
+   },
+   "amount_spent": "$24,75 USD",
+   "impressions": "5198",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-05",
+   "date_stop": "2026-01-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "223"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$3,42 USD",
+   "impressions": "3468",
+   "id": "120235415971230783",
+   "name": "TOFU Qpaypro"
+  },
+  {
+   "date_start": "2026-01-05",
+   "date_stop": "2026-01-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,94 USD (Leads)"
+   },
+   "amount_spent": "$32,39 USD",
+   "impressions": "10327",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-05",
+   "date_stop": "2026-01-05",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "325"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$3,75 USD",
+   "impressions": "11115",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-06",
+   "date_stop": "2026-01-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "17"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,44 USD (Leads)"
+   },
+   "amount_spent": "$24,55 USD",
+   "impressions": "7322",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-06",
+   "date_stop": "2026-01-06",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "503"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,01 USD (Link clicks)"
+   },
+   "amount_spent": "$6,65 USD",
+   "impressions": "9654",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-07",
+   "date_stop": "2026-01-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "12"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,99 USD (Leads)"
+   },
+   "amount_spent": "$23,83 USD",
+   "impressions": "6892",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-07",
+   "date_stop": "2026-01-07",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "422"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,61 USD",
+   "impressions": "8151",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-08",
+   "date_stop": "2026-01-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,32 USD (Leads)"
+   },
+   "amount_spent": "$25,57 USD",
+   "impressions": "7789",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-08",
+   "date_stop": "2026-01-08",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "403"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,84 USD",
+   "impressions": "6676",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-09",
+   "date_stop": "2026-01-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,20 USD (Leads)"
+   },
+   "amount_spent": "$20,79 USD",
+   "impressions": "6686",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-09",
+   "date_stop": "2026-01-09",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "387"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,49 USD",
+   "impressions": "7293",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-10",
+   "date_stop": "2026-01-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,31 USD (Leads)"
+   },
+   "amount_spent": "$23,08 USD",
+   "impressions": "6832",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-10",
+   "date_stop": "2026-01-10",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "446"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$7,03 USD",
+   "impressions": "10375",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-11",
+   "date_stop": "2026-01-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,93 USD (Leads)"
+   },
+   "amount_spent": "$27,73 USD",
+   "impressions": "6698",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-11",
+   "date_stop": "2026-01-11",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "471"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$7,28 USD",
+   "impressions": "7136",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-12",
+   "date_stop": "2026-01-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,85 USD (Leads)"
+   },
+   "amount_spent": "$26,93 USD",
+   "impressions": "7180",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-12",
+   "date_stop": "2026-01-12",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "452"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$7,16 USD",
+   "impressions": "6627",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-13",
+   "date_stop": "2026-01-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$1,96 USD (Leads)"
+   },
+   "amount_spent": "$25,53 USD",
+   "impressions": "6748",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-13",
+   "date_stop": "2026-01-13",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "426"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,83 USD",
+   "impressions": "6889",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-14",
+   "date_stop": "2026-01-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,00 USD (Leads)"
+   },
+   "amount_spent": "$24,03 USD",
+   "impressions": "6381",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-14",
+   "date_stop": "2026-01-14",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "390"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,78 USD",
+   "impressions": "5983",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-15",
+   "date_stop": "2026-01-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "8"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,88 USD (Leads)"
+   },
+   "amount_spent": "$23,04 USD",
+   "impressions": "6673",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-15",
+   "date_stop": "2026-01-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "360"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,68 USD",
+   "impressions": "5589",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-15",
+   "date_stop": "2026-01-15",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$18,66 USD (Leads)"
+   },
+   "amount_spent": "$18,66 USD",
+   "impressions": "3830",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "date_start": "2026-01-16",
+   "date_stop": "2026-01-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,55 USD (Leads)"
+   },
+   "amount_spent": "$24,85 USD",
+   "impressions": "5637",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-16",
+   "date_stop": "2026-01-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "345"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$6,96 USD",
+   "impressions": "6037",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-16",
+   "date_stop": "2026-01-16",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$9,23 USD (Leads)"
+   },
+   "amount_spent": "$18,45 USD",
+   "impressions": "3280",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "date_start": "2026-01-17",
+   "date_stop": "2026-01-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,28 USD (Leads)"
+   },
+   "amount_spent": "$22,79 USD",
+   "impressions": "5222",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-17",
+   "date_stop": "2026-01-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "365"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$7,29 USD",
+   "impressions": "5762",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-17",
+   "date_stop": "2026-01-17",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$7,53 USD (Leads)"
+   },
+   "amount_spent": "$15,05 USD",
+   "impressions": "2239",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "date_start": "2026-01-18",
+   "date_stop": "2026-01-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,59 USD (Leads)"
+   },
+   "amount_spent": "$27,95 USD",
+   "impressions": "6570",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-18",
+   "date_stop": "2026-01-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "399"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$7,38 USD",
+   "impressions": "7463",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-18",
+   "date_stop": "2026-01-18",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "2"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,30 USD (Leads)"
+   },
+   "amount_spent": "$16,60 USD",
+   "impressions": "2759",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "date_start": "2026-01-19",
+   "date_stop": "2026-01-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "10"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,90 USD (Leads)"
+   },
+   "amount_spent": "$38,97 USD",
+   "impressions": "10259",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-19",
+   "date_stop": "2026-01-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "268"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,01 USD",
+   "impressions": "4493",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-19",
+   "date_stop": "2026-01-19",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$3,00 USD",
+   "impressions": "336",
+   "id": "120238463709460783",
+   "name": "Campaña Qpayshop-Enero"
+  },
+  {
+   "date_start": "2026-01-20",
+   "date_stop": "2026-01-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "13"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,20 USD (Leads)"
+   },
+   "amount_spent": "$41,62 USD",
+   "impressions": "9601",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-20",
+   "date_stop": "2026-01-20",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "250"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,77 USD",
+   "impressions": "5358",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-21",
+   "date_stop": "2026-01-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,69 USD (Leads)"
+   },
+   "amount_spent": "$40,54 USD",
+   "impressions": "9838",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-21",
+   "date_stop": "2026-01-21",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "274"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,80 USD",
+   "impressions": "5027",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-22",
+   "date_stop": "2026-01-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$9,07 USD (Leads)"
+   },
+   "amount_spent": "$36,26 USD",
+   "impressions": "9122",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-22",
+   "date_stop": "2026-01-22",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "158"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$2,77 USD",
+   "impressions": "2913",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-23",
+   "date_stop": "2026-01-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,48 USD (Leads)"
+   },
+   "amount_spent": "$38,25 USD",
+   "impressions": "10298",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-23",
+   "date_stop": "2026-01-23",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "299"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,76 USD",
+   "impressions": "6184",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-23",
+   "date_stop": "2026-01-23",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$3,41 USD",
+   "impressions": "617",
+   "id": "120239079790340783",
+   "name": "Campaña El Salvador 2026"
+  },
+  {
+   "date_start": "2026-01-24",
+   "date_stop": "2026-01-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,09 USD (Leads)"
+   },
+   "amount_spent": "$8,34 USD",
+   "impressions": "1682",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-24",
+   "date_stop": "2026-01-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "314"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,98 USD",
+   "impressions": "5852",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-24",
+   "date_stop": "2026-01-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:lead",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Leads)"
+   },
+   "amount_spent": "$6,45 USD",
+   "impressions": "922",
+   "id": "120239079790340783",
+   "name": "Campaña El Salvador 2026"
+  },
+  {
+   "date_start": "2026-01-24",
+   "date_stop": "2026-01-24",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "3"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$9,33 USD (Meta leads)"
+   },
+   "amount_spent": "$27,99 USD",
+   "impressions": "5485",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "date_start": "2026-01-24",
+   "date_stop": "2026-01-24",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,35 USD (Meta leads)"
+   },
+   "amount_spent": "$13,40 USD",
+   "impressions": "2517",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-25",
+   "date_stop": "2026-01-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "291"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,38 USD",
+   "impressions": "10278",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-25",
+   "date_stop": "2026-01-25",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "7"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$6,64 USD (Meta leads)"
+   },
+   "amount_spent": "$46,45 USD",
+   "impressions": "6815",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "date_start": "2026-01-25",
+   "date_stop": "2026-01-25",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$22,68 USD (Meta leads)"
+   },
+   "amount_spent": "$22,68 USD",
+   "impressions": "3721",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-26",
+   "date_stop": "2026-01-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "289"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,19 USD",
+   "impressions": "5310",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-26",
+   "date_stop": "2026-01-26",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "5"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,29 USD (Meta leads)"
+   },
+   "amount_spent": "$41,43 USD",
+   "impressions": "7949",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "date_start": "2026-01-26",
+   "date_stop": "2026-01-26",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,21 USD (Meta leads)"
+   },
+   "amount_spent": "$20,82 USD",
+   "impressions": "3633",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-27",
+   "date_stop": "2026-01-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,47 USD (Leads (form))"
+   },
+   "amount_spent": "$22,21 USD",
+   "impressions": "5373",
+   "id": "120214962248700783",
+   "name": "Leads El Salvador Enero 2025"
+  },
+  {
+   "date_start": "2026-01-27",
+   "date_stop": "2026-01-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "15"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,06 USD (Leads)"
+   },
+   "amount_spent": "$60,97 USD",
+   "impressions": "13337",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-27",
+   "date_stop": "2026-01-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "266"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$5,75 USD",
+   "impressions": "7084",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-27",
+   "date_stop": "2026-01-27",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$2,76 USD",
+   "impressions": "367",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "date_start": "2026-01-27",
+   "date_stop": "2026-01-27",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$0,58 USD",
+   "impressions": "116",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-28",
+   "date_stop": "2026-01-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "9"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,23 USD (Leads (form))"
+   },
+   "amount_spent": "$20,06 USD",
+   "impressions": "5019",
+   "id": "120214962248700783",
+   "name": "Leads El Salvador Enero 2025"
+  },
+  {
+   "date_start": "2026-01-28",
+   "date_stop": "2026-01-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "19"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$2,34 USD (Leads)"
+   },
+   "amount_spent": "$44,37 USD",
+   "impressions": "9977",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-28",
+   "date_stop": "2026-01-28",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "195"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,32 USD",
+   "impressions": "4735",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-28",
+   "date_stop": "2026-01-28",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "0",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$20,32 USD (Leads (form))"
+   },
+   "amount_spent": "$20,32 USD",
+   "impressions": "7147",
+   "id": "120214962248700783",
+   "name": "Leads El Salvador Enero 2025"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "11"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$3,69 USD (Leads)"
+   },
+   "amount_spent": "$40,54 USD",
+   "impressions": "9205",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "227"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,85 USD",
+   "impressions": "4975",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$1,65 USD",
+   "impressions": "224",
+   "id": "120239087216350783",
+   "name": "Leads 2 GT 2026 Optimización 1"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120239103799530783",
+   "name": "Leads 2026 SV"
+  },
+  {
+   "date_start": "2026-01-29",
+   "date_stop": "2026-01-29",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$1,06 USD",
+   "impressions": "218",
+   "id": "120239283879280783",
+   "name": "Leads SV Optimización 1"
+  },
+  {
+   "date_start": "2026-01-30",
+   "date_stop": "2026-01-30",
+   "country": "SV",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$10,35 USD (Leads (form))"
+   },
+   "amount_spent": "$10,35 USD",
+   "impressions": "2416",
+   "id": "120214962248700783",
+   "name": "Leads El Salvador Enero 2025"
+  },
+  {
+   "date_start": "2026-01-30",
+   "date_stop": "2026-01-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:lead",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "6"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$5,56 USD (Leads)"
+   },
+   "amount_spent": "$33,34 USD",
+   "impressions": "6537",
+   "id": "120238309141120783",
+   "name": "Nuevos Leads 2026"
+  },
+  {
+   "date_start": "2026-01-30",
+   "date_stop": "2026-01-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "211"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,02 USD (Link clicks)"
+   },
+   "amount_spent": "$4,75 USD",
+   "impressions": "3425",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-30",
+   "date_stop": "2026-01-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:onsite_conversion.lead_grouped",
+    "value": "Not available"
+   },
+   "cost_per_result": {
+    "value": "Not available (Meta leads)"
+   },
+   "amount_spent": "$0,00 USD",
+   "impressions": "1",
+   "id": "120239330459550783",
+   "name": "Leads frios GT"
+  },
+  {
+   "date_start": "2026-01-30",
+   "date_stop": "2026-01-30",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$8,91 USD (Leads (form))"
+   },
+   "amount_spent": "$8,91 USD",
+   "impressions": "1951",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  },
+  {
+   "date_start": "2026-01-31",
+   "date_stop": "2026-01-31",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:link_click",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "4"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$0,04 USD (Link clicks)"
+   },
+   "amount_spent": "$0,15 USD",
+   "impressions": "148",
+   "id": "120238382458610783",
+   "name": "Plan Free Tráfico 2026"
+  },
+  {
+   "date_start": "2026-01-31",
+   "date_stop": "2026-01-31",
+   "country": "GT",
+   "results": {
+    "indicator": "actions:leadgen.other",
+    "values": [
+     {
+      "attribution_windows": [
+       "default"
+      ],
+      "value": "1"
+     }
+    ]
+   },
+   "cost_per_result": {
+    "value": "$4,84 USD (Leads (form))"
+   },
+   "amount_spent": "$4,84 USD",
+   "impressions": "788",
+   "id": "120239334653690783",
+   "name": "GT Leads Frios conversión"
+  }
+ ]
+}

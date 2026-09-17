@@ -1,12 +1,12 @@
 {
  "_corrida": {
   "periodo": "2026-08-25 a 2026-09-03",
-  "hoy": "2026-09-04",
+  "hoy": "2026-09-17",
   "tope": {
-   "desde": "2026-06-01",
-   "hasta": "2026-09-06"
+   "desde": "2026-01-03",
+   "hasta": "2026-09-15"
   },
-  "dias_con_dato": 95
+  "dias_con_dato": 252
  },
  "_fuente": "pauta diaria reconciliada al centavo (V8)",
  "ventanas": [
@@ -33,6 +33,15 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 0.003966769058922089
+     },
+     "_dinero": {
+      "gasto": 648.24,
+      "impresiones": 340737.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:link_click"
+      ]
      }
     },
     "GT": {
@@ -51,6 +60,15 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 0.003966769058922089
+     },
+     "_dinero": {
+      "gasto": 415.12,
+      "impresiones": 281093.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:link_click"
+      ]
      }
     },
     "SV": {
@@ -61,40 +79,64 @@
       "dias": 9,
       "gasto_sin_resultado": 0.0,
       "costo": 2.6795402298850575
+     },
+     "_dinero": {
+      "gasto": 233.12,
+      "impresiones": 59644.0,
+      "campanas": 1,
+      "indicadores": [
+       "actions:lead"
+      ]
      }
     }
    }
   },
   {
    "nombre": "todo el dato",
-   "desde": "2026-06-01",
-   "hasta": "2026-09-06",
+   "desde": "2026-01-03",
+   "hasta": "2026-09-15",
    "nota": "el rango completo, elegido a proposito",
    "esperado": {
     "total": {
-     "mixed": {
-      "gasto": 1226.89,
-      "resultados": 0.0,
-      "campanas": 1,
-      "dias": 43,
-      "gasto_sin_resultado": 1226.89,
-      "costo": null
-     },
      "actions:lead": {
-      "gasto": 3086.51,
-      "resultados": 1227.0,
-      "campanas": 6,
-      "dias": 95,
-      "gasto_sin_resultado": 122.54,
-      "costo": 2.5154930725346376
+      "gasto": 6416.38,
+      "resultados": 3029.0,
+      "campanas": 13,
+      "dias": 233,
+      "gasto_sin_resultado": 174.14,
+      "costo": 2.1183162759986796
      },
      "actions:link_click": {
-      "gasto": 478.23,
-      "resultados": 49316.0,
-      "campanas": 1,
-      "dias": 95,
+      "gasto": 1733.3,
+      "resultados": 131775.0,
+      "campanas": 3,
+      "dias": 252,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.009697258496228404
+      "costo": 0.013153481312843862
+     },
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 178.82,
+      "resultados": 24.0,
+      "campanas": 4,
+      "dias": 6,
+      "gasto_sin_resultado": 6.05,
+      "costo": 7.450833333333333
+     },
+     "actions:leadgen.other": {
+      "gasto": 3911.7,
+      "resultados": 1378.0,
+      "campanas": 3,
+      "dias": 115,
+      "gasto_sin_resultado": 54.54,
+      "costo": 2.8386792452830187
+     },
+     "mixed": {
+      "gasto": 1440.12,
+      "resultados": 0.0,
+      "campanas": 2,
+      "dias": 53,
+      "gasto_sin_resultado": 1440.12,
+      "costo": null
      },
      "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
       "gasto": 497.38,
@@ -103,32 +145,61 @@
       "dias": 48,
       "gasto_sin_resultado": 4.03,
       "costo": 1.2072330097087378
+     },
+     "_dinero": {
+      "gasto": 14177.7,
+      "impresiones": 7235596.0,
+      "campanas": 26,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped",
+       "mixed"
+      ]
      }
     },
     "GT": {
-     "mixed": {
-      "gasto": 1226.89,
-      "resultados": 0.0,
-      "campanas": 1,
-      "dias": 43,
-      "gasto_sin_resultado": 1226.89,
-      "costo": null
-     },
      "actions:lead": {
-      "gasto": 2324.52,
-      "resultados": 638.0,
-      "campanas": 5,
-      "dias": 95,
-      "gasto_sin_resultado": 102.48,
-      "costo": 3.643448275862069
+      "gasto": 4118.01,
+      "resultados": 1188.0,
+      "campanas": 11,
+      "dias": 233,
+      "gasto_sin_resultado": 133.92,
+      "costo": 3.466338383838384
      },
      "actions:link_click": {
-      "gasto": 478.23,
-      "resultados": 49316.0,
-      "campanas": 1,
-      "dias": 95,
+      "gasto": 1299.12,
+      "resultados": 105708.0,
+      "campanas": 2,
+      "dias": 252,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.009697258496228404
+      "costo": 0.012289703712112611
+     },
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 120.28,
+      "resultados": 15.0,
+      "campanas": 2,
+      "dias": 6,
+      "gasto_sin_resultado": 4.41,
+      "costo": 8.018666666666666
+     },
+     "actions:leadgen.other": {
+      "gasto": 1746.62,
+      "resultados": 484.0,
+      "campanas": 1,
+      "dias": 112,
+      "gasto_sin_resultado": 43.15,
+      "costo": 3.6087190082644627
+     },
+     "mixed": {
+      "gasto": 1440.12,
+      "resultados": 0.0,
+      "campanas": 2,
+      "dias": 53,
+      "gasto_sin_resultado": 1440.12,
+      "costo": null
      },
      "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
       "gasto": 4.03,
@@ -137,16 +208,53 @@
       "dias": 30,
       "gasto_sin_resultado": 4.03,
       "costo": null
+     },
+     "_dinero": {
+      "gasto": 8728.18,
+      "impresiones": 4899938.0,
+      "campanas": 19,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped",
+       "mixed"
+      ]
      }
     },
     "SV": {
      "actions:lead": {
-      "gasto": 761.99,
-      "resultados": 589.0,
-      "campanas": 3,
-      "dias": 38,
-      "gasto_sin_resultado": 20.06,
-      "costo": 1.2937011884550085
+      "gasto": 2298.37,
+      "resultados": 1841.0,
+      "campanas": 4,
+      "dias": 151,
+      "gasto_sin_resultado": 40.22,
+      "costo": 1.2484356328082564
+     },
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 58.54,
+      "resultados": 9.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 1.64,
+      "costo": 6.504444444444444
+     },
+     "actions:leadgen.other": {
+      "gasto": 2165.08,
+      "resultados": 894.0,
+      "campanas": 2,
+      "dias": 114,
+      "gasto_sin_resultado": 11.39,
+      "costo": 2.4217897091722596
+     },
+     "actions:link_click": {
+      "gasto": 434.18,
+      "resultados": 26067.0,
+      "campanas": 1,
+      "dias": 85,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.01665630874285495
      },
      "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
       "gasto": 493.35,
@@ -155,74 +263,257 @@
       "dias": 48,
       "gasto_sin_resultado": 0.0,
       "costo": 1.1974514563106797
+     },
+     "_dinero": {
+      "gasto": 5449.52,
+      "impresiones": 2335658.0,
+      "campanas": 10,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     }
    }
   },
   {
    "nombre": "primera mitad",
-   "desde": "2026-06-01",
-   "hasta": "2026-07-18",
+   "desde": "2026-01-03",
+   "hasta": "2026-05-10",
    "nota": "del primer dia con dato a la mitad",
    "esperado": {
     "total": {
-     "mixed": {
-      "gasto": 1226.89,
-      "resultados": 0.0,
-      "campanas": 1,
-      "dias": 43,
-      "gasto_sin_resultado": 1226.89,
-      "costo": null
-     },
      "actions:lead": {
-      "gasto": 871.23,
-      "resultados": 493.0,
-      "campanas": 4,
-      "dias": 48,
-      "gasto_sin_resultado": 84.0,
-      "costo": 1.7672008113590265
+      "gasto": 2303.63,
+      "resultados": 1245.0,
+      "campanas": 7,
+      "dias": 108,
+      "gasto_sin_resultado": 37.29,
+      "costo": 1.8503052208835342
      },
      "actions:link_click": {
-      "gasto": 239.2,
-      "resultados": 14431.0,
-      "campanas": 1,
-      "dias": 48,
+      "gasto": 1017.27,
+      "resultados": 57988.0,
+      "campanas": 3,
+      "dias": 127,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.01657542789827455
+      "costo": 0.017542767469131543
      },
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 369.87,
-      "resultados": 251.0,
-      "campanas": 1,
-      "dias": 34,
-      "gasto_sin_resultado": 4.03,
-      "costo": 1.473585657370518
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 178.82,
+      "resultados": 24.0,
+      "campanas": 4,
+      "dias": 6,
+      "gasto_sin_resultado": 6.05,
+      "costo": 7.450833333333333
+     },
+     "actions:leadgen.other": {
+      "gasto": 3680.64,
+      "resultados": 1293.0,
+      "campanas": 3,
+      "dias": 103,
+      "gasto_sin_resultado": 39.49,
+      "costo": 2.8465893271461717
+     },
+     "_dinero": {
+      "gasto": 7180.36,
+      "impresiones": 3477850.0,
+      "campanas": 17,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
      }
     },
     "GT": {
-     "mixed": {
-      "gasto": 1226.89,
-      "resultados": 0.0,
-      "campanas": 1,
-      "dias": 43,
-      "gasto_sin_resultado": 1226.89,
-      "costo": null
-     },
      "actions:lead": {
-      "gasto": 596.7,
-      "resultados": 120.0,
-      "campanas": 3,
-      "dias": 48,
-      "gasto_sin_resultado": 63.94,
-      "costo": 4.9725
+      "gasto": 1324.42,
+      "resultados": 407.0,
+      "campanas": 6,
+      "dias": 108,
+      "gasto_sin_resultado": 27.43,
+      "costo": 3.254103194103194
      },
      "actions:link_click": {
-      "gasto": 239.2,
-      "resultados": 14431.0,
+      "gasto": 670.48,
+      "resultados": 37994.0,
+      "campanas": 2,
+      "dias": 127,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.01764699689424646
+     },
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 120.28,
+      "resultados": 15.0,
+      "campanas": 2,
+      "dias": 6,
+      "gasto_sin_resultado": 4.41,
+      "costo": 8.018666666666666
+     },
+     "actions:leadgen.other": {
+      "gasto": 1687.62,
+      "resultados": 465.0,
+      "campanas": 1,
+      "dias": 100,
+      "gasto_sin_resultado": 35.37,
+      "costo": 3.629290322580645
+     },
+     "_dinero": {
+      "gasto": 3802.8,
+      "impresiones": 1945809.0,
+      "campanas": 11,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
+     }
+    },
+    "SV": {
+     "actions:lead": {
+      "gasto": 979.21,
+      "resultados": 838.0,
+      "campanas": 2,
+      "dias": 83,
+      "gasto_sin_resultado": 9.86,
+      "costo": 1.1685083532219571
+     },
+     "actions:onsite_conversion.lead_grouped": {
+      "gasto": 58.54,
+      "resultados": 9.0,
+      "campanas": 2,
+      "dias": 5,
+      "gasto_sin_resultado": 1.64,
+      "costo": 6.504444444444444
+     },
+     "actions:leadgen.other": {
+      "gasto": 1993.02,
+      "resultados": 828.0,
+      "campanas": 2,
+      "dias": 102,
+      "gasto_sin_resultado": 4.12,
+      "costo": 2.4070289855072464
+     },
+     "actions:link_click": {
+      "gasto": 346.79,
+      "resultados": 19994.0,
+      "campanas": 1,
+      "dias": 67,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.01734470341102331
+     },
+     "_dinero": {
+      "gasto": 3377.56,
+      "impresiones": 1532041.0,
+      "campanas": 7,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "actions:onsite_conversion.lead_grouped"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "nombre": "segunda mitad",
+   "desde": "2026-05-10",
+   "hasta": "2026-09-15",
+   "nota": "de la mitad al ultimo dia con dato",
+   "esperado": {
+    "total": {
+     "actions:lead": {
+      "gasto": 4132.39,
+      "resultados": 1789.0,
+      "campanas": 8,
+      "dias": 126,
+      "gasto_sin_resultado": 137.02,
+      "costo": 2.3098882057015095
+     },
+     "actions:leadgen.other": {
+      "gasto": 252.98,
+      "resultados": 88.0,
+      "campanas": 2,
+      "dias": 13,
+      "gasto_sin_resultado": 19.16,
+      "costo": 2.874772727272727
+     },
+     "actions:link_click": {
+      "gasto": 724.79,
+      "resultados": 74335.0,
+      "campanas": 2,
+      "dias": 126,
+      "gasto_sin_resultado": 0.0,
+      "costo": 0.009750319499562789
+     },
+     "mixed": {
+      "gasto": 1440.12,
+      "resultados": 0.0,
+      "campanas": 2,
+      "dias": 53,
+      "gasto_sin_resultado": 1440.12,
+      "costo": null
+     },
+     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
+      "gasto": 497.38,
+      "resultados": 412.0,
       "campanas": 1,
       "dias": 48,
+      "gasto_sin_resultado": 4.03,
+      "costo": 1.2072330097087378
+     },
+     "_dinero": {
+      "gasto": 7047.66,
+      "impresiones": 3793782.0,
+      "campanas": 15,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "mixed"
+      ]
+     }
+    },
+    "GT": {
+     "actions:lead": {
+      "gasto": 2796.67,
+      "resultados": 783.0,
+      "campanas": 7,
+      "dias": 126,
+      "gasto_sin_resultado": 106.66,
+      "costo": 3.5717369093231164
+     },
+     "actions:leadgen.other": {
+      "gasto": 63.11,
+      "resultados": 19.0,
+      "campanas": 1,
+      "dias": 13,
+      "gasto_sin_resultado": 11.89,
+      "costo": 3.321578947368421
+     },
+     "actions:link_click": {
+      "gasto": 633.89,
+      "resultados": 68024.0,
+      "campanas": 1,
+      "dias": 126,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.01657542789827455
+      "costo": 0.009318622838998
+     },
+     "mixed": {
+      "gasto": 1440.12,
+      "resultados": 0.0,
+      "campanas": 2,
+      "dias": 53,
+      "gasto_sin_resultado": 1440.12,
+      "costo": null
      },
      "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
       "gasto": 4.03,
@@ -231,175 +522,219 @@
       "dias": 30,
       "gasto_sin_resultado": 4.03,
       "costo": null
+     },
+     "_dinero": {
+      "gasto": 4937.82,
+      "impresiones": 2969735.0,
+      "campanas": 12,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click",
+       "mixed"
+      ]
      }
     },
     "SV": {
-     "actions:lead": {
-      "gasto": 274.53,
-      "resultados": 373.0,
-      "campanas": 2,
-      "dias": 15,
-      "gasto_sin_resultado": 20.06,
-      "costo": 0.7360053619302949
-     },
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 365.84,
-      "resultados": 251.0,
-      "campanas": 1,
-      "dias": 34,
-      "gasto_sin_resultado": 0.0,
-      "costo": 1.4575298804780876
-     }
-    }
-   }
-  },
-  {
-   "nombre": "segunda mitad",
-   "desde": "2026-07-18",
-   "hasta": "2026-09-06",
-   "nota": "de la mitad al ultimo dia con dato",
-   "esperado": {
-    "total": {
-     "actions:lead": {
-      "gasto": 2248.86,
-      "resultados": 740.0,
-      "campanas": 4,
-      "dias": 48,
-      "gasto_sin_resultado": 42.2,
-      "costo": 3.039
-     },
      "actions:link_click": {
-      "gasto": 243.89,
-      "resultados": 35294.0,
+      "gasto": 90.9,
+      "resultados": 6311.0,
       "campanas": 1,
-      "dias": 48,
+      "dias": 19,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.0069102397007990025
+      "costo": 0.014403422595468231
      },
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 133.28,
-      "resultados": 167.0,
+     "actions:leadgen.other": {
+      "gasto": 189.87,
+      "resultados": 69.0,
       "campanas": 1,
-      "dias": 15,
-      "gasto_sin_resultado": 0.0,
-      "costo": 0.7980838323353293
-     }
-    },
-    "GT": {
-     "actions:lead": {
-      "gasto": 1761.4,
-      "resultados": 524.0,
-      "campanas": 4,
-      "dias": 48,
-      "gasto_sin_resultado": 42.2,
-      "costo": 3.3614503816793895
-     },
-     "actions:link_click": {
-      "gasto": 243.89,
-      "resultados": 35294.0,
-      "campanas": 1,
-      "dias": 48,
-      "gasto_sin_resultado": 0.0,
-      "costo": 0.0069102397007990025
-     }
-    },
-    "SV": {
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 133.28,
-      "resultados": 167.0,
-      "campanas": 1,
-      "dias": 15,
-      "gasto_sin_resultado": 0.0,
-      "costo": 0.7980838323353293
+      "dias": 13,
+      "gasto_sin_resultado": 7.27,
+      "costo": 2.7517391304347827
      },
      "actions:lead": {
-      "gasto": 487.46,
-      "resultados": 216.0,
+      "gasto": 1335.72,
+      "resultados": 1006.0,
+      "campanas": 3,
+      "dias": 69,
+      "gasto_sin_resultado": 30.36,
+      "costo": 1.3277534791252485
+     },
+     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
+      "gasto": 493.35,
+      "resultados": 412.0,
       "campanas": 1,
-      "dias": 23,
+      "dias": 48,
       "gasto_sin_resultado": 0.0,
-      "costo": 2.256759259259259
+      "costo": 1.1974514563106797
+     },
+     "_dinero": {
+      "gasto": 2109.84,
+      "impresiones": 824047.0,
+      "campanas": 6,
+      "indicadores": [
+       "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead",
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     }
    }
   },
   {
    "nombre": "un solo dia",
-   "desde": "2026-07-18",
-   "hasta": "2026-07-18",
+   "desde": "2026-05-10",
+   "hasta": "2026-05-10",
    "nota": "el caso de una sola fecha, que es el que rompio con el raton",
    "esperado": {
     "total": {
      "actions:lead": {
-      "gasto": 33.58,
-      "resultados": 6.0,
+      "gasto": 19.64,
+      "resultados": 5.0,
       "campanas": 2,
       "dias": 1,
-      "gasto_sin_resultado": 3.66,
-      "costo": 5.596666666666667
+      "gasto_sin_resultado": 0.17,
+      "costo": 3.928
+     },
+     "actions:leadgen.other": {
+      "gasto": 21.92,
+      "resultados": 3.0,
+      "campanas": 2,
+      "dias": 1,
+      "gasto_sin_resultado": 4.11,
+      "costo": 7.3066666666666675
      },
      "actions:link_click": {
-      "gasto": 4.86,
-      "resultados": 409.0,
-      "campanas": 1,
+      "gasto": 8.76,
+      "resultados": 548.0,
+      "campanas": 2,
       "dias": 1,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.011882640586797067
+      "costo": 0.015985401459854016
      },
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 5.77,
-      "resultados": 6.0,
-      "campanas": 1,
-      "dias": 1,
-      "gasto_sin_resultado": 0.0,
-      "costo": 0.9616666666666666
+     "_dinero": {
+      "gasto": 50.32,
+      "impresiones": 36036.0,
+      "campanas": 6,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     },
     "GT": {
      "actions:lead": {
-      "gasto": 33.58,
-      "resultados": 6.0,
+      "gasto": 3.08,
+      "resultados": 2.0,
       "campanas": 2,
       "dias": 1,
-      "gasto_sin_resultado": 3.66,
-      "costo": 5.596666666666667
+      "gasto_sin_resultado": 0.17,
+      "costo": 1.54
+     },
+     "actions:leadgen.other": {
+      "gasto": 4.11,
+      "resultados": 0.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 4.11,
+      "costo": null
      },
      "actions:link_click": {
-      "gasto": 4.86,
-      "resultados": 409.0,
+      "gasto": 5.25,
+      "resultados": 310.0,
       "campanas": 1,
       "dias": 1,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.011882640586797067
+      "costo": 0.016935483870967744
+     },
+     "_dinero": {
+      "gasto": 12.44,
+      "impresiones": 15606.0,
+      "campanas": 4,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     },
     "SV": {
-     "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead": {
-      "gasto": 5.77,
-      "resultados": 6.0,
+     "actions:link_click": {
+      "gasto": 3.51,
+      "resultados": 238.0,
       "campanas": 1,
       "dias": 1,
       "gasto_sin_resultado": 0.0,
-      "costo": 0.9616666666666666
+      "costo": 0.014747899159663864
+     },
+     "actions:leadgen.other": {
+      "gasto": 17.81,
+      "resultados": 3.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 0.0,
+      "costo": 5.9366666666666665
+     },
+     "actions:lead": {
+      "gasto": 16.56,
+      "resultados": 3.0,
+      "campanas": 1,
+      "dias": 1,
+      "gasto_sin_resultado": 0.0,
+      "costo": 5.52
+     },
+     "_dinero": {
+      "gasto": 37.88,
+      "impresiones": 20430.0,
+      "campanas": 3,
+      "indicadores": [
+       "actions:lead",
+       "actions:leadgen.other",
+       "actions:link_click"
+      ]
      }
     }
    }
   },
   {
    "nombre": "dia sin pauta (dentro del tope)",
-   "desde": "2026-08-23",
-   "hasta": "2026-08-23",
+   "desde": "2026-02-01",
+   "hasta": "2026-02-01",
    "nota": "dentro del rango disponible y sin una sola pieza: el tablero tiene que DECLARARLO vacio, no mostrar el total",
    "esperado": {
-    "total": {},
-    "GT": {},
-    "SV": {}
+    "total": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    },
+    "GT": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    },
+    "SV": {
+     "_dinero": {
+      "gasto": 0,
+      "impresiones": 0,
+      "campanas": 0,
+      "indicadores": []
+     }
+    }
    }
   },
   {
    "nombre": "fuera del tope",
-   "desde": "2026-03-03",
-   "hasta": "2026-04-02",
+   "desde": "2025-10-05",
+   "hasta": "2025-11-04",
    "ignorada": true,
    "nota": "fuera del rango disponible: no cambia nada Y los campos vuelven a la ventana que de verdad esta aplicada. Aqui no hay numeros que esperar: lo que se comprueba es que el campo y las cifras no puedan decir cosas distintas",
    "esperado": null
