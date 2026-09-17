@@ -192,6 +192,18 @@ cometidos; no hay tiempo de repetirlos.
   los 5,712 que muestra la interfaz**: una campaña de tráfico reporta clics y sus
   leads se vuelven invisibles. Para contar leads va el campo **`lead`**, que
   existe para toda campaña con entrega. Medido el 2026-09-17.
+- **Un informe de Zoho EXCLUYE los leads convertidos por omisión, y no es
+  parejo.** En el canal Página web son **92 contra 689** (7,5x) y en Guatemala
+  deja fuera el **38%** de los leads contra el 4% de El Salvador. Es la causa
+  número uno de que un tablero propio «no cuadre» con un informe del CRM, y hay
+  que preguntarlo antes de buscar el error en el cálculo. COQL tiene la misma
+  omisión: hacen falta DOS consultas y sumarlas.
+- **Una compuerta puede cuidar el total y dejar sueltos los cortes.** Las de este
+  tablero verificaban leads (5,046) y tratos (1,013) pero NO el corte por canal
+  ni por país — justo los dos números que la página muestra más grandes. Un
+  total correcto con un corte torcido no avisa: mover un lead de redes a página
+  web, o de SV a GT, no cambia ningún total. Ahora los dos cortes tienen su
+  `COUNT` de control y su sabotaje.
 - **Un cubo no puede llevar el nombre de uno de sus miembros.** El campo
   `Producto` del CRM tiene SIETE planes; agruparlos en `Free` / **`Premium`**
   daba «Premium 19» cuando eran **14 Premium Anual + 5 Elite Anual** — y hay
@@ -670,6 +682,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/adlibrary_profundo.py` | Análisis profundo por marca: mensajes, audiencia, velocidad, longevidad. Declara lo que la fuente NO responde |
 | `src/modulo1/reporte_adlibrary.js` | Genera el reporte HTML. CSS plano, sin Tailwind: no usa utilidades |
 | `docs/08-guia-de-diseno.md` | Guía para el equipo de diseño: qué editar y qué no tocar |
+| `docs/12-de-donde-sale-cada-numero.md` | **Trazabilidad del tablero Ciclo del Lead.** De dónde sale cada cifra, con la consulta de control al lado, y los cinco lugares donde un informe de Zoho se separa del tablero con razón. Empieza por la causa número uno: los informes excluyen los leads convertidos |
 | `docs/10-pinterest.md` | Pinterest: los cuatro dominios que hay que desbloquear, lo que la API **no** deja hacer y por qué «el mejor pin» no tiene denominador |
 | `src/modulo1/pinterest_sonda.py` | Sonda de la API de Pinterest. No analiza: mide qué se puede. Separa red bloqueada de token rechazado de permiso faltante |
 

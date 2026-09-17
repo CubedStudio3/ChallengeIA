@@ -315,11 +315,32 @@ def main():
               separators=(",", ":"))
 
     # ── compuertas ───────────────────────────────────────────────────────
+    #
+    # TODO numero de aqui abajo salio de una consulta COQL de CONTROL, hecha
+    # aparte de la extraccion, y queda escrita al lado para que cualquiera la
+    # pueda repetir en el CRM. Ventana: `Created_Time` entre 2026-01-01 y
+    # 2026-09-16, hora de la cuenta (-06:00). Re-verificadas el 2026-09-17.
+    #
+    #   COQL excluye los leads CONVERTIDOS por omision. Por eso van DOS
+    #   consultas por cada corte y el total es la suma. Es la causa numero uno
+    #   de que un informe del CRM no cuadre con este tablero.
+    #
+    #   no convertidos:
+    #     select COUNT(id) as n from Leads
+    #      where (Created_Time >= '2026-01-01T00:00:00-06:00'
+    #         and Created_Time <= '2026-09-16T23:59:59-06:00')
+    #     → 4036
+    #   convertidos:
+    #     ...and Converted__s = true   group by Converted__s
+    #     → 1010        4036 + 1010 = 5046
     n_l, n_t = len(celdas_lead), len(celdas_trato)
     if n_l != 5046:
-        alto("leads %d != 5046" % n_l)
+        alto("leads %d != 5046 (COUNT del CRM: 4036 no convertidos + 1010 "
+             "convertidos)" % n_l)
+    #   select Stage, COUNT(id) as n from Deals where (<la misma ventana>)
+    #   group by Stage  → las 7 etapas de abajo, que suman 1013
     if n_t != 1013:
-        alto("tratos %d != 1013" % n_t)
+        alto("tratos %d != 1013 (COUNT del CRM por etapa)" % n_t)
     etapas = collections.Counter(t[4] for t in celdas_trato)
     esperado = {"closed won": 717, "closed lost": 182, "Stand By": 66,
                 "Calificado Interesado": 24, "Necesita validarlo con alguien más": 13,
@@ -328,6 +349,28 @@ def main():
         alto("las etapas no cuadran: %r" % dict(etapas))
     if len(celdas_resp) + sum(c[7] for c in celdas_lead) != n_l:
         alto("el cubo de responsable no cubre a los leads sin Trato")
+
+    # El corte por CANAL y por PAIS tambien se compara contra su COUNT. Antes
+    # no: las compuertas cuidaban los totales y dejaban sueltos justo los dos
+    # numeros que el tablero muestra mas grandes. Un total correcto con un
+    # corte torcido no avisa.
+    #
+    #   select Lead_Source, COUNT(id) as n from Leads where (<ventana>)
+    #   group by Lead_Source        — y otra vez con `Converted__s = true`
+    #   Sumando las dos y aplicando el mapa CANAL:
+    CONTROL_CANAL = {"Redes sociales (Meta)": 4124, "Página web": 689,
+                     "WhatsApp / Chat": 106, "Directo / Referidos": 127}
+    #   select Pa_s, COUNT(id) as n from Leads where (<ventana>) group by Pa_s
+    #   — y otra vez con `Converted__s = true`. El campo del LEAD es `Pa_s`;
+    #   el del TRATO es `Pa_s_Operaci_n`: son dos campos distintos y no se
+    #   mezclan. 106 leads lo traen vacio y salen como «Sin país».
+    CONTROL_PAIS = {"Guatemala": 2337, "El Salvador": 2603, "Sin país": 106}
+    for nombre, col, control in (("canal", 2, CONTROL_CANAL),
+                                 ("país", 1, CONTROL_PAIS)):
+        leido = collections.Counter(c[col] for c in celdas_lead)
+        if dict(leido) != control:
+            alto("el corte de leads por %s no cuadra con el COUNT del CRM: "
+                 "leido %r, control %r" % (nombre, dict(leido), control))
     # El gasto de Meta se compara contra la lectura MENSUAL ya verificada, que
     # se pidio por otro camino (una llamada por el periodo entero, agregada por
     # mes). Dos caminos distintos que dan el mismo numero es lo que verifica;

@@ -13,6 +13,7 @@ import json, os, shutil, subprocess, sys, tempfile
 BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CRUDO = os.path.join(BASE, "data", "ciclo_lead", "crudo")
 Q = "meta_lead_q3.json"
+QL = "leads_p0.json"
 
 
 def corre(dir_crudo):
@@ -24,6 +25,36 @@ def corre(dir_crudo):
     )
     r = subprocess.run([sys.executable, "-c", codigo], capture_output=True, text=True)
     return r.returncode == 0, (r.stdout + r.stderr)
+
+
+def con_leads(cambia):
+    """Igual que `con` pero rompiendo las filas de LEADS, para probar las
+    compuertas de canal y de pais contra el COUNT del CRM."""
+    tmp = tempfile.mkdtemp()
+    for n in os.listdir(CRUDO):
+        shutil.copy(os.path.join(CRUDO, n), tmp)
+    shutil.copy(os.path.join(BASE, "data", "ciclo_lead", "usuarios.csv"), tmp)
+    ruta = os.path.join(tmp, QL)
+    env = json.load(open(ruta, encoding="utf-8"))
+    env["data"]["data"] = cambia(env["data"]["data"])
+    json.dump(env, open(ruta, "w", encoding="utf-8"), ensure_ascii=False)
+    ok, salida = corre(tmp)
+    shutil.rmtree(tmp)
+    return ok, salida
+
+
+def canal_movido(filas):
+    """Un lead de redes pasa a pagina web. El TOTAL no cambia: solo el corte."""
+    f = next(f for f in filas if f.get("Lead_Source") == "Meta Ads")
+    f["Lead_Source"] = "Página web"
+    return filas
+
+
+def pais_movido(filas):
+    """Un lead de SV pasa a GT. El total no cambia; el corte por pais si."""
+    f = next(f for f in filas if (f.get("Pa_s") or "") == "El Salvador")
+    f["Pa_s"] = "Guatemala"
+    return filas
 
 
 def con(cambia):
@@ -107,10 +138,20 @@ def main():
         else:
             linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
             print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
+    for nombre, cambia in [("un lead de redes movido a página web", canal_movido),
+                           ("un lead de SV movido a GT", pais_movido)]:
+        ok, salida = con_leads(cambia)
+        if ok:
+            fallos.append(nombre)
+            print("  ✗ %s → la corrida NO se detuvo" % nombre)
+        else:
+            linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
+            print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
+    total = len(SABOTAJES) + 2
     if fallos:
         print("\n%d sabotaje(s) sin detectar: %s" % (len(fallos), ", ".join(fallos)))
         return 1
-    print("\n%d de %d sabotajes detenidos." % (len(SABOTAJES), len(SABOTAJES)))
+    print("\n%d de %d sabotajes detenidos." % (total, total))
     return 0
 
 
