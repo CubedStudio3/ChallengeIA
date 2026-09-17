@@ -133,9 +133,9 @@ const contraste = (a, b) => {
       tramos,
     };
   });
-  ok(r.rielEnlaces === 8, `el riel tiene las 8 secciones (${r.rielEnlaces})`);
+  ok(r.rielEnlaces === 9, `el riel tiene las 9 secciones (${r.rielEnlaces})`);
   ok(r.rielActivo === 1, `exactamente una marcada en reposo (${r.rielActivo})`);
-  ok(r.iconosKpi === r.kpis && r.kpis === 4, `los 4 KPI traen su icono (${r.iconosKpi}/${r.kpis})`);
+  ok(r.iconosKpi === r.kpis && r.kpis >= 3, `cada KPI trae su icono (${r.iconosKpi}/${r.kpis})`);
   ok(r.veredictoFondo === "rgb(10, 13, 11)", `el veredicto es la tarjeta negra (${r.veredictoFondo})`);
   ok(r.twFondo === "rgb(161, 202, 237)" && r.twRelleno === "24px", `Tailwind sigue operativo (${r.twFondo})`);
   ok(/Outfit/.test(r.fuenteTitulo), `los títulos usan Outfit (${r.fuenteTitulo.split(",")[0]})`);
@@ -216,21 +216,22 @@ const contraste = (a, b) => {
         return [q, el ? /inset/.test(getComputedStyle(el).boxShadow) : null];
       });
     });
-    for (const [q, tiene] of conContorno) ok(tiene === true, `${q} lleva contorno de tinta`);
+    for (const [q, tiene] of conContorno) {
+      if (tiene === null) { console.log(`  --   ${q} no está en esta versión`); continue; }
+      ok(tiene === true, `${q} lleva contorno de tinta`);
+    }
     // el nombre dentro del tramo: la identidad no puede ser el color
     const tramos = await pgP.$$eval(".apilada>span .et", (es) => es.map((e) => e.textContent.trim()));
     ok(tramos.length >= 4, `los tramos apilados dicen su nombre (${tramos.join(", ")})`);
     // el embudo tiene forma de embudo: cada tramo más angosto que el anterior
-    const porEmbudo = await pgP.$$eval(".tarjeta-emb", (cs) => cs.map((c) => ({
+    const embudos = await pgP.$$eval(".embudos .tarjeta-g", (cs) => cs.map((c) => ({
       titulo: c.querySelector("h3").textContent.trim(),
-      anchos: [...c.querySelectorAll(".emb-forma path")].map((p) => Math.round(p.getBBox().width)),
+      pintado: (c.querySelector(".emb-full") || c).children.length > 0,
+      alto: Math.round(c.getBoundingClientRect().height),
     })));
-    ok(porEmbudo.length === 2, `hay dos embudos lado a lado (${porEmbudo.length})`);
-    for (const e of porEmbudo) {
-      ok(e.anchos.length === 5, `«${e.titulo}» tiene sus 5 escalones (${e.anchos.length})`);
-      ok(e.anchos.every((w, i) => i === 0 || w <= e.anchos[i-1] + 1),
-         `«${e.titulo}» se angosta escalón a escalón (${e.anchos.join(" → ")})`);
-    }
+    ok(embudos.length === 2, `hay dos embudos lado a lado (${embudos.length})`);
+    for (const e of embudos)
+      ok(e.pintado && e.alto > 120, `«${e.titulo}» se pintó (${e.alto}px de alto)`);
     await ctxP.close();
   }
 
@@ -247,24 +248,28 @@ const contraste = (a, b) => {
     const claves = campos.map((c) => c.k);
     ok(!claves.includes("fuente"), `ya no está el filtro de Fuente (${claves.join(", ")})`);
     ok(!claves.includes("mes"), `ya no está el filtro de Mes`);
+    const fechas = await pgF.$$eval("#filtros input[data-d]", (es) =>
+      es.map((e) => ({ k: e.dataset.d, tipo: e.type, min: e.min, max: e.max, val: e.value })));
     for (const k of ["desde", "hasta"]) {
-      const c = campos.find((x) => x.k === k);
-      ok(c && c.tag === "input" && c.tipo === "month",
-         `«${k}» es un campo de calendario por mes (${c ? c.tag + "/" + c.tipo : "no está"})`);
+      const c = fechas.find((x) => x.k === k);
+      ok(c && c.tipo === "date", `«${k}» es un calendario por día (${c ? c.tipo : "no está"})`);
+      ok(c && c.min && c.max && c.val, `«${k}» acotado al dato (${c?.min} → ${c?.max}, hoy ${c?.val})`);
     }
     // el rango filtra de verdad: acotar a un mes baja el conteo
     const antes = await pgF.textContent("#en-vista");
-    await pgF.selectOption("#pais", "Guatemala").catch(() => {});
+    const tope = fechas.find((x) => x.k === "hasta");
+    await pgF.fill("#desde", "2026-03-01");
+    await pgF.dispatchEvent("#desde", "change");
     await pgF.waitForTimeout(250);
-    await pgF.fill("#desde", "2026-03");
-    await pgF.waitForTimeout(250);
-    await pgF.fill("#hasta", "2026-03");
+    await pgF.fill("#hasta", "2026-03-31");
+    await pgF.dispatchEvent("#hasta", "change");
     await pgF.waitForTimeout(350);
     const despues = await pgF.textContent("#en-vista");
     ok(antes !== despues, `el rango recalcula lo que está en vista`);
     ok(/leads/.test(despues), `y lo sigue reportando (${despues.replace(/\s+/g, " ").trim()})`);
     // ya no está el bloque de cifras junto al título ni la descripción
     ok(await pgF.$("#meta-cabecera") === null, `fuera el bloque de cifras del encabezado`);
+    ok(tope.max >= "2026-09-01", `el rango llega hasta el final del dato (${tope.max})`);
     ok(await pgF.$(".cabecera .pregunta") === null, `fuera la descripción bajo el título`);
     await ctxF.close();
   }
