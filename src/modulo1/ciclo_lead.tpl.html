@@ -705,13 +705,15 @@ ${r?'Expression: "'+r+`"
 
         <section id="s-sinc">
           <div class="titulo-sec"><h2>¿Llegan al CRM?</h2></div>
-          <p class="nota-sec">Leads que Meta dice haber entregado contra registros de redes que
-            aparecen en el CRM. Responde a los filtros de <b>País</b> y de <b>fecha</b>; el de Canal
-            no, porque la comparación es de redes por definición.</p>
+          <p class="nota-sec">Meta entrega los leads por <b>dos puertas</b>: el formulario que se
+            llena <b>dentro de Meta</b> —instantáneo, Messenger, DM— y el del <b>sitio web</b>, que
+            Meta cuenta por el pixel. Cada una entra al CRM por un canal distinto, así que se
+            comparan por separado. La cuadratura que importa es la primera. Responde a los filtros
+            de <b>País</b> y de <b>fecha</b>; el de Canal no, porque la comparación lo fija.</p>
           <div class="kpis" id="kpis-sinc"></div>
           <div class="graficas" style="margin-top:16px">
             <div class="tarjeta-g">
-              <h3>Meta contra CRM</h3><p class="sub">Barras pareadas, mismo eje</p>
+              <h3>Formulario de Meta contra el CRM</h3><p class="sub">Barras pareadas, mismo eje</p>
               <div class="leyenda" id="leyenda-sinc"></div>
               <div id="g-sinc"></div>
             </div>
@@ -721,16 +723,18 @@ ${r?'Expression: "'+r+`"
             </div>
           </div>
           <div class="marco-tabla" style="margin-top:16px"><table id="tabla-sinc"></table></div>
-          <div class="aviso" style="margin-top:16px"><span class="rotulo">Ojo</span><div>El informe
-            <b>LEADS 2026</b> del propio CRM da un número más bajo que esta tabla, y no es que uno
-            esté mal: cuenta otra cosa. Se comprobó consulta por consulta que deja fuera
-            <b>El Salvador</b> y deja fuera los <b>leads ya convertidos</b> —los informes de Zoho
-            los excluyen por omisión—. Antes de comparar contra Meta, revisar qué filtra el
-            informe.</div></div>
-          <p class="nota-sec" style="margin-top:12px">Los dos números <b>no son comparables al
-            registro</b> y no se presentan como una cuadratura: Meta cuenta eventos y el CRM cuenta
-            registros, Meta atribuye a la fecha del clic y el CRM a la fecha de creación, y el CRM
-            deduplica. Sirve para ver el <b>tamaño y la dirección</b> de la diferencia.</p>
+          <div class="aviso" id="sitio-sinc" style="margin-top:16px"></div>
+          <div class="aviso" style="margin-top:16px"><span class="rotulo">Ojo</span><div>Un informe
+            o una vista del CRM <b>no es «el CRM»</b>. El informe <b>LEADS 2026</b> y la vista
+            <b>Leads Guatemala</b> dan números más bajos que esta tabla y ninguno está mal: cuentan
+            otra cosa. Se comprobó registro por registro que filtran <b>País Guatemala o vacío</b> y
+            que dejan fuera los <b>leads ya convertidos</b> —los informes de Zoho los excluyen por
+            omisión—. Y una captura de hace unos días es un <b>mes más corto</b>, no un mes distinto.
+            Antes de comparar contra Meta, revisar qué filtra.</div></div>
+          <p class="nota-sec" style="margin-top:12px">Ni con las puertas separadas son comparables
+            <b>al registro</b>: Meta cuenta eventos y el CRM cuenta registros, Meta atribuye a la
+            fecha del clic y el CRM a la fecha de creación, y el CRM deduplica. Sirve para ver el
+            <b>tamaño y la dirección</b> de la diferencia.</p>
         </section>
 
         <section id="s-asignacion">
@@ -795,7 +799,7 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8;
 const tF=0,tPA=1,tCA=2,tFU=3,tET=4,tRZ=5,tCT=6,tAR=7,tSB=8,tSC=9,tSA=10,tPL=11,tPR=12,tVE=13,tMO=14;
 const rF=0,rVE=1,rUS=2,rRO=3,rES=4,rBU=5,rVI=6;
-const mF=0,mPA=1,mGA=2,mLE=3,mPX=4;
+const mF=0,mPA=1,mGA=2,mLE=3,mEM=4;   // mLE total de leads · mEM los que ocurren dentro de Meta
 
 const iPlan = {Free:V.plan.indexOf("Free"), Premium:V.plan.indexOf("Premium")};
 const iCanal = {};  V.canal.forEach((v,i)=>iCanal[v]=i);
@@ -1235,34 +1239,47 @@ function barrasPareadas(cont,leyenda,datos,claves,colores){
 }
 
 /* ── ¿llegan al CRM? ─────────────────────────────────────────────────────── */
+/* Meta entrega los leads por DOS puertas y el CRM los recibe por dos canales
+   distintos. Comparar el total de Meta contra solo el canal de redes construia
+   una brecha que no existia. Aqui cada puerta va contra su canal, y la del
+   sitio web se declara como lo que es: una comparacion de tamaño, no una
+   cuadratura, porque al canal «Página web» del CRM tambien llega quien no
+   vino de pauta. */
 function pintaSinc(c){
   const m = fM();
-  const meta = m.reduce((a,r)=>a+r[mLE],0), pixel = m.reduce((a,r)=>a+r[mPX],0);
+  const forma = m.reduce((a,r)=>a+r[mEM],0);              // dentro de Meta
+  const sitio = m.reduce((a,r)=>a+(r[mLE]-r[mEM]),0);     // por el pixel del sitio
   const crm = c.l.filter(x=>x[lCA]===REDES).length;
-  const brecha = crm-meta;
   const web = c.l.filter(x=>x[lCA]===WEB).length;
+  const brecha = crm-forma;
   document.getElementById("kpis-sinc").innerHTML =
-    '<div class="kpi"><span class="icono">'+ICO.entraron+'</span><span class="rotulo">Leads que reporta Meta</span>'+
-      '<span class="v">'+nf(meta)+'</span><span class="d">Solo indicadores de lead</span></div>'+
-    '<div class="kpi'+(meta&&brecha/meta<-0.10?" alerta":"")+'"><span class="icono">'+ICO.calificados+
+    '<div class="kpi"><span class="icono">'+ICO.entraron+'</span>'+
+      '<span class="rotulo">Del formulario de Meta</span>'+
+      '<span class="v">'+nf(forma)+'</span>'+
+      '<span class="d">Formulario instantáneo, Messenger y DM · ocurren dentro de Meta</span></div>'+
+    '<div class="kpi'+(forma&&brecha/forma<-0.10?" alerta":"")+'"><span class="icono">'+ICO.calificados+
       '</span><span class="rotulo">Leads de redes en el CRM</span>'+
       '<span class="v">'+nf(crm)+'</span><span class="d">'+
-      (meta?((brecha>0?"+":"")+nf(brecha)+' contra lo que reporta Meta · '+pf(Math.abs(brecha),meta)):'Sin referencia de Meta')+
-      '</span></div>'+
-    '<div class="kpi"><span class="icono">'+ICO.ganados+'</span><span class="rotulo">Leads de página web</span>'+
-      '<span class="v">'+nf(web)+'</span><span class="d">Formulario del sitio · no pasan por Meta</span></div>';
+      (forma?((brecha>0?"+":"")+nf(brecha)+' contra el formulario de Meta · '+
+        pf(Math.abs(brecha),forma)):'Sin referencia de Meta')+'</span></div>'+
+    '<div class="kpi"><span class="icono">'+ICO.ganados+'</span>'+
+      '<span class="rotulo">Solo de página web</span>'+
+      '<span class="v">'+nf(web)+'</span>'+
+      '<span class="d">Formulario del sitio · Meta atribuye '+nf(sitio)+' al pixel, pero al sitio '+
+      'también llega quien no vino de pauta</span></div>';
   const cb = cubos();
   const datos = cb.claves.map(k=>{
     let mm=0, cc=0;
-    m.forEach(r=>{ if(cb.de(r[mF])===k) mm+=r[mLE]; });
+    m.forEach(r=>{ if(cb.de(r[mF])===k) mm+=r[mEM]; });
     c.l.forEach(x=>{ if(x[lCA]===REDES && cb.de(x[lF])===k) cc++; });
-    return {et:cb.et(k),v:{"Meta":mm,"CRM":cc},k};
+    return {et:cb.et(k),v:{"Formulario de Meta":mm,"Redes en el CRM":cc},k};
   });
   barrasPareadas(document.getElementById("g-sinc"),document.getElementById("leyenda-sinc"),
-    datos,["Meta","CRM"],{"Meta":"var(--lila)","CRM":"var(--cielo)"});
+    datos,["Formulario de Meta","Redes en el CRM"],
+    {"Formulario de Meta":"var(--lila)","Redes en el CRM":"var(--cielo)"});
   // brecha
   const W=560,H=210,ml=48,mr=8,mt=12,mb=32;
-  const gaps = datos.map(d=>({et:d.et,g:d.v.CRM-d.v.Meta}));
+  const gaps = datos.map(d=>({et:d.et,g:d.v["Redes en el CRM"]-d.v["Formulario de Meta"]}));
   const tope = Math.max(20,...gaps.map(x=>Math.abs(x.g)))*1.15;
   const y = v => mt+(H-mt-mb)*(1-(v+tope)/(2*tope));
   const paso = (W-ml-mr)/Math.max(gaps.length,1), ancho = Math.min(paso*0.6,34);
@@ -1278,7 +1295,7 @@ function pintaSinc(c){
     sv += '<rect x="'+px+'" y="'+Math.min(y0,y1)+'" width="'+ancho+'" height="'+
       Math.max(Math.abs(y1-y0),0.5)+'" rx="2" fill="'+(x.g<0?"var(--rosa)":"var(--salvia)")+
       '" stroke="var(--contorno)" stroke-width="1" data-tip="'+
-      esc(x.et+": "+(x.g>0?"+":"")+x.g+" contra lo que reporta Meta")+'"/>';
+      esc(x.et+": "+(x.g>0?"+":"")+x.g+" contra el formulario de Meta")+'"/>';
     if(gaps.length<=12 || i%salto===0)
       sv += '<text class="valor-g" x="'+(px+ancho/2)+'" y="'+(x.g<0?y1+12:y1-5)+
         '" text-anchor="middle">'+(x.g>0?"+":"")+nf(x.g)+'</text>';
@@ -1286,28 +1303,42 @@ function pintaSinc(c){
       sv += '<text class="eje" x="'+(px+ancho/2)+'" y="'+(H-mb+15)+'" text-anchor="middle">'+esc(x.et)+'</text>';
   });
   document.getElementById("g-brecha").innerHTML =
-    '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Brecha entre Meta y el CRM">'+sv+'</svg>';
+    '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Brecha entre el formulario de Meta y el CRM">'+sv+'</svg>';
   // tabla por mes y país
   const porMP = {};
   m.forEach(r=>{ const k=mesDe(r[mF])+"|"+V.pais[r[mPA]];
-    porMP[k]=porMP[k]||{meta:0,pixel:0,crm:0}; porMP[k].meta+=r[mLE]; porMP[k].pixel+=r[mPX]; });
-  c.l.forEach(x=>{ if(x[lCA]!==REDES) return;
+    porMP[k]=porMP[k]||{forma:0,sitio:0,crm:0,web:0};
+    porMP[k].forma+=r[mEM]; porMP[k].sitio+=r[mLE]-r[mEM]; });
+  c.l.forEach(x=>{ if(x[lCA]!==REDES && x[lCA]!==WEB) return;
     const k=mesDe(x[lF])+"|"+V.pais[x[lPA]];
-    porMP[k]=porMP[k]||{meta:0,pixel:0,crm:0}; porMP[k].crm++; });
-  const filas = Object.entries(porMP).sort((a,b)=>a[0].localeCompare(b[0]));
+    porMP[k]=porMP[k]||{forma:0,sitio:0,crm:0,web:0};
+    if(x[lCA]===REDES) porMP[k].crm++; else porMP[k].web++; });
+  const todas = Object.entries(porMP).sort((a,b)=>a[0].localeCompare(b[0]));
+  const tSitio = todas.reduce((a,[,v])=>a+v.sitio,0), tWeb = todas.reduce((a,[,v])=>a+v.web,0);
+  // Los totales salen de TODAS las celdas; se muestran solo las que tienen algo
+  // en las dos columnas comparadas. Una fila «Otro 0 · 0 · 0» no dice nada y
+  // empuja hacia abajo las que si.
+  const filas = todas.filter(([,v])=>v.forma || v.crm);
   document.getElementById("tabla-sinc").innerHTML =
-    '<thead><tr><th>Mes</th><th>País</th><th>Meta</th><th>CRM</th><th>Diferencia</th>'+
-    '<th>% sobre Meta</th><th>Del pixel</th></tr></thead><tbody>'+
-    filas.map(([k,v])=>{ const [mes,pais]=k.split("|"); const b=v.crm-v.meta;
+    '<thead><tr><th>Mes</th><th>País</th><th>Formulario de Meta</th><th>Redes en el CRM</th>'+
+    '<th>Diferencia</th><th>% sobre Meta</th></tr></thead><tbody>'+
+    filas.map(([k,v])=>{ const [mes,pais]=k.split("|"); const b=v.crm-v.forma;
       return '<tr><td class="clave">'+mesCorto(mes)+'</td><td style="text-align:left">'+esc(pais)+'</td>'+
-      '<td class="n">'+nf(v.meta)+'</td><td class="n">'+nf(v.crm)+'</td>'+
+      '<td class="n">'+nf(v.forma)+'</td><td class="n">'+nf(v.crm)+'</td>'+
       '<td class="n"'+(b<0?' style="color:var(--alerta);font-weight:600"':'')+'>'+(b>0?"+":"")+nf(b)+'</td>'+
-      '<td class="n">'+(v.meta?((b>0?"+":"")+(100*b/v.meta).toFixed(1).replace(".",",")+"%"):"—")+'</td>'+
-      '<td class="n">'+(v.pixel?nf(v.pixel):"—")+'</td></tr>'; }).join("")+
-    '<tr class="total"><td>Total</td><td></td><td class="n">'+nf(meta)+'</td><td class="n">'+nf(crm)+
+      '<td class="n">'+(v.forma?((b>0?"+":"")+(100*b/v.forma).toFixed(1).replace(".",",")+"%"):"—")+
+      '</td></tr>'; }).join("")+
+    '<tr class="total"><td>Total</td><td></td><td class="n">'+nf(forma)+'</td><td class="n">'+nf(crm)+
     '</td><td class="n">'+(brecha>0?"+":"")+nf(brecha)+'</td><td class="n">'+
-    (meta?((brecha>0?"+":"")+(100*brecha/meta).toFixed(1).replace(".",",")+"%"):"—")+
-    '</td><td class="n">'+nf(pixel)+'</td></tr></tbody>';
+    (forma?((brecha>0?"+":"")+(100*brecha/forma).toFixed(1).replace(".",",")+"%"):"—")+
+    '</td></tr></tbody>';
+  // la otra puerta: el sitio web. Se declara, no se cuadra.
+  document.getElementById("sitio-sinc").innerHTML =
+    '<span class="rotulo">La otra puerta</span><div>Meta atribuye <b>'+nf(tSitio)+'</b> leads a su '+
+    'pixel en el sitio y el CRM registra <b>'+nf(tWeb)+'</b> por el canal <b>Página web</b> en esta '+
+    'vista. <b>No se restan:</b> al sitio también llega gente que nunca vio un anuncio, así que el '+
+    'CRM puede salir más alto sin que sobre nada, y Meta cuenta el evento del pixel, que no siempre '+
+    'termina en un registro. Sirve el tamaño, no la cuadratura.</div>';
 }
 
 /* ── ¿a quién le caen? ───────────────────────────────────────────────────── */
@@ -1358,6 +1389,8 @@ function globales(){
   const web = L.filter(x=>x[lCA]===WEB), webT = T.filter(x=>x[tCA]===WEB);
   const gasto = MT.reduce((a,r)=>a+r[mGA],0);
   const metaLeads = MT.reduce((a,r)=>a+r[mLE],0);
+  const metaForma = MT.reduce((a,r)=>a+r[mEM],0);
+  const metaSitio = metaLeads-metaForma;
   const gt = k => L.filter(x=>V.pais[x[lPA]]==="Guatemala" && x[lCA]===k);
   const gtT = k => T.filter(x=>V.pais[x[tPA]]==="Guatemala" && x[tCA]===k);
   return {
@@ -1366,7 +1399,7 @@ function globales(){
     premium:cal.filter(x=>x[lPL]===iPlan.Premium).length,
     won:T.filter(x=>x[tET]===GANADO).length,
     lost:T.filter(x=>x[tET]===PERDIDO).length,
-    gasto, metaLeads,
+    gasto, metaLeads, metaForma, metaSitio,
     leadsRedes:rd.length, calRedes:rd.filter(x=>x[lCL]===1).length,
     wonRedes:rdT.filter(x=>x[tET]===GANADO).length,
     leadsWeb:web.length, wonWeb:webT.filter(x=>x[tET]===GANADO).length,
@@ -1417,12 +1450,15 @@ function pintaAcciones(){
            "Bloquear en la regla de asignación que pueda caer en un usuario inactivo."]},
     {area:"Mercadeo", esf:"Una semana con Meta",
      que:"Arreglar la entrega del formulario instantáneo al CRM",
-     dato:"Meta reporta <b>"+nf(g.metaLeads)+"</b> leads y el CRM registra <b>"+
-       nf(g.leadsRedes)+"</b>: faltan <b>"+nf(g.metaLeads-g.leadsRedes)+"</b> ("+
-       pf(g.metaLeads-g.leadsRedes,g.metaLeads)+")",
+     dato:"Del formulario que se llena dentro de Meta salen <b>"+nf(g.metaForma)+
+       "</b> leads y el CRM registra <b>"+nf(g.leadsRedes)+"</b> de redes: faltan <b>"+
+       nf(g.metaForma-g.leadsRedes)+"</b> ("+pf(g.metaForma-g.leadsRedes,g.metaForma)+
+       "), y la brecha se repite todos los meses",
      como:["Revisar la integración de Leads en las campañas de Punto de Venta GT y SV.",
            "Cuadrar un día concreto lead por lead: CSV de Meta contra registros creados.",
-           "Si la pérdida es deduplicación, medirla y declararla; si es la integración, reconectarla."]},
+           "Si la pérdida es deduplicación, medirla y declararla; si es la integración, reconectarla.",
+           "No perseguir los del sitio web en esta misma cuenta: entran por «Página web» y ahí "+
+             "también hay tráfico que no vino de pauta."]},
     {area:"Ventas", esf:"Cambio de rutina",
      que:"Atacar el primer contacto: es la causa número uno de Trato perdido",
      dato:"<b>"+nf(g.noContesta)+"</b> de <b>"+nf(g.lost)+"</b> Tratos perdidos por «No contesta» ("+
@@ -1481,9 +1517,10 @@ function pintaNotas(){
       ["Lead → venta","De cada 100 leads de un canal, cuántos terminaron en venta. La única columna que mide el canal completo."]
     ])+
     bloque("Dónde es fácil equivocarse",[
-      ["Un informe del CRM no es «el CRM»","Los informes de Zoho excluyen los convertidos por omisión; con filtro de país, muestran una parte."],
+      ["Un informe del CRM no es «el CRM»","Excluyen los convertidos por omisión y filtran país; una captura de otro día es además un mes más corto."],
       ["Convertido ≠ calificado","<b>"+nf(Q.convertidos_sin_trato)+"</b> leads figuran convertidos sin Trato. Aquí cuentan como no calificados."],
       ["Un rango corto son dos cohortes","Los leads se cortan por su fecha y los Tratos por la suya: «lead → venta» puede pasar de 100% en una semana."],
+      ["Meta entrega por dos puertas","Dentro de Meta <b>"+nf(g.metaForma)+"</b> y por el pixel del sitio <b>"+nf(g.metaSitio)+"</b>. Caen en canales distintos del CRM: compararlos juntos inventa una brecha."],
       ["Meta y el CRM no cuadran al registro","Meta cuenta eventos y atribuye al clic; el CRM cuenta registros y deduplica. Sirve el tamaño de la diferencia, no la auditoría."],
       ["Los dos embudos no se suman","Son dos caminos con tasas propias, no partes de un mismo total."]
     ])+

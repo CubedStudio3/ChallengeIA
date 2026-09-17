@@ -17,6 +17,7 @@
     "prueba:estrategia": "node pruebas/estrategia_cartas.js",
     "prueba:ficha": "node pruebas/cartas_ficha.js",
     "prueba:imagen": "node pruebas/imagen_boton.js",
+    "prueba:ciclo": "PYTHONPATH=src python3 pruebas/ciclo_meta.py",
     "prompt:imagen": "PYTHONPATH=src python3 -m modulo1.prompt_visual"
   },
   "dependencies": {

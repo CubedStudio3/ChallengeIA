@@ -203,16 +203,23 @@ def main():
     # `time_increment: 1` una sola llamada devolvio exactamente 1000 filas —el
     # tope— y el resultado se ve igual de completo que uno completo. Enero y
     # febrero cuadraban al centavo y de marzo en adelante faltaba gasto.
+    #
+    # Y se piden los CAMPOS de lead, no el `results` de cada campaña. `results`
+    # trae el resultado del indicador por el que esa campaña optimiza, asi que
+    # una campaña de trafico reporta clics y sus leads quedaban invisibles: el
+    # periodo entero daba 3,052 leads contra los 5,712 que Meta muestra en la
+    # interfaz. `lead` los cuenta todos y `onsite_conversion_lead_grouped` es el
+    # subconjunto que ocurre DENTRO de Meta (formulario instantaneo, Messenger,
+    # DM de Instagram). La resta —los del sitio web, por el pixel— es la otra
+    # mitad, y entra al CRM por otro canal. Verificado 2026-09-17 contra la
+    # interfaz: SV 165 = 96 + 69 y GT 146 = 83 + 63.
     meta = []
-    for q in ("meta_q1.json", "meta_q2.json", "meta_q3.json"):
+    for q in ("meta_lead_q1.json", "meta_lead_q2.json", "meta_lead_q3.json"):
         trozo = json.loads(json.load(open(os.path.join(CRUDO, q),
                                           encoding="utf-8"))["ad_entities"])
         if len(trozo) >= 1000:
             alto("%s trae %d filas: esta en el tope y viene truncado" % (q, len(trozo)))
         meta += trozo
-    LEAD_IND = {"actions:lead", "actions:leadgen.other",
-                "actions:onsite_conversion.lead_grouped",
-                "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead"}
     import re
 
     def num(s):
@@ -227,23 +234,18 @@ def main():
             limpio = limpio.replace(",", ".")
         return float(limpio)
 
-    dia_meta = collections.defaultdict(lambda: [0.0, 0, 0])  # gasto, leads, pixel
+    dia_meta = collections.defaultdict(lambda: [0.0, 0, 0])  # gasto, leads, en Meta
     for f in meta:
         pais = {"GT": "Guatemala", "SV": "El Salvador"}.get(f.get("country"), "Otro")
         k = (f["date_start"], pais)
-        g = num(f.get("amount_spent")) or 0.0
-        res = f.get("results") or {}
-        ind = res.get("indicator") or ""
-        dia_meta[k][0] += g
-        if ind in LEAD_IND:
-            v = res.get("values")
-            val = None
-            if v and isinstance(v, list):
-                val = num(v[0].get("value"))
-            if val is not None:
-                dia_meta[k][1] += int(val)
-                if "QualifiedLead" in ind:
-                    dia_meta[k][2] += int(val)
+        total = int(num(f.get("lead")) or 0)
+        dentro = int(num(f.get("onsite_conversion_lead_grouped")) or 0)
+        if dentro > total:
+            alto("%s %s: 'en Meta' (%d) pasa del total de leads (%d); la resta "
+                 "del sitio web saldria negativa" % (f["date_start"], pais, dentro, total))
+        dia_meta[k][0] += num(f.get("amount_spent")) or 0.0
+        dia_meta[k][1] += total
+        dia_meta[k][2] += dentro
     celdas_meta = [[d, p, round(v[0], 2), v[1], v[2]] for (d, p), v in sorted(dia_meta.items())]
 
     # ── compresion por diccionarios de indices ───────────────────────────
@@ -339,6 +341,32 @@ def main():
     for mes, esperado in VERIFICADO.items():
         if abs(por_mes[mes] - esperado) > 0.02:
             alto("gasto de Meta en %s: %.2f, esperado %.2f" % (mes, por_mes[mes], esperado))
+
+    # Los leads de Meta se comparan contra una lectura de NIVEL DE CUENTA,
+    # agregada por mes y pais: otro camino, no la suma de las mismas filas.
+    # Sumar campañas podria duplicar un lead atribuido a dos campañas; las dos
+    # lecturas coinciden exactas en las 18 celdas, asi que no lo hace.
+    # Leida el 2026-09-17: (mes, pais) -> (leads, leads dentro de Meta).
+    CUENTA = {
+        ("2026-01", "El Salvador"): (30, 29),   ("2026-01", "Guatemala"): (268, 262),
+        ("2026-02", "El Salvador"): (286, 235), ("2026-02", "Guatemala"): (221, 182),
+        ("2026-03", "El Salvador"): (637, 513), ("2026-03", "Guatemala"): (295, 249),
+        ("2026-04", "El Salvador"): (738, 636), ("2026-04", "Guatemala"): (153, 134),
+        ("2026-05", "El Salvador"): (565, 475), ("2026-05", "Guatemala"): (196, 165),
+        ("2026-06", "El Salvador"): (490, 410), ("2026-06", "Guatemala"): (400, 326),
+        ("2026-07", "El Salvador"): (352, 316), ("2026-07", "Guatemala"): (261, 215),
+        ("2026-08", "El Salvador"): (163, 103), ("2026-08", "Guatemala"): (346, 205),
+        ("2026-09", "El Salvador"): (165, 96),  ("2026-09", "Guatemala"): (146, 83),
+    }
+    leido = collections.defaultdict(lambda: [0, 0])
+    for c in celdas_meta:
+        leido[(c[0][:7], c[1])][0] += c[3]
+        leido[(c[0][:7], c[1])][1] += c[4]
+    for k, (t, d) in sorted(CUENTA.items()):
+        v = leido.get(k, [0, 0])
+        if v[0] != t or v[1] != d:
+            alto("leads de Meta en %s %s: dia por dia da %d/%d y la lectura de "
+                 "cuenta da %d/%d (total / dentro de Meta)" % (k[0], k[1], v[0], v[1], t, d))
 
     cal = sum(c[7] for c in celdas_lead)
     free = sum(1 for c in celdas_lead if c[8] == "Free")

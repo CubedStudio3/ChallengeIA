@@ -188,6 +188,10 @@ aquí, agrupar por una columna sin nulos, o el sondeo por `offset`.
 
 ### La brecha Meta → CRM
 
+> ⚠️ **Esta tabla quedó superada el 2026-09-19.** Los dos números estaban mal
+> construidos: el de Meta venía de `results` y le faltaban leads, y se comparaba
+> un total contra un subconjunto del CRM. Ver «Corrección del 2026-09-19».
+
 | | |
 |---|---|
 | Leads que reporta Meta (indicadores de lead) | **4.777** |
@@ -477,3 +481,117 @@ Ninguno necesitó dato nuevo. Todos son de cómo se lee.
 se fue con ella `globales()`, que vivía entre esa sección y las acciones, y la
 página quedó con `globales is not defined`. Cortar por rangos de texto se lleva
 lo que está en medio; la prueba en navegador lo agarró antes de publicar.
+
+
+---
+
+## Corrección del 2026-09-19 · la brecha Meta → CRM estaba mal construida, dos veces
+
+Mercadeo mandó cuatro capturas —los tooltips de conversiones de Meta para SV y
+GT, un informe «Plan QPayPro» y la vista «Leads Guatemala»— diciendo *«no me
+cuadran con lo que tú me estás dando en el tablero»*. Tenía razón, y el
+desacuerdo no estaba en el dato: estaba en el tablero. **Las cuatro capturas
+cuadran con este dataset**, tres de ellas al registro.
+
+### Lo que decían las capturas, medido contra este dataset
+
+| Captura | Lo que muestra | Lo que da este dataset | |
+|---|---|---|---|
+| Meta SV, tooltip | 165 = 69 sitio web + 96 en Meta | 165 = 69 + 96 | exacto |
+| Meta GT, tooltip | 146 = 63 sitio web + 83 en Meta | 146 = 63 + 83 | exacto |
+| Informe «Plan QPayPro» | Free **32**, Guatemala **31**, responsable Ruiz | 32 Free creados en septiembre · 31 GT · 32 de Ruiz | exacto |
+| Vista «Leads Guatemala» | Registros totales **82** | 82 = no convertidos, País Guatemala **o vacío**, creados en septiembre | exacto |
+
+Y el widget «LEADS 2026» que mandó una semana antes decía **60** para
+septiembre: es el **mismo filtro** de la vista, con el mes cortado el **11 de
+septiembre** (acumulado exacto a ese día: 60). No contaba otra cosa; contaba un
+mes más corto. Una captura tiene fecha aunque no la muestre.
+
+### Primer defecto: `results` no cuenta los leads, cuenta el resultado del indicador
+
+El tablero leía los leads de Meta desde el campo `results` de cada campaña. Ese
+campo devuelve el resultado **del indicador por el que esa campaña optimiza**:
+una campaña de tráfico reporta clics en enlace, y sus leads quedaban
+**invisibles**. Sumar solo las filas con `indicator == "actions:lead"` daba
+**3.052 leads** en 2026 cuando la interfaz de Meta muestra **5.712**.
+
+El campo correcto es `lead` («Clientes potenciales»), que existe para toda
+campaña con entrega independientemente de por qué optimice. Es la misma trampa
+que ya estaba escrita en `CLAUDE.md` —«el indicador de `results` cambia por
+campaña»— aplicada en la dirección que no se había considerado: no es solo que
+no se puedan **sumar** indicadores distintos, es que **filtrar por uno tira el
+resto del dato**.
+
+Esto explica de paso la anomalía de junio GT que quedó anotada como «+234 a
+favor del CRM» por `$805,39 con indicador mixed y cero resultados». No era un
+misterio de atribución: los leads de esas campañas estaban en `lead` y el
+tablero no los leía. Con el campo correcto junio GT sale **−29**, como todos los
+demás meses.
+
+### Segundo defecto: Meta entrega por DOS puertas y se comparaba una sola
+
+`lead` es la **suma** de dos cosas que entran al CRM por canales distintos:
+
+- `onsite_conversion_lead_grouped` · **dentro de Meta**: formulario instantáneo,
+  Messenger, DM de Instagram. Llega al CRM como **Redes sociales (Meta)**.
+- la resta · **en el sitio web**, por el pixel. Llega al CRM como **Página web**.
+
+El tablero comparaba el **total** de Meta contra **solo** el canal de redes del
+CRM. La brecha de −742 que publicaba era en buena parte los leads del sitio web
+buscados en el canal equivocado. Corregido, las dos filas quedan así para todo
+el periodo:
+
+| | Meta | CRM | |
+|---|---|---|---|
+| Dentro de Meta → canal Redes | **4.634** | **4.124** | **−510 · −11,0%** |
+| Sitio web (pixel) → canal Página web | 1.078 | 689 | no se restan |
+
+La primera fila **sí** es una cuadratura, y la brecha es negativa en **los 18
+cortes mes-país**, sin una sola excepción a favor del CRM. De febrero en
+adelante es además estable: entre **−5,2% y −18,7%**. Enero se sale y hay que
+decirlo en vez de promediarlo: **GT −43,9%** (262 contra 147) y **SV −89,7%**
+(29 contra 3), coherente con que el canal de SV todavía no estuviera recibiendo.
+La estabilidad desde febrero apunta a deduplicación y ventana de atribución más
+que a una integración rota, y es un orden de magnitud distinto al −742 que se
+publicaba.
+
+La segunda **no** es una cuadratura y el tablero lo declara: al sitio también
+llega quien nunca vio un anuncio —GT tuvo meses con más registros web que leads
+atribuidos, lo que sería imposible si todos vinieran de pauta—, y Meta cuenta el
+**evento** del pixel, que no siempre termina en un registro.
+
+### La compuerta
+
+El corte de las dos puertas se pidió por dos caminos distintos: sumando
+campañas día por día, y una lectura de **nivel de cuenta** agregada por mes y
+país. Coinciden **exactas en las 18 celdas** (9 meses × 2 países), así que
+sumar campañas no duplica un lead atribuido a dos campañas —que era el riesgo
+real de este camino—. Esas 18 celdas quedan como constante en
+`src/modulo1/ciclo_lead.py` y la corrida se detiene si la lectura diaria no las
+reproduce.
+
+`npm run prueba:ciclo` rompe el dato a propósito cinco veces y comprueba que la
+corrida se detiene: un lead menos, **un lead movido de SV a GT sin cambiar el
+total** —que la compuerta global no vería—, «dentro de Meta» por encima del
+total, un día entero borrado, y el corte de las dos puertas aplanado. 5 de 5.
+
+### Trampas nuevas
+
+- **Filtrar por indicador tira dato, no lo agrupa.** `results` con
+  `indicator == "actions:lead"` parece una precaución y es una pérdida: se queda
+  con el 53% de los leads del año y el resultado se ve igual de completo.
+- **Un campo aditivo se puede comparar contra la mitad de su contraparte.** El
+  total de Meta contra solo el canal de redes del CRM daba una brecha que no
+  existía. Si un número es una suma de partes que llegan a lugares distintos,
+  la comparación va parte por parte o no va.
+- **Una captura de pantalla tiene fecha aunque no la muestre.** Los 60 del
+  widget y los 82 de la vista son el mismo filtro con seis días de diferencia.
+  Tratar dos capturas de días distintos como dos mediciones del mismo periodo
+  inventa una discrepancia.
+- **El país del gasto tiene ruido de redondeo; el conteo de leads no.** La
+  lectura mensual de cuenta parte mayo GT/SV en `732,81 / 972,26` y la diaria en
+  `732,69 / 972,38`: el total del mes es el mismo `1.705,07` al centavo. Por eso
+  la compuerta nueva compara **enteros** y el gasto sigue con la suya.
+- **Una anomalía puede ser un síntoma del propio instrumento.** El «+234 a favor
+  del CRM» de junio se documentó como un hallazgo sobre la atribución de Meta.
+  Era el defecto de la lectura, mirándose a sí mismo.

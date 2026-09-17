@@ -187,6 +187,17 @@ cometidos; no hay tiempo de repetirlos.
   (ADR-013).
 - **El indicador de `results` cambia por campaña.** 158 leads y 10,771 clics en
   enlace no se suman. Agrupar por indicador antes de comparar o agregar.
+- **Y filtrar por un indicador TIRA dato, no lo agrupa.** Quedarse con las filas
+  de `indicator == "actions:lead"` para contar leads da **3,052 en 2026 contra
+  los 5,712 que muestra la interfaz**: una campaña de tráfico reporta clics y sus
+  leads se vuelven invisibles. Para contar leads va el campo **`lead`**, que
+  existe para toda campaña con entrega. Medido el 2026-09-17.
+- **«Clientes potenciales» de Meta es una SUMA de dos puertas.**
+  `onsite_conversion_lead_grouped` son los que ocurren dentro de Meta
+  (formulario instantáneo, Messenger, DM) y la resta son los del **sitio web**,
+  por el pixel. Entran al CRM por canales distintos, así que comparar el total
+  contra un solo canal construye una brecha que no existe (−742 publicado contra
+  −510 real). Verificado al registro: SV 165 = 96 + 69, GT 146 = 83 + 63.
 - **`Not available` y `mixed` son huecos, no ceros.** La API es honesta cuando no
   hay dato; convertirlo a 0 inventaría información.
 - El objetivo de optimización no se edita en ad sets con historial de entrega.
