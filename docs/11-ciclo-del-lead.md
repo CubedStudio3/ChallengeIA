@@ -294,3 +294,118 @@ el informe estaba inflado por lo que el informe esconde.
 **La trampa, para que no se repita:** un informe del CRM no es «el CRM». Antes de
 comparar contra Meta hay que saber qué filtra: el país, y sobre todo los
 convertidos, que son justamente los leads que sí avanzaron.
+
+---
+
+## Rediseño del 2026-09-17 · por día, con plan, y una corrección grande
+
+Mercadeo pidió seis cambios de diseño. Dos de ellos obligaron a cambiar el
+**dato**, no la página.
+
+### Los filtros por día obligaron a extraer por fila
+
+El tablero pasó de un selector de mes a dos calendarios (**desde** / **hasta**).
+Un dato agregado por mes no puede contestar eso. La extracción ahora trae
+**filas**, no cubos:
+
+```
+leads no convertidos   3 páginas de COQL   4.036
+leads convertidos      1 página              1.010
+                                        ─────────
+                                            5.046
+tratos                 1 página              1.013
+```
+
+No hay transcripción a mano en ningún punto: cuando la respuesta de una
+herramienta pasa del tope de tokens, **se guarda en un archivo** y Python la lee
+de ahí. Las respuestas crudas quedaron en `data/ciclo_lead/crudo/`.
+
+El dataset se comprime con **diccionarios de índices**: cada texto es un entero
+y la fecha es el índice de un vocabulario ordenado, así que filtrar por rango es
+comparar enteros. De 1,3 MB de texto repetido a **249 KB**.
+
+### Free y Premium: el campo existía, en el Trato
+
+`Plan_migracion` en Leads está poblado en **23 de 4.036** — inservible. El corte
+real es **`Producto`**, un lookup que en la interfaz se llama **«Plan QPayPro»**
+y que vive en el **Trato**: poblado en **1.010 de 1.013**.
+
+| Plan | Tratos |
+|---|---|
+| Free | 574 |
+| Premium Anual | 413 |
+| Premium Mensual | 10 |
+| Elite Anual | 9 |
+| Afiliación Premium Silver Anual | 3 |
+| Kit de Punto de Venta QpayPOS | 1 |
+| sin plan | 3 |
+
+**Consecuencia de método:** un lead **no tiene plan** hasta que llega a Trato.
+El KPI lo dice en voz alta en vez de rellenar: 966 de 5.046 tienen plan; los
+4.080 restantes no lo tienen porque no llegaron.
+
+### La corrección grande: el Importe en cero NO era un hueco
+
+La primera entrega dijo: «571 de 698 Tratos ganados tienen Importe en cero → no
+hay CAC ni ROAS que calcular». Con el plan a la vista, eso era **leer mal el
+dato**:
+
+| | |
+|---|---|
+| Ganados con Importe 0 | **572** — y son **todos** del plan Free |
+| Ganados de plan de pago | **145** |
+| De esos, con importe | **129**, que suman **$255.932,50** |
+| Hueco real | **16** Tratos de pago sin importe |
+
+El cero del plan gratuito **es el valor correcto**. El hueco no era del 82% de
+las ventas: era del 11% de las ventas de pago. Y sí hay una cifra de ingreso
+registrada.
+
+Por canal, las ventas de pago:
+
+| Canal | Ventas de pago | Importe registrado |
+|---|---|---|
+| Directo / Referidos | 55 | $93.901,50 |
+| WhatsApp / Chat | 48 | $91.540,00 |
+| Sin fuente | 5 | $27.848,00 |
+| Redes sociales (Meta) | 18 | $25.404,00 |
+| Página web | 19 | $17.239,00 |
+
+**Y eso da vuelta la lectura del canal web.** El tablero decía que la web «trae
+plan de pago». Es lo contrario: la web produce **538 ventas Free y 19 de pago**.
+Los planes de pago salen de donde hay una persona en medio —WhatsApp y
+referidos—. Se corrigió la recomendación.
+
+### Trampa nueva, y me la comí yo
+
+**`time_increment: 1` con `limit: 1000` devolvió exactamente 1.000 filas.** Sin
+cursor en el esquema de la respuesta, el resultado se veía completo. Enero y
+febrero cuadraban **al centavo** contra la lectura mensual ya verificada, y de
+marzo en adelante faltaba gasto: $11.093,84 contra los $13.909,38 conocidos.
+
+La lectura buena va **por trimestre** (382 + 596 + 319 = 1.297 filas, ninguna en
+el tope) y ahora hay una compuerta que compara el gasto mes a mes contra la
+lectura mensual —que se pidió por otro camino— y **detiene la corrida** si
+alguno se desvía más de dos centavos. Los ocho meses cerrados cuadran al
+centavo.
+
+Es la misma trampa del ADR-050. La lección que faltaba: **una compuerta solo
+sirve si el número con el que compara viene por un camino distinto.** Comparar
+la lectura consigo misma es lo que dejó pasar el «3.983 = 3.983» de la semana
+pasada.
+
+### Lo que cambió en la página
+
+- Filtros: **País · Canal · Desde · Hasta**. Fuera el de Fuente y el de Mes.
+- El encabezado quedó en el título solo.
+- KPIs: leads que entraron **con el desglose Free / Premium debajo**,
+  calificados, ganados y % de cierre. Fuera el de seguimiento.
+- **Dos embudos lado a lado**: página web y formulario de Meta, cada uno con su
+  split de plan en los escalones donde el plan ya existe.
+- «¿Son leads malos o es el cierre?» y «Dónde se caen» quedaron **juntos, debajo
+  de los embudos**, para que la leyenda se lea con su detalle al lado.
+- Las gráficas de tiempo cambian de grano solas: **por día** si el rango es de
+  dos meses o menos, **por mes** si es más largo.
+- Se cayeron dos limitaciones que estaban declaradas: la tabla de vendedores y
+  el desglose de Stand By ahora responden a todos los filtros, porque el dato
+  por fila los soporta.

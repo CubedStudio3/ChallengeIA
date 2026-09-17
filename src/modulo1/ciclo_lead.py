@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
-"""Ciclo del Lead · arma el dataset del tablero desde los cubos del CRM.
+"""Ciclo del Lead · arma el dataset del tablero desde las filas crudas del CRM.
 
-Los cubos vienen de COQL con `group by` (la agregacion SI existe en COQL: hay
-que ponerle alias al COUNT). Cada cubo ya reconcilio contra una consulta
-independiente antes de entrar aqui; ver docs/11-ciclo-del-lead.md.
+Desde el 2026-09-17 el dataset es **por dia**, no por mes: los filtros del
+tablero son dos calendarios (desde / hasta) y un dato mensual no los puede
+contestar. Las filas vienen de COQL paginado y se guardan tal cual en
+`data/ciclo_lead/crudo/` — no hay transcripcion a mano en ningun punto.
 
-Cero datos inventados: si una categoria no esta en el mapa, se detiene.
+Cada lead calificado hereda el **plan** de su Trato (`Producto`, el lookup que
+en la interfaz se llama «Plan QPayPro»). El plan NO existe antes de que el lead
+llegue a Trato: eso se declara, no se rellena.
+
+Cero datos inventados: si una categoria no esta en el mapa, el script se detiene.
 """
-import csv, json, os, sys, collections
+import json, os, sys, collections
 
-BASE = os.path.join(os.path.dirname(__file__), "..", "..", "data", "ciclo_lead")
-BASE = os.path.abspath(BASE)
+BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+CRUDO = os.path.join(BASE, "data", "ciclo_lead", "crudo")
+SALIDA = os.path.join(BASE, "data", "ciclo_lead")
 
 CANAL = {
     "Meta Ads": "Redes sociales (Meta)",
@@ -28,7 +34,6 @@ CANAL = {
     "": "Sin fuente",
 }
 
-# bucket -> (area, [estados])
 BUCKETS = [
     ("Dato inválido / no elegible", "Mercadeo", [
         "SPAM", "Contacto Duplicado", "Número Incorrecto", "Sin Datos",
@@ -54,13 +59,16 @@ BUCKETS = [
         "Pre Calificado", "Contactar por IA", "Contact in Future", ""]),
 ]
 ESTADO2BUCKET = {e: (b, a) for b, a, es in BUCKETS for e in es}
+VIVO = set(BUCKETS[4][2])
 
 RAZON = {
     "No contesta": ("Contactabilidad", "Ventas"),
     "Plan Mini - No contesta": ("Contactabilidad", "Ventas"),
+    "En espera de una respuesta": ("Contactabilidad", "Ventas"),
     "Otra afiliación con otra empresa": ("Competencia", "Producto / Comercial"),
     "Solo quería información": ("Intención", "Mercadeo"),
     "No le es funcional": ("Fit de producto", "Producto / Comercial"),
+    "Plan Mini - No me funciona": ("Fit de producto", "Producto / Comercial"),
     "Liquidación más rápida": ("Fit de producto", "Producto / Comercial"),
     "Necesitaba POS físico": ("Fit de producto", "Producto / Comercial"),
     "Necesitaba cuotas BAC y BANRURAL": ("Fit de producto", "Producto / Comercial"),
@@ -72,16 +80,20 @@ RAZON = {
     "Negocio con operaciones ilegales": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene Patente": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene RTU": ("Dato inválido / no elegible", "Mercadeo"),
+    "Plan Mini - No es válido": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene cuenta de banco alineada al RTU": ("Dato inválido / no elegible", "Mercadeo"),
     "RTU no alineado a web/RRSS": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene página Web o RRSS": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene página Web o Redes Sociales": ("Dato inválido / no elegible", "Mercadeo"),
     "No tiene listo el negocio": ("Timing", "Mercadeo"),
-    "En espera de una respuesta": ("Contactabilidad", "Ventas"),
 }
 
-ABIERTAS = {"Calificado Interesado", "Necesita validarlo con alguien más",
-            "Interesado listo para pagar", "Interesado - Negociando"}
+ABIERTAS = ["Calificado Interesado", "Necesita validarlo con alguien más",
+            "Interesado listo para pagar", "Interesado - Negociando"]
+
+# El unico plan gratuito se llama «Free»; todo lo demas que el CRM registra en
+# «Plan QPayPro» es de pago. Se guarda el nombre crudo para poder abrirlo.
+GRATIS = "Free"
 
 
 def alto(msg):
@@ -89,9 +101,11 @@ def alto(msg):
     sys.exit(1)
 
 
-def lee(nombre):
-    with open(os.path.join(BASE, nombre), encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+def filas(nombre):
+    # La paginacion no se comprueba aqui: una pagina truncada se ve igual de
+    # completa que una completa. Lo que verifica es la compuerta del final,
+    # que compara el total contra un COUNT independiente del CRM.
+    return json.load(open(os.path.join(CRUDO, nombre), encoding="utf-8"))["data"]["data"]
 
 
 def canal(fuente):
@@ -100,136 +114,242 @@ def canal(fuente):
     return CANAL[fuente]
 
 
-def main():
-    leads_nc = lee("leads_no_convertidos.csv")
-    leads_cal = lee("leads_calificados.csv")
-    leads_sd = lee("leads_convertidos_sin_trato.csv")
-    tratos = lee("tratos.csv")
-    vend = lee("vendedores_redes.csv")
-    standby = lee("standby_razones.csv")
-    meta = json.load(open(os.path.join(BASE, "meta_mensual.json"), encoding="utf-8"))
+def plan_de(producto):
+    if not producto:
+        return "", ""
+    nom = producto.get("name") or ""
+    if not nom:
+        return "", ""
+    return ("Free" if nom == GRATIS else "Premium"), nom
 
-    # --- celdas de leads: [mes, pais, canal, fuente, estado, bucket, area, calificado, n]
+
+def main():
+    leads = filas("leads_p0.json") + filas("leads_p1.json") + filas("leads_p2.json")
+    conv = filas("leads_convertidos.json")
+    tratos = filas("tratos.json")
+
+    ids = set(r["id"] for r in leads) | set(r["id"] for r in conv)
+    if len(ids) != len(leads) + len(conv):
+        alto("hay ids repetidos entre las paginas de leads")
+    if any(r["Converted__s"] for r in leads) or any(not r["Converted__s"] for r in conv):
+        alto("las dos extracciones de leads se contaminaron entre si")
+
+    # plan por trato, para heredarlo al lead que lo origino
+    plan_trato = {}
+    for t in tratos:
+        plan_trato[t["id"]] = plan_de(t.get("Producto"))
+
     celdas_lead = []
-    def agrega_lead(r, calificado, estado):
-        if calificado:
+    sin_trato = 0
+    for r in leads + conv:
+        fecha = r["Created_Time"][:10]
+        fuente = r.get("Lead_Source") or ""
+        estado = r.get("Lead_Status") or ""
+        trato = (r.get("Converted_Deal") or {}).get("id")
+        calif = 1 if trato else 0
+        if r["Converted__s"] and not trato:
+            sin_trato += 1
+        if calif:
             bucket, area = "Calificado (llegó a Trato)", "Calificado"
+            plan, producto = plan_trato.get(trato, ("", ""))
         else:
             if estado not in ESTADO2BUCKET:
                 alto("estado de lead sin bucket: %r" % estado)
             bucket, area = ESTADO2BUCKET[estado]
-        celdas_lead.append([r["mes"], r["pais"] or "Sin país", canal(r["fuente"]),
-                            r["fuente"] or "Sin fuente", estado or "Sin estado",
-                            bucket, area, 1 if calificado else 0, int(r["n"])])
-    for r in leads_nc:
-        agrega_lead(r, False, r["estado"])
-    for r in leads_sd:
-        agrega_lead(r, False, r["estado"])
-    for r in leads_cal:
-        agrega_lead(r, True, "")
+            plan, producto = "", ""
+        celdas_lead.append([fecha, r.get("Pa_s") or "Sin país", canal(fuente),
+                            fuente or "Sin fuente", estado or "Sin estado",
+                            bucket, area, calif, plan, producto, 1])
 
-    # --- celdas de tratos: [mes, pais, canal, fuente, etapa, razon, categoria, area, n, monto]
     celdas_trato = []
-    for r in tratos:
-        raz = r["razon"]
-        if raz:
-            if raz not in RAZON:
-                alto("razón de cierre sin categoría: %r" % raz)
-            cat, area = RAZON[raz]
-        else:
-            cat, area = "", ""
-        celdas_trato.append([r["mes"], r["pais"] or "Sin país", canal(r["fuente"]),
-                             r["fuente"] or "Sin fuente", r["etapa"], raz, cat, area,
-                             int(r["n"]), round(float(r["monto"]), 2)])
-
-    celdas_vend = []
-    for r in vend:
-        raz = r["razon"]
+    for t in tratos:
+        raz = t.get("Selecciones_Razones") or ""
+        if raz and raz not in RAZON:
+            alto("razón de cierre sin categoría: %r" % raz)
         cat, area = RAZON[raz] if raz else ("", "")
-        celdas_vend.append([r["vendedor"], r["estado_usuario"], r["pais"] or "Sin país",
-                            r["etapa"], raz, cat, area, int(r["n"])])
+        sb = t.get("Raz_n_Stand_By") or ""
+        if sb and sb not in RAZON:
+            alto("razón de Stand By sin categoría: %r" % sb)
+        sbcat, sbarea = RAZON[sb] if sb else ("", "")
+        fuente = t.get("Lead_Source") or ""
+        plan, producto = plan_de(t.get("Producto"))
+        celdas_trato.append([t["Created_Time"][:10], t.get("Pa_s_Operaci_n") or "Sin país",
+                             canal(fuente), fuente or "Sin fuente", t.get("Stage") or "",
+                             raz, cat, area, sb, sbcat, sbarea, plan, producto,
+                             (t.get("Owner") or {}).get("name") or "",
+                             (t.get("Owner") or {}).get("id") or "",
+                             1, float(t.get("Amount") or 0)])
 
-    # --- sincronizacion Meta -> CRM y asignacion
-    sinc = [[r["mes"], r["pais"], int(r["meta_leads"]), int(r["meta_pixel"]),
-             int(r["crm_redes"])] for r in lee("sincronizacion.csv")]
-    usuarios = {r["nombre"]: r for r in lee("usuarios.csv")}
-    VIVO = set(BUCKETS[4][2])   # bucket "Vivo / en seguimiento"
-    resp_mes = []
-    for r in lee("responsables_mes.csv"):
-        u = usuarios.get(r["nombre"])
+    # responsable de los leads que NO llegaron a Trato
+    import csv
+    with open(os.path.join(SALIDA, "usuarios.csv"), encoding="utf-8") as f:
+        usuarios = {r["id"]: r for r in csv.DictReader(f)}
+
+    celdas_resp = []
+    for r in leads + conv:
+        if (r.get("Converted_Deal") or {}).get("id"):
+            continue
+        o = r.get("Owner") or {}
+        u = usuarios.get(o.get("id"))
         if u is None:
-            alto("responsable sin usuario en usuarios.csv: %r" % r["nombre"])
-        resp_mes.append([r["mes"], r["nombre"], u["estado_usuario"], u["rol"], int(r["n"])])
-    resp_estado = []
-    for r in lee("responsables_estado.csv"):
-        u = usuarios[r["nombre"]]
-        est = r["estado"]
-        if est not in ESTADO2BUCKET:
-            alto("estado sin bucket en responsables_estado: %r" % est)
-        bucket, area = ESTADO2BUCKET[est]
-        resp_estado.append([r["nombre"], u["estado_usuario"], u["rol"],
-                            est or "Sin estado", bucket,
-                            1 if est in VIVO else 0, int(r["n"])])
+            alto("responsable desconocido: %r (%r)" % (o.get("id"), o.get("name")))
+        estado = r.get("Lead_Status") or ""
+        bucket, area = ESTADO2BUCKET[estado]
+        celdas_resp.append([r["Created_Time"][:10], u["nombre"], u["estado_usuario"],
+                            u["rol"], estado or "Sin estado", bucket,
+                            1 if estado in VIVO else 0, 1])
 
-    celdas_sb = []
-    for r in standby:
-        raz = r["razon"]
-        if raz not in RAZON:
-            alto("razón de Stand By sin categoría: %r" % raz)
-        cat, area = RAZON[raz]
-        celdas_sb.append([r["pais"] or "Sin país", canal(r["fuente"]),
-                          r["fuente"] or "Sin fuente", raz, cat, area, int(r["n"])])
+    # Meta, dia por dia. Se pide por trimestre y NO por el periodo entero: con
+    # `time_increment: 1` una sola llamada devolvio exactamente 1000 filas —el
+    # tope— y el resultado se ve igual de completo que uno completo. Enero y
+    # febrero cuadraban al centavo y de marzo en adelante faltaba gasto.
+    meta = []
+    for q in ("meta_q1.json", "meta_q2.json", "meta_q3.json"):
+        trozo = json.loads(json.load(open(os.path.join(CRUDO, q),
+                                          encoding="utf-8"))["ad_entities"])
+        if len(trozo) >= 1000:
+            alto("%s trae %d filas: esta en el tope y viene truncado" % (q, len(trozo)))
+        meta += trozo
+    LEAD_IND = {"actions:lead", "actions:leadgen.other",
+                "actions:onsite_conversion.lead_grouped",
+                "actions:custom_event_actions_add_meta_leads.fb_pixel_custom.QualifiedLead"}
+    import re
+
+    def num(s):
+        if s is None:
+            return None
+        limpio = re.sub(r"[^\d,.\-]", "", str(s))
+        if limpio in ("", "-"):
+            return None
+        if "," in limpio and "." in limpio:
+            limpio = limpio.replace(".", "").replace(",", ".")
+        elif "," in limpio:
+            limpio = limpio.replace(",", ".")
+        return float(limpio)
+
+    dia_meta = collections.defaultdict(lambda: [0.0, 0, 0])  # gasto, leads, pixel
+    for f in meta:
+        pais = {"GT": "Guatemala", "SV": "El Salvador"}.get(f.get("country"), "Otro")
+        k = (f["date_start"], pais)
+        g = num(f.get("amount_spent")) or 0.0
+        res = f.get("results") or {}
+        ind = res.get("indicator") or ""
+        dia_meta[k][0] += g
+        if ind in LEAD_IND:
+            v = res.get("values")
+            val = None
+            if v and isinstance(v, list):
+                val = num(v[0].get("value"))
+            if val is not None:
+                dia_meta[k][1] += int(val)
+                if "QualifiedLead" in ind:
+                    dia_meta[k][2] += int(val)
+    celdas_meta = [[d, p, round(v[0], 2), v[1], v[2]] for (d, p), v in sorted(dia_meta.items())]
+
+    # ── compresion por diccionarios de indices ───────────────────────────
+    # El tablero calcula en el cliente sobre estas filas. Sin diccionarios el
+    # dataset pesa 1.3 MB de texto repetido; con ellos, una fraccion. Y la
+    # fecha queda como indice de un vocabulario ordenado, asi que el filtro
+    # por rango es una comparacion de enteros.
+    fechas = sorted({c[0] for c in celdas_lead} | {c[0] for c in celdas_trato}
+                    | {c[0] for c in celdas_resp} | {c[0] for c in celdas_meta})
+    ifecha = {f: i for i, f in enumerate(fechas)}
+    dic = {"fecha": fechas}
+
+    def vocab(nombre, valores):
+        orden = sorted(set(valores))
+        dic[nombre] = orden
+        return {v: i for i, v in enumerate(orden)}
+
+    vp = vocab("pais", [c[1] for c in celdas_lead] + [c[1] for c in celdas_trato]
+               + [c[1] for c in celdas_meta])
+    vc = vocab("canal", [c[2] for c in celdas_lead] + [c[2] for c in celdas_trato])
+    vf = vocab("fuente", [c[3] for c in celdas_lead] + [c[3] for c in celdas_trato])
+    ve = vocab("estado", [c[4] for c in celdas_lead] + [c[4] for c in celdas_resp])
+    vb = vocab("bucket", [c[5] for c in celdas_lead] + [c[5] for c in celdas_resp])
+    va = vocab("area", [c[6] for c in celdas_lead] + [c[7] for c in celdas_trato]
+               + [c[10] for c in celdas_trato])
+    vpl = vocab("plan", [c[8] for c in celdas_lead] + [c[11] for c in celdas_trato])
+    vpr = vocab("producto", [c[9] for c in celdas_lead] + [c[12] for c in celdas_trato])
+    vet = vocab("etapa", [c[4] for c in celdas_trato])
+    vr = vocab("razon", [c[5] for c in celdas_trato] + [c[8] for c in celdas_trato])
+    vca = vocab("categoria", [c[6] for c in celdas_trato] + [c[9] for c in celdas_trato])
+    vv = vocab("vendedor", [c[13] for c in celdas_trato] + [c[1] for c in celdas_resp])
+    vu = vocab("usuario", [c[2] for c in celdas_resp])
+    vro = vocab("rol", [c[3] for c in celdas_resp])
+
+    L = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], ve[c[4]], vb[c[5]], va[c[6]],
+          c[7], vpl[c[8]], vpr[c[9]]] for c in celdas_lead]
+    T = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
+          va[c[7]], vr[c[8]], vca[c[9]], va[c[10]], vpl[c[11]], vpr[c[12]], vv[c[13]],
+          round(c[16], 2)] for c in celdas_trato]
+    R = [[ifecha[c[0]], vv[c[1]], vu[c[2]], vro[c[3]], ve[c[4]], vb[c[5]], c[6]]
+         for c in celdas_resp]
+    M = [[ifecha[c[0]], vp[c[1]], c[2], c[3], c[4]] for c in celdas_meta]
 
     datos = {
-        "generado": "2026-09-11",
-        "periodo": {"desde": "2026-01-01", "hasta": "2026-09-11"},
-        "leads": celdas_lead,
-        "tratos": celdas_trato,
-        "vendedores": celdas_vend,
-        "standby": celdas_sb,
-        "meta": meta,
-        "sinc": sinc,
-        "resp_mes": resp_mes,
-        "resp_estado": resp_estado,
-        "etapas_abiertas": sorted(ABIERTAS),
+        "generado": "2026-09-17",
+        "rango": {"desde": fechas[0], "hasta": fechas[-1]},
+        "dic": dic,
+        "leads": L,
+        "tratos": T,
+        "resp": R,
+        "meta": M,
+        "etapas_abiertas": ABIERTAS,
         "calidad": {
-            "ganados_total": 698,
-            "ganados_monto_cero": 571,
-            "leads_con_campa_a_mk": 0,
-            "leads_con_fb_campaign_id": 292,
-            "leads_con_fb_campaign_id_convertidos": 0,
-            "convertidos_sin_trato": 41,
-            "mes_en_curso": "2026-09",
-            "foto": "2026-09-11 13:10 GT",
+            "convertidos_sin_trato": sin_trato,
+            "ganados_total": sum(1 for t in celdas_trato if t[4] == "closed won"),
+            "ganados_monto_cero": sum(1 for t in celdas_trato
+                                      if t[4] == "closed won" and t[16] == 0),
+            "tratos_sin_plan": sum(1 for t in celdas_trato if not t[11]),
+            "foto": "2026-09-17",
             "reglas_asignacion": 6,
             "regla_gt_modificada": "2026-08-01",
             "regla_sv_modificada": "2026-08-12",
         },
     }
-    sal = os.path.join(BASE, "dataset.json")
-    json.dump(datos, open(sal, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    sal = os.path.join(SALIDA, "dataset.json")
+    json.dump(datos, open(sal, "w", encoding="utf-8"), ensure_ascii=False,
+              separators=(",", ":"))
 
-    tot_l = sum(c[8] for c in celdas_lead)
-    cal = sum(c[8] for c in celdas_lead if c[7])
-    tot_t = sum(c[8] for c in celdas_trato)
-    won = sum(c[8] for c in celdas_trato if c[4] == "closed won")
-    lost = sum(c[8] for c in celdas_trato if c[4] == "closed lost")
-    if tot_l != 4972: alto("leads %d != 4972" % tot_l)
-    if cal != 948: alto("calificados %d != 948" % cal)
-    if tot_t != 992: alto("tratos %d != 992" % tot_t)
-    if won != 698 or lost != 179: alto("won/lost %d/%d" % (won, lost))
-    rm = sum(r[4] for r in resp_mes); re_ = sum(r[6] for r in resp_estado)
-    if rm != 3987 or re_ != 3987:
-        alto("cubos de responsable %d / %d != 3987" % (rm, re_))
-    por_persona_mes, por_persona_est = {}, {}
-    for r in resp_mes: por_persona_mes[r[1]] = por_persona_mes.get(r[1], 0) + r[4]
-    for r in resp_estado: por_persona_est[r[0]] = por_persona_est.get(r[0], 0) + r[6]
-    if por_persona_mes != por_persona_est:
-        alto("los dos cubos de responsable no cuadran por persona")
-    print("dataset: %s (%d bytes)" % (sal, os.path.getsize(sal)))
-    print("leads %d · calificados %d (%.1f%%) · tratos %d · ganados %d · perdidos %d"
-          % (tot_l, cal, 100.0*cal/tot_l, tot_t, won, lost))
-    return datos, celdas_lead, celdas_trato
+    # ── compuertas ───────────────────────────────────────────────────────
+    n_l, n_t = len(celdas_lead), len(celdas_trato)
+    if n_l != 5046:
+        alto("leads %d != 5046" % n_l)
+    if n_t != 1013:
+        alto("tratos %d != 1013" % n_t)
+    etapas = collections.Counter(t[4] for t in celdas_trato)
+    esperado = {"closed won": 717, "closed lost": 182, "Stand By": 66,
+                "Calificado Interesado": 24, "Necesita validarlo con alguien más": 13,
+                "Interesado listo para pagar": 7, "Interesado - Negociando": 4}
+    if dict(etapas) != esperado:
+        alto("las etapas no cuadran: %r" % dict(etapas))
+    if len(celdas_resp) + sum(c[7] for c in celdas_lead) != n_l:
+        alto("el cubo de responsable no cubre a los leads sin Trato")
+    # El gasto de Meta se compara contra la lectura MENSUAL ya verificada, que
+    # se pidio por otro camino (una llamada por el periodo entero, agregada por
+    # mes). Dos caminos distintos que dan el mismo numero es lo que verifica;
+    # comparar la lectura consigo misma, no.
+    VERIFICADO = {"2026-01": 1298.16, "2026-02": 1548.36, "2026-03": 2152.17,
+                  "2026-04": 1683.73, "2026-05": 1705.07, "2026-06": 1726.95,
+                  "2026-07": 1684.31, "2026-08": 1552.89}
+    por_mes = collections.Counter()
+    for c in celdas_meta:
+        por_mes[c[0][:7]] += c[2]
+    for mes, esperado in VERIFICADO.items():
+        if abs(por_mes[mes] - esperado) > 0.02:
+            alto("gasto de Meta en %s: %.2f, esperado %.2f" % (mes, por_mes[mes], esperado))
+
+    cal = sum(c[7] for c in celdas_lead)
+    free = sum(1 for c in celdas_lead if c[8] == "Free")
+    prem = sum(1 for c in celdas_lead if c[8] == "Premium")
+    print("dataset: %s (%.0f KB)" % (sal, os.path.getsize(sal) / 1024))
+    print("leads %d · calificados %d (%.1f%%) · free %d · premium %d · sin plan %d"
+          % (n_l, cal, 100.0 * cal / n_l, free, prem, cal - free - prem))
+    print("tratos %d · ganados %d · convertidos sin Trato %d"
+          % (n_t, etapas["closed won"], sin_trato))
+    print("rango de fechas: %s → %s" % (datos["rango"]["desde"], datos["rango"]["hasta"]))
+    return datos
 
 
 if __name__ == "__main__":
