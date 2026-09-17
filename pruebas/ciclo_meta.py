@@ -14,6 +14,7 @@ BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CRUDO = os.path.join(BASE, "data", "ciclo_lead", "crudo")
 Q = "meta_lead_q3.json"
 QL = "leads_p0.json"
+QT = "tratos.json"
 
 
 def corre(dir_crudo):
@@ -41,6 +42,40 @@ def con_leads(cambia):
     ok, salida = corre(tmp)
     shutil.rmtree(tmp)
     return ok, salida
+
+
+def con_tratos(cambia):
+    """Rompe las filas de TRATOS, para probar la compuerta de las ventas."""
+    tmp = tempfile.mkdtemp()
+    for n in os.listdir(CRUDO):
+        shutil.copy(os.path.join(CRUDO, n), tmp)
+    shutil.copy(os.path.join(BASE, "data", "ciclo_lead", "usuarios.csv"), tmp)
+    ruta = os.path.join(tmp, QT)
+    env = json.load(open(ruta, encoding="utf-8"))
+    env["data"]["data"] = cambia(env["data"]["data"])
+    json.dump(env, open(ruta, "w", encoding="utf-8"), ensure_ascii=False)
+    ok, salida = corre(tmp)
+    shutil.rmtree(tmp)
+    return ok, salida
+
+
+def cierre_fuera_de_2026(filas):
+    """Una venta se va de año. El conteo de Tratos por creacion NO cambia:
+    solo el de ventas por fecha de cierre."""
+    f = next(f for f in filas if f["Stage"] == "closed won"
+             and f["Closing_Date"][:4] == "2026")
+    f["Closing_Date"] = "2027-03-15"
+    return filas
+
+
+def venta_a_noviembre(filas):
+    """Una venta de 2026 se mueve FUERA de la banda del periodo: sigue siendo
+    de 2026, asi que el conteo anual no la pierde, pero el tablero no podria
+    situarla en ninguna ventana."""
+    f = next(f for f in filas if f["Stage"] == "closed won"
+             and f["Closing_Date"][:4] == "2026")
+    f["Closing_Date"] = "2026-11-20"
+    return filas
 
 
 def canal_movido(filas):
@@ -147,7 +182,18 @@ def main():
         else:
             linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
             print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
-    total = len(SABOTAJES) + 2
+
+    for nombre, cambia in [("una venta con fecha de cierre movida a 2027", cierre_fuera_de_2026),
+                           ("una venta de 2026 movida a noviembre, fuera de la banda",
+                            venta_a_noviembre)]:
+        ok, salida = con_tratos(cambia)
+        if ok:
+            fallos.append(nombre)
+            print("  ✗ %s → la corrida NO se detuvo" % nombre)
+        else:
+            linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
+            print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
+    total = len(SABOTAJES) + 4
     if fallos:
         print("\n%d sabotaje(s) sin detectar: %s" % (len(fallos), ", ".join(fallos)))
         return 1

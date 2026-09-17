@@ -134,15 +134,10 @@ def main():
     if any(r["Converted__s"] for r in leads) or any(not r["Converted__s"] for r in conv):
         alto("las dos extracciones de leads se contaminaron entre si")
 
-    # plan y etapa por trato, para heredarlos al lead que lo origino. La etapa
-    # viaja porque «cuantos compraron» hay que poder contarlo sobre la MISMA
-    # cohorte que «cuantos entraron»: los Tratos se cortan por su propia fecha
-    # y por su propio pais, asi que contarlos aparte mezcla cohortes.
+    # plan por trato, para heredarlo al lead que lo origino.
     plan_trato = {}
-    won_trato = {}
     for t in tratos:
         plan_trato[t["id"]] = plan_de(t.get("Producto"))
-        won_trato[t["id"]] = 1 if t.get("Stage") == "closed won" else 0
 
     celdas_lead = []
     sin_trato = 0
@@ -154,7 +149,6 @@ def main():
         calif = 1 if trato else 0
         if r["Converted__s"] and not trato:
             sin_trato += 1
-        ganado = won_trato.get(trato, 0) if calif else 0
         if calif:
             bucket, area = "Calificado (llegó a Trato)", "Calificado"
             plan, producto = plan_trato.get(trato, ("", ""))
@@ -165,7 +159,7 @@ def main():
             plan, producto = "", ""
         celdas_lead.append([fecha, r.get("Pa_s") or "Sin país", canal(fuente),
                             fuente or "Sin fuente", estado or "Sin estado",
-                            bucket, area, calif, plan, producto, ganado, 1])
+                            bucket, area, calif, plan, producto, 1])
 
     celdas_trato = []
     for t in tratos:
@@ -179,12 +173,16 @@ def main():
         sbcat, sbarea = RAZON[sb] if sb else ("", "")
         fuente = t.get("Lead_Source") or ""
         plan, producto = plan_de(t.get("Producto"))
+        # La FECHA DE CIERRE va aparte de la de creacion: «cuantos compraron»
+        # se cuenta por cierre —es el criterio de Mercadeo y el de sus informes
+        # del CRM— y el resto de la seccion sigue cortando por creacion. Son dos
+        # fechas distintas y no se unifican.
         celdas_trato.append([t["Created_Time"][:10], t.get("Pa_s_Operaci_n") or "Sin país",
                              canal(fuente), fuente or "Sin fuente", t.get("Stage") or "",
                              raz, cat, area, sb, sbcat, sbarea, plan, producto,
                              (t.get("Owner") or {}).get("name") or "",
                              (t.get("Owner") or {}).get("id") or "",
-                             1, float(t.get("Amount") or 0)])
+                             1, float(t.get("Amount") or 0), t["Closing_Date"][:10]])
 
     # responsable de los leads que NO llegaron a Trato
     import csv
@@ -259,7 +257,24 @@ def main():
     # dataset pesa 1.3 MB de texto repetido; con ellos, una fraccion. Y la
     # fecha queda como indice de un vocabulario ordenado, asi que el filtro
     # por rango es una comparacion de enteros.
-    fechas = sorted({c[0] for c in celdas_lead} | {c[0] for c in celdas_trato}
+    # Las fechas de CIERRE entran al vocabulario, pero ACOTADAS. Una venta
+    # puede quedar cerrada con fecha posterior al ultimo dia con leads —medido:
+    # un Free el 17 y un Premium Anual el 30 de septiembre— y esa fecha tiene
+    # que existir o la venta se vuelve invisible. Pero tambien hay Tratos
+    # creados en la ventana con cierre en 2025 o en noviembre: meterlas al
+    # vocabulario estiraba el filtro de 2021 a noviembre de 2026 y el rango
+    # dejaba de significar «el periodo del analisis». Se acotan a la BANDA del
+    # periodo y las de fuera se declaran, no se tiran en silencio.
+    # La banda vale para las DOS fechas del Trato. Al pedir la union por
+    # cierre entraron Tratos creados en 2021 y 2025 —existen y cierran en
+    # 2026—, y su fecha de creacion estiraba el filtro a 2021. Un Trato fuera
+    # de banda en una de sus fechas queda con indice -1 en ESA fecha: sale de
+    # los cortes que usan esa fecha y sigue contando en los que usan la otra.
+    PISO_CIERRE, TOPE_CIERRE = "2026-01-01", "2026-09-30"
+    en_banda = lambda d: PISO_CIERRE <= d <= TOPE_CIERRE
+    fechas = sorted({c[0] for c in celdas_lead}
+                    | {c[0] for c in celdas_trato if en_banda(c[0])}
+                    | {c[17] for c in celdas_trato if en_banda(c[17])}
                     | {c[0] for c in celdas_resp} | {c[0] for c in celdas_meta})
     ifecha = {f: i for i, f in enumerate(fechas)}
     dic = {"fecha": fechas}
@@ -287,10 +302,12 @@ def main():
     vro = vocab("rol", [c[3] for c in celdas_resp])
 
     L = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], ve[c[4]], vb[c[5]], va[c[6]],
-          c[7], vpl[c[8]], vpr[c[9]], c[10]] for c in celdas_lead]
-    T = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
+          c[7], vpl[c[8]], vpr[c[9]]] for c in celdas_lead]
+    T = [[ifecha[c[0]] if en_banda(c[0]) else -1,
+          vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
           va[c[7]], vr[c[8]], vca[c[9]], va[c[10]], vpl[c[11]], vpr[c[12]], vv[c[13]],
-          round(c[16], 2)] for c in celdas_trato]
+          round(c[16], 2),
+          ifecha[c[17]] if en_banda(c[17]) else -1] for c in celdas_trato]
     R = [[ifecha[c[0]], vv[c[1]], vu[c[2]], vro[c[3]], ve[c[4]], vb[c[5]], c[6]]
          for c in celdas_resp]
     M = [[ifecha[c[0]], vp[c[1]], c[2], c[3], c[4]] for c in celdas_meta]
@@ -310,6 +327,11 @@ def main():
             "ganados_monto_cero": sum(1 for t in celdas_trato
                                       if t[4] == "closed won" and t[16] == 0),
             "tratos_sin_plan": sum(1 for t in celdas_trato if not t[11]),
+            # Tratos cuya fecha de cierre cae fuera de la banda del periodo:
+            # existen, el tablero no los puede situar, y se dicen en voz alta.
+            "cierres_fuera": sum(1 for t in celdas_trato if not en_banda(t[17])),
+            "creados_fuera": sum(1 for t in celdas_trato if not en_banda(t[0])),
+            "banda_cierre": [PISO_CIERRE, TOPE_CIERRE],
             "foto": "2026-09-17",
             "reglas_asignacion": 6,
             "regla_gt_modificada": "2026-08-01",
@@ -339,7 +361,11 @@ def main():
     #   convertidos:
     #     ...and Converted__s = true   group by Converted__s
     #     → 1010        4036 + 1010 = 5046
-    n_l, n_t = len(celdas_lead), len(celdas_trato)
+    n_l = len(celdas_lead)
+    # El archivo de Tratos ahora cubre la UNION de dos criterios —creados en la
+    # ventana, o con fecha de cierre en 2026— asi que el total del archivo ya no
+    # es el de la consulta por creacion. Cada compuerta se aplica a su subconjunto.
+    n_t = sum(1 for c in celdas_trato if "2026-01-01" <= c[0] <= "2026-09-16")
     if n_l != 5046:
         alto("leads %d != 5046 (COUNT del CRM: 4036 no convertidos + 1010 "
              "convertidos)" % n_l)
@@ -347,7 +373,8 @@ def main():
     #   group by Stage  → las 7 etapas de abajo, que suman 1013
     if n_t != 1013:
         alto("tratos %d != 1013 (COUNT del CRM por etapa)" % n_t)
-    etapas = collections.Counter(t[4] for t in celdas_trato)
+    etapas = collections.Counter(t[4] for t in celdas_trato
+                                 if "2026-01-01" <= t[0] <= "2026-09-16")
     esperado = {"closed won": 717, "closed lost": 182, "Stand By": 66,
                 "Calificado Interesado": 24, "Necesita validarlo con alguien más": 13,
                 "Interesado listo para pagar": 7, "Interesado - Negociando": 4}
@@ -376,13 +403,26 @@ def main():
     #   otra poblacion— asi que el control se pide siguiendo la misma cadena:
     #     select Converted_Deal from Leads where (<ventana>) and Converted__s = true
     #     select Stage, COUNT(id) from Deals where id in (<esos ids>) group by Stage
-    #   Y cierra contra el COUNT ya verificado en vivo: de los 717 `closed won`
-    #   de la ventana, 707 tienen lead de origen dentro de la ventana y 10 no
-    #   (8 sin fuente y 2 de Facebook). 707 + 10 = 717.
-    CONTROL_WON = 707
-    won = sum(c[10] for c in celdas_lead)
+    #   «Compraron» se cuenta por FECHA DE CIERRE, que es el criterio de
+    #   Mercadeo y el de sus informes del CRM:
+    #     select Stage, COUNT(id) as n from Deals
+    #      where (Closing_Date >= '2026-01-01' and Closing_Date <= '2026-09-16')
+    #      group by Stage                                  → closed won 717
+    #     ...and Closing_Date > '2026-09-16' and <= '2026-12-31'  → 2 mas
+    #   717 + 2 = 719. Verificado el 2026-09-19.
+    CONTROL_WON = 719
+    won = sum(1 for c in celdas_trato
+              if c[4] == "closed won" and c[17][:4] == "2026")
+    # Y ninguno de los ganados de 2026 puede quedar fuera de la banda, porque
+    # entonces el tablero no lo podria mostrar con ningun filtro.
+    won_fuera = sum(1 for c in celdas_trato
+                    if c[4] == "closed won" and c[17][:4] == "2026"
+                    and not en_banda(c[17]))
+    if won_fuera:
+        alto("%d Tratos ganados de 2026 cierran fuera de la banda %s..%s: "
+             "el tablero no podria mostrarlos" % (won_fuera, PISO_CIERRE, TOPE_CIERRE))
     if won != CONTROL_WON:
-        alto("leads que terminaron en closed won: %d, control %d" % (won, CONTROL_WON))
+        alto("Tratos closed won con cierre en 2026: %d, control %d" % (won, CONTROL_WON))
 
     for nombre, col, control in (("canal", 2, CONTROL_CANAL),
                                  ("país", 1, CONTROL_PAIS)):

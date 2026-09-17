@@ -796,11 +796,15 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 /* Columnas. El dataset viene con diccionarios de índices: cada fila es un
    registro y cada texto es un entero. Así el filtro por rango de fechas es una
    comparación de enteros y no de cadenas. */
-const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9,lWON=10;
+const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9;
 // lPL es el cubo Free/de pago; lPR es el NOMBRE del plan tal como lo dice el
 // CRM. «Premium» no es un plan: es un cubo de seis. Donde se puede decir el
 // nombre, se dice el nombre.
-const tF=0,tPA=1,tCA=2,tFU=3,tET=4,tRZ=5,tCT=6,tAR=7,tSB=8,tSC=9,tSA=10,tPL=11,tPR=12,tVE=13,tMO=14;
+const tF=0,tPA=1,tCA=2,tFU=3,tET=4,tRZ=5,tCT=6,tAR=7,tSB=8,tSC=9,tSA=10,tPL=11,tPR=12,tVE=13,tMO=14,tCI=15;
+// tF es la fecha de CREACION del Trato y tCI la de CIERRE. «Compraron» se
+// corta por tCI —criterio de Mercadeo y de sus informes— y el resto de la
+// pagina sigue cortando por tF. Un Trato fuera de la banda del periodo trae
+// -1 en esa fecha, y enRango(-1) es falso, asi que sale del corte solo.
 const rF=0,rVE=1,rUS=2,rRO=3,rES=4,rBU=5,rVI=6;
 const mF=0,mPA=1,mGA=2,mLE=3,mEM=4;   // mLE total de leads · mEM los que ocurren dentro de Meta
 
@@ -862,6 +866,9 @@ const fL = () => L.filter(r=>enRango(r[lF]) && (!f.pais||V.pais[r[lPA]]===f.pais
 const fT = () => T.filter(r=>enRango(r[tF]) && (!f.pais||V.pais[r[tPA]]===f.pais) && (!f.canal||V.canal[r[tCA]]===f.canal));
 const fR = () => RS.filter(r=>enRango(r[rF]));
 const fM = () => MT.filter(r=>enRango(r[mF]) && (!f.pais||V.pais[r[mPA]]===f.pais));
+// Las VENTAS se filtran por su fecha de cierre, no por la de creacion.
+const fV = () => T.filter(r=>enRango(r[tCI]) && (!f.pais||V.pais[r[tPA]]===f.pais)
+  && (!f.canal||V.canal[r[tCA]]===f.canal));
 
 function pintaFiltros(){
   const paises = V.pais.filter(p=>L.some(r=>V.pais[r[lPA]]===p));
@@ -904,6 +911,7 @@ function pintaFiltros(){
 function calcula(){
   recalculaVentana();
   const l = fL(), t = fT(), r = fR();
+  const v = fV().filter(x=>x[tET]===GANADO);   // las ventas, por fecha de cierre
   const leads = l.length;
   const invalidos = l.filter(x=>x[lBU]===INVALIDO).length;
   const cal = l.filter(x=>x[lCL]===1);
@@ -920,20 +928,21 @@ function calcula(){
   });
   const sinVenta = AREAS.reduce((a,k)=>a+reparto[k],0);
   const arriba = leads - cal.length;
-  return {l,t,r,leads,invalidos,elegibles:leads-invalidos,
+  return {l,t,r,v,leads,invalidos,elegibles:leads-invalidos,
     calificados:cal.length,
     free:cal.filter(x=>x[lPL]===iPlan.Free).length,
     premium:cal.filter(x=>x[lPL]===iPlan.Premium).length,
-    // «Compraron» se cuenta sobre los LEADS que entraron en la ventana, no
-    // sobre los Tratos del periodo: los Tratos traen su propia fecha y su
-    // propio pais, asi que contarlos aparte mezcla dos cohortes.
-    compraron:l.filter(x=>x[lWON]===1).length,
-    compFree:l.filter(x=>x[lWON]===1 && x[lPL]===iPlan.Free).length,
-    compPago:l.filter(x=>x[lWON]===1 && x[lPL]===iPlan.Premium).length,
-    porPlan:(()=>{ const m={}; l.forEach(x=>{ if(x[lWON]!==1) return;
-      const n=V.producto[x[lPR]]||""; if(n) m[n]=(m[n]||0)+1; });
+    // «Compraron» son los Tratos en closed won cuya FECHA DE CIERRE cae en la
+    // ventana. Es el criterio de Mercadeo: la venta se cuenta cuando se cierra.
+    // No es la misma cohorte que «entraron» —ese corta por la fecha del lead—
+    // y por eso cada tarjeta dice sobre qué fecha está contando.
+    compraron:v.length,
+    compFree:v.filter(x=>x[tPL]===iPlan.Free).length,
+    compPago:v.filter(x=>x[tPL]===iPlan.Premium).length,
+    porPlan:(()=>{ const m={}; v.forEach(x=>{ const n=V.producto[x[tPR]]||"";
+      if(n) m[n]=(m[n]||0)+1; });
       return Object.entries(m).sort((a,b)=>b[1]-a[1]); })(),
-    sinPlan:l.filter(x=>x[lWON]===1 && !V.producto[x[lPR]]).length,
+    sinPlan:v.filter(x=>!V.producto[x[tPR]]).length,
     leadsRedes:l.filter(x=>x[lCA]===REDES).length,
     ganados,perdidos,standby,abiertos,
     vivos:l.filter(x=>x[lBU]===VIVO && x[lCL]!==1).length,
@@ -974,13 +983,14 @@ function pintaKpis(c){
         pf(-brechaK,mForma)+')':'sobran <b>'+nf(brechaK)+'</b>')+' en el CRM'
       : '<b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta · sin entrega de Meta en esta ventana para comparar')+
     '</div>';
+  // Dos tarjetas, y cada una declara SOBRE QUE FECHA cuenta. No hay
+  // porcentaje: dividir ventas por cierre entre leads por creacion mezcla dos
+  // fechas y el resultado se leeria como una tasa de conversion que no es.
   const k = [
-    ["Leads que entraron",nf(c.leads),"Todo registro creado en el rango","entraron",false,nota],
+    ["Leads que entraron",nf(c.leads),
+      "Por fecha de creación del lead","entraron",false,nota],
     ["Compraron · closed won",nf(c.compraron),
-      "De los que entraron · lo que sigue abierto no cuenta","ganados",false,planes],
-    ["% que compró",pf(c.compraron,c.leads),
-      nf(c.compraron)+" de "+nf(c.leads)+" leads","cierre",
-      c.leads>0 && c.compraron/c.leads<0.05,""]
+      "Por fecha de cierre del Trato · lo que sigue abierto no cuenta","ganados",false,planes]
   ];
   document.getElementById("kpis").innerHTML = k.map(x=>
     '<div class="kpi'+(x[4]?" alerta":"")+(x[5]?" kpi-ancho":"")+'"><span class="icono">'+ICO[x[3]]+'</span>'+

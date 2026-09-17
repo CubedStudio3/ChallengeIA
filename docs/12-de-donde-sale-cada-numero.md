@@ -543,3 +543,86 @@ Ni 46 ni 24 son 38, y ninguna combinación de ámbitos lo da sin mezclarlos. Van
 **seis** intentos. El informe tiene un recorte que la API no expone y que no
 está en el chip de filtro visible. Sigue pendiente del criterio del informe, y
 hasta entonces no se publica ninguna cifra derivada de él.
+
+
+---
+
+## 12. Corrección del 2026-09-19 (cierre) · la venta se cuenta por FECHA DE CIERRE
+
+Mercadeo: *«quitá el de ENDURA COSMETIC, porque la fecha de cierre fue en
+agosto; no tomes en cuenta la fecha de última actividad, solo la de cierre. Creo
+que por eso no nos cuadraba»*. Tenía razón, y era **la** causa.
+
+Informe de referencia:
+<https://crm.zoho.com/crm/qpaypro/tab/Reports/2592238000018735023>
+
+### Lo que cambió
+
+| | Antes | Ahora |
+|---|---|---|
+| Criterio de «Compraron» | fecha del **lead** que lo originó | **`Closing_Date` del Trato** |
+| GT, septiembre | 42 (Free 31 · Premium 11) | **44** (Free **32** · Premium **12**) |
+| Elite Anual en GT septiembre | 3 | **2** |
+
+`ENDURA COSMETICS, S.A.` sale solo: su `Closing_Date` es **2026-08-31**. No hubo
+que excluirlo a mano — cambiar el criterio lo saca, que es lo correcto.
+
+Y **Free 32** ahora coincide exacto con el informe, igual que **Elite Anual 2**.
+
+### `Closing_Date` no estaba en la extracción
+
+Hubo que volver a pedir Tratos. Y pedirlos por fecha de cierre **cambia la
+población**, no solo el corte:
+
+```sql
+select id, Created_Time, Closing_Date, Stage, Producto, Pa_s_Operaci_n,
+       Amount, Lead_Source, Owner, Raz_n_Stand_By, Selecciones_Razones
+  from Deals
+ where ((Created_Time >= '2026-01-01T00:00:00-06:00'
+     and Created_Time <= '2026-09-16T23:59:59-06:00')
+    or (Closing_Date >= '2026-01-01' and Closing_Date <= '2026-12-31'))
+ limit 2000                                              -- → 1.020 filas
+```
+
+La unión hace falta porque **hay Tratos creados fuera de la ventana que cierran
+dentro**: 7 en total, 3 de ellos ganados (creados el 2025-09-10, el 2025-11-25 y
+el 2026-09-17). Cortar solo por creación los perdía.
+
+### Dos trampas que salieron al hacerlo
+
+- **Una fecha de cierre puede ser POSTERIOR al último día con datos.** Dos
+  ventas de Guatemala cierran el **17** y el **30 de septiembre**, después del
+  16 que es el último día con leads. Sin ellas, Free daba 31 y no 32 — la mitad
+  del descuadre era esto. El vocabulario de fechas del tablero se extendió al
+  **30 de septiembre** para que existan.
+- **Y puede ser muy ANTERIOR.** Al pedir la unión entraron Tratos creados en
+  **2021** y cierres en **2025** y **noviembre de 2026**: el filtro del tablero
+  se estiró de `2021-01-07` a `2026-11-05` y el rango dejó de significar «el
+  periodo del análisis». Las dos fechas del Trato se **acotan a la banda**
+  `2026-01-01 .. 2026-09-30`; la que cae fuera queda en `-1`, sale sola de los
+  cortes que usan esa fecha, y el conteo se declara en `calidad`
+  (`cierres_fuera: 14`, `creados_fuera: 4`). Ningún ganado de 2026 queda fuera
+  de la banda, y hay una compuerta que lo comprueba.
+
+### El porcentaje se fue, a propósito
+
+Antes había una tercera tarjeta con «% que compró». Con las ventas por **fecha
+de cierre** y los leads por **fecha de creación**, ese cociente mezcla dos
+fechas y se leería como una tasa de conversión que no es. Cada tarjeta ahora
+**declara sobre qué fecha cuenta** —«Por fecha de creación del lead», «Por fecha
+de cierre del Trato»— y la prueba se pone roja si aparece un `%` en los rótulos.
+
+### Compuertas
+
+- `CONTROL_WON = 719` · verificado en vivo: `closed won` con `Closing_Date`
+  entre el 1 de enero y el 16 de septiembre = **717**, más **2** que cierran
+  después = **719**.
+- Ningún ganado de 2026 puede cerrar fuera de la banda del periodo.
+- Los conteos por **creación** (1.013 Tratos, las 7 etapas) se aplican ahora a
+  **su subconjunto** del archivo, no al total: el archivo cubre la unión de dos
+  criterios y su total ya no es el de la consulta por creación.
+
+`npm run prueba:ciclo` pasa de 7 a **9 de 9** sabotajes: se agregaron **una
+venta movida a 2027** —que el conteo por creación no vería— y **una venta de
+2026 movida a noviembre**, que sigue siendo de 2026 pero el tablero no podría
+situar en ninguna ventana.

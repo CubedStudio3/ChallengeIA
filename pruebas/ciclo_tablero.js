@@ -29,7 +29,7 @@ async function lee(p) {
       rotulos: kk.map(e => e.querySelector(".rotulo").textContent.trim()),
       leads: k.querySelector(".v").textContent.trim(),
       compraron: kWon ? kWon.querySelector(".v").textContent.trim() : "",
-      tasa: kk[2] ? kk[2].querySelector(".v").textContent.trim() : "",
+      bases: kk.map(e => (e.querySelector(".d") || {}).textContent || ""),
       chips: [...(kWon ? kWon.querySelectorAll(".kpi-planes span") : [])].map(e => ({
         nombre: e.textContent.replace(/\s*[\d.,]+$/, "").trim(),
         valor: Number(e.querySelector("b").textContent.replace(/[.,]/g, "")),
@@ -50,16 +50,21 @@ async function esperado(p, pais, desde, hasta) {
     const leads = D.leads.filter(r => dentro(r[0]) && (!pais || V.pais[r[1]] === pais));
     const redes = V.canal.indexOf("Redes sociales (Meta)");
     const meta = D.meta.filter(r => dentro(r[0]) && (!pais || V.pais[r[1]] === pais));
-    const compro = leads.filter(r => r[10] === 1);
+    // Las ventas se recuentan aparte por FECHA DE CIERRE (columna 15 del
+    // Trato), que es el criterio del tablero. Un Trato fuera de la banda del
+    // periodo trae -1 y no entra en ninguna ventana.
+    const gan = V.etapa.indexOf("closed won");
+    const compro = D.tratos.filter(r => r[4] === gan && dentro(r[15])
+      && (!pais || V.pais[r[1]] === pais));
     const porPlan = {};
-    compro.forEach(r => { const n = V.producto[r[9]]; if (n) porPlan[n] = (porPlan[n] || 0) + 1; });
+    compro.forEach(r => { const n = V.producto[r[12]]; if (n) porPlan[n] = (porPlan[n] || 0) + 1; });
     return {
       leads: leads.length,
       compraron: compro.length,
       leadsRedes: leads.filter(r => r[2] === redes).length,
       metaForma: meta.reduce((a, r) => a + r[4], 0),
       porPlan,
-      sinPlan: compro.filter(r => !V.producto[r[9]]).length,
+      sinPlan: compro.filter(r => !V.producto[r[12]]).length,
       vocabulario: V.producto.filter(Boolean),
     };
   }, [pais, desde, hasta]);
@@ -115,13 +120,17 @@ async function ventana(p, pais, desde, hasta) {
 
     const n = s => Number(String(s).replace(/[.,]/g, ""));
     ok(n(v.leads) === e.leads, "los leads de la vista cuadran", v.leads + " vs " + e.leads);
-    ok(v.rotulos.length === 3, "tres tarjetas y nada mas", v.rotulos.join(" · "));
+    ok(v.rotulos.length === 2, "dos tarjetas y nada mas", v.rotulos.join(" · "));
     ok(/entraron/i.test(v.rotulos[0]) && /closed won/i.test(v.rotulos[1]),
        "la primera dice «entraron» y la segunda «closed won»", v.rotulos.join(" · "));
-    ok(n(v.compraron) === e.compraron, "los que compraron cuadran",
+    ok(n(v.compraron) === e.compraron, "los que compraron cuadran (por fecha de cierre)",
        v.compraron + " vs " + e.compraron);
-    const tasaEsp = e.leads ? (100 * e.compraron / e.leads).toFixed(1).replace(".", ",") + "%" : "—";
-    ok(v.tasa === tasaEsp, "la tasa es compraron / entraron", v.tasa + " vs " + tasaEsp);
+    // Cada tarjeta tiene que decir sobre qué fecha cuenta: son dos fechas
+    // distintas y sin el rótulo alguien las divide entre sí.
+    ok(/creación del lead/i.test(v.bases[0]), "la primera declara su fecha", v.bases[0]);
+    ok(/fecha de cierre/i.test(v.bases[1]), "la segunda declara su fecha", v.bases[1]);
+    ok(!/%/.test(v.rotulos.join(" ")),
+       "no hay porcentaje que mezcle las dos fechas", v.rotulos.join(" · "));
     ok(!/Calificados/.test(v.rotulos.join(" ")) && !/sobre Tratos/.test(v.rotulos.join(" ")),
        "no quedan tarjetas de etapas intermedias", v.rotulos.join(" · "));
 

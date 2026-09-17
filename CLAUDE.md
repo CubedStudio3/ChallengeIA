@@ -204,6 +204,17 @@ cometidos; no hay tiempo de repetirlos.
   total correcto con un corte torcido no avisa: mover un lead de redes a página
   web, o de SV a GT, no cambia ningún total. Ahora los dos cortes tienen su
   `COUNT` de control y su sabotaje.
+- **Una venta se cuenta por FECHA DE CIERRE, y eso cambia la población, no
+  solo el corte.** Contar los ganados por la fecha del lead que los originó
+  metía un Trato cerrado el 31 de agosto en septiembre y dejaba fuera 3 ganados
+  creados antes de la ventana que cerraron dentro. Y `Closing_Date` puede caer
+  **después** del último día con datos —dos ventas cierran el 17 y el 30 de
+  septiembre— o **mucho antes** —Tratos creados en 2021 con cierre en 2025—, así
+  que las dos fechas del Trato se acotan a una banda y la que cae fuera se
+  declara en vez de arrastrar el filtro a 2021. Medido el 2026-09-19.
+- **Dos fechas distintas no se dividen entre sí.** «% que compró» sobre ventas
+  por cierre y leads por creación se lee como una tasa de conversión y no lo es.
+  Se quitó la tarjeta y cada una declara sobre qué fecha cuenta.
 - **Un cubo no puede llevar el nombre de uno de sus miembros.** El campo
   `Producto` del CRM tiene SIETE planes; agruparlos en `Free` / **`Premium`**
   daba «Premium 19» cuando eran **14 Premium Anual + 5 Elite Anual** — y hay
