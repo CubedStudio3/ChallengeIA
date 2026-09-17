@@ -278,6 +278,46 @@ async function ventana(p, pais, desde, hasta) {
     ok(rotas.length === 0, "ningún canal califica más de lo que entró",
        rotas.map(x => x.canal).join(", "));
 
+    // «¿A quién le caen?»: la tabla cuenta leads SIN Trato por responsable, y
+    // el aviso de arriba cuenta los que ademas siguen vivos en manos de un
+    // usuario desactivado. Verificado contra el CRM en vivo el 2026-09-17:
+    // Edson Mejia, Ernesto Melara, Jacqueline Arroyo y David Consuegra estan
+    // `disabled` desde el 2026-09-09. Los dos numeros se recuentan aparte.
+    const asig = await p.evaluate(() => {
+      const f = [...document.querySelectorAll("#tabla-asig tbody tr")];
+      const n = x => Number(x.replace(/[.,]/g, ""));
+      const tot = f.find(r => r.classList.contains("total"));
+      return {
+        filas: f.filter(r => !r.classList.contains("total")).map(r => ({
+          quien: r.children[0].textContent.trim(),
+          estado: r.children[1].textContent.trim(),
+          n: n(r.children[2].textContent), vivos: n(r.children[3].textContent) })),
+        total: tot ? n(tot.children[2].textContent) : 0,
+        vivos: tot ? n(tot.children[3].textContent) : 0,
+        aviso: document.getElementById("aviso-asig").textContent,
+      };
+    });
+    const eA = await p.evaluate(([desde, hasta]) => {
+      const D = JSON.parse(document.getElementById("datos").textContent);
+      const V = D.dic, F = V.fecha;
+      const r = D.resp.filter(x => F[x[0]] >= desde && F[x[0]] <= hasta);
+      return { total: r.length, vivos: r.filter(x => x[6] === 1).length,
+               fuga: r.filter(x => x[6] === 1 && V.usuario[x[2]] !== "activo").length };
+    }, [desde, hasta]);
+    ok(asig.total === eA.total, "la tabla de responsables cierra en su total",
+       asig.total + " vs " + eA.total);
+    ok(asig.vivos === eA.vivos, "y en los leads vivos", asig.vivos + " vs " + eA.vivos);
+    ok(asig.filas.reduce((a, x) => a + x.n, 0) === asig.total,
+       "las filas suman el total de leads sin Trato");
+    ok(asig.filas.every(x => x.vivos <= x.n),
+       "nadie tiene más leads vivos que leads");
+    // El aviso de fuga tiene que decir el numero recontado, no otro.
+    const nAviso = (asig.aviso.match(/\d[\d.,]*/g) || [])
+      .map(x => Number(x.replace(/[.,]/g, "")));
+    ok(eA.fuga === 0 ? /Ningún lead vivo/.test(asig.aviso) : nAviso[0] === eA.fuga,
+       "el aviso de fuga dice los leads vivos en manos de alguien inactivo",
+       (eA.fuga ? nAviso[0] + " vs " + eA.fuga : "sin fuga"));
+
     // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
     //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo
     //     que se vigila es que los nombres REALES no se pierdan: tienen que

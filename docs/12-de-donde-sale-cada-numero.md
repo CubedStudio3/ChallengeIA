@@ -941,3 +941,38 @@ cada lado es sobre su propio total, que es lo único que se puede sumar.
 En Guatemala del 1 al 16 de septiembre la tabla dice lo que el resto del tablero
 no decía tan claro: **Meta trae el 54,5% de los leads y deja el 0% de las
 ventas**, mientras página web trae el 35,6% y deja el 88,1%.
+
+---
+
+## 19. «¿A quién le caen?» · verificado contra los usuarios del CRM
+
+La tabla cuenta **leads sin Trato** por responsable y marca si ese usuario sigue
+activo. El aviso de arriba cuenta los que además siguen **vivos** —en
+seguimiento o precalificados— en manos de alguien desactivado: nadie los puede
+abrir.
+
+**Comprobado en vivo el 2026-09-17** con `getUsers(type=DeactiveUsers)`: hay
+**74 usuarios desactivados** en el CRM, y cuatro de ellos concentran la fuga.
+Los cuatro fueron desactivados **el mismo día**:
+
+| Usuario | Rol | Estado | Desactivado |
+|---|---|---|---|
+| Edson Mejía | Asesor Comercial | `disabled` | **2026-09-09** |
+| Ernesto Melara | Asesor Comercial | `disabled` | **2026-09-09** |
+| David Consuegra | Gerente Comercial | `disabled` | **2026-09-09** |
+| Jacqueline Arroyo | Asesor Comercial | `disabled` | **2026-09-09** |
+
+Los tres primeros tienen correo `@redserfinsa.com` y zona horaria
+`America/El_Salvador`: es el equipo comercial de El Salvador. Salieron todos el
+9 de septiembre y **sus leads se quedaron donde estaban**.
+
+En el periodo completo eso da **830 leads todavía vivos** asignados a usuarios
+desactivados o borrados — el **78,8%** de los leads vivos sin Trato— y **2.703
+de 4.080** leads sin Trato (66,3%) pertenecen a alguien inactivo.
+
+Es la respuesta a la pregunta con la que arrancó todo este trabajo: *«no se
+están asignando al equipo de ventas»*. Sí se asignan; el problema es que se
+asignaron a gente que ya no está.
+
+La prueba en navegador recuenta el total, los vivos y el número del aviso contra
+el dataset en cada ventana.

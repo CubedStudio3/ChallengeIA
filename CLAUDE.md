@@ -738,6 +738,16 @@ cometidos; no hay tiempo de repetirlos.
   coinciden; lo único que no coincide con una vista de Zoho son los convertidos,
   que la vista esconde.
 
+- **La fuga de leads tiene fecha y nombres.** `getUsers(type=DeactiveUsers)`
+  devuelve **74 usuarios desactivados**, y cuatro salieron **el mismo día, el
+  2026-09-09**: Edson Mejía, Ernesto Melara y David Consuegra —los tres con
+  correo `@redserfinsa.com` y zona horaria de El Salvador, o sea el equipo
+  comercial de SV— y Jacqueline Arroyo. Sus leads se quedaron donde estaban:
+  **830 leads vivos** en manos de usuarios desactivados, el 78,8% de los vivos
+  sin Trato. La pregunta con la que arrancó el proyecto —«no se están asignando
+  al equipo de ventas»— tiene esta respuesta: sí se asignan, a gente que ya no
+  está.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco

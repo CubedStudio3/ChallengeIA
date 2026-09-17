@@ -516,6 +516,7 @@ ${r?'Expression: "'+r+`"
     <a href="#s-embudos" data-sec="s-embudos" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">Los dos embudos</span></a>
     <a href="#s-canal" data-sec="s-canal" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span class="globo-riel">Rendimiento por canal</span></a>
     <a href="#s-sinc" data-sec="s-sinc" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/><path d="M10 18 4 12l6-6"/></svg><span class="globo-riel">¿Llegan al CRM?</span></a>
+    <a href="#s-asignacion" data-sec="s-asignacion" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg><span class="globo-riel">¿A quién le caen?</span></a>
     <span class="separa"></span>
   </nav>
   <div class="lienzo">
@@ -595,6 +596,12 @@ ${r?'Expression: "'+r+`"
             <b>al registro</b>: Meta cuenta eventos y el CRM cuenta registros, Meta atribuye a la
             fecha del clic y el CRM a la fecha de creación, y el CRM deduplica. Sirve para ver el
             <b>tamaño y la dirección</b> de la diferencia.</p>
+        </section>
+
+        <section id="s-asignacion">
+          <div class="titulo-sec"><h2>¿A quién le caen?</h2></div>
+          <div id="aviso-asig"></div>
+          <div class="marco-tabla"><table id="tabla-asig"></table></div>
         </section>
       </main>
     </div>
@@ -1164,9 +1171,51 @@ document.addEventListener("mouseout",e=>{
   if(!e.relatedTarget||!e.relatedTarget.closest("[data-tip]")) globo.classList.remove("ver");
 });
 
+/* ── ¿a quién le caen? ───────────────────────────────────────────────────── */
+function pintaAsignacion(c){
+  const r = c.r;
+  const inact = x => V.usuario[x[rUS]] !== "activo";
+  const vivosInact = r.filter(x=>inact(x) && x[rVI]===1).length;
+  const vivos = r.filter(x=>x[rVI]===1).length;
+  const total = r.length, aInact = r.filter(inact).length;
+  document.getElementById("aviso-asig").innerHTML = vivosInact
+    ? '<div class="aviso"><span class="rotulo">Fuga</span><div><b>'+nf(vivosInact)+'</b> leads todavía '+
+      'vivos —en seguimiento o precalificados— están asignados a usuarios <b>desactivados o borrados</b>: '+
+      'nadie los puede abrir. Son el <b>'+pf(vivosInact,vivos)+'</b> de los leads vivos sin Trato de '+
+      'esta vista, y <b>'+nf(aInact)+'</b> de <b>'+nf(total)+'</b> leads sin Trato ('+pf(aInact,total)+
+      ') pertenecen a alguien inactivo. Reasignarlos es una acción de un día.</div></div>'
+    : '<div class="aviso aviso-ok"><span class="rotulo">Al día</span><div>Ningún lead vivo de esta '+
+      'vista está en manos de un usuario desactivado.</div></div>';
+  const por = {};
+  r.forEach(x=>{
+    const k = V.vendedor[x[rVE]];
+    por[k] = por[k] || {estado:V.usuario[x[rUS]],rol:V.rol[x[rRO]],n:0,vivos:0,det:{}};
+    por[k].n++; if(x[rVI]===1) por[k].vivos++;
+    const e = V.estado[x[rES]]; por[k].det[e]=(por[k].det[e]||0)+1;
+  });
+  const filas = Object.entries(por).sort((a,b)=>b[1].vivos-a[1].vivos || b[1].n-a[1].n);
+  document.getElementById("tabla-asig").innerHTML =
+    '<thead><tr><th>Responsable</th><th>Usuario</th><th>Leads sin Trato</th><th>Vivos</th>'+
+    '<th>Estado que más repite</th></tr></thead><tbody>'+
+    (filas.length?filas.map(([k,v])=>{
+      const top = Object.entries(v.det).sort((a,b)=>b[1]-a[1])[0];
+      const mal = v.estado!=="activo";
+      return '<tr><td class="clave">'+esc(k)+'<br><span class="pct" style="text-align:left">'+
+        esc(v.rol)+'</span></td><td style="text-align:left"><span class="chip"><i style="background:'+
+        (mal?"var(--rosa)":"var(--salvia)")+'"></i>'+esc(v.estado)+'</span></td>'+
+        '<td class="n">'+nf(v.n)+'</td>'+
+        '<td class="n"'+(mal&&v.vivos?' style="color:var(--alerta);font-weight:600"':'')+'>'+nf(v.vivos)+'</td>'+
+        '<td style="text-align:left;white-space:normal">'+(top?esc(top[0])+' <span class="pct">('+
+        top[1]+')</span>':"—")+'</td></tr>';
+    }).join("") : '<tr><td colspan="5">Sin leads sin Trato en esta vista.</td></tr>')+
+    (filas.length?'<tr class="total"><td>Total</td><td></td><td class="n">'+nf(total)+
+      '</td><td class="n">'+nf(vivos)+'</td><td></td></tr>':'')+'</tbody>';
+}
+
 function pinta(){
   const c = calcula();
   pintaEnVista(c); pintaKpis(c); pintaEmbudos(c); pintaCanal(c); pintaSinc(c);
+  pintaAsignacion(c);
 }
 pintaFiltros(); pinta();
 
