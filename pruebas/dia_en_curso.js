@@ -40,17 +40,55 @@ const RUNTIME = `(() => {
   window.claude = { use: async () => null };
 })()`;
 
+/* ── La prueba fija su propio reloj y su propio flag ─────────────────────────
+   Esta prueba VIVE de la relación entre el dato y el día de hoy, así que no
+   puede depender de que el tablero publicado sea justo de hoy: el 2026-09-17
+   se puso roja porque el bloque guardado era del 16 —correctísimo— y ella
+   asumía «el dato es de hoy». Es la caducidad de siempre, ahora por el reloj.
+
+   Se construye el punto de partida: el flag que Python escribió se fuerza al
+   valor que cada sección quiere probar, y el reloj del navegador se ancla a la
+   fecha del dato. Así «hoy» es cierto POR CONSTRUCCIÓN y la prueba dice lo
+   mismo el martes que dentro de un año. */
+const FRAGMENTO = fs.readFileSync(ARCHIVO, "utf8");
+const FECHA_DATO = (function () {
+  const m = FRAGMENTO.match(/"dia_en_curso":\s*\{[^}]*?"fecha":\s*"(\d{4}-\d{2}-\d{2})"/);
+  return m ? m[1] : null;
+})();
+const conFlag = (v) => FRAGMENTO.replace(/("dia_en_curso":\s*\{[^}]*?"es_de_hoy":\s*)(true|false)/,
+                                         "$1" + v);
+/* El stub del reloj va en el MISMO <script> que corre antes del tablero, no en
+   addInitScript: con setContent los init scripts no llegan a aplicarse. */
+const RELOJ = (iso, masDias) => {
+  const d = new Date(iso + "T12:00:00Z");
+  if (masDias) d.setDate(d.getDate() + masDias);
+  return `(() => {
+    const Real = Date, fijo = ${d.getTime()};
+    function Falsa(...a) { return a.length ? new Real(...a) : new Real(fijo); }
+    Falsa.prototype = Real.prototype;
+    Falsa.now = () => fijo;
+    Falsa.parse = Real.parse;
+    Falsa.UTC = Real.UTC;
+    window.Date = Falsa;
+  })()`;
+};
+const pagina = (html, reloj) =>
+  '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
+  '<style>body{margin:0;font:14px system-ui;background:#fbfbfa}</style>' +
+  "</head><body>" + (reloj ? "<script>" + reloj + "<\/script>" : "") +
+  "<script>" + RUNTIME + "<\/script>" + sinEstado(html) + "</body></html>";
+
 (async () => {
   const nav = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
   const pg = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
   const errs = [];
   pg.on("pageerror", e => errs.push(e.message));
-  await pg.setContent(
-    '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
-    '<style>body{margin:0;font:14px system-ui;background:#fbfbfa}</style>' +
-    "</head><body><script>" + RUNTIME + "<\/script>" +
-    sinEstado(fs.readFileSync(ARCHIVO, "utf8")) + "</body></html>",
-    { waitUntil: "load" });
+  if (!FECHA_DATO) {
+    ok("se pudo leer la fecha del bloque del día", false, FECHA_DATO);
+    process.exit(1);
+  }
+  await pg.setContent(pagina(conFlag("true"), RELOJ(FECHA_DATO)),
+                      { waitUntil: "load" });
   await pg.waitForTimeout(1500);
 
   const D = await pg.evaluate(`(() => {
@@ -216,13 +254,15 @@ const RUNTIME = `(() => {
 
   /* Recargar pierde el sabotaje, así que se carga de nuevo con el dato ya
      alterado: es la única forma de probar el camino completo de pintado. */
-  const html = fs.readFileSync(ARCHIVO, "utf8");
-  const viejo = html.replace(/"es_de_hoy":\s*true/, '"es_de_hoy":false');
-  ok("el fragmento alterado es distinto del original", viejo !== html);
-  await pg.setContent(
-    '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
-    "</head><body><script>" + RUNTIME + "<\/script>" +
-    sinEstado(viejo) + "</body></html>", { waitUntil: "load" });
+  /* El sabotaje es el FLAG en false con el reloj puesto en el día del dato: o
+     sea, Python dice «este crudo no es de hoy» aunque la fecha coincida. Antes
+     se partía del archivo tal cual y se le cambiaba `true` por `false`, lo que
+     exigía que el archivo trajera `true` — dejó de traerlo en cuanto el
+     tablero se publicó un día y se miró al siguiente. Ahora las dos versiones
+     se construyen acá. */
+  const conHoy = conFlag("true"), viejo = conFlag("false");
+  ok("las dos versiones del flag son distintas entre sí", viejo !== conHoy);
+  await pg.setContent(pagina(viejo, RELOJ(FECHA_DATO)), { waitUntil: "load" });
   await pg.waitForTimeout(1200);
   const V2 = await pg.evaluate(`(() => {
     const f = document.getElementById("diaEnCurso");
@@ -251,29 +291,12 @@ const RUNTIME = `(() => {
     const pg2 = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
     const errs2 = [];
     pg2.on("pageerror", e => errs2.push(e.message));
-    const futuro = new Date(D.hoy.fecha + "T12:00:00Z");
-    futuro.setDate(futuro.getDate() + 4);
-    /* El stub va en el MISMO <script> que ya corre antes del tablero, no en
-       addInitScript: con setContent los init scripts no llegan a aplicarse y
-       la primera versión de esta prueba se puso roja culpando al producto.
-       Acá el orden está garantizado por el documento. */
-    const RELOJ = `(() => {
-      const Real = Date, fijo = ${futuro.getTime()};
-      function Falsa(...a) {
-        return a.length ? new Real(...a) : new Real(fijo);
-      }
-      Falsa.prototype = Real.prototype;
-      Falsa.now = () => fijo;
-      Falsa.parse = Real.parse;
-      Falsa.UTC = Real.UTC;
-      window.Date = Falsa;
-    })()`;
-    await pg2.setContent(
-      '<!doctype html><html lang="es"><head><meta charset="utf-8">' +
-      "</head><body><script>" + RELOJ + "<\/script><script>" + RUNTIME +
-      "<\/script>" +
-      sinEstado(fs.readFileSync(ARCHIVO, "utf8")) + "</body></html>",
-      { waitUntil: "load" });
+    /* El dato se deja marcado como DE HOY —es lo que Python escribió el día
+       que se publicó— y lo único que se mueve es el reloj del visitante,
+       cuatro días adelante. Ese es el caso exacto del 2026-09-16: la página
+       publicada quieta y el mundo siguiendo. */
+    await pg2.setContent(pagina(conFlag("true"), RELOJ(FECHA_DATO, 4)),
+                         { waitUntil: "load" });
     await pg2.waitForTimeout(1200);
 
     const F = await pg2.evaluate(`(() => {

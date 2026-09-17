@@ -808,6 +808,32 @@ cometidos; no hay tiempo de repetirlos.
   cobrar**. Y es el primero con presencia real de pagos en **SV** (24 activos
   contra 9 en GT), justo donde nuestro lead sale más barato. La lectura de que
   «nadie disputa el territorio de cobrar mejor» hay que volver a mirarla.
+- **Un bloque con `min-w` y sin `max-w` se estira con su propio texto.** La
+  franja del día se descuadró **al día siguiente**: el rótulo pasa a «No es
+  hoy: este dato se leyó ese día…», el bloque crece y empuja GT al borde y SV a
+  otra fila. Es el mismo arreglo que ya llevaba la columna de cada mercado —con
+  su comentario al lado— y que a éste no se le puso. **Solo se rompe mañana**,
+  así que ninguna prueba ni ninguna mirada lo veía.
+- **Un día que NO es hoy tiene DOS formas, no una.** Puede estar **cerrado y
+  completo** —se volvió a pedir después de que terminó— o **a medias** —la
+  lectura se tomó mientras corría—. Los números se ven iguales y significan lo
+  contrario: 78% de un día típico es «fue un día flojo» o «solo alcanzamos a
+  leer eso». Se distingue con la FECHA DE LA CONSULTA contra la del día, que ya
+  viajaba en el dato. Y «va al 58%» es presente: no se dice de un día que ya pasó.
+- **Medido: la media lectura engañaba de verdad.** El 16 de septiembre iba en
+  **$17.44 con 4 leads** en GT a media tarde y **cerró en $23.48 con 10**. SV,
+  $10.07 con 4 contra $13.19 con 6. Guardar un día en curso y no volver a
+  pedirlo deja un número que se lee como el del día.
+- **Una prueba que depende de que el dato sea «de hoy» caduca cada medianoche.**
+  `prueba:hoy` se puso roja el 2026-09-17 acusando al tablero: el bloque era
+  del 16, que es lo correcto. Ahora **construye** las dos versiones del flag y
+  **ancla el reloj del navegador** a la fecha del dato — «hoy» cierto por
+  construcción. Misma doctrina que `estado_limpio`: una prueba controla su
+  punto de partida.
+- **El paso del tiempo es una ENTRADA del sistema.** Ninguna prueba lo mueve
+  salvo `prueba:hoy`, que adelanta el reloj cuatro días — y por eso agarró el
+  rótulo pero no la maquetación. Lo que cambia de tamaño al cambiar el día no
+  lo cubre nadie.
 - **Lo que el botón cambiaba vivía SOLO en memoria.** «Actualizar ahora»
   mutaba `D.pauta_diaria.dia_en_curso` y no guardaba: al recargar volvía el dato
   publicado y parecía que nadie lo había apretado. El arreglo fue una línea

@@ -1913,3 +1913,64 @@ regular anidada dentro de un template literal (`Invalid regular expression
 flags`) y buscar el cierre `<\/script` cuando el documento escribe `</script>`
 —el escapado del fuente no es el del archivo—. El parseo se hace ahora en Node,
 fuera de la página, que es donde se lee.
+
+### Sesión 27 · 2026-09-17 · la franja se rompió al cambiar el día
+
+Mercadeo mandó una captura: «brother qué vaina con esto?». La franja del día
+salía descuadrada —GT arriba a la derecha, SV abajo a la izquierda, huecos en
+medio— y con frases que se contradecían.
+
+**Cuatro defectos, todos disparados por lo mismo: pasó la medianoche.**
+
+**1 · El bloque de la izquierda se estiraba.** Llevaba `min-w-[170px]` y
+**ningún tope**. Al dejar de ser hoy, su texto crece —aparece «No es hoy: este
+dato se leyó ese día…»— y el bloque se estiraba hasta empujar a GT contra el
+borde y a SV a una fila nueva. **Es exactamente el arreglo que ya lleva la
+columna de cada mercado**, con su comentario al lado explicando por qué, y que
+a este bloque no se le puso. La maquetación solo se rompía al día siguiente:
+por eso ninguna prueba ni ninguna mirada lo vio.
+
+**2 · «va al 58% de un día típico» en un día que ya pasó.** Es presente: afirma
+un avance que nadie va a completar.
+
+**3 · «le faltan 1 día».**
+
+**4 · «Meta todavía no reporta entrega de hoy» pegado a números de otro día.**
+La frase era CIERTA —se apretó el botón el 17 y Meta devolvió cero filas— y aun
+así confundía, porque debajo estaban los números del 16. Ahora nombra los dos
+días. Tercera vez en el proyecto que un dato correcto se publica de una forma
+que induce al error.
+
+**Y al arreglar el tiempo verbal apareció que no son dos casos, son TRES.**
+
+Un día que no es hoy puede estar **completo** —se volvió a pedir después de que
+cerró— o **a medias** —la lectura se tomó mientras corría y nadie volvió—. Los
+números se ven iguales y significan cosas opuestas: 78% de un día típico es
+«fue un día flojo» en el primero y «solo alcanzamos a leer eso» en el segundo.
+
+Se distingue con un dato que ya viajaba: la **fecha de la consulta** contra la
+fecha del día. Si se consultó después, el día ya había cerrado. Nada que
+adivinar y nada nuevo que guardar.
+
+**Y el dato estaba a medias de verdad.** Lo guardado del 16 era una lectura de
+media tarde: **GT iba en $17.44 con 4 leads y cerró en $23.48 con 10**; SV iba
+en $10.07 con 4 y cerró en $13.19 con 6. Se volvió a pedir el 16 completo. El
+17 se consultó también: **cero filas, todavía no hay entrega**, así que la
+franja muestra el último día con entrega y lo dice.
+
+**La lección:** el paso del tiempo es una entrada del sistema, y ninguna prueba
+la movía salvo `prueba:hoy`, que adelanta el reloj cuatro días —y por eso
+agarró el rótulo, pero no la maquetación—. Un tope de ancho que falta solo se
+nota cuando el texto crece, y el texto solo crece mañana.
+
+**Y `prueba:hoy` se puso roja por la misma razón que el producto.** Asumía que
+el bloque guardado era **de hoy**: el 17 de septiembre el dato era del 16
+—correctísimo— y cuatro comprobaciones acusaron al tablero. Es la caducidad de
+siempre, ahora por el reloj en vez de por un fixture.
+
+Se le dio control de su punto de partida, que es la doctrina que el proyecto ya
+tiene escrita para `estado_limpio`: la prueba **construye** las dos versiones
+del flag y **ancla el reloj del navegador** a la fecha del dato. «Hoy» pasa a
+ser cierto por construcción y la prueba dice lo mismo hoy que dentro de un año.
+El sabotaje del reloj sigue haciendo lo suyo —adelantar cuatro días sin tocar
+el dato— pero ahora parte de un estado que él mismo fija.

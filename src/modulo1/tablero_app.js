@@ -2196,6 +2196,10 @@
   /* El día que el VISITANTE está viviendo, en su fecha local. Es el mismo
      criterio que usa `esFechaDeHoy`: el servidor no sabe cuándo lo van a
      mirar. */
+  /* El nombre corto del día para los avisos. `fecha()` ya existe y hace esto;
+     se envuelve para no repetir su contrato acá. */
+  function fecha_(iso) { return fecha(iso); }
+
   function hoyLocal() {
     var d = new Date();
     return d.getFullYear() + "-" +
@@ -2260,7 +2264,17 @@
         /* Cero filas útiles NO es «cero gasto»: puede ser que el día todavía
            no arranque. Se dice así y no se pinta un cero. */
         refresco.error = null;
-        refresco.mensaje = "Meta todavía no reporta entrega de hoy.";
+        /* Se nombran LOS DOS días. Sin eso, «Meta todavía no reporta entrega
+           de hoy» queda pegado a los números de otro día y se lee como si los
+           contradijera: pasó el 2026-09-17, con la lectura del 16 en pantalla.
+           La frase era cierta y aun así confundía, que es la trampa de
+           siempre — un dato correcto presentado de una forma que induce al
+           error. */
+        var otro = previo && previo.fecha && previo.fecha !== fecha;
+        refresco.mensaje = "Meta todavía no reporta entrega de " +
+          fecha_(fecha) + "." +
+          (otro ? " Abajo sigue la última lectura, la de " +
+                  fecha_(previo.fecha) + "." : "");
         refresco.hecho = Date.now();
         return;
       }
@@ -2336,6 +2350,20 @@
     var mk = Object.keys(H.por_mercado);
     if (!mk.length) return "";
 
+    /* Se calcula ANTES de las columnas porque el tiempo verbal depende de
+       ello: un día que ya pasó no «va» a ningún ritmo. */
+    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
+    /* TRES casos, no dos. Un día que no es hoy puede estar COMPLETO —se
+       volvió a pedir después de que cerró— o quedarse a medias —la lectura se
+       tomó mientras corría y nadie volvió—. Los números se ven iguales y
+       significan cosas distintas: 78% de un día típico es «fue un día flojo»
+       en el primer caso y «solo alcanzamos a leer eso» en el segundo.
+
+       Se distingue con el dato que ya viaja: la FECHA en que se consultó
+       contra la fecha del día. Si se consultó después, el día ya había
+       cerrado. Nada que adivinar. */
+    var cerrado = !deHoy && H.consultado_a &&
+                  String(H.consultado_a).slice(0, 10) > String(H.fecha);
     var cols = mk.map(function (m) {
       var d = H.por_mercado[m] || {};
       /* El avance puede faltar —un mercado sin días completos detrás no tiene
@@ -2370,7 +2398,12 @@
           : "sin " + esc(enClaro(d.indicador).toLowerCase()) +
             " atribuidos todavía") +
         "</div>" +
-        '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">va al ' +
+        /* «va al 58%» es PRESENTE y solo vale si el día sigue corriendo. Con
+           el día ya pasado, ese 58% no es un ritmo: es donde se quedó la
+           lectura. Decir «va al» ahí afirma un avance que nadie va a
+           completar. */
+        '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">' +
+        (deHoy ? "va al " : cerrado ? "cerró en " : "la lectura quedó en ") +
         esc(av) + "</div>" +
         (ref ? '<div class="text-[10px] text-slate-400 leading-tight">' +
           ref + "</div>" : "") + "</div>";
@@ -2393,18 +2426,27 @@
        La fecha del visitante se toma en LOCAL, no en UTC: quien abre esto está
        en GT (UTC-6), y a las 7 de la noche `toISOString()` ya devolvería el día
        siguiente y marcaría como viejo un dato que acaba de llegar. */
-    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
     return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
       'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
       'items-start gap-x-8 gap-y-4">' +
-      '<div class="min-w-[170px]">' +
+      /* `max-w` y no solo `min-w`. Sin tope, este bloque se estira con su
+         propio texto: al cambiar el día aparece «No es hoy: este dato se leyó
+         ese día…» y el bloque crecía hasta empujar GT al borde y SV a una fila
+         nueva. La maquetación se rompía SOLO al día siguiente, que es por qué
+         nadie lo vio. Es exactamente el arreglo que ya lleva la columna de
+         cada mercado —anotado ahí mismo— y que no se le puso a éste. */
+      '<div class="min-w-[170px] max-w-[300px]">' +
       '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
       'uppercase">' + (deHoy ? "Día en curso" : "Último día leído") + "</div>" +
       '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
       'mt-0.5">' + esc(fecha(H.fecha)) + "</div>" +
       '<div class="text-[10.5px] text-slate-500 leading-snug mt-1">' +
-      (deHoy ? "" : "<b>No es hoy</b>: este dato se leyó ese día y no se ha " +
-        "vuelto a pedir. ") +
+      (deHoy ? ""
+             : cerrado
+               ? "<b>No es hoy</b>: es el último día con entrega, ya cerrado y "
+                 + "leído completo. "
+               : "<b>No es hoy</b>: este dato se leyó ese día y no se ha " +
+                 "vuelto a pedir, así que está a medias. ") +
       "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
       "gráfica lo promedia.</div></div>" +
       cols +
@@ -2430,8 +2472,9 @@
         if (atraso && atraso > 0) {
           at = '<div class="basis-full text-[10.5px] text-amber-700 ' +
             'leading-snug">El dato de días cerrados llega al ' +
-            esc(fecha(pautaDia().rango_disponible.hasta)) + ": le faltan " +
-            atraso + (atraso === 1 ? " día" : " días") + ". Eso NO lo arregla " +
+            esc(fecha(pautaDia().rango_disponible.hasta)) + ": le " +
+            (atraso === 1 ? "falta 1 día" : "faltan " + atraso + " días") +
+            ". Eso NO lo arregla " +
             "este botón —los días cerrados se reconcilian al centavo antes de " +
             "entrar— sino la corrida.</div>";
         }
@@ -2446,7 +2489,10 @@
          mismo y no compite con el dato de arriba. */
       (deHoy ? ". Un día sin cerrar se mueve mientras se mira: una lectura de " +
         "la mañana no es la del cierre."
-             : " y no se ha vuelto a pedir desde entonces.") +
+             : cerrado
+               ? ", con el día ya cerrado. Un día recién cerrado todavía puede " +
+                 "moverse un poco en gasto e impresiones."
+               : " y no se ha vuelto a pedir desde entonces.") +
       "</div></div>";
   }
 
