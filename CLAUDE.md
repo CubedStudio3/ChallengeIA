@@ -748,6 +748,14 @@ cometidos; no hay tiempo de repetirlos.
   al equipo de ventas»— tiene esta respuesta: sí se asignan, a gente que ya no
   está.
 
+- **Filtrar una tabla es quitar filas, no quitar dato de la cuenta.** «¿A quién
+  le caen?» muestra solo a los **activos** —es la lista de gente a la que se le
+  puede pedir algo— pero los 2.703 leads de usuarios desactivados no
+  desaparecen: el pie declara cuántos quedan fuera, sobre cuántos y cuántos de
+  ellos siguen vivos. Sin esa línea, la diferencia entre el total de la tabla
+  (1.377) y los leads sin Trato (4.080) no tendría explicación, y la prueba se
+  pone roja si el pie no la escribe.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco

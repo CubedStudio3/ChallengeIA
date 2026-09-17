@@ -295,23 +295,36 @@ async function ventana(p, pais, desde, hasta) {
         total: tot ? n(tot.children[2].textContent) : 0,
         vivos: tot ? n(tot.children[3].textContent) : 0,
         aviso: document.getElementById("aviso-asig").textContent,
+        pie: document.getElementById("pie-asig").textContent,
       };
     });
     const eA = await p.evaluate(([desde, hasta]) => {
       const D = JSON.parse(document.getElementById("datos").textContent);
       const V = D.dic, F = V.fecha;
       const r = D.resp.filter(x => F[x[0]] >= desde && F[x[0]] <= hasta);
-      return { total: r.length, vivos: r.filter(x => x[6] === 1).length,
+      const act = r.filter(x => V.usuario[x[2]] === "activo");
+      return { total: r.length, act: act.length,
+               vivosAct: act.filter(x => x[6] === 1).length,
+               fuera: r.length - act.length,
                fuga: r.filter(x => x[6] === 1 && V.usuario[x[2]] !== "activo").length };
     }, [desde, hasta]);
-    ok(asig.total === eA.total, "la tabla de responsables cierra en su total",
-       asig.total + " vs " + eA.total);
-    ok(asig.vivos === eA.vivos, "y en los leads vivos", asig.vivos + " vs " + eA.vivos);
+    // La tabla muestra SOLO activos, asi que su total es el de los activos —no
+    // el de todos—. Y lo que queda fuera tiene que estar escrito en el pie: si
+    // 2.703 leads desaparecen de la cuenta sin una linea que lo diga, es un
+    // hueco escondido, que es justo lo que este proyecto no hace.
+    ok(asig.total === eA.act, "la tabla de responsables cierra en los ACTIVOS",
+       asig.total + " vs " + eA.act);
+    ok(asig.vivos === eA.vivosAct, "y en sus leads vivos",
+       asig.vivos + " vs " + eA.vivosAct);
     ok(asig.filas.reduce((a, x) => a + x.n, 0) === asig.total,
        "las filas suman el total de leads sin Trato");
     ok(asig.filas.every(x => x.vivos <= x.n),
        "nadie tiene más leads vivos que leads");
-    // El aviso de fuga tiene que decir el numero recontado, no otro.
+    const nPie = (asig.pie.match(/\d[\d.,]*/g) || []).map(x => Number(x.replace(/[.,]/g, "")));
+    ok(eA.fuera === 0 ? /no hay ningún lead/.test(asig.pie)
+       : (nPie[0] === eA.fuera && nPie[1] === eA.total),
+       "el pie declara cuántos leads quedan fuera de la tabla y sobre cuántos",
+       eA.fuera + " de " + eA.total + " · dice " + nPie.slice(0, 2).join(" de "));
     const nAviso = (asig.aviso.match(/\d[\d.,]*/g) || [])
       .map(x => Number(x.replace(/[.,]/g, "")));
     ok(eA.fuga === 0 ? /Ningún lead vivo/.test(asig.aviso) : nAviso[0] === eA.fuga,

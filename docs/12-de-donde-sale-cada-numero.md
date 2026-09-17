@@ -976,3 +976,24 @@ asignaron a gente que ya no está.
 
 La prueba en navegador recuenta el total, los vivos y el número del aviso contra
 el dataset en cada ventana.
+
+### Solo los activos (2026-09-17)
+
+Mercadeo pidió ver **solo a los usuarios activos**: es la lista de gente a la
+que se le puede pedir algo hoy. La tabla se filtró, y lo que queda fuera se
+declara en el pie en vez de desaparecer:
+
+| Responsable | Rol | Leads sin Trato | Vivos |
+|---|---|---|---|
+| Layla Aranky | Ventas | 833 | 149 |
+| Scarlett Flores | Ventas | 467 | 36 |
+| Mariana Rendon | Ventas | 44 | 12 |
+| Marlon Ruiz | Administración y Autorizaciones | 22 | 22 |
+| Hugo García | CEO | 7 | 3 |
+| David Matias | Ventas | 4 | 1 |
+| **Total activos** | | **1.377** | **223** |
+
+Y el pie: *quedan fuera **2.703** leads sin Trato de **4.080** (66,3%) que
+pertenecen a usuarios desactivados o borrados, con **830** todavía vivos entre
+ellos.* La prueba se pone roja si esa línea no está o si sus números no
+coinciden con el recuento.

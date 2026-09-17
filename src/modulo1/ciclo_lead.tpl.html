@@ -602,6 +602,7 @@ ${r?'Expression: "'+r+`"
           <div class="titulo-sec"><h2>¿A quién le caen?</h2></div>
           <div id="aviso-asig"></div>
           <div class="marco-tabla"><table id="tabla-asig"></table></div>
+          <p class="nota-sec" id="pie-asig" style="margin-top:16px"></p>
         </section>
       </main>
     </div>
@@ -1186,30 +1187,47 @@ function pintaAsignacion(c){
       ') pertenecen a alguien inactivo. Reasignarlos es una acción de un día.</div></div>'
     : '<div class="aviso aviso-ok"><span class="rotulo">Al día</span><div>Ningún lead vivo de esta '+
       'vista está en manos de un usuario desactivado.</div></div>';
+  /* Solo los ACTIVOS en la tabla, por pedido de Mercadeo (2026-09-17): es la
+     lista de gente a la que se le puede pedir algo. Lo de los desactivados NO
+     se borra —serian 2.703 leads desapareciendo sin decirlo—: vive en el aviso
+     de arriba y en el pie, que declara cuantos leads quedan fuera de la tabla
+     y por que. */
+  const activo = x => V.usuario[x[rUS]] === "activo";
   const por = {};
-  r.forEach(x=>{
+  r.filter(activo).forEach(x=>{
     const k = V.vendedor[x[rVE]];
-    por[k] = por[k] || {estado:V.usuario[x[rUS]],rol:V.rol[x[rRO]],n:0,vivos:0,det:{}};
+    por[k] = por[k] || {rol:V.rol[x[rRO]],n:0,vivos:0,det:{}};
     por[k].n++; if(x[rVI]===1) por[k].vivos++;
     const e = V.estado[x[rES]]; por[k].det[e]=(por[k].det[e]||0)+1;
   });
   const filas = Object.entries(por).sort((a,b)=>b[1].vivos-a[1].vivos || b[1].n-a[1].n);
+  const tAct = r.filter(activo).length;
+  const vAct = r.filter(x=>activo(x) && x[rVI]===1).length;
   document.getElementById("tabla-asig").innerHTML =
-    '<thead><tr><th>Responsable</th><th>Usuario</th><th>Leads sin Trato</th><th>Vivos</th>'+
+    '<thead><tr><th>Responsable</th><th>Rol</th><th>Leads sin Trato</th><th>Vivos</th>'+
     '<th>Estado que más repite</th></tr></thead><tbody>'+
     (filas.length?filas.map(([k,v])=>{
       const top = Object.entries(v.det).sort((a,b)=>b[1]-a[1])[0];
-      const mal = v.estado!=="activo";
-      return '<tr><td class="clave">'+esc(k)+'<br><span class="pct" style="text-align:left">'+
-        esc(v.rol)+'</span></td><td style="text-align:left"><span class="chip"><i style="background:'+
-        (mal?"var(--rosa)":"var(--salvia)")+'"></i>'+esc(v.estado)+'</span></td>'+
-        '<td class="n">'+nf(v.n)+'</td>'+
-        '<td class="n"'+(mal&&v.vivos?' style="color:var(--alerta);font-weight:600"':'')+'>'+nf(v.vivos)+'</td>'+
+      return '<tr><td class="clave">'+esc(k)+'</td>'+
+        '<td style="text-align:left">'+esc(v.rol)+'</td>'+
+        '<td class="n">'+nf(v.n)+'</td><td class="n">'+nf(v.vivos)+'</td>'+
         '<td style="text-align:left;white-space:normal">'+(top?esc(top[0])+' <span class="pct">('+
         top[1]+')</span>':"—")+'</td></tr>';
-    }).join("") : '<tr><td colspan="5">Sin leads sin Trato en esta vista.</td></tr>')+
-    (filas.length?'<tr class="total"><td>Total</td><td></td><td class="n">'+nf(total)+
-      '</td><td class="n">'+nf(vivos)+'</td><td></td></tr>':'')+'</tbody>';
+    }).join("") : '<tr><td colspan="5">Ningún usuario activo tiene leads sin Trato en esta vista.</td></tr>')+
+    (filas.length?'<tr class="total"><td>Total activos</td><td></td><td class="n">'+nf(tAct)+
+      '</td><td class="n">'+nf(vAct)+'</td><td></td></tr>':'')+'</tbody>';
+
+  /* El pie declara lo que la tabla NO muestra. Sin esta linea, la diferencia
+     entre este total y el de «Leads que entraron» no tendria explicacion. */
+  const pie = document.getElementById("pie-asig");
+  pie.innerHTML = aInact
+    ? 'La tabla muestra solo a los usuarios <b>activos</b>. Quedan fuera <b>'+nf(aInact)+
+      '</b> leads sin Trato de <b>'+nf(total)+'</b> ('+pf(aInact,total)+') que pertenecen a '+
+      'usuarios <b>desactivados o borrados</b>, con <b>'+nf(vivosInact)+'</b> todavía vivos '+
+      'entre ellos. No están perdidos: están sin dueño, y por eso se declaran acá en vez de '+
+      'desaparecer de la cuenta.'
+    : 'La tabla muestra solo a los usuarios <b>activos</b>, y en esta ventana no hay ningún '+
+      'lead sin Trato en manos de alguien desactivado.';
 }
 
 function pinta(){
