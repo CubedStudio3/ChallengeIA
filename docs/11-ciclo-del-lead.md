@@ -457,3 +457,23 @@ Ninguno necesitó dato nuevo. Todos son de cómo se lee.
   quedó gris sobre negro; la lectura salió del cuadro y quedó blanca sobre
   blanco. Las dos heredaban colores escritos para el otro fondo. Cada elemento
   toma ahora su color del mismo juego que la superficie que tiene detrás.
+
+### Ajuste del 2026-09-18 (tarde)
+
+- **Fuera la sección «Cierre por vendedor».** Se borró completa —encabezado,
+  nota y tabla—, junto con su entrada en el riel y la función que la pintaba.
+- **«Acciones a tomar» pasó de 8 a 6 tarjetas y de ~1.900 px a 492.** Se
+  quitaron las dos que no cambiaban nada por sí solas (llenar el Importe de 16
+  Tratos y una de las de estrategia, que se fusionó). Cada tarjeta deja a la
+  vista solo lo que hace falta para decidir —qué, quién, cuánto cuesta y la
+  cifra que lo justifica— y esconde los pasos en un desplegable «Cómo».
+- **«Cómo leer este tablero» bajó de ~1.100 px a 630.** Diecisiete entradas
+  largas pasaron a quince de **una sola frase**, en tres columnas rotuladas por
+  su propósito. Lo que había que conservar y no cabía —el comando para
+  regenerar, qué no responde a los filtros, la advertencia de que el ingreso es
+  lo registrado y no facturación auditada— vive en un desplegable al pie.
+
+**Defecto propio, encontrado por la prueba:** al cortar la sección de vendedor
+se fue con ella `globales()`, que vivía entre esa sección y las acciones, y la
+página quedó con `globales is not defined`. Cortar por rangos de texto se lleva
+lo que está en medio; la prueba en navegador lo agarró antes de publicar.

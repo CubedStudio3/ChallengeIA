@@ -541,6 +541,39 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   .emb-sub{display:none}
   .emb-num{font-size:18px}
 }
+
+/* ── compactado del 2026-09-18 ──────────────────────────────────────────── */
+/* Acciones: rejilla de tarjetas cortas. Lo que se decide queda a la vista y el
+   cómo se abre solo si hace falta. */
+.acciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));
+  gap:12px}
+.accion{display:flex;flex-direction:column;padding:15px 17px 13px;gap:0}
+.accion-cab{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 11px;align-items:start}
+.accion-n{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;
+  color:var(--tinta2);width:22px;height:22px;border-radius:7px;background:var(--sup2);
+  display:grid;place-items:center;margin-top:2px}
+.accion-cab h3{font-size:14.5px;letter-spacing:-.01em;line-height:1.35}
+.accion-meta{display:flex;flex-wrap:wrap;gap:5px 7px;margin:9px 0 0;padding-left:33px}
+.accion .chip{font-size:11px;padding:1px 8px 1px 6px}
+.accion-dato{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--tinta2);
+  font-variant-numeric:tabular-nums;line-height:1.55;margin:10px 0 0;padding:9px 0 0 33px;
+  border-top:1px solid var(--linea2)}
+.accion-dato b{color:var(--tinta);font-weight:600}
+.accion details{margin-top:9px;padding-top:0;border-top:none;padding-left:33px}
+.accion details ul{margin:7px 0 0;padding-left:16px;display:flex;flex-direction:column;gap:4px}
+.accion details li{font-size:12.5px;color:var(--tinta2);line-height:1.5}
+
+/* Notas: tres columnas de una línea por entrada. */
+.notas{gap:12px}
+.nota-bloque{padding:16px 18px 14px}
+.nota-bloque h3{font-size:13.5px}
+.nota-bloque dl{gap:9px;margin-top:11px}
+.nota-bloque dt{font-size:12.5px}
+.nota-bloque dd{font-size:12px;line-height:1.5}
+.nota-bloque details{margin-top:12px}
+.nota-bloque details ul{list-style:none;margin:8px 0 0;padding:0;display:flex;
+  flex-direction:column;gap:6px}
+.nota-bloque details li{font-size:12px;color:var(--tinta2);line-height:1.5;display:block}
 </style>
 <!-- ────────────────────────────────────────────────────────────────────────
      Tailwind CSS 3.4.17 — COMPILADO, no CDN.
@@ -614,7 +647,6 @@ ${r?'Expression: "'+r+`"
     <a href="#s-sinc" data-sec="s-sinc" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/><path d="M10 18 4 12l6-6"/></svg><span class="globo-riel">¿Llegan al CRM?</span></a>
     <a href="#s-asignacion" data-sec="s-asignacion" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg><span class="globo-riel">¿A quién le caen?</span></a>
     <a href="#s-serie" data-sec="s-serie" style="--tono:var(--cielo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg><span class="globo-riel">En el tiempo</span></a>
-    <a href="#s-vendedor" data-sec="s-vendedor" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="globo-riel">Cierre por vendedor</span></a>
     <a href="#s-acciones" data-sec="s-acciones" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span class="globo-riel">Acciones a tomar</span></a>
     <a href="#s-notas" data-sec="s-notas" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="globo-riel">Cómo leerlo</span></a>
     <span class="separa"></span>
@@ -725,27 +757,17 @@ ${r?'Expression: "'+r+`"
           </div>
         </section>
 
-        <section id="s-vendedor">
-          <div class="titulo-sec"><h2>Cierre por vendedor, comparando lo comparable</h2></div>
-          <p class="nota-sec">Solo Tratos originados en <b>redes sociales</b>. Página web queda
-            fuera a propósito: esos Tratos se afilian casi solos y meterlos en la misma tabla
-            premiaría a quien le tocó ese canal, no a quien cierra mejor.</p>
-          <div class="marco-tabla"><table id="tabla-vendedor"></table></div>
-        </section>
-
         <section id="s-acciones">
           <div class="titulo-sec"><h2>Acciones a tomar</h2></div>
-          <p class="nota-sec">Cosas concretas que se pueden hacer para mejorar el embudo, ordenadas
-            por cuánto mueven la aguja contra lo que cuesta hacerlas. Cada una dice quién la ejecuta,
-            qué hay que hacer y con qué cifra medida se justifica. Las cifras son del periodo
-            completo y no se mueven con los filtros.</p>
+          <p class="nota-sec">Ordenadas por cuánto mueven la aguja contra lo que cuestan. Abrí
+            «Cómo» para los pasos. Cifras del periodo completo.</p>
           <div class="acciones" id="acciones"></div>
         </section>
 
         <section id="s-notas">
           <div class="titulo-sec"><h2>Cómo leer este tablero</h2></div>
-          <p class="nota-sec">Tres cosas distintas, separadas a propósito: qué significa cada
-            palabra, dónde es fácil equivocarse leyendo, y en qué estado está el dato.</p>
+          <p class="nota-sec">Qué significa cada número, dónde es fácil equivocarse leyendo, y en
+            qué estado está el dato.</p>
           <div class="notas" id="notas"></div>
         </section>
       </main>
@@ -1329,43 +1351,7 @@ function pintaAsignacion(c){
       '</td><td class="n">'+nf(vivos)+'</td><td></td></tr>':'')+'</tbody>';
 }
 
-/* ── cierre por vendedor ─────────────────────────────────────────────────── */
-function pintaVendedor(c){
-  const t = c.t.filter(x=>x[tCA]===REDES);
-  const por = {};
-  t.forEach(x=>{
-    const k = V.vendedor[x[tVE]] || "Sin responsable";
-    por[k] = por[k] || {won:0,lost:0,contacto:0,oferta:0,raz:{}};
-    const o = por[k];
-    if(x[tET]===GANADO) o.won++;
-    else if(x[tET]===PERDIDO){ o.lost++;
-      const rz = V.razon[x[tRZ]]||"Sin razón"; o.raz[rz]=(o.raz[rz]||0)+1;
-      if(x[tCT]===CONTACTO) o.contacto++;
-      if(CONDICION.has(x[tCT])) o.oferta++; }
-  });
-  const filas = Object.entries(por).filter(([,o])=>o.won+o.lost>0)
-    .sort((a,b)=>(b[1].won+b[1].lost)-(a[1].won+a[1].lost));
-  const T2 = filas.reduce((a,[,o])=>({won:a.won+o.won,lost:a.lost+o.lost,
-    c:a.c+o.contacto,f:a.f+o.oferta}),{won:0,lost:0,c:0,f:0});
-  document.getElementById("tabla-vendedor").innerHTML =
-    '<thead><tr><th>Vendedor</th><th>Cerrados</th><th>Ganados</th><th>Perdidos</th><th>% cierre</th>'+
-    '<th>Perdidos por contacto</th><th>Perdidos por oferta</th><th>Razón que más repite</th></tr></thead><tbody>'+
-    (filas.length?filas.map(([k,o])=>{
-      const cer = o.won+o.lost;
-      const top = Object.entries(o.raz).sort((a,b)=>b[1]-a[1])[0];
-      return '<tr><td class="clave">'+esc(k)+'</td><td class="n">'+nf(cer)+'</td>'+
-        '<td class="n">'+nf(o.won)+'</td><td class="n">'+nf(o.lost)+'</td>'+
-        '<td class="n"><b>'+pf(o.won,cer)+'</b></td><td class="n">'+nf(o.contacto)+'</td>'+
-        '<td class="n">'+nf(o.oferta)+'</td><td style="text-align:left;white-space:normal">'+
-        (top?esc(top[0])+' <span class="pct">('+top[1]+')</span>':"—")+'</td></tr>';
-    }).join("") : '<tr><td colspan="8">Sin Tratos de redes sociales en esta vista.</td></tr>')+
-    (filas.length?'<tr class="total"><td>Total redes</td><td class="n">'+nf(T2.won+T2.lost)+
-      '</td><td class="n">'+nf(T2.won)+'</td><td class="n">'+nf(T2.lost)+'</td><td class="n">'+
-      pf(T2.won,T2.won+T2.lost)+'</td><td class="n">'+nf(T2.c)+'</td><td class="n">'+nf(T2.f)+
-      '</td><td></td></tr>':'')+'</tbody>';
-}
-
-/* ── recomendaciones y notas · periodo completo ──────────────────────────── */
+/* ── cifras del periodo completo, para las acciones y las notas ──────────────────────────── */
 function globales(){
   const cal = L.filter(x=>x[lCL]===1);
   const rd = L.filter(x=>x[lCA]===REDES), rdT = T.filter(x=>x[tCA]===REDES);
@@ -1415,115 +1401,104 @@ function globales(){
 }
 
 /* ── acciones a tomar ────────────────────────────────────────────────────── */
-/* No son conclusiones: son cosas que alguien puede empezar mañana. Cada una
-   lleva quién la ejecuta, qué hacer, y la cifra medida que la justifica. El
-   esfuerzo es un juicio explícito, no un dato: va rotulado como tal. */
+/* Seis, no ocho: se quitaron las dos que no cambiaban nada por sí solas. Cada
+   tarjeta muestra lo mínimo para decidir —qué, quién, cuánto cuesta y la cifra
+   que lo justifica— y esconde el cómo en un desplegable. Lo que ocupaba una
+   pantalla y media ahora entra en media. */
 function pintaAcciones(){
   const g = globales();
   const a = [
     {area:"Ventas", esf:"Un día",
-     que:"Reasignar los "+nf(g.vivosInact)+" leads vivos que están en manos de usuarios desactivados",
-     como:["Filtrar Posibles clientes por responsable entre los usuarios desactivados y estado en seguimiento o precalificado.",
-           "Repartirlos entre los tres asesores activos con una carga tope por persona.",
-           "Cambiar la regla de asignación para que no pueda elegir un usuario inactivo."],
-     dato:"<b>"+nf(g.vivosInact)+"</b> leads vivos con dueño desactivado o borrado · <b>"+
-       nf(g.inact)+"</b> de <b>"+nf(g.sinTrato)+"</b> leads sin Trato ("+pf(g.inact,g.sinTrato)+
-       ") pertenecen a usuarios inactivos"},
-    {area:"Mercadeo", esf:"Una semana con soporte de Meta",
+     que:"Reasignar los "+nf(g.vivosInact)+" leads vivos que tiene gente desactivada",
+     dato:"<b>"+nf(g.inact)+"</b> de <b>"+nf(g.sinTrato)+"</b> leads sin Trato ("+
+       pf(g.inact,g.sinTrato)+") pertenecen a usuarios que ya no entran al CRM",
+     como:["Filtrar por responsable inactivo y estado en seguimiento o precalificado.",
+           "Repartir entre los asesores activos con una carga tope por persona.",
+           "Bloquear en la regla de asignación que pueda caer en un usuario inactivo."]},
+    {area:"Mercadeo", esf:"Una semana con Meta",
      que:"Arreglar la entrega del formulario instantáneo al CRM",
-     como:["Revisar en Meta la integración de Leads de las campañas de Punto de Venta GT y SV.",
-           "Comparar un día concreto lead por lead: descarga del CSV de Meta contra los registros creados ese día.",
-           "Si la pérdida es por deduplicación, medirla y declararla; si es por la integración, reconectarla."],
-     dato:"Meta reporta <b>"+nf(g.metaLeads)+"</b> leads y el CRM registra <b>"+nf(g.leadsRedes)+
-       "</b> de redes: faltan <b>"+nf(g.metaLeads-g.leadsRedes)+"</b> ("+
-       pf(g.metaLeads-g.leadsRedes,g.metaLeads)+")"},
-    {area:"Mercadeo", esf:"Una tarde de configuración",
-     que:"Mandar el campaign_id de Meta al CRM y dejarlo obligatorio",
-     como:["Mapear el campo oculto de campaña del formulario instantáneo a FB_Campaign_ID.",
-           "Esperar un mes de datos y recién entonces comparar costo por venta entre campañas.",
-           "Hasta que eso exista, no hay forma de apagar la campaña que trae basura."],
-     dato:"<b>0</b> leads con Campaña MK · el campo <span class=\"mono\">FB_Campaign_ID</span> "+
-       "existe y llegó a poblarse en 292 leads, pero <b>ninguno</b> de esos llegó a Trato"},
-    {area:"Ventas", esf:"Cambio de rutina, permanente",
+     dato:"Meta reporta <b>"+nf(g.metaLeads)+"</b> leads y el CRM registra <b>"+
+       nf(g.leadsRedes)+"</b>: faltan <b>"+nf(g.metaLeads-g.leadsRedes)+"</b> ("+
+       pf(g.metaLeads-g.leadsRedes,g.metaLeads)+")",
+     como:["Revisar la integración de Leads en las campañas de Punto de Venta GT y SV.",
+           "Cuadrar un día concreto lead por lead: CSV de Meta contra registros creados.",
+           "Si la pérdida es deduplicación, medirla y declararla; si es la integración, reconectarla."]},
+    {area:"Ventas", esf:"Cambio de rutina",
      que:"Atacar el primer contacto: es la causa número uno de Trato perdido",
-     como:["Definir un tiempo máximo de primer intento —el lead de Meta llega y se enfría en horas.",
-           "Registrar los intentos: hoy «No contesta» no distingue un intento de cinco.",
-           "Probar WhatsApp como primer toque en vez de llamada: es el canal que más cierra de pago."],
      dato:"<b>"+nf(g.noContesta)+"</b> de <b>"+nf(g.lost)+"</b> Tratos perdidos por «No contesta» ("+
-       pf(g.noContesta,g.lost)+") · WhatsApp cierra <b>"+nf(g.wonPagoWa)+
-       "</b> ventas de pago, más que redes y web juntas"},
-    {area:"Mercadeo y Ventas", esf:"Una decisión de prioridad",
+       pf(g.noContesta,g.lost)+")",
+     como:["Fijar un tiempo máximo de primer intento: el lead de Meta se enfría en horas.",
+           "Registrar los intentos — hoy «No contesta» no distingue uno de cinco.",
+           "Probar WhatsApp como primer toque: es el canal que más cierra de pago ("+
+             nf(g.wonPagoWa)+" ventas)."]},
+    {area:"Mercadeo", esf:"Una tarde",
+     que:"Mandar el campaign_id de Meta al CRM y dejarlo obligatorio",
+     dato:"<b>0</b> leads con Campaña MK · sin esto no hay forma de apagar la campaña que trae basura",
+     como:["Mapear el campo oculto de campaña del formulario a FB_Campaign_ID.",
+           "Esperar un mes de datos antes de comparar costo por venta entre campañas."]},
+    {area:"Mercadeo y Ventas", esf:"Decisión de prioridad",
      que:"Decidir qué se hace con el inventario de El Salvador",
-     como:["O se le asigna capacidad real de contacto, o se baja el presupuesto de SV hasta que la haya.",
-           "Mantener el gasto y dejar los leads en seguimiento es pagar dos veces por el mismo lead."],
-     dato:"El Salvador: <b>"+nf(g.svLeads)+"</b> leads · <b>"+pf(g.svCal,g.svLeads)+
-       "</b> de calificación contra el "+pf(g.gtCal,g.gtLeads)+" de Guatemala · <b>"+
-       nf(g.svVivos)+"</b> todavía en seguimiento"},
+     dato:"SV: <b>"+nf(g.svLeads)+"</b> leads · <b>"+pf(g.svCal,g.svLeads)+
+       "</b> de calificación contra <b>"+pf(g.gtCal,g.gtLeads)+"</b> de Guatemala · <b>"+
+       nf(g.svVivos)+"</b> en seguimiento",
+     como:["O se le asigna capacidad real de contacto, o se baja el presupuesto de SV.",
+           "Mantener el gasto y dejar los leads sin trabajar es pagar dos veces el mismo lead."]},
     {area:"Producto / Comercial", esf:"Revisión de oferta",
-     que:"Revisar los tres motivos de precio y condiciones que más repiten",
-     como:["Cuantificar cuánto se pierde por la cuenta en Banco Atlántida y por la anualidad.",
-           "Pedir a Ventas el guion que usan cuando aparece la objeción de comisión.",
-           "Si la objeción es estructural, es cambio de oferta; no se arregla con más llamadas."],
-     dato:"Perdidos por precio, fit, competencia u oferta: <b>"+nf(g.condiciones)+"</b> de <b>"+
-       nf(g.lost)+"</b> Tratos perdidos"},
-    {area:"Mercadeo", esf:"Una conversación de estrategia",
      que:"Separar la meta de volumen de la meta de ingreso",
-     como:["La web trae afiliaciones Free casi solas; los planes de pago vienen de canales con una persona en medio.",
+     dato:"De <b>"+nf(g.wonFree+g.wonPago)+"</b> ventas, <b>"+nf(g.wonFree)+
+       "</b> son Free · las <b>"+nf(g.wonPago)+"</b> de pago suman <b>"+mf(g.ingreso)+
+       "</b> y solo <b>"+nf(g.wonPagoRedes)+"</b> vinieron de redes",
+     como:["La web trae afiliaciones Free casi solas; lo de pago sale de canales con una persona.",
            "Si la meta es ingreso, el presupuesto de Meta compite contra contratar a alguien que llame.",
-           "Si la meta es base instalada Free, entonces el costo por lead ya es la métrica correcta y el embudo está bien."],
-     dato:"De <b>"+nf(g.wonFree+g.wonPago)+"</b> ventas ganadas, <b>"+nf(g.wonFree)+
-       "</b> son Free y <b>"+nf(g.wonPago)+"</b> de pago · las de pago suman <b>"+mf(g.ingreso)+
-       "</b> y solo <b>"+nf(g.wonPagoRedes)+"</b> vinieron de redes ("+mf(g.ingresoRedes)+")"},
-    {area:"Ventas", esf:"Diez minutos por Trato",
-     que:"Llenar el Importe en los "+nf(g.pagoSinImporte)+" Tratos de pago que no lo tienen",
-     como:["El cero de los Free es correcto y no hay que tocarlo.",
-           "Con esos "+nf(g.pagoSinImporte)+" completos, el ingreso por canal queda cerrado y se puede comparar contra la inversión."],
-     dato:"<b>"+nf(g.wonPago-g.pagoSinImporte)+"</b> de <b>"+nf(g.wonPago)+
-       "</b> ventas de pago traen importe y suman <b>"+mf(g.ingreso)+"</b>"}
+           "Si la meta es base instalada Free, el costo por lead ya es la métrica correcta."]}
   ];
   document.getElementById("acciones").innerHTML = a.map((x,i)=>
-    '<div class="accion"><div class="accion-n">'+(i+1)+'</div>'+
-    '<div class="accion-cuerpo"><h3>'+esc(x.que)+'</h3>'+
+    '<div class="accion"><div class="accion-cab"><span class="accion-n">'+(i+1)+'</span>'+
+    '<h3>'+esc(x.que)+'</h3></div>'+
     '<div class="accion-meta"><span class="chip"><i style="background:'+
       COLOR_AREA[x.area==="Mercadeo y Ventas"?"Ventas":x.area]+'"></i>'+esc(x.area)+'</span>'+
-      '<span class="chip chip-esf">Esfuerzo: '+esc(x.esf)+'</span></div>'+
-    '<ul class="accion-pasos">'+x.como.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul>'+
-    '<p class="accion-dato"><span class="rotulo">Por qué</span>'+x.dato+'</p></div></div>').join("");
+      '<span class="chip chip-esf">'+esc(x.esf)+'</span></div>'+
+    '<p class="accion-dato">'+x.dato+'</p>'+
+    '<details><summary>Cómo</summary><ul>'+
+      x.como.map(q=>'<li>'+esc(q)+'</li>').join("")+'</ul></details></div>').join("");
 }
 
 /* ── cómo leer el tablero ────────────────────────────────────────────────── */
-/* Antes era un muro de notas sin jerarquía y no se sabía qué era. Ahora son
-   tres cosas distintas y rotuladas: qué significa cada palabra, dónde es fácil
-   equivocarse, y en qué estado está el dato. */
+/* Tres columnas cortas en vez de diecisiete entradas. Cada linea es una sola
+   frase; lo largo que hacia falta conservar vive en el desplegable del final. */
 function pintaNotas(){
   const g = globales();
-  const bloque = (t,sub,filas) =>
-    '<div class="nota-bloque"><h3>'+t+'</h3><p class="nota-sub">'+sub+'</p><dl>'+
-    filas.map(([k,v])=>'<dt>'+k+'</dt><dd>'+v+'</dd>').join("")+'</dl></div>';
+  const bloque = (t,filas,pie) =>
+    '<div class="nota-bloque"><h3>'+t+'</h3><dl>'+
+    filas.map(([k,v])=>'<dt>'+k+'</dt><dd>'+v+'</dd>').join("")+'</dl>'+(pie||"")+'</div>';
   document.getElementById("notas").innerHTML =
-    bloque("Glosario","Qué significa exactamente cada palabra que usa el tablero.",[
-      ["Leads que entraron","Todo registro del módulo <b>Posibles clientes</b> creado dentro del rango de fechas, convertidos incluidos."],
-      ["Leads elegibles","Los anteriores menos los del bucket «dato inválido / no elegible»: SPAM, duplicados, número incorrecto, sin RTU."],
-      ["Calificados","El lead tiene un <b>Trato</b> asociado (<span class=\"mono\">Converted_Deal</span> no vacío). Es el paso que separa un contacto de una oportunidad."],
-      ["Tratos cerrados","<span class=\"mono\">closed won</span> + <span class=\"mono\">closed lost</span>. Los Stand By y las etapas abiertas no cuentan como cerrados."],
-      ["Free y Premium","El plan sale de <span class=\"mono\">Producto</span> —en la interfaz, <b>Plan QPayPro</b>— y vive en el <b>Trato</b>, no en el lead. <b>Free</b> es el plan de ese nombre; <b>Premium</b> agrupa todo lo de pago: Premium Anual, Premium Mensual, Elite Anual, Silver Anual y el Kit de Punto de Venta."],
-      ["Lead → venta","De cada 100 leads que entraron por un canal, cuántos terminaron en <span class=\"mono\">closed won</span>. Es la única columna que mide el canal de punta a punta."]
+    bloque("Qué significa cada número",[
+      ["Leads que entraron","Todo registro de Posibles clientes creado en el rango, convertidos incluidos."],
+      ["Elegibles","Menos SPAM, duplicados, número incorrecto y sin RTU."],
+      ["Calificados","El lead tiene un Trato asociado. Es el paso que separa un contacto de una oportunidad."],
+      ["Cerrados","<span class=\"mono\">closed won</span> + <span class=\"mono\">closed lost</span>. Stand By y etapas abiertas no cuentan."],
+      ["Free / Premium","El plan sale del <b>Trato</b>, no del lead: <b>"+nf(g.cal)+"</b> de <b>"+nf(g.leads)+"</b> lo tienen. Premium agrupa todo lo de pago."],
+      ["Lead → venta","De cada 100 leads de un canal, cuántos terminaron en venta. La única columna que mide el canal completo."]
     ])+
-    bloque("Dónde es fácil equivocarse","Cuatro lecturas que parecen obvias y están mal. Cada una salió de un error real.",[
-      ["Un informe del CRM no es «el CRM»","Los informes de Zoho sobre Posibles clientes <b>excluyen los convertidos por omisión</b>, y si llevan filtro de país muestran una parte. El informe <span class=\"mono\">LEADS 2026</span> resultó ser «no convertidos, País Guatemala o vacío»: reproduce 207 · 164 · 201 · 60 en enero, julio, agosto y septiembre. Esta página cuenta <b>todos</b> los leads y los dos países."],
-      ["Convertido no es lo mismo que calificado","<b>"+nf(Q.convertidos_sin_trato)+"</b> leads figuran como convertidos pero no tienen Trato: se convirtieron a Cuenta o Contacto sin abrir oportunidad. Aquí cuentan como <b>no calificados</b>."],
-      ["Un rango corto son dos cohortes distintas","Los leads se cortan por su fecha de creación y los Tratos por la suya. Un Trato de esta semana puede venir de un lead del mes pasado, así que en rangos cortos «lead → venta» puede pasar de 100% o quedar en cero sin que nada esté mal."],
-      ["Meta y el CRM no cuadran al registro","Meta cuenta eventos y el CRM registros; Meta atribuye a la fecha del clic y el CRM a la de creación; el CRM deduplica. La comparación sirve para el <b>tamaño y la dirección</b> de la diferencia, no para auditarla lead por lead. Los clics en enlace quedan fuera: no son leads."],
-      ["Los dos embudos no se suman","Se parten por canal de origen: «Página web» contra «Redes sociales (Meta)». Son dos caminos con tasas propias, no partes de un mismo total."]
+    bloque("Dónde es fácil equivocarse",[
+      ["Un informe del CRM no es «el CRM»","Los informes de Zoho excluyen los convertidos por omisión; con filtro de país, muestran una parte."],
+      ["Convertido ≠ calificado","<b>"+nf(Q.convertidos_sin_trato)+"</b> leads figuran convertidos sin Trato. Aquí cuentan como no calificados."],
+      ["Un rango corto son dos cohortes","Los leads se cortan por su fecha y los Tratos por la suya: «lead → venta» puede pasar de 100% en una semana."],
+      ["Meta y el CRM no cuadran al registro","Meta cuenta eventos y atribuye al clic; el CRM cuenta registros y deduplica. Sirve el tamaño de la diferencia, no la auditoría."],
+      ["Los dos embudos no se suman","Son dos caminos con tasas propias, no partes de un mismo total."]
     ])+
-    bloque("Estado del dato","Qué tan fresco está, qué falta y cómo se vuelve a sacar.",[
-      ["Es una foto, con hora","Extraída el <b>"+esc(Q.foto)+"</b>. El CRM sigue recibiendo mientras tanto. El último día con registros es <b>"+largo(FECHAS[FECHAS.length-1])+"</b>."],
-      ["Cómo se verifica","La extracción es por filas y paginada. Antes de publicar, los totales se comparan contra un <span class=\"mono\">COUNT</span> independiente del CRM, y el gasto de Meta contra una lectura mensual pedida por otro camino. Si algo no cuadra, la corrida <b>se detiene</b>."],
-      ["El Importe","De los <b>"+nf(Q.ganados_total)+"</b> Tratos ganados, <b>"+nf(g.wonFree)+"</b> tienen Importe en cero y son <b>todos</b> del plan Free: ahí el cero es correcto. El hueco real son <b>"+nf(g.pagoSinImporte)+"</b> Tratos de pago sin importe. Los que sí lo traen suman <b>"+mf(g.ingreso)+"</b>, que es lo registrado en el CRM, no una facturación auditada."],
-      ["Lo que no se puede medir","No hay identificador de campaña utilizable en los leads, así que el análisis <b>no baja a campaña, conjunto ni anuncio</b>. Tampoco hay costo de medios en el CRM: la inversión viene de Meta Ads."],
-      ["Volver a sacarla","<span class=\"mono\">python3 src/modulo1/ciclo_lead.py && python3 src/modulo1/arma_tablero.py</span>"],
-      ["Qué no responde a los filtros","Todo lo de arriba responde a los cuatro filtros. Las <b>acciones a tomar</b> y este bloque son del periodo completo."]
-    ]);
+    bloque("Estado del dato",[
+      ["Foto del "+esc(Q.foto),"El CRM sigue recibiendo. Último día con registros: <b>"+largo(FECHAS[FECHAS.length-1])+"</b>."],
+      ["Verificado","Los totales se comparan contra un <span class=\"mono\">COUNT</span> del CRM y el gasto contra otra lectura de Meta. Si no cuadra, la corrida se detiene."],
+      ["El Importe","<b>"+nf(g.wonFree)+"</b> ganados en cero son <b>todos</b> Free: ahí el cero es correcto. El hueco real son <b>"+nf(g.pagoSinImporte)+"</b> Tratos de pago sin importe."],
+      ["No se puede medir","Sin identificador de campaña utilizable, el análisis no baja a campaña ni anuncio."]
+    ],
+    '<details><summary>Regenerar y qué no se filtra</summary><ul>'+
+      '<li>La extracción es por filas y paginada: <span class="mono">python3 src/modulo1/ciclo_lead.py '+
+      '&amp;&amp; python3 src/modulo1/arma_tablero.py</span></li>'+
+      '<li>Todo responde a los cuatro filtros, salvo las <b>acciones</b> y este bloque, que son del periodo completo.</li>'+
+      '<li>El ingreso de <b>'+mf(g.ingreso)+'</b> es lo registrado en el CRM, no una facturación auditada.</li>'+
+      '</ul></details>');
 }
 
 /* ── globo ───────────────────────────────────────────────────────────────── */
@@ -1547,7 +1522,7 @@ document.addEventListener("mouseout",e=>{
 function pinta(){
   const c = calcula();
   pintaEnVista(c); pintaKpis(c); pintaEmbudos(c); pintaVeredicto(c);
-  pintaCanal(c); pintaSinc(c); pintaAsignacion(c); pintaSerie(c); pintaVendedor(c);
+  pintaCanal(c); pintaSinc(c); pintaAsignacion(c); pintaSerie(c);
 }
 pintaFiltros(); pinta(); pintaAcciones(); pintaNotas();
 
