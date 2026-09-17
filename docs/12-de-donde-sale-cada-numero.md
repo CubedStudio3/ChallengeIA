@@ -244,3 +244,142 @@ en tres ventanas y recuenta cada cifra contra el dataset, aparte.
    tablero y con qué filtro puesto**, y contra qué informe. Con eso se puede
    reproducir la consulta exacta y comparar poblaciones, que es donde siempre
    está la diferencia.
+
+---
+
+## 7. Los endpoints exactos, y los enlaces para abrir al lado
+
+**No hay ninguna URL que este sistema «visite».** Los datos entran por
+conectores MCP que llaman a APIs con autenticación; no hay una página que se
+pueda abrir y leer. Así que hay dos listas distintas y conviene no confundirlas.
+
+### 7.1 De dónde salen los datos (el endpoint real)
+
+| Dato del tablero | Sistema | Llamada |
+|---|---|---|
+| Posibles clientes (leads) | Zoho CRM | `POST https://www.zohoapis.com/crm/v8/coql` con `{"select_query": "..."}` |
+| Tratos | Zoho CRM | el mismo endpoint COQL, módulo `Deals` |
+| Responsable, estado y rol del usuario | Zoho CRM | `GET https://www.zohoapis.com/crm/v8/users?type=AllUsers` |
+| Reglas de asignación (fechas de modificación) | Zoho CRM | `GET https://www.zohoapis.com/crm/v8/settings/automation/assignment_rules` |
+| Gasto, leads e impresiones de pauta | Meta Ads | endpoint **Insights** de la Marketing API sobre `act_225318458221662`, `level=campaign`, `breakdowns=country`, `time_increment=1` |
+
+Documentación de COQL:
+<https://www.zoho.com/crm/developer/docs/api/v8/coql-overview.html>
+
+Dos precisiones sobre Meta:
+
+- El conector expone los campos con **su** nombre: `lead` y
+  `onsite_conversion_lead_grouped`. En el Graph API crudo esos dos números
+  viven dentro de `actions`, bajo `action_type = lead` y
+  `action_type = onsite_conversion.lead_grouped`.
+- **`facebook.com` y `business.facebook.com` están bloqueados desde este
+  entorno** por la política de egreso (`connect_rejected · 403`). A Meta se
+  llega **solo** por el conector; el enlace de Ads Manager de abajo es para
+  abrirlo desde un navegador, no algo que este sistema pueda comprobar.
+
+### 7.2 Los enlaces de la interfaz (para comparar a mano)
+
+Armados con el **zgid `647794829`** —de `getOrganization`— y el `api_name` de
+cada módulo —de su metadata—. Zona horaria de la cuenta:
+**`America/Guatemala` (−06:00)**, la misma que usan todas las consultas.
+
+| Para ver | Enlace |
+|---|---|
+| Posibles clientes | `https://crm.zoho.com/crm/org647794829/tab/Leads/list` |
+| Tratos | `https://crm.zoho.com/crm/org647794829/tab/Deals/list` |
+| Un lead concreto | `https://crm.zoho.com/crm/org647794829/tab/Leads/<id>` |
+| Pauta del 1 al 15 de septiembre | `https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=225318458221662&date=2026-09-01_2026-09-15` |
+
+En Ads Manager, para llegar al mismo corte: **Desglose → Por entrega → País**,
+y columnas **Clientes potenciales**, **Clientes potenciales en Meta** e
+**Importe gastado**.
+
+---
+
+## 8. Ejemplo trabajado · Guatemala, 1 al 15 de septiembre de 2026
+
+Las tres fuentes pedidas en vivo el 2026-09-19 y el tablero con el filtro
+puesto. **Coinciden fuente por fuente.**
+
+### CRM · 125 leads
+
+```sql
+-- los que ve un informe normal (convertidos FUERA)
+select Lead_Source, COUNT(id) as n from Leads
+ where ((Created_Time >= '2026-09-01T00:00:00-06:00'
+     and Created_Time <= '2026-09-15T23:59:59-06:00')
+    and Pa_s = 'Guatemala')
+ group by Lead_Source
+-- → Meta Ads 64 · Página web 9 · Chat / WhatsApp 1   = 74
+
+-- los convertidos, que el informe se salta
+select Lead_Source, COUNT(id) as n from Leads
+ where (((Created_Time >= '2026-09-01T00:00:00-06:00'
+      and Created_Time <= '2026-09-15T23:59:59-06:00')
+     and Pa_s = 'Guatemala') and Converted__s = true)
+ group by Lead_Source
+-- → Página web 37 · Llamada en Frio 5 · Chat / WhatsApp 3 · Cliente se comunicó 2
+--   · Meta Ads 2 · Referido 1 · WHATSAPP - Qpaypro 1   = 51
+```
+
+**74 + 51 = 125**, el número del tablero. Aplicando el mapa de canal:
+
+| Canal | No conv. | Conv. | Total |
+|---|---|---|---|
+| Redes sociales (Meta) | 64 | 2 | **66** |
+| Página web | 9 | 37 | **46** |
+| Directo / Referidos | 0 | 8 | **8** |
+| WhatsApp / Chat | 1 | 4 | **5** |
+
+Un informe sin convertidos mostraría **9** leads de página web en vez de 46.
+
+### Meta · 136 clientes potenciales
+
+| | GT, 1–15 sep |
+|---|---|
+| Clientes potenciales (`lead`) | **136** |
+| · dentro de Meta (`onsite_conversion_lead_grouped`) | **77** |
+| · del sitio web (la resta) | **59** |
+| Importe gastado | **$525,43** |
+| Impresiones | 148.253 |
+| Costo por lead | $3,86 |
+
+**Trampa al comparar en Ads Manager:** de esos $525,43, **$2,65 los gastó la
+campaña llamada «Punto de Venta SV» entregando en Guatemala**. Filtrar por
+nombre de campaña la deja fuera; el desglose por país la incluye. El gasto de
+GT son tres filas: Punto de Venta GT $448,97 + Plan Free Tráfico $73,81 +
+Punto de Venta SV $2,65.
+
+### La cuadratura
+
+| | Meta | CRM | |
+|---|---|---|---|
+| Dentro de Meta → canal Redes | **77** | **66** | **−11 · −14,3%** |
+| Sitio web (pixel) → canal Página web | 59 | 46 | no se restan |
+
+Y un detalle que explica una diferencia de 1: en esa misma ventana hay **1 lead
+de Página web con el campo `Pa_s` vacío**. No entra en el filtro de Guatemala —
+sale como «Sin país», no se reparte a ojo.
+
+### El resto de la vista
+
+| | |
+|---|---|
+| Leads | 125 |
+| Calificados (tienen Trato) | 51 |
+| Plan | Free 31 · Premium Anual 14 · Elite Anual 5 · sin plan 1 |
+| Tratos en la vista | 54 |
+| Ganados | 44 |
+| % de cierre sobre Tratos | 93,6% |
+
+Los Tratos (54) se cortan por **su** fecha de creación y por
+`Pa_s_Operaci_n`, no por los campos del lead: por eso 54 no es 51.
+
+### Cómo reproducirlo en la interfaz de Zoho
+
+1. Posibles clientes → **Crear vista personalizada**.
+2. Criterio: `Fecha de creación` entre `01/09/2026` y `15/09/2026`, **y**
+   `País` = `Guatemala`.
+3. En las opciones de la vista, **incluir los convertidos** (o quitar el
+   criterio que los excluye). Sin este paso salen 74 en vez de 125.
+4. Agrupar o filtrar por `Origen del posible cliente` para ver los 4 canales.
