@@ -6,7 +6,7 @@
   "scripts": {
     "css": "tailwindcss -c tailwind.config.js -i entrada.css -o tailwind.css --minify",
     "construye": "npm run css && node construye.js --libs",
-    "prueba": "node prueba.js"
+    "prueba": "npm run construye && node prueba.js"
   },
   "devDependencies": {
     "alpinejs": "3.14.1",

@@ -110,10 +110,10 @@ a{color:inherit}
   box-shadow:var(--sombra-alta);
 }
 .riel .marca{
-  width:42px;height:42px;border-radius:14px;background:var(--salvia);
-  display:grid;place-items:center;margin-bottom:16px;flex:none;color:var(--tinta);
+  width:42px;height:42px;border-radius:14px;background:var(--sup);
+  display:grid;place-items:center;margin-bottom:16px;flex:none;
 }
-.riel .marca svg{width:22px;height:22px}
+.riel .marca svg{width:34px;height:34px}
 .riel a{
   width:44px;height:44px;border-radius:14px;flex:none;
   display:grid;place-items:center;color:#9aa49e;
@@ -149,6 +149,14 @@ a{color:inherit}
   background:transparent;border:0;border-radius:999px;padding:3px 4px;
   min-width:112px;max-width:100%;cursor:pointer;
 }
+/* type="month": el dato es mensual. El indicador del calendario es nativo. */
+.campo input[type=month]{
+  font-family:inherit;font-size:13px;font-weight:500;color:var(--tinta);
+  background:transparent;border:0;padding:3px 2px;cursor:pointer;
+  font-variant-numeric:tabular-nums;min-width:124px;max-width:100%;
+}
+.campo input[type=month]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.45}
+.campo input[type=month]:hover::-webkit-calendar-picker-indicator{opacity:.9}
 .campo:has(.reiniciar){background:none;box-shadow:none;padding:0}
 .campo:has(.reiniciar) .rotulo{display:none}
 .reiniciar{
@@ -168,9 +176,10 @@ a{color:inherit}
 
 /* ═══ 2 · encabezado ══════════════════════════════════════════════════ */
 
-.cabecera{padding-block:46px 38px;display:grid;gap:30px;
-  grid-template-columns:minmax(0,1fr) auto;align-items:end}
-.cabecera h1{margin-top:10px}
+.cabecera{padding-block:46px 34px}
+.titulo-con-logo{display:flex;align-items:center;gap:15px;margin-top:10px}
+.logo-marca{flex:none;display:block}
+.logo-marca svg{display:block;width:clamp(44px,5.4vw,58px);height:clamp(44px,5.4vw,58px)}
 .cabecera .pregunta{font-size:16.5px;color:var(--tinta2);max-width:58ch;margin-top:16px}
 .cabecera .meta{display:flex;gap:10px;flex-wrap:wrap}
 .cabecera .meta div{
@@ -185,6 +194,10 @@ a{color:inherit}
 section{margin-bottom:66px;scroll-margin-top:78px}
 .titulo-sec{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:7px}
 .nota-sec{color:var(--tinta2);font-size:14.5px;max-width:72ch;margin-bottom:26px}
+.subtitulo-sec{margin:40px 0 18px}
+.subtitulo-sec h3{font-family:Outfit,"IBM Plex Sans",system-ui,sans-serif;font-size:19px;
+  font-weight:600;letter-spacing:-.015em}
+.subtitulo-sec p{color:var(--tinta2);font-size:14px;max-width:72ch;margin-top:5px}
 
 /* ── KPIs ─────────────────────────────────────────────────────────────── */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(205px,100%),1fr));gap:16px}
@@ -243,16 +256,30 @@ section{margin-bottom:66px;scroll-margin-top:78px}
    («Calificado Intere..») y los tramos delgados no se pueden leer. Aquí el
    nombre y la cifra viven en columnas alineadas, a tamaño de texto real, y
    la forma solo lleva la geometría. ──────────────────────────────────── */
+/* Dos embudos lado a lado; se apilan solos por debajo de ~940 px. */
+.embudos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:20px}
+.tarjeta-emb{background:var(--sup);border-radius:var(--r-tarjeta);box-shadow:var(--sombra);
+  padding:26px 26px 22px}
+.tarjeta-emb h3{margin-bottom:5px}
+.tarjeta-emb .sub{font-size:11.5px;color:var(--tinta3);margin-bottom:22px;
+  font-family:"IBM Plex Mono",monospace;overflow-wrap:anywhere;line-height:1.5}
+.emb-vacio{color:var(--tinta3);font-size:13.5px;padding:20px 0}
 .embudo{display:flex;flex-direction:column;gap:0}
+/* min-height iguala las filas y la banda se estira a esa altura: así la
+   silueta queda continua aunque una etiqueta ocupe tres líneas. */
 .emb-fila{
   display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,2.5fr) minmax(0,1.05fr);
-  gap:0 24px;align-items:center;
+  gap:0 24px;align-items:center;min-height:82px;
 }
-.emb-forma{align-self:stretch;display:flex;align-items:center}
+/* Una sola definición: había dos, y la vieja con height:auto venía después
+   y ganaba, así que la banda nunca llenaba su fila. La altura se fija por
+   posicionamiento absoluto, que no depende de cómo resuelva el porcentaje
+   un hijo de rejilla. */
+.emb-forma{align-self:stretch;position:relative;min-width:0;min-height:34px}
+.emb-forma svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
 .emb-et .emb-nom{font-weight:600;font-size:15px;letter-spacing:-.01em}
 .emb-et .emb-sub{font-size:12.5px;color:var(--tinta3);line-height:1.45}
-.emb-forma{min-width:0}
-.emb-forma svg{display:block;width:100%;height:auto;overflow:visible}
+
 .emb-cifra{text-align:right}
 .emb-cifra .emb-num{font-family:"IBM Plex Mono",monospace;font-size:25px;font-weight:600;
   font-variant-numeric:tabular-nums;letter-spacing:-.03em;line-height:1.15}
@@ -262,6 +289,12 @@ section{margin-bottom:66px;scroll-margin-top:78px}
   font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--tinta2);
   margin-top:5px;font-variant-numeric:tabular-nums;
 }
+.tarjeta-emb .emb-fila{grid-template-columns:minmax(0,1.05fr) minmax(0,1.75fr) minmax(0,.95fr);
+  gap:0 16px;min-height:76px}
+.tarjeta-emb .emb-nom{font-size:13.5px}
+.tarjeta-emb .emb-sub{font-size:11.5px;line-height:1.4}
+.tarjeta-emb .emb-num{font-size:21px}
+.tarjeta-emb .emb-pct,.tarjeta-emb .emb-caida{font-size:10.5px}
 .emb-caida em{font-style:normal;font-weight:600;color:var(--tinta)}
 .emb-caida .flecha{color:var(--tinta3)}
 
@@ -359,6 +392,7 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   .riel{position:sticky;top:10px;z-index:50;flex-direction:row;border-radius:22px;
     padding:10px 14px;gap:4px;overflow-x:auto;justify-content:flex-start}
   .riel .marca{margin-bottom:0;margin-right:10px;width:36px;height:36px;border-radius:12px}
+  .riel .marca svg{width:29px;height:29px}
   .riel a{width:40px;height:40px}
   .riel .separa{display:none}
   .riel .globo-riel{left:50%;top:calc(100% + 9px);transform:translateX(-50%)}
@@ -381,7 +415,8 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   .campo{flex:1 1 150px}
   .campo select{min-width:0;width:100%}
   .veredicto{padding:22px 20px;border-radius:20px}
-  .cabecera{padding-block:30px 26px}
+  .cabecera{padding-block:28px 22px}
+  .tarjeta-emb{padding:20px}
   .kpi{padding:18px}
   .panel,.tarjeta-g{padding:22px}
   /* El embudo pasa a una columna: nombre, forma y cifra en bloque. */
@@ -393,18 +428,21 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 }
 </style>
 
+<!-- El logo del imán. Redibujo en SVG: los adjuntos de la conversación no
+     aterrizan en el disco de la sesión, así que no hay archivo original
+     que incrustar. Para poner el oficial, reemplazar este símbolo. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="logo-iman" viewBox="0 0 64 64"><g transform="rotate(40 32 32)"><path d="M20.0 17.0 L20.0 34.0 A12.0 12.0 0 0 0 44.0 34.0 L44.0 17.0" fill="none" stroke="var(--tinta)" stroke-width="12.0" stroke-linecap="butt"/><path d="M12.6 22.5 L27.4 22.5" fill="none" stroke="var(--sup)" stroke-width="3" stroke-linecap="butt"/><path d="M36.6 22.5 L51.4 22.5" fill="none" stroke="var(--sup)" stroke-width="3" stroke-linecap="butt"/></g><path d="M30.5 1.8 L35.8 11.4 L26.6 10.2 Z" fill="var(--salvia)"/><path d="M40.8 5.2 L46.6 16.0 L36.6 14.4 Z" fill="var(--rosa)"/><path d="M53.4 8.0 L59.4 18.2 L49.6 17.0 Z" fill="var(--cielo)"/><path d="M46.0 19.6 L51.4 29.0 L42.2 27.8 Z" fill="var(--salvia)"/><path d="M58.2 24.4 L62.6 33.2 L54.4 32.0 Z" fill="var(--cielo)"/></symbol></defs></svg>
 <div class="app">
   <nav class="riel" aria-label="Secciones del informe">
-    <span class="marca" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M13.2 13.2 18.5 18.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
-    <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los cinco números</span></a>
-    <a href="#s-veredicto" data-sec="s-veredicto" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span class="globo-riel">¿Leads malos o cierre?</span></a>
-    <a href="#s-embudo" data-sec="s-embudo" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">El embudo</span></a>
+    <span class="marca"><svg viewBox="0 0 64 64" role="img" aria-label="QPayPro · Ciclo del Lead"><use href="#logo-iman"/></svg></span>
+    <a href="#s-kpis" data-sec="s-kpis" style="--tono:var(--cielo)" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span class="globo-riel">Los cuatro n&uacute;meros</span></a>
+    <a href="#s-embudo" data-sec="s-embudo" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="globo-riel">El embudo, por origen</span></a>
+    <a href="#s-veredicto" data-sec="s-veredicto" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span class="globo-riel">&iquest;Leads malos o cierre?</span></a>
     <a href="#s-canal" data-sec="s-canal" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span class="globo-riel">Rendimiento por canal</span></a>
-    <a href="#s-paneles" data-sec="s-paneles" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg><span class="globo-riel">Dónde se caen</span></a>
-    <a href="#s-mes" data-sec="s-mes" style="--tono:var(--cielo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg><span class="globo-riel">Mes a mes</span></a>
-    <a href="#s-vendedor" data-sec="s-vendedor" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="globo-riel">Cierre por vendedor</span></a>
-    <a href="#s-recos" data-sec="s-recos" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span class="globo-riel">Recomendaciones</span></a>
-    <a href="#s-notas" data-sec="s-notas" style="--tono:var(--lila)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="globo-riel">Notas de método</span></a>
+    <a href="#s-mes" data-sec="s-mes" style="--tono:var(--piedra)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg><span class="globo-riel">Mes a mes</span></a>
+    <a href="#s-vendedor" data-sec="s-vendedor" style="--tono:var(--cielo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="globo-riel">Cierre por vendedor</span></a>
+    <a href="#s-recos" data-sec="s-recos" style="--tono:var(--salvia)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span class="globo-riel">Recomendaciones</span></a>
+    <a href="#s-notas" data-sec="s-notas" style="--tono:var(--rosa)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="globo-riel">Notas de m&eacute;todo</span></a>
     <span class="separa"></span>
   </nav>
   <div class="lienzo">
@@ -412,60 +450,60 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 
 <div class="envoltura">
   <header class="cabecera">
-    <div>
-      <p class="rotulo">QPayPro · Mercadeo y Ventas</p>
+    <p class="rotulo">QPayPro &middot; Mercadeo y Ventas</p>
+    <div class="titulo-con-logo">
+      <span class="logo-marca" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#logo-iman"/></svg></span>
       <h1>Ciclo del Lead</h1>
-      <p class="pregunta">¿Las ventas no cierran porque los leads son malos o porque el equipo
-        de ventas no está cerrando? Todo lo que sigue se recalcula con los filtros de arriba.</p>
     </div>
-    <div class="meta" id="meta-cabecera"></div>
   </header>
 
   <main>
     <section id="s-kpis">
-      <div class="titulo-sec"><h2>Los cinco números</h2></div>
-      <p class="nota-sec">En rojo si la calificación baja de 10% o el cierre sobre Tratos baja de 40%.</p>
+      <div class="titulo-sec"><h2>Los cuatro n&uacute;meros</h2></div>
+      <p class="nota-sec">En rojo si la calificaci&oacute;n baja de 10% o el cierre sobre Tratos baja de 40%.</p>
       <div class="kpis" id="kpis"></div>
     </section>
 
+    <section id="s-embudo">
+      <div class="titulo-sec"><h2>El embudo, por origen</h2></div>
+      <p class="nota-sec">Dos embudos lado a lado, uno por origen del lead. Responden al filtro
+        de Pa&iacute;s y al rango de fechas; <b>no</b> al de Canal, porque el canal es justo lo que
+        separan.</p>
+      <div class="embudos" id="embudos"></div>
+    </section>
+
     <section id="s-veredicto">
-      <div class="titulo-sec"><h2>¿Son leads malos o es el cierre?</h2></div>
-      <p class="nota-sec">Reparto de <b>todos</b> los leads que no terminaron en venta, según el
-        área a la que apunta el motivo de su caída. Cada lead cuenta una sola vez.</p>
+      <div class="titulo-sec"><h2>&iquest;Son leads malos o es el cierre?</h2></div>
+      <p class="nota-sec">Reparto de <b>todos</b> los leads que no terminaron en venta, seg&uacute;n el
+        &aacute;rea a la que apunta el motivo de su ca&iacute;da. Cada lead cuenta una sola vez, y abajo
+        est&aacute; el detalle de d&oacute;nde se cayeron.</p>
       <div class="veredicto">
         <div class="leyenda" id="leyenda-v"></div>
         <div class="apilada" id="apilada-v"></div>
         <div class="lectura" id="lectura-v"></div>
       </div>
-    </section>
-
-    <section id="s-embudo">
-      <div class="titulo-sec"><h2>El embudo</h2></div>
-      <p class="nota-sec">Cinco escalones. El salto entre uno y otro dice cuántos se quedaron.</p>
-      <div class="embudo" id="embudo"></div>
-    </section>
-
-    <section id="s-canal">
-      <div class="titulo-sec"><h2>Rendimiento por canal</h2></div>
-      <p class="nota-sec">La columna que importa es la última: de cada 100 leads que entraron por
-        ese canal, cuántos terminaron en una venta.</p>
-      <div class="marco-tabla"><table id="tabla-canal"></table></div>
-    </section>
-
-    <section id="s-paneles">
-      <div class="titulo-sec"><h2>Dónde se caen</h2></div>
-      <p class="nota-sec">A la izquierda, los que nunca llegaron a Trato. A la derecha, los que
-        sí llegaron y se perdieron.</p>
+      <div class="subtitulo-sec">
+        <h3>D&oacute;nde se caen</h3>
+        <p>A la izquierda, los que nunca llegaron a Trato. A la derecha, los que s&iacute; llegaron
+          y se perdieron.</p>
+      </div>
       <div class="paneles">
         <div class="panel" id="panel-buckets"></div>
         <div class="panel" id="panel-razones"></div>
       </div>
     </section>
 
+    <section id="s-canal">
+      <div class="titulo-sec"><h2>Rendimiento por canal</h2></div>
+      <p class="nota-sec">La columna que importa es la &uacute;ltima: de cada 100 leads que entraron por
+        ese canal, cu&aacute;ntos terminaron en una venta.</p>
+      <div class="marco-tabla"><table id="tabla-canal"></table></div>
+    </section>
+
     <section id="s-mes">
       <div class="titulo-sec"><h2>Mes a mes</h2></div>
-      <p class="nota-sec">Dos gráficas separadas, nunca doble eje: el volumen por canal y la tasa
-        de calificación son magnitudes distintas.</p>
+      <p class="nota-sec">Dos gr&aacute;ficas separadas, nunca doble eje: el volumen por canal y la tasa
+        de calificaci&oacute;n son magnitudes distintas.</p>
       <div class="graficas">
         <div class="tarjeta-g">
           <h3>Leads por canal</h3><p class="sub">Conteo absoluto, apilado</p>
@@ -473,7 +511,7 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
           <div id="g-mes"></div>
         </div>
         <div class="tarjeta-g">
-          <h3>% de calificación</h3><p class="sub">Leads con Trato sobre leads que entraron</p>
+          <h3>% de calificaci&oacute;n</h3><p class="sub">Leads con Trato sobre leads que entraron</p>
           <div id="g-calif"></div>
         </div>
       </div>
@@ -481,22 +519,22 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 
     <section id="s-vendedor">
       <div class="titulo-sec"><h2>Cierre por vendedor, comparando lo comparable</h2></div>
-      <p class="nota-sec">Solo Tratos originados en <b>redes sociales</b>. Página web queda fuera
-        a propósito: esos Tratos se afilian casi solos —cierran 99.1%— y meterlos en la misma tabla
-        premiaría a quien le tocó ese canal, no a quien cierra mejor. Esta tabla responde al filtro
-        de País; no al de Mes ni al de Fuente.</p>
+      <p class="nota-sec">Solo Tratos originados en <b>redes sociales</b>. P&aacute;gina web queda fuera
+        a prop&oacute;sito: esos Tratos se afilian casi solos &mdash;cierran 99.1%&mdash; y meterlos en la misma
+        tabla premiar&iacute;a a quien le toc&oacute; ese canal, no a quien cierra mejor. Esta tabla responde al
+        filtro de Pa&iacute;s; no al rango de fechas.</p>
       <div class="marco-tabla"><table id="tabla-vendedor"></table></div>
     </section>
 
     <section id="s-recos">
       <div class="titulo-sec"><h2>Lectura y recomendaciones</h2></div>
-      <p class="nota-sec">Cada una con su área responsable y las cifras que la sostienen.
+      <p class="nota-sec">Cada una con su &aacute;rea responsable y las cifras que la sostienen.
         Estas cifras son del periodo completo y no se mueven con los filtros.</p>
       <div class="recos" id="recos"></div>
     </section>
 
     <section id="s-notas">
-      <div class="titulo-sec"><h2>Notas de método y calidad de dato</h2></div>
+      <div class="titulo-sec"><h2>Notas de m&eacute;todo y calidad de dato</h2></div>
       <div class="notas" id="notas"></div>
     </section>
   </main>
@@ -510,6 +548,15 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 
 /* Iconos de Lucide v0.454.0 (ISC), incrustados como SVG: la interfaz no
    depende de que la librería cargue. */
+/* El visor arma el <html>, así que el idioma se fija desde aquí: lo usan los
+   lectores de pantalla y el guionado.
+   MEDIDO, y no es lo que se esperaba: esto NO traduce los meses de
+   <input type="month">. Chromium los formatea por el idioma del NAVEGADOR,
+   no por el del documento, así que en un Chrome en inglés se leen "January"
+   y "September" por mucho lang="es" que tenga la página. En un navegador en
+   español salen en español. No lo arregla la página. */
+document.documentElement.lang = "es";
+
 const ICO = {"entraron": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><line x1=\"19\" x2=\"19\" y1=\"8\" y2=\"14\"/><line x1=\"22\" x2=\"16\" y1=\"11\" y2=\"11\"/></svg>", "calificados": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\"/><path d=\"m9 12 2 2 4-4\"/></svg>", "ganados": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6\"/><path d=\"M18 9h1.5a2.5 2.5 0 0 0 0-5H18\"/><path d=\"M4 22h16\"/><path d=\"M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22\"/><path d=\"M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22\"/><path d=\"M18 2H6v7a6 6 0 0 0 12 0V2Z\"/></svg>", "cierre": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg>", "seguimiento": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>"};
 (function(){
 "use strict";
@@ -533,35 +580,51 @@ const mf = n => "$"+Number(n).toLocaleString("es-GT",{minimumFractionDigits:2,ma
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const mesCorto = m => MESES[m.slice(5)]+" "+m.slice(2,4);
 
-const f = {pais:"",canal:"",fuente:"",mes:""};
-const fL = () => L.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&(!f.fuente||r[3]===f.fuente)&&(!f.mes||r[0]===f.mes));
-const fT = () => T.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&(!f.fuente||r[3]===f.fuente)&&(!f.mes||r[0]===f.mes));
+const f = {pais:"",canal:"",desde:"",hasta:""};
+// El dato de lead es MENSUAL (r[0] = "2026-03"), así que el rango se compara
+// como texto "AAAA-MM": desde y hasta son meses completos, inclusive.
+const enRango = m => (!f.desde||m>=f.desde)&&(!f.hasta||m<=f.hasta);
+const fL = () => L.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&enRango(r[0]));
+// Sin el filtro de Canal: lo usan los embudos, que SON el corte por canal.
+const fLsinCanal = () => L.filter(r=>(!f.pais||r[1]===f.pais)&&enRango(r[0]));
+const fTsinCanal = () => T.filter(r=>(!f.pais||r[1]===f.pais)&&enRango(r[0]));
+const fT = () => T.filter(r=>(!f.pais||r[1]===f.pais)&&(!f.canal||r[2]===f.canal)&&enRango(r[0]));
 const fV = () => V.filter(r=>(!f.pais||r[2]===f.pais));
-const fSB = () => SB.filter(r=>(!f.pais||r[0]===f.pais)&&(!f.canal||r[1]===f.canal)&&(!f.fuente||r[2]===f.fuente));
+// standby no trae mes: no puede responder al rango de fechas. Se declara en
+// las notas de método en vez de fingir que sí.
+const fSB = () => SB.filter(r=>(!f.pais||r[0]===f.pais)&&(!f.canal||r[1]===f.canal));
 const sum = (rows,i) => rows.reduce((a,r)=>a+r[i],0);
 
 /* ── filtros ── */
 const unicos = (rows,i) => [...new Set(rows.map(r=>r[i]))].sort();
 function pintaFiltros(){
   const paises = unicos(L,1), canales = CANALES.filter(c=>L.some(r=>r[2]===c)||T.some(r=>r[2]===c));
-  const fuentes = unicos(L,3), meses = unicos(L,0);
+  const meses = unicos(L,0), tope = {min:meses[0], max:meses[meses.length-1]};
   const sel = (id,et,ops,val,fmt) => '<div class="campo"><label class="rotulo" for="'+id+'">'+et+'</label>'+
     '<select id="'+id+'" data-k="'+id+'"><option value="">Todos</option>'+
     ops.map(o=>'<option value="'+esc(o)+'"'+(o===val?" selected":"")+'>'+esc(fmt?fmt(o):o)+'</option>').join("")+
     '</select></div>';
+  // type="month" y no type="date": el dato de lead es mensual. Un calendario
+  // por día dejaría elegir el 15 de marzo y devolvería marzo entero, que es
+  // prometer una precisión que el dato no tiene. Acotar min/max entre sí hace
+  // que el navegador rechace un rango invertido, sin lógica de nuestra parte.
+  const fecha = (id,et,val,min,max,pordefecto) =>
+    '<div class="campo"><label class="rotulo" for="'+id+'">'+et+'</label>'+
+    '<input type="month" id="'+id+'" data-k="'+id+'" min="'+min+'" max="'+max+'" '+
+    'value="'+(val||pordefecto)+'"></div>';
   document.getElementById("filtros").innerHTML =
     sel("pais","País",paises,f.pais)+sel("canal","Canal",canales,f.canal)+
-    sel("fuente","Fuente",fuentes,f.fuente)+sel("mes","Mes",meses,f.mes,m=>mesCorto(m))+
+    fecha("desde","Desde",f.desde,tope.min,f.hasta||tope.max,tope.min)+
+    fecha("hasta","Hasta",f.hasta,f.desde||tope.min,tope.max,tope.max)+
     '<div class="campo"><span class="rotulo">&nbsp;</span><button class="reiniciar" id="btn-reiniciar">Reiniciar</button></div>'+
     '<div class="en-vista" id="en-vista"></div>';
   document.getElementById("filtros").addEventListener("change",e=>{
     if(!e.target.dataset.k) return;
     f[e.target.dataset.k]=e.target.value;
-    if(e.target.dataset.k==="canal") f.fuente="";
     pintaFiltros(); pinta();
   });
   document.getElementById("btn-reiniciar").addEventListener("click",()=>{
-    f.pais=f.canal=f.fuente=f.mes=""; pintaFiltros(); pinta();
+    f.pais=f.canal=f.desde=f.hasta=""; pintaFiltros(); pinta();
   });
 }
 
@@ -590,12 +653,8 @@ function calcula(){
 
 /* ── secciones ── */
 function pintaCabecera(c){
-  document.getElementById("meta-cabecera").innerHTML =
-    '<div><span class="rotulo">Periodo</span><b>1 ene – 11 sep 2026</b></div>'+
-    '<div><span class="rotulo">Leads</span><b>'+nf(c.leads)+'</b></div>'+
-    '<div><span class="rotulo">Tratos</span><b>'+nf(sum(c.t,8))+'</b></div>'+
-    '<div><span class="rotulo">Actualizado</span><b>11 sep 2026</b></div>';
-  document.getElementById("en-vista").innerHTML = "En vista: <b>"+nf(c.leads)+"</b> leads · <b>"+nf(sum(c.t,8))+"</b> tratos";
+  document.getElementById("en-vista").innerHTML =
+    "En vista: <b>"+nf(c.leads)+"</b> leads · <b>"+nf(sum(c.t,8))+"</b> tratos";
 }
 
 function pintaKpis(c){
@@ -606,8 +665,7 @@ function pintaKpis(c){
     ["Leads que entraron",nf(c.leads),"Todo registro creado en el periodo",false,"entraron"],
     ["% calificados",pf(c.calificados,c.leads),nf(c.calificados)+" llegaron a Trato",c.leads>0&&pc<10,"calificados"],
     ["Ganados",nf(c.ganados),"Tratos en closed won",false,"ganados"],
-    ["% de cierre sobre Tratos",pf(c.ganados,cerrados),nf(c.ganados)+" de "+nf(cerrados)+" cerrados",cerrados>0&&pcierre<40,"cierre"],
-    ["En seguimiento",nf(c.seguimiento),nf(c.vivos)+" leads vivos + "+nf(c.abiertos+c.standby)+" tratos abiertos",false,"seguimiento"]
+    ["% de cierre sobre Tratos",pf(c.ganados,cerrados),nf(c.ganados)+" de "+nf(cerrados)+" cerrados",cerrados>0&&pcierre<40,"cierre"]
   ];
   document.getElementById("kpis").innerHTML = k.map(x=>
     '<div class="kpi'+(x[3]?" alerta":"")+'"><span class="icono">'+ICO[x[4]]+'</span>'+'<span class="rotulo">'+esc(x[0])+'</span>'+
@@ -640,46 +698,82 @@ function pintaVeredicto(c){
     'de producto que ningún vendedor arregla en la llamada.</p></div>';
 }
 
-function pintaEmbudo(c){
-  const cerrados = c.ganados+c.perdidos;
+// Los cinco escalones para un subconjunto cualquiera de leads y tratos.
+function embudoDe(l,t){
+  const leads = sum(l,8);
+  const invalidos = sum(l.filter(r=>r[5]==="Dato inválido / no elegible"),8);
+  const calificados = sum(l.filter(r=>r[7]===1),8);
+  const ganados = sum(t.filter(r=>r[4]==="closed won"),8);
+  const perdidos = sum(t.filter(r=>r[4]==="closed lost"),8);
+  return {leads,invalidos,elegibles:leads-invalidos,calificados,
+          cerrados:ganados+perdidos,ganados};
+}
+
+// Un embudo. La forma lleva SOLO la geometría; el nombre, la cifra y la caída
+// van en columnas alineadas a tamaño de texto real: es lo que arregla el
+// problema del widget del CRM, donde la etiqueta sale truncada al final de
+// una línea guía.
+function unEmbudo(titulo,sub,e){
   const pasos = [
-    ["Leads que entraron",c.leads,"var(--e1)","Todo registro creado en el periodo"],
-    ["Leads elegibles",c.elegibles,"var(--e2)","Menos "+nf(c.invalidos)+" de dato inválido o no elegible"],
-    ["Calificados",c.calificados,"var(--e3)","Tienen un Trato asociado en el CRM"],
-    ["Tratos cerrados",cerrados,"var(--e4)","closed won + closed lost"],
-    ["Ganados",c.ganados,"var(--e5)","closed won"]
+    ["Leads que entraron",e.leads,"var(--e1)","Todo registro creado en el periodo"],
+    ["Leads elegibles",e.elegibles,"var(--e2)","Menos "+nf(e.invalidos)+" de dato inválido o no elegible"],
+    ["Calificados",e.calificados,"var(--e3)","Tienen un Trato asociado en el CRM"],
+    ["Tratos cerrados",e.cerrados,"var(--e4)","closed won + closed lost"],
+    ["Ganados",e.ganados,"var(--e5)","closed won"]
   ];
-  const base = c.leads||1;
-  // La forma lleva SOLO la geometría. El nombre y la cifra viven en columnas
-  // alineadas, a tamaño de texto real: es lo que arregla el problema del
-  // widget del CRM, donde la etiqueta sale truncada al final de una guía.
-  const W=600, H=74, CEN=W/2, MIN=30;
-  const medio = v => Math.max(MIN, (W-10)*(v/base))/2;
-  let h="";
-  pasos.forEach((p,i)=>{
-    const arr = medio(p[1]);
-    const aba = medio(i<pasos.length-1 ? pasos[i+1][1] : p[1]);
-    // Sin solapes ni huecos entre bandas: el borde inferior de una es el
-    // superior de la siguiente, así la silueta se lee como un embudo y no
-    // como cinco figuras sueltas.
-    const d = "M"+(CEN-arr)+" 0 L"+(CEN+arr)+" 0 L"+(CEN+aba)+" "+H+" L"+(CEN-aba)+" "+H+" Z";
-    const tip = p[0]+": "+nf(p[1])+" · "+pf(p[1],base)+" del total";
-    // La caída se cuelga del escalón donde ATERRIZA, no en el hueco de en
-    // medio: así las bandas quedan pegadas y el dato no se pierde.
-    const caen = i ? pasos[i-1][1]-p[1] : 0;
-    h += '<div class="emb-fila">'+
-      '<div class="emb-et"><div class="emb-nom">'+esc(p[0])+'</div>'+
-      '<div class="emb-sub">'+esc(p[3])+'</div></div>'+
-      '<div class="emb-forma"><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(tip)+'">'+
-      '<path d="'+d+'" fill="'+p[2]+'" stroke="var(--contorno)" stroke-width="1.1" '+
-      'data-tip="'+esc(tip)+'"/></svg></div>'+
-      '<div class="emb-cifra"><div class="emb-num">'+nf(p[1])+'</div>'+
-      '<div class="emb-pct">'+pf(p[1],base)+' del total</div>'+
-      (i?'<div class="emb-caida"><span class="flecha">&#8595;</span> se quedaron <em>'+
-         nf(caen)+'</em> ('+pf(caen,pasos[i-1][1])+')</div>':'')+
-      '</div></div>';
-  });
-  document.getElementById("embudo").innerHTML = h;
+  let cuerpo;
+  if(!e.leads){
+    cuerpo = '<p class="emb-vacio">Sin leads de este origen en el rango elegido.</p>';
+  }else{
+    // MIN es el ancho mínimo de una banda, y tiene que ser BAJO. Con MIN=30
+    // los tres últimos escalones de Meta —213, 171 y 42— se pintaban del
+    // mismo ancho: un piso alto hace que valores distintos se vean iguales,
+    // que es justo lo que el embudo debería estar mostrando.
+    const base = e.leads, W=600, H=74, CEN=W/2, MIN=9;
+    const medio = v => Math.max(MIN,(W-10)*(v/base))/2;
+    cuerpo = pasos.map((p,i)=>{
+      const arr = medio(p[1]);
+      const aba = medio(i<pasos.length-1 ? pasos[i+1][1] : p[1]);
+      // Sin huecos entre bandas: el borde inferior de una es el superior de
+      // la siguiente, así la silueta se lee como un embudo.
+      const d = "M"+(CEN-arr)+" 0 L"+(CEN+arr)+" 0 L"+(CEN+aba)+" "+H+" L"+(CEN-aba)+" "+H+" Z";
+      const tip = p[0]+": "+nf(p[1])+" · "+pf(p[1],base)+" del total";
+      const caen = i ? pasos[i-1][1]-p[1] : 0;
+      return '<div class="emb-fila">'+
+        '<div class="emb-et"><div class="emb-nom">'+esc(p[0])+'</div>'+
+        '<div class="emb-sub">'+esc(p[3])+'</div></div>'+
+        '<div class="emb-forma"><svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" '+
+        'role="img" aria-label="'+esc(tip)+'">'+
+        '<path d="'+d+'" fill="'+p[2]+'" stroke="var(--contorno)" stroke-width="1.1" '+
+        'vector-effect="non-scaling-stroke" data-tip="'+esc(tip)+'"/></svg></div>'+
+        '<div class="emb-cifra"><div class="emb-num">'+nf(p[1])+'</div>'+
+        '<div class="emb-pct">'+pf(p[1],base)+' del total</div>'+
+        (i?'<div class="emb-caida"><span class="flecha">&#8595;</span> se quedaron <em>'+
+           nf(caen)+'</em> ('+pf(caen,pasos[i-1][1])+')</div>':'')+
+        '</div></div>';
+    }).join("");
+  }
+  return '<div class="tarjeta-emb"><h3>'+esc(titulo)+'</h3>'+
+         '<p class="sub">'+sub+'</p><div class="embudo">'+cuerpo+'</div></div>';
+}
+
+// Un embudo por origen. Usan el dato SIN el filtro de Canal, porque el canal
+// es justo lo que separan; el aviso está escrito en la nota de la sección.
+const ORIGENES = [
+  ["Página web","Desde la página web"],
+  ["Redes sociales (Meta)","Desde Meta"]
+];
+function pintaEmbudo(){
+  const l = fLsinCanal(), t = fTsinCanal();
+  document.getElementById("embudos").innerHTML = ORIGENES.map(([clave,titulo])=>{
+    const ll = l.filter(r=>r[2]===clave), tt = t.filter(r=>r[2]===clave);
+    // La sub-etiqueta NOMBRA las fuentes que de verdad hay en el subconjunto,
+    // en vez de afirmar de qué formulario vienen: el dato trae la fuente, no
+    // el tipo de formulario.
+    const fuentes = [...new Set(ll.map(r=>r[3]))].sort();
+    const sub = fuentes.length ? "Fuentes: "+esc(fuentes.join(" · ")) : "Sin fuentes en el rango";
+    return unEmbudo(titulo,sub,embudoDe(ll,tt));
+  }).join("");
 }
 
 function pintaCanal(c){
@@ -777,7 +871,7 @@ function barrasApiladas(cont,leyenda,datos,claves,colores,fmt){
 }
 
 function pintaMes(c){
-  const meses = [...new Set(L.map(r=>r[0]))].sort().filter(m=>!f.mes||m===f.mes);
+  const meses = [...new Set(L.map(r=>r[0]))].sort().filter(enRango);
   const usados = CANALES.filter(k=>c.l.some(r=>r[2]===k));
   const datos = meses.map(m=>{
     const v={}; usados.forEach(k=>v[k]=0);
@@ -945,7 +1039,7 @@ document.addEventListener("mouseout",e=>{ if(!e.relatedTarget||!e.relatedTarget.
 
 function pinta(){
   const c = calcula();
-  pintaCabecera(c); pintaKpis(c); pintaVeredicto(c); pintaEmbudo(c);
+  pintaCabecera(c); pintaKpis(c); pintaVeredicto(c); pintaEmbudo();
   pintaCanal(c); pintaPaneles(c); pintaMes(c); pintaVendedor();
 }
 pintaFiltros(); pinta(); pintaRecos(); pintaNotas();
