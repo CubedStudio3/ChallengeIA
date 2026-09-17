@@ -473,6 +473,12 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   font-variant-numeric:tabular-nums;line-height:1.3}
 .emb-plan-t b{color:var(--tinta);font-weight:600}
 .leyenda .pista{color:var(--tinta3);font-size:12px}
+/* El pie de cada embudo: la lectura por fecha de cierre al lado de la
+   cohorte, para que un «Ganados 0» no se lea como «este canal no vendio». */
+.emb-cierre{margin-top:14px;padding-top:12px;border-top:1px solid var(--linea2);
+  font-size:12.5px;color:var(--tinta2);line-height:1.55}
+.emb-cierre .rotulo{display:inline;margin-right:6px}
+.emb-cierre b{color:var(--tinta);font-weight:600}
 
 /* Veredicto: la barra, su leyenda y una tarjeta por área con sus criterios. */
 .veredicto{padding:18px 20px 16px}
@@ -686,11 +692,13 @@ ${r?'Expression: "'+r+`"
               <h3>Página web</h3>
               <p class="sub">Formulario del sitio · aquí se elige plan</p>
               <div class="emb-full" id="embudo-web"></div>
+              <div class="emb-cierre" id="cierre-web"></div>
             </div>
             <div class="tarjeta-g">
               <h3>Formulario de Meta</h3>
               <p class="sub">Meta Ads, Facebook Ads, Facebook Lead, Instagram DM</p>
               <div class="emb-full" id="embudo-meta"></div>
+              <div class="emb-cierre" id="cierre-meta"></div>
             </div>
           </div>
         </section>
@@ -1097,6 +1105,27 @@ function embudo(cont, l, conPlan){
 function pintaEmbudos(c){
   embudo(document.getElementById("embudo-web"), c.l.filter(x=>x[lCA]===WEB), true);
   embudo(document.getElementById("embudo-meta"), c.l.filter(x=>x[lCA]===REDES), true);
+
+  // Debajo de cada embudo, la OTRA lectura: las ventas cerradas en la ventana
+  // por ese canal, vengan de donde vengan sus leads. Hace falta porque el
+  // embudo es una cohorte y un «Ganados 0» se lee como «este canal no vendió
+  // nada», que es falso: en el 1–16 de septiembre el formulario de Meta cerró
+  // una venta cuyo lead habia entrado el 29 de agosto. Los dos numeros son
+  // ciertos y contestan preguntas distintas, asi que van los dos, rotulados.
+  const pieCierre = (id, canal, cohorte) => {
+    const v = c.v.filter(x=>x[tCA]===canal);
+    const el = document.getElementById(id);
+    if(!v.length && !cohorte){ el.innerHTML =
+      '<span class="rotulo">En la ventana</span> ninguna venta de este canal se '+
+      'cerró en estas fechas.'; return; }
+    el.innerHTML = '<span class="rotulo">En la ventana</span> se cerraron <b>'+nf(v.length)+
+      '</b> venta'+(v.length===1?'':'s')+' de este canal, contando por <b>fecha de cierre</b>'+
+      (v.length!==cohorte ? ' — no son las mismas <b>'+nf(cohorte)+'</b> de arriba: '+
+        'ahí se cuentan solo las de leads que entraron en la ventana, y una venta '+
+        'puede cerrarse con un lead más viejo.' : '.');
+  };
+  pieCierre("cierre-web", WEB, c.l.filter(x=>x[lCA]===WEB && x[lWON]===1).length);
+  pieCierre("cierre-meta", REDES, c.l.filter(x=>x[lCA]===REDES && x[lWON]===1).length);
   document.getElementById("leyenda-planes").innerHTML =
     '<span><i style="background:'+COLOR_PLAN.Free+'"></i>Free</span>'+
     '<span><i style="background:'+COLOR_PLAN.Premium+'"></i>De pago</span>'+

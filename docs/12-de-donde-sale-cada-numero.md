@@ -752,3 +752,64 @@ figuras: **ningún paso puede ser mayor que el anterior**, y ninguna caída pued
 ser negativa. Se verifica en cada ventana que la prueba recorre — y hacía falta
 justamente eso: **con el periodo entero el defecto no aparecía**, solo con un
 mes corto.
+
+
+---
+
+## 16. «¿No hubo ninguna venta del formulario?» · las dos lecturas, las dos ciertas
+
+Mercadeo, sobre el embudo del 1 al 16 de septiembre: *«¿me estás diciendo que no
+hubo ningún trato won de los que entraron por formulario? Según Ventas sí
+hubo»*. **Ventas tiene razón y el embudo también.** Son dos preguntas distintas.
+
+Medido, y confirmado en vivo contra el CRM:
+
+| | |
+|---|---|
+| Leads de redes que entraron del 1 al 16 | **163** |
+| De esos, con Trato | 2 |
+| De esos, **ganados** | **0** |
+| Ventas de redes **cerradas** en esa quincena | **1** |
+
+La venta existe: **`Amplitech Solutions SA de CV`**, Premium Anual, El Salvador,
+Trato creado el **1 de septiembre** y cerrado el **7**. Y su lead entró el
+**29 de agosto**:
+
+```sql
+select id, Created_Time, Lead_Source, Pa_s, Converted_Deal from Leads
+ where ((Created_Time >= '2026-01-01T00:00:00-06:00' and Converted__s = true)
+    and Converted_Deal = '2592238000219532213')
+-- → creado 2026-08-29, Lead_Source «Meta Ads», El Salvador
+```
+
+En todo septiembre hay **una sola** venta con origen Meta, y es esa. Así que:
+
+- **El embudo** contesta *«de los leads que entraron en esta ventana, ¿cuántos
+  compraron?»* → **0**, porque los 163 tienen entre 1 y 16 días.
+- **Ventas** contesta *«¿cuántas ventas de redes se cerraron en estas fechas?»*
+  → **1**, y viene de un lead de agosto.
+
+### Por qué el tablero igual estaba mal
+
+Un dato correcto publicado de una forma que induce al error sigue siendo un
+problema: **«Ganados 0» se lee como «el formulario de Meta no vendió nada»**, y
+eso es falso en el sentido en que lo dice Ventas. Es la cuarta vez que este
+proyecto tropieza con lo mismo.
+
+Debajo de cada embudo va ahora **la otra lectura**, rotulada:
+
+> **En la ventana** se cerraron **1** venta de este canal, contando por **fecha
+> de cierre** — no son las mismas **0** de arriba: ahí se cuentan solo las de
+> leads que entraron en la ventana, y una venta puede cerrarse con un lead más
+> viejo.
+
+Los dos números, cada uno con su criterio, en vez de uno que invita a concluir
+de más. `prueba:tablero-ciclo` comprueba que el pie cuadre con el recuento por
+fecha de cierre hecho aparte, en cada ventana.
+
+### Y el efecto de madurez, que conviene tener presente
+
+El embudo de una ventana reciente **siempre** subestima: sus leads no han tenido
+tiempo. En el periodo completo, el formulario de Meta convierte 213 de 4.124
+(5,2%); en una quincena, 2 de 163 (1,2%). No es que haya empeorado — es que la
+mitad de esos leads tiene menos de una semana.

@@ -180,6 +180,26 @@ async function ventana(p, pais, desde, hasta) {
     ok(!/Calificados/.test(v.rotulos.join(" ")) && !/sobre Tratos/.test(v.rotulos.join(" ")),
        "no quedan tarjetas de etapas intermedias", v.rotulos.join(" · "));
 
+    // El pie de cada embudo trae la OTRA lectura —ventas por fecha de cierre—
+    // y tiene que cuadrar con el recuento hecho aparte. Existe porque un
+    // «Ganados 0» de la cohorte se leia como «este canal no vendio nada».
+    for (const [id, canal, nombre] of [["cierre-web", "Página web", "web"],
+                                       ["cierre-meta", "Redes sociales (Meta)", "Meta"]]) {
+      const txt = await p.evaluate(x => document.getElementById(x).textContent, id);
+      const esp = await p.evaluate(([c, desde, hasta, pais]) => {
+        const D = JSON.parse(document.getElementById("datos").textContent);
+        const V = D.dic, F = V.fecha, gan = V.etapa.indexOf("closed won");
+        const ic = V.canal.indexOf(c);
+        return D.tratos.filter(r => r[4] === gan && r[2] === ic && r[15] >= 0
+          && F[r[15]] >= desde && F[r[15]] <= hasta
+          && (!pais || V.pais[r[1]] === pais)).length;
+      }, [canal, desde, hasta, pais]);
+      const n = (txt.match(/se cerraron ([\d.,]+)/) || [])[1];
+      ok(esp === 0 ? /ninguna venta/.test(txt) : Number(String(n).replace(/[.,]/g, "")) === esp,
+         "el pie de " + nombre + " dice las ventas por fecha de cierre",
+         "dice " + (n || "ninguna") + " y el dataset da " + esp);
+    }
+
     // La invariante del embudo, en ESTA ventana. Con el periodo entero no
     // aparecia: hizo falta un mes corto para que un paso creciera.
     for (const [id, cual] of [["embudo-web", "web"], ["embudo-meta", "Meta"]]) {

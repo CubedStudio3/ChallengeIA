@@ -219,6 +219,15 @@ cometidos; no hay tiempo de repetirlos.
   van sobre el MISMO conjunto. La invariante —ningún paso mayor que el anterior—
   es ahora una prueba, y **con el periodo entero no aparecía**: hizo falta un mes
   corto.
+- **«Ganados 0» en una cohorte se lee como «este canal no vendió nada».** Y es
+  falso: del 1 al 16 de septiembre el formulario de Meta tenía 0 ganados **de su
+  cohorte** y 1 venta cerrada —Amplitech, cuyo lead entró el 29 de agosto—. Las
+  dos lecturas son ciertas y contestan preguntas distintas, así que van las dos
+  rotuladas: la cohorte en el embudo y las ventas por fecha de cierre en su pie.
+  Cuarta vez que un dato correcto se publica de una forma que induce al error.
+- **Un embudo de una ventana reciente SIEMPRE subestima.** Meta convierte 5,2%
+  en el periodo completo y 1,2% en una quincena: no empeoró, es que la mitad de
+  esos leads tiene menos de una semana.
 - **Quitar un intermediario no causa el defecto: lo destapa.** El paso «Tratos
   cerrados» escondía la contradicción; al sacarlo quedó a la vista.
 - **Un selector CSS vacío no da ningún error.** Las reglas de `.embudos` se
