@@ -12,7 +12,7 @@ llegue a Trato: eso se declara, no se rellena.
 
 Cero datos inventados: si una categoria no esta en el mapa, el script se detiene.
 """
-import json, os, sys, collections
+import datetime, json, os, sys, collections
 
 BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CRUDO = os.path.join(BASE, "data", "ciclo_lead", "crudo")
@@ -99,6 +99,9 @@ GRATIS = "Free"
 def alto(msg):
     print("DETENIDO · " + msg, file=sys.stderr)
     sys.exit(1)
+
+
+HOY = datetime.date.today().isoformat()
 
 
 def filas(nombre):
@@ -313,7 +316,11 @@ def main():
     M = [[ifecha[c[0]], vp[c[1]], c[2], c[3], c[4]] for c in celdas_meta]
 
     datos = {
-        "generado": "2026-09-17",
+        # La fecha de la corrida se DERIVA, no se escribe. Estaba fija en
+        # "2026-09-17": el dia que alguien volviera a correr esto, el tablero
+        # seguiria diciendo que la foto es del 17 y estaria mintiendo sin que
+        # ninguna compuerta lo note, porque no es un numero que se reconcilie.
+        "generado": HOY,
         "rango": {"desde": fechas[0], "hasta": fechas[-1]},
         "dic": dic,
         "leads": L,
@@ -332,7 +339,7 @@ def main():
             "cierres_fuera": sum(1 for t in celdas_trato if not en_banda(t[17])),
             "creados_fuera": sum(1 for t in celdas_trato if not en_banda(t[0])),
             "banda_cierre": [PISO_CIERRE, TOPE_CIERRE],
-            "foto": "2026-09-17",
+            "foto": HOY,
             "reglas_asignacion": 6,
             "regla_gt_modificada": "2026-08-01",
             "regla_sv_modificada": "2026-08-12",
