@@ -383,3 +383,83 @@ Los Tratos (54) se cortan por **su** fecha de creación y por
 3. En las opciones de la vista, **incluir los convertidos** (o quitar el
    criterio que los excluye). Sin este paso salen 74 en vez de 125.
 4. Agrupar o filtrar por `Origen del posible cliente` para ver los 4 canales.
+
+
+---
+
+## 9. Las dos vistas del CRM con las que compara Mercadeo
+
+### 9.1 `Leads Guatemala` · cuadra exacto
+
+<https://crm.zoho.com/crm/qpaypro/tab/Leads/custom-view/2592238000187504053/list>
+· **Registros totales 82**
+
+Reproducida al registro: **no convertidos**, `Pa_s` = `Guatemala` **o vacío**,
+`Created_Time` en septiembre.
+
+| | |
+|---|---|
+| No convertidos, GT o vacío, creados en septiembre | **82** |
+| · de los cuales GT | 81 |
+| · de los cuales sin país | 1 |
+
+El mismo filtro dio **60** en la captura de la semana anterior: es el acumulado
+**al 11 de septiembre**, día por día. El mismo filtro, seis días menos.
+
+**Por qué el tablero dice 132 y no 82 en Guatemala en septiembre:** la vista no
+cuenta los **51 convertidos** del mes. 81 + 51 = 132. Los dos números son
+correctos y miden cosas distintas: la vista es «lo que sigue en la bandeja», el
+tablero es «todo lo que entró».
+
+### 9.2 `Afiliaciones Free y Premium Solas` · Free cuadra, Premium no se puede reproducir
+
+<https://crm.zoho.com/crm/qpaypro/tab/Reports/2592238000191665090>
+· **Registros totales 38** · Free **33** (Guatemala 32) · segunda barra **5**
+
+**Free cuadra exacto** con `Closing_Date` en septiembre:
+
+| | |
+|---|---|
+| Free, fecha de cierre en septiembre, todos los países | **33** |
+| · Guatemala | **32** |
+| · y las 32 de Guatemala están todas en `closed won` | ✅ |
+
+**La segunda barra (5) no se puede reproducir con «solo este mes».** Con ese
+único filtro, `Closing_Date` en septiembre da:
+
+| Plan | Todos | Guatemala |
+|---|---|---|
+| Free | 33 | 32 |
+| **Premium Anual** | **43** | 30 |
+| Premium Mensual | 1 | 1 |
+| Elite Anual | 8 | 5 |
+| (sin plan) | 1 | 1 |
+| **Total** | **86** | 69 |
+
+El informe dice 38 y esta consulta dice 86, así que el informe tiene **otro
+recorte** además del mes. Hay al menos tres combinaciones que caen cerca de 38
+y **no pueden ser todas la definición**:
+
+- Free 33 + **Elite Anual** 8 = 41
+- Free 33 + Elite Anual **de Guatemala** 5 = **38** ← cae justo, mezclando ámbitos
+- `Closing_Date` en septiembre **y creados en septiembre**: Free 33 + Premium
+  Anual 15 + Premium Mensual 1 + Elite Anual 5 + 1 sin plan = 55
+
+Elegir la que cuadra sería **inventar la definición para que dé el número**. La
+definición de un informe de Zoho no la expone la API: hay que leerla en el
+informe. Queda pendiente de un dato de Mercadeo —el criterio del informe, o los
+nombres de los 5 registros de la segunda barra— y hasta entonces **no se
+publica ninguna cifra derivada de él**.
+
+### 9.3 Simplificación pedida · Free y Premium, dos tramos
+
+Por pedido de Mercadeo del 2026-09-19, el desglose de plan del KPI de leads
+vuelve a **dos** tramos con el vocabulario del informe: **Free** y **Premium**.
+Los seis planes de pago del CRM y los Tratos sin plan anotado **no desaparecen**:
+viven en el globo del chip de pago, así que el dato sigue a un clic y la tarjeta
+se lee de un vistazo.
+
+`npm run prueba:tablero-ciclo` vigila ese contrato: exactamente dos tramos,
+`Free + Premium + sin plan = calificados`, y **el globo tiene que nombrar cada
+plan real del CRM**. Si mañana Ventas agrega un plan y no aparece ahí, la prueba
+se pone roja.

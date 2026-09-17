@@ -29,6 +29,7 @@ async function lee(p) {
       chips: [...k.querySelectorAll(".kpi-planes span")].map(e => ({
         nombre: e.textContent.replace(/\s*[\d.,]+$/, "").trim(),
         valor: Number(e.querySelector("b").textContent.replace(/[.,]/g, "")),
+        tip: e.dataset.tip || "",
       })),
       nota: k.querySelector(".kpi-nota").textContent.trim(),
       calificados: document.querySelectorAll("#kpis .kpi")[1].querySelector(".v").textContent.trim(),
@@ -55,6 +56,7 @@ async function esperado(p, pais, desde, hasta) {
       leadsRedes: leads.filter(r => r[2] === redes).length,
       metaForma: meta.reduce((a, r) => a + r[4], 0),
       porPlan,
+      sinPlan: cal.filter(r => !V.producto[r[9]]).length,
       vocabulario: V.producto.filter(Boolean),
     };
   }, [pais, desde, hasta]);
@@ -113,21 +115,33 @@ async function ventana(p, pais, desde, hasta) {
     ok(n(v.calificados) === e.calificados, "los calificados cuadran",
        v.calificados + " vs " + e.calificados);
 
-    // 1 · ningun rotulo inventado
-    const validos = new Set(e.vocabulario.concat(["sin plan"]));
-    const raros = v.chips.filter(c => !validos.has(c.nombre)).map(c => c.nombre);
-    ok(raros.length === 0, "todo rotulo de plan existe en el CRM",
-       raros.length ? "inventados: " + raros.join(", ") : v.chips.map(c => c.nombre).join(" · "));
-    ok(!v.chips.some(c => c.nombre === "Premium"),
-       "no reaparecio el cubo «Premium» con cara de plan");
+    // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
+    //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo
+    //     que se vigila es que los nombres REALES no se pierdan: tienen que
+    //     estar todos en el globo del chip de pago.
+    ok(v.chips.length === 2, "dos tramos de plan, Free y Premium",
+       v.chips.map(c => c.nombre).join(" · "));
+    ok(v.chips.map(c => c.nombre).join("|") === "Free|Premium",
+       "en ese orden y con esos nombres", v.chips.map(c => c.nombre).join("|"));
 
-    // el valor de cada chip, contra el conteo hecho aparte
-    const malos = v.chips.filter(c => c.nombre !== "sin plan" && e.porPlan[c.nombre] !== c.valor);
-    ok(malos.length === 0, "cada plan trae su conteo",
-       malos.map(c => c.nombre + " " + c.valor + " vs " + e.porPlan[c.nombre]).join(", ") ||
-       v.chips.filter(c => c.nombre !== "sin plan").map(c => c.nombre + " " + c.valor).join(" · "));
-    const suma = v.chips.reduce((a, c) => a + c.valor, 0);
-    ok(suma === e.calificados, "el desglose suma los calificados", suma + " vs " + e.calificados);
+    const free = v.chips.find(c => c.nombre === "Free") || {valor: 0, tip: ""};
+    const pago = v.chips.find(c => c.nombre === "Premium") || {valor: 0, tip: ""};
+    const eFree = e.porPlan["Free"] || 0;
+    const ePago = Object.entries(e.porPlan).reduce((a, [n, x]) => a + (n === "Free" ? 0 : x), 0);
+    ok(free.valor === eFree, "Free trae su conteo", free.valor + " vs " + eFree);
+    ok(pago.valor === ePago, "Premium suma TODOS los planes de pago",
+       pago.valor + " vs " + ePago);
+    ok(free.valor + pago.valor + e.sinPlan === e.calificados,
+       "Free + Premium + los que no tienen plan dan los calificados",
+       free.valor + " + " + pago.valor + " + " + e.sinPlan + " vs " + e.calificados);
+
+    // los nombres reales del CRM siguen a un clic de distancia
+    const faltan = Object.keys(e.porPlan).filter(n => n !== "Free" && !pago.tip.includes(n));
+    ok(faltan.length === 0, "el globo de Premium nombra cada plan real del CRM",
+       faltan.length ? "faltan: " + faltan.join(", ") : pago.tip.slice(0, 90));
+    ok(e.sinPlan === 0 || /sin plan anotado/.test(pago.tip),
+       "y declara los Tratos sin plan en vez de esconderlos",
+       e.sinPlan + " sin plan");
 
     // 2 · la nota, contra el dato de Meta de la ventana
     const enNota = (v.nota.match(/[\d.,]+/g) || []).map(x => Number(x.replace(/[.,]/g, "")));

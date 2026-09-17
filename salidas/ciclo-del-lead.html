@@ -946,20 +946,22 @@ function pintaKpis(c){
   const cerrados = c.ganados+c.perdidos;
   const pc = c.leads ? 100*c.calificados/c.leads : 0;
   const pcierre = cerrados ? 100*c.ganados/cerrados : 0;
-  // El plan se escribe con el NOMBRE que le da el CRM. Antes decia «Premium»
-  // por seis planes distintos: 19 «Premium» eran 14 Premium Anual y 5 Elite
-  // Anual, y ningun informe del CRM tiene una fila que diga 19.
+  // Dos tramos, Free y Premium, por pedido de Mercadeo (2026-09-19): es el
+  // vocabulario del informe «Afiliaciones Free y Premium» del CRM y es con lo
+  // que la mesa compara. Los planes que agrupa «Premium» y los Tratos sin plan
+  // anotado van en el globo, no en una tercera etiqueta: el dato no se pierde
+  // y la tarjeta se lee de un vistazo.
   const mForma = fM().reduce((a,r)=>a+r[mEM],0);
   const brechaK = c.leadsRedes-mForma;
+  const dePago = c.porPlan.filter(([n])=>n!=="Free").map(([n,v])=>n+" "+nf(v));
   const planes = '<div class="kpi-planes">'+
-    c.porPlan.map(([n,v])=>'<span data-tip="'+esc(n+": "+nf(v)+" de los "+nf(c.calificados)+
-      " leads que llegaron a Trato")+'"><i style="background:'+
-      (COLOR_PRODUCTO[n]||"var(--piedra)")+'"></i>'+esc(n)+' <b>'+nf(v)+'</b></span>').join("")+
-    // «sin plan» no es un plan: es una ausencia. Va sin relleno, solo el
-    // contorno, para que no se lea como una categoria mas — y para que no
-    // choque de color con un plan que si existe.
-    (c.sinPlan?'<span data-tip="Llegaron a Trato pero el Trato no tiene plan anotado">'+
-      '<i style="background:transparent"></i>sin plan <b>'+nf(c.sinPlan)+'</b></span>':'')+
+    '<span data-tip="'+esc("Plan Free: "+nf(c.free)+" de los "+nf(c.calificados)+
+      " leads que llegaron a Trato")+'"><i style="background:'+COLOR_PLAN.Free+
+      '"></i>Free <b>'+nf(c.free)+'</b></span>'+
+    '<span data-tip="'+esc("Planes de pago: "+(dePago.length?dePago.join(" · "):"ninguno")+
+      (c.sinPlan?" · "+nf(c.sinPlan)+" con Trato sin plan anotado":""))+
+      '"><i style="background:'+COLOR_PLAN.Premium+'"></i>Premium <b>'+
+      nf(c.premium)+'</b></span>'+
     '</div><div class="kpi-nota">'+
     (mForma
       ? 'De esos, <b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta y Meta reporta <b>'+
