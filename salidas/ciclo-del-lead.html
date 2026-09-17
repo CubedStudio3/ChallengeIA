@@ -796,7 +796,10 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 /* Columnas. El dataset viene con diccionarios de índices: cada fila es un
    registro y cada texto es un entero. Así el filtro por rango de fechas es una
    comparación de enteros y no de cadenas. */
-const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8;
+const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9;
+// lPL es el cubo Free/de pago; lPR es el NOMBRE del plan tal como lo dice el
+// CRM. «Premium» no es un plan: es un cubo de seis. Donde se puede decir el
+// nombre, se dice el nombre.
 const tF=0,tPA=1,tCA=2,tFU=3,tET=4,tRZ=5,tCT=6,tAR=7,tSB=8,tSC=9,tSA=10,tPL=11,tPR=12,tVE=13,tMO=14;
 const rF=0,rVE=1,rUS=2,rRO=3,rES=4,rBU=5,rVI=6;
 const mF=0,mPA=1,mGA=2,mLE=3,mEM=4;   // mLE total de leads · mEM los que ocurren dentro de Meta
@@ -817,6 +820,18 @@ const CANALES = V.canal.slice().sort((a,b)=>a.localeCompare(b));
 const COLOR_CANAL = {"Redes sociales (Meta)":"var(--cielo)","Página web":"var(--salvia)",
   "WhatsApp / Chat":"var(--lila)","Directo / Referidos":"var(--rosa)","Sin fuente":"var(--piedra)"};
 const COLOR_PLAN = {"Free":"var(--lila)","Premium":"var(--salvia)"};
+// Los planes de pago del CRM son varios y con nombre propio. El color se
+// reparte en el orden del vocabulario para que no cambie entre vistas.
+// SIN lila: lila es Free en toda la pagina, y un plan de pago pintado de lila
+// contradice la leyenda del embudo. Que dos planes de pago repitan tono no
+// engaña —todos son de pago y cada uno lleva su nombre escrito al lado—; que
+// uno tome el color de Free, si.
+const PAGO_TONOS = ["var(--salvia)","var(--cielo)","var(--rosa)","var(--piedra)"];
+const COLOR_PRODUCTO = (()=>{
+  const m = {"Free":COLOR_PLAN.Free}; let i = 0;
+  V.producto.forEach(n=>{ if(n && n!=="Free") m[n] = PAGO_TONOS[i++ % PAGO_TONOS.length]; });
+  return m;
+})();
 const MES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 const CONTACTO = iCat["Contactabilidad"];
 const CONDICION = new Set(["Precio","Fit de producto","Competencia","Oferta / condiciones"].map(k=>iCat[k]));
@@ -909,6 +924,11 @@ function calcula(){
     calificados:cal.length,
     free:cal.filter(x=>x[lPL]===iPlan.Free).length,
     premium:cal.filter(x=>x[lPL]===iPlan.Premium).length,
+    porPlan:(()=>{ const m={}; cal.forEach(x=>{ const n=V.producto[x[lPR]]||"";
+      if(n) m[n]=(m[n]||0)+1; });
+      return Object.entries(m).sort((a,b)=>b[1]-a[1]); })(),
+    sinPlan:cal.filter(x=>!V.producto[x[lPR]]).length,
+    leadsRedes:l.filter(x=>x[lCA]===REDES).length,
     ganados,perdidos,standby,abiertos,
     vivos:l.filter(x=>x[lBU]===VIVO && x[lCL]!==1).length,
     reparto,sinVenta,arriba,abajo:sinVenta-arriba};
@@ -926,13 +946,27 @@ function pintaKpis(c){
   const cerrados = c.ganados+c.perdidos;
   const pc = c.leads ? 100*c.calificados/c.leads : 0;
   const pcierre = cerrados ? 100*c.ganados/cerrados : 0;
+  // El plan se escribe con el NOMBRE que le da el CRM. Antes decia «Premium»
+  // por seis planes distintos: 19 «Premium» eran 14 Premium Anual y 5 Elite
+  // Anual, y ningun informe del CRM tiene una fila que diga 19.
+  const mForma = fM().reduce((a,r)=>a+r[mEM],0);
+  const brechaK = c.leadsRedes-mForma;
   const planes = '<div class="kpi-planes">'+
-    '<span data-tip="Plan Free: '+nf(c.free)+' de los '+nf(c.calificados)+' leads que llegaron a Trato">'+
-      '<i style="background:'+COLOR_PLAN.Free+'"></i>Free <b>'+nf(c.free)+'</b></span>'+
-    '<span data-tip="Planes de pago: '+nf(c.premium)+' de los '+nf(c.calificados)+' leads que llegaron a Trato">'+
-      '<i style="background:'+COLOR_PLAN.Premium+'"></i>Premium <b>'+nf(c.premium)+'</b></span>'+
-    '</div><div class="kpi-nota">El plan existe solo desde que el lead llega a Trato: '+
-    nf(c.leads-c.calificados)+' no tienen plan porque no llegaron</div>';
+    c.porPlan.map(([n,v])=>'<span data-tip="'+esc(n+": "+nf(v)+" de los "+nf(c.calificados)+
+      " leads que llegaron a Trato")+'"><i style="background:'+
+      (COLOR_PRODUCTO[n]||"var(--piedra)")+'"></i>'+esc(n)+' <b>'+nf(v)+'</b></span>').join("")+
+    // «sin plan» no es un plan: es una ausencia. Va sin relleno, solo el
+    // contorno, para que no se lea como una categoria mas — y para que no
+    // choque de color con un plan que si existe.
+    (c.sinPlan?'<span data-tip="Llegaron a Trato pero el Trato no tiene plan anotado">'+
+      '<i style="background:transparent"></i>sin plan <b>'+nf(c.sinPlan)+'</b></span>':'')+
+    '</div><div class="kpi-nota">'+
+    (mForma
+      ? 'De esos, <b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta y Meta reporta <b>'+
+        nf(mForma)+'</b>: '+(brechaK<0?'faltan <b>'+nf(-brechaK)+'</b> ('+
+        pf(-brechaK,mForma)+')':'sobran <b>'+nf(brechaK)+'</b>')+' en el CRM'
+      : '<b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta · sin entrega de Meta en esta ventana para comparar')+
+    '</div>';
   const k = [
     ["Leads que entraron",nf(c.leads),"","entraron",false,planes],
     ["Calificados",nf(c.calificados),pf(c.calificados,c.leads)+" de los que entraron","calificados",c.leads>0&&pc<10,""],
@@ -994,10 +1028,10 @@ function embudo(cont, l, t, conPlan){
     if(p[4] && (p[4].Free || p[4].Premium)){
       const tt = p[4].Free+p[4].Premium;
       sp = '<div class="emb-plan"><span class="emb-barra" data-tip="'+
-        esc(p[0]+" · Free "+p[4].Free+" · Premium "+p[4].Premium)+'">'+
+        esc(p[0]+" · Free "+p[4].Free+" · de pago "+p[4].Premium)+'">'+
         (p[4].Free?'<i style="flex:'+p[4].Free+';background:'+COLOR_PLAN.Free+'"></i>':'')+
         (p[4].Premium?'<i style="flex:'+p[4].Premium+';background:'+COLOR_PLAN.Premium+'"></i>':'')+
-        '</span><span class="emb-plan-t">Free <b>'+nf(p[4].Free)+'</b> · Premium <b>'+
+        '</span><span class="emb-plan-t">Free <b>'+nf(p[4].Free)+'</b> · de pago <b>'+
         nf(p[4].Premium)+'</b>'+(tt<p[1]?' · s/plan <b>'+nf(p[1]-tt)+'</b>':'')+'</span></div>';
     }
     return '<div class="emb-celda emb-der-celda"><div class="emb-num">'+nf(p[1])+'</div>'+
@@ -1015,8 +1049,10 @@ function pintaEmbudos(c){
   embudo(document.getElementById("embudo-meta"),
     c.l.filter(x=>x[lCA]===REDES), c.t.filter(x=>x[tCA]===REDES), true);
   document.getElementById("leyenda-planes").innerHTML =
-    ["Free","Premium"].map(k=>'<span><i style="background:'+COLOR_PLAN[k]+'"></i>'+k+
-    '</span>').join("")+'<span class="pista">el plan solo existe desde «Calificados»</span>';
+    '<span><i style="background:'+COLOR_PLAN.Free+'"></i>Free</span>'+
+    '<span><i style="background:'+COLOR_PLAN.Premium+'"></i>De pago</span>'+
+    '<span class="pista">«De pago» agrupa Premium Anual, Premium Mensual, Elite Anual y los demás '+
+    'planes con precio; el plan solo existe desde «Calificados»</span>';
 }
 
 /* ── veredicto: la barra, y debajo de qué está hecha cada parte ──────────── */
@@ -1397,6 +1433,11 @@ function globales(){
     leads:L.length, cal:cal.length,
     free:cal.filter(x=>x[lPL]===iPlan.Free).length,
     premium:cal.filter(x=>x[lPL]===iPlan.Premium).length,
+    // Los nombres de plan que EXISTEN en el dato, por volumen. Escribirlos a
+    // mano dejaria el glosario mintiendo el dia que Ventas agregue un plan.
+    planes:(()=>{ const m={}; L.forEach(x=>{ const n=V.producto[x[lPR]];
+      if(n) m[n]=(m[n]||0)+1; });
+      return Object.entries(m).sort((x,y)=>y[1]-x[1]).map(x=>x[0]); })(),
     won:T.filter(x=>x[tET]===GANADO).length,
     lost:T.filter(x=>x[tET]===PERDIDO).length,
     gasto, metaLeads, metaForma, metaSitio,
@@ -1513,7 +1554,7 @@ function pintaNotas(){
       ["Elegibles","Menos SPAM, duplicados, número incorrecto y sin RTU."],
       ["Calificados","El lead tiene un Trato asociado. Es el paso que separa un contacto de una oportunidad."],
       ["Cerrados","<span class=\"mono\">closed won</span> + <span class=\"mono\">closed lost</span>. Stand By y etapas abiertas no cuentan."],
-      ["Free / Premium","El plan sale del <b>Trato</b>, no del lead: <b>"+nf(g.cal)+"</b> de <b>"+nf(g.leads)+"</b> lo tienen. Premium agrupa todo lo de pago."],
+      ["El plan","Sale del <b>Trato</b>, no del lead: <b>"+nf(g.cal)+"</b> de <b>"+nf(g.leads)+"</b> lo tienen. Arriba va con el nombre del CRM ("+esc(g.planes.join(", "))+"); en los embudos, «de pago» los agrupa."],
       ["Lead → venta","De cada 100 leads de un canal, cuántos terminaron en venta. La única columna que mide el canal completo."]
     ])+
     bloque("Dónde es fácil equivocarse",[

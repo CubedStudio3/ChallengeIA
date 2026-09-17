@@ -595,3 +595,96 @@ total, un día entero borrado, y el corte de las dos puertas aplanado. 5 de 5.
 - **Una anomalía puede ser un síntoma del propio instrumento.** El «+234 a favor
   del CRM» de junio se documentó como un hallazgo sobre la atribución de Meta.
   Era el defecto de la lectura, mirándose a sí mismo.
+
+
+---
+
+## Corrección del 2026-09-19 (tarde) · «Premium 19» era un plan que no existe
+
+Mercadeo, mirando Guatemala en septiembre: *«Free 31 y el dato de premium nos
+sale 5, no 19 revisá eso»*. Los dos números eran correctos y ninguno era
+comparable, porque **«Premium» no es un plan del CRM: es un cubo que yo inventé**.
+
+El campo `Producto` —«Plan QPayPro» en la interfaz— tiene **siete** valores:
+
+| Plan | Tratos |
+|---|---|
+| Free | 574 |
+| Premium Anual | 413 |
+| Premium Mensual | 10 |
+| Elite Anual | 9 |
+| Afiliación Premium Silver Anual | 3 |
+| Kit de Punto de Venta QpayPOS | 1 |
+| (sin producto) | 3 |
+
+`plan_de()` los partía en dos: `Free` y todo lo demás `Premium`. En la vista de
+Guatemala en septiembre, los **19 «Premium»** son **14 Premium Anual + 5 Elite
+Anual**. El 5 que Mercadeo tenía en pantalla es **Elite Anual**, y lo confirma
+una consulta por fecha de cierre además de por fecha de creación:
+
+```
+Closing_Date en septiembre, Guatemala →  Free 32 · Premium Anual 30 ·
+                                         Premium Mensual 1 · Elite Anual 5
+```
+
+Lo grave no es el agrupamiento: es que el cubo tomó prestado **el nombre de dos
+de sus miembros**. «Premium 19» se lee como una fila de informe y **ningún
+informe del CRM puede devolver 19**, porque no hay nada que se llame así. Un
+total que nadie puede reproducir en la fuente no es un resumen: es un número
+nuevo.
+
+El nombre real ya estaba en el dataset —la columna `producto`, junto a `plan`—
+y nunca se mostró. Ahora el KPI de leads escribe **el nombre del CRM**, uno por
+plan, y `sin plan` va sin relleno porque es una ausencia, no una categoría. El
+cubo de dos valores sigue existiendo donde hace falta una silueta de dos tramos
+—las barras del embudo— pero ahí se llama **«de pago»**, que no es el nombre de
+ningún plan, y la leyenda dice qué agrupa.
+
+Trampa de color encontrada al pintarlo: el reparto de tonos incluía **lila**, que
+es Free en toda la página, y le tocó a **Premium Mensual**. Un plan de pago
+pintado del color de Free contradice la leyenda del embudo tres secciones más
+abajo. Lila sale del reparto de los planes de pago; que dos planes de pago
+repitan tono no engaña —todos llevan su nombre escrito al lado—, que uno tome el
+color de Free, sí.
+
+### Y la nota del KPI
+
+Decía «El plan existe solo desde que el lead llega a Trato: 81 no tienen plan
+porque no llegaron» — cierto, y sin uso: repetía lo que el desglose ya muestra.
+Mercadeo pidió en su lugar cuántos de esos leads vienen de Meta y llegaron al
+CRM. Ahora dice, para la ventana que esté puesta:
+
+> De esos, **72** llegaron por el formulario de Meta y Meta reporta **83**:
+> faltan **11** (13,3%) en el CRM.
+
+**Sobre los «82» que mandó Mercadeo:** son los de la vista «Leads Guatemala»
+—no convertidos, País Guatemala o vacío—, y que casi coincidan con los **83** de
+Meta es una **casualidad de dos filtros que no se hablan**: esos 82 excluyen los
+51 leads ya convertidos de septiembre. El número comparable contra Meta es
+**72**, los leads del canal de redes, convertidos incluidos. Dos números que se
+parecen no son el mismo número.
+
+### La guardia
+
+`npm run prueba:tablero-ciclo` abre el tablero en Chromium, filtra **con el
+ratón** en tres ventanas derivadas del dato, y comprueba que **todo rótulo de
+plan exista en el vocabulario del CRM** —cualquier nombre inventado la pone
+roja, `Premium` con cara de plan incluido—, que cada conteo cuadre contra el
+dataset recontado aparte, que el desglose sume los calificados, y que la nota
+diga los dos números de Meta de esa ventana. 27 comprobaciones en tres ventanas,
+más errores de JS y desborde a 1440 y 390 px.
+
+### Trampa nueva
+
+- **Un cubo no puede llevar el nombre de uno de sus miembros.** «Premium»
+  agrupaba seis planes, dos de los cuales se llaman «Premium Anual» y «Premium
+  Mensual». El resultado es un total que se lee como una fila de informe y que la
+  fuente no puede reproducir. Si hay que agrupar, el grupo se llama como no se
+  llama ninguna de sus partes: **«de pago»**.
+- **Una columna puede estar en el dataset y no existir para el producto.** El
+  nombre real del plan viajaba desde el principio en la columna `producto`; el
+  JS ni la había nombrado en sus constantes. Un dato que nadie lee es un dato que
+  no está.
+- **Dos números parecidos invitan a concluir que cuadran.** 82 del CRM contra 83
+  de Meta invitaba a cerrar el caso; son dos poblaciones distintas y la
+  coincidencia es azar. El parecido no es evidencia.

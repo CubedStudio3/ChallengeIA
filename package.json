@@ -18,7 +18,8 @@
     "prueba:ficha": "node pruebas/cartas_ficha.js",
     "prueba:imagen": "node pruebas/imagen_boton.js",
     "prueba:ciclo": "PYTHONPATH=src python3 pruebas/ciclo_meta.py",
-    "prompt:imagen": "PYTHONPATH=src python3 -m modulo1.prompt_visual"
+    "prompt:imagen": "PYTHONPATH=src python3 -m modulo1.prompt_visual",
+    "prueba:tablero-ciclo": "node pruebas/ciclo_tablero.js"
   },
   "dependencies": {
     "pptxgenjs": "^4.0.1"

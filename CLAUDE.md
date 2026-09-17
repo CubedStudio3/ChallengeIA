@@ -192,6 +192,13 @@ cometidos; no hay tiempo de repetirlos.
   los 5,712 que muestra la interfaz**: una campaña de tráfico reporta clics y sus
   leads se vuelven invisibles. Para contar leads va el campo **`lead`**, que
   existe para toda campaña con entrega. Medido el 2026-09-17.
+- **Un cubo no puede llevar el nombre de uno de sus miembros.** El campo
+  `Producto` del CRM tiene SIETE planes; agruparlos en `Free` / **`Premium`**
+  daba «Premium 19» cuando eran **14 Premium Anual + 5 Elite Anual** — y hay
+  planes que de verdad se llaman «Premium Anual» y «Premium Mensual», así que el
+  total se leía como una fila de informe que la fuente **no puede devolver**. Si
+  hay que agrupar, el grupo se llama como no se llama ninguna de sus partes:
+  «de pago». Medido el 2026-09-17.
 - **«Clientes potenciales» de Meta es una SUMA de dos puertas.**
   `onsite_conversion_lead_grouped` son los que ocurren dentro de Meta
   (formulario instantáneo, Messenger, DM) y la resta son los del **sitio web**,
