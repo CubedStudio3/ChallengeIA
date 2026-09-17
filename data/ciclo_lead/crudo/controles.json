@@ -1,0 +1,126 @@
+{
+  "_metadatos": {
+    "hora_consulta": "2026-09-19T00:00:00Z",
+    "que_es": "Controles pedidos al CRM y a Meta APARTE de la extraccion, en la misma corrida. Las compuertas comparan las filas contra estos numeros. Si este archivo falta, la corrida se detiene: una compuerta sin control no verifica nada.",
+    "ventana": {
+      "desde": "2026-01-01",
+      "hasta": "2026-09-16"
+    },
+    "banda_cierre": {
+      "desde": "2026-01-01",
+      "hasta": "2026-09-30"
+    },
+    "zona": "-06:00"
+  },
+  "crm": {
+    "leads_no_convertidos": 4036,
+    "leads_convertidos": 1010,
+    "etapas": {
+      "closed won": 717,
+      "closed lost": 182,
+      "Stand By": 66,
+      "Calificado Interesado": 24,
+      "Necesita validarlo con alguien más": 13,
+      "Interesado listo para pagar": 7,
+      "Interesado - Negociando": 4
+    },
+    "canal": {
+      "Redes sociales (Meta)": 4124,
+      "Página web": 689,
+      "WhatsApp / Chat": 106,
+      "Directo / Referidos": 127
+    },
+    "pais": {
+      "Guatemala": 2337,
+      "El Salvador": 2603,
+      "Sin país": 106
+    },
+    "won_por_cierre": 719
+  },
+  "meta": {
+    "gasto_mes": {
+      "2026-01": 1298.16,
+      "2026-02": 1548.36,
+      "2026-03": 2152.17,
+      "2026-04": 1683.73,
+      "2026-05": 1705.07,
+      "2026-06": 1726.95,
+      "2026-07": 1684.31,
+      "2026-08": 1552.89
+    },
+    "cuenta": {
+      "2026-01|El Salvador": [
+        30,
+        29
+      ],
+      "2026-01|Guatemala": [
+        268,
+        262
+      ],
+      "2026-02|El Salvador": [
+        286,
+        235
+      ],
+      "2026-02|Guatemala": [
+        221,
+        182
+      ],
+      "2026-03|El Salvador": [
+        637,
+        513
+      ],
+      "2026-03|Guatemala": [
+        295,
+        249
+      ],
+      "2026-04|El Salvador": [
+        738,
+        636
+      ],
+      "2026-04|Guatemala": [
+        153,
+        134
+      ],
+      "2026-05|El Salvador": [
+        565,
+        475
+      ],
+      "2026-05|Guatemala": [
+        196,
+        165
+      ],
+      "2026-06|El Salvador": [
+        490,
+        410
+      ],
+      "2026-06|Guatemala": [
+        400,
+        326
+      ],
+      "2026-07|El Salvador": [
+        352,
+        316
+      ],
+      "2026-07|Guatemala": [
+        261,
+        215
+      ],
+      "2026-08|El Salvador": [
+        163,
+        103
+      ],
+      "2026-08|Guatemala": [
+        346,
+        205
+      ],
+      "2026-09|El Salvador": [
+        165,
+        96
+      ],
+      "2026-09|Guatemala": [
+        146,
+        83
+      ]
+    }
+  }
+}

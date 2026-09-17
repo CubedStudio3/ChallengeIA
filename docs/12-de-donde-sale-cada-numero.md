@@ -626,3 +626,82 @@ de cierre del Trato»— y la prueba se pone roja si aparece un `%` en los rótu
 venta movida a 2027** —que el conteo por creación no vería— y **una venta de
 2026 movida a noviembre**, que sigue siendo de 2026 pero el tablero no podría
 situar en ninguna ventana.
+
+
+---
+
+## 13. Hacia la corrida diaria · las compuertas dejaron de tener números adentro
+
+Para que esto pueda correr solo, lo primero no era programarlo: era que las
+compuertas **dejaran de comparar contra números congelados**. Estaban escritos
+en `ciclo_lead.py` (5.046 leads, 1.013 Tratos, 719 ventas, los 4 canales, los 3
+países, las 18 celdas de Meta). Con el CRM recibiendo todos los días, mañana
+ninguno coincide y la corrida se detendría **sin que nada estuviera mal**.
+
+Ahora todos salen de `crudo/controles.json`, que se pide al CRM y a Meta
+**aparte de la extracción y en la misma corrida**. Lo que verifica sigue siendo
+lo mismo: que **dos caminos distintos** den el mismo número — el volcado de
+filas paginado contra la agregación del servidor. Y de ese archivo salen también
+**la ventana y la banda de fechas**, no solo los valores.
+
+`controles.json` trae: la ventana, la banda de cierre, y por bloque —
+`crm`: no convertidos, convertidos, etapas, canal, país, ganados por cierre;
+`meta`: gasto por mes y las celdas de mes × país.
+
+**Un archivo incompleto es peor que uno ausente**, así que se comprueba la
+forma antes de usarla: una llave que falta o un bloque vacío detienen la
+corrida en vez de dejar esa compuerta apagada en silencio. `npm run
+prueba:ciclo` pasa de 9 a **12 de 12** sabotajes: se agregaron el archivo
+borrado, una llave quitada y un bloque vacío.
+
+### Dos compuertas que medían lo mismo
+
+Las de fecha de cierre contaban las dos «ganados dentro de la banda», así que la
+segunda **no podía dispararse nunca** — y un camino que nunca se ejecuta no está
+probado, está apagado. Ahora tienen trabajos distintos: una cuenta los ganados
+**del año** contra el `COUNT` del CRM, y la otra comprueba que **todos** entren
+en la banda. Cada sabotaje pega en la suya.
+
+### Lo que falta para que sea diario
+
+1. La Rutina, con Zoho CRM y Meta adjuntos y su Compuerta 0: sin conectores
+   **no publica** y lo dice.
+2. Que la ventana del control se escriba «del 1 de enero a ayer» en cada
+   corrida, en vez de las fechas fijas de hoy.
+
+---
+
+## 14. El embudo · sin «Tratos cerrados», y la geometría arreglada
+
+Mercadeo pidió quitar el paso **Tratos cerrados**: mezclaba ganados con
+perdidos en un solo escalón y no era una decisión que nadie tome. El embudo va
+ahora de lo que entró a lo que compró:
+
+> Leads que entraron → Leads elegibles → Calificados → Ganados
+
+Al tocarlo salieron **tres defectos** que la vista no mostraba:
+
+- **`.embudos` estaba en `display:block`.** Las reglas de la rejilla se habían
+  perdido —quedaron siete selectores `.embudos` **sin cuerpo**— y los dos
+  embudos llevaban **apilados en todos los anchos** mientras el texto de la
+  sección decía «a la izquierda… a la derecha». Un selector vacío no da ningún
+  error. Restituidas, con `minmax(min(520px, 100%), 1fr)`.
+- **El alto de fila estaba escrito dos veces**, 96px en el CSS y 96 en el
+  generador. Cambiarlo en un solo lado desalinea el texto del SVG sin avisar.
+  Ahora vive en `--emb-fila` y el JS lo lee de ahí.
+- **Ningún alto fijo servía.** Medido: la celda más alta pide **89px** a 1100 de
+  ancho y **148px** a 390. Con 96 fijos el número de una fila se montaba sobre
+  la barra de plan de la anterior. La respuesta no era un número más grande:
+  ahora las **tres columnas son una sola rejilla** con filas que crecen con su
+  contenido, y **cada banda es su propio SVG dentro de su fila**, así que se
+  alinea sola a cualquier ancho sin medir nada.
+
+Y una trampa dentro de la solución: con el SVG **en flujo**, su alto intrínseco
+—viewBox cuadrado a lo ancho de la columna— terminaba **mandando sobre la
+fila**: filas de 222px donde el texto pedía 112. Va absoluto, fuera del flujo,
+para que la fila la mande el texto.
+
+`prueba:tablero-ciclo` vigila el contrato a 1440 y 390: cuatro pasos, sin
+«Tratos cerrados», una banda por paso, ninguna celda desbordando su fila, y
+**cada banda ocupando exactamente su fila** — comparando el alto, no solo el
+borde de arriba, que es lo que dejó pasar el choque la primera vez.

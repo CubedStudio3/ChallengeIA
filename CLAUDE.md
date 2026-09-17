@@ -212,6 +212,27 @@ cometidos; no hay tiempo de repetirlos.
   septiembre— o **mucho antes** —Tratos creados en 2021 con cierre en 2025—, así
   que las dos fechas del Trato se acotan a una banda y la que cae fuera se
   declara en vez de arrastrar el filtro a 2021. Medido el 2026-09-19.
+- **Un selector CSS vacío no da ningún error.** Las reglas de `.embudos` se
+  perdieron —quedaron siete selectores sin cuerpo— y el contenedor cayó a
+  `display:block`: los dos embudos llevaban apilados en TODOS los anchos
+  mientras el texto de la sección decía «a la izquierda… a la derecha».
+- **Un alto de fila fijo no sirve para dos anchos.** Medido: la celda más alta
+  del embudo pide 89px a 1100 de ancho y 148px a 390, con 96 fijos. La respuesta
+  no es un número más grande: las tres columnas son UNA rejilla con filas que
+  crecen, y cada banda es su propio SVG dentro de su fila. Y el SVG va
+  **absoluto**: en flujo, su alto intrínseco manda sobre la fila (222px donde el
+  texto pedía 112).
+- **Comparar solo el borde de arriba no prueba que algo esté alineado.** La
+  primera prueba del embudo comparaba `top` y pasaba mientras las bandas no
+  llenaban su fila. Hay que comparar también el alto.
+- **Una compuerta con el número adentro no puede correr a diario.** Los controles
+  congelados (5,046 leads, 1,013 tratos…) detendrían la corrida todos los días
+  sin que nada esté mal. Van en `crudo/controles.json`, pedido al CRM y a Meta
+  en la MISMA corrida — y un archivo incompleto es peor que uno ausente, así que
+  una llave faltante o un bloque vacío también detienen.
+- **Dos compuertas que miden lo mismo son una compuerta.** Las de fecha de
+  cierre contaban las dos «ganados dentro de la banda»: la segunda no podía
+  dispararse nunca.
 - **Dos fechas distintas no se dividen entre sí.** «% que compró» sobre ventas
   por cierre y leads por creación se lee como una tasa de conversión y no lo es.
   Se quitó la tarjeta y cada una declara sobre qué fecha cuenta.

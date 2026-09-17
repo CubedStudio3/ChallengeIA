@@ -78,6 +78,42 @@ def venta_a_noviembre(filas):
     return filas
 
 
+def sin_controles(tmp):
+    """Se borra el archivo de controles. Una compuerta sin control no verifica
+    nada, asi que la corrida NO puede seguir como si nada."""
+    os.remove(os.path.join(tmp, "controles.json"))
+
+
+def control_incompleto(tmp):
+    """Se quita UNA llave. Es el caso peligroso: el archivo esta, se lee, y esa
+    compuerta queda apagada en silencio."""
+    ruta = os.path.join(tmp, "controles.json")
+    ctl = json.load(open(ruta, encoding="utf-8"))
+    del ctl["crm"]["canal"]
+    json.dump(ctl, open(ruta, "w", encoding="utf-8"), ensure_ascii=False)
+
+
+def control_vacio(tmp):
+    """El bloque esta pero viene vacio. Es el caso mas silencioso de todos:
+    comparar contra {} no compara nada y el archivo se ve completo."""
+    ruta = os.path.join(tmp, "controles.json")
+    ctl = json.load(open(ruta, encoding="utf-8"))
+    ctl["crm"]["pais"] = {}
+    json.dump(ctl, open(ruta, "w", encoding="utf-8"), ensure_ascii=False)
+
+
+def con_archivos(toca):
+    """Copia todo el crudo y deja que `toca` manipule la carpeta entera."""
+    tmp = tempfile.mkdtemp()
+    for n in os.listdir(CRUDO):
+        shutil.copy(os.path.join(CRUDO, n), tmp)
+    shutil.copy(os.path.join(BASE, "data", "ciclo_lead", "usuarios.csv"), tmp)
+    toca(tmp)
+    ok, salida = corre(tmp)
+    shutil.rmtree(tmp)
+    return ok, salida
+
+
 def canal_movido(filas):
     """Un lead de redes pasa a pagina web. El TOTAL no cambia: solo el corte."""
     f = next(f for f in filas if f.get("Lead_Source") == "Meta Ads")
@@ -193,7 +229,18 @@ def main():
         else:
             linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
             print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
-    total = len(SABOTAJES) + 4
+    for nombre, toca in [("el archivo de controles borrado", sin_controles),
+                         ("una llave del control quitada", control_incompleto),
+                         ("un bloque del control vacío", control_vacio)]:
+        ok, salida = con_archivos(toca)
+        if ok:
+            fallos.append(nombre)
+            print("  ✗ %s → la corrida NO se detuvo" % nombre)
+        else:
+            linea = next((l for l in salida.splitlines() if "DETENIDO" in l), "(sin motivo)")
+            print("  ✓ %s → %s" % (nombre, linea.strip()[:110]))
+
+    total = len(SABOTAJES) + 7
     if fallos:
         print("\n%d sabotaje(s) sin detectar: %s" % (len(fallos), ", ".join(fallos)))
         return 1

@@ -64,6 +64,10 @@
   --alerta:#c0392b;
   --alerta-fondo:#fdf0ed;
 
+  /* Alto de una fila del embudo. Lo leen el CSS y el JS: estaba escrito
+     dos veces —96px aqui y 96 en el generador— y cambiarlo en un solo
+     lado desalinea el texto del SVG sin dar ningun error. */
+  --emb-fila:112px;
   --r-panel:34px;
   --r-tarjeta:20px;
   --r-chico:13px;
@@ -411,17 +415,16 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
   color:var(--tinta);font-weight:600}
 .kpi-nota{grid-column:2;font-size:11.5px;color:var(--tinta3);margin-top:5px;line-height:1.4}
 
-/* Dos embudos, uno a la par del otro. */
-
-
-.embudos 
-.embudos 
-
-.embudos 
-.embudos 
-.embudos 
-.embudos 
-.embudos 
+/* Dos embudos, uno a la par del otro.
+   Estas reglas se habian PERDIDO —quedaron siete selectores `.embudos` sin
+   cuerpo— y el contenedor cayo a `display:block`: los dos embudos llevaban
+   apilados en todos los anchos mientras el texto de la seccion decia «a la
+   izquierda / a la derecha». Un selector vacio no da ningun error.
+   El piso va con `min(520px, 100%)`: un `minmax(520px, 1fr)` pelado desborda
+   en una pantalla de 390. */
+.embudos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(520px,100%),1fr));
+  gap:20px;align-items:start}
+.embudos>.panel{min-width:0}
 /* El split del plan: barra de dos tonos mas los numeros escritos, porque una
    barra sola obliga a estimar a ojo. */
 
@@ -433,17 +436,26 @@ svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
 .en-vista b{white-space:nowrap}
 @media (max-width:700px){
   .campo input[type="date"]{min-width:0;width:100%}
-  .embudos 
+  .embudos{grid-template-columns:minmax(0,1fr)}
 }
 
 /* ── rediseño del 2026-09-18 ────────────────────────────────────────────── */
 /* Embudo completo: tres columnas en una rejilla de filas de altura fija, para
    que el texto quede alineado con las bandas del SVG sin deformarlas. */
+/* Las TRES columnas son una sola rejilla y las filas crecen con su contenido,
+   con un piso. Antes eran tres rejillas separadas de filas fijas de 96px al
+   lado de un SVG de alto fijo: cuadraba mientras el texto cupiera, y no cabia
+   —medido, la celda mas alta pide 89px a 1100 de ancho y 148px a 390—. Ningun
+   numero fijo sirve para los dos anchos; que la fila mande, si. */
 .emb-full{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(74px,.85fr) minmax(0,1.15fr);
-  gap:0 14px;align-items:stretch}
-.emb-col{display:grid;grid-template-rows:repeat(5,96px)}
-.emb-svg{display:block;min-width:0}
-.emb-svg svg{display:block;width:100%}
+  gap:0 14px;align-items:stretch;grid-auto-rows:minmax(var(--emb-fila),auto)}
+/* Una banda por fila, estirada a su fila. El SVG va ABSOLUTO: en flujo, su
+   alto intrinseco —viewBox cuadrado a lo ancho de la columna— terminaba
+   MANDANDO sobre la fila. Medido: filas de 222px en una vista ancha, donde el
+   texto pedia 112. Fuera del flujo no aporta alto y la fila la manda el texto,
+   que es lo correcto. */
+.emb-banda{min-width:0;position:relative}
+.emb-banda svg{position:absolute;inset:0;display:block;width:100%;height:100%}
 .emb-celda{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0}
 .emb-der-celda{align-items:flex-end;text-align:right}
 .emb-nom{font-weight:600;font-size:13.5px;letter-spacing:-.01em;line-height:1.25}
@@ -1003,14 +1015,17 @@ function pintaKpis(c){
    es el de arriba de la siguiente—, así la silueta se lee como un embudo y no
    como cinco figuras sueltas. El nombre y la cifra viven en columnas de texto
    real, alineadas con las bandas por una rejilla de filas de altura fija. */
-const EMB_H = 96;   // alto de cada banda, en px y en unidades del viewBox
+// El alto de banda sale del CSS, que es donde vive la rejilla del texto.
+// Dos copias del mismo numero se desincronizan: la del SVG y la de la
+// rejilla tienen que ser la MISMA o el texto deja de calzar con la forma.
+const EMB_H = parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--emb-fila')) || 112;
 
 function embudo(cont, l, t, conPlan){
   const leads = l.length;
   const invalidos = l.filter(x=>x[lBU]===INVALIDO).length;
   const cal = l.filter(x=>x[lCL]===1);
-  const won = t.filter(x=>x[tET]===GANADO), lost = t.filter(x=>x[tET]===PERDIDO);
-  const cerrados = won.concat(lost);
+  const won = t.filter(x=>x[tET]===GANADO);
   const plan = (rows,col) => conPlan ? {
     Free: rows.filter(x=>x[col]===iPlan.Free).length,
     Premium: rows.filter(x=>x[col]===iPlan.Premium).length } : null;
@@ -1018,31 +1033,35 @@ function embudo(cont, l, t, conPlan){
     ["Leads que entraron",leads,"var(--e1)","Todo registro creado en el rango",null],
     ["Leads elegibles",leads-invalidos,"var(--e2)","Menos "+nf(invalidos)+" de dato inválido",null],
     ["Calificados",cal.length,"var(--e3)","Tienen un Trato asociado",plan(cal,lPL)],
-    ["Tratos cerrados",cerrados.length,"var(--e4)","closed won + closed lost",plan(cerrados,tPL)],
+    // Sin el paso de «Tratos cerrados», por pedido de Mercadeo (2026-09-19):
+    // mezclaba ganados con perdidos en un solo escalon y no era una decision
+    // que nadie tome. El embudo va de lo que entro a lo que compro.
     ["Ganados",won.length,"var(--e5)","closed won",plan(won,tPL)]
   ];
   const base = leads||1, n = pasos.length;
-  const W = 100, CEN = W/2, MIN = 7, ALTO = EMB_H*n;
+  const W = 100, CEN = W/2, MIN = 7;
   const medio = v => Math.max(MIN, (W-4)*(v/base))/2;
-  let formas = "";
-  pasos.forEach((p,i)=>{
-    const arr = medio(p[1]);
-    const aba = medio(i<n-1 ? pasos[i+1][1] : p[1]);
-    const y0 = i*EMB_H, y1 = y0+EMB_H;
-    const tip = p[0]+": "+nf(p[1])+" · "+pf(p[1],base)+" del total";
-    formas += '<path d="M'+(CEN-arr)+' '+y0+' L'+(CEN+arr)+' '+y0+' L'+(CEN+aba)+' '+y1+
-      ' L'+(CEN-aba)+' '+y1+' Z" fill="'+p[2]+'" stroke="var(--contorno)" stroke-width="1" '+
-      'vector-effect="non-scaling-stroke" data-tip="'+esc(tip)+'"/>';
-  });
-  // preserveAspectRatio="none" con alto fijo igual al del viewBox: escala solo
-  // en horizontal, así que las bandas no se deforman y siguen cuadrando con las
-  // filas de texto.
-  const svg = '<svg viewBox="0 0 '+W+' '+ALTO+'" preserveAspectRatio="none" '+
-    'style="height:'+ALTO+'px" role="img" aria-label="Embudo">'+formas+'</svg>';
-  const izq = pasos.map(p=>'<div class="emb-celda"><div class="emb-nom">'+esc(p[0])+
-    '</div><div class="emb-sub">'+esc(p[3])+'</div></div>').join("");
-  const der = pasos.map((p,i)=>{
-    const caen = i ? pasos[i-1][1]-p[1] : 0;
+
+  // Una banda por PASO, cada una su propio SVG dentro de su celda de la
+  // rejilla. Antes era un solo SVG de alto fijo (5 filas de 96px) al lado de
+  // dos columnas de filas tambien fijas: media exacto mientras el texto
+  // cupiera, y no cabia. Medido: la celda mas alta pide 89px a 1100 de ancho y
+  // 148px a 390. Ningun numero fijo sirve para los dos.
+  // Asi la banda mide lo que mida su fila, a cualquier ancho, sin medir nada.
+  const banda = i => {
+    const arr = medio(pasos[i][1]);
+    const aba = medio(i < n-1 ? pasos[i+1][1] : pasos[i][1]);
+    const tip = pasos[i][0]+": "+nf(pasos[i][1])+" · "+pf(pasos[i][1],base)+" del total";
+    return '<div class="emb-banda"><svg viewBox="0 0 '+W+' 100" preserveAspectRatio="none" '+
+      'aria-hidden="true"><path d="M'+(CEN-arr)+' 0 L'+(CEN+arr)+' 0 L'+(CEN+aba)+
+      ' 100 L'+(CEN-aba)+' 100 Z" fill="'+pasos[i][2]+'" stroke="var(--contorno)" '+
+      'stroke-width="1" vector-effect="non-scaling-stroke" data-tip="'+esc(tip)+
+      '"/></svg></div>';
+  };
+  const izq = i => '<div class="emb-celda"><div class="emb-nom">'+esc(pasos[i][0])+
+    '</div><div class="emb-sub">'+esc(pasos[i][3])+'</div></div>';
+  const der = i => {
+    const p = pasos[i], caen = i ? pasos[i-1][1]-p[1] : 0;
     let sp = "";
     if(p[4] && (p[4].Free || p[4].Premium)){
       const tt = p[4].Free+p[4].Premium;
@@ -1057,9 +1076,13 @@ function embudo(cont, l, t, conPlan){
       '<div class="emb-pct">'+pf(p[1],base)+' del total</div>'+
       (i?'<div class="emb-caida">se quedaron <em>'+nf(caen)+'</em> ('+pf(caen,pasos[i-1][1])+')</div>':'')+
       sp+'</div>';
-  }).join("");
-  cont.innerHTML = '<div class="emb-col">'+izq+'</div><div class="emb-svg">'+svg+
-    '</div><div class="emb-col">'+der+'</div>';
+  };
+  // En orden de FILA —izquierda, banda, derecha— porque las tres columnas son
+  // ahora una sola rejilla: asi comparten el alto de cada fila y no hay nada
+  // que sincronizar.
+  let html = '';
+  for(let i=0;i<n;i++) html += izq(i)+banda(i)+der(i);
+  cont.innerHTML = html;
 }
 
 function pintaEmbudos(c){

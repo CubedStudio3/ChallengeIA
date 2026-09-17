@@ -91,6 +91,36 @@ async function ventana(p, pais, desde, hasta) {
     ok(errores.length === 0, "sin errores de JS", errores.join(" | "));
     const sw = await p.evaluate(() => document.documentElement.scrollWidth);
     ok(sw <= ancho, "sin desborde horizontal", "scrollWidth " + sw);
+
+    // El embudo: cuatro pasos, sin «Tratos cerrados», y cada banda ocupando
+    // EXACTAMENTE su fila. Lo segundo no se ve en una captura si solo se
+    // compara el borde de arriba: hay que comparar tambien el alto.
+    const emb = await p.evaluate(() => {
+      const e = document.getElementById("embudo-web");
+      const izq = [...e.querySelectorAll(".emb-celda:not(.emb-der-celda)")];
+      const der = [...e.querySelectorAll(".emb-der-celda")];
+      const ban = [...e.querySelectorAll(".emb-banda")];
+      const desbordan = [...izq, ...der]
+        .filter(c => c.scrollHeight > c.clientHeight + 1).length;
+      const descalzadas = ban.filter((x, i) => {
+        const a = x.querySelector("svg").getBoundingClientRect();
+        const c = izq[i].getBoundingClientRect();
+        return Math.abs(a.top - c.top) > 1 || Math.abs(a.height - c.height) > 1;
+      }).length;
+      return {
+        pasos: izq.map(x => x.querySelector(".emb-nom").textContent.trim()),
+        bandas: ban.length, desbordan, descalzadas,
+      };
+    });
+    ok(emb.pasos.length === 4, "el embudo tiene cuatro pasos", emb.pasos.join(" → "));
+    ok(!emb.pasos.some(x => /Tratos cerrados/i.test(x)),
+       "sin el paso «Tratos cerrados»", emb.pasos.join(" → "));
+    ok(emb.bandas === emb.pasos.length, "una banda por paso",
+       emb.bandas + " bandas para " + emb.pasos.length + " pasos");
+    ok(emb.desbordan === 0, "ninguna celda del embudo desborda su fila",
+       emb.desbordan + " desbordan");
+    ok(emb.descalzadas === 0, "cada banda ocupa exactamente su fila",
+       emb.descalzadas + " descalzadas");
     await p.close();
   }
 

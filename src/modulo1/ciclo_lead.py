@@ -103,6 +103,39 @@ def alto(msg):
 
 HOY = datetime.date.today().isoformat()
 
+# Forma que `controles.json` TIENE que traer. Una llave que falta no es un
+# control opcional: es una compuerta apagada, y apagada en silencio es peor que
+# no tenerla. Por eso se comprueba la forma antes de usarla.
+FORMA = {
+    "_metadatos": ["ventana", "banda_cierre"],
+    "crm": ["leads_no_convertidos", "leads_convertidos", "etapas", "canal",
+            "pais", "won_por_cierre"],
+    "meta": ["gasto_mes", "cuenta"],
+}
+
+
+def controles():
+    ruta = os.path.join(CRUDO, "controles.json")
+    if not os.path.exists(ruta):
+        alto("falta %s: los controles se piden al CRM y a Meta en cada corrida "
+             "y sin ellos las compuertas no verifican nada. La receta esta en "
+             "docs/12-de-donde-sale-cada-numero.md" % ruta)
+    ctl = json.load(open(ruta, encoding="utf-8"))
+    for bloque, llaves in FORMA.items():
+        if bloque not in ctl:
+            alto("controles.json sin el bloque %r" % bloque)
+        for k in llaves:
+            if k not in ctl[bloque]:
+                alto("controles.json sin %s.%s: esa compuerta quedaria apagada"
+                     % (bloque, k))
+    for k in ("etapas", "canal", "pais"):
+        if not ctl["crm"][k]:
+            alto("controles.json trae crm.%s vacio: un control vacio compara "
+                 "contra nada" % k)
+    if not ctl["meta"]["cuenta"]:
+        alto("controles.json trae meta.cuenta vacio")
+    return ctl
+
 
 def filas(nombre):
     # La paginacion no se comprueba aqui: una pagina truncada se ve igual de
@@ -127,6 +160,15 @@ def plan_de(producto):
 
 
 def main():
+    # Los controles se cargan PRIMERO: de ahi salen la ventana y la banda de
+    # fechas, no solo los numeros con que se comparan. Si el archivo no esta o
+    # le falta una llave, la corrida se detiene aqui y no mas adelante, con el
+    # dataset a medio armar.
+    ctl = controles()
+    PISO_CIERRE = ctl["_metadatos"]["banda_cierre"]["desde"]
+    TOPE_CIERRE = ctl["_metadatos"]["banda_cierre"]["hasta"]
+    en_banda = lambda d: PISO_CIERRE <= d <= TOPE_CIERRE
+
     leads = filas("leads_p0.json") + filas("leads_p1.json") + filas("leads_p2.json")
     conv = filas("leads_convertidos.json")
     tratos = filas("tratos.json")
@@ -273,8 +315,6 @@ def main():
     # 2026—, y su fecha de creacion estiraba el filtro a 2021. Un Trato fuera
     # de banda en una de sus fechas queda con indice -1 en ESA fecha: sale de
     # los cortes que usan esa fecha y sigue contando en los que usan la otra.
-    PISO_CIERRE, TOPE_CIERRE = "2026-01-01", "2026-09-30"
-    en_banda = lambda d: PISO_CIERRE <= d <= TOPE_CIERRE
     fechas = sorted({c[0] for c in celdas_lead}
                     | {c[0] for c in celdas_trato if en_banda(c[0])}
                     | {c[17] for c in celdas_trato if en_banda(c[17])}
@@ -351,131 +391,93 @@ def main():
 
     # ── compuertas ───────────────────────────────────────────────────────
     #
-    # TODO numero de aqui abajo salio de una consulta COQL de CONTROL, hecha
-    # aparte de la extraccion, y queda escrita al lado para que cualquiera la
-    # pueda repetir en el CRM. Ventana: `Created_Time` entre 2026-01-01 y
-    # 2026-09-16, hora de la cuenta (-06:00). Re-verificadas el 2026-09-17.
+    # Ningun numero de control vive aqui. Todos salen de `crudo/controles.json`,
+    # que se pide al CRM y a Meta APARTE de la extraccion y en la MISMA corrida.
+    # Antes estaban escritos en este archivo, y eso hacia imposible correr esto
+    # a diario: el CRM sigue recibiendo, asi que al dia siguiente ningun numero
+    # congelado coincide y la corrida se detendria todos los dias sin que nada
+    # estuviera mal. Lo que verifica es que DOS caminos distintos den lo mismo:
+    # el volcado de filas paginado contra la agregacion del servidor.
     #
-    #   COQL excluye los leads CONVERTIDOS por omision. Por eso van DOS
-    #   consultas por cada corte y el total es la suma. Es la causa numero uno
-    #   de que un informe del CRM no cuadre con este tablero.
-    #
-    #   no convertidos:
-    #     select COUNT(id) as n from Leads
-    #      where (Created_Time >= '2026-01-01T00:00:00-06:00'
-    #         and Created_Time <= '2026-09-16T23:59:59-06:00')
-    #     → 4036
-    #   convertidos:
-    #     ...and Converted__s = true   group by Converted__s
-    #     → 1010        4036 + 1010 = 5046
+    # Las consultas exactas estan en `docs/12-de-donde-sale-cada-numero.md`.
+    VENTANA = (ctl["_metadatos"]["ventana"]["desde"],
+               ctl["_metadatos"]["ventana"]["hasta"])
+    C = ctl["crm"]
+
     n_l = len(celdas_lead)
-    # El archivo de Tratos ahora cubre la UNION de dos criterios —creados en la
-    # ventana, o con fecha de cierre en 2026— asi que el total del archivo ya no
-    # es el de la consulta por creacion. Cada compuerta se aplica a su subconjunto.
-    n_t = sum(1 for c in celdas_trato if "2026-01-01" <= c[0] <= "2026-09-16")
-    if n_l != 5046:
-        alto("leads %d != 5046 (COUNT del CRM: 4036 no convertidos + 1010 "
-             "convertidos)" % n_l)
-    #   select Stage, COUNT(id) as n from Deals where (<la misma ventana>)
-    #   group by Stage  → las 7 etapas de abajo, que suman 1013
-    if n_t != 1013:
-        alto("tratos %d != 1013 (COUNT del CRM por etapa)" % n_t)
-    etapas = collections.Counter(t[4] for t in celdas_trato
-                                 if "2026-01-01" <= t[0] <= "2026-09-16")
-    esperado = {"closed won": 717, "closed lost": 182, "Stand By": 66,
-                "Calificado Interesado": 24, "Necesita validarlo con alguien más": 13,
-                "Interesado listo para pagar": 7, "Interesado - Negociando": 4}
-    if dict(etapas) != esperado:
-        alto("las etapas no cuadran: %r" % dict(etapas))
+    esperado_l = C["leads_no_convertidos"] + C["leads_convertidos"]
+    if n_l != esperado_l:
+        alto("leads %d != %d (COUNT del CRM: %d no convertidos + %d convertidos)"
+             % (n_l, esperado_l, C["leads_no_convertidos"], C["leads_convertidos"]))
+
+    # El archivo de Tratos cubre la UNION de dos criterios —creados en la
+    # ventana, o con fecha de cierre en la banda— asi que el total del archivo
+    # ya no es el de la consulta por creacion. Cada compuerta va a su subconjunto.
+    en_ventana = lambda d: VENTANA[0] <= d <= VENTANA[1]
+    etapas = collections.Counter(t[4] for t in celdas_trato if en_ventana(t[0]))
+    if dict(etapas) != C["etapas"]:
+        alto("las etapas no cuadran con el COUNT del CRM: leido %r, control %r"
+             % (dict(etapas), C["etapas"]))
+
     if len(celdas_resp) + sum(c[7] for c in celdas_lead) != n_l:
         alto("el cubo de responsable no cubre a los leads sin Trato")
 
-    # El corte por CANAL y por PAIS tambien se compara contra su COUNT. Antes
-    # no: las compuertas cuidaban los totales y dejaban sueltos justo los dos
-    # numeros que el tablero muestra mas grandes. Un total correcto con un
-    # corte torcido no avisa.
-    #
-    #   select Lead_Source, COUNT(id) as n from Leads where (<ventana>)
-    #   group by Lead_Source        — y otra vez con `Converted__s = true`
-    #   Sumando las dos y aplicando el mapa CANAL:
-    CONTROL_CANAL = {"Redes sociales (Meta)": 4124, "Página web": 689,
-                     "WhatsApp / Chat": 106, "Directo / Referidos": 127}
-    #   select Pa_s, COUNT(id) as n from Leads where (<ventana>) group by Pa_s
-    #   — y otra vez con `Converted__s = true`. El campo del LEAD es `Pa_s`;
-    #   el del TRATO es `Pa_s_Operaci_n`: son dos campos distintos y no se
-    #   mezclan. 106 leads lo traen vacio y salen como «Sin país».
-    CONTROL_PAIS = {"Guatemala": 2337, "El Salvador": 2603, "Sin país": 106}
-    #   Cuantos de los leads que entraron terminaron COMPRANDO. Se cuenta
-    #   sobre la cohorte del lead —no sobre los Tratos del periodo, que son
-    #   otra poblacion— asi que el control se pide siguiendo la misma cadena:
-    #     select Converted_Deal from Leads where (<ventana>) and Converted__s = true
-    #     select Stage, COUNT(id) from Deals where id in (<esos ids>) group by Stage
-    #   «Compraron» se cuenta por FECHA DE CIERRE, que es el criterio de
-    #   Mercadeo y el de sus informes del CRM:
-    #     select Stage, COUNT(id) as n from Deals
-    #      where (Closing_Date >= '2026-01-01' and Closing_Date <= '2026-09-16')
-    #      group by Stage                                  → closed won 717
-    #     ...and Closing_Date > '2026-09-16' and <= '2026-12-31'  → 2 mas
-    #   717 + 2 = 719. Verificado el 2026-09-19.
-    CONTROL_WON = 719
-    won = sum(1 for c in celdas_trato
-              if c[4] == "closed won" and c[17][:4] == "2026")
-    # Y ninguno de los ganados de 2026 puede quedar fuera de la banda, porque
-    # entonces el tablero no lo podria mostrar con ningun filtro.
-    won_fuera = sum(1 for c in celdas_trato
-                    if c[4] == "closed won" and c[17][:4] == "2026"
-                    and not en_banda(c[17]))
-    if won_fuera:
-        alto("%d Tratos ganados de 2026 cierran fuera de la banda %s..%s: "
-             "el tablero no podria mostrarlos" % (won_fuera, PISO_CIERRE, TOPE_CIERRE))
-    if won != CONTROL_WON:
-        alto("Tratos closed won con cierre en 2026: %d, control %d" % (won, CONTROL_WON))
-
-    for nombre, col, control in (("canal", 2, CONTROL_CANAL),
-                                 ("país", 1, CONTROL_PAIS)):
-        leido = collections.Counter(c[col] for c in celdas_lead)
-        if dict(leido) != control:
+    # El corte por CANAL y por PAIS tambien contra su COUNT. Un total correcto
+    # con un corte torcido no avisa: mover un lead de redes a pagina web, o de
+    # SV a GT, no cambia ningun total.
+    for nombre, col, clave in (("canal", 2, "canal"), ("país", 1, "pais")):
+        leido = dict(collections.Counter(c[col] for c in celdas_lead))
+        if leido != C[clave]:
             alto("el corte de leads por %s no cuadra con el COUNT del CRM: "
-                 "leido %r, control %r" % (nombre, dict(leido), control))
-    # El gasto de Meta se compara contra la lectura MENSUAL ya verificada, que
-    # se pidio por otro camino (una llamada por el periodo entero, agregada por
-    # mes). Dos caminos distintos que dan el mismo numero es lo que verifica;
-    # comparar la lectura consigo misma, no.
-    VERIFICADO = {"2026-01": 1298.16, "2026-02": 1548.36, "2026-03": 2152.17,
-                  "2026-04": 1683.73, "2026-05": 1705.07, "2026-06": 1726.95,
-                  "2026-07": 1684.31, "2026-08": 1552.89}
+                 "leido %r, control %r" % (nombre, leido, C[clave]))
+
+    # «Compraron» se cuenta por FECHA DE CIERRE, que es el criterio de Mercadeo
+    # y el de sus informes del CRM.
+    # Dos compuertas con trabajos DISTINTOS. Si las dos contaran «ganados
+    # dentro de la banda», la segunda no podria dispararse nunca — y un camino
+    # que nunca se ejecuta no esta probado, esta apagado.
+    #   1. cuantos ganados hay en el año: contra el COUNT del CRM.
+    anio = PISO_CIERRE[:4]
+    won_anio = sum(1 for c in celdas_trato
+                   if c[4] == "closed won" and c[17][:4] == anio)
+    if won_anio != C["won_por_cierre"]:
+        alto("Tratos closed won con cierre en %s: %d, control %d"
+             % (anio, won_anio, C["won_por_cierre"]))
+    #   2. que TODOS ellos entren en la banda. Uno fuera existe pero el tablero
+    #      no lo podria mostrar con ningun filtro: seria una venta invisible.
+    won_fuera = sum(1 for c in celdas_trato if c[4] == "closed won"
+                    and c[17][:4] == anio and not en_banda(c[17]))
+    if won_fuera:
+        alto("%d Tratos ganados de %s cierran fuera de la banda %s..%s: "
+             "el tablero no podria mostrarlos"
+             % (won_fuera, anio, PISO_CIERRE, TOPE_CIERRE))
+    won = won_anio
+
+    # El gasto de Meta, contra la lectura MENSUAL pedida por otro camino: una
+    # llamada por el periodo entero agregada por mes. Dos caminos distintos que
+    # dan el mismo numero es lo que verifica; comparar una lectura consigo
+    # misma, no. El mes en curso NO entra: esta a medias y cambia mientras se
+    # mira, asi que el control solo trae los meses cerrados.
     por_mes = collections.Counter()
     for c in celdas_meta:
         por_mes[c[0][:7]] += c[2]
-    for mes, esperado in VERIFICADO.items():
+    for mes, esperado in sorted(ctl["meta"]["gasto_mes"].items()):
         if abs(por_mes[mes] - esperado) > 0.02:
-            alto("gasto de Meta en %s: %.2f, esperado %.2f" % (mes, por_mes[mes], esperado))
+            alto("gasto de Meta en %s: %.2f, control %.2f" % (mes, por_mes[mes], esperado))
 
-    # Los leads de Meta se comparan contra una lectura de NIVEL DE CUENTA,
-    # agregada por mes y pais: otro camino, no la suma de las mismas filas.
-    # Sumar campañas podria duplicar un lead atribuido a dos campañas; las dos
-    # lecturas coinciden exactas en las 18 celdas, asi que no lo hace.
-    # Leida el 2026-09-17: (mes, pais) -> (leads, leads dentro de Meta).
-    CUENTA = {
-        ("2026-01", "El Salvador"): (30, 29),   ("2026-01", "Guatemala"): (268, 262),
-        ("2026-02", "El Salvador"): (286, 235), ("2026-02", "Guatemala"): (221, 182),
-        ("2026-03", "El Salvador"): (637, 513), ("2026-03", "Guatemala"): (295, 249),
-        ("2026-04", "El Salvador"): (738, 636), ("2026-04", "Guatemala"): (153, 134),
-        ("2026-05", "El Salvador"): (565, 475), ("2026-05", "Guatemala"): (196, 165),
-        ("2026-06", "El Salvador"): (490, 410), ("2026-06", "Guatemala"): (400, 326),
-        ("2026-07", "El Salvador"): (352, 316), ("2026-07", "Guatemala"): (261, 215),
-        ("2026-08", "El Salvador"): (163, 103), ("2026-08", "Guatemala"): (346, 205),
-        ("2026-09", "El Salvador"): (165, 96),  ("2026-09", "Guatemala"): (146, 83),
-    }
+    # Los leads de Meta, contra una lectura de NIVEL DE CUENTA agregada por mes
+    # y pais: otro camino, no la suma de las mismas filas. Sumar campañas
+    # podria duplicar un lead atribuido a dos campañas; las dos lecturas
+    # coinciden exactas, asi que no lo hace.
     leido = collections.defaultdict(lambda: [0, 0])
     for c in celdas_meta:
-        leido[(c[0][:7], c[1])][0] += c[3]
-        leido[(c[0][:7], c[1])][1] += c[4]
-    for k, (t, d) in sorted(CUENTA.items()):
+        leido[c[0][:7] + "|" + c[1]][0] += c[3]
+        leido[c[0][:7] + "|" + c[1]][1] += c[4]
+    for k, (t, d) in sorted(ctl["meta"]["cuenta"].items()):
         v = leido.get(k, [0, 0])
         if v[0] != t or v[1] != d:
-            alto("leads de Meta en %s %s: dia por dia da %d/%d y la lectura de "
-                 "cuenta da %d/%d (total / dentro de Meta)" % (k[0], k[1], v[0], v[1], t, d))
+            alto("leads de Meta en %s: dia por dia da %d/%d y la lectura de "
+                 "cuenta da %d/%d (total / dentro de Meta)" % (k, v[0], v[1], t, d))
 
     cal = sum(c[7] for c in celdas_lead)
     free = sum(1 for c in celdas_lead if c[8] == "Free")
@@ -483,8 +485,9 @@ def main():
     print("dataset: %s (%.0f KB)" % (sal, os.path.getsize(sal) / 1024))
     print("leads %d · calificados %d (%.1f%%) · free %d · premium %d · sin plan %d"
           % (n_l, cal, 100.0 * cal / n_l, free, prem, cal - free - prem))
-    print("tratos %d · ganados %d · convertidos sin Trato %d"
-          % (n_t, etapas["closed won"], sin_trato))
+    print("tratos %d en la ventana · ganados %d por fecha de cierre · "
+          "convertidos sin Trato %d"
+          % (sum(etapas.values()), won, sin_trato))
     print("rango de fechas: %s → %s" % (datos["rango"]["desde"], datos["rango"]["hasta"]))
     return datos
 
