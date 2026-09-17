@@ -808,7 +808,11 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 /* Columnas. El dataset viene con diccionarios de índices: cada fila es un
    registro y cada texto es un entero. Así el filtro por rango de fechas es una
    comparación de enteros y no de cadenas. */
-const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9;
+const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9,lWON=10;
+// lWON: si el Trato de ESE lead quedo en closed won. Lo usa el EMBUDO, que
+// es una figura de cohorte y tiene que contar sus cuatro pasos sobre los
+// mismos leads. La tarjeta «Compraron» de arriba cuenta por fecha de
+// cierre, que es otra pregunta y lo dice.
 // lPL es el cubo Free/de pago; lPR es el NOMBRE del plan tal como lo dice el
 // CRM. «Premium» no es un plan: es un cubo de seis. Donde se puede decir el
 // nombre, se dice el nombre.
@@ -1021,11 +1025,16 @@ function pintaKpis(c){
 const EMB_H = parseFloat(getComputedStyle(document.documentElement)
   .getPropertyValue('--emb-fila')) || 112;
 
-function embudo(cont, l, t, conPlan){
+// Los CUATRO pasos salen del mismo conjunto de leads. El ultimo salia de los
+// Tratos creados en la ventana —otra poblacion— y podia quedar por ENCIMA de
+// «Calificados»: 50 leads, 38 calificados y 39 ganados, con un «se quedaron -1»
+// que es imposible en un embudo. Contando sobre la misma cohorte, cada paso es
+// por construccion menor o igual que el anterior.
+function embudo(cont, l, conPlan){
   const leads = l.length;
   const invalidos = l.filter(x=>x[lBU]===INVALIDO).length;
   const cal = l.filter(x=>x[lCL]===1);
-  const won = t.filter(x=>x[tET]===GANADO);
+  const won = l.filter(x=>x[lWON]===1);
   const plan = (rows,col) => conPlan ? {
     Free: rows.filter(x=>x[col]===iPlan.Free).length,
     Premium: rows.filter(x=>x[col]===iPlan.Premium).length } : null;
@@ -1036,7 +1045,7 @@ function embudo(cont, l, t, conPlan){
     // Sin el paso de «Tratos cerrados», por pedido de Mercadeo (2026-09-19):
     // mezclaba ganados con perdidos en un solo escalon y no era una decision
     // que nadie tome. El embudo va de lo que entro a lo que compro.
-    ["Ganados",won.length,"var(--e5)","closed won",plan(won,tPL)]
+    ["Ganados",won.length,"var(--e5)","closed won · de estos mismos leads",plan(won,lPL)]
   ];
   const base = leads||1, n = pasos.length;
   const W = 100, CEN = W/2, MIN = 7;
@@ -1086,10 +1095,8 @@ function embudo(cont, l, t, conPlan){
 }
 
 function pintaEmbudos(c){
-  embudo(document.getElementById("embudo-web"),
-    c.l.filter(x=>x[lCA]===WEB), c.t.filter(x=>x[tCA]===WEB), true);
-  embudo(document.getElementById("embudo-meta"),
-    c.l.filter(x=>x[lCA]===REDES), c.t.filter(x=>x[tCA]===REDES), true);
+  embudo(document.getElementById("embudo-web"), c.l.filter(x=>x[lCA]===WEB), true);
+  embudo(document.getElementById("embudo-meta"), c.l.filter(x=>x[lCA]===REDES), true);
   document.getElementById("leyenda-planes").innerHTML =
     '<span><i style="background:'+COLOR_PLAN.Free+'"></i>Free</span>'+
     '<span><i style="background:'+COLOR_PLAN.Premium+'"></i>De pago</span>'+

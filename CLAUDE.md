@@ -212,6 +212,15 @@ cometidos; no hay tiempo de repetirlos.
   septiembre— o **mucho antes** —Tratos creados en 2021 con cierre en 2025—, así
   que las dos fechas del Trato se acotan a una banda y la que cae fuera se
   declara en vez de arrastrar el filtro a 2021. Medido el 2026-09-19.
+- **Un embudo con dos cohortes puede crecer hacia abajo.** «Calificados» salía
+  de los LEADS de la ventana y «Ganados» de los TRATOS de la ventana: un Trato
+  ganado cuyo lead entró antes contaba en uno y no en el otro, y el embudo
+  mostró **38 calificados y 39 ganados**, «se quedaron −1». Las cuatro etapas
+  van sobre el MISMO conjunto. La invariante —ningún paso mayor que el anterior—
+  es ahora una prueba, y **con el periodo entero no aparecía**: hizo falta un mes
+  corto.
+- **Quitar un intermediario no causa el defecto: lo destapa.** El paso «Tratos
+  cerrados» escondía la contradicción; al sacarlo quedó a la vista.
 - **Un selector CSS vacío no da ningún error.** Las reglas de `.embudos` se
   perdieron —quedaron siete selectores sin cuerpo— y el contenedor cayó a
   `display:block`: los dos embudos llevaban apilados en TODOS los anchos

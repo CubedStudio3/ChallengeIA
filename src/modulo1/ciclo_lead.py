@@ -179,10 +179,19 @@ def main():
     if any(r["Converted__s"] for r in leads) or any(not r["Converted__s"] for r in conv):
         alto("las dos extracciones de leads se contaminaron entre si")
 
-    # plan por trato, para heredarlo al lead que lo origino.
+    # plan y etapa por trato, para heredarlos al lead que lo origino.
+    #
+    # La etapa viaja al lead porque el EMBUDO es una figura de cohorte: sigue a
+    # los leads que entraron en la ventana. Si su ultimo paso contara Tratos
+    # —otra poblacion, con su propia fecha— podria salir MAYOR que «Calificados»
+    # y el embudo diria «se quedaron -1». Paso: 50 leads, 38 calificados, 39
+    # ganados. La tarjeta de arriba cuenta por fecha de cierre, que es otra
+    # pregunta; el embudo cuenta sobre los mismos leads que dibuja.
     plan_trato = {}
+    won_trato = {}
     for t in tratos:
         plan_trato[t["id"]] = plan_de(t.get("Producto"))
+        won_trato[t["id"]] = 1 if t.get("Stage") == "closed won" else 0
 
     celdas_lead = []
     sin_trato = 0
@@ -194,6 +203,7 @@ def main():
         calif = 1 if trato else 0
         if r["Converted__s"] and not trato:
             sin_trato += 1
+        ganado = won_trato.get(trato, 0) if calif else 0
         if calif:
             bucket, area = "Calificado (llegó a Trato)", "Calificado"
             plan, producto = plan_trato.get(trato, ("", ""))
@@ -204,7 +214,7 @@ def main():
             plan, producto = "", ""
         celdas_lead.append([fecha, r.get("Pa_s") or "Sin país", canal(fuente),
                             fuente or "Sin fuente", estado or "Sin estado",
-                            bucket, area, calif, plan, producto, 1])
+                            bucket, area, calif, plan, producto, ganado, 1])
 
     celdas_trato = []
     for t in tratos:
@@ -345,7 +355,7 @@ def main():
     vro = vocab("rol", [c[3] for c in celdas_resp])
 
     L = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], ve[c[4]], vb[c[5]], va[c[6]],
-          c[7], vpl[c[8]], vpr[c[9]]] for c in celdas_lead]
+          c[7], vpl[c[8]], vpr[c[9]], c[10]] for c in celdas_lead]
     T = [[ifecha[c[0]] if en_banda(c[0]) else -1,
           vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
           va[c[7]], vr[c[8]], vca[c[9]], va[c[10]], vpl[c[11]], vpr[c[12]], vv[c[13]],

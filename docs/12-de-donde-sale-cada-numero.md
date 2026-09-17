@@ -705,3 +705,50 @@ para que la fila la mande el texto.
 «Tratos cerrados», una banda por paso, ninguna celda desbordando su fila, y
 **cada banda ocupando exactamente su fila** — comparando el alto, no solo el
 borde de arriba, que es lo que dejó pasar el choque la primera vez.
+
+
+---
+
+## 15. Corrección · el embudo decía «se quedaron −1»
+
+Mercadeo, mirando el 1 al 16 de septiembre: **Calificados 38 y Ganados 39**, con
+una caída de **−1 (−2,6%)**. Un paso de un embudo no puede ser mayor que el de
+arriba. Es un defecto mío y es el mismo de siempre, en otra forma: **dos
+cohortes en una sola figura**.
+
+- **Calificados** salía de los **leads** creados en la ventana.
+- **Ganados** salía de los **Tratos** creados en la ventana — otra población,
+  con su propia fecha.
+
+Así que un Trato ganado cuyo lead entró **antes** de la ventana contaba en uno y
+no en el otro, y el último paso podía quedar por encima.
+
+Estaba desde antes, pero con el paso «Tratos cerrados» en medio el número
+quedaba escondido; al quitarlo, la contradicción salió a la superficie. **Quitar
+un intermediario no causó el defecto: lo destapó.**
+
+### El arreglo
+
+El embudo es una figura de **cohorte**: sigue a los leads que entraron. Sus
+cuatro pasos se cuentan ahora sobre **el mismo conjunto de leads**, así que cada
+paso es, por construcción, menor o igual que el anterior. La etapa del Trato
+vuelve a viajar al lead que lo originó (`lWON`).
+
+| | antes | ahora |
+|---|---|---|
+| Página web, 1–16 sep | 50 → 49 → 38 → **39** | 50 → 49 → 38 → **37** |
+| Formulario de Meta | 163 → 156 → 2 → 1 | 163 → 156 → 2 → **0** |
+
+**Y no contradice la tarjeta de arriba.** «Compraron · closed won» cuenta por
+**fecha de cierre** —el criterio de Mercadeo y el de sus informes—; el embudo
+cuenta sobre los leads que dibuja. Son dos preguntas distintas y cada una dice
+sobre qué fecha cuenta: la tarjeta en su subtítulo, el embudo en el suyo
+(«closed won · de estos mismos leads»).
+
+### La guardia
+
+`prueba:tablero-ciclo` comprueba ahora la **invariante del embudo** en las dos
+figuras: **ningún paso puede ser mayor que el anterior**, y ninguna caída puede
+ser negativa. Se verifica en cada ventana que la prueba recorre — y hacía falta
+justamente eso: **con el periodo entero el defecto no aparecía**, solo con un
+mes corto.

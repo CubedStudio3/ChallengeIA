@@ -121,6 +121,22 @@ async function ventana(p, pais, desde, hasta) {
        emb.desbordan + " desbordan");
     ok(emb.descalzadas === 0, "cada banda ocupa exactamente su fila",
        emb.descalzadas + " descalzadas");
+
+    // La invariante del embudo: NINGUN paso puede ser mayor que el anterior.
+    // Se rompio de verdad —50 leads, 38 calificados y 39 ganados, con un «se
+    // quedaron -1»— porque el ultimo paso contaba Tratos y los otros leads.
+    // Se comprueba en las DOS figuras y en varias ventanas, porque con el
+    // periodo entero el defecto no aparecia.
+    for (const [id, nombre] of [["embudo-web", "web"], ["embudo-meta", "Meta"]]) {
+      const n = await p.evaluate(x => [...document.getElementById(x)
+        .querySelectorAll(".emb-num")].map(e => Number(e.textContent.replace(/[.,]/g, ""))), id);
+      const crece = n.map((v, i) => i && v > n[i-1] ? i : 0).filter(Boolean);
+      ok(crece.length === 0, "el embudo de " + nombre + " no crece en ningún paso",
+         n.join(" → "));
+      const neg = await p.evaluate(x => [...document.getElementById(x)
+        .querySelectorAll(".emb-caida")].some(e => /-\d/.test(e.textContent)), id);
+      ok(!neg, "el embudo de " + nombre + " no declara una caída negativa");
+    }
     await p.close();
   }
 
@@ -163,6 +179,15 @@ async function ventana(p, pais, desde, hasta) {
        "no hay porcentaje que mezcle las dos fechas", v.rotulos.join(" · "));
     ok(!/Calificados/.test(v.rotulos.join(" ")) && !/sobre Tratos/.test(v.rotulos.join(" ")),
        "no quedan tarjetas de etapas intermedias", v.rotulos.join(" · "));
+
+    // La invariante del embudo, en ESTA ventana. Con el periodo entero no
+    // aparecia: hizo falta un mes corto para que un paso creciera.
+    for (const [id, cual] of [["embudo-web", "web"], ["embudo-meta", "Meta"]]) {
+      const n = await p.evaluate(x => [...document.getElementById(x)
+        .querySelectorAll(".emb-num")].map(e => Number(e.textContent.replace(/[.,]/g, ""))), id);
+      ok(n.every((v, i) => !i || v <= n[i-1]),
+         "embudo " + cual + ": ningún paso crece", n.join(" → "));
+    }
 
     // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
     //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo
