@@ -796,7 +796,7 @@ const L = D.leads, T = D.tratos, RS = D.resp, MT = D.meta;
 /* Columnas. El dataset viene con diccionarios de índices: cada fila es un
    registro y cada texto es un entero. Así el filtro por rango de fechas es una
    comparación de enteros y no de cadenas. */
-const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9;
+const lF=0,lPA=1,lCA=2,lFU=3,lES=4,lBU=5,lAR=6,lCL=7,lPL=8,lPR=9,lWON=10;
 // lPL es el cubo Free/de pago; lPR es el NOMBRE del plan tal como lo dice el
 // CRM. «Premium» no es un plan: es un cubo de seis. Donde se puede decir el
 // nombre, se dice el nombre.
@@ -924,10 +924,16 @@ function calcula(){
     calificados:cal.length,
     free:cal.filter(x=>x[lPL]===iPlan.Free).length,
     premium:cal.filter(x=>x[lPL]===iPlan.Premium).length,
-    porPlan:(()=>{ const m={}; cal.forEach(x=>{ const n=V.producto[x[lPR]]||"";
-      if(n) m[n]=(m[n]||0)+1; });
+    // «Compraron» se cuenta sobre los LEADS que entraron en la ventana, no
+    // sobre los Tratos del periodo: los Tratos traen su propia fecha y su
+    // propio pais, asi que contarlos aparte mezcla dos cohortes.
+    compraron:l.filter(x=>x[lWON]===1).length,
+    compFree:l.filter(x=>x[lWON]===1 && x[lPL]===iPlan.Free).length,
+    compPago:l.filter(x=>x[lWON]===1 && x[lPL]===iPlan.Premium).length,
+    porPlan:(()=>{ const m={}; l.forEach(x=>{ if(x[lWON]!==1) return;
+      const n=V.producto[x[lPR]]||""; if(n) m[n]=(m[n]||0)+1; });
       return Object.entries(m).sort((a,b)=>b[1]-a[1]); })(),
-    sinPlan:cal.filter(x=>!V.producto[x[lPR]]).length,
+    sinPlan:l.filter(x=>x[lWON]===1 && !V.producto[x[lPR]]).length,
     leadsRedes:l.filter(x=>x[lCA]===REDES).length,
     ganados,perdidos,standby,abiertos,
     vivos:l.filter(x=>x[lBU]===VIVO && x[lCL]!==1).length,
@@ -943,37 +949,38 @@ function pintaEnVista(c){
 }
 
 function pintaKpis(c){
-  const cerrados = c.ganados+c.perdidos;
-  const pc = c.leads ? 100*c.calificados/c.leads : 0;
-  const pcierre = cerrados ? 100*c.ganados/cerrados : 0;
-  // Dos tramos, Free y Premium, por pedido de Mercadeo (2026-09-19): es el
-  // vocabulario del informe «Afiliaciones Free y Premium» del CRM y es con lo
-  // que la mesa compara. Los planes que agrupa «Premium» y los Tratos sin plan
-  // anotado van en el globo, no en una tercera etiqueta: el dato no se pierde
-  // y la tarjeta se lee de un vistazo.
+  // Dos numeros y su tasa, por pedido de Mercadeo (2026-09-19): «cuantos
+  // entraron y los close won». Lo que estaba negociando no entra: un Trato
+  // abierto no es una venta. Y los dos se cuentan sobre la MISMA cohorte —los
+  // leads que entraron en la ventana— porque contar los Tratos del periodo
+  // aparte mezcla poblaciones: traen su propia fecha y su propio pais.
   const mForma = fM().reduce((a,r)=>a+r[mEM],0);
   const brechaK = c.leadsRedes-mForma;
   const dePago = c.porPlan.filter(([n])=>n!=="Free").map(([n,v])=>n+" "+nf(v));
   const planes = '<div class="kpi-planes">'+
-    '<span data-tip="'+esc("Plan Free: "+nf(c.free)+" de los "+nf(c.calificados)+
-      " leads que llegaron a Trato")+'"><i style="background:'+COLOR_PLAN.Free+
-      '"></i>Free <b>'+nf(c.free)+'</b></span>'+
-    '<span data-tip="'+esc("Planes de pago: "+(dePago.length?dePago.join(" · "):"ninguno")+
-      (c.sinPlan?" · "+nf(c.sinPlan)+" con Trato sin plan anotado":""))+
+    '<span data-tip="'+esc("Compraron plan Free: "+nf(c.compFree)+" de los "+
+      nf(c.compraron)+" que compraron")+'"><i style="background:'+COLOR_PLAN.Free+
+      '"></i>Free <b>'+nf(c.compFree)+'</b></span>'+
+    '<span data-tip="'+esc("Compraron un plan de pago: "+
+      (dePago.length?dePago.join(" · "):"ninguno")+
+      (c.sinPlan?" · "+nf(c.sinPlan)+" sin plan anotado en el Trato":""))+
       '"><i style="background:'+COLOR_PLAN.Premium+'"></i>Premium <b>'+
-      nf(c.premium)+'</b></span>'+
-    '</div><div class="kpi-nota">'+
+      nf(c.compPago)+'</b></span>'+
+    '</div>';
+  const nota = '<div class="kpi-nota">'+
     (mForma
-      ? 'De esos, <b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta y Meta reporta <b>'+
+      ? 'De los que entraron, <b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta y Meta reporta <b>'+
         nf(mForma)+'</b>: '+(brechaK<0?'faltan <b>'+nf(-brechaK)+'</b> ('+
         pf(-brechaK,mForma)+')':'sobran <b>'+nf(brechaK)+'</b>')+' en el CRM'
       : '<b>'+nf(c.leadsRedes)+'</b> llegaron por el formulario de Meta · sin entrega de Meta en esta ventana para comparar')+
     '</div>';
   const k = [
-    ["Leads que entraron",nf(c.leads),"","entraron",false,planes],
-    ["Calificados",nf(c.calificados),pf(c.calificados,c.leads)+" de los que entraron","calificados",c.leads>0&&pc<10,""],
-    ["Ganados",nf(c.ganados),"Tratos en closed won","ganados",false,""],
-    ["% de cierre sobre Tratos",pf(c.ganados,cerrados),nf(c.ganados)+" de "+nf(cerrados)+" cerrados","cierre",cerrados>0&&pcierre<40,""]
+    ["Leads que entraron",nf(c.leads),"Todo registro creado en el rango","entraron",false,nota],
+    ["Compraron · closed won",nf(c.compraron),
+      "De los que entraron · lo que sigue abierto no cuenta","ganados",false,planes],
+    ["% que compró",pf(c.compraron,c.leads),
+      nf(c.compraron)+" de "+nf(c.leads)+" leads","cierre",
+      c.leads>0 && c.compraron/c.leads<0.05,""]
   ];
   document.getElementById("kpis").innerHTML = k.map(x=>
     '<div class="kpi'+(x[4]?" alerta":"")+(x[5]?" kpi-ancho":"")+'"><span class="icono">'+ICO[x[3]]+'</span>'+

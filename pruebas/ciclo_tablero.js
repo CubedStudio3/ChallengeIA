@@ -23,16 +23,19 @@ function ok(cond, que, detalle) {
 
 async function lee(p) {
   return await p.evaluate(() => {
-    const k = document.querySelector("#kpis .kpi");
+    const kk = [...document.querySelectorAll("#kpis .kpi")];
+    const k = kk[0], kWon = kk[1];
     return {
+      rotulos: kk.map(e => e.querySelector(".rotulo").textContent.trim()),
       leads: k.querySelector(".v").textContent.trim(),
-      chips: [...k.querySelectorAll(".kpi-planes span")].map(e => ({
+      compraron: kWon ? kWon.querySelector(".v").textContent.trim() : "",
+      tasa: kk[2] ? kk[2].querySelector(".v").textContent.trim() : "",
+      chips: [...(kWon ? kWon.querySelectorAll(".kpi-planes span") : [])].map(e => ({
         nombre: e.textContent.replace(/\s*[\d.,]+$/, "").trim(),
         valor: Number(e.querySelector("b").textContent.replace(/[.,]/g, "")),
         tip: e.dataset.tip || "",
       })),
       nota: k.querySelector(".kpi-nota").textContent.trim(),
-      calificados: document.querySelectorAll("#kpis .kpi")[1].querySelector(".v").textContent.trim(),
     };
   });
 }
@@ -47,16 +50,16 @@ async function esperado(p, pais, desde, hasta) {
     const leads = D.leads.filter(r => dentro(r[0]) && (!pais || V.pais[r[1]] === pais));
     const redes = V.canal.indexOf("Redes sociales (Meta)");
     const meta = D.meta.filter(r => dentro(r[0]) && (!pais || V.pais[r[1]] === pais));
-    const cal = leads.filter(r => r[7] === 1);
+    const compro = leads.filter(r => r[10] === 1);
     const porPlan = {};
-    cal.forEach(r => { const n = V.producto[r[9]]; if (n) porPlan[n] = (porPlan[n] || 0) + 1; });
+    compro.forEach(r => { const n = V.producto[r[9]]; if (n) porPlan[n] = (porPlan[n] || 0) + 1; });
     return {
       leads: leads.length,
-      calificados: cal.length,
+      compraron: compro.length,
       leadsRedes: leads.filter(r => r[2] === redes).length,
       metaForma: meta.reduce((a, r) => a + r[4], 0),
       porPlan,
-      sinPlan: cal.filter(r => !V.producto[r[9]]).length,
+      sinPlan: compro.filter(r => !V.producto[r[9]]).length,
       vocabulario: V.producto.filter(Boolean),
     };
   }, [pais, desde, hasta]);
@@ -112,8 +115,15 @@ async function ventana(p, pais, desde, hasta) {
 
     const n = s => Number(String(s).replace(/[.,]/g, ""));
     ok(n(v.leads) === e.leads, "los leads de la vista cuadran", v.leads + " vs " + e.leads);
-    ok(n(v.calificados) === e.calificados, "los calificados cuadran",
-       v.calificados + " vs " + e.calificados);
+    ok(v.rotulos.length === 3, "tres tarjetas y nada mas", v.rotulos.join(" · "));
+    ok(/entraron/i.test(v.rotulos[0]) && /closed won/i.test(v.rotulos[1]),
+       "la primera dice «entraron» y la segunda «closed won»", v.rotulos.join(" · "));
+    ok(n(v.compraron) === e.compraron, "los que compraron cuadran",
+       v.compraron + " vs " + e.compraron);
+    const tasaEsp = e.leads ? (100 * e.compraron / e.leads).toFixed(1).replace(".", ",") + "%" : "—";
+    ok(v.tasa === tasaEsp, "la tasa es compraron / entraron", v.tasa + " vs " + tasaEsp);
+    ok(!/Calificados/.test(v.rotulos.join(" ")) && !/sobre Tratos/.test(v.rotulos.join(" ")),
+       "no quedan tarjetas de etapas intermedias", v.rotulos.join(" · "));
 
     // 1 · dos tramos y nada mas: Free y Premium. «Premium» es un cubo con el
     //     vocabulario del informe del CRM, por pedido de Mercadeo — asi que lo
@@ -131,9 +141,9 @@ async function ventana(p, pais, desde, hasta) {
     ok(free.valor === eFree, "Free trae su conteo", free.valor + " vs " + eFree);
     ok(pago.valor === ePago, "Premium suma TODOS los planes de pago",
        pago.valor + " vs " + ePago);
-    ok(free.valor + pago.valor + e.sinPlan === e.calificados,
-       "Free + Premium + los que no tienen plan dan los calificados",
-       free.valor + " + " + pago.valor + " + " + e.sinPlan + " vs " + e.calificados);
+    ok(free.valor + pago.valor + e.sinPlan === e.compraron,
+       "Free + Premium + los que no tienen plan dan los que compraron",
+       free.valor + " + " + pago.valor + " + " + e.sinPlan + " vs " + e.compraron);
 
     // los nombres reales del CRM siguen a un clic de distancia
     const faltan = Object.keys(e.porPlan).filter(n => n !== "Free" && !pago.tip.includes(n));

@@ -134,10 +134,15 @@ def main():
     if any(r["Converted__s"] for r in leads) or any(not r["Converted__s"] for r in conv):
         alto("las dos extracciones de leads se contaminaron entre si")
 
-    # plan por trato, para heredarlo al lead que lo origino
+    # plan y etapa por trato, para heredarlos al lead que lo origino. La etapa
+    # viaja porque «cuantos compraron» hay que poder contarlo sobre la MISMA
+    # cohorte que «cuantos entraron»: los Tratos se cortan por su propia fecha
+    # y por su propio pais, asi que contarlos aparte mezcla cohortes.
     plan_trato = {}
+    won_trato = {}
     for t in tratos:
         plan_trato[t["id"]] = plan_de(t.get("Producto"))
+        won_trato[t["id"]] = 1 if t.get("Stage") == "closed won" else 0
 
     celdas_lead = []
     sin_trato = 0
@@ -149,6 +154,7 @@ def main():
         calif = 1 if trato else 0
         if r["Converted__s"] and not trato:
             sin_trato += 1
+        ganado = won_trato.get(trato, 0) if calif else 0
         if calif:
             bucket, area = "Calificado (llegó a Trato)", "Calificado"
             plan, producto = plan_trato.get(trato, ("", ""))
@@ -159,7 +165,7 @@ def main():
             plan, producto = "", ""
         celdas_lead.append([fecha, r.get("Pa_s") or "Sin país", canal(fuente),
                             fuente or "Sin fuente", estado or "Sin estado",
-                            bucket, area, calif, plan, producto, 1])
+                            bucket, area, calif, plan, producto, ganado, 1])
 
     celdas_trato = []
     for t in tratos:
@@ -281,7 +287,7 @@ def main():
     vro = vocab("rol", [c[3] for c in celdas_resp])
 
     L = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], ve[c[4]], vb[c[5]], va[c[6]],
-          c[7], vpl[c[8]], vpr[c[9]]] for c in celdas_lead]
+          c[7], vpl[c[8]], vpr[c[9]], c[10]] for c in celdas_lead]
     T = [[ifecha[c[0]], vp[c[1]], vc[c[2]], vf[c[3]], vet[c[4]], vr[c[5]], vca[c[6]],
           va[c[7]], vr[c[8]], vca[c[9]], va[c[10]], vpl[c[11]], vpr[c[12]], vv[c[13]],
           round(c[16], 2)] for c in celdas_trato]
@@ -365,6 +371,19 @@ def main():
     #   el del TRATO es `Pa_s_Operaci_n`: son dos campos distintos y no se
     #   mezclan. 106 leads lo traen vacio y salen como «Sin país».
     CONTROL_PAIS = {"Guatemala": 2337, "El Salvador": 2603, "Sin país": 106}
+    #   Cuantos de los leads que entraron terminaron COMPRANDO. Se cuenta
+    #   sobre la cohorte del lead —no sobre los Tratos del periodo, que son
+    #   otra poblacion— asi que el control se pide siguiendo la misma cadena:
+    #     select Converted_Deal from Leads where (<ventana>) and Converted__s = true
+    #     select Stage, COUNT(id) from Deals where id in (<esos ids>) group by Stage
+    #   Y cierra contra el COUNT ya verificado en vivo: de los 717 `closed won`
+    #   de la ventana, 707 tienen lead de origen dentro de la ventana y 10 no
+    #   (8 sin fuente y 2 de Facebook). 707 + 10 = 717.
+    CONTROL_WON = 707
+    won = sum(c[10] for c in celdas_lead)
+    if won != CONTROL_WON:
+        alto("leads que terminaron en closed won: %d, control %d" % (won, CONTROL_WON))
+
     for nombre, col, control in (("canal", 2, CONTROL_CANAL),
                                  ("país", 1, CONTROL_PAIS)):
         leido = collections.Counter(c[col] for c in celdas_lead)

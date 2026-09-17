@@ -463,3 +463,83 @@ se lee de un vistazo.
 `Free + Premium + sin plan = calificados`, y **el globo tiene que nombrar cada
 plan real del CRM**. Si mañana Ventas agrega un plan y no aparece ahí, la prueba
 se pone roja.
+
+
+---
+
+## 10. Corrección del 2026-09-19 (noche) · el encabezado son dos números
+
+Mercadeo: *«solo quiero saber cuántos entraron y los close won; a mí no me
+sirve si están negociando»*. El encabezado tenía cuatro tarjetas y dos de ellas
+—**Calificados** y **% de cierre sobre Tratos**— contaban etapas intermedias.
+Ahora son tres:
+
+| | Guatemala, septiembre |
+|---|---|
+| **Leads que entraron** | **132** |
+| **Compraron · closed won** | **42** · Free 31 · Premium 11 |
+| **% que compró** | **31,8%** |
+
+### El arreglo de fondo: una sola cohorte
+
+«Ganados» se contaba sobre los **Tratos** del periodo, y los Tratos traen **su
+propia fecha de creación y su propio `Pa_s_Operaci_n`**. Con el filtro en
+Guatemala del 1 al 15 daba **44**, que no son 44 de los 125 leads de esa
+ventana: mezclaba Tratos de leads más viejos y dejaba fuera Tratos de leads de
+la ventana cerrados después. Dos cohortes presentadas como un embudo.
+
+Ahora la etapa del Trato **viaja al lead que lo originó** (`ganado` en la fila
+del lead), así que «entraron» y «compraron» se cuentan sobre el **mismo
+conjunto**: los leads creados en la ventana. El porcentaje ya significa lo que
+dice.
+
+Medido sobre Guatemala en septiembre: de los **132** que entraron, **51**
+llegaron a Trato, **42** compraron, **3** se perdieron, **6** siguen abiertos y
+**81** nunca llegaron a Trato.
+
+### La compuerta
+
+`CONTROL_WON = 707` en `ciclo_lead.py`, y cierra contra el `COUNT` ya verificado
+en vivo: de los **717** `closed won` del periodo, **707** tienen lead de origen
+dentro de la ventana y **10** no (8 sin fuente y 2 de Facebook). **707 + 10 =
+717.**
+
+---
+
+## 11. `Afiliaciones` · el módulo que Mercadeo señaló como fuente real del plan
+
+<https://crm.zoho.com/crm/qpaypro/tab/CustomModule1/custom-view/2592238000003711186/kanban>
+
+`CustomModule1` es el módulo **`Afiliaciones`** (id `2592238000003711174`), no
+Tratos. La observación era buena: tiene **su propio** `Producto` («Plan
+QPayPro»), su propio `Pa_s_Operaci_n`, `Fecha_de_activaci_n`,
+`No_Afiliaci_n_QPay` y `Comercio_Activo` — es el registro operativo de la
+afiliación, y se une a Tratos por el lookup **`Trato_Asociado`**.
+
+**Medido: las dos fuentes NO se contradicen.** Se siguió la cadena completa
+—lead → `Converted_Deal` → Trato → `Trato_Asociado` → Afiliación— para los 51
+leads convertidos de Guatemala en septiembre:
+
+| | |
+|---|---|
+| Tratos con Afiliación | 41 de 51 |
+| Planes donde el Trato y la Afiliación **discrepan** | **0** |
+| De los 42 que compraron, sin registro de Afiliación | 1 (`POS Soporte`, Free) |
+
+Así que leer `Producto` del Trato **no era asumir**: da el mismo plan que la
+Afiliación en todos los casos medidos. Lo que la Afiliación agrega y el Trato no
+tiene es el estado operativo —fecha de activación, número de afiliación,
+comercio activo—, que es otra pregunta y hoy no está en el tablero.
+
+**Y sigue sin poder reproducirse el informe `Afiliaciones Free y Premium
+Solas` (38 registros).** Contando sobre el módulo `Afiliaciones`:
+
+| Filtro | Free | Premium Anual | Elite Anual | otros | Total |
+|---|---|---|---|---|---|
+| `Created_Time` en septiembre | 32 | 10 | 3 | 1 | **46** |
+| `Fecha_de_activaci_n` en septiembre | 15 | 7 | 2 | — | **24** |
+
+Ni 46 ni 24 son 38, y ninguna combinación de ámbitos lo da sin mezclarlos. Van
+**seis** intentos. El informe tiene un recorte que la API no expone y que no
+está en el chip de filtro visible. Sigue pendiente del criterio del informe, y
+hasta entonces no se publica ninguna cifra derivada de él.
