@@ -445,31 +445,38 @@ async function abre(nav, guion) {
   ];
   const textos = [];
   for (const [codigo, patron] of CASOS) {
-    /* Un refresco BUENO primero, para que haya «dato de antes» que defender.
-       El tablero publicado hoy trae la franja sin entrega —la pauta esta
-       detenida— y sin este paso el aserto de que la cifra sobrevive no
-       comprobaria nada: no habria ninguna cifra ni antes ni despues. */
+    /* Un refresco BUENO primero, para que haya dato que defender: se comprueba
+       que un fallo posterior NO lo borre.
+
+       Desde el 2026-09-18 la franja del dia en curso ya no se pinta —Mercadeo
+       la pidio fuera—, asi que «el dato de antes sigue» se comprueba donde el
+       dato de verdad vive: en `pauta_diaria.dia_en_curso`. Mirarlo en pantalla
+       era mirar el reflejo; esto es la cosa. */
     const { pg, errs } = await abre(nav, {
       error: { code: codigo }, exitoPrimero: { ad_entities: FILAS } });
+    const guardado = () => pg.evaluate(`(() => {
+      const d = window.__datosVivos && window.__datosVivos();
+      const h = d && d.pauta_diaria && d.pauta_diaria.dia_en_curso;
+      return h ? JSON.stringify(h.por_mercado || {}) : null;
+    })()`);
     await pg.click("#bActualizaHoy");
     await pg.waitForTimeout(700);
-    const conDato = await pg.evaluate(
-      `/\\$\\d/.test(document.getElementById("diaEnCurso").textContent)`);
-    ok(`${codigo}: parte de una franja CON cifra`, conDato === true, conDato);
+    const antesDelFallo = await guardado();
+    ok(`${codigo}: parte de un dia CON dato`,
+       !!antesDelFallo && antesDelFallo !== "{}", antesDelFallo && antesDelFallo.slice(0, 60));
     await pg.click("#bActualizaHoy");
     await pg.waitForTimeout(700);
-    /* Se lee el AVISO, no la franja entera: comparar el texto completo dejaba
+    /* Se lee el AVISO, no un contenedor: comparar el texto completo dejaba
        pasar seis mensajes idénticos porque todos comparten el prefijo de la
        tarjeta. La primera versión de esta prueba lo dio por bueno. */
     const F = await pg.evaluate(`(() => {
       const a = document.getElementById("avisoHoy");
-      const f = document.getElementById("diaEnCurso");
-      return { aviso: a ? a.textContent.replace(/\\s+/g, " ").trim() : "",
-               hayCifra: !!(f && /\\$\\d/.test(f.textContent)) };
+      return { aviso: a ? a.textContent.replace(/\\s+/g, " ").trim() : "" };
     })()`);
+    F.hayCifra = (await guardado()) === antesDelFallo;
     ok(`${codigo}: hay un aviso`, !!F.aviso);
     ok(`${codigo}: explica el arreglo`, patron.test(F.aviso), F.aviso);
-    ok(`${codigo}: el dato de antes sigue en pantalla`, F.hayCifra);
+    ok(`${codigo}: el fallo NO borró el dato que ya estaba`, F.hayCifra);
     ok(`${codigo}: sin errores de JavaScript`, errs.length === 0, errs);
     textos.push(F.aviso);
     await pg.close();

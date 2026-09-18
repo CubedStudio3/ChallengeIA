@@ -69,6 +69,18 @@ el tablero lo declara en una franja propia en vez de borrar la sección (que es
 lo que hacía). Si la pauta se reactiva, el botón «Actualizar ahora» lo trae sin
 esperar a la corrida.
 
+Desde el 2026-09-18 el filtro llega hasta el **17 de septiembre** aunque ese
+día no entregara: se consultó y Meta contestó con una fila en cero, así que se
+midió. `rango_disponible` (2026-01-03 → **2026-09-16**) sigue siendo el último
+día CON ENTREGA —de ahí salen los rótulos y los atajos— y `tope_seleccionable`
+(→ **2026-09-17**) es hasta dónde puede llegar el filtro. Son dos preguntas
+distintas y hay tres días así en 2026: 1 feb, 24 ago y 17 sep.
+
+Y **la franja ámbar del día en curso se quitó** el 2026-09-18, a pedido de
+Mercadeo. El día se sigue leyendo y guardando —es lo que refresca el botón—;
+lo que se fue es el dibujo. El aviso del botón, que vivía dentro de ella, ahora
+sale debajo del botón en la cabecera.
+
 El filtro de fechas mira **todo 2026**: los nueve meses de pauta día por día
 están en `data/historico/pauta_meses/`, cada uno reconciliado contra su propio
 agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-16** (el 3 de
@@ -987,6 +999,37 @@ cometidos; no hay tiempo de repetirlos.
   estrategia, cartas y recomendaciones — justo lo que ADR-065 dice que no se
   hace a diario. `refresca_dato.py` pasa las mismas compuertas y reescribe solo
   `pauta_diaria`.
+
+- **«Hasta dónde llega el dato» son DOS preguntas, no una.** Hasta dónde hay
+  entrega (`rango_disponible`, lo que dicen los rótulos) y hasta dónde se midió
+  (`tope_seleccionable`, hasta dónde puede llegar el filtro). Eran lo mismo
+  hasta que la pauta se apagó: el 17 de septiembre se consultó, Meta contestó
+  con una fila en cero, la fila se descartó como relleno —bien— y con ella
+  desapareció la constancia de que el día existió. Mercadeo tecleó la fecha y el
+  campo se la ignoró. Son **tres** días así en 2026 (1 feb, 24 ago, 17 sep): el
+  defecto llevaba meses y solo se vio cuando el día en cero fue el último.
+- **Abrir el tope NO puede mover los atajos.** «Últimos 7 días» ancla en el
+  último día con ENTREGA, no en el tope del filtro: contar desde ahí correría la
+  ventana un día por cada día apagado, metiendo ceros y sacando un día bueno por
+  el otro extremo. Un atajo tiene que seguir significando lo mismo.
+- **Quitar un dibujo no es quitar el dato, y desde la pantalla no se distingue.**
+  La franja del día en curso se quitó el 2026-09-18 a pedido de Mercadeo; el día
+  se sigue leyendo y guardando, porque es lo que el botón refresca. Si alguien
+  quitara también la lectura, la pantalla se vería **idéntica** y nadie se
+  enteraría hasta que el botón no tuviera qué mover. La prueba afirma las dos
+  mitades: la franja no está Y el bloque sí.
+- **Borrar una sección deja código apagado si no se barre detrás.** Con la
+  franja quedaron cinco funciones sin llamar —`franjaDiaEnCurso`,
+  `franjaSinEntrega`, `horaLectura`, `diasDeAtraso`, `esFechaDeHoy`—. Código que
+  nadie ejecuta no está probado, está apagado; se quitaron, y git las guarda.
+- **Y lo que sí tenía que sobrevivir: los avisos.** Los seis mensajes de error
+  del botón vivían DENTRO de la franja. Borrarla los habría dejado sin ningún
+  lugar donde salir, justo en el caso en que más hacen falta —no hay otro dato
+  en pantalla que compense—. Pasaron a una función compartida antes de borrar.
+- **Una prueba que mira la pantalla puede estar mirando el reflejo.**
+  `prueba:actualizar` comprobaba «el dato de antes sigue» leyendo la franja. Sin
+  franja no hay nada que leer, y el invariante real nunca fue el dibujo: es que
+  un fallo de conector no borre `pauta_diaria.dia_en_curso`. Ahora lo mira ahí.
 
 ### Lección de método (error propio, 2026-08-27)
 

@@ -722,10 +722,18 @@
       /* El filtro de fechas va aquí arriba porque es de toda la página, no de
          una sección. */
       (controlFechas() ? '<div class="mt-6">' + controlFechas() + "</div>" : "") +
-      /* El día en curso va PEGADO al filtro y no dentro de él: lo que se
-         está diciendo es «además de la ventana que elegiste, esto es lo que
-         va del día», y eso solo se entiende al lado del rango. */
-      (franjaDiaEnCurso() ? '<div class="mt-4">' + franjaDiaEnCurso() +
+      /* LA FRANJA DEL DÍA EN CURSO SE QUITÓ el 2026-09-18, a pedido de
+         Mercadeo: «quita la parte que muestra como va hoy, el cosito
+         amarillo». El dato sigue leyéndose y sigue guardado en
+         `pauta_diaria.dia_en_curso` —el botón lo refresca—, pero ya no se
+         pinta. Si vuelve a hacer falta, vuelve completo.
+
+         Lo que NO se va con ella es el aviso del botón: los seis mensajes de
+         error del conector vivían dentro de la franja, y borrarla los habría
+         dejado sin ningún lugar donde salir. Apretar «Actualizar ahora» con el
+         conector caído tiene que decir qué pasó, y ahora lo dice debajo del
+         botón, que es donde mira quien lo apretó. */
+      (avisoDelRefresco() ? '<div class="mt-4">' + avisoDelRefresco() +
         "</div>" : "") +
       "</header>";
   }
@@ -1710,7 +1718,15 @@
 
   function rango() {
     var A = alcance(), ra = (A && A.rango_disponible) || null;
-    var PD = pautaDia(), rp = (PD && PD.rango_disponible) || null;
+    /* El TOPE del filtro no es `rango_disponible`: es hasta donde llega lo que
+       se MIDIÓ. Un día que se consultó y entregó cero no tiene pieza, y aun
+       así se midió — el 17 de septiembre, el día en que la pauta se detuvo, es
+       exactamente eso. Mercadeo intentó filtrarlo y el campo le ignoró la
+       fecha. `tope_seleccionable` incluye esos días; `rango_disponible` sigue
+       siendo el último con entrega, que es otra pregunta. Un tablero generado
+       antes del 2026-09-18 no trae el campo y cae al de siempre. */
+    var PD = pautaDia();
+    var rp = (PD && (PD.tope_seleccionable || PD.rango_disponible)) || null;
     var r = null;
     if (ra && rp) {
       r = { desde: ra.desde < rp.desde ? ra.desde : rp.desde,
@@ -1889,14 +1905,6 @@
      `toISOString().slice(0,10)`, que es UTC: en Guatemala (UTC-6) las dos
      difieren desde las 18:00, y un tablero abierto de noche habría declarado
      viejo un dato de esa misma tarde. */
-  function esFechaDeHoy(iso) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(iso || ""))) return false;
-    var d = new Date();
-    var dd = d.getFullYear() + "-" +
-             String(d.getMonth() + 1).padStart(2, "0") + "-" +
-             String(d.getDate()).padStart(2, "0");
-    return iso === dd;
-  }
 
   /* El pie de Inversión: cuántas campañas entregaron y cómo se reparte el
      dinero entre indicadores.
@@ -2070,6 +2078,11 @@
   try {
     window.__parseaNumero = function (x) { return parseaNumero(x); };
     window.__bloqueDelDia = function (a, b, c, d) { return bloqueDelDia(a, b, c, d); };
+    /* El dato VIVO en memoria, que no es el del `#datos` del DOM: ese trae el
+       JSON con el que se cargó la página y el botón no lo reescribe. Desde que
+       la franja del día no se pinta (2026-09-18), leer la pantalla ya no sirve
+       para comprobar que un fallo de conector no borró lo que había. */
+    window.__datosVivos = function () { return D; };
   } catch (e) { /* entorno sin window: la página funciona igual */ }
 
   /* Qué hacer con cada falla. El `default` existe para los códigos que no
@@ -2193,9 +2206,10 @@
      se publica: se declara la lectura como incompleta (regla 1). */
   var MAX_PAGINAS = 5;
 
-  /* El día que el VISITANTE está viviendo, en su fecha local. Es el mismo
-     criterio que usa `esFechaDeHoy`: el servidor no sabe cuándo lo van a
-     mirar. */
+  /* El día que el VISITANTE está viviendo, en su fecha local. Se toma del
+     navegador y no del servidor, que no sabe cuándo lo van a mirar. Y LOCAL,
+     no UTC: en Guatemala (UTC-6) `toISOString()` ya devuelve el día siguiente
+     desde las 18:00. */
   /* El nombre corto del día para los avisos. `fecha()` ya existe y hace esto;
      se envuelve para no repetir su contrato acá. */
   function fecha_(iso) { return fecha(iso); }
@@ -2315,18 +2329,6 @@
   /* Cuántos días CERRADOS le faltan al dato, que es lo que el botón NO puede
      arreglar. Se mide contra la fecha del visitante, no contra la de
      generación: es el mismo error que se arregló en ADR-066. */
-  function diasDeAtraso() {
-    var PD = pautaDia(), t = PD && PD.rango_disponible;
-    if (!t || !t.hasta) return null;
-    var ayer = new Date();
-    ayer.setDate(ayer.getDate() - 1);
-    var a = ayer.getFullYear() + "-" +
-            String(ayer.getMonth() + 1).padStart(2, "0") + "-" +
-            String(ayer.getDate()).padStart(2, "0");
-    if (t.hasta >= a) return 0;
-    var d1 = new Date(t.hasta + "T00:00:00Z"), d2 = new Date(a + "T00:00:00Z");
-    return Math.round((d2 - d1) / 86400000);
-  }
 
   /* ═════════════ el día que todavía no termina ═════════════
 
@@ -2371,198 +2373,12 @@
      la ausencia de filas, no un gasto de cero. Se dice que se pregunto, cuando,
      y cual es el ultimo dia que si entrego — que sale de `rango_disponible`,
      o sea del dato, no de una fecha escrita a mano. */
-  function franjaSinEntrega(H) {
-    var PD = pautaDia();
-    var ultimo = PD && PD.rango_disponible && PD.rango_disponible.hasta;
-    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
-    return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
-      'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
-      'items-start gap-x-8 gap-y-3">' +
-      '<div class="min-w-[170px] max-w-[300px]">' +
-      '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
-      'uppercase">Sin entrega</div>' +
-      '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
-      'mt-0.5">' + esc(fecha(H.fecha)) + (deHoy ? " · hoy" : "") + "</div>" +
-      "</div>" +
-      '<div class="min-w-[220px] max-w-[460px] text-[11.5px] text-slate-600 ' +
-      'leading-snug">Se le pregunt\u00f3 a Meta por ' +
-      (deHoy ? "hoy" : "ese d\u00eda") + " y <b>devolvi\u00f3 cero filas</b>. " +
-      "No es un fallo de lectura ni un hueco del conector: <b>no hubo " +
-      "entrega</b>." +
-      (ultimo ? " El \u00faltimo d\u00eda con entrega es el <b>" +
-        esc(fecha(ultimo)) + "</b>, y ese s\u00ed est\u00e1 en los " +
-        "n\u00fameros de abajo." : "") +
-      "</div>" +
-      avisoDelRefresco() +
-      '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
-      "Le\u00eddo " + esc(horaLectura(H.consultado_a)) +
-      ". Si la pauta se reactiva, el bot\u00f3n \u00abActualizar ahora\u00bb " +
-      "de arriba lo trae sin esperar a la corrida.</div></div>";
-  }
 
-  function franjaDiaEnCurso() {
-    var PD = pautaDia(), H = PD && PD.dia_en_curso;
-    if (!H || !H.por_mercado) return "";
-    var mk = Object.keys(H.por_mercado);
-    /* SE PREGUNTO Y NO HAY ENTREGA. Sin mercados, esta franja se borraba
-       entera y devolvia "": el tablero quedaba igual que si nunca se hubiera
-       pedido el dia. Son dos cosas distintas y la pagina las mostraba iguales.
-
-       El 2026-09-18 pasó de verdad: Meta devolvio CERO filas para hoy y una
-       fila en cero para ayer. Eso no es un fallo de lectura ni un hueco del
-       conector — es que la pauta esta detenida, que es justo lo que Mercadeo
-       necesita ver en una pantalla. Callarlo es el error de siempre: un hueco
-       sin declarar se lee como si no pasara nada. */
-    if (!mk.length) return franjaSinEntrega(H);
-
-    /* Se calcula ANTES de las columnas porque el tiempo verbal depende de
-       ello: un día que ya pasó no «va» a ningún ritmo. */
-    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
-    /* TRES casos, no dos. Un día que no es hoy puede estar COMPLETO —se
-       volvió a pedir después de que cerró— o quedarse a medias —la lectura se
-       tomó mientras corría y nadie volvió—. Los números se ven iguales y
-       significan cosas distintas: 78% de un día típico es «fue un día flojo»
-       en el primer caso y «solo alcanzamos a leer eso» en el segundo.
-
-       Se distingue con el dato que ya viaja: la FECHA en que se consultó
-       contra la fecha del día. Si se consultó después, el día ya había
-       cerrado. Nada que adivinar. */
-    var cerrado = !deHoy && H.consultado_a &&
-                  String(H.consultado_a).slice(0, 10) > String(H.fecha);
-    var cols = mk.map(function (m) {
-      var d = H.por_mercado[m] || {};
-      /* El avance puede faltar —un mercado sin días completos detrás no tiene
-         contra qué compararse—. Ahí se dice que falta, no se pone un 0%. */
-      var av = d.avance && d.avance.gasto != null
-        ? Math.round(d.avance.gasto * 100) + "% del gasto de un día típico"
-        : "sin días completos detrás para comparar";
-      /* La procedencia del «día típico» va en SU PROPIA línea. Pegada a la
-         anterior daba un renglón de ~420 px que empujaba el segundo mercado a
-         una fila nueva: con dos mercados, eso es toda la maquetación. El ancho
-         máximo obliga a envolver dentro de la columna en vez de estirarla. */
-      var ref = d.referencia
-        ? "típico = promedio de " + d.referencia.dias + " días · " +
-          esc(rangoFecha(d.referencia.desde, d.referencia.hasta))
-        : "";
-      return '<div class="min-w-[150px] max-w-[240px]">' +
-        '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
-        'uppercase">' + esc(m) + "</div>" +
-        '<div class="text-[19px] font-bold text-slate-800 tabular-nums ' +
-        'leading-tight mt-0.5">' + dinero(d.gasto) + "</div>" +
-        '<div class="text-[11px] text-slate-500 leading-tight">' +
-        /* Cero resultados con TODO el gasto sin atribuir no es «cero leads»,
-           es que Meta todavía no atribuyó ninguno: devolvió `Not available`,
-           no un 0. Escribir «0 leads» al lado de $6.31 de inversión dice que
-           se midió y dio cero, que es la trampa de siempre —un hueco pintado
-           de cero—. Sin resultados no hay costo por lead y tampoco se finge
-           uno. */
-        (d.resultados > 0
-          ? ent(d.resultados) + " " + esc(enClaro(d.indicador).toLowerCase()) +
-            (d.costo_por_resultado != null
-              ? " · " + dinero(d.costo_por_resultado) + " c/u" : "")
-          : "sin " + esc(enClaro(d.indicador).toLowerCase()) +
-            " atribuidos todavía") +
-        "</div>" +
-        /* «va al 58%» es PRESENTE y solo vale si el día sigue corriendo. Con
-           el día ya pasado, ese 58% no es un ritmo: es donde se quedó la
-           lectura. Decir «va al» ahí afirma un avance que nadie va a
-           completar. */
-        '<div class="text-[10.5px] text-amber-700 leading-tight mt-0.5">' +
-        (deHoy ? "va al " : cerrado ? "cerró en " : "la lectura quedó en ") +
-        esc(av) + "</div>" +
-        (ref ? '<div class="text-[10px] text-slate-400 leading-tight">' +
-          ref + "</div>" : "") + "</div>";
-    }).join("");
-
-    /* «Hoy» se juzga contra el reloj de QUIEN ABRE LA PÁGINA, no contra el día
-       en que se generó.
-
-       `es_de_hoy` lo calcula Python con el `--hoy` de la corrida, y eso protege
-       de un caso: re-generar el tablero tomando un crudo viejo. No protege del
-       caso que de verdad pasó —una página publicada que se queda quieta cinco
-       días— porque ese flag se congela en el momento de publicar. El 2026-09-16
-       el tablero seguía diciendo «Día en curso · vie 11 sep», que es la mentira
-       exacta que la guardia venía a impedir.
-
-       Un dato del lado del servidor no puede saber cuándo lo van a mirar. El
-       navegador sí, y es gratis. Se exige que las DOS cosas den «hoy»: si
-       cualquiera de las dos dice que no, no se rotula como día en curso.
-
-       La fecha del visitante se toma en LOCAL, no en UTC: quien abre esto está
-       en GT (UTC-6), y a las 7 de la noche `toISOString()` ya devolvería el día
-       siguiente y marcaría como viejo un dato que acaba de llegar. */
-    return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
-      'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
-      'items-start gap-x-8 gap-y-4">' +
-      /* `max-w` y no solo `min-w`. Sin tope, este bloque se estira con su
-         propio texto: al cambiar el día aparece «No es hoy: este dato se leyó
-         ese día…» y el bloque crecía hasta empujar GT al borde y SV a una fila
-         nueva. La maquetación se rompía SOLO al día siguiente, que es por qué
-         nadie lo vio. Es exactamente el arreglo que ya lleva la columna de
-         cada mercado —anotado ahí mismo— y que no se le puso a éste. */
-      '<div class="min-w-[170px] max-w-[300px]">' +
-      '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
-      'uppercase">' + (deHoy ? "Día en curso" : "Último día leído") + "</div>" +
-      '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
-      'mt-0.5">' + esc(fecha(H.fecha)) + "</div>" +
-      '<div class="text-[10.5px] text-slate-500 leading-snug mt-1">' +
-      (deHoy ? ""
-             : cerrado
-               ? "<b>No es hoy</b>: es el último día con entrega, ya cerrado y "
-                 + "leído completo. "
-               : "<b>No es hoy</b>: este dato se leyó ese día y no se ha " +
-                 "vuelto a pedir, así que está a medias. ") +
-      "No entra a ningún número de abajo: el filtro no lo suma y ninguna " +
-      "gráfica lo promedia.</div></div>" +
-      cols +
-      /* El BOTÓN vive en la cabecera desde el 2026-09-16 (pedido de Mercadeo).
-         Acá se queda lo que el botón NO puede arreglar —los días cerrados que
-         falten necesitan la corrida— y el aviso de la última llamada, porque
-         los dos hablan de ESTE dato y se leen junto a él. Un solo botón en la
-         página: dos elementos con el mismo id es HTML inválido, y el segundo
-         no se ve pero sí se rompe. */
-      (function () {
-        var atraso = diasDeAtraso();
-        var b = "";
-        var msg = avisoDelRefresco();
-        var at = "";
-        if (atraso && atraso > 0) {
-          at = '<div class="basis-full text-[10.5px] text-amber-700 ' +
-            'leading-snug">El dato de días cerrados llega al ' +
-            esc(fecha(pautaDia().rango_disponible.hasta)) + ": le " +
-            (atraso === 1 ? "falta 1 día" : "faltan " + atraso + " días") +
-            ". Eso NO lo arregla " +
-            "este botón —los días cerrados se reconcilian al centavo antes de " +
-            "entrar— sino la corrida.</div>";
-        }
-        return (b ? '<div class="basis-full flex flex-wrap items-center gap-3">' +
-                    b + "</div>" : "") + msg + at;
-      })() +
-      '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
-      "Leído " + esc(horaLectura(H.consultado_a)) +
-      /* Antes este pie citaba «$7.53 y $7.93 en GT», que eran dos lecturas
-         reales del 11 de septiembre. Cierto, y aun así confuso: son números de
-         OTRO día puestos al lado de los de hoy. La frase sin la cifra dice lo
-         mismo y no compite con el dato de arriba. */
-      (deHoy ? ". Un día sin cerrar se mueve mientras se mira: una lectura de " +
-        "la mañana no es la del cierre."
-             : cerrado
-               ? ", con el día ya cerrado. Un día recién cerrado todavía puede " +
-                 "moverse un poco en gasto e impresiones."
-               : " y no se ha vuelto a pedir desde entonces.") +
-      "</div></div>";
-  }
 
   /* «a las 15:35 UTC». La hora se muestra en UTC y rotulada como tal: es la
      hora del entorno que consultó, NO la de la cuenta publicitaria, cuya zona
      horaria es una constante declarada como desconocida. Rotularla mal sería
      peor que no ponerla. */
-  function horaLectura(iso) {
-    var t = String(iso || "");
-    var m = /T(\d{2}):(\d{2})/.exec(t);
-    if (!m) return t ? "el " + esc(fecha(t.slice(0, 10))) : "sin hora registrada";
-    return "a las " + m[1] + ":" + m[2] + " UTC";
-  }
 
   function controlFechas() {
     /* La compuerta es `rango()`, no `alcance()`: el control existe si hay ALGO
@@ -4932,7 +4748,18 @@
              al 3 de septiembre— y el botón decía siete. El de 30 tenía el
              mismo error desde el principio y nadie lo notó porque nadie contó
              los días de una ventana de treinta. */
-          var fin = new Date(tope.hasta + "T00:00:00Z");
+          /* El atajo ANCLA en el último día CON ENTREGA, no en el tope del
+             filtro. Desde el 2026-09-18 el tope llega más lejos —incluye días
+             que se midieron y entregaron cero, para que se puedan elegir a
+             mano— y contar «los últimos 7» desde ahí correría la ventana un
+             día por cada día apagado, metiendo ceros y sacando un día con
+             entrega por el otro extremo. «Últimos 7 días» tiene que seguir
+             significando lo mismo que significaba. */
+          var PDa = pautaDia();
+          var anclaje = (PDa && PDa.rango_disponible && PDa.rango_disponible.hasta &&
+                         PDa.rango_disponible.hasta < tope.hasta)
+            ? PDa.rango_disponible.hasta : tope.hasta;
+          var fin = new Date(anclaje + "T00:00:00Z");
           var ini = new Date(fin.getTime() - (dias - 1) * 86400000);
           var desde = ini.toISOString().slice(0, 10);
           /* Y se recorta al dato. Un atajo que pone una fecha fuera del rango
@@ -4941,7 +4768,7 @@
              hoy en el otro camino. Con menos días de dato que los del atajo,
              «30 días» y «el periodo» dan lo mismo: es correcto y se ve. */
           V.desde = desde < tope.desde ? tope.desde : desde;
-          V.hasta = tope.hasta;
+          V.hasta = anclaje;
         }
         guardarVista(); pintar(true); return;
       }

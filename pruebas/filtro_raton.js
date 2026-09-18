@@ -435,6 +435,42 @@ async function teclea(pg, id, iso) {
     await vacia();
   }
 
+  /* ── 10 · un día MEDIDO que entregó cero se puede elegir ───────────────
+
+     Mercadeo el 2026-09-18: «no me agarra la fecha de ayer 17 de septiembre».
+     Ese día se consultó y Meta contestó: una fila con $0,00 y 0 impresiones.
+     La fila se descarta —no hay nada que sumar— y con eso desaparecía la
+     constancia de que el día se midió, así que el campo ignoraba la fecha.
+
+     Son dos preguntas distintas: hasta dónde llega el dato CON ENTREGA
+     (`rango_disponible`, que es lo que dicen los rótulos) y hasta dónde llega
+     lo que se MIDIÓ (`tope_seleccionable`, que es hasta dónde puede llegar el
+     filtro). El filtro usa la segunda. */
+  console.log("\n═══ 10 · un día medido que entregó cero se puede elegir ═══");
+  {
+    const sin = ((RES.pauta_diaria || {}).dias_sin_entrega) || [];
+    if (!sin.length) {
+      console.log("    (sin días medidos en cero en esta corrida: nada que probar)");
+    } else {
+      const dia = sin[sin.length - 1];
+      ok("el día en cero está declarado en el dato", true, true, dia);
+      ok("y NO tiene ninguna pieza, que es por lo que se caía",
+         PIEZAS.some(p => p.f === dia), false);
+      await teclea(pg, "fHasta", dia);
+      await pg.waitForTimeout(ESPERA);
+      const f10 = await pg.evaluate(FOTO);
+      ok("el campo se queda con la fecha tecleada", f10.hasta, dia);
+      const r10 = await pg.evaluate(`(() => {
+        const h = document.querySelector("#resumen h3");
+        const c = h ? h.parentElement : null;
+        return c ? (c.querySelector("div") || {}).textContent.trim() : null;
+      })()`);
+      ok("y el rótulo lo nombra",
+         r10.indexOf(String(Number(dia.slice(8, 10)))) >= 0, true, r10);
+      await vacia();
+    }
+  }
+
   await nav.close();
   process.exit(fallos || errs.length ? 1 : 0);
 })();

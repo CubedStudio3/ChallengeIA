@@ -243,46 +243,42 @@ const pagina = (html, reloj) =>
      { si_sumara_hoy: money((totalPiezas + gastoHoy).toFixed(2)),
        gasto_del_dia_en_curso: gastoHoy });
 
-  console.log("\n══ 4 · se VE, con su avance en porcentaje");
-  const P = await pg.evaluate(`(() => {
-    const f = document.getElementById("diaEnCurso");
-    if (!f) return null;
-    return { txt: f.textContent.replace(/\\s+/g, " ").trim(),
-             visible: f.getBoundingClientRect().height > 0 };
-  })()`);
-  ok("la franja está pintada", !!P && P.visible);
-  if (P) {
-    ok("dice que es el día en curso", /Día en curso/i.test(P.txt));
-    ok("dice que no entra a los números de abajo",
-       /No entra a ningún número/i.test(P.txt));
-    ok("trae el avance en porcentaje, no en horas",
-       /va al \d+% del gasto de un día típico/.test(P.txt),
-       (P.txt.match(/va al \d+% del gasto de un día típico/g) || []).slice(0, 2));
-    ok("nombra los mercados que sí tiene el bloque",
-       Object.keys(D.hoy.por_mercado).every(m => P.txt.includes(m)),
-       Object.keys(D.hoy.por_mercado));
-    ok("rotula la hora como UTC, que es la del entorno y no la de la cuenta",
-       /\d{2}:\d{2} UTC/.test(P.txt));
-  }
+  console.log("\n══ 4 · la franja YA NO se pinta, y el dato sigue ahí");
+  /* Mercadeo la pidió fuera el 2026-09-18: «quita la parte que muestra como va
+     hoy, el cosito amarillo». Antes esta sección comprobaba lo contrario —que
+     se viera, con su avance en porcentaje y sus rótulos— y todo eso se fue con
+     ella.
 
-  console.log("\n══ 4b · un hueco NO se pinta como un cero");
-  /* El 2026-09-16 GT trajo $6.31 de gasto con `Not available` en resultados:
-     Meta no había atribuido ninguno todavía. La franja escribía «0 leads», que
-     al lado de $6.31 de inversión afirma que se midió y dio cero. Es la trampa
-     de siempre —`Not available` es un hueco, no un cero— y esta vez la cometió
-     la interfaz, no el cálculo. */
-  for (const [m, b] of Object.entries(D.hoy.por_mercado)) {
-    const col = P && P.txt;
-    if (!col) break;
-    if (b.resultados > 0) continue;
-    ok(`${m}: sin resultados atribuidos, NO dice «0 ` +
-       `${(b.indicador || "").replace(/^actions:/, "")}»`,
-       !/\b0 (leads|clics en el enlace)\b/i.test(col),
-       { gasto: b.gasto, gasto_sin_resultado: b.gasto_sin_resultado });
-    ok(`${m}: lo dice como lo que es`,
-       /sin .* atribuidos todavía/i.test(col));
-    ok(`${m}: y NO inventa un costo por resultado`,
-       b.costo_por_resultado == null);
+     Lo que queda es el par que importa y que es fácil confundir: la franja no
+     se dibuja, PERO el día se sigue leyendo y guardando. Si alguien quitara
+     también la lectura, el botón «Actualizar ahora» dejaría de tener qué
+     refrescar y nadie se enteraría: la pantalla se ve igual en los dos casos.
+     Por eso se afirman las dos mitades. */
+  const F4 = await pg.evaluate(`(() => {
+    const f = document.getElementById("diaEnCurso");
+    const d = JSON.parse(document.getElementById("datos").textContent);
+    return { franja: !!f,
+             bloque: !!(d.pauta_diaria && d.pauta_diaria.dia_en_curso),
+             boton: !!document.getElementById("bActualizaHoy"),
+             sinConector: /Abr[íi] el tablero en claude\\.ai/.test(
+               document.body.textContent),
+             cuerpo: document.body.textContent };
+  })()`);
+  ok("la franja ámbar del día en curso NO está", F4.franja === false);
+  ok("pero el bloque del día sigue en el dato", F4.bloque === true);
+  /* Esta prueba corre SIN conector (`use()` devuelve null), así que lo correcto
+     es que no haya botón: un botón muerto es peor que decir por qué no está.
+     Se afirma esa rama, que es la que este runtime produce. */
+  ok("sin conector no hay botón muerto, hay explicación",
+     F4.boton === false && F4.sinConector === true,
+     { boton: F4.boton, explica: F4.sinConector });
+  /* Y su gasto tampoco aparece escrito por ningún lado de la página: quitar la
+     franja no puede haberlo dejado colgando en otra tarjeta. */
+  {
+    const g = Object.values(D.hoy.por_mercado || {})
+      .map(m => money(Number(m.gasto).toFixed(2)));
+    ok("y ninguna cifra suya quedó suelta en la página",
+       g.every(x => !F4.cuerpo.includes(x)), g);
   }
 
   console.log("\n══ 5 · el porcentaje sale del dato, no está escrito a mano");
@@ -308,139 +304,6 @@ const pagina = (html, reloj) =>
     const pintado = Math.round(b.avance.gasto * 100);
     ok(`${m}: el avance reproduce el promedio de sus ${b.referencia.dias} días`,
        esperado === pintado, { pintado, recalculado: esperado });
-  }
-
-  console.log("\n══ 6 · SABOTAJE: si el crudo se quedó viejo, cambia el rótulo");
-  /* La corrida semanal también regenera el tablero y tomaría el crudo que
-     hubiera en disco. Un lunes mostraría la lectura del viernes rotulada «día
-     en curso»: fecha correcta, afirmación falsa. Se simula marcando el bloque
-     como no-de-hoy y repintando. */
-  const S = await pg.evaluate(`(() => {
-    const n = document.getElementById("datos");
-    const d = JSON.parse(n.textContent);
-    d.pauta_diaria.dia_en_curso.es_de_hoy = false;
-    n.textContent = JSON.stringify(d);
-    window.dispatchEvent(new Event("hashchange"));
-    if (window.__pinta) window.__pinta();
-    return true;
-  })()`);
-  ok("se pudo simular el crudo viejo", S === true);
-  await pg.reload({ waitUntil: "load" }).catch(() => {});
-  await pg.waitForTimeout(200);
-
-  /* Recargar pierde el sabotaje, así que se carga de nuevo con el dato ya
-     alterado: es la única forma de probar el camino completo de pintado. */
-  /* El sabotaje es el FLAG en false con el reloj puesto en el día del dato: o
-     sea, Python dice «este crudo no es de hoy» aunque la fecha coincida. Antes
-     se partía del archivo tal cual y se le cambiaba `true` por `false`, lo que
-     exigía que el archivo trajera `true` — dejó de traerlo en cuanto el
-     tablero se publicó un día y se miró al siguiente. Ahora las dos versiones
-     se construyen acá. */
-  const conHoy = conFlag("true"), viejo = conFlag("false");
-  ok("las dos versiones del flag son distintas entre sí", viejo !== conHoy);
-  await pg.setContent(pagina(viejo, RELOJ(FECHA_DATO)), { waitUntil: "load" });
-  await pg.waitForTimeout(1200);
-  const V2 = await pg.evaluate(`(() => {
-    const f = document.getElementById("diaEnCurso");
-    return f ? f.textContent.replace(/\\s+/g, " ").trim() : null;
-  })()`);
-  ok("la franja sigue ahí: lo último leído no se borra", !!V2);
-  if (V2) {
-    ok("ya NO se llama «Día en curso»", !/Día en curso/i.test(V2));
-    ok("dice «Último día leído»", /Último día leído/i.test(V2));
-    ok("y avisa explícitamente que no es hoy", /No es hoy/i.test(V2));
-    ok("ya no promete que se mueve mientras se mira",
-       !/se mueve mientras se mira/i.test(V2));
-  }
-
-  console.log("\n══ 7 · SABOTAJE: la página se queda quieta y pasan los días");
-  /* Éste es el caso que de verdad ocurrió. `es_de_hoy` lo calcula Python al
-     generar, así que se CONGELA al publicar: el 16 de septiembre el tablero
-     seguía diciendo «Día en curso · vie 11 sep» con el flag en true. La
-     guardia protegía de re-generar con un crudo viejo y no de una página
-     publicada que nadie vuelve a tocar.
-
-     Un dato del servidor no puede saber cuándo lo van a mirar; el navegador
-     sí. Acá se adelanta el reloj del visitante SIN tocar el dato —el flag
-     sigue en true— y la franja tiene que darse cuenta igual. */
-  {
-    const pg2 = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
-    const errs2 = [];
-    pg2.on("pageerror", e => errs2.push(e.message));
-    /* El dato se deja marcado como DE HOY —es lo que Python escribió el día
-       que se publicó— y lo único que se mueve es el reloj del visitante,
-       cuatro días adelante. Ese es el caso exacto del 2026-09-16: la página
-       publicada quieta y el mundo siguiendo. */
-    await pg2.setContent(pagina(conFlag("true"), RELOJ(FECHA_DATO, 4)),
-                         { waitUntil: "load" });
-    await pg2.waitForTimeout(1200);
-
-    const F = await pg2.evaluate(`(() => {
-      const f = document.getElementById("diaEnCurso");
-      const d = JSON.parse(document.getElementById("datos").textContent);
-      return { txt: f ? f.textContent.replace(/\\s+/g, " ").trim() : null,
-               flag: d.pauta_diaria.dia_en_curso.es_de_hoy };
-    })()`);
-    /* Primero: ¿el reloj falso se aplicó? Sin esta comprobación, un stub que
-       no llega se lee como un fallo del producto — que es justo lo que pasó
-       en el primer intento de esta prueba. */
-    const reloj = await pg2.evaluate("new Date().getFullYear() + '-' + " +
-      "String(new Date().getMonth()+1).padStart(2,'0') + '-' + " +
-      "String(new Date().getDate()).padStart(2,'0')");
-    ok("el reloj del navegador quedó adelantado", reloj > D.hoy.fecha,
-       { navegador: reloj, dato: D.hoy.fecha });
-    ok("el dato NO cambió: es_de_hoy sigue en true", F.flag === true);
-    ok("la franja sigue ahí", !!F.txt);
-    if (F.txt) {
-      ok("aun así YA NO dice «Día en curso»", !/Día en curso/i.test(F.txt));
-      ok("dice «Último día leído»", /Último día leído/i.test(F.txt));
-      ok("y avisa que no es hoy", /No es hoy/i.test(F.txt));
-    }
-    ok("sin errores de JavaScript con el reloj movido", errs2.length === 0, errs2);
-    await pg2.close();
-  }
-
-  console.log("\n══ 8 · SIN ENTREGA: se preguntó y no hay, y se dice");
-  /* El estado real del 2026-09-18: Meta devolvió cero filas para hoy y una
-     fila en cero para ayer. La pauta está detenida.
-
-     Antes de este día, la franja se BORRABA entera cuando no había mercados:
-     `return ""`. El tablero quedaba exactamente igual que si nunca se hubiera
-     preguntado, que son dos cosas muy distintas — y la que de verdad importa
-     es la que desaparecía. Es el hueco sin declarar de siempre.
-
-     Lo que NO se puede hacer es pintar «$0.00 gastados hoy»: lo medido es la
-     ausencia de filas, no un gasto de cero. */
-  {
-    const pg3 = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
-    const errs3 = [];
-    pg3.on("pageerror", e => errs3.push(e.message));
-    await pg3.setContent(pagina(conBloque(BLOQUE_SIN), RELOJ(FECHA_DATO)),
-                         { waitUntil: "load" });
-    await pg3.waitForTimeout(1200);
-    const F = await pg3.evaluate(`(() => {
-      const f = document.getElementById("diaEnCurso");
-      if (!f) return null;
-      return { txt: f.textContent.replace(/\\s+/g, " ").trim(),
-               visible: f.getBoundingClientRect().height > 0 };
-    })()`);
-    ok("la franja NO desaparece cuando no hay entrega", !!F && F.visible);
-    if (F) {
-      ok("dice que no hubo entrega", /Sin entrega/i.test(F.txt), F.txt.slice(0, 90));
-      ok("y que se preguntó: son dos cosas distintas",
-         /devolvi[óo] cero filas/i.test(F.txt));
-      ok("descarta explícitamente que sea un fallo de lectura",
-         /no es un fallo de lectura/i.test(F.txt));
-      ok("NO inventa un cero: no pinta ninguna cifra de dinero",
-         !/\$\d/.test(F.txt), (F.txt.match(/\$[\d.,]+/g) || []).slice(0, 3));
-      ok("no dice «va al N%» de nada", !/va al \d+%/.test(F.txt));
-      ok("nombra el último día que SÍ entregó, sacado del dato",
-         F.txt.includes(TOPE.slice(-2).replace(/^0/, "")) &&
-         /[úu]ltimo d[ií]a con entrega/i.test(F.txt), TOPE);
-      ok("rotula la hora de la consulta como UTC", /\d{2}:\d{2} UTC/.test(F.txt));
-    }
-    ok("sin errores de JavaScript sin entrega", errs3.length === 0, errs3);
-    await pg3.close();
   }
 
   ok("sin errores de JavaScript", errs.length === 0, errs);

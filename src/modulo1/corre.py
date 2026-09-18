@@ -277,6 +277,31 @@ def ejecuta(carpeta: Path, hoy: date, rango: RangoFechas, *, dry_run: bool) -> d
             acc["impresiones"] += e.get("impresiones", 0)
             acc["dias"] += e.get("dias", 0)
             acc["campanas"] = sorted(set(acc["campanas"]) | set(e.get("campanas") or []))
+
+    # ── hasta dónde se PUEDE elegir en el filtro ────────────────────────────
+    #
+    # `rango_disponible` llega hasta el último día con ENTREGA, y ese rótulo
+    # tiene que seguir significando eso. Pero un día leído que entregó cero
+    # también se midió, y el filtro tiene que alcanzarlo: el 2026-09-18
+    # Mercadeo quiso ver el 17 —el día en que la pauta se detuvo— y el campo le
+    # ignoró la fecha, porque para el tablero ese día no existía.
+    #
+    # Son dos preguntas distintas y ahora hay dos campos: hasta dónde llega el
+    # dato con entrega, y hasta dónde llega lo que se midió.
+    sin_entrega = sorted(set(pauta_dia.get("dias_sin_entrega") or [])
+                         | set(hist.get("dias_sin_entrega") or []))
+    pauta_dia["dias_sin_entrega"] = sin_entrega
+    tope = pauta_dia["rango_disponible"]
+    pauta_dia["tope_seleccionable"] = {
+        "desde": min([tope["desde"]] + sin_entrega),
+        "hasta": max([tope["hasta"]] + sin_entrega),
+        "_por_que": (
+            "Hasta dónde puede llegar el filtro. Incluye los días que se "
+            "midieron y entregaron CERO, que no tienen pieza y aun así son un "
+            "hecho. `rango_disponible` sigue siendo el último día con entrega: "
+            "son dos preguntas distintas y no se unifican."),
+    }
+
     # ── el dia que todavia no termina ──────────────────────────────────────
     #
     # Pedido literal de Mercadeo (2026-09-11): «pero y si yo quisiera agarrar

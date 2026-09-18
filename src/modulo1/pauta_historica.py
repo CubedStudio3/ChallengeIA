@@ -89,6 +89,7 @@ def arma(raiz: Path | None = None, *,
     piezas: list[dict] = []
     informe: list[dict] = []
     fuera_de_mercado: dict = {}
+    sin_entrega: set[str] = set()
 
     for mes in meses_disponibles(r):
         m = PATRON_MES.match(mes)
@@ -121,6 +122,13 @@ def arma(raiz: Path | None = None, *,
             solapados = antes - len(ps)
 
         piezas.extend(ps)
+        # Los días leídos sin entrega viajan igual que las piezas, y con el
+        # mismo recorte de solape: son días de este mes, no del periodo de la
+        # corrida. Sin ellos el filtro no puede llegar a un día que sí se midió.
+        for d in (uno.get("dias_sin_entrega") or []):
+            if excluir_periodo and excluir_periodo[0] <= d <= excluir_periodo[1]:
+                continue
+            sin_entrega.add(d)
         for pais, e in (uno.get("fuera_de_mercado") or {}).items():
             acc = fuera_de_mercado.setdefault(
                 pais, {"gasto": 0.0, "impresiones": 0, "dias": 0,
@@ -142,8 +150,10 @@ def arma(raiz: Path | None = None, *,
         })
 
     piezas.sort(key=lambda p: (p["f"], p["n"], p["p"]))
+    con_pieza = {p["f"] for p in piezas}
     return {
         "piezas": piezas,
+        "dias_sin_entrega": sorted(sin_entrega - con_pieza),
         "meses": informe,
         "meses_que_entran": [i["mes"] for i in informe if i["entra"]],
         "meses_rechazados": [i["mes"] for i in informe if not i["entra"]],

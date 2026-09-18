@@ -2062,3 +2062,66 @@ a diario. El módulo nuevo pasa las mismas compuertas y reescribe **solo**
 `pauta_diaria`. Es lo que la Rutina diaria necesitaba y no tenía.
 
 **Publicado como Version 90.** Doce suites en verde.
+
+---
+
+### Sesión 29 · 2026-09-18 · el 17 no se podía elegir, y la franja se fue
+
+Dos pedidos de Mercadeo, el mismo día de la presentación: «no me agarra la
+fecha de ayer 17 de septiembre, y quita la parte que muestra como va hoy, el
+cosito amarillo».
+
+#### El 17 no existía para el tablero
+
+El campo aceptaba teclear la fecha y después la ignoraba. El motivo: el 17 se
+consultó y Meta contestó —una fila con `$0,00` y 0 impresiones— pero esa fila
+se descarta antes de que nadie anote que el día existió. `pauta_diaria` la tira
+como «relleno», que es correcto para una fila y equivocado para un día: con
+ella desaparecía la constancia de la medición.
+
+**Son dos preguntas y se estaban contestando con un solo campo.** Hasta dónde
+llega el dato CON ENTREGA —lo que dicen los rótulos— y hasta dónde llega lo que
+se MIDIÓ —hasta dónde puede llegar el filtro—. Eran lo mismo hasta que la pauta
+se apagó. Ahora `dias_sin_entrega` los registra y `tope_seleccionable` abre el
+filtro hasta ellos; `rango_disponible` no se toca.
+
+No es un caso único: son **tres** días —el 1 de febrero, el 24 de agosto y el
+17 de septiembre—. El defecto llevaba meses y solo se vio cuando el día en cero
+fue el último.
+
+**Y los atajos NO se movieron.** «Últimos 7 días» sigue anclando en el último
+día con entrega: contar desde el tope nuevo habría corrido la ventana un día por
+cada día apagado, metiendo ceros y sacando un día bueno por el otro extremo. El
+atajo tiene que seguir significando lo mismo.
+
+#### La franja ámbar
+
+Se quitó, y con ella `franjaDiaEnCurso`, `franjaSinEntrega`, `horaLectura`,
+`diasDeAtraso` y `esFechaDeHoy` — cinco funciones que quedaban sin llamar.
+Dejarlas sería el «camino apagado» que este proyecto ya tiene anotado: código
+que nadie ejecuta no está probado. Git las guarda si vuelven a hacer falta.
+
+**Lo que NO se fue con ella es el aviso del botón.** Los seis mensajes de error
+del conector vivían dentro de la franja; borrarla los habría dejado sin salida,
+y apretar «Actualizar ahora» con el conector caído no habría dicho nada. El
+bloque pasó a una función compartida y ahora sale debajo del botón.
+
+El día en curso **se sigue leyendo y guardando**: lo que se quitó es el dibujo,
+no la lectura. Es una distinción que desde la pantalla no se ve, y por eso la
+prueba afirma las dos mitades.
+
+#### Las pruebas, otra vez
+
+`prueba:hoy` estaba escrita entera sobre una franja que ya no existe. Sus
+secciones 4, 4b, 6, 7 y 8 se fueron; queda lo que importa —el día se lee, se
+guarda, y NO entra en ningún total— más una sección nueva que vigila el par
+que es fácil de confundir: la franja no está, pero el dato sí.
+
+`prueba:actualizar` comprobaba «el dato de antes sigue en pantalla» mirando la
+franja. Sin franja, eso se mide donde el dato de verdad vive: en
+`pauta_diaria.dia_en_curso`. Mirar la pantalla era mirar el reflejo.
+
+`prueba:raton` gana una sección 10 que teclea un día medido en cero y exige que
+el campo se lo quede — el pedido de Mercadeo, convertido en comprobación.
+
+**Publicado como Version 106.** Doce suites en verde.

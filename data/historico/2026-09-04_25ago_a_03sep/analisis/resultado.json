@@ -12861,6 +12861,12 @@
    "desde": "2026-01-03",
    "hasta": "2026-09-16"
   },
+  "dias_sin_entrega": [
+   "2026-02-01",
+   "2026-08-24",
+   "2026-09-17"
+  ],
+  "_dias_sin_entrega": "Días que la consulta devolvió con TODAS sus filas en cero. No tienen pieza —no hay nada que sumar— pero sí se midieron, así que el filtro tiene que poder llegar hasta ellos. «No se preguntó» y «se preguntó y no entregó» son dos cosas distintas.",
   "dias_con_dato": 253,
   "primer_dia": "2026-01-03",
   "ultimo_dia": "2026-09-16",
@@ -13008,6 +13014,11 @@
   "_los_huecos": "`r` en null es un día con gasto y sin resultado atribuido. Para sumar aporta cero, y eso está medido, no supuesto: los días con número de Qpayshop dan 12, su total agregado exacto.",
   "_el_corte_por_mercado": "Cada pieza trae su país, así que GT y SV se recalculan dentro de la ventana igual que el total. Es un requisito de Mercadeo (2026-09-03), no un efecto lateral: sin país no se pueden aplicar las exclusiones y el total volvería a incluir Honduras.",
   "_gasto_sin_resultado": "Un día con gasto y `r` en null cuenta su gasto. El agregado por periodo lo descartaba entero por no ser «utilizable», y así se perdían $1.30 reales. Esa regla sirve para una fila agregada; aplicada por día borraría inversión de verdad.",
+  "tope_seleccionable": {
+   "desde": "2026-01-03",
+   "hasta": "2026-09-17",
+   "_por_que": "Hasta dónde puede llegar el filtro. Incluye los días que se midieron y entregaron CERO, que no tienen pieza y aun así son un hecho. `rango_disponible` sigue siendo el último día con entrega: son dos preguntas distintas y no se unifican."
+  },
   "dia_en_curso": {
    "fecha": "2026-09-18",
    "es_de_hoy": true,

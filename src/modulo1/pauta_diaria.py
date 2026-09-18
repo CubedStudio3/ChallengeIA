@@ -191,7 +191,15 @@ def arma(crudo: Path, desde: str, hasta: str, *,
     excluidos = excluidos or {}
 
     piezas, fuera_de_mercado = [], {}
+    # Días que la consulta SÍ devolvió y que no entregaron nada. Son distintos
+    # de los días que no se preguntaron, y hasta el 2026-09-18 la diferencia se
+    # perdía: la fila en cero se descartaba —bien— y con ella desaparecía la
+    # constancia de que ese día se midió. Mercadeo quiso filtrar por el 17 de
+    # septiembre y el campo se lo ignoró, porque para el tablero ese día no
+    # existía. Existe: entregó cero, que es un hecho medido.
+    dias_leidos = set()
     for c in filas:
+        dias_leidos.add(_fecha(c))
         # Una fila sin gasto NI impresiones no es dato, es relleno.
         gasto = c.gasto.numero or 0
         imp = c.impresiones.numero or 0
@@ -235,9 +243,16 @@ def arma(crudo: Path, desde: str, hasta: str, *,
         p["campanas"] = sorted(p["campanas"])
 
     dias_con_dato = sorted({p["f"] for p in piezas})
+    sin_entrega = sorted(dias_leidos - set(dias_con_dato))
     return {
         "piezas": piezas,
         "rango_disponible": {"desde": desde, "hasta": hasta},
+        "dias_sin_entrega": sin_entrega,
+        "_dias_sin_entrega": (
+            "Días que la consulta devolvió con TODAS sus filas en cero. No "
+            "tienen pieza —no hay nada que sumar— pero sí se midieron, así que "
+            "el filtro tiene que poder llegar hasta ellos. «No se preguntó» y "
+            "«se preguntó y no entregó» son dos cosas distintas."),
         "dias_con_dato": len(dias_con_dato),
         "primer_dia": dias_con_dato[0] if dias_con_dato else None,
         "ultimo_dia": dias_con_dato[-1] if dias_con_dato else None,
