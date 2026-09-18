@@ -51,12 +51,82 @@ const RUNTIME = `(() => {
    fecha del dato. Así «hoy» es cierto POR CONSTRUCCIÓN y la prueba dice lo
    mismo el martes que dentro de un año. */
 const FRAGMENTO = fs.readFileSync(ARCHIVO, "utf8");
+
+/* ── Y TAMBIÉN construye el BLOQUE, no solo el reloj ─────────────────────────
+   El 2026-09-18 la pauta se apagó: Meta devolvió cero filas para hoy y el
+   bloque publicado quedó sin un solo mercado. Ocho comprobaciones se pusieron
+   rojas acusando al tablero de no pintar una cifra que no existe.
+
+   Es la misma caducidad que ya se arregló para el reloj, un escalón más
+   adentro: la prueba dependía de que la cuenta estuviera entregando. Ahora
+   fabrica los dos estados —un día CON entrega y uno SIN— a partir de un día
+   cerrado real de `pauta_meses/`, que es dato medido y no se mueve, y se los
+   hace evaluar a Python para no escribir el esperado a mano. */
+const { execFileSync } = require("child_process");
+const path = require("path");
+const os = require("os");
+const py = (script, args) => JSON.parse(execFileSync("python3",
+  [script].concat(args || []), { env: { ...process.env, PYTHONPATH: "src" },
+  maxBuffer: 64 * 1024 * 1024 }).toString());
+
+/* El JSON del tablero, sacado del fragmento. `documento()` escapa `</script`
+   como `<\/script` DENTRO del JSON: hay que desescaparlo para parsear y
+   volver a escaparlo al reinsertar, o el navegador corta el <script> a la
+   mitad. */
+const MARCA = '<script id="datos"';
+const _ini = FRAGMENTO.indexOf(MARCA);
+const _abre = FRAGMENTO.indexOf(">", _ini) + 1;
+const _cierra = FRAGMENTO.indexOf("</script", _abre);
+const DATOS = JSON.parse(FRAGMENTO.slice(_abre, _cierra).replace(/<\\\//g, "</"));
+const conBloque = (bloque) => FRAGMENTO.slice(0, _abre) +
+  JSON.stringify({ ...DATOS,
+    pauta_diaria: { ...DATOS.pauta_diaria, dia_en_curso: bloque } })
+    .replace(/<\//g, "<\\/") +
+  FRAGMENTO.slice(_cierra);
+
+/* Un día en curso con entrega, fabricado: las filas son de un día cerrado real
+   y la fecha es el día siguiente al último dato cerrado, que es exactamente la
+   relación que tiene un día en curso de verdad. */
+const DIARIO = JSON.parse(fs.readFileSync(
+  "data/historico/pauta_meses/2026-09/crudo/meta_campanas_por_pais_por_dia.json",
+  "utf8"));
+const _filas = (Array.isArray(DIARIO.ad_entities)
+  ? DIARIO.ad_entities : JSON.parse(DIARIO.ad_entities));
+const _gasto = (r) => parseFloat(
+  String(r.amount_spent).replace(/[^\d,.-]/g, "").replace(",", "."));
+const _conEntrega = _filas.filter((r) => _gasto(r) > 0 || +r.impressions > 0);
+const _ultimoDia = _conEntrega.map((r) => r.date_start).sort().pop();
+const FILAS = _conEntrega.filter((r) => r.date_start === _ultimoDia)
+  .map(({ date_start, date_stop, ...resto }) => resto);
+
+const TOPE = DATOS.pauta_diaria.rango_disponible.hasta;
 const FECHA_DATO = (function () {
-  const m = FRAGMENTO.match(/"dia_en_curso":\s*\{[^}]*?"fecha":\s*"(\d{4}-\d{2}-\d{2})"/);
-  return m ? m[1] : null;
+  const d = new Date(TOPE + "T12:00:00Z");
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
 })();
-const conFlag = (v) => FRAGMENTO.replace(/("dia_en_curso":\s*\{[^}]*?"es_de_hoy":\s*)(true|false)/,
-                                         "$1" + v);
+
+const DIR_SIM = path.join(os.tmpdir(), "mesa-hoy-simulado");
+fs.mkdirSync(path.join(DIR_SIM, "crudo"), { recursive: true });
+fs.writeFileSync(path.join(DIR_SIM, "crudo", "meta_dia_en_curso.json"),
+  JSON.stringify({
+    _metadatos: {
+      fecha_consulta: FECHA_DATO,
+      hora_consulta: FECHA_DATO + "T15:35:00+00:00",
+      parametros: { time_range: { since: FECHA_DATO, until: FECHA_DATO } },
+    },
+    ad_entities: FILAS,
+  }, null, 1), "utf8");
+
+const BLOQUE_CON = py("pruebas/esperado_dia.py", [FECHA_DATO, DIR_SIM]);
+if (!Object.keys(BLOQUE_CON.por_mercado || {}).length) {
+  throw new Error("el bloque simulado salió sin mercados: revisar pauta_meses");
+}
+/* El mismo bloque, pero como lo devuelve Meta cuando no hubo entrega: se
+   preguntó y no hay filas. Es el estado real del 2026-09-18. */
+const BLOQUE_SIN = { ...BLOQUE_CON, por_mercado: {}, fuera_de_mercado: {} };
+
+const conFlag = (v) => conBloque({ ...BLOQUE_CON, es_de_hoy: v === "true" });
 /* El stub del reloj va en el MISMO <script> que corre antes del tablero, no en
    addInitScript: con setContent los init scripts no llegan a aplicarse. */
 const RELOJ = (iso, masDias) => {
@@ -227,8 +297,14 @@ const pagina = (html, reloj) =>
       dias[p.f] = (dias[p.f] || 0) + p.g;
     }
     const ult = Object.keys(dias).sort().slice(-b.referencia.dias);
-    const prom = ult.reduce((a, d) => a + dias[d], 0) / ult.length;
-    const esperado = Math.round((b.gasto / prom) * 100);
+    /* Los DOS redondeos de Python, en el mismo orden: el día típico se guarda
+       al centavo y el avance a tres decimales. Dividir por el promedio sin
+       redondear daba 69% donde la pantalla pinta 70 —diferencia de un punto,
+       solo en el borde— y acusaba al producto de un número que está bien.
+       Reproducir el cálculo significa reproducirlo entero. */
+    const prom = Math.round(
+      (ult.reduce((a, d) => a + dias[d], 0) / ult.length) * 100) / 100;
+    const esperado = Math.round(Math.round((b.gasto / prom) * 1000) / 10);
     const pintado = Math.round(b.avance.gasto * 100);
     ok(`${m}: el avance reproduce el promedio de sus ${b.referencia.dias} días`,
        esperado === pintado, { pintado, recalculado: esperado });
@@ -322,6 +398,49 @@ const pagina = (html, reloj) =>
     }
     ok("sin errores de JavaScript con el reloj movido", errs2.length === 0, errs2);
     await pg2.close();
+  }
+
+  console.log("\n══ 8 · SIN ENTREGA: se preguntó y no hay, y se dice");
+  /* El estado real del 2026-09-18: Meta devolvió cero filas para hoy y una
+     fila en cero para ayer. La pauta está detenida.
+
+     Antes de este día, la franja se BORRABA entera cuando no había mercados:
+     `return ""`. El tablero quedaba exactamente igual que si nunca se hubiera
+     preguntado, que son dos cosas muy distintas — y la que de verdad importa
+     es la que desaparecía. Es el hueco sin declarar de siempre.
+
+     Lo que NO se puede hacer es pintar «$0.00 gastados hoy»: lo medido es la
+     ausencia de filas, no un gasto de cero. */
+  {
+    const pg3 = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
+    const errs3 = [];
+    pg3.on("pageerror", e => errs3.push(e.message));
+    await pg3.setContent(pagina(conBloque(BLOQUE_SIN), RELOJ(FECHA_DATO)),
+                         { waitUntil: "load" });
+    await pg3.waitForTimeout(1200);
+    const F = await pg3.evaluate(`(() => {
+      const f = document.getElementById("diaEnCurso");
+      if (!f) return null;
+      return { txt: f.textContent.replace(/\\s+/g, " ").trim(),
+               visible: f.getBoundingClientRect().height > 0 };
+    })()`);
+    ok("la franja NO desaparece cuando no hay entrega", !!F && F.visible);
+    if (F) {
+      ok("dice que no hubo entrega", /Sin entrega/i.test(F.txt), F.txt.slice(0, 90));
+      ok("y que se preguntó: son dos cosas distintas",
+         /devolvi[óo] cero filas/i.test(F.txt));
+      ok("descarta explícitamente que sea un fallo de lectura",
+         /no es un fallo de lectura/i.test(F.txt));
+      ok("NO inventa un cero: no pinta ninguna cifra de dinero",
+         !/\$\d/.test(F.txt), (F.txt.match(/\$[\d.,]+/g) || []).slice(0, 3));
+      ok("no dice «va al N%» de nada", !/va al \d+%/.test(F.txt));
+      ok("nombra el último día que SÍ entregó, sacado del dato",
+         F.txt.includes(TOPE.slice(-2).replace(/^0/, "")) &&
+         /[úu]ltimo d[ií]a con entrega/i.test(F.txt), TOPE);
+      ok("rotula la hora de la consulta como UTC", /\d{2}:\d{2} UTC/.test(F.txt));
+    }
+    ok("sin errores de JavaScript sin entrega", errs3.length === 0, errs3);
+    await pg3.close();
   }
 
   ok("sin errores de JavaScript", errs.length === 0, errs);

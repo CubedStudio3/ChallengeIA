@@ -61,11 +61,19 @@ aprobación con su mercado, la referencia medida, y los dos campos que llena la
 mesa —campaña y fecha— **vacíos a propósito**. 10 cartas · 5 artes y 5 videos.
 El número **nunca** se escribe a mano en el config (ADR-042).
 
+⚠️ **La pauta está DETENIDA desde el 17 de septiembre.** Medido el 2026-09-18
+contra Meta: el 17 devuelve una fila en `$0,00` con 0 impresiones y el 18 cero
+filas, con el cursor agotado en las dos consultas. **El último día con entrega
+es el 16 de septiembre.** No es un hueco de lectura ni un fallo del conector, y
+el tablero lo declara en una franja propia en vez de borrar la sección (que es
+lo que hacía). Si la pauta se reactiva, el botón «Actualizar ahora» lo trae sin
+esperar a la corrida.
+
 El filtro de fechas mira **todo 2026**: los nueve meses de pauta día por día
 están en `data/historico/pauta_meses/`, cada uno reconciliado contra su propio
-agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-15** (el 3 de
-enero es el primer día con entrega, no el borde del mes). 1,265 piezas en el
-filtro. **Refrescado a mano el 2026-09-16**, porque las Rutinas siguen sin
+agregado al centavo. `rango_disponible` = **2026-01-03 → 2026-09-16** (el 3 de
+enero es el primer día con entrega, no el borde del mes). 1,269 piezas en el
+filtro. **Refrescado a mano el 2026-09-18**, porque las Rutinas siguen sin
 conectores y no lo hicieron ellas. El periodo del **análisis** sigue siendo el de la corrida y no se
 unifica con el del dato disponible: son dos campos distintos.
 
@@ -932,6 +940,54 @@ cometidos; no hay tiempo de repetirlos.
   Agrupar por indicador antes de sumar aplica a quien mide, no solo a quien
   muestra.
 
+- **Una serie de dato puede APAGARSE, y eso no es un hueco de lectura.** El
+  2026-09-18 Meta devolvió **cero filas** para hoy y **una fila en `$0,00` con 0
+  impresiones** para el 17: la pauta está detenida. Se ve idéntico a un fallo de
+  conector desde adentro, y la diferencia es toda la noticia. Se distingue
+  porque la llamada respondió: cero filas con respuesta buena es una medición.
+- **`if (!lista.length) return ""` borra la noticia.** La franja del día en
+  curso desaparecía entera sin mercados, así que el tablero quedaba igual que si
+  nunca se hubiera preguntado. «No se preguntó» y «se preguntó y no hay» son dos
+  estados y la página los pintaba iguales — el hueco sin declarar de siempre,
+  ahora por ausencia de maquetación. Y lo que NO se puede hacer es pintar
+  «$0.00»: lo medido es la ausencia de filas, no un gasto de cero.
+- **Una rama nueva de la interfaz no hereda los avisos de la vieja.** La franja
+  de «sin entrega» se escribió sin el bloque de errores del botón, que vivía
+  dentro de la rama con mercados: apretar «Actualizar ahora» con el conector
+  caído no decía **nada**, y ése es justo el momento en que el aviso importa,
+  porque no hay dato en pantalla que lo compense. Mismo patrón que ADR-061.
+- **Cuatro pruebas dependían de que la cuenta estuviera ENTREGANDO.** Al
+  apagarse la pauta se pusieron rojas sin que hubiera un defecto:
+  `prueba:actualizar` usaba el crudo vivo como payload simulado (**cuarta vez**
+  que un esperado propio caduca: ADR-050, ADR-054, ADR-067, ADR-068), y
+  `prueba:hoy` está escrita entera sobre un día con mercados. Las dos fabrican
+  ahora sus filas desde un día cerrado de `pauta_meses/` y se las hacen evaluar
+  a Python. **El estado del negocio es una entrada del sistema**, igual que el
+  paso del tiempo, y una prueba tiene que controlar su punto de partida.
+- **Dos asertos de `prueba:actualizar` nunca probaron lo que decían.** «dos
+  páginas dan el mismo número que una sola» leía `#datos` del DOM —el JSON con
+  el que se cargó la página, que el botón NO reescribe—, o sea que respondía por
+  el dato de origen y no por el efecto del clic; pasaba solo mientras el dato
+  publicado coincidiera con el payload simulado. Y «el dato de antes sigue en
+  pantalla» no tenía ningún dato antes. Lo publicado sí es el efecto del clic.
+- **Comparar por el NÚMERO del día es una coincidencia esperando su turno.**
+  `prueba:raton` verificaba que el rótulo no nombrara el periodo de la corrida
+  comparando solo «25». Con 253 días cargados la ventana muestreada terminó el
+  **25 de julio** mientras la corrida empieza el **25 de agosto**, y la prueba
+  acusó al producto de un rótulo correcto. Se comparan rótulos enteros.
+- **Reproducir un cálculo es reproducirlo ENTERO, redondeos incluidos.** Python
+  guarda el día típico al centavo y el avance a tres decimales; la prueba
+  dividía por el promedio sin redondear y daba 69% donde la pantalla pinta 70.
+  Un punto de diferencia, solo en el borde, y el acusado era el producto.
+- **Un día se asienta ~2 días después de cerrar · tercera muestra.** El 16 de
+  septiembre, guardado el 17, decía `$23,40` en GT y `$13,19` en SV; re-pedido el
+  18 dice **`$23,41`** y **`$13,22`**. Los leads no se movieron, otra vez.
+- **Refrescar el dato no tenía camino propio hasta el 2026-09-18.** Solo existía
+  dentro de `corre.py`, o sea que ponerlo al día obligaba a recalcular
+  estrategia, cartas y recomendaciones — justo lo que ADR-065 dice que no se
+  hace a diario. `refresca_dato.py` pasa las mismas compuertas y reescribe solo
+  `pauta_diaria`.
+
 ### Lección de método (error propio, 2026-08-27)
 
 **Ausencia de evidencia no es evidencia de ausencia.** Se concluyó que cinco
@@ -983,6 +1039,7 @@ agotar las formas de preguntarlo, y reportar con precisión qué se midió.
 | `src/modulo1/dia_en_curso.py` | **El día que no terminó.** Lee su propio crudo y calcula el avance contra los días completos. NO entra a `piezas`: no lo suma el filtro ni lo promedia ninguna gráfica |
 | `data/historico/dia_en_curso/crudo/` | El crudo de hoy, con la hora de su lectura. Vive fuera de `pauta_meses/` porque ahí adentro va dato cerrado |
 | `pruebas/dia_en_curso.js` | Que la franja se vea Y que su gasto no esté en ningún total, con el filtro abierto de par en par. Incluye el sabotaje del reloj: adelantar el navegador cuatro días sin tocar el dato. `npm run prueba:hoy` |
+| `src/modulo1/refresca_dato.py` | **Refresca el dato sin tocar el análisis.** Vuelve a leer los crudos de pauta, pasa las mismas compuertas y reescribe solo `pauta_diaria` del `resultado.json`. Es lo que hace la Rutina diaria (ADR-065). `python -m modulo1.refresca_dato --corrida <carpeta> --hoy YYYY-MM-DD` |
 | `pruebas/inversion_total.js` | Que la Inversión sume TODOS los indicadores y que los resultados sigan sin sumarse. Las dos direcciones en la misma prueba. `npm run prueba:inversion` |
 | `pruebas/boton_actualizar.js` | El botón «Actualizar ahora»: que el parseo y el bloque del día coincidan con Python, que la llamada a Meta sea de lectura, que no toque `piezas`, y que cada error de conector diga qué hacer. `npm run prueba:actualizar` |
 | `pruebas/valores_reales.py` | Los 3,060 valores distintos de los veinte crudos, parseados por Python. Existe para comparar contra el puerto en JavaScript |

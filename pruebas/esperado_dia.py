@@ -23,6 +23,11 @@ CORRIDA = Path("data/historico/2026-09-04_25ago_a_03sep/analisis/resultado.json"
 
 if __name__ == "__main__":
     hoy = sys.argv[1] if len(sys.argv) > 1 else None
+    # Segundo argumento opcional: la carpeta del crudo a evaluar. Existe para
+    # que la prueba CONSTRUYA las filas en vez de heredarlas del archivo vivo —
+    # el 2026-09-18 la pauta se apagó, ese archivo quedó vacío, y los dos lados
+    # pasaron a comparar nada contra nada. Sin argumento sigue leyendo el vivo.
+    raiz = Path(sys.argv[2]) if len(sys.argv) > 2 else None
     declarados, excluidos = _mercados()
 
     # Las piezas salen del resultado ya publicado: son las mismas que el
@@ -30,7 +35,8 @@ if __name__ == "__main__":
     # mismo universo en los dos lados.
     piezas = json.loads(CORRIDA.read_text(encoding="utf-8"))["pauta_diaria"]["piezas"]
 
-    b = DHOY.arma(piezas=piezas, hoy=hoy or "1970-01-01",
+    b = DHOY.arma(raiz / "crudo" if raiz else None,
+                  piezas=piezas, hoy=hoy or "1970-01-01",
                   declarados=declarados, excluidos=excluidos)
     if b is None:
         print(json.dumps({"por_mercado": {}, "fuera_de_mercado": {}}))

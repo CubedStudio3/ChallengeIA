@@ -24,6 +24,8 @@
 const { chromium } = require("../node_modules/playwright");
 const { execFileSync } = require("child_process");
 const fs = require("fs");
+const path = require("path");
+const os = require("os");
 const { sinEstado } = require("./estado_limpio");
 
 const ARCHIVO = process.argv[2] ||
@@ -43,8 +45,62 @@ const py = (script, args) => JSON.parse(execFileSync("python3",
   maxBuffer: 64 * 1024 * 1024 }).toString());
 
 const VALORES = py("pruebas/valores_reales.py");
-const CRUDO = JSON.parse(fs.readFileSync(
-  "data/historico/dia_en_curso/crudo/meta_dia_en_curso.json", "utf8"));
+
+/* EL PAYLOAD SIMULADO LO CONSTRUYE ESTA PRUEBA, no lo hereda del disco.
+
+   Antes se leía `dia_en_curso/crudo/`, que es el archivo VIVO. El 2026-09-18 la
+   pauta se apagó, ese archivo quedó con cero filas, y veintitrés
+   comprobaciones pasaron a comparar vacío contra vacío o a fallar — ninguna
+   encontró un defecto del producto. Es la misma caducidad de siempre, ahora
+   por el estado de la cuenta en vez de por un fixture escrito a mano: cuarta
+   vez en el proyecto.
+
+   Las filas salen de un día CERRADO real de `pauta_meses/`, que es dato medido
+   y no se mueve, y se les quita `date_start`/`date_stop` porque el agregado de
+   un solo día no los trae. Python evalúa EXACTAMENTE las mismas filas: se le
+   escribe un crudo temporal y se le pasa su carpeta. */
+const DIARIO = JSON.parse(fs.readFileSync(
+  "data/historico/pauta_meses/2026-09/crudo/meta_campanas_por_pais_por_dia.json",
+  "utf8"));
+const FILAS = (() => {
+  const filas = Array.isArray(DIARIO.ad_entities)
+    ? DIARIO.ad_entities : JSON.parse(DIARIO.ad_entities);
+  const gasto = (r) => parseFloat(
+    String(r.amount_spent).replace(/[^\d,.-]/g, "").replace(",", "."));
+  const conEntrega = filas.filter((r) => gasto(r) > 0 || +r.impressions > 0);
+  const dia = conEntrega.map((r) => r.date_start).sort().pop();
+  return conEntrega.filter((r) => r.date_start === dia)
+    .map(({ date_start, date_stop, ...resto }) => resto);
+})();
+const FECHA = (() => {
+  const filas = Array.isArray(DIARIO.ad_entities)
+    ? DIARIO.ad_entities : JSON.parse(DIARIO.ad_entities);
+  const gasto = (r) => parseFloat(
+    String(r.amount_spent).replace(/[^\d,.-]/g, "").replace(",", "."));
+  return filas.filter((r) => gasto(r) > 0 || +r.impressions > 0)
+    .map((r) => r.date_start).sort().pop();
+})();
+if (!FILAS.length) throw new Error("sin filas para simular: revisar pauta_meses");
+
+/* El crudo temporal que Python va a leer. Vive en el directorio de la prueba y
+   se reescribe en cada corrida: nunca en `data/`, para no confundirlo con dato
+   de verdad. */
+const DIR_SIM = path.join(os.tmpdir(), "mesa-dia-simulado");
+fs.mkdirSync(path.join(DIR_SIM, "crudo"), { recursive: true });
+fs.writeFileSync(path.join(DIR_SIM, "crudo", "meta_dia_en_curso.json"),
+  JSON.stringify({
+    _metadatos: {
+      fecha_consulta: FECHA,
+      hora_consulta: FECHA + "T15:35:00+00:00",
+      parametros: { time_range: { since: FECHA, until: FECHA } },
+    },
+    ad_entities: FILAS,
+  }, null, 1), "utf8");
+
+const CRUDO = {
+  ad_entities: FILAS,
+  _metadatos: { parametros: { time_range: { since: FECHA, until: FECHA } } },
+};
 
 /* Un conector simulado: responde lo que se le diga, o falla con el código que
    se le diga. Las llamadas quedan registradas para poder afirmar QUÉ se pidió. */
@@ -61,6 +117,13 @@ const runtime = (guion) => `(() => {
     return {
       callTool: async (server, tool, input, opts) => {
         window.__llamadas.push({ server, tool, input, opts });
+        /* exitoPrimero responde bien en la PRIMERA llamada y falla en las
+           siguientes. Existe para poder probar que un fallo no BORRA el dato
+           que ya estaba: sin un exito antes no hay dato anterior, y el aserto
+           se vuelve vacio. Sin acentos graves: esto vive en un template. */
+        if (guion.exitoPrimero && window.__llamadas.length === 1) {
+          return { payload: guion.exitoPrimero };
+        }
         if (guion.error) {
           const e = new Error(guion.error.code);
           Object.assign(e, guion.error);
@@ -80,6 +143,29 @@ const runtime = (guion) => `(() => {
     };
   } };
 })()`;
+
+/* El bloque del dia tal como quedo PUBLICADO.
+
+   Se lee de lo publicado y no del `#datos` del DOM: ese nodo trae el JSON con
+   el que se cargo la pagina y el boton no lo reescribe, asi que leerlo de ahi
+   respondia por el dato de origen, no por el efecto del clic. Mientras el dato
+   publicado coincidia con el payload simulado, la comprobacion pasaba sin
+   comprobar nada. El HTML publicado SI es el efecto del clic.
+
+   Se parsea aca, en Node, y no dentro de la pagina: una expresion regular
+   anidada en un template literal ya rompio una vez. */
+async function bloquePublicado(pg) {
+  const html = await pg.evaluate("window.__publicado || ''");
+  if (!html) return null;
+  const a = html.indexOf('<script id="datos"');
+  if (a < 0) return null;
+  const cuerpo = html.slice(html.indexOf(">", a) + 1);
+  const cierra = cuerpo.indexOf("</script");
+  try {
+    return JSON.parse(cuerpo.slice(0, cierra < 0 ? undefined : cierra)
+                            .replace(/<\\\//g, "</")).pauta_diaria.dia_en_curso;
+  } catch (e) { return { _error: e.message }; }
+}
 
 async function abre(nav, guion) {
   const pg = await nav.newPage({ viewport: { width: 1440, height: 2400 } });
@@ -125,7 +211,7 @@ async function abre(nav, guion) {
     const filas = Array.isArray(CRUDO.ad_entities)
       ? CRUDO.ad_entities : JSON.parse(CRUDO.ad_entities);
     const fecha = CRUDO._metadatos.parametros.time_range.since;
-    const esperado = py("pruebas/esperado_dia.py", [fecha]);
+    const esperado = py("pruebas/esperado_dia.py", [fecha, DIR_SIM]);
     const { pg, errs } = await abre(nav, { payload: { ad_entities: filas } });
     const mio = await pg.evaluate(`(() => {
       const d = JSON.parse(document.getElementById("datos").textContent);
@@ -242,16 +328,19 @@ async function abre(nav, guion) {
     ok("sin aviso de error: la lectura se completó", franja === "sin aviso", franja);
     /* Lo que importa no es que llame dos veces, sino que el número que sale
        sea el MISMO que con las filas juntas. */
-    const partido = await pg.evaluate(`(() => {
-      const d = JSON.parse(document.getElementById("datos").textContent);
-      return d.pauta_diaria.dia_en_curso.por_mercado;
-    })()`);
+    const pub = await bloquePublicado(pg);
+    const partido = pub && pub.por_mercado;
+    /* La MISMA fecha en los dos lados: el clic pide el dia de HOY segun el
+       reloj del navegador, asi que el recalculo tiene que usar esa, no la del
+       fixture. Con fechas distintas la ventana de referencia cambia y la
+       comparacion mide otra cosa. */
+    const hoyDelClic = JSON.parse(L[0].input.time_range).since;
     const entero = await pg.evaluate(`(() => {
       const d = JSON.parse(document.getElementById("datos").textContent);
       return window.__bloqueDelDia(${JSON.stringify(filas)},
-        ${JSON.stringify(CRUDO._metadatos.parametros.time_range.since)},
+        ${JSON.stringify("@HOY@")},
         d.pauta_diaria.piezas, null).por_mercado;
-    })()`);
+    })()`.replace("@HOY@", hoyDelClic));
     ok("dos páginas dan el mismo número que una sola",
        JSON.stringify(partido) === JSON.stringify(entero),
        { partido, entero });
@@ -356,7 +445,17 @@ async function abre(nav, guion) {
   ];
   const textos = [];
   for (const [codigo, patron] of CASOS) {
-    const { pg, errs } = await abre(nav, { error: { code: codigo } });
+    /* Un refresco BUENO primero, para que haya «dato de antes» que defender.
+       El tablero publicado hoy trae la franja sin entrega —la pauta esta
+       detenida— y sin este paso el aserto de que la cifra sobrevive no
+       comprobaria nada: no habria ninguna cifra ni antes ni despues. */
+    const { pg, errs } = await abre(nav, {
+      error: { code: codigo }, exitoPrimero: { ad_entities: FILAS } });
+    await pg.click("#bActualizaHoy");
+    await pg.waitForTimeout(700);
+    const conDato = await pg.evaluate(
+      `/\\$\\d/.test(document.getElementById("diaEnCurso").textContent)`);
+    ok(`${codigo}: parte de una franja CON cifra`, conDato === true, conDato);
     await pg.click("#bActualizaHoy");
     await pg.waitForTimeout(700);
     /* Se lee el AVISO, no la franja entera: comparar el texto completo dejaba

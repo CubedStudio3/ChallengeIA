@@ -1,14 +1,14 @@
 {
  "_metadatos": {
   "herramienta": "mcp__Meta_MCP__ads_get_ad_entities",
-  "fecha_consulta": "2026-09-17",
-  "hora_consulta": "2026-09-17T14:43:28+00:00",
+  "fecha_consulta": "2026-09-18",
+  "hora_consulta": "2026-09-18T14:20:00+00:00",
   "parametros": {
    "ad_account_id": "225318458221662",
    "level": "campaign",
    "time_range": {
-    "since": "2026-09-16",
-    "until": "2026-09-16"
+    "since": "2026-09-18",
+    "until": "2026-09-18"
    },
    "breakdowns": [
     "country"
@@ -24,88 +24,11 @@
    "limit": 1000
   },
   "_que_es": "El ultimo dia con entrega. NO entra a `piezas`: no lo suma el filtro ni lo promedia ninguna grafica (ADR-065).",
-  "_por_que_el_16_y_no_el_17": "El 17 de septiembre se consulto y Meta devolvio CERO filas: todavia no hay entrega. El 16 ya cerro, asi que esta es su lectura COMPLETA y no la media lectura que habia guardada -GT iba en $17,44 con 4 leads a media tarde y cerro en $23,40 con 10-. Un dia a medias de un dia que ya termino es la peor de las dos cosas: ni es de hoy ni esta completo.",
-  "_se_asienta_tarde": "El 16 cerro AYER. Por lo medido en este proyecto, un dia queda firme a los ~2 dias de cerrar: el gasto y las impresiones de este todavia pueden moverse un poco. Los leads no se han movido nunca en las dos muestras.",
   "_la_hora_es_utc": "Hora del entorno, en UTC. NO es la hora de la cuenta publicitaria: su zona horaria esta declarada como desconocida y no se supone.",
-  "_fidelidad": "Volcado parseado de la respuesta. El NBSP esta intacto."
+  "_fidelidad": "Volcado parseado de la respuesta. El NBSP esta intacto.",
+  "_HOY_NO_TIENE_ENTREGA": "Consultado el 18 de septiembre: Meta devuelve CERO filas para hoy, y el cursor de la pagina siguiente tambien vino vacio. El 17 tampoco entrego -una fila con \\$0,00 y 0 impresiones-. Esto NO es un hueco de lectura ni un error del conector: la pauta esta detenida. El ultimo dia con entrega es el 16 de septiembre.",
+  "_por_que_se_guarda_vacio": "Un archivo vacio es un dato: dice 'se pregunto y no hay'. Borrarlo o dejar el del 16 rotulado como hoy diria otra cosa. La franja lo declara y no inventa un avance.",
+  "_que_muestra_la_franja": "Sin filas no hay dia en curso que mostrar. El 16 y el 17 ya son dias CERRADOS y viven en pauta_meses/, donde el filtro si los suma: no se repiten aca (ADR-065)."
  },
- "ad_entities": [
-  {
-   "country": "GT",
-   "results": {
-    "indicator": "actions:link_click",
-    "values": [
-     {
-      "attribution_windows": [
-       "default"
-      ],
-      "value": "891"
-     }
-    ]
-   },
-   "cost_per_result": {
-    "value": "$0,00 USD (Link clicks)"
-   },
-   "amount_spent": "$3,79 USD",
-   "impressions": "4993",
-   "id": "120238382458610783",
-   "name": "Plan Free Tráfico 2026"
-  },
-  {
-   "country": "GT",
-   "results": {
-    "indicator": "actions:lead",
-    "values": [
-     {
-      "attribution_windows": [
-       "default"
-      ],
-      "value": "10"
-     }
-    ]
-   },
-   "cost_per_result": {
-    "value": "$2,34 USD (Leads)"
-   },
-   "amount_spent": "$23,40 USD",
-   "impressions": "3504",
-   "id": "120249908467400783",
-   "name": "Campaña Punto de Venta GT"
-  },
-  {
-   "country": "SV",
-   "results": {
-    "indicator": "actions:lead",
-    "values": [
-     {
-      "attribution_windows": [
-       "default"
-      ],
-      "value": "6"
-     }
-    ]
-   },
-   "cost_per_result": {
-    "value": "$2,20 USD (Leads)"
-   },
-   "amount_spent": "$13,19 USD",
-   "impressions": "3469",
-   "id": "120249959697280783",
-   "name": "Campaña Punto de Venta SV"
-  },
-  {
-   "country": "GT",
-   "results": {
-    "indicator": "actions:lead",
-    "value": "Not available"
-   },
-   "cost_per_result": {
-    "value": "Not available (Leads)"
-   },
-   "amount_spent": "$0,08 USD",
-   "impressions": "42",
-   "id": "120249959697280783",
-   "name": "Campaña Punto de Venta SV"
-  }
- ]
+ "ad_entities": []
 }

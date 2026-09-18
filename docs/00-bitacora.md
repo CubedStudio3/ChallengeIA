@@ -1974,3 +1974,91 @@ del flag y **ancla el reloj del navegador** a la fecha del dato. «Hoy» pasa a
 ser cierto por construcción y la prueba dice lo mismo hoy que dentro de un año.
 El sabotaje del reloj sigue haciendo lo suyo —adelantar cuatro días sin tocar
 el dato— pero ahora parte de un estado que él mismo fija.
+
+---
+
+### Sesión 28 · 2026-09-18 · día de la presentación · **la pauta está apagada**
+
+Mercadeo: «hoy es la presentacion del proyecto, necesito que lo actualices, que
+puedas resolver eso de la fecha».
+
+**Lo que se encontró al preguntar no era lo que se iba a arreglar.**
+
+Se pidió a Meta el rango 4→17 de septiembre, día por día y agregado, más el día
+de hoy. Los tres cursores se siguieron hasta que dejaron de venir.
+
+- **17 de septiembre:** UNA fila, `$0,00` y 0 impresiones.
+- **18 de septiembre (hoy):** CERO filas.
+
+No es un hueco de lectura ni un fallo del conector: **no hubo entrega.** El
+último día con entrega es el 16. Así que «lo de la fecha» no se resolvía
+trayendo el dato de hoy —no existe—, sino diciendo por qué.
+
+**El dato que sí faltaba se cargó.** El 16 cerró y ya se asentó: entra a
+`pauta_meses/` reconciliado al centavo contra su propio agregado, por campaña y
+por país ($699.32 en los dos lados). `rango_disponible` pasa de `2026-09-15` a
+`2026-09-16` —el 17 no lo mueve, porque el rango sale del primer y último día
+CON ENTREGA— y las piezas de 1,265 a 1,269.
+
+**Y el 16 volvió a moverse.** Guardado ayer decía `$23,40` en GT; hoy Meta dice
+`$23,41`, y SV pasó de `$13,19` a `$13,22`. Los leads, quietos. Tercera muestra
+de lo mismo: un día se asienta ~2 días después de cerrar, y lo que se mueve
+tarde es el gasto y las impresiones.
+
+#### El defecto que destapó
+
+La franja del día en curso hacía `if (!mk.length) return ""`. Sin mercados **se
+borraba entera**, así que el tablero quedaba exactamente igual que si nunca se
+hubiera preguntado por hoy. Son dos cosas muy distintas —«no se preguntó» y «se
+preguntó y no hay»— y la página las mostraba iguales, justo cuando la segunda es
+la noticia.
+
+Ahora hay una franja de **sin entrega**: dice la fecha, que se preguntó, que
+Meta devolvió cero filas, que no es un fallo de lectura, y cuál fue el último
+día que sí entregó —sacado de `rango_disponible`, no escrito a mano—. Lo que NO
+hace es pintar «$0.00»: lo medido es la ausencia de filas, no un gasto de cero.
+
+**Y esa franja nueva se olvidó de los avisos del botón.** Los seis mensajes de
+error de «Actualizar ahora» vivían dentro de la rama con mercados, así que
+apretar el botón con el conector caído no decía **nada** — y el único momento en
+que ese aviso importa de verdad es cuando no hay dato en pantalla. Lo agarró
+`prueba:actualizar`, código por código. El bloque pasó a una función compartida.
+
+#### Cuatro pruebas se apoyaban en que la cuenta estuviera entregando
+
+Ninguna encontró un defecto: las cuatro caducaron solas.
+
+1. **`prueba:actualizar`** usaba `dia_en_curso/crudo/` —el archivo VIVO— como
+   payload simulado. Al quedar vacío, veintitrés comprobaciones pasaron a
+   comparar nada contra nada o a ponerse rojas. **Cuarta vez** que un esperado
+   propio caduca en este proyecto (ADR-050, ADR-054, ADR-067, ADR-068). Ahora
+   construye las filas desde un día cerrado de `pauta_meses/` y se las hace
+   evaluar a Python con un crudo temporal.
+2. **Dos asertos suyos nunca probaron lo que decían.** «dos páginas dan el mismo
+   número que una sola» leía `#datos` del DOM —el JSON de carga, que el botón no
+   reescribe—, así que respondía por el dato de origen y no por el efecto del
+   clic; pasaba solo mientras el dato publicado coincidiera con el fixture. Y «el
+   dato de antes sigue en pantalla» no tenía dato antes. Ahora el primero lee el
+   HTML **publicado** y el segundo hace un refresco bueno antes de fallar.
+3. **`prueba:hoy`** está escrita entera sobre un día con mercados. Se le dio el
+   mismo control que ya tiene sobre el reloj: **fabrica** los dos estados —con
+   entrega y sin— y Python los evalúa. Se le agregó la sección 8, que es la
+   única que cubre lo que el tablero muestra hoy.
+4. **`prueba:raton`** comparaba el rótulo contra el **número del día** del
+   periodo de la corrida. «25» aparece en cualquier fecha que caiga 25: con 253
+   días la ventana muestreada terminó el 25 de julio mientras la corrida empieza
+   el 25 de agosto, y la prueba acusó al producto de un rótulo correcto. Era una
+   coincidencia esperando su turno. Ahora compara rótulos enteros.
+
+Y un aserto de `prueba:hoy` recalculaba el promedio **sin el redondeo que aplica
+Python**: daba 69% donde la pantalla pinta 70. Reproducir un cálculo significa
+reproducirlo entero, redondeos incluidos.
+
+#### `refresca_dato.py`
+
+Hasta hoy, refrescar el dato obligaba a correr `corre.py`, o sea a recalcular
+estrategia, cartas y recomendaciones — justo lo que ADR-065 dice que no se hace
+a diario. El módulo nuevo pasa las mismas compuertas y reescribe **solo**
+`pauta_diaria`. Es lo que la Rutina diaria necesitaba y no tenía.
+
+**Publicado como Version 90.** Doce suites en verde.

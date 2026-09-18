@@ -408,8 +408,29 @@ async function teclea(pg, id, iso) {
     ok("el rótulo nombra el día inicial de la ventana",
        r.indexOf(dia(f9.desde)) >= 0, true, r);
     ok("y el día final", r.indexOf(dia(f9.hasta)) >= 0, true, r);
+    /* Comparar solo el NÚMERO del día era una coincidencia esperando su turno:
+       «25» aparece en cualquier fecha que caiga 25, y con 253 días la ventana
+       muestreada terminó justo el 25 de julio mientras la corrida empieza el
+       25 de agosto. La prueba acusó al producto de un rótulo correcto.
+
+       Se compara contra el rótulo ENTERO que la propia página escribe para la
+       ventana de la corrida: se pone esa ventana, se lee lo que dice, y se
+       exige que con otra ventana diga otra cosa. Sigue sin atarse al formato
+       —no hay ningún texto escrito a mano— y ya no depende de que dos fechas
+       distintas no compartan el día del mes. */
+    await teclea(pg, "fDesde", CORR_INI);
+    await pg.waitForTimeout(ESPERA);
+    await teclea(pg, "fHasta", CORR_FIN);
+    await pg.waitForTimeout(ESPERA);
+    const rCorrida = await rot();
+    await teclea(pg, "fDesde", A);
+    await pg.waitForTimeout(ESPERA);
+    await teclea(pg, "fHasta", B);
+    await pg.waitForTimeout(ESPERA);
+    const rOtra = await rot();
     ok("y NO nombra el periodo de la corrida cuando difiere",
-       CORR_INI === f9.desde || r.indexOf(rangoTextoDia(CORR_INI)) < 0, true);
+       CORR_INI === f9.desde || (!!rCorrida && rOtra !== rCorrida), true,
+       { corrida: rCorrida, otra: rOtra });
     console.log("    campos " + f9.desde + ".." + f9.hasta + "  rótulo: " + r);
     await vacia();
   }

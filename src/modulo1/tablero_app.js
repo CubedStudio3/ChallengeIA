@@ -2344,11 +2344,76 @@
      El avance se dice en PORCENTAJE, no en horas: la zona horaria de la cuenta
      está declarada como desconocida y «van 6 horas del día» sería una
      suposición. El porcentaje sale del promedio de días completos. */
+  /* Lo que el boton «Actualizar ahora» tiene que decir cuando falla, o cuando
+     Meta contesta que no hay nada.
+
+     Vive aparte porque lo necesitan las DOS franjas. Cuando se escribio la
+     franja de «sin entrega» se le olvido, y el resultado era que apretar el
+     boton con el conector caido no decia NADA: el unico caso en que el aviso
+     hace falta de verdad es justo ese. Lo agarro `prueba:actualizar`, que
+     revisa los seis codigos uno por uno. */
+  function avisoDelRefresco() {
+    if (refresco.error) {
+      return '<div id="avisoHoy" class="basis-full text-[11px] ' +
+        'text-amber-700 font-semibold leading-snug">' +
+        esc(refresco.mensaje) + "</div>";
+    }
+    if (refresco.mensaje) {
+      return '<div id="avisoHoy" class="basis-full text-[11px] ' +
+        'text-slate-500 leading-snug">' + esc(refresco.mensaje) + "</div>";
+    }
+    return "";
+  }
+
+  /* La franja cuando la consulta no trajo NADA.
+
+     No se inventa un cero: no se dice "$0 gastados hoy", porque lo medido es
+     la ausencia de filas, no un gasto de cero. Se dice que se pregunto, cuando,
+     y cual es el ultimo dia que si entrego — que sale de `rango_disponible`,
+     o sea del dato, no de una fecha escrita a mano. */
+  function franjaSinEntrega(H) {
+    var PD = pautaDia();
+    var ultimo = PD && PD.rango_disponible && PD.rango_disponible.hasta;
+    var deHoy = H.es_de_hoy !== false && esFechaDeHoy(H.fecha);
+    return '<div id="diaEnCurso" class="rounded-3xl p-5 border ' +
+      'border-dashed border-amber-300 bg-amber-50 flex flex-wrap ' +
+      'items-start gap-x-8 gap-y-3">' +
+      '<div class="min-w-[170px] max-w-[300px]">' +
+      '<div class="text-[10px] font-bold tracking-wider text-amber-700 ' +
+      'uppercase">Sin entrega</div>' +
+      '<div class="text-[13.5px] font-bold text-slate-800 leading-tight ' +
+      'mt-0.5">' + esc(fecha(H.fecha)) + (deHoy ? " · hoy" : "") + "</div>" +
+      "</div>" +
+      '<div class="min-w-[220px] max-w-[460px] text-[11.5px] text-slate-600 ' +
+      'leading-snug">Se le pregunt\u00f3 a Meta por ' +
+      (deHoy ? "hoy" : "ese d\u00eda") + " y <b>devolvi\u00f3 cero filas</b>. " +
+      "No es un fallo de lectura ni un hueco del conector: <b>no hubo " +
+      "entrega</b>." +
+      (ultimo ? " El \u00faltimo d\u00eda con entrega es el <b>" +
+        esc(fecha(ultimo)) + "</b>, y ese s\u00ed est\u00e1 en los " +
+        "n\u00fameros de abajo." : "") +
+      "</div>" +
+      avisoDelRefresco() +
+      '<div class="basis-full text-[10.5px] text-slate-400 leading-snug">' +
+      "Le\u00eddo " + esc(horaLectura(H.consultado_a)) +
+      ". Si la pauta se reactiva, el bot\u00f3n \u00abActualizar ahora\u00bb " +
+      "de arriba lo trae sin esperar a la corrida.</div></div>";
+  }
+
   function franjaDiaEnCurso() {
     var PD = pautaDia(), H = PD && PD.dia_en_curso;
     if (!H || !H.por_mercado) return "";
     var mk = Object.keys(H.por_mercado);
-    if (!mk.length) return "";
+    /* SE PREGUNTO Y NO HAY ENTREGA. Sin mercados, esta franja se borraba
+       entera y devolvia "": el tablero quedaba igual que si nunca se hubiera
+       pedido el dia. Son dos cosas distintas y la pagina las mostraba iguales.
+
+       El 2026-09-18 pasó de verdad: Meta devolvio CERO filas para hoy y una
+       fila en cero para ayer. Eso no es un fallo de lectura ni un hueco del
+       conector — es que la pauta esta detenida, que es justo lo que Mercadeo
+       necesita ver en una pantalla. Callarlo es el error de siempre: un hueco
+       sin declarar se lee como si no pasara nada. */
+    if (!mk.length) return franjaSinEntrega(H);
 
     /* Se calcula ANTES de las columnas porque el tiempo verbal depende de
        ello: un día que ya pasó no «va» a ningún ritmo. */
@@ -2459,15 +2524,7 @@
       (function () {
         var atraso = diasDeAtraso();
         var b = "";
-        var msg = "";
-        if (refresco.error) {
-          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
-            'text-amber-700 font-semibold leading-snug">' +
-            esc(refresco.mensaje) + "</div>";
-        } else if (refresco.mensaje) {
-          msg = '<div id="avisoHoy" class="basis-full text-[11px] ' +
-            'text-slate-500 leading-snug">' + esc(refresco.mensaje) + "</div>";
-        }
+        var msg = avisoDelRefresco();
         var at = "";
         if (atraso && atraso > 0) {
           at = '<div class="basis-full text-[10.5px] text-amber-700 ' +
