@@ -1,0 +1,82 @@
+<!-- ============================================================
+     SECCIÓN · Franja de confianza
+     Va debajo del hero o arriba del pie. Contesta las tres dudas
+     que frenan una compra: envío, devolución y seguridad del pago.
+     ============================================================ -->
+<section class="qs-franja-confianza">
+  <style>
+  .qs-franja-confianza{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F5F5F3;   /* fondo de la franja             */
+    --qs-tinta:       #1A1A1C;   /* color del título de cada punto */
+    --qs-tinta-suave: #6B6B72;   /* color de la explicación        */
+    --qs-icono:       #1A1A1C;   /* color del ícono                */
+    --qs-linea:       #E1E1DD;   /* color de las líneas divisorias */
+    --qs-aire:        44px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-franja-confianza *{box-sizing:border-box}
+  .qs-fc-marco{max-width:1120px; margin:0 auto}
+  .qs-fc-reja{display:grid; grid-template-columns:repeat(4,1fr); gap:0}
+  .qs-fc-punto{display:flex; gap:13px; padding:4px 22px; border-left:1px solid var(--qs-linea)}
+  .qs-fc-punto:first-child{border-left:0; padding-left:0}
+  .qs-fc-icono{flex:none; color:var(--qs-icono)}
+  .qs-fc-icono svg{width:23px; height:23px; display:block}
+  .qs-fc-punto b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px; line-height:1.3}
+  .qs-fc-punto span{display:block; font-size:12.5px; line-height:1.45; color:var(--qs-tinta-suave)}
+  .qs-fc-pagos{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    margin-top:28px; padding-top:22px; border-top:1px solid var(--qs-linea);
+  }
+  .qs-fc-pagos p{margin:0; font-size:12px; color:var(--qs-tinta-suave); letter-spacing:.02em}
+  .qs-fc-sellos{display:flex; gap:8px; flex-wrap:wrap}
+  .qs-fc-sello{
+    font-size:11px; font-weight:600; letter-spacing:.03em; color:var(--qs-tinta);
+    background:#fff; border:1px solid var(--qs-linea); border-radius:7px; padding:6px 11px;
+  }
+  @media (max-width:860px){
+    .qs-fc-reja{grid-template-columns:1fr 1fr; gap:22px 0}
+    .qs-fc-punto:nth-child(odd){border-left:0; padding-left:0}
+  }
+  @media (max-width:460px){
+    .qs-fc-reja{grid-template-columns:1fr; gap:20px}
+    .qs-fc-punto{border-left:0; padding-left:0; padding-right:0}
+  }
+  </style>
+
+  <div class="qs-fc-marco">
+    <div class="qs-fc-reja">
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 8h11v8H2zM13 11h4.5l2.5 3v2h-7z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.4"/><circle cx="16.5" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.4"/></svg></span>
+        <div><b>Envío en 24 horas</b><span>Dentro de la capital. Dos días al resto del país.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12a9 9 0 0115.5-6.2M21 12a9 9 0 01-15.5 6.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M18.5 2v4h-4M5.5 22v-4h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Cambios en 15 días</b><span>Con la etiqueta puesta y el comprobante.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5l8 3.2v6c0 4.8-3.4 8.4-8 9.8-4.6-1.4-8-5-8-9.8v-6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.6 12l2.4 2.4 4.4-4.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Pago verificado</b><span>3D Secure en cada compra con tarjeta.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 9.5h19" stroke="currentColor" stroke-width="1.4"/><path d="M6 14.5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        <div><b>Hasta 12 cuotas</b><span>Con tarjeta de crédito de bancos del país.</span></div>
+      </div>
+    </div>
+
+    <div class="qs-fc-pagos">
+      <p>Aceptamos</p>
+      <div class="qs-fc-sellos">
+        <span class="qs-fc-sello">Visa</span>
+        <span class="qs-fc-sello">Mastercard</span>
+        <span class="qs-fc-sello">Crédito y débito</span>
+        <span class="qs-fc-sello">Sin contacto</span>
+        <span class="qs-fc-sello">Link de pago</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,131 @@
+<!-- ============================================================
+     SECCIÓN · Carrusel de reseñas
+     Rota solo cada 6 segundos y se detiene al pasar el mouse o al
+     enfocar con el teclado. Respeta "reducir movimiento".
+     ============================================================ -->
+<section class="qs-carrusel-resenas">
+  <style>
+  .qs-carrusel-resenas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #101820;   /* fondo de la sección            */
+    --qs-tinta:       #F2F6F8;   /* color de la reseña             */
+    --qs-tinta-suave: #8FA3B0;   /* color del nombre y el negocio  */
+    --qs-estrella:    #E8B54B;   /* color de las estrellas         */
+    --qs-acento:      #E8B54B;   /* punto activo                   */
+    --qs-segundos:    6s;        /* cada cuánto cambia             */
+    --qs-aire:        72px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-carrusel-resenas *{box-sizing:border-box}
+  .qs-cr-marco{max-width:720px; margin:0 auto}
+  .qs-cr-titulo{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--qs-tinta-suave); margin:0 0 30px;
+  }
+  .qs-cr-escena{position:relative; min-height:236px}
+  .qs-cr-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .5s ease; margin:0;
+  }
+  .qs-cr-hoja.qs-activa{opacity:1; visibility:visible; position:relative}
+  .qs-cr-estrellas{display:flex; justify-content:center; gap:4px; margin-bottom:20px}
+  .qs-cr-estrellas svg{width:17px; height:17px; color:var(--qs-estrella)}
+  .qs-cr-hoja blockquote{
+    margin:0 0 24px; font-size:clamp(18px,2.6vw,25px); line-height:1.45;
+    font-weight:500; letter-spacing:-.015em; text-wrap:balance;
+  }
+  .qs-cr-quien{display:flex; align-items:center; justify-content:center; gap:12px}
+  .qs-cr-cara{width:42px; height:42px; border-radius:50%; overflow:hidden; flex:none; background:#26333D}
+  .qs-cr-cara svg, .qs-cr-cara img{width:100%; height:100%; display:block; object-fit:cover}
+  .qs-cr-quien div{text-align:left; font-size:13.5px; line-height:1.4}
+  .qs-cr-quien b{display:block; font-weight:600}
+  .qs-cr-quien span{color:var(--qs-tinta-suave)}
+  .qs-cr-puntos{display:flex; justify-content:center; gap:9px; margin-top:30px}
+  .qs-cr-puntos button{
+    width:8px; height:8px; padding:0; border:0; border-radius:50%; cursor:pointer;
+    background:var(--qs-tinta-suave); opacity:.4; transition:opacity .2s, width .2s, background .2s;
+  }
+  .qs-cr-puntos button[aria-current="true"]{opacity:1; width:26px; border-radius:4px; background:var(--qs-acento)}
+  @media (max-width:560px){ .qs-carrusel-resenas{--qs-aire:48px} .qs-cr-escena{min-height:290px} }
+  </style>
+
+  <div class="qs-cr-marco">
+    <p class="qs-cr-titulo">Lo que dicen los negocios</p>
+
+    <div class="qs-cr-escena">
+      <!-- Reseña · duplicar; la primera lleva la clase qs-activa -->
+      <figure class="qs-cr-hoja qs-activa">
+        <div class="qs-cr-estrellas" aria-label="5 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Cerrar caja me tomaba media hora y casi nunca cuadraba. Ahora el corte sale solo y me voy a las siete.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#2F4150"/><circle cx="24" cy="19" r="9" fill="#7C94A3"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#7C94A3"/></svg></span>
+          <div><b>Marisol Chávez</b><span>Abarrotes La Esquina · Mixco</span></div>
+        </figcaption>
+      </figure>
+
+      <figure class="qs-cr-hoja">
+        <div class="qs-cr-estrellas" aria-label="5 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Vendía en el local y en línea con dos inventarios separados. Un mismo catálogo arregló el problema que llevaba dos años.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#3E3346"/><circle cx="24" cy="19" r="9" fill="#96829F"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#96829F"/></svg></span>
+          <div><b>Byron Estrada</b><span>Ferretería El Progreso · Quetzaltenango</span></div>
+        </figcaption>
+      </figure>
+
+      <figure class="qs-cr-hoja">
+        <div class="qs-cr-estrellas" aria-label="4 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor" opacity=".3"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Cobro en la silla, sin que el cliente camine a la caja. Las citas del día y el cobro quedan en la misma pantalla.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#4A3B2E"/><circle cx="24" cy="19" r="9" fill="#A68E73"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#A68E73"/></svg></span>
+          <div><b>Kevin Alvarado</b><span>Barbería Norte · Ciudad de Guatemala</span></div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="qs-cr-puntos"></div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-resenas').forEach(function(seccion){
+      var hojas  = seccion.querySelectorAll('.qs-cr-hoja');
+      var puntos = seccion.querySelector('.qs-cr-puntos');
+      if(hojas.length < 2 || !puntos) return;
+
+      var actual = 0, reloj = null;
+      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var cada = (parseFloat(getComputedStyle(seccion).getPropertyValue('--qs-segundos')) || 6) * 1000;
+
+      hojas.forEach(function(_, i){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Reseña ' + (i + 1));
+        b.addEventListener('click', function(){ muestra(i); reinicia(); });
+        puntos.appendChild(b);
+      });
+      var botones = puntos.querySelectorAll('button');
+
+      function muestra(i){
+        actual = i;
+        hojas.forEach(function(h, n){ h.classList.toggle('qs-activa', n === i); });
+        botones.forEach(function(b, n){ b.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+      }
+      function arranca(){ if(!quieto) reloj = setInterval(function(){ muestra((actual + 1) % hojas.length); }, cada); }
+      function para(){ clearInterval(reloj); reloj = null; }
+      function reinicia(){ para(); arranca(); }
+
+      seccion.addEventListener('mouseenter', para);
+      seccion.addEventListener('mouseleave', arranca);
+      seccion.addEventListener('focusin', para);
+      seccion.addEventListener('focusout', arranca);
+
+      muestra(0);
+      arranca();
+    });
+  })();
+  </script>
+</section>

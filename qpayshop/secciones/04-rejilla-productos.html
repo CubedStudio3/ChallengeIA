@@ -1,0 +1,124 @@
+<!-- ============================================================
+     SECCIÓN · Rejilla de productos
+     Cuatro columnas que bajan a dos y a una. El botón de agregar
+     aparece al pasar el mouse y queda siempre visible en táctil.
+     ============================================================ -->
+<section class="qs-rejilla-productos">
+  <style>
+  .qs-rejilla-productos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:        #FFFFFF;   /* fondo de la sección           */
+    --qs-tinta:        #17171A;   /* color del texto               */
+    --qs-tinta-suave:  #6E6E78;   /* color de la categoría         */
+    --qs-acento:       #17171A;   /* fondo del botón agregar       */
+    --qs-acento-texto: #FFFFFF;   /* texto del botón agregar       */
+    --qs-oferta:       #B3301C;   /* color del precio en oferta    */
+    --qs-columnas:     4;         /* cuántas columnas en escritorio*/
+    --qs-radio:        14px;      /* redondeo de la foto           */
+    --qs-aire:         64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rejilla-productos *{box-sizing:border-box}
+  .qs-rp-marco{max-width:1180px; margin:0 auto}
+  .qs-rp-cab{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:30px}
+  .qs-rejilla-productos h2{font-size:clamp(24px,3vw,32px); font-weight:700; letter-spacing:-.025em; margin:0 0 6px}
+  .qs-rp-cab p{margin:0; font-size:14.5px; color:var(--qs-tinta-suave)}
+  .qs-rp-ver{font-size:14px; font-weight:600; color:var(--qs-tinta); text-decoration:none; border-bottom:1.5px solid currentColor; padding-bottom:2px}
+  .qs-rp-reja{
+    display:grid; gap:26px 20px;
+    grid-template-columns:repeat(var(--qs-columnas), minmax(min(200px,100%),1fr));
+  }
+  .qs-rp-art{position:relative}
+  .qs-rp-foto{
+    position:relative; aspect-ratio:1/1; border-radius:var(--qs-radio); overflow:hidden;
+    background:#F2F1EF; margin-bottom:13px; display:block;
+  }
+  .qs-rp-foto svg, .qs-rp-foto img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease}
+  .qs-rp-art:hover .qs-rp-foto svg, .qs-rp-art:hover .qs-rp-foto img{transform:scale(1.05)}
+  .qs-rp-tag{
+    position:absolute; top:10px; left:10px; z-index:2; font-size:11px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase; padding:5px 9px; border-radius:7px;
+    background:var(--qs-oferta); color:#fff;
+  }
+  .qs-rp-tag.qs-neutro{background:#fff; color:var(--qs-tinta); box-shadow:0 1px 4px rgba(0,0,0,.14)}
+  .qs-rp-agregar{
+    position:absolute; left:10px; right:10px; bottom:10px; z-index:2;
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-texto); border:0;
+    border-radius:10px; padding:11px 10px;
+    opacity:0; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;
+  }
+  .qs-rp-art:hover .qs-rp-agregar, .qs-rp-art:focus-within .qs-rp-agregar{opacity:1; transform:none}
+  @media (hover:none){ .qs-rp-agregar{opacity:1; transform:none} }
+  .qs-rp-cat{font-size:11.5px; color:var(--qs-tinta-suave); letter-spacing:.03em; margin:0 0 4px}
+  .qs-rp-art h3{font-size:14.5px; font-weight:600; margin:0 0 6px; line-height:1.35}
+  .qs-rp-art h3 a{color:inherit; text-decoration:none}
+  .qs-rp-art h3 a:hover{text-decoration:underline}
+  .qs-rp-precio{display:flex; align-items:baseline; gap:8px; font-variant-numeric:tabular-nums}
+  .qs-rp-precio b{font-size:15.5px; font-weight:700}
+  .qs-rp-precio s{font-size:13px; color:var(--qs-tinta-suave); text-decoration-thickness:1px}
+  .qs-rp-precio .qs-rebaja{color:var(--qs-oferta)}
+  @media (max-width:900px){ .qs-rejilla-productos{--qs-columnas:2; --qs-aire:44px} }
+  @media (max-width:420px){ .qs-rp-reja{gap:22px 14px} }
+  </style>
+
+  <div class="qs-rp-marco">
+    <div class="qs-rp-cab">
+      <div>
+        <h2>Lo que más sale este mes</h2>
+        <p>Abarrotes y limpieza · existencias al día de hoy</p>
+      </div>
+      <a class="qs-rp-ver" href="#">Ver los 84 productos</a>
+    </div>
+
+    <div class="qs-rp-reja">
+      <!-- Producto · duplicar este bloque completo por cada artículo -->
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <span class="qs-rp-tag">-20%</span>
+          <!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#F0EEE9"/><rect x="95" y="60" width="110" height="180" rx="10" fill="#C8B79B"/><rect x="95" y="105" width="110" height="52" fill="#F7F5F1"/><circle cx="150" cy="131" r="17" fill="#C8B79B"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Despensa</p>
+        <h3><a href="#">Aceite vegetal 900 ml</a></h3>
+        <p class="qs-rp-precio"><b class="qs-rebaja">Q 18.40</b><s>Q 23.00</s></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#EAF0EE"/><circle cx="150" cy="150" r="88" fill="#9FBEB4"/><path d="M110 150h80M150 110v80" stroke="#EAF0EE" stroke-width="14" stroke-linecap="round"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Limpieza</p>
+        <h3><a href="#">Desinfectante multiusos 1 L</a></h3>
+        <p class="qs-rp-precio"><b>Q 26.50</b></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <span class="qs-rp-tag qs-neutro">Últimas 4</span>
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#F3EDE6"/><path d="M150 55l78 46v98l-78 46-78-46v-98z" fill="#D2B48C"/><path d="M150 55v190M72 101l78 46 78-46" stroke="#F3EDE6" stroke-width="7"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Despensa</p>
+        <h3><a href="#">Café molido de altura 454 g</a></h3>
+        <p class="qs-rp-precio"><b>Q 48.00</b></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#EDEBF3"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#A9A2C4"/><rect x="96" y="120" width="108" height="14" rx="7" fill="#EDEBF3" opacity=".9"/><rect x="96" y="146" width="70" height="14" rx="7" fill="#EDEBF3" opacity=".6"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Hogar</p>
+        <h3><a href="#">Papel higiénico doble hoja · 12 u</a></h3>
+        <p class="qs-rp-precio"><b>Q 62.90</b></p>
+      </article>
+    </div>
+  </div>
+</section>

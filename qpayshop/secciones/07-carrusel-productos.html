@@ -1,0 +1,132 @@
+<!-- ============================================================
+     SECCIÓN · Carrusel de productos
+     Se desliza con el dedo, con la rueda o con las flechas.
+     Sin JavaScript sigue desplazándose: el JS solo agrega flechas.
+     ============================================================ -->
+<section class="qs-carrusel-productos">
+  <style>
+  .qs-carrusel-productos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección            */
+    --qs-tinta:       #17171A;   /* color del texto                */
+    --qs-tinta-suave: #71717C;   /* color de la categoría          */
+    --qs-acento:      #17171A;   /* flechas y punto activo         */
+    --qs-tarjeta:     260px;     /* ancho de cada tarjeta          */
+    --qs-radio:       14px;      /* redondeo de la foto            */
+    --qs-aire:        64px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0;
+  }
+  .qs-carrusel-productos *{box-sizing:border-box}
+  .qs-cp-cab{
+    max-width:1180px; margin:0 auto 22px; padding:0 24px;
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  .qs-carrusel-productos h2{font-size:clamp(22px,2.8vw,30px); font-weight:700; letter-spacing:-.025em; margin:0}
+  .qs-cp-flechas{display:flex; gap:8px}
+  .qs-cp-flechas button{
+    width:40px; height:40px; border-radius:50%; cursor:pointer;
+    background:transparent; border:1.5px solid var(--qs-acento); color:var(--qs-acento);
+    display:grid; place-items:center; transition:background .15s, color .15s, opacity .15s;
+  }
+  .qs-cp-flechas button:hover:not(:disabled){background:var(--qs-acento); color:#fff}
+  .qs-cp-flechas button:disabled{opacity:.28; cursor:default}
+  .qs-cp-flechas svg{width:16px; height:16px}
+  .qs-cp-pista{
+    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    scroll-behavior:smooth; padding:4px 24px 20px; scrollbar-width:none;
+  }
+  .qs-cp-pista::-webkit-scrollbar{display:none}
+  .qs-cp-pista::after{content:""; flex:0 0 1px}
+  .qs-cp-art{flex:0 0 var(--qs-tarjeta); max-width:82vw; scroll-snap-align:start}
+  .qs-cp-foto{
+    display:block; position:relative; aspect-ratio:3/4; border-radius:var(--qs-radio);
+    overflow:hidden; background:#F1F0ED; margin-bottom:12px;
+  }
+  .qs-cp-foto svg, .qs-cp-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cp-tag{
+    position:absolute; top:10px; right:10px; background:#fff; color:var(--qs-tinta);
+    font-size:11px; font-weight:700; padding:5px 9px; border-radius:7px;
+    box-shadow:0 1px 4px rgba(0,0,0,.14);
+  }
+  .qs-cp-art p.qs-cp-cat{font-size:11.5px; color:var(--qs-tinta-suave); margin:0 0 4px}
+  .qs-cp-art h3{font-size:14.5px; font-weight:600; margin:0 0 6px; line-height:1.35}
+  .qs-cp-art h3 a{color:inherit; text-decoration:none}
+  .qs-cp-art .qs-cp-precio{font-size:15px; font-weight:700; margin:0; font-variant-numeric:tabular-nums}
+  .qs-cp-puntos{display:flex; justify-content:center; gap:7px; padding-top:4px}
+  .qs-cp-puntos i{width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.22; transition:opacity .2s, width .2s}
+  .qs-cp-puntos i.qs-activo{opacity:1; width:20px; border-radius:3px}
+  @media (max-width:640px){
+    .qs-carrusel-productos{--qs-aire:44px; --qs-tarjeta:210px}
+    .qs-cp-flechas{display:none}
+  }
+  </style>
+
+  <div class="qs-cp-cab">
+    <h2>Recién llegado a bodega</h2>
+    <div class="qs-cp-flechas">
+      <button type="button" data-qs-cp="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-qs-cp="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+
+  <div class="qs-cp-pista" tabindex="0" role="region" aria-label="Productos recién llegados">
+    <!-- Tarjeta · duplicar por cada producto -->
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><span class="qs-cp-tag">Nuevo</span><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E8E4DC"/><rect x="70" y="80" width="160" height="240" rx="12" fill="#B9AE97"/><rect x="100" y="130" width="100" height="60" rx="8" fill="#EFEBE3"/></svg></a><p class="qs-cp-cat">Calzado</p><h3><a href="#">Bota de trabajo punta de acero</a></h3><p class="qs-cp-precio">Q 420.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#DFE7E5"/><circle cx="150" cy="180" r="92" fill="#9CB6B1"/><rect x="118" y="250" width="64" height="90" rx="12" fill="#7E9A95"/></svg></a><p class="qs-cp-cat">Uniformes</p><h3><a href="#">Camisa de trabajo manga larga</a></h3><p class="qs-cp-precio">Q 165.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><span class="qs-cp-tag">Nuevo</span><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#EEE6E9"/><path d="M150 70l90 60v140l-90 60-90-60V130z" fill="#C0A2AE"/><circle cx="150" cy="200" r="38" fill="#EEE6E9" opacity=".85"/></svg></a><p class="qs-cp-cat">Protección</p><h3><a href="#">Casco con barbiquejo</a></h3><p class="qs-cp-precio">Q 98.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E6E9F0"/><rect x="60" y="120" width="180" height="160" rx="16" fill="#A3AEC4"/><rect x="88" y="152" width="124" height="18" rx="9" fill="#E6E9F0" opacity=".9"/><rect x="88" y="182" width="80" height="18" rx="9" fill="#E6E9F0" opacity=".6"/></svg></a><p class="qs-cp-cat">Herramienta</p><h3><a href="#">Juego de llaves 12 piezas</a></h3><p class="qs-cp-precio">Q 310.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#EDE8DE"/><circle cx="150" cy="150" r="70" fill="#C9B894"/><rect x="132" y="210" width="36" height="130" rx="18" fill="#A99872"/></svg></a><p class="qs-cp-cat">Jardín</p><h3><a href="#">Pala de punta reforzada</a></h3><p class="qs-cp-precio">Q 145.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E4EAE3"/><rect x="80" y="90" width="140" height="220" rx="70" fill="#9FB49B"/><rect x="118" y="140" width="64" height="64" rx="32" fill="#E4EAE3" opacity=".8"/></svg></a><p class="qs-cp-cat">Limpieza</p><h3><a href="#">Cubeta industrial 20 L</a></h3><p class="qs-cp-precio">Q 72.00</p></article>
+  </div>
+
+  <div class="qs-cp-puntos" aria-hidden="true"></div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-productos').forEach(function(seccion){
+      var pista   = seccion.querySelector('.qs-cp-pista');
+      var puntos  = seccion.querySelector('.qs-cp-puntos');
+      var flechas = seccion.querySelectorAll('[data-qs-cp]');
+      if(!pista) return;
+
+      var tarjetas = pista.querySelectorAll('.qs-cp-art');
+      if(puntos){
+        tarjetas.forEach(function(){ puntos.appendChild(document.createElement('i')); });
+      }
+
+      function paso(){
+        var t = pista.querySelector('.qs-cp-art');
+        if(!t) return 280;
+        var gap = parseFloat(getComputedStyle(pista).columnGap || getComputedStyle(pista).gap) || 18;
+        return t.getBoundingClientRect().width + gap;
+      }
+
+      flechas.forEach(function(boton){
+        boton.addEventListener('click', function(){
+          pista.scrollBy({ left: paso() * Number(boton.dataset.qsCp), behavior:'smooth' });
+        });
+      });
+
+      function pinta(){
+        var max = pista.scrollWidth - pista.clientWidth;
+        flechas.forEach(function(b){
+          var dir = Number(b.dataset.qsCp);
+          b.disabled = dir < 0 ? pista.scrollLeft <= 2 : pista.scrollLeft >= max - 2;
+        });
+        if(puntos){
+          var i = Math.round(pista.scrollLeft / paso());
+          puntos.querySelectorAll('i').forEach(function(p, n){ p.classList.toggle('qs-activo', n === i); });
+        }
+      }
+
+      pista.addEventListener('scroll', pinta, { passive:true });
+      window.addEventListener('resize', pinta);
+      pinta();
+    });
+  })();
+  </script>
+</section>

@@ -1,0 +1,95 @@
+<!-- ============================================================
+     SECCIÓN · Hero dividido
+     Texto a la izquierda, producto a la derecha. El clásico que
+     funciona cuando hay algo concreto que mostrar.
+     ============================================================ -->
+<section class="qs-hero-dividido">
+  <style>
+  .qs-hero-dividido{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:        #F1EFE9;   /* fondo de toda la sección      */
+    --qs-tinta:        #191713;   /* color del título              */
+    --qs-tinta-suave:  #5D584E;   /* color del párrafo             */
+    --qs-acento:       #191713;   /* fondo del botón principal     */
+    --qs-acento-texto: #FFFFFF;   /* texto del botón principal     */
+    --qs-realce:       #C7452F;   /* la palabra destacada y el sello */
+    --qs-radio:        16px;      /* redondeo de botones e imagen  */
+    --qs-aire:         72px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-dividido *{box-sizing:border-box}
+  .qs-hd-reja{
+    max-width:1140px; margin:0 auto; display:grid; gap:48px;
+    grid-template-columns:1.05fr .95fr; align-items:center;
+  }
+  .qs-hd-sello{
+    display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; color:var(--qs-realce); margin:0 0 20px;
+  }
+  .qs-hd-sello::before{content:""; width:20px; height:1.5px; background:currentColor}
+  .qs-hero-dividido h2{
+    font-size:clamp(32px,4.4vw,54px); line-height:1.05; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 18px; text-wrap:balance;
+  }
+  .qs-hero-dividido h2 em{font-style:normal; color:var(--qs-realce)}
+  .qs-hd-bajada{font-size:17px; line-height:1.6; color:var(--qs-tinta-suave); margin:0 0 30px; max-width:44ch}
+  .qs-hd-botones{display:flex; flex-wrap:wrap; gap:11px; margin-bottom:34px}
+  .qs-hd-cta{
+    font:inherit; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer;
+    padding:14px 26px; border-radius:var(--qs-radio); display:inline-block;
+    background:var(--qs-acento); color:var(--qs-acento-texto); border:1.5px solid var(--qs-acento);
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .qs-hd-cta:hover{transform:translateY(-1px); opacity:.9}
+  .qs-hd-cta.qs-alterno{background:transparent; color:var(--qs-tinta); border-color:rgba(0,0,0,.18)}
+  .qs-hd-datos{
+    list-style:none; margin:0; padding:26px 0 0; border-top:1px solid rgba(0,0,0,.10);
+    display:flex; flex-wrap:wrap; gap:26px;
+  }
+  .qs-hd-datos li{font-size:13px; color:var(--qs-tinta-suave); line-height:1.4}
+  .qs-hd-datos b{display:block; font-size:19px; font-weight:700; color:var(--qs-tinta); letter-spacing:-.01em}
+  .qs-hd-visual{
+    border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5; max-width:100%;
+    background:#DED9CE; position:relative;
+  }
+  .qs-hd-visual svg{width:100%; height:100%; display:block}
+  .qs-hd-etiqueta{
+    position:absolute; left:18px; bottom:18px; background:#fff; color:var(--qs-tinta);
+    border-radius:12px; padding:11px 15px; font-size:13px; line-height:1.35;
+    box-shadow:0 6px 20px rgba(0,0,0,.14);
+  }
+  .qs-hd-etiqueta b{display:block; font-size:16px; font-weight:700}
+  @media (max-width:860px){
+    .qs-hd-reja{grid-template-columns:1fr; gap:34px}
+    .qs-hd-visual{aspect-ratio:4/3; order:-1}
+    .qs-hero-dividido{--qs-aire:44px}
+  }
+  </style>
+
+  <div class="qs-hd-reja">
+    <div>
+      <p class="qs-hd-sello">Ferretería · nueva temporada</p>
+      <h2>Herramienta que <em>aguanta</em> el taller completo</h2>
+      <p class="qs-hd-bajada">Marcas que ya conoces, existencias reales y entrega el mismo día dentro de la ciudad. Compra en línea y recoge en el mostrador si te queda de paso.</p>
+      <div class="qs-hd-botones">
+        <a class="qs-hd-cta" href="#">Ver catálogo</a>
+        <a class="qs-hd-cta qs-alterno" href="#">Cotizar por volumen</a>
+      </div>
+      <ul class="qs-hd-datos">
+        <li><b>240+</b>productos en existencia</li>
+        <li><b>24 h</b>entrega en la ciudad</li>
+        <li><b>3 y 6</b>cuotas con tarjeta</li>
+      </ul>
+    </div>
+
+    <!-- Reemplazar todo este bloque por: <img src="tu-foto.jpg" alt="Descripción de la foto" class="qs-hd-visual"> -->
+    <div class="qs-hd-visual">
+      <svg viewBox="0 0 400 500" role="img" aria-label="Foto del producto"><defs><linearGradient id="qshd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E7E1D4"/><stop offset="1" stop-color="#C9C1B0"/></linearGradient></defs><rect width="400" height="500" fill="url(#qshd1)"/><circle cx="200" cy="215" r="108" fill="#B7AE99" opacity=".55"/><rect x="146" y="150" width="108" height="210" rx="16" fill="#8E836B" opacity=".75"/><rect x="170" y="175" width="60" height="18" rx="9" fill="#F1EFE9" opacity=".8"/><rect x="170" y="205" width="36" height="12" rx="6" fill="#F1EFE9" opacity=".5"/><path d="M0 400 L400 340 L400 500 L0 500 Z" fill="#A79D86" opacity=".4"/></svg>
+      <div class="qs-hd-etiqueta"><b>Q 1,240.00</b>Taladro percutor 1/2"</div>
+    </div>
+  </div>
+</section>

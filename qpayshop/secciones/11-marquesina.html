@@ -1,0 +1,52 @@
+<!-- ============================================================
+     SECCIÓN · Marquesina
+     Cinta que corre sin parar. Solo CSS: no lleva JavaScript.
+     Se detiene sola si el visitante pidió reducir el movimiento.
+     ============================================================ -->
+<div class="qs-marquesina">
+  <style>
+  .qs-marquesina{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:     #E9E34B;   /* fondo de la cinta                */
+    --qs-tinta:     #14140A;   /* color del texto                  */
+    --qs-velocidad: 26s;       /* más segundos = más lento         */
+    --qs-alto:      52px;      /* alto de la cinta                 */
+    --qs-inclina:   -1.2deg;   /* inclinación; 0deg la deja recta  */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    min-height:var(--qs-alto); display:flex; align-items:center;
+    overflow:hidden; transform:rotate(var(--qs-inclina)); margin:22px 0;
+    width:102%; margin-left:-1%;
+  }
+  .qs-marquesina *{box-sizing:border-box}
+  .qs-mq-pista{display:flex; flex:none; animation:qs-mq-correr var(--qs-velocidad) linear infinite}
+  .qs-marquesina:hover .qs-mq-pista{animation-play-state:paused}
+  .qs-mq-grupo{
+    display:flex; align-items:center; gap:34px; padding-right:34px; flex:none;
+    font-size:15px; font-weight:700; letter-spacing:-.01em; white-space:nowrap;
+  }
+  .qs-mq-grupo span{display:inline-flex; align-items:center; gap:34px}
+  .qs-mq-grupo span::after{content:""; width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.55}
+  @keyframes qs-mq-correr{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @media (prefers-reduced-motion: reduce){ .qs-mq-pista{animation:none} }
+  @media (max-width:560px){ .qs-marquesina{--qs-alto:44px} .qs-mq-grupo{font-size:13.5px; gap:24px; padding-right:24px} }
+  </style>
+
+  <!-- El grupo va DOS veces: es lo que hace que la vuelta no se note. -->
+  <div class="qs-mq-pista" aria-hidden="true">
+    <div class="qs-mq-grupo">
+      <span>Envío sin costo arriba de Q 300</span>
+      <span>Hasta 12 cuotas con tarjeta</span>
+      <span>Recoge en tienda el mismo día</span>
+      <span>Cambios en 15 días</span>
+    </div>
+    <div class="qs-mq-grupo">
+      <span>Envío sin costo arriba de Q 300</span>
+      <span>Hasta 12 cuotas con tarjeta</span>
+      <span>Recoge en tienda el mismo día</span>
+      <span>Cambios en 15 días</span>
+    </div>
+  </div>
+</div>

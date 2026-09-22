@@ -1,0 +1,1728 @@
+<title>Secciones Qpayshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --tinta:#14131F; --tinta-suave:#65627A; --tinta-tenue:#8F8CA3;
+  --fondo:#F6F6F9; --superficie:#FFFFFF; --superficie-2:#FAFAFC; --superficie-3:#F2F2F7;
+  --borde:#E9E8F1; --borde-fuerte:#DBD9E7;
+  --marca:#000000; --marca-texto:#FFFFFF; --marca-lavado:#F0F0F4;
+  --bien:#0E7A57; --bien-lavado:#E6F5EF;
+  --falta:#8B5905; --falta-lavado:#FDF6E7;
+  --r-g:20px; --r-m:14px; --r-c:10px;
+  --sombra:0 1px 2px rgba(20,19,31,.04), 0 8px 24px -12px rgba(20,19,31,.10);
+  --lienzo:#ECECF1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --tinta:#EDEBF7; --tinta-suave:#A6A1C6; --tinta-tenue:#807BA2;
+    --fondo:#0C0B15; --superficie:#14131F; --superficie-2:#1A1826; --superficie-3:#211E30;
+    --borde:#272338; --borde-fuerte:#37314E;
+    --marca:#EDEBF7; --marca-texto:#14131F; --marca-lavado:#211E30;
+    --bien:#5FD3A9; --bien-lavado:#132A23;
+    --falta:#E0B15F; --falta-lavado:#2A2316;
+    --sombra:0 1px 2px rgba(0,0,0,.30), 0 8px 24px -12px rgba(0,0,0,.60);
+    --lienzo:#08070E;
+  }
+}
+:root[data-theme="dark"]{
+  --tinta:#EDEBF7; --tinta-suave:#A6A1C6; --tinta-tenue:#807BA2;
+  --fondo:#0C0B15; --superficie:#14131F; --superficie-2:#1A1826; --superficie-3:#211E30;
+  --borde:#272338; --borde-fuerte:#37314E;
+  --marca:#EDEBF7; --marca-texto:#14131F; --marca-lavado:#211E30;
+  --bien:#5FD3A9; --bien-lavado:#132A23;
+  --falta:#E0B15F; --falta-lavado:#2A2316;
+  --sombra:0 1px 2px rgba(0,0,0,.30), 0 8px 24px -12px rgba(0,0,0,.60);
+  --lienzo:#08070E;
+}
+
+body{
+  background:var(--fondo); color:var(--tinta);
+  font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+.envoltura{max-width:1120px; margin:0 auto; padding-inline:20px}
+
+/* ---------- cabecera ---------- */
+.portada{padding-block:52px 34px}
+.marca-fila{display:flex; align-items:center; gap:10px; margin-bottom:26px}
+.marca-punto{width:26px; height:26px; border-radius:8px; background:var(--marca); display:grid; place-items:center; flex:none}
+.marca-punto svg{width:14px; height:14px; display:block}
+.marca-fila b{font-size:13px; font-weight:600; letter-spacing:.02em}
+.marca-fila span{font-size:12px; color:var(--tinta-tenue)}
+.portada h1{
+  font-size:clamp(30px,5.2vw,50px); line-height:1.04; letter-spacing:-.03em;
+  font-weight:800; margin:0 0 16px; text-wrap:balance; max-width:16ch;
+}
+.portada .bajada{font-size:16px; color:var(--tinta-suave); max-width:60ch; margin:0}
+.portada .bajada strong{color:var(--tinta); font-weight:600}
+
+.cifras{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
+.cifra{
+  background:var(--superficie); border:1px solid var(--borde); border-radius:var(--r-m);
+  padding:11px 15px; min-width:96px;
+}
+.cifra b{display:block; font-size:21px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.cifra span{display:block; font-size:11.5px; color:var(--tinta-tenue); letter-spacing:.02em}
+
+.comollega{
+  margin-top:26px; border-left:2px solid var(--borde-fuerte); padding:2px 0 2px 16px;
+  font-size:13.5px; color:var(--tinta-suave); max-width:72ch;
+}
+.comollega b{color:var(--tinta); font-weight:600}
+.comollega code{
+  font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:12.5px;
+  background:var(--superficie-3); padding:1px 5px; border-radius:5px;
+}
+
+/* ---------- barra de filtros ---------- */
+.barra{
+  position:sticky; top:env(safe-area-inset-top, 0px); z-index:40;
+  background:color-mix(in srgb, var(--fondo) 88%, transparent);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--borde);
+}
+.barra-in{display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-block:11px}
+.chip{
+  font:inherit; font-size:12.5px; font-weight:500; color:var(--tinta-suave);
+  background:var(--superficie); border:1px solid var(--borde); border-radius:999px;
+  padding:6px 13px; cursor:pointer; transition:background .12s, color .12s, border-color .12s;
+}
+.chip:hover{border-color:var(--borde-fuerte); color:var(--tinta)}
+.chip[aria-pressed="true"]{background:var(--marca); border-color:var(--marca); color:var(--marca-texto); font-weight:600}
+.chip .n{opacity:.55; margin-left:5px; font-variant-numeric:tabular-nums}
+.barra .sep{flex:1}
+.barra .conteo{font-size:12px; color:var(--tinta-tenue); font-variant-numeric:tabular-nums}
+
+/* ---------- ficha de sección ---------- */
+.lista{display:flex; flex-direction:column; gap:28px; padding-block:28px 60px}
+.ficha{
+  background:var(--superficie); border:1px solid var(--borde);
+  border-radius:var(--r-g); box-shadow:var(--sombra); overflow:hidden;
+}
+.ficha-cab{padding:18px 20px 16px; display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap}
+.ficha-id{flex:1 1 300px; min-width:0}
+.ficha-tipo{
+  display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--tinta-suave); background:var(--superficie-3); border-radius:6px; padding:3px 8px; margin-bottom:8px;
+}
+.ficha-id h2{font-size:19px; font-weight:700; letter-spacing:-.02em; margin:0 0 5px; line-height:1.25}
+.ficha-slug{
+  font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--tinta-tenue);
+}
+.ficha-para{margin:9px 0 0; font-size:13.5px; color:var(--tinta-suave); max-width:62ch}
+.ficha-acc{display:flex; gap:7px; align-items:center; flex-wrap:wrap}
+
+.grupo{display:inline-flex; background:var(--superficie-3); border-radius:9px; padding:3px}
+.grupo button{
+  font:inherit; font-size:12px; font-weight:500; color:var(--tinta-suave);
+  background:none; border:0; border-radius:6px; padding:5px 11px; cursor:pointer;
+}
+.grupo button[aria-pressed="true"]{background:var(--superficie); color:var(--tinta); font-weight:600; box-shadow:0 1px 2px rgba(20,19,31,.10)}
+.boton{
+  font:inherit; font-size:12.5px; font-weight:600; cursor:pointer;
+  background:var(--marca); color:var(--marca-texto); border:1px solid var(--marca);
+  border-radius:9px; padding:7px 14px; display:inline-flex; align-items:center; gap:6px;
+}
+.boton.suave{background:var(--superficie); color:var(--tinta); border-color:var(--borde-fuerte)}
+.boton svg{width:13px; height:13px}
+button:focus-visible, a:focus-visible{outline:2px solid var(--tinta); outline-offset:2px; border-radius:6px}
+
+.escenario{background:var(--lienzo); border-block:1px solid var(--borde); padding:18px; display:flex; justify-content:center}
+.escenario .marco{
+  width:100%; max-width:100%; background:#fff; border-radius:var(--r-m); overflow:hidden;
+  box-shadow:0 2px 10px rgba(20,19,31,.10); transition:max-width .22s ease;
+}
+.escenario[data-ancho="movil"] .marco{max-width:390px}
+.escenario iframe{display:block; width:100%; border:0; height:520px; background:#fff}
+
+.pie{padding:15px 20px 18px}
+.vars-tit{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-tenue); margin:0 0 9px}
+.vars{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 4px; padding:0; list-style:none}
+.vars li{
+  font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:11.5px;
+  background:var(--marca-lavado); color:var(--tinta); border-radius:6px; padding:3px 8px;
+}
+.vars li i{font-style:normal; color:var(--tinta-tenue)}
+.nota{margin:12px 0 0; font-size:12.5px; color:var(--tinta-suave); display:flex; gap:8px; align-items:flex-start}
+.nota svg{flex:none; width:14px; height:14px; margin-top:2px; color:var(--tinta-tenue)}
+
+.codigo{border-top:1px solid var(--borde); background:var(--superficie-2)}
+.codigo-cab{display:flex; align-items:center; gap:10px; padding:11px 20px; flex-wrap:wrap}
+.codigo-cab .ruta{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--tinta-tenue); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.codigo pre{
+  margin:0; padding:0 20px 20px; overflow-x:auto; max-height:460px; overflow-y:auto;
+  font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:11.5px; line-height:1.65;
+  color:var(--tinta); tab-size:2;
+}
+.avisocopia{font-size:12px; font-weight:600; color:var(--bien)}
+
+footer.cierre{border-top:1px solid var(--borde); padding-block:26px 44px; font-size:13px; color:var(--tinta-suave)}
+footer.cierre h3{font-size:14px; font-weight:700; color:var(--tinta); margin:0 0 8px}
+footer.cierre ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:5px; max-width:70ch}
+footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:12px; background:var(--superficie-3); padding:1px 5px; border-radius:5px}
+
+@media (max-width:560px){
+  .portada{padding-block:34px 24px}
+  .escenario{padding:12px}
+  .ficha-cab{padding:16px}
+  .pie{padding:14px 16px 16px}
+  .codigo-cab{padding:11px 16px}
+  .codigo pre{padding:0 16px 16px}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
+</style>
+
+<div class="envoltura portada">
+  <div class="marca-fila">
+    <span class="marca-punto" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3" width="13" height="10" rx="2.5" stroke="#fff" stroke-width="1.6"/><path d="M1.5 6.5h13" stroke="#fff" stroke-width="1.6"/></svg></span>
+    <b>Qpayshop</b> <span>· biblioteca de secciones para Tienda en Línea</span>
+  </div>
+  <h1>Doce secciones para armar tiendas</h1>
+  <p class="bajada">Cada sección se ve funcionando acá abajo y trae su código completo: <strong>HTML y CSS en un solo bloque</strong>, sin librerías, sin compilar nada. Abre con un grupo de variables comentadas en español para que el cliente cambie color, tamaño y tipografía sin tocar la maquetación.</p>
+
+  <div class="cifras">
+    <div class="cifra"><b>12</b><span>secciones</span></div>
+    <div class="cifra"><b>3</b><span>Hero</span></div>
+    <div class="cifra"><b>3</b><span>Productos</span></div>
+    <div class="cifra"><b>2</b><span>Carruseles</span></div>
+    <div class="cifra"><b>4</b><span>Banners</span></div>
+    <div class="cifra"><b>0</b><span>dependencias</span></div>
+  </div>
+
+  <p class="comollega">
+    <b>Cómo se usa.</b> Aprieta <code>Ver código</code>, cópialo y pégalo donde va la sección dentro del <code>&lt;body&gt;</code> de la plantilla. Cada bloque lleva sus estilos adentro con prefijo propio (<code>.qs-…</code>), así que no pisa nada de lo que ya tiene la tienda ni se pisan entre sí: se pueden poner varias en la misma página, y la misma dos veces.
+    <br><br>
+    <b>Los textos, precios e imágenes son de ejemplo</b> y están ahí para que se vea la maquetación. Cada foto es un dibujo SVG con el comentario que dice por qué <code>&lt;img&gt;</code> reemplazarlo. Nada de lo que se ve acá es un dato medido de un cliente real.
+  </p>
+</div>
+
+<div class="barra">
+  <div class="envoltura barra-in">
+    <button class="chip" data-filtro="todas" aria-pressed="true">Todas <span class="n">12</span></button>
+    <button class="chip" data-filtro="hero" aria-pressed="false">Hero <span class="n">3</span></button>
+    <button class="chip" data-filtro="productos" aria-pressed="false">Productos <span class="n">3</span></button>
+    <button class="chip" data-filtro="carruseles" aria-pressed="false">Carruseles <span class="n">2</span></button>
+    <button class="chip" data-filtro="banners" aria-pressed="false">Banners <span class="n">4</span></button>
+    <span class="sep"></span>
+    <span class="conteo" id="conteo"></span>
+  </div>
+</div>
+
+<main class="envoltura lista" id="lista"></main>
+
+<div class="envoltura">
+  <footer class="cierre">
+    <h3>Notas para IT</h3>
+    <ol>
+      <li>Cada sección es autosuficiente: el <code>&lt;style&gt;</code> va adentro del bloque. Si prefieren un solo CSS, muevan esos bloques a la hoja de la plantilla sin cambiar nada más — los selectores ya están prefijados.</li>
+      <li>Las que llevan <code>&lt;script&gt;</code> (carruseles, cuenta regresiva, barra de anuncio) recorren <code>querySelectorAll</code>, así que aguantan varias instancias en la misma página.</li>
+      <li>Las tipografías se cargan con <code>@import</code> dentro del bloque solo donde hacen falta. Si la plantilla ya carga esa familia, se puede borrar esa línea: el respaldo es la fuente del sistema.</li>
+      <li>Ninguna sección pide JavaScript para verse. Sin JS los carruseles se siguen desplazando con el dedo y la barra de anuncio se queda fija: se degradan, no se rompen.</li>
+      <li>Los colores de ejemplo son neutros a propósito. El cliente cambia el bloque de variables de arriba y la sección entera se reacomoda.</li>
+    </ol>
+  </footer>
+</div>
+
+<!-- ══════════════ 01 · HERO DIVIDIDO ══════════════ -->
+<template id="tpl-hero-dividido">
+<!-- ============================================================
+     SECCIÓN · Hero dividido
+     Texto a la izquierda, producto a la derecha. El clásico que
+     funciona cuando hay algo concreto que mostrar.
+     ============================================================ -->
+<section class="qs-hero-dividido">
+  <style>
+  .qs-hero-dividido{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:        #F1EFE9;   /* fondo de toda la sección      */
+    --qs-tinta:        #191713;   /* color del título              */
+    --qs-tinta-suave:  #5D584E;   /* color del párrafo             */
+    --qs-acento:       #191713;   /* fondo del botón principal     */
+    --qs-acento-texto: #FFFFFF;   /* texto del botón principal     */
+    --qs-realce:       #C7452F;   /* la palabra destacada y el sello */
+    --qs-radio:        16px;      /* redondeo de botones e imagen  */
+    --qs-aire:         72px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-dividido *{box-sizing:border-box}
+  .qs-hd-reja{
+    max-width:1140px; margin:0 auto; display:grid; gap:48px;
+    grid-template-columns:1.05fr .95fr; align-items:center;
+  }
+  .qs-hd-sello{
+    display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; color:var(--qs-realce); margin:0 0 20px;
+  }
+  .qs-hd-sello::before{content:""; width:20px; height:1.5px; background:currentColor}
+  .qs-hero-dividido h2{
+    font-size:clamp(32px,4.4vw,54px); line-height:1.05; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 18px; text-wrap:balance;
+  }
+  .qs-hero-dividido h2 em{font-style:normal; color:var(--qs-realce)}
+  .qs-hd-bajada{font-size:17px; line-height:1.6; color:var(--qs-tinta-suave); margin:0 0 30px; max-width:44ch}
+  .qs-hd-botones{display:flex; flex-wrap:wrap; gap:11px; margin-bottom:34px}
+  .qs-hd-cta{
+    font:inherit; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer;
+    padding:14px 26px; border-radius:var(--qs-radio); display:inline-block;
+    background:var(--qs-acento); color:var(--qs-acento-texto); border:1.5px solid var(--qs-acento);
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .qs-hd-cta:hover{transform:translateY(-1px); opacity:.9}
+  .qs-hd-cta.qs-alterno{background:transparent; color:var(--qs-tinta); border-color:rgba(0,0,0,.18)}
+  .qs-hd-datos{
+    list-style:none; margin:0; padding:26px 0 0; border-top:1px solid rgba(0,0,0,.10);
+    display:flex; flex-wrap:wrap; gap:26px;
+  }
+  .qs-hd-datos li{font-size:13px; color:var(--qs-tinta-suave); line-height:1.4}
+  .qs-hd-datos b{display:block; font-size:19px; font-weight:700; color:var(--qs-tinta); letter-spacing:-.01em}
+  .qs-hd-visual{
+    border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5; max-width:100%;
+    background:#DED9CE; position:relative;
+  }
+  .qs-hd-visual svg{width:100%; height:100%; display:block}
+  .qs-hd-etiqueta{
+    position:absolute; left:18px; bottom:18px; background:#fff; color:var(--qs-tinta);
+    border-radius:12px; padding:11px 15px; font-size:13px; line-height:1.35;
+    box-shadow:0 6px 20px rgba(0,0,0,.14);
+  }
+  .qs-hd-etiqueta b{display:block; font-size:16px; font-weight:700}
+  @media (max-width:860px){
+    .qs-hd-reja{grid-template-columns:1fr; gap:34px}
+    .qs-hd-visual{aspect-ratio:4/3; order:-1}
+    .qs-hero-dividido{--qs-aire:44px}
+  }
+  </style>
+
+  <div class="qs-hd-reja">
+    <div>
+      <p class="qs-hd-sello">Ferretería · nueva temporada</p>
+      <h2>Herramienta que <em>aguanta</em> el taller completo</h2>
+      <p class="qs-hd-bajada">Marcas que ya conoces, existencias reales y entrega el mismo día dentro de la ciudad. Compra en línea y recoge en el mostrador si te queda de paso.</p>
+      <div class="qs-hd-botones">
+        <a class="qs-hd-cta" href="#">Ver catálogo</a>
+        <a class="qs-hd-cta qs-alterno" href="#">Cotizar por volumen</a>
+      </div>
+      <ul class="qs-hd-datos">
+        <li><b>240+</b>productos en existencia</li>
+        <li><b>24 h</b>entrega en la ciudad</li>
+        <li><b>3 y 6</b>cuotas con tarjeta</li>
+      </ul>
+    </div>
+
+    <!-- Reemplazar todo este bloque por: <img src="tu-foto.jpg" alt="Descripción de la foto" class="qs-hd-visual"> -->
+    <div class="qs-hd-visual">
+      <svg viewBox="0 0 400 500" role="img" aria-label="Foto del producto"><defs><linearGradient id="qshd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E7E1D4"/><stop offset="1" stop-color="#C9C1B0"/></linearGradient></defs><rect width="400" height="500" fill="url(#qshd1)"/><circle cx="200" cy="215" r="108" fill="#B7AE99" opacity=".55"/><rect x="146" y="150" width="108" height="210" rx="16" fill="#8E836B" opacity=".75"/><rect x="170" y="175" width="60" height="18" rx="9" fill="#F1EFE9" opacity=".8"/><rect x="170" y="205" width="36" height="12" rx="6" fill="#F1EFE9" opacity=".5"/><path d="M0 400 L400 340 L400 500 L0 500 Z" fill="#A79D86" opacity=".4"/></svg>
+      <div class="qs-hd-etiqueta"><b>Q 1,240.00</b>Taladro percutor 1/2"</div>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 02 · HERO INMERSIVO ══════════════ -->
+<template id="tpl-hero-inmersivo">
+<!-- ============================================================
+     SECCIÓN · Hero inmersivo
+     Imagen a sangre con capa oscura y texto centrado encima.
+     Para marcas que venden con la foto, no con la ficha técnica.
+     ============================================================ -->
+<section class="qs-hero-inmersivo">
+  <style>
+  .qs-hero-inmersivo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-alto:         86vh;      /* alto de la sección            */
+    --qs-alto-min:     540px;     /* alto mínimo en pantalla chica */
+    --qs-velo:         .56;       /* qué tan oscura la capa (0 a 1)*/
+    --qs-tinta:        #FFFFFF;   /* color del texto               */
+    --qs-acento:       #FFFFFF;   /* fondo del botón               */
+    --qs-acento-texto: #101010;   /* texto del botón               */
+    --qs-radio:        999px;     /* redondeo del botón            */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; isolation:isolate; overflow:hidden;
+    min-height:min(var(--qs-alto), 760px); height:auto;
+    display:grid; place-items:center; text-align:center;
+    padding:96px 24px; color:var(--qs-tinta); background:#141414;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-hero-inmersivo *{box-sizing:border-box}
+  .qs-hi-foto{position:absolute; inset:0; z-index:-2}
+  .qs-hi-foto svg, .qs-hi-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-hero-inmersivo::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(180deg, rgba(0,0,0,calc(var(--qs-velo) * .75)) 0%, rgba(0,0,0,calc(var(--qs-velo) * .35)) 40%, rgba(0,0,0,var(--qs-velo)) 100%);
+  }
+  .qs-hi-caja{max-width:660px; margin:0 auto}
+  .qs-hi-linea{
+    font-size:11.5px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+    opacity:.82; margin:0 0 22px;
+  }
+  .qs-hero-inmersivo h2{
+    font-size:clamp(34px,6.4vw,66px); line-height:1.02; letter-spacing:-.035em;
+    font-weight:800; margin:0 0 20px; text-wrap:balance;
+  }
+  .qs-hi-bajada{font-size:17px; line-height:1.6; opacity:.86; margin:0 auto 34px; max-width:46ch}
+  .qs-hi-cta{
+    font:inherit; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-texto); border:0;
+    border-radius:var(--qs-radio); padding:16px 36px; display:inline-block;
+    transition:transform .15s ease;
+  }
+  .qs-hi-cta:hover{transform:scale(1.03)}
+  .qs-hi-pie{
+    position:absolute; left:0; right:0; bottom:0; padding:18px 24px;
+    display:flex; justify-content:center; gap:30px; flex-wrap:wrap;
+    font-size:12.5px; opacity:.72; border-top:1px solid rgba(255,255,255,.16);
+  }
+  .qs-hi-pie span{display:inline-flex; align-items:center; gap:7px}
+  .qs-hi-pie svg{width:14px; height:14px; flex:none}
+  @media (max-width:640px){
+    .qs-hero-inmersivo{padding:72px 20px 96px; min-height:var(--qs-alto-min)}
+    .qs-hi-pie{gap:16px; font-size:11.5px}
+  }
+  </style>
+
+  <!-- Reemplazar por: <div class="qs-hi-foto"><img src="tu-foto.jpg" alt="Descripción"></div> -->
+  <div class="qs-hi-foto" aria-hidden="true">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="qshi1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B4F5C"/><stop offset=".55" stop-color="#22303A"/><stop offset="1" stop-color="#14202A"/></linearGradient><radialGradient id="qshi2" cx=".7" cy=".25" r=".7"><stop offset="0" stop-color="#8FA9B8" stop-opacity=".45"/><stop offset="1" stop-color="#8FA9B8" stop-opacity="0"/></radialGradient></defs><rect width="1200" height="700" fill="url(#qshi1)"/><rect width="1200" height="700" fill="url(#qshi2)"/><circle cx="880" cy="200" r="150" fill="#A7C0CE" opacity=".18"/><path d="M0 520 C 260 440 420 560 700 470 C 900 410 1080 470 1200 430 L1200 700 L0 700 Z" fill="#0E1920" opacity=".55"/><path d="M0 600 C 300 540 500 640 820 570 C 1000 530 1120 570 1200 550 L1200 700 L0 700 Z" fill="#0A1218" opacity=".7"/></svg>
+  </div>
+
+  <div class="qs-hi-caja">
+    <p class="qs-hi-linea">Colección de temporada</p>
+    <h2>Lo que se pone en el mostrador, se vende</h2>
+    <p class="qs-hi-bajada">Piezas hechas en taller guatemalteco, en cantidades cortas. Cuando se acaban, se acaban.</p>
+    <a class="qs-hi-cta" href="#">Ver la colección</a>
+  </div>
+
+  <div class="qs-hi-pie">
+    <span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 5.5h12M2 5.5v7a1 1 0 001 1h10a1 1 0 001-1v-7M2 5.5l1.5-3h9L14 5.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Envío a todo el país</span>
+    <span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="4" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 7h13" stroke="currentColor" stroke-width="1.3"/></svg>Visa y Mastercard</span>
+    <span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.8l5.2 2.1v4c0 3.2-2.2 5.6-5.2 6.3-3-0.7-5.2-3.1-5.2-6.3v-4L8 1.8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Pago verificado</span>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 03 · HERO EDITORIAL ══════════════ -->
+<template id="tpl-hero-editorial">
+<!-- ============================================================
+     SECCIÓN · Hero editorial
+     Titular grande en serif, dos columnas desiguales y una tira
+     de tres piezas abajo. Para catálogos que se leen como revista.
+     ============================================================ -->
+<section class="qs-hero-editorial">
+  <style>
+  /* Tipografía del titular. Si la plantilla ya carga una serif, borra esta línea. */
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+  .qs-hero-editorial{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBFAF8;   /* fondo de la sección            */
+    --qs-tinta:       #16150F;   /* color del texto                */
+    --qs-tinta-suave: #6A665B;   /* color del párrafo y las notas  */
+    --qs-linea:       #DFDBD1;   /* color de las líneas divisorias */
+    --qs-serif:       'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --qs-aire:        76px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-editorial *{box-sizing:border-box}
+  .qs-he-marco{max-width:1120px; margin:0 auto}
+  .qs-he-alto{
+    display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+    padding-bottom:16px; border-bottom:1px solid var(--qs-linea); margin-bottom:38px;
+    font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--qs-tinta-suave);
+  }
+  .qs-hero-editorial h2{
+    font-family:var(--qs-serif); font-weight:400;
+    font-size:clamp(46px,9vw,112px); line-height:.94; letter-spacing:-.02em;
+    margin:0 0 30px; text-wrap:balance; max-width:13ch;
+  }
+  .qs-hero-editorial h2 i{font-style:italic; color:var(--qs-tinta-suave)}
+  .qs-he-cuerpo{
+    display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end;
+    padding-bottom:42px; border-bottom:1px solid var(--qs-linea); margin-bottom:26px;
+  }
+  .qs-he-cuerpo p{font-size:16px; line-height:1.65; color:var(--qs-tinta-suave); margin:0; max-width:52ch}
+  .qs-he-cta{
+    font:inherit; font-size:14px; font-weight:600; text-decoration:none; color:var(--qs-tinta);
+    border-bottom:1.5px solid var(--qs-tinta); padding-bottom:3px; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .qs-he-cta svg{width:15px; height:15px; transition:transform .18s ease}
+  .qs-he-cta:hover svg{transform:translateX(4px)}
+  .qs-he-tira{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+  .qs-he-pieza{text-decoration:none; color:inherit; display:block}
+  .qs-he-pieza figure{margin:0}
+  .qs-he-lienzo{aspect-ratio:3/4; overflow:hidden; background:#EDE9E0; margin-bottom:12px}
+  .qs-he-lienzo svg, .qs-he-lienzo img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease}
+  .qs-he-pieza:hover .qs-he-lienzo svg, .qs-he-pieza:hover .qs-he-lienzo img{transform:scale(1.04)}
+  .qs-he-pieza figcaption{display:flex; justify-content:space-between; gap:12px; font-size:13.5px; align-items:baseline}
+  .qs-he-pieza figcaption b{font-weight:600}
+  .qs-he-pieza figcaption span{color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  @media (max-width:760px){
+    .qs-hero-editorial{--qs-aire:46px}
+    .qs-he-cuerpo{grid-template-columns:1fr; gap:24px; align-items:start}
+    .qs-he-tira{grid-template-columns:1fr 1fr; gap:14px}
+    .qs-he-tira .qs-he-pieza:nth-child(3){display:none}
+    .qs-he-alto{font-size:10.5px; letter-spacing:.12em}
+  }
+  </style>
+
+  <div class="qs-he-marco">
+    <div class="qs-he-alto"><span>Catálogo 03</span><span>Otoño 2026</span></div>
+    <h2>Vestir el <i>mostrador</i> con lo que se hace acá</h2>
+    <div class="qs-he-cuerpo">
+      <p>Cuarenta piezas de talleres de Antigua, Totonicapán y Quetzaltenango. Cada una con el nombre de quien la hizo y el tiempo que le tomó. Existencias cortas: lo que ves es lo que hay.</p>
+      <a class="qs-he-cta" href="#">Recorrer el catálogo <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+    <div class="qs-he-tira">
+      <!-- Cada .qs-he-lienzo lleva un <img src="..." alt="..."> en lugar del <svg> -->
+      <a class="qs-he-pieza" href="#"><figure>
+        <div class="qs-he-lienzo"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E4DED2"/><rect x="60" y="70" width="180" height="250" rx="90" fill="#BFB29C"/><rect x="100" y="120" width="100" height="60" rx="30" fill="#EDE9E0" opacity=".8"/></svg></div>
+        <figcaption><b>Bolso tejido</b><span>Q 385</span></figcaption>
+      </figure></a>
+      <a class="qs-he-pieza" href="#"><figure>
+        <div class="qs-he-lienzo"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#DCE1DA"/><path d="M150 60 L245 200 L150 340 L55 200 Z" fill="#A3B0A4"/><circle cx="150" cy="200" r="42" fill="#EDF0EB" opacity=".85"/></svg></div>
+        <figcaption><b>Manta de telar</b><span>Q 640</span></figcaption>
+      </figure></a>
+      <a class="qs-he-pieza" href="#"><figure>
+        <div class="qs-he-lienzo"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E8DFD9"/><circle cx="150" cy="170" r="88" fill="#C4A894"/><rect x="118" y="240" width="64" height="110" rx="14" fill="#9E836F"/></svg></div>
+        <figcaption><b>Jarro de barro</b><span>Q 175</span></figcaption>
+      </figure></a>
+    </div>
+  </div>
+</section>
+</template>
+
+<!-- ══════════════ 04 · REJILLA DE PRODUCTOS ══════════════ -->
+<template id="tpl-rejilla-productos">
+<!-- ============================================================
+     SECCIÓN · Rejilla de productos
+     Cuatro columnas que bajan a dos y a una. El botón de agregar
+     aparece al pasar el mouse y queda siempre visible en táctil.
+     ============================================================ -->
+<section class="qs-rejilla-productos">
+  <style>
+  .qs-rejilla-productos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:        #FFFFFF;   /* fondo de la sección           */
+    --qs-tinta:        #17171A;   /* color del texto               */
+    --qs-tinta-suave:  #6E6E78;   /* color de la categoría         */
+    --qs-acento:       #17171A;   /* fondo del botón agregar       */
+    --qs-acento-texto: #FFFFFF;   /* texto del botón agregar       */
+    --qs-oferta:       #B3301C;   /* color del precio en oferta    */
+    --qs-columnas:     4;         /* cuántas columnas en escritorio*/
+    --qs-radio:        14px;      /* redondeo de la foto           */
+    --qs-aire:         64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rejilla-productos *{box-sizing:border-box}
+  .qs-rp-marco{max-width:1180px; margin:0 auto}
+  .qs-rp-cab{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:30px}
+  .qs-rejilla-productos h2{font-size:clamp(24px,3vw,32px); font-weight:700; letter-spacing:-.025em; margin:0 0 6px}
+  .qs-rp-cab p{margin:0; font-size:14.5px; color:var(--qs-tinta-suave)}
+  .qs-rp-ver{font-size:14px; font-weight:600; color:var(--qs-tinta); text-decoration:none; border-bottom:1.5px solid currentColor; padding-bottom:2px}
+  .qs-rp-reja{
+    display:grid; gap:26px 20px;
+    grid-template-columns:repeat(var(--qs-columnas), minmax(min(200px,100%),1fr));
+  }
+  .qs-rp-art{position:relative}
+  .qs-rp-foto{
+    position:relative; aspect-ratio:1/1; border-radius:var(--qs-radio); overflow:hidden;
+    background:#F2F1EF; margin-bottom:13px; display:block;
+  }
+  .qs-rp-foto svg, .qs-rp-foto img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease}
+  .qs-rp-art:hover .qs-rp-foto svg, .qs-rp-art:hover .qs-rp-foto img{transform:scale(1.05)}
+  .qs-rp-tag{
+    position:absolute; top:10px; left:10px; z-index:2; font-size:11px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase; padding:5px 9px; border-radius:7px;
+    background:var(--qs-oferta); color:#fff;
+  }
+  .qs-rp-tag.qs-neutro{background:#fff; color:var(--qs-tinta); box-shadow:0 1px 4px rgba(0,0,0,.14)}
+  .qs-rp-agregar{
+    position:absolute; left:10px; right:10px; bottom:10px; z-index:2;
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-texto); border:0;
+    border-radius:10px; padding:11px 10px;
+    opacity:0; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;
+  }
+  .qs-rp-art:hover .qs-rp-agregar, .qs-rp-art:focus-within .qs-rp-agregar{opacity:1; transform:none}
+  @media (hover:none){ .qs-rp-agregar{opacity:1; transform:none} }
+  .qs-rp-cat{font-size:11.5px; color:var(--qs-tinta-suave); letter-spacing:.03em; margin:0 0 4px}
+  .qs-rp-art h3{font-size:14.5px; font-weight:600; margin:0 0 6px; line-height:1.35}
+  .qs-rp-art h3 a{color:inherit; text-decoration:none}
+  .qs-rp-art h3 a:hover{text-decoration:underline}
+  .qs-rp-precio{display:flex; align-items:baseline; gap:8px; font-variant-numeric:tabular-nums}
+  .qs-rp-precio b{font-size:15.5px; font-weight:700}
+  .qs-rp-precio s{font-size:13px; color:var(--qs-tinta-suave); text-decoration-thickness:1px}
+  .qs-rp-precio .qs-rebaja{color:var(--qs-oferta)}
+  @media (max-width:900px){ .qs-rejilla-productos{--qs-columnas:2; --qs-aire:44px} }
+  @media (max-width:420px){ .qs-rp-reja{gap:22px 14px} }
+  </style>
+
+  <div class="qs-rp-marco">
+    <div class="qs-rp-cab">
+      <div>
+        <h2>Lo que más sale este mes</h2>
+        <p>Abarrotes y limpieza · existencias al día de hoy</p>
+      </div>
+      <a class="qs-rp-ver" href="#">Ver los 84 productos</a>
+    </div>
+
+    <div class="qs-rp-reja">
+      <!-- Producto · duplicar este bloque completo por cada artículo -->
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <span class="qs-rp-tag">-20%</span>
+          <!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#F0EEE9"/><rect x="95" y="60" width="110" height="180" rx="10" fill="#C8B79B"/><rect x="95" y="105" width="110" height="52" fill="#F7F5F1"/><circle cx="150" cy="131" r="17" fill="#C8B79B"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Despensa</p>
+        <h3><a href="#">Aceite vegetal 900 ml</a></h3>
+        <p class="qs-rp-precio"><b class="qs-rebaja">Q 18.40</b><s>Q 23.00</s></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#EAF0EE"/><circle cx="150" cy="150" r="88" fill="#9FBEB4"/><path d="M110 150h80M150 110v80" stroke="#EAF0EE" stroke-width="14" stroke-linecap="round"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Limpieza</p>
+        <h3><a href="#">Desinfectante multiusos 1 L</a></h3>
+        <p class="qs-rp-precio"><b>Q 26.50</b></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <span class="qs-rp-tag qs-neutro">Últimas 4</span>
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#F3EDE6"/><path d="M150 55l78 46v98l-78 46-78-46v-98z" fill="#D2B48C"/><path d="M150 55v190M72 101l78 46 78-46" stroke="#F3EDE6" stroke-width="7"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Despensa</p>
+        <h3><a href="#">Café molido de altura 454 g</a></h3>
+        <p class="qs-rp-precio"><b>Q 48.00</b></p>
+      </article>
+
+      <article class="qs-rp-art">
+        <a class="qs-rp-foto" href="#">
+          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#EDEBF3"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#A9A2C4"/><rect x="96" y="120" width="108" height="14" rx="7" fill="#EDEBF3" opacity=".9"/><rect x="96" y="146" width="70" height="14" rx="7" fill="#EDEBF3" opacity=".6"/></svg>
+        </a>
+        <button class="qs-rp-agregar" type="button">Agregar</button>
+        <p class="qs-rp-cat">Hogar</p>
+        <h3><a href="#">Papel higiénico doble hoja · 12 u</a></h3>
+        <p class="qs-rp-precio"><b>Q 62.90</b></p>
+      </article>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 05 · PRODUCTOS ALTERNOS ══════════════ -->
+<template id="tpl-productos-alternos">
+<!-- ============================================================
+     SECCIÓN · Productos alternos
+     Filas grandes que alternan de lado. Sirve cuando hay pocos
+     productos y cada uno necesita explicarse.
+     ============================================================ -->
+<section class="qs-productos-alternos">
+  <style>
+  .qs-productos-alternos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #14140F;   /* fondo de la sección            */
+    --qs-tinta:       #F4F2EC;   /* color del texto                */
+    --qs-tinta-suave: #A19C8F;   /* color del párrafo              */
+    --qs-acento:      #D7C48A;   /* precio, número y borde del CTA */
+    --qs-linea:       #2C2C24;   /* color de las líneas divisorias */
+    --qs-radio:       4px;       /* redondeo de la foto            */
+    --qs-aire:        80px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-productos-alternos *{box-sizing:border-box}
+  .qs-pa-marco{max-width:1060px; margin:0 auto}
+  .qs-pa-intro{max-width:52ch; margin:0 0 54px}
+  .qs-productos-alternos h2{font-size:clamp(26px,3.6vw,38px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px}
+  .qs-pa-intro p{margin:0; font-size:15.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-pa-fila{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+    padding:44px 0; border-top:1px solid var(--qs-linea);
+  }
+  .qs-pa-fila:nth-child(even) .qs-pa-foto{order:2}
+  .qs-pa-foto{aspect-ratio:5/4; border-radius:var(--qs-radio); overflow:hidden; background:#22221A}
+  .qs-pa-foto svg, .qs-pa-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pa-num{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; color:var(--qs-acento);
+    font-variant-numeric:tabular-nums; margin:0 0 14px;
+  }
+  .qs-pa-fila h3{font-size:clamp(21px,2.6vw,27px); font-weight:700; letter-spacing:-.02em; margin:0 0 12px; line-height:1.2}
+  .qs-pa-fila > div > p{font-size:15px; line-height:1.65; color:var(--qs-tinta-suave); margin:0 0 22px; max-width:42ch}
+  .qs-pa-specs{list-style:none; margin:0 0 26px; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+  .qs-pa-specs li{font-size:12.5px; color:var(--qs-tinta-suave); border:1px solid var(--qs-linea); border-radius:999px; padding:5px 12px}
+  .qs-pa-fondo{display:flex; align-items:center; gap:20px; flex-wrap:wrap}
+  .qs-pa-precio{font-size:23px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  .qs-pa-cta{
+    font:inherit; font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
+    color:var(--qs-tinta); background:transparent; border:1px solid var(--qs-acento);
+    border-radius:999px; padding:11px 24px; transition:background .16s ease, color .16s ease;
+  }
+  .qs-pa-cta:hover{background:var(--qs-acento); color:var(--qs-fondo)}
+  @media (max-width:800px){
+    .qs-productos-alternos{--qs-aire:48px}
+    .qs-pa-fila{grid-template-columns:1fr; gap:24px; padding:32px 0}
+    .qs-pa-fila:nth-child(even) .qs-pa-foto{order:0}
+    .qs-pa-intro{margin-bottom:34px}
+  }
+  </style>
+
+  <div class="qs-pa-marco">
+    <div class="qs-pa-intro">
+      <h2>Tres equipos, tres formas de cobrar</h2>
+      <p>Cada uno se instala en una tarde. El que te sirve depende de cuánta gente atiendes por hora, no del tamaño del local.</p>
+    </div>
+
+    <!-- Fila de producto · duplicar este bloque; las pares se voltean solas -->
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#23231B"/><rect x="160" y="70" width="180" height="230" rx="18" fill="#3D3D2E"/><rect x="180" y="95" width="140" height="150" rx="8" fill="#D7C48A" opacity=".85"/><rect x="215" y="262" width="70" height="12" rx="6" fill="#57573F"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">01 — Mostrador</p>
+        <h3>Terminal con pantalla táctil</h3>
+        <p>Pantalla de 10", lector sin contacto y stand de aluminio con bloqueo antirrobo. Se carga por contacto, así que no hay cable suelto en la caja.</p>
+        <ul class="qs-pa-specs"><li>Visa y Mastercard</li><li>Sin contacto (NFC)</li><li>3D Secure</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Q 2,450</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#1E2320"/><rect x="120" y="140" width="260" height="120" rx="14" fill="#3A4139"/><circle cx="170" cy="200" r="26" fill="#D7C48A" opacity=".8"/><rect x="215" y="180" width="130" height="14" rx="7" fill="#5A6356"/><rect x="215" y="206" width="86" height="14" rx="7" fill="#4A5247"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">02 — Mesa y pasillo</p>
+        <h3>Lector inalámbrico</h3>
+        <p>Cobra donde está el cliente. Alcance de 30 a 50 metros del receptor, batería para una jornada completa y corte de caja que se arma solo.</p>
+        <ul class="qs-pa-specs"><li>Batería de jornada</li><li>Corte automático</li><li>Hasta 4 usuarios</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Q 1,190</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#211D24"/><rect x="195" y="80" width="110" height="215" rx="20" fill="#3B3442"/><rect x="209" y="100" width="82" height="160" rx="6" fill="#D7C48A" opacity=".75"/><circle cx="250" cy="276" r="9" fill="#584F62"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">03 — Sin hardware</p>
+        <h3>Cobro desde el celular</h3>
+        <p>La app convierte el teléfono en terminal. No compras equipo: abres la app, cobras y el dinero entra a la misma cuenta que el resto.</p>
+        <ul class="qs-pa-specs"><li>Sin equipo</li><li>Links de pago</li><li>Un solo inventario</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Sin costo de equipo</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 06 · MOSAICO DE CATEGORÍAS ══════════════ -->
+<template id="tpl-mosaico-categorias">
+<!-- ============================================================
+     SECCIÓN · Mosaico de categorías
+     Cinco bloques de distinto tamaño. Sirve para que la portada
+     lleve directo a las categorías que más venden.
+     ============================================================ -->
+<section class="qs-mosaico-categorias">
+  <style>
+  .qs-mosaico-categorias{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #F7F7F5;   /* fondo de la sección                */
+    --qs-tinta:   #17171A;   /* color del título de la sección     */
+    --qs-rotulo:  #FFFFFF;   /* color del texto sobre cada bloque  */
+    --qs-velo:    .34;       /* oscurecido de la foto (0 a 1)      */
+    --qs-radio:   18px;      /* redondeo de los bloques            */
+    --qs-alto:    218px;     /* alto de una fila del mosaico       */
+    --qs-aire:    64px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-mosaico-categorias *{box-sizing:border-box}
+  .qs-mc-marco{max-width:1160px; margin:0 auto}
+  .qs-mosaico-categorias h2{font-size:clamp(24px,3vw,32px); font-weight:700; letter-spacing:-.025em; margin:0 0 26px}
+  .qs-mc-reja{
+    display:grid; gap:14px;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:var(--qs-alto);
+  }
+  .qs-mc-b1{grid-column:span 2; grid-row:span 2}
+  .qs-mc-b2{grid-column:span 2}
+  .qs-mc-b3, .qs-mc-b4{grid-column:span 1}
+  .qs-mc-b5{grid-column:span 4}
+  .qs-mc-bloque{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio);
+    display:flex; align-items:flex-end; text-decoration:none; color:var(--qs-rotulo);
+    padding:20px; isolation:isolate; background:#DDD;
+  }
+  .qs-mc-bloque svg, .qs-mc-bloque img{
+    position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover;
+    transition:transform .45s ease;
+  }
+  .qs-mc-bloque::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .28)) 0%, rgba(0,0,0,var(--qs-velo)) 55%, rgba(0,0,0,calc(var(--qs-velo) * .4)) 100%);
+  }
+  .qs-mc-bloque:hover svg, .qs-mc-bloque:hover img{transform:scale(1.06)}
+  .qs-mc-texto b{display:block; font-size:19px; font-weight:700; letter-spacing:-.02em; line-height:1.2}
+  .qs-mc-texto span{display:block; font-size:12.5px; opacity:.85; margin-top:3px}
+  .qs-mc-b1 .qs-mc-texto b{font-size:27px}
+  @media (max-width:860px){
+    .qs-mosaico-categorias{--qs-aire:44px; --qs-alto:160px}
+    .qs-mc-reja{grid-template-columns:repeat(2,1fr)}
+    .qs-mc-b1{grid-column:span 2; grid-row:span 1}
+    .qs-mc-b2, .qs-mc-b5{grid-column:span 2}
+    .qs-mc-b1 .qs-mc-texto b{font-size:22px}
+  }
+  </style>
+
+  <div class="qs-mc-marco">
+    <h2>Entra por donde compras</h2>
+    <div class="qs-mc-reja">
+      <!-- Cada bloque: reemplazar el <svg> por <img src="..." alt=""> -->
+      <a class="qs-mc-bloque qs-mc-b1" href="#">
+        <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="460" fill="#8FA4B8"/><circle cx="420" cy="120" r="150" fill="#A9BCCB" opacity=".7"/><path d="M0 330 C150 280 300 380 460 320 L600 300 L600 460 L0 460Z" fill="#6E8399"/></svg>
+        <span class="qs-mc-texto"><b>Ropa y calzado</b><span>168 productos</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b2" href="#">
+        <svg viewBox="0 0 600 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="230" fill="#B79A82"/><circle cx="140" cy="120" r="110" fill="#C9AF99" opacity=".75"/><rect x="330" y="40" width="200" height="150" rx="20" fill="#9C8069" opacity=".8"/></svg>
+        <span class="qs-mc-texto"><b>Ferretería</b><span>240 productos</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b3" href="#">
+        <svg viewBox="0 0 300 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="230" fill="#9AAE96"/><path d="M150 30 L250 200 L50 200 Z" fill="#7F9479" opacity=".85"/></svg>
+        <span class="qs-mc-texto"><b>Abarrotes</b><span>84</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b4" href="#">
+        <svg viewBox="0 0 300 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="230" fill="#B08FA0"/><circle cx="150" cy="115" r="78" fill="#C7A8B6" opacity=".8"/><circle cx="150" cy="115" r="34" fill="#96738A"/></svg>
+        <span class="qs-mc-texto"><b>Belleza</b><span>52</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b5" href="#">
+        <svg viewBox="0 0 1200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="230" fill="#7E8794"/><rect x="0" y="120" width="1200" height="110" fill="#6A737F"/><circle cx="950" cy="90" r="130" fill="#949DAA" opacity=".6"/><rect x="120" y="60" width="180" height="120" rx="14" fill="#909AA7" opacity=".8"/></svg>
+        <span class="qs-mc-texto"><b>Taller y servicios</b><span>Órdenes de trabajo y repuestos</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+</template>
+
+<!-- ══════════════ 07 · CARRUSEL DE PRODUCTOS ══════════════ -->
+<template id="tpl-carrusel-productos">
+<!-- ============================================================
+     SECCIÓN · Carrusel de productos
+     Se desliza con el dedo, con la rueda o con las flechas.
+     Sin JavaScript sigue desplazándose: el JS solo agrega flechas.
+     ============================================================ -->
+<section class="qs-carrusel-productos">
+  <style>
+  .qs-carrusel-productos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección            */
+    --qs-tinta:       #17171A;   /* color del texto                */
+    --qs-tinta-suave: #71717C;   /* color de la categoría          */
+    --qs-acento:      #17171A;   /* flechas y punto activo         */
+    --qs-tarjeta:     260px;     /* ancho de cada tarjeta          */
+    --qs-radio:       14px;      /* redondeo de la foto            */
+    --qs-aire:        64px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0;
+  }
+  .qs-carrusel-productos *{box-sizing:border-box}
+  .qs-cp-cab{
+    max-width:1180px; margin:0 auto 22px; padding:0 24px;
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  .qs-carrusel-productos h2{font-size:clamp(22px,2.8vw,30px); font-weight:700; letter-spacing:-.025em; margin:0}
+  .qs-cp-flechas{display:flex; gap:8px}
+  .qs-cp-flechas button{
+    width:40px; height:40px; border-radius:50%; cursor:pointer;
+    background:transparent; border:1.5px solid var(--qs-acento); color:var(--qs-acento);
+    display:grid; place-items:center; transition:background .15s, color .15s, opacity .15s;
+  }
+  .qs-cp-flechas button:hover:not(:disabled){background:var(--qs-acento); color:#fff}
+  .qs-cp-flechas button:disabled{opacity:.28; cursor:default}
+  .qs-cp-flechas svg{width:16px; height:16px}
+  .qs-cp-pista{
+    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    scroll-behavior:smooth; padding:4px 24px 20px; scrollbar-width:none;
+  }
+  .qs-cp-pista::-webkit-scrollbar{display:none}
+  .qs-cp-pista::after{content:""; flex:0 0 1px}
+  .qs-cp-art{flex:0 0 var(--qs-tarjeta); max-width:82vw; scroll-snap-align:start}
+  .qs-cp-foto{
+    display:block; position:relative; aspect-ratio:3/4; border-radius:var(--qs-radio);
+    overflow:hidden; background:#F1F0ED; margin-bottom:12px;
+  }
+  .qs-cp-foto svg, .qs-cp-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cp-tag{
+    position:absolute; top:10px; right:10px; background:#fff; color:var(--qs-tinta);
+    font-size:11px; font-weight:700; padding:5px 9px; border-radius:7px;
+    box-shadow:0 1px 4px rgba(0,0,0,.14);
+  }
+  .qs-cp-art p.qs-cp-cat{font-size:11.5px; color:var(--qs-tinta-suave); margin:0 0 4px}
+  .qs-cp-art h3{font-size:14.5px; font-weight:600; margin:0 0 6px; line-height:1.35}
+  .qs-cp-art h3 a{color:inherit; text-decoration:none}
+  .qs-cp-art .qs-cp-precio{font-size:15px; font-weight:700; margin:0; font-variant-numeric:tabular-nums}
+  .qs-cp-puntos{display:flex; justify-content:center; gap:7px; padding-top:4px}
+  .qs-cp-puntos i{width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.22; transition:opacity .2s, width .2s}
+  .qs-cp-puntos i.qs-activo{opacity:1; width:20px; border-radius:3px}
+  @media (max-width:640px){
+    .qs-carrusel-productos{--qs-aire:44px; --qs-tarjeta:210px}
+    .qs-cp-flechas{display:none}
+  }
+  </style>
+
+  <div class="qs-cp-cab">
+    <h2>Recién llegado a bodega</h2>
+    <div class="qs-cp-flechas">
+      <button type="button" data-qs-cp="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-qs-cp="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+
+  <div class="qs-cp-pista" tabindex="0" role="region" aria-label="Productos recién llegados">
+    <!-- Tarjeta · duplicar por cada producto -->
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><span class="qs-cp-tag">Nuevo</span><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E8E4DC"/><rect x="70" y="80" width="160" height="240" rx="12" fill="#B9AE97"/><rect x="100" y="130" width="100" height="60" rx="8" fill="#EFEBE3"/></svg></a><p class="qs-cp-cat">Calzado</p><h3><a href="#">Bota de trabajo punta de acero</a></h3><p class="qs-cp-precio">Q 420.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#DFE7E5"/><circle cx="150" cy="180" r="92" fill="#9CB6B1"/><rect x="118" y="250" width="64" height="90" rx="12" fill="#7E9A95"/></svg></a><p class="qs-cp-cat">Uniformes</p><h3><a href="#">Camisa de trabajo manga larga</a></h3><p class="qs-cp-precio">Q 165.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><span class="qs-cp-tag">Nuevo</span><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#EEE6E9"/><path d="M150 70l90 60v140l-90 60-90-60V130z" fill="#C0A2AE"/><circle cx="150" cy="200" r="38" fill="#EEE6E9" opacity=".85"/></svg></a><p class="qs-cp-cat">Protección</p><h3><a href="#">Casco con barbiquejo</a></h3><p class="qs-cp-precio">Q 98.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E6E9F0"/><rect x="60" y="120" width="180" height="160" rx="16" fill="#A3AEC4"/><rect x="88" y="152" width="124" height="18" rx="9" fill="#E6E9F0" opacity=".9"/><rect x="88" y="182" width="80" height="18" rx="9" fill="#E6E9F0" opacity=".6"/></svg></a><p class="qs-cp-cat">Herramienta</p><h3><a href="#">Juego de llaves 12 piezas</a></h3><p class="qs-cp-precio">Q 310.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#EDE8DE"/><circle cx="150" cy="150" r="70" fill="#C9B894"/><rect x="132" y="210" width="36" height="130" rx="18" fill="#A99872"/></svg></a><p class="qs-cp-cat">Jardín</p><h3><a href="#">Pala de punta reforzada</a></h3><p class="qs-cp-precio">Q 145.00</p></article>
+    <article class="qs-cp-art"><a class="qs-cp-foto" href="#"><svg viewBox="0 0 300 400" aria-hidden="true"><rect width="300" height="400" fill="#E4EAE3"/><rect x="80" y="90" width="140" height="220" rx="70" fill="#9FB49B"/><rect x="118" y="140" width="64" height="64" rx="32" fill="#E4EAE3" opacity=".8"/></svg></a><p class="qs-cp-cat">Limpieza</p><h3><a href="#">Cubeta industrial 20 L</a></h3><p class="qs-cp-precio">Q 72.00</p></article>
+  </div>
+
+  <div class="qs-cp-puntos" aria-hidden="true"></div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-productos').forEach(function(seccion){
+      var pista   = seccion.querySelector('.qs-cp-pista');
+      var puntos  = seccion.querySelector('.qs-cp-puntos');
+      var flechas = seccion.querySelectorAll('[data-qs-cp]');
+      if(!pista) return;
+
+      var tarjetas = pista.querySelectorAll('.qs-cp-art');
+      if(puntos){
+        tarjetas.forEach(function(){ puntos.appendChild(document.createElement('i')); });
+      }
+
+      function paso(){
+        var t = pista.querySelector('.qs-cp-art');
+        if(!t) return 280;
+        var gap = parseFloat(getComputedStyle(pista).columnGap || getComputedStyle(pista).gap) || 18;
+        return t.getBoundingClientRect().width + gap;
+      }
+
+      flechas.forEach(function(boton){
+        boton.addEventListener('click', function(){
+          pista.scrollBy({ left: paso() * Number(boton.dataset.qsCp), behavior:'smooth' });
+        });
+      });
+
+      function pinta(){
+        var max = pista.scrollWidth - pista.clientWidth;
+        flechas.forEach(function(b){
+          var dir = Number(b.dataset.qsCp);
+          b.disabled = dir < 0 ? pista.scrollLeft <= 2 : pista.scrollLeft >= max - 2;
+        });
+        if(puntos){
+          var i = Math.round(pista.scrollLeft / paso());
+          puntos.querySelectorAll('i').forEach(function(p, n){ p.classList.toggle('qs-activo', n === i); });
+        }
+      }
+
+      pista.addEventListener('scroll', pinta, { passive:true });
+      window.addEventListener('resize', pinta);
+      pinta();
+    });
+  })();
+  </script>
+</section>
+</template>
+
+
+<!-- ══════════════ 08 · CARRUSEL DE RESEÑAS ══════════════ -->
+<template id="tpl-carrusel-resenas">
+<!-- ============================================================
+     SECCIÓN · Carrusel de reseñas
+     Rota solo cada 6 segundos y se detiene al pasar el mouse o al
+     enfocar con el teclado. Respeta "reducir movimiento".
+     ============================================================ -->
+<section class="qs-carrusel-resenas">
+  <style>
+  .qs-carrusel-resenas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #101820;   /* fondo de la sección            */
+    --qs-tinta:       #F2F6F8;   /* color de la reseña             */
+    --qs-tinta-suave: #8FA3B0;   /* color del nombre y el negocio  */
+    --qs-estrella:    #E8B54B;   /* color de las estrellas         */
+    --qs-acento:      #E8B54B;   /* punto activo                   */
+    --qs-segundos:    6s;        /* cada cuánto cambia             */
+    --qs-aire:        72px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-carrusel-resenas *{box-sizing:border-box}
+  .qs-cr-marco{max-width:720px; margin:0 auto}
+  .qs-cr-titulo{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--qs-tinta-suave); margin:0 0 30px;
+  }
+  .qs-cr-escena{position:relative; min-height:236px}
+  .qs-cr-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .5s ease; margin:0;
+  }
+  .qs-cr-hoja.qs-activa{opacity:1; visibility:visible; position:relative}
+  .qs-cr-estrellas{display:flex; justify-content:center; gap:4px; margin-bottom:20px}
+  .qs-cr-estrellas svg{width:17px; height:17px; color:var(--qs-estrella)}
+  .qs-cr-hoja blockquote{
+    margin:0 0 24px; font-size:clamp(18px,2.6vw,25px); line-height:1.45;
+    font-weight:500; letter-spacing:-.015em; text-wrap:balance;
+  }
+  .qs-cr-quien{display:flex; align-items:center; justify-content:center; gap:12px}
+  .qs-cr-cara{width:42px; height:42px; border-radius:50%; overflow:hidden; flex:none; background:#26333D}
+  .qs-cr-cara svg, .qs-cr-cara img{width:100%; height:100%; display:block; object-fit:cover}
+  .qs-cr-quien div{text-align:left; font-size:13.5px; line-height:1.4}
+  .qs-cr-quien b{display:block; font-weight:600}
+  .qs-cr-quien span{color:var(--qs-tinta-suave)}
+  .qs-cr-puntos{display:flex; justify-content:center; gap:9px; margin-top:30px}
+  .qs-cr-puntos button{
+    width:8px; height:8px; padding:0; border:0; border-radius:50%; cursor:pointer;
+    background:var(--qs-tinta-suave); opacity:.4; transition:opacity .2s, width .2s, background .2s;
+  }
+  .qs-cr-puntos button[aria-current="true"]{opacity:1; width:26px; border-radius:4px; background:var(--qs-acento)}
+  @media (max-width:560px){ .qs-carrusel-resenas{--qs-aire:48px} .qs-cr-escena{min-height:290px} }
+  </style>
+
+  <div class="qs-cr-marco">
+    <p class="qs-cr-titulo">Lo que dicen los negocios</p>
+
+    <div class="qs-cr-escena">
+      <!-- Reseña · duplicar; la primera lleva la clase qs-activa -->
+      <figure class="qs-cr-hoja qs-activa">
+        <div class="qs-cr-estrellas" aria-label="5 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Cerrar caja me tomaba media hora y casi nunca cuadraba. Ahora el corte sale solo y me voy a las siete.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#2F4150"/><circle cx="24" cy="19" r="9" fill="#7C94A3"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#7C94A3"/></svg></span>
+          <div><b>Marisol Chávez</b><span>Abarrotes La Esquina · Mixco</span></div>
+        </figcaption>
+      </figure>
+
+      <figure class="qs-cr-hoja">
+        <div class="qs-cr-estrellas" aria-label="5 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Vendía en el local y en línea con dos inventarios separados. Un mismo catálogo arregló el problema que llevaba dos años.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#3E3346"/><circle cx="24" cy="19" r="9" fill="#96829F"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#96829F"/></svg></span>
+          <div><b>Byron Estrada</b><span>Ferretería El Progreso · Quetzaltenango</span></div>
+        </figcaption>
+      </figure>
+
+      <figure class="qs-cr-hoja">
+        <div class="qs-cr-estrellas" aria-label="4 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor" opacity=".3"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+        <blockquote>Cobro en la silla, sin que el cliente camine a la caja. Las citas del día y el cobro quedan en la misma pantalla.</blockquote>
+        <figcaption class="qs-cr-quien">
+          <span class="qs-cr-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#4A3B2E"/><circle cx="24" cy="19" r="9" fill="#A68E73"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#A68E73"/></svg></span>
+          <div><b>Kevin Alvarado</b><span>Barbería Norte · Ciudad de Guatemala</span></div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="qs-cr-puntos"></div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-resenas').forEach(function(seccion){
+      var hojas  = seccion.querySelectorAll('.qs-cr-hoja');
+      var puntos = seccion.querySelector('.qs-cr-puntos');
+      if(hojas.length < 2 || !puntos) return;
+
+      var actual = 0, reloj = null;
+      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var cada = (parseFloat(getComputedStyle(seccion).getPropertyValue('--qs-segundos')) || 6) * 1000;
+
+      hojas.forEach(function(_, i){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Reseña ' + (i + 1));
+        b.addEventListener('click', function(){ muestra(i); reinicia(); });
+        puntos.appendChild(b);
+      });
+      var botones = puntos.querySelectorAll('button');
+
+      function muestra(i){
+        actual = i;
+        hojas.forEach(function(h, n){ h.classList.toggle('qs-activa', n === i); });
+        botones.forEach(function(b, n){ b.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+      }
+      function arranca(){ if(!quieto) reloj = setInterval(function(){ muestra((actual + 1) % hojas.length); }, cada); }
+      function para(){ clearInterval(reloj); reloj = null; }
+      function reinicia(){ para(); arranca(); }
+
+      seccion.addEventListener('mouseenter', para);
+      seccion.addEventListener('mouseleave', arranca);
+      seccion.addEventListener('focusin', para);
+      seccion.addEventListener('focusout', arranca);
+
+      muestra(0);
+      arranca();
+    });
+  })();
+  </script>
+</section>
+</template>
+
+<!-- ══════════════ 09 · BARRA DE ANUNCIO ══════════════ -->
+<template id="tpl-barra-anuncio">
+<!-- ============================================================
+     SECCIÓN · Barra de anuncio con cuenta regresiva
+     Va pegada arriba del encabezado. Si no se le pone fecha,
+     cuenta hasta la medianoche de hoy.
+     ============================================================ -->
+<div class="qs-barra-anuncio" data-qs-hasta="">
+  <!-- En data-qs-hasta va la fecha de cierre: data-qs-hasta="2026-12-24T23:59:59" -->
+  <style>
+  .qs-barra-anuncio{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #12261F;   /* fondo de la barra                  */
+    --qs-tinta:   #EAF5F0;   /* color del texto                    */
+    --qs-acento:  #6FD9A8;   /* números del reloj y el enlace      */
+    --qs-alto:    46px;      /* alto de la barra                   */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    min-height:var(--qs-alto); display:flex; align-items:center;
+    padding:8px 44px 8px 20px; position:relative; font-size:13.5px;
+  }
+  .qs-barra-anuncio *{box-sizing:border-box}
+  .qs-ba-centro{
+    margin:0 auto; display:flex; align-items:center; gap:14px;
+    flex-wrap:wrap; justify-content:center; text-align:center;
+  }
+  .qs-ba-texto strong{font-weight:700}
+  .qs-ba-reloj{display:inline-flex; align-items:center; gap:5px; font-variant-numeric:tabular-nums}
+  .qs-ba-reloj b{
+    background:rgba(255,255,255,.10); color:var(--qs-acento); font-weight:700;
+    border-radius:6px; padding:3px 7px; min-width:30px; display:inline-block; text-align:center;
+  }
+  .qs-ba-reloj i{font-style:normal; opacity:.5}
+  .qs-ba-enlace{color:var(--qs-acento); font-weight:600; text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:1px; white-space:nowrap}
+  .qs-ba-cerrar{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    width:28px; height:28px; display:grid; place-items:center; cursor:pointer;
+    background:none; border:0; color:inherit; opacity:.55; border-radius:6px;
+  }
+  .qs-ba-cerrar:hover{opacity:1; background:rgba(255,255,255,.10)}
+  .qs-ba-cerrar svg{width:13px; height:13px}
+  @media (max-width:560px){
+    .qs-barra-anuncio{font-size:12.5px; padding:9px 40px 9px 14px}
+    .qs-ba-centro{gap:8px}
+  }
+  </style>
+
+  <div class="qs-ba-centro">
+    <span class="qs-ba-texto"><strong>Envío sin costo</strong> en compras arriba de Q 300</span>
+    <span class="qs-ba-reloj" aria-label="Tiempo restante">
+      <b data-qs-h>00</b><i>:</i><b data-qs-m>00</b><i>:</i><b data-qs-s>00</b>
+    </span>
+    <a class="qs-ba-enlace" href="#">Ver condiciones</a>
+  </div>
+
+  <button class="qs-ba-cerrar" type="button" aria-label="Cerrar anuncio">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </button>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-barra-anuncio').forEach(function(barra){
+      var cerrar = barra.querySelector('.qs-ba-cerrar');
+      if(cerrar) cerrar.addEventListener('click', function(){ barra.remove(); });
+      /* Para que no vuelva a salir en toda la visita, agrega dentro del click:
+         try { sessionStorage.setItem('qs-anuncio', 'cerrado'); } catch(e){}
+         y al inicio: try { if(sessionStorage.getItem('qs-anuncio')) barra.remove(); } catch(e){} */
+
+      var hh = barra.querySelector('[data-qs-h]');
+      var mm = barra.querySelector('[data-qs-m]');
+      var ss = barra.querySelector('[data-qs-s]');
+      if(!hh || !mm || !ss) return;
+
+      function meta(){
+        var puesta = Date.parse(barra.dataset.qsHasta || '');
+        if(puesta && puesta > Date.now()) return puesta;
+        var medianoche = new Date();          /* sin fecha puesta: hasta medianoche de hoy */
+        medianoche.setHours(24, 0, 0, 0);
+        return medianoche.getTime();
+      }
+
+      function dos(n){ return String(n).padStart(2, '0'); }
+
+      function tic(){
+        var faltan = Math.max(0, meta() - Date.now());
+        var t = Math.floor(faltan / 1000);
+        hh.textContent = dos(Math.floor(t / 3600));
+        mm.textContent = dos(Math.floor(t / 60) % 60);
+        ss.textContent = dos(t % 60);
+      }
+
+      tic();
+      setInterval(tic, 1000);
+    });
+  })();
+  </script>
+</div>
+</template>
+
+
+<!-- ══════════════ 10 · FRANJA DE CONFIANZA ══════════════ -->
+<template id="tpl-franja-confianza">
+<!-- ============================================================
+     SECCIÓN · Franja de confianza
+     Va debajo del hero o arriba del pie. Contesta las tres dudas
+     que frenan una compra: envío, devolución y seguridad del pago.
+     ============================================================ -->
+<section class="qs-franja-confianza">
+  <style>
+  .qs-franja-confianza{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F5F5F3;   /* fondo de la franja             */
+    --qs-tinta:       #1A1A1C;   /* color del título de cada punto */
+    --qs-tinta-suave: #6B6B72;   /* color de la explicación        */
+    --qs-icono:       #1A1A1C;   /* color del ícono                */
+    --qs-linea:       #E1E1DD;   /* color de las líneas divisorias */
+    --qs-aire:        44px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-franja-confianza *{box-sizing:border-box}
+  .qs-fc-marco{max-width:1120px; margin:0 auto}
+  .qs-fc-reja{display:grid; grid-template-columns:repeat(4,1fr); gap:0}
+  .qs-fc-punto{display:flex; gap:13px; padding:4px 22px; border-left:1px solid var(--qs-linea)}
+  .qs-fc-punto:first-child{border-left:0; padding-left:0}
+  .qs-fc-icono{flex:none; color:var(--qs-icono)}
+  .qs-fc-icono svg{width:23px; height:23px; display:block}
+  .qs-fc-punto b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px; line-height:1.3}
+  .qs-fc-punto span{display:block; font-size:12.5px; line-height:1.45; color:var(--qs-tinta-suave)}
+  .qs-fc-pagos{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    margin-top:28px; padding-top:22px; border-top:1px solid var(--qs-linea);
+  }
+  .qs-fc-pagos p{margin:0; font-size:12px; color:var(--qs-tinta-suave); letter-spacing:.02em}
+  .qs-fc-sellos{display:flex; gap:8px; flex-wrap:wrap}
+  .qs-fc-sello{
+    font-size:11px; font-weight:600; letter-spacing:.03em; color:var(--qs-tinta);
+    background:#fff; border:1px solid var(--qs-linea); border-radius:7px; padding:6px 11px;
+  }
+  @media (max-width:860px){
+    .qs-fc-reja{grid-template-columns:1fr 1fr; gap:22px 0}
+    .qs-fc-punto:nth-child(odd){border-left:0; padding-left:0}
+  }
+  @media (max-width:460px){
+    .qs-fc-reja{grid-template-columns:1fr; gap:20px}
+    .qs-fc-punto{border-left:0; padding-left:0; padding-right:0}
+  }
+  </style>
+
+  <div class="qs-fc-marco">
+    <div class="qs-fc-reja">
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 8h11v8H2zM13 11h4.5l2.5 3v2h-7z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.4"/><circle cx="16.5" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.4"/></svg></span>
+        <div><b>Envío en 24 horas</b><span>Dentro de la capital. Dos días al resto del país.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12a9 9 0 0115.5-6.2M21 12a9 9 0 01-15.5 6.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M18.5 2v4h-4M5.5 22v-4h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Cambios en 15 días</b><span>Con la etiqueta puesta y el comprobante.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5l8 3.2v6c0 4.8-3.4 8.4-8 9.8-4.6-1.4-8-5-8-9.8v-6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.6 12l2.4 2.4 4.4-4.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Pago verificado</b><span>3D Secure en cada compra con tarjeta.</span></div>
+      </div>
+      <div class="qs-fc-punto">
+        <span class="qs-fc-icono"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 9.5h19" stroke="currentColor" stroke-width="1.4"/><path d="M6 14.5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        <div><b>Hasta 12 cuotas</b><span>Con tarjeta de crédito de bancos del país.</span></div>
+      </div>
+    </div>
+
+    <div class="qs-fc-pagos">
+      <p>Aceptamos</p>
+      <div class="qs-fc-sellos">
+        <span class="qs-fc-sello">Visa</span>
+        <span class="qs-fc-sello">Mastercard</span>
+        <span class="qs-fc-sello">Crédito y débito</span>
+        <span class="qs-fc-sello">Sin contacto</span>
+        <span class="qs-fc-sello">Link de pago</span>
+      </div>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 11 · MARQUESINA ══════════════ -->
+<template id="tpl-marquesina">
+<!-- ============================================================
+     SECCIÓN · Marquesina
+     Cinta que corre sin parar. Solo CSS: no lleva JavaScript.
+     Se detiene sola si el visitante pidió reducir el movimiento.
+     ============================================================ -->
+<div class="qs-marquesina">
+  <style>
+  .qs-marquesina{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:     #E9E34B;   /* fondo de la cinta                */
+    --qs-tinta:     #14140A;   /* color del texto                  */
+    --qs-velocidad: 26s;       /* más segundos = más lento         */
+    --qs-alto:      52px;      /* alto de la cinta                 */
+    --qs-inclina:   -1.2deg;   /* inclinación; 0deg la deja recta  */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    min-height:var(--qs-alto); display:flex; align-items:center;
+    overflow:hidden; transform:rotate(var(--qs-inclina)); margin:22px 0;
+    width:102%; margin-left:-1%;
+  }
+  .qs-marquesina *{box-sizing:border-box}
+  .qs-mq-pista{display:flex; flex:none; animation:qs-mq-correr var(--qs-velocidad) linear infinite}
+  .qs-marquesina:hover .qs-mq-pista{animation-play-state:paused}
+  .qs-mq-grupo{
+    display:flex; align-items:center; gap:34px; padding-right:34px; flex:none;
+    font-size:15px; font-weight:700; letter-spacing:-.01em; white-space:nowrap;
+  }
+  .qs-mq-grupo span{display:inline-flex; align-items:center; gap:34px}
+  .qs-mq-grupo span::after{content:""; width:7px; height:7px; border-radius:50%; background:currentColor; opacity:.55}
+  @keyframes qs-mq-correr{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @media (prefers-reduced-motion: reduce){ .qs-mq-pista{animation:none} }
+  @media (max-width:560px){ .qs-marquesina{--qs-alto:44px} .qs-mq-grupo{font-size:13.5px; gap:24px; padding-right:24px} }
+  </style>
+
+  <!-- El grupo va DOS veces: es lo que hace que la vuelta no se note. -->
+  <div class="qs-mq-pista" aria-hidden="true">
+    <div class="qs-mq-grupo">
+      <span>Envío sin costo arriba de Q 300</span>
+      <span>Hasta 12 cuotas con tarjeta</span>
+      <span>Recoge en tienda el mismo día</span>
+      <span>Cambios en 15 días</span>
+    </div>
+    <div class="qs-mq-grupo">
+      <span>Envío sin costo arriba de Q 300</span>
+      <span>Hasta 12 cuotas con tarjeta</span>
+      <span>Recoge en tienda el mismo día</span>
+      <span>Cambios en 15 días</span>
+    </div>
+  </div>
+</div>
+</template>
+
+
+<!-- ══════════════ 12 · BANNER DE PROMOCIÓN ══════════════ -->
+<template id="tpl-banner-promocion">
+<!-- ============================================================
+     SECCIÓN · Banner de promoción
+     Una sola oferta con su producto, el porcentaje grande y el
+     código de cupón. Para la campaña del mes, no para el catálogo.
+     ============================================================ -->
+<section class="qs-banner-promocion">
+  <style>
+  .qs-banner-promocion{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo-a:   #2A1B4D;   /* color inicial del degradado      */
+    --qs-fondo-b:   #4B2A63;   /* color final del degradado        */
+    --qs-tinta:     #F6F1FF;   /* color del texto                  */
+    --qs-acento:    #FFD166;   /* el número grande y el cupón      */
+    --qs-boton:     #FFFFFF;   /* fondo del botón                  */
+    --qs-boton-txt: #2A1B4D;   /* texto del botón                  */
+    --qs-radio:     22px;      /* redondeo del banner              */
+    --qs-aire:      48px;      /* espacio arriba y abajo           */
+    /* ═════════════════════════════════════════════════════════ */
+
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; background:transparent;
+  }
+  .qs-banner-promocion *{box-sizing:border-box}
+  .qs-bp-caja{
+    max-width:1120px; margin:0 auto; border-radius:var(--qs-radio); overflow:hidden;
+    background:linear-gradient(115deg, var(--qs-fondo-a) 0%, var(--qs-fondo-b) 100%);
+    color:var(--qs-tinta); display:grid; grid-template-columns:1.25fr .75fr;
+    align-items:stretch; position:relative;
+  }
+  .qs-bp-caja::before{
+    content:""; position:absolute; top:-60px; right:26%; width:280px; height:280px;
+    border-radius:50%; background:rgba(255,255,255,.07);
+  }
+  .qs-bp-texto{padding:46px 42px; position:relative; z-index:1}
+  .qs-bp-cifra{
+    display:flex; align-items:baseline; gap:8px; color:var(--qs-acento);
+    font-weight:800; letter-spacing:-.04em; line-height:.9; margin-bottom:14px;
+  }
+  .qs-bp-cifra b{font-size:clamp(52px,8vw,84px)}
+  .qs-bp-cifra span{font-size:clamp(20px,3vw,28px); font-weight:700}
+  .qs-banner-promocion h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.025em; margin:0 0 10px; text-wrap:balance}
+  .qs-bp-texto > p{margin:0 0 26px; font-size:15px; line-height:1.55; opacity:.82; max-width:40ch}
+  .qs-bp-fila{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .qs-bp-cta{
+    font:inherit; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer;
+    background:var(--qs-boton); color:var(--qs-boton-txt); border:0; border-radius:12px;
+    padding:15px 30px; display:inline-block; transition:transform .15s ease;
+  }
+  .qs-bp-cta:hover{transform:translateY(-1px)}
+  .qs-bp-cupon{
+    font-size:13px; letter-spacing:.02em; opacity:.85;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .qs-bp-cupon code{
+    font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:13px; font-weight:700;
+    color:var(--qs-acento); border:1.5px dashed currentColor; border-radius:8px; padding:6px 11px;
+  }
+  .qs-bp-letra{margin:22px 0 0; font-size:11.5px; opacity:.55; max-width:44ch; line-height:1.5}
+  .qs-bp-foto{position:relative; min-height:280px; overflow:hidden}
+  .qs-bp-foto svg, .qs-bp-foto img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  @media (max-width:820px){
+    .qs-banner-promocion{--qs-aire:32px}
+    .qs-bp-caja{grid-template-columns:1fr}
+    .qs-bp-foto{min-height:190px; order:-1}
+    .qs-bp-texto{padding:32px 24px}
+  }
+  </style>
+
+  <div class="qs-bp-caja">
+    <div class="qs-bp-texto">
+      <p class="qs-bp-cifra"><b>30</b><span>% menos</span></p>
+      <h2>En toda la línea de cuidado personal</h2>
+      <p>Del 1 al 15 de octubre, en línea y en el local. Aplica sobre el precio de lista.</p>
+      <div class="qs-bp-fila">
+        <a class="qs-bp-cta" href="#">Comprar ahora</a>
+        <span class="qs-bp-cupon">Usa el código <code>OCTUBRE30</code></span>
+      </div>
+      <p class="qs-bp-letra">No se acumula con otras promociones. Válido hasta agotar existencias.</p>
+    </div>
+
+    <!-- Reemplazar el <svg> por: <img src="promocion.jpg" alt="Descripción de la foto"> -->
+    <div class="qs-bp-foto">
+      <svg viewBox="0 0 420 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="qsbp1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6B4A85"/><stop offset="1" stop-color="#3A2456"/></linearGradient></defs><rect width="420" height="420" fill="url(#qsbp1)"/><circle cx="300" cy="120" r="110" fill="#FFD166" opacity=".16"/><rect x="140" y="110" width="140" height="210" rx="24" fill="#C6A8DC" opacity=".75"/><rect x="172" y="152" width="76" height="30" rx="15" fill="#3A2456" opacity=".55"/><rect x="172" y="200" width="50" height="16" rx="8" fill="#3A2456" opacity=".35"/></svg>
+    </div>
+  </div>
+</section>
+</template>
+
+<script>
+(function(){
+  "use strict";
+
+  var SECCIONES = [
+    { id:"hero-dividido", n:1, cat:"hero", nombre:"Hero dividido",
+      para:"Texto a la izquierda y producto a la derecha. Es el que mejor funciona cuando hay algo concreto que mostrar y tres datos que dan confianza (envío, existencias, cuotas).",
+      alto:660, altoMovil:860,
+      vars:[["--qs-fondo","fondo de la sección"],["--qs-tinta","color del título"],["--qs-tinta-suave","color del párrafo"],["--qs-acento","fondo del botón"],["--qs-realce","palabra destacada y sello"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"En pantalla chica la foto sube arriba del texto, que es lo que se espera en un celular." },
+
+    { id:"hero-inmersivo", n:2, cat:"hero", nombre:"Hero inmersivo",
+      para:"Imagen a sangre con una capa oscura encima y el texto centrado. Para marcas que venden con la foto. La franja de abajo repite las tres garantías sin robarle espacio al titular.",
+      alto:620, altoMovil:660,
+      vars:[["--qs-alto","alto de la sección"],["--qs-velo","qué tan oscura la capa, de 0 a 1"],["--qs-tinta","color del texto"],["--qs-acento","fondo del botón"],["--qs-acento-texto","texto del botón"],["--qs-radio","redondeo del botón"]],
+      nota:"El velo es lo que hace que el texto se lea sobre cualquier foto. Si la imagen del cliente es clara, súbelo a .6 o más." },
+
+    { id:"hero-editorial", n:3, cat:"hero", nombre:"Hero editorial",
+      para:"Titular enorme en serif, dos columnas desiguales y una tira de tres piezas con su precio. Para catálogos de temporada que se leen como revista.",
+      alto:1060, altoMovil:820,
+      vars:[["--qs-fondo","fondo de la sección"],["--qs-tinta","color del texto"],["--qs-tinta-suave","párrafo y notas"],["--qs-linea","líneas divisorias"],["--qs-serif","tipografía del titular"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"Es la única sección que carga una tipografía: la serif del titular. Si la plantilla ya trae una, borra la línea del @import y cambia --qs-serif." },
+
+    { id:"rejilla-productos", n:4, cat:"productos", nombre:"Rejilla de productos",
+      para:"Cuatro columnas que bajan a dos y a una. Lleva etiqueta de descuento, precio tachado y botón de agregar que aparece al pasar el mouse.",
+      alto:580, altoMovil:720,
+      vars:[["--qs-columnas","cuántas columnas en escritorio"],["--qs-fondo","fondo de la sección"],["--qs-acento","fondo del botón agregar"],["--qs-oferta","color del precio rebajado"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"En pantallas táctiles el botón de agregar queda visible siempre: un botón que solo aparece al pasar el mouse no existe en un celular." },
+
+    { id:"productos-alternos", n:5, cat:"productos", nombre:"Productos alternos",
+      para:"Filas grandes que se voltean solas, una sí y una no. Sirve cuando hay pocos productos y cada uno necesita explicarse: equipos, planes, piezas de alto valor.",
+      alto:1780, altoMovil:2460,
+      vars:[["--qs-fondo","fondo de la sección"],["--qs-tinta","color del texto"],["--qs-acento","precio, número y borde del botón"],["--qs-linea","líneas divisorias"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"El volteo es automático con :nth-child(even). Agregar o quitar una fila no obliga a tocar nada más." },
+
+    { id:"mosaico-categorias", n:6, cat:"productos", nombre:"Mosaico de categorías",
+      para:"Cinco bloques de distinto tamaño que llevan directo a las categorías que más venden. El tamaño del bloque es la jerarquía: lo más grande es lo que más sale.",
+      alto:900, altoMovil:860,
+      vars:[["--qs-alto","alto de una fila del mosaico"],["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-rotulo","color del texto sobre el bloque"],["--qs-radio","redondeo de los bloques"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"En celular el mosaico pasa a dos columnas y el bloque grande deja de ocupar dos filas: si no, se comía la pantalla entera." },
+
+    { id:"carrusel-productos", n:7, cat:"carruseles", nombre:"Carrusel de productos",
+      para:"Se desliza con el dedo, con la rueda del mouse o con las flechas. Los puntos de abajo dicen en qué parte va. Las flechas se apagan solas al llegar a cada extremo.",
+      alto:680, altoMovil:560,
+      vars:[["--qs-tarjeta","ancho de cada tarjeta"],["--qs-acento","flechas y punto activo"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"Sin JavaScript se sigue desplazando con el dedo: el scroll-snap es CSS. El JS solo agrega las flechas y los puntos, así que si algo falla la sección se degrada, no se rompe." },
+
+    { id:"carrusel-resenas", n:8, cat:"carruseles", nombre:"Carrusel de reseñas",
+      para:"Rota solo cada seis segundos y se detiene al pasar el mouse o al llegar con el teclado. Estrellas, cita, nombre y negocio.",
+      alto:500, altoMovil:520,
+      vars:[["--qs-segundos","cada cuánto cambia"],["--qs-estrella","color de las estrellas"],["--qs-acento","punto activo"],["--qs-fondo","fondo de la sección"],["--qs-tinta","color de la reseña"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"Si el visitante pidió reducir el movimiento en su sistema, no rota sola: se queda en la primera y se cambia con los puntos." },
+
+    { id:"barra-anuncio", n:9, cat:"banners", nombre:"Barra de anuncio",
+      para:"Va pegada arriba del encabezado, con cuenta regresiva y botón de cerrar. Si no se le pone fecha de cierre, cuenta hasta la medianoche de hoy.",
+      alto:85, altoMovil:105,
+      vars:[["--qs-fondo","fondo de la barra"],["--qs-tinta","color del texto"],["--qs-acento","números del reloj y el enlace"],["--qs-alto","alto de la barra"]],
+      nota:"La fecha va en el atributo data-qs-hasta del bloque, no en el código: data-qs-hasta=\"2026-12-24T23:59:59\". Vacío significa medianoche de hoy, así que nunca se ve un reloj en cero." },
+
+    { id:"franja-confianza", n:10, cat:"banners", nombre:"Franja de confianza",
+      para:"Las tres dudas que frenan una compra —envío, devolución, seguridad del pago— más las cuotas y los sellos de lo que se acepta. Va debajo del hero o arriba del pie.",
+      alto:245, altoMovil:540,
+      vars:[["--qs-fondo","fondo de la franja"],["--qs-icono","color del ícono"],["--qs-linea","líneas divisorias"],["--qs-tinta-suave","color de la explicación"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"Los sellos son texto, no logos: no hay que pedirle a nadie los archivos de marca ni preocuparse por sus reglas de uso." },
+
+    { id:"marquesina", n:11, cat:"banners", nombre:"Marquesina",
+      para:"Cinta que corre sin parar con las promesas de la tienda. Solo CSS, sin nada de JavaScript. Se detiene al pasar el mouse.",
+      alto:112, altoMovil:104,
+      vars:[["--qs-velocidad","más segundos, más lento"],["--qs-fondo","fondo de la cinta"],["--qs-tinta","color del texto"],["--qs-inclina","inclinación; 0deg la deja recta"],["--qs-alto","alto de la cinta"]],
+      nota:"El grupo de frases va escrito dos veces en el HTML: eso es lo que hace que la vuelta no se note. Si agregas una frase, agrégala en los dos grupos." },
+
+    { id:"banner-promocion", n:12, cat:"banners", nombre:"Banner de promoción",
+      para:"Una sola oferta con el porcentaje grande, el producto y el código de cupón. Para la campaña del mes; no sirve como bloque permanente.",
+      alto:560, altoMovil:720,
+      vars:[["--qs-fondo-a","color inicial del degradado"],["--qs-fondo-b","color final del degradado"],["--qs-acento","el número grande y el cupón"],["--qs-boton","fondo del botón"],["--qs-radio","redondeo del banner"],["--qs-aire","espacio arriba y abajo"]],
+      nota:"La letra chica está abajo a propósito: una promoción sin condiciones visibles genera reclamos que terminan en el chat de soporte." }
+  ];
+
+  var ICONO_COPIA = '<svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="9" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 5.5v-2a1.5 1.5 0 00-1.5-1.5H4a1.5 1.5 0 00-1.5 1.5v6A1.5 1.5 0 004 11h1.5" stroke="currentColor" stroke-width="1.4"/></svg>';
+  var ICONO_CODIGO = '<svg viewBox="0 0 16 16" fill="none"><path d="M5.5 4L2 8l3.5 4M10.5 4L14 8l-3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var ICONO_NOTA = '<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.3" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.2v4M8 4.9v.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+  var TITULO_CAT = { hero:"Hero", productos:"Productos", carruseles:"Carrusel", banners:"Banner" };
+
+  // Toma el código de su <template>. Una sola fuente: lo que se ve en el marco
+  // y lo que se copia salen de la misma cadena, así que no pueden divergir.
+  function codigoDe(id){
+    var t = document.getElementById("tpl-" + id);
+    return t ? t.innerHTML.replace(/^\n/, "").replace(/\s+$/, "") : "";
+  }
+
+  function paginaPara(codigo){
+    return '<!doctype html><html lang="es"><head><meta charset="utf-8">'
+      + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+      + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">'
+      + '<style>html,body{margin:0;padding:0;background:#fff;-webkit-font-smoothing:antialiased}</style>'
+      + '</head><body>' + codigo + '</body></html>';
+  }
+
+  var lista = document.getElementById("lista");
+  var conteo = document.getElementById("conteo");
+
+  SECCIONES.forEach(function(s){
+    var codigo = codigoDe(s.id);
+    var archivo = "secciones/" + (s.n < 10 ? "0" : "") + s.n + "-" + s.id + ".html";
+
+    var ficha = document.createElement("section");
+    ficha.className = "ficha";
+    ficha.dataset.cat = s.cat;
+    ficha.id = s.id;
+
+    // --- cabecera ---
+    var cab = document.createElement("div");
+    cab.className = "ficha-cab";
+
+    var idBloque = document.createElement("div");
+    idBloque.className = "ficha-id";
+    var tipo = document.createElement("span");
+    tipo.className = "ficha-tipo";
+    tipo.textContent = TITULO_CAT[s.cat];
+    var h2 = document.createElement("h2");
+    h2.textContent = s.nombre;
+    var slug = document.createElement("p");
+    slug.className = "ficha-slug";
+    slug.textContent = archivo;
+    var para = document.createElement("p");
+    para.className = "ficha-para";
+    para.textContent = s.para;
+    idBloque.appendChild(tipo); idBloque.appendChild(h2); idBloque.appendChild(slug); idBloque.appendChild(para);
+
+    var acc = document.createElement("div");
+    acc.className = "ficha-acc";
+    var grupo = document.createElement("div");
+    grupo.className = "grupo";
+    var bEsc = document.createElement("button");
+    bEsc.type = "button"; bEsc.textContent = "Escritorio"; bEsc.setAttribute("aria-pressed", "true");
+    var bMov = document.createElement("button");
+    bMov.type = "button"; bMov.textContent = "Móvil"; bMov.setAttribute("aria-pressed", "false");
+    grupo.appendChild(bEsc); grupo.appendChild(bMov);
+    var bCodigo = document.createElement("button");
+    bCodigo.type = "button"; bCodigo.className = "boton suave";
+    bCodigo.innerHTML = ICONO_CODIGO + "<span>Ver código</span>";
+    acc.appendChild(grupo); acc.appendChild(bCodigo);
+
+    cab.appendChild(idBloque); cab.appendChild(acc);
+
+    // --- escenario con el iframe ---
+    var escenario = document.createElement("div");
+    escenario.className = "escenario";
+    escenario.dataset.ancho = "escritorio";
+    var marco = document.createElement("div");
+    marco.className = "marco";
+    var marca = document.createElement("iframe");
+    marca.title = "Vista previa · " + s.nombre;
+    marca.loading = "lazy";
+    marca.style.height = s.alto + "px";
+    marca.srcdoc = paginaPara(codigo);
+    marco.appendChild(marca);
+    escenario.appendChild(marco);
+
+    bEsc.addEventListener("click", function(){
+      escenario.dataset.ancho = "escritorio";
+      bEsc.setAttribute("aria-pressed", "true");
+      bMov.setAttribute("aria-pressed", "false");
+      marca.style.height = s.alto + "px";
+    });
+    bMov.addEventListener("click", function(){
+      escenario.dataset.ancho = "movil";
+      bMov.setAttribute("aria-pressed", "true");
+      bEsc.setAttribute("aria-pressed", "false");
+      marca.style.height = s.altoMovil + "px";
+    });
+
+    // --- pie con las variables ---
+    var pie = document.createElement("div");
+    pie.className = "pie";
+    var vt = document.createElement("p");
+    vt.className = "vars-tit";
+    vt.textContent = "Variables que puede cambiar el cliente";
+    var ul = document.createElement("ul");
+    ul.className = "vars";
+    s.vars.forEach(function(v){
+      var li = document.createElement("li");
+      li.textContent = v[0] + " ";
+      var i = document.createElement("i");
+      i.textContent = "· " + v[1];
+      li.appendChild(i);
+      ul.appendChild(li);
+    });
+    pie.appendChild(vt); pie.appendChild(ul);
+    if(s.nota){
+      var nota = document.createElement("p");
+      nota.className = "nota";
+      nota.innerHTML = ICONO_NOTA;
+      var tx = document.createElement("span");
+      tx.textContent = s.nota;
+      nota.appendChild(tx);
+      pie.appendChild(nota);
+    }
+
+    // --- panel de código ---
+    var panel = document.createElement("div");
+    panel.className = "codigo";
+    panel.hidden = true;
+    var pcab = document.createElement("div");
+    pcab.className = "codigo-cab";
+    var ruta = document.createElement("span");
+    ruta.className = "ruta";
+    ruta.textContent = archivo + " · " + codigo.split("\n").length + " líneas";
+    var bCopiar = document.createElement("button");
+    bCopiar.type = "button"; bCopiar.className = "boton";
+    bCopiar.innerHTML = ICONO_COPIA + "<span>Copiar código</span>";
+    var bSel = document.createElement("button");
+    bSel.type = "button"; bSel.className = "boton suave";
+    bSel.textContent = "Seleccionar todo";
+    var aviso = document.createElement("span");
+    aviso.className = "avisocopia";
+    pcab.appendChild(ruta); pcab.appendChild(aviso); pcab.appendChild(bSel); pcab.appendChild(bCopiar);
+
+    var pre = document.createElement("pre");
+    var code = document.createElement("code");
+    code.textContent = codigo;
+    pre.appendChild(code);
+    panel.appendChild(pcab); panel.appendChild(pre);
+
+    bCodigo.addEventListener("click", function(){
+      panel.hidden = !panel.hidden;
+      bCodigo.querySelector("span").textContent = panel.hidden ? "Ver código" : "Ocultar código";
+      if(!panel.hidden) panel.scrollIntoView({ behavior:"smooth", block:"nearest" });
+    });
+
+    bSel.addEventListener("click", function(){
+      var r = document.createRange();
+      r.selectNodeContents(code);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+      aviso.textContent = "Seleccionado · Ctrl+C para copiar";
+    });
+
+    bCopiar.addEventListener("click", function(){
+      function listo(){
+        aviso.textContent = "Copiado";
+        setTimeout(function(){ aviso.textContent = ""; }, 2200);
+      }
+      function aMano(){
+        aviso.textContent = "El navegador no dejó copiar · usa Seleccionar todo";
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(codigo).then(listo, aMano);
+      } else {
+        aMano();
+      }
+    });
+
+    ficha.appendChild(cab);
+    ficha.appendChild(escenario);
+    ficha.appendChild(pie);
+    ficha.appendChild(panel);
+    lista.appendChild(ficha);
+  });
+
+  // --- filtros ---
+  var chips = document.querySelectorAll(".chip");
+  function filtra(cual){
+    var vistas = 0;
+    document.querySelectorAll(".ficha").forEach(function(f){
+      var entra = (cual === "todas" || f.dataset.cat === cual);
+      f.hidden = !entra;
+      if(entra) vistas++;
+    });
+    conteo.textContent = vistas + (vistas === 1 ? " sección a la vista" : " secciones a la vista");
+  }
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){
+      chips.forEach(function(o){ o.setAttribute("aria-pressed", String(o === c)); });
+      filtra(c.dataset.filtro);
+      window.scrollTo({ top:0, behavior:"smooth" });
+    });
+  });
+  filtra("todas");
+})();
+</script>

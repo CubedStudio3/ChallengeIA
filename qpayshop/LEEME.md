@@ -1,0 +1,91 @@
+# Secciones para Qpayshop
+
+Biblioteca de **12 secciones** de tienda en línea para dar variedad a las
+plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
+
+**Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
+sección se ve funcionando, con interruptor Escritorio/Móvil y su código listo
+para copiar.
+
+## Qué hay
+
+| # | Archivo | Tipo | Para qué |
+|---|---|---|---|
+| 01 | `secciones/01-hero-dividido.html` | Hero | Texto y producto lado a lado, con tres datos de confianza |
+| 02 | `secciones/02-hero-inmersivo.html` | Hero | Imagen a sangre con capa oscura y texto centrado |
+| 03 | `secciones/03-hero-editorial.html` | Hero | Titular serif grande y tira de tres piezas con precio |
+| 04 | `secciones/04-rejilla-productos.html` | Productos | Rejilla de 4 columnas con descuento y botón de agregar |
+| 05 | `secciones/05-productos-alternos.html` | Productos | Filas grandes que se voltean solas; pocos productos que se explican |
+| 06 | `secciones/06-mosaico-categorias.html` | Productos | Cinco bloques de distinto tamaño hacia las categorías |
+| 07 | `secciones/07-carrusel-productos.html` | Carrusel | Desplazamiento con dedo, rueda o flechas, con puntos |
+| 08 | `secciones/08-carrusel-resenas.html` | Carrusel | Testimonios que rotan solos y se detienen al pasar el mouse |
+| 09 | `secciones/09-barra-anuncio.html` | Banner | Barra superior con cuenta regresiva y botón de cerrar |
+| 10 | `secciones/10-franja-confianza.html` | Banner | Envío, devolución, pago verificado, cuotas y medios de pago |
+| 11 | `secciones/11-marquesina.html` | Banner | Cinta que corre sin parar. Solo CSS |
+| 12 | `secciones/12-banner-promocion.html` | Banner | Una oferta con porcentaje grande y código de cupón |
+
+## Cómo se instala
+
+Copiar el contenido del archivo y pegarlo donde va la sección, dentro del
+`<body>` de la plantilla. Nada más.
+
+- **Sin dependencias.** No hay librerías, no hay build, no hay CDN.
+- **Sin colisiones.** Todo el CSS va prefijado con `.qs-…`, así que no pisa los
+  estilos de la tienda ni las secciones se pisan entre sí. Se pueden poner
+  varias en la misma página, y la misma dos veces.
+- **Sin JavaScript también funcionan.** Las cuatro que lo usan (07, 08, 09 y la
+  cuenta regresiva) se degradan: el carrusel se sigue desplazando con el dedo
+  porque el `scroll-snap` es CSS.
+- **Responsivas.** Cada una tiene sus puntos de quiebre; a 390 px ninguna
+  desborda horizontalmente.
+
+## Cómo las personaliza el cliente
+
+Cada sección abre con un bloque de variables CSS comentadas en español:
+
+```css
+.qs-hero-dividido{
+  /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+  --qs-fondo:        #F1EFE9;   /* fondo de toda la sección      */
+  --qs-tinta:        #191713;   /* color del título              */
+  --qs-acento:       #191713;   /* fondo del botón principal     */
+  --qs-radio:        16px;      /* redondeo de botones e imagen  */
+  --qs-aire:         72px;      /* espacio arriba y abajo        */
+  /* ═════════════════════════════════════════════════════════ */
+```
+
+Cambiar esos valores reacomoda la sección entera. No hay que entrar a la
+maquetación.
+
+## Imágenes
+
+Ninguna sección trae fotos: en su lugar van dibujos SVG, y cada uno lleva al
+lado el comentario que dice con qué `<img>` reemplazarlo. Por ejemplo:
+
+```html
+<!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
+```
+
+Se hizo así para que el archivo sea autosuficiente y no dependa de ningún
+servidor de imágenes para verse.
+
+## Tipografías
+
+Solo la 03 carga una tipografía (una serif para el titular) con un `@import`
+dentro de su propio bloque. Si la plantilla ya trae una serif, se borra esa
+línea y se cambia `--qs-serif`. Las demás usan la tipografía de la tienda con
+respaldo a la del sistema.
+
+## Sobre el contenido de ejemplo
+
+Los textos, precios, nombres y reseñas son **de ejemplo**, escritos para que se
+vea la maquetación con contenido realista de los rubros que atiende Qpaypro
+(ferretería, abarrotes, barbería, taller). **Ninguno es un dato medido de un
+cliente real** y todos se reemplazan al instalar.
+
+## De dónde salen los archivos
+
+`catalogo-secciones.html` es la fuente: cada sección vive en un `<template>`
+dentro de él, y es la misma cadena que se muestra en la vista previa y la que
+se copia. Los archivos de `secciones/` se extraen de ahí, así que no pueden
+divergir del catálogo.

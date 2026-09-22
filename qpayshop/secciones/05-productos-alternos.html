@@ -1,0 +1,105 @@
+<!-- ============================================================
+     SECCIÓN · Productos alternos
+     Filas grandes que alternan de lado. Sirve cuando hay pocos
+     productos y cada uno necesita explicarse.
+     ============================================================ -->
+<section class="qs-productos-alternos">
+  <style>
+  .qs-productos-alternos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #14140F;   /* fondo de la sección            */
+    --qs-tinta:       #F4F2EC;   /* color del texto                */
+    --qs-tinta-suave: #A19C8F;   /* color del párrafo              */
+    --qs-acento:      #D7C48A;   /* precio, número y borde del CTA */
+    --qs-linea:       #2C2C24;   /* color de las líneas divisorias */
+    --qs-radio:       4px;       /* redondeo de la foto            */
+    --qs-aire:        80px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-productos-alternos *{box-sizing:border-box}
+  .qs-pa-marco{max-width:1060px; margin:0 auto}
+  .qs-pa-intro{max-width:52ch; margin:0 0 54px}
+  .qs-productos-alternos h2{font-size:clamp(26px,3.6vw,38px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px}
+  .qs-pa-intro p{margin:0; font-size:15.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-pa-fila{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+    padding:44px 0; border-top:1px solid var(--qs-linea);
+  }
+  .qs-pa-fila:nth-child(even) .qs-pa-foto{order:2}
+  .qs-pa-foto{aspect-ratio:5/4; border-radius:var(--qs-radio); overflow:hidden; background:#22221A}
+  .qs-pa-foto svg, .qs-pa-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pa-num{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; color:var(--qs-acento);
+    font-variant-numeric:tabular-nums; margin:0 0 14px;
+  }
+  .qs-pa-fila h3{font-size:clamp(21px,2.6vw,27px); font-weight:700; letter-spacing:-.02em; margin:0 0 12px; line-height:1.2}
+  .qs-pa-fila > div > p{font-size:15px; line-height:1.65; color:var(--qs-tinta-suave); margin:0 0 22px; max-width:42ch}
+  .qs-pa-specs{list-style:none; margin:0 0 26px; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+  .qs-pa-specs li{font-size:12.5px; color:var(--qs-tinta-suave); border:1px solid var(--qs-linea); border-radius:999px; padding:5px 12px}
+  .qs-pa-fondo{display:flex; align-items:center; gap:20px; flex-wrap:wrap}
+  .qs-pa-precio{font-size:23px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  .qs-pa-cta{
+    font:inherit; font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
+    color:var(--qs-tinta); background:transparent; border:1px solid var(--qs-acento);
+    border-radius:999px; padding:11px 24px; transition:background .16s ease, color .16s ease;
+  }
+  .qs-pa-cta:hover{background:var(--qs-acento); color:var(--qs-fondo)}
+  @media (max-width:800px){
+    .qs-productos-alternos{--qs-aire:48px}
+    .qs-pa-fila{grid-template-columns:1fr; gap:24px; padding:32px 0}
+    .qs-pa-fila:nth-child(even) .qs-pa-foto{order:0}
+    .qs-pa-intro{margin-bottom:34px}
+  }
+  </style>
+
+  <div class="qs-pa-marco">
+    <div class="qs-pa-intro">
+      <h2>Tres equipos, tres formas de cobrar</h2>
+      <p>Cada uno se instala en una tarde. El que te sirve depende de cuánta gente atiendes por hora, no del tamaño del local.</p>
+    </div>
+
+    <!-- Fila de producto · duplicar este bloque; las pares se voltean solas -->
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#23231B"/><rect x="160" y="70" width="180" height="230" rx="18" fill="#3D3D2E"/><rect x="180" y="95" width="140" height="150" rx="8" fill="#D7C48A" opacity=".85"/><rect x="215" y="262" width="70" height="12" rx="6" fill="#57573F"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">01 — Mostrador</p>
+        <h3>Terminal con pantalla táctil</h3>
+        <p>Pantalla de 10", lector sin contacto y stand de aluminio con bloqueo antirrobo. Se carga por contacto, así que no hay cable suelto en la caja.</p>
+        <ul class="qs-pa-specs"><li>Visa y Mastercard</li><li>Sin contacto (NFC)</li><li>3D Secure</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Q 2,450</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#1E2320"/><rect x="120" y="140" width="260" height="120" rx="14" fill="#3A4139"/><circle cx="170" cy="200" r="26" fill="#D7C48A" opacity=".8"/><rect x="215" y="180" width="130" height="14" rx="7" fill="#5A6356"/><rect x="215" y="206" width="86" height="14" rx="7" fill="#4A5247"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">02 — Mesa y pasillo</p>
+        <h3>Lector inalámbrico</h3>
+        <p>Cobra donde está el cliente. Alcance de 30 a 50 metros del receptor, batería para una jornada completa y corte de caja que se arma solo.</p>
+        <ul class="qs-pa-specs"><li>Batería de jornada</li><li>Corte automático</li><li>Hasta 4 usuarios</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Q 1,190</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+
+    <div class="qs-pa-fila">
+      <div class="qs-pa-foto">
+        <svg viewBox="0 0 500 400" aria-hidden="true"><rect width="500" height="400" fill="#211D24"/><rect x="195" y="80" width="110" height="215" rx="20" fill="#3B3442"/><rect x="209" y="100" width="82" height="160" rx="6" fill="#D7C48A" opacity=".75"/><circle cx="250" cy="276" r="9" fill="#584F62"/></svg>
+      </div>
+      <div>
+        <p class="qs-pa-num">03 — Sin hardware</p>
+        <h3>Cobro desde el celular</h3>
+        <p>La app convierte el teléfono en terminal. No compras equipo: abres la app, cobras y el dinero entra a la misma cuenta que el resto.</p>
+        <ul class="qs-pa-specs"><li>Sin equipo</li><li>Links de pago</li><li>Un solo inventario</li></ul>
+        <div class="qs-pa-fondo"><span class="qs-pa-precio">Sin costo de equipo</span><a class="qs-pa-cta" href="#">Ver ficha</a></div>
+      </div>
+    </div>
+  </div>
+</section>

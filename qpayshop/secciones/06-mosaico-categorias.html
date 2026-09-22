@@ -1,0 +1,87 @@
+<!-- ============================================================
+     SECCIÓN · Mosaico de categorías
+     Cinco bloques de distinto tamaño. Sirve para que la portada
+     lleve directo a las categorías que más venden.
+     ============================================================ -->
+<section class="qs-mosaico-categorias">
+  <style>
+  .qs-mosaico-categorias{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #F7F7F5;   /* fondo de la sección                */
+    --qs-tinta:   #17171A;   /* color del título de la sección     */
+    --qs-rotulo:  #FFFFFF;   /* color del texto sobre cada bloque  */
+    --qs-velo:    .34;       /* oscurecido de la foto (0 a 1)      */
+    --qs-radio:   18px;      /* redondeo de los bloques            */
+    --qs-alto:    218px;     /* alto de una fila del mosaico       */
+    --qs-aire:    64px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-mosaico-categorias *{box-sizing:border-box}
+  .qs-mc-marco{max-width:1160px; margin:0 auto}
+  .qs-mosaico-categorias h2{font-size:clamp(24px,3vw,32px); font-weight:700; letter-spacing:-.025em; margin:0 0 26px}
+  .qs-mc-reja{
+    display:grid; gap:14px;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:var(--qs-alto);
+  }
+  .qs-mc-b1{grid-column:span 2; grid-row:span 2}
+  .qs-mc-b2{grid-column:span 2}
+  .qs-mc-b3, .qs-mc-b4{grid-column:span 1}
+  .qs-mc-b5{grid-column:span 4}
+  .qs-mc-bloque{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio);
+    display:flex; align-items:flex-end; text-decoration:none; color:var(--qs-rotulo);
+    padding:20px; isolation:isolate; background:#DDD;
+  }
+  .qs-mc-bloque svg, .qs-mc-bloque img{
+    position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover;
+    transition:transform .45s ease;
+  }
+  .qs-mc-bloque::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .28)) 0%, rgba(0,0,0,var(--qs-velo)) 55%, rgba(0,0,0,calc(var(--qs-velo) * .4)) 100%);
+  }
+  .qs-mc-bloque:hover svg, .qs-mc-bloque:hover img{transform:scale(1.06)}
+  .qs-mc-texto b{display:block; font-size:19px; font-weight:700; letter-spacing:-.02em; line-height:1.2}
+  .qs-mc-texto span{display:block; font-size:12.5px; opacity:.85; margin-top:3px}
+  .qs-mc-b1 .qs-mc-texto b{font-size:27px}
+  @media (max-width:860px){
+    .qs-mosaico-categorias{--qs-aire:44px; --qs-alto:160px}
+    .qs-mc-reja{grid-template-columns:repeat(2,1fr)}
+    .qs-mc-b1{grid-column:span 2; grid-row:span 1}
+    .qs-mc-b2, .qs-mc-b5{grid-column:span 2}
+    .qs-mc-b1 .qs-mc-texto b{font-size:22px}
+  }
+  </style>
+
+  <div class="qs-mc-marco">
+    <h2>Entra por donde compras</h2>
+    <div class="qs-mc-reja">
+      <!-- Cada bloque: reemplazar el <svg> por <img src="..." alt=""> -->
+      <a class="qs-mc-bloque qs-mc-b1" href="#">
+        <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="460" fill="#8FA4B8"/><circle cx="420" cy="120" r="150" fill="#A9BCCB" opacity=".7"/><path d="M0 330 C150 280 300 380 460 320 L600 300 L600 460 L0 460Z" fill="#6E8399"/></svg>
+        <span class="qs-mc-texto"><b>Ropa y calzado</b><span>168 productos</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b2" href="#">
+        <svg viewBox="0 0 600 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="230" fill="#B79A82"/><circle cx="140" cy="120" r="110" fill="#C9AF99" opacity=".75"/><rect x="330" y="40" width="200" height="150" rx="20" fill="#9C8069" opacity=".8"/></svg>
+        <span class="qs-mc-texto"><b>Ferretería</b><span>240 productos</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b3" href="#">
+        <svg viewBox="0 0 300 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="230" fill="#9AAE96"/><path d="M150 30 L250 200 L50 200 Z" fill="#7F9479" opacity=".85"/></svg>
+        <span class="qs-mc-texto"><b>Abarrotes</b><span>84</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b4" href="#">
+        <svg viewBox="0 0 300 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="230" fill="#B08FA0"/><circle cx="150" cy="115" r="78" fill="#C7A8B6" opacity=".8"/><circle cx="150" cy="115" r="34" fill="#96738A"/></svg>
+        <span class="qs-mc-texto"><b>Belleza</b><span>52</span></span>
+      </a>
+      <a class="qs-mc-bloque qs-mc-b5" href="#">
+        <svg viewBox="0 0 1200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="230" fill="#7E8794"/><rect x="0" y="120" width="1200" height="110" fill="#6A737F"/><circle cx="950" cy="90" r="130" fill="#949DAA" opacity=".6"/><rect x="120" y="60" width="180" height="120" rx="14" fill="#909AA7" opacity=".8"/></svg>
+        <span class="qs-mc-texto"><b>Taller y servicios</b><span>Órdenes de trabajo y repuestos</span></span>
+      </a>
+    </div>
+  </div>
+</section>
