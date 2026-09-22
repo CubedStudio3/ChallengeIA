@@ -138,18 +138,18 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     <span class="marca-punto" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3" width="13" height="10" rx="2.5" stroke="#fff" stroke-width="1.6"/><path d="M1.5 6.5h13" stroke="#fff" stroke-width="1.6"/></svg></span>
     <b>Qpayshop</b> <span>· biblioteca de secciones para Tienda en Línea</span>
   </div>
-  <h1>Doce secciones para armar tiendas</h1>
+  <h1>Veinticinco secciones para armar tiendas</h1>
   <p class="bajada">Cada sección se ve funcionando acá abajo y trae su código completo: <strong>HTML y CSS en un solo bloque</strong>, con las variables de color y tamaño comentadas en español.</p>
 
 </div>
 
 <div class="barra">
   <div class="envoltura barra-in">
-    <button class="chip" data-filtro="todas" aria-pressed="true">Todas <span class="n">12</span></button>
-    <button class="chip" data-filtro="hero" aria-pressed="false">Hero <span class="n">3</span></button>
-    <button class="chip" data-filtro="productos" aria-pressed="false">Productos <span class="n">3</span></button>
-    <button class="chip" data-filtro="carruseles" aria-pressed="false">Carruseles <span class="n">2</span></button>
-    <button class="chip" data-filtro="banners" aria-pressed="false">Banners <span class="n">4</span></button>
+    <button class="chip" data-filtro="todas" aria-pressed="true">Todas <span class="n">25</span></button>
+    <button class="chip" data-filtro="hero" aria-pressed="false">Hero <span class="n">6</span></button>
+    <button class="chip" data-filtro="productos" aria-pressed="false">Productos <span class="n">7</span></button>
+    <button class="chip" data-filtro="carruseles" aria-pressed="false">Carruseles <span class="n">5</span></button>
+    <button class="chip" data-filtro="banners" aria-pressed="false">Banners <span class="n">7</span></button>
     <span class="sep"></span>
     <span class="conteo" id="conteo"></span>
   </div>
@@ -1379,6 +1379,1342 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 </section>
 </template>
 
+<!-- ══════════════ 13 · HERO CON BUSCADOR ══════════════ -->
+<template id="tpl-hero-buscador">
+<!-- ============================================================
+     SECCIÓN · Hero con buscador
+     Centrado, con la búsqueda como protagonista y las categorías
+     más pedidas debajo. Para tiendas con catálogo grande, donde
+     el cliente llega buscando algo puntual.
+     ============================================================ -->
+<section class="qs-hero-buscador">
+  <style>
+  .qs-hero-buscador{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo-a:     #EEF4FB;   /* color de arriba del fondo      */
+    --qs-fondo-b:     #FBFCFE;   /* color de abajo del fondo       */
+    --qs-tinta:       #12202E;   /* color del título               */
+    --qs-tinta-suave: #5C7184;   /* color del párrafo y las pistas */
+    --qs-acento:      #14527A;   /* botón de buscar                */
+    --qs-borde:       #D2E0EC;   /* borde del campo y de los chips */
+    --qs-radio:       14px;      /* redondeo del campo             */
+    --qs-aire:        84px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:linear-gradient(180deg, var(--qs-fondo-a), var(--qs-fondo-b));
+    color:var(--qs-tinta); text-align:center;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-buscador *{box-sizing:border-box}
+  .qs-hb-marco{max-width:680px; margin:0 auto}
+  .qs-hero-buscador h2{
+    font-size:clamp(28px,4.6vw,44px); line-height:1.08; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 14px; text-wrap:balance;
+  }
+  .qs-hb-bajada{font-size:16px; color:var(--qs-tinta-suave); margin:0 0 30px}
+  .qs-hb-campo{
+    display:flex; gap:8px; background:#fff; border:1.5px solid var(--qs-borde);
+    border-radius:var(--qs-radio); padding:7px 7px 7px 16px; align-items:center;
+    box-shadow:0 8px 26px -18px rgba(18,32,46,.55);
+  }
+  .qs-hb-campo:focus-within{border-color:var(--qs-acento)}
+  .qs-hb-campo svg{width:19px; height:19px; color:var(--qs-tinta-suave); flex:none}
+  .qs-hb-campo input{
+    flex:1; min-width:0; border:0; outline:0; background:none;
+    font:inherit; font-size:15.5px; color:var(--qs-tinta); padding:11px 0;
+  }
+  .qs-hb-campo input::placeholder{color:var(--qs-tinta-suave); opacity:.75}
+  .qs-hb-campo button{
+    font:inherit; font-size:14.5px; font-weight:600; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:10px; padding:12px 22px;
+  }
+  .qs-hb-chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:22px}
+  .qs-hb-chips a{
+    font-size:13px; font-weight:500; text-decoration:none; color:var(--qs-tinta);
+    background:#fff; border:1px solid var(--qs-borde); border-radius:999px; padding:7px 15px;
+    transition:border-color .15s, color .15s;
+  }
+  .qs-hb-chips a:hover{border-color:var(--qs-acento); color:var(--qs-acento)}
+  .qs-hb-pista{margin:24px 0 0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hb-pista b{font-weight:600; color:var(--qs-tinta)}
+  @media (max-width:560px){
+    .qs-hero-buscador{--qs-aire:52px}
+    .qs-hb-campo{flex-wrap:wrap; padding:10px}
+    .qs-hb-campo input{padding:6px 4px}
+    .qs-hb-campo button{width:100%}
+  }
+  </style>
+
+  <div class="qs-hb-marco">
+    <h2>Busca entre 1,240 productos</h2>
+    <p class="qs-hb-bajada">Escribe la marca, el código o lo que necesitas. Si está en bodega, aparece con su existencia.</p>
+
+    <form class="qs-hb-campo" role="search" onsubmit="return false">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M13.6 13.6L18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="search" name="q" aria-label="Buscar productos" placeholder="Taladro, cemento, guantes de trabajo…">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <nav class="qs-hb-chips" aria-label="Categorías más buscadas">
+      <a href="#">Herramienta eléctrica</a>
+      <a href="#">Pintura</a>
+      <a href="#">Tornillería</a>
+      <a href="#">Protección</a>
+      <a href="#">Plomería</a>
+    </nav>
+
+    <p class="qs-hb-pista">Lo más buscado esta semana: <b>cemento</b>, <b>cable THHN</b>, <b>candado</b></p>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 14 · HERO DE DIAPOSITIVAS ══════════════ -->
+<template id="tpl-hero-diapositivas">
+<!-- ============================================================
+     SECCIÓN · Hero de diapositivas
+     Tres mensajes que rotan, cada uno con su propio color de
+     fondo. Sirve cuando hay tres campañas y ninguna cede el hero.
+     ============================================================ -->
+<section class="qs-hero-diapositivas">
+  <style>
+  .qs-hero-diapositivas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-segundos: 6s;        /* cada cuánto cambia                */
+    --qs-alto:     460px;     /* alto de la sección                */
+    --qs-radio:    999px;     /* redondeo del botón                */
+    /* El color de cada diapositiva va en su propio atributo style */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); overflow:hidden;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    background:#111;
+  }
+  .qs-hero-diapositivas *{box-sizing:border-box}
+  .qs-hd2-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .6s ease; display:grid; place-items:center;
+    text-align:center; padding:72px 68px;
+  }
+  .qs-hd2-hoja.qs-activa{opacity:1; visibility:visible}
+  .qs-hd2-caja{max-width:620px}
+  .qs-hd2-hoja p.qs-hd2-alto{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+    opacity:.8; margin:0 0 16px;
+  }
+  .qs-hd2-hoja h2{
+    font-size:clamp(28px,5vw,48px); line-height:1.05; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 16px; text-wrap:balance;
+  }
+  .qs-hd2-hoja p.qs-hd2-bajada{font-size:16px; line-height:1.55; opacity:.85; margin:0 0 26px}
+  .qs-hd2-cta{
+    font:inherit; font-size:14.5px; font-weight:700; text-decoration:none;
+    border-radius:var(--qs-radio); padding:14px 30px; display:inline-block;
+    background:currentColor; transition:transform .15s ease;
+  }
+  .qs-hd2-cta span{color:inherit; mix-blend-mode:normal}
+  .qs-hd2-cta:hover{transform:translateY(-1px)}
+  .qs-hd2-mandos{
+    position:absolute; left:0; right:0; bottom:20px; z-index:3;
+    display:flex; align-items:center; justify-content:center; gap:14px;
+  }
+  .qs-hd2-puntos{display:flex; gap:7px}
+  .qs-hd2-puntos button{
+    width:9px; height:9px; padding:0; border:0; border-radius:50%; cursor:pointer;
+    background:#fff; opacity:.42; transition:opacity .2s, width .2s;
+  }
+  .qs-hd2-puntos button[aria-current="true"]{opacity:1; width:26px; border-radius:5px}
+  .qs-hd2-flecha{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:40px; height:40px; border-radius:50%; cursor:pointer;
+    background:rgba(255,255,255,.18); border:0; color:#fff; display:grid; place-items:center;
+    backdrop-filter:blur(6px); transition:background .15s;
+  }
+  .qs-hd2-flecha:hover{background:rgba(255,255,255,.34)}
+  .qs-hd2-flecha svg{width:16px; height:16px}
+  .qs-hd2-flecha.qs-izq{left:16px}
+  .qs-hd2-flecha.qs-der{right:16px}
+  @media (max-width:640px){
+    .qs-hero-diapositivas{--qs-alto:420px}
+    .qs-hd2-hoja{padding:56px 20px 70px}
+    .qs-hd2-flecha{display:none}
+  }
+  </style>
+
+  <!-- Diapositiva · el color de fondo y el del texto van en el style de cada una -->
+  <div class="qs-hd2-hoja qs-activa" style="background:#123A2E; color:#E7F5EF">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Temporada de lluvia</p>
+      <h2>Impermeables y botas, listos para despachar</h2>
+      <p class="qs-hd2-bajada">Existencias reforzadas hasta octubre. Entrega el mismo día en la capital.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#E7F5EF"><span style="color:#123A2E">Ver la categoría</span></a>
+    </div>
+  </div>
+
+  <div class="qs-hd2-hoja" style="background:#5B2333; color:#FBECEF">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Compra por volumen</p>
+      <h2>Precio de mayoreo desde 12 unidades</h2>
+      <p class="qs-hd2-bajada">Cotiza en línea y te confirmamos el mismo día con factura.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#FBECEF"><span style="color:#5B2333">Pedir cotización</span></a>
+    </div>
+  </div>
+
+  <div class="qs-hd2-hoja" style="background:#1D2A4D; color:#E8EDF9">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Nuevo en la tienda</p>
+      <h2>Paga en 3, 6 o 12 cuotas con tarjeta</h2>
+      <p class="qs-hd2-bajada">Sin trámite extra: se elige al momento de pagar.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#E8EDF9"><span style="color:#1D2A4D">Cómo funciona</span></a>
+    </div>
+  </div>
+
+  <button class="qs-hd2-flecha qs-izq" type="button" data-qs-hd2="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="qs-hd2-flecha qs-der" type="button" data-qs-hd2="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="qs-hd2-mandos"><div class="qs-hd2-puntos"></div></div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-hero-diapositivas').forEach(function(seccion){
+      var hojas  = seccion.querySelectorAll('.qs-hd2-hoja');
+      var puntos = seccion.querySelector('.qs-hd2-puntos');
+      if(hojas.length < 2 || !puntos) return;
+
+      var i = 0, reloj = null;
+      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var cada = (parseFloat(getComputedStyle(seccion).getPropertyValue('--qs-segundos')) || 6) * 1000;
+
+      hojas.forEach(function(_, n){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Diapositiva ' + (n + 1));
+        b.addEventListener('click', function(){ muestra(n); reinicia(); });
+        puntos.appendChild(b);
+      });
+      var botones = puntos.querySelectorAll('button');
+
+      function muestra(n){
+        i = (n + hojas.length) % hojas.length;
+        hojas.forEach(function(h, k){ h.classList.toggle('qs-activa', k === i); });
+        botones.forEach(function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      }
+      seccion.querySelectorAll('[data-qs-hd2]').forEach(function(f){
+        f.addEventListener('click', function(){ muestra(i + Number(f.dataset.qsHd2)); reinicia(); });
+      });
+
+      function arranca(){ if(!quieto) reloj = setInterval(function(){ muestra(i + 1); }, cada); }
+      function para(){ clearInterval(reloj); reloj = null; }
+      function reinicia(){ para(); arranca(); }
+
+      seccion.addEventListener('mouseenter', para);
+      seccion.addEventListener('mouseleave', arranca);
+      seccion.addEventListener('focusin', para);
+      seccion.addEventListener('focusout', arranca);
+
+      muestra(0);
+      arranca();
+    });
+  })();
+  </script>
+</section>
+</template>
+
+
+<!-- ══════════════ 15 · HERO CON TARJETA FLOTANTE ══════════════ -->
+<template id="tpl-hero-tarjeta">
+<!-- ============================================================
+     SECCIÓN · Hero con tarjeta flotante
+     Formas planas de color y una tarjeta blanca encima. Look
+     geométrico, sin fotos: sirve cuando el cliente todavía no
+     tiene fotografía de producto.
+     ============================================================ -->
+<section class="qs-hero-tarjeta">
+  <style>
+  .qs-hero-tarjeta{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #F0EAE2;   /* fondo de la sección                */
+    --qs-forma-1: #D9552F;   /* color de la forma grande           */
+    --qs-forma-2: #22436B;   /* color de la forma mediana          */
+    --qs-forma-3: #E8B93C;   /* color de la forma chica            */
+    --qs-tinta:   #14120F;   /* color del texto de la tarjeta      */
+    --qs-acento:  #14120F;   /* fondo del botón                    */
+    --qs-radio:   0px;       /* redondeo; súbelo para suavizarlo   */
+    --qs-aire:    72px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta); position:relative; overflow:hidden;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-tarjeta *{box-sizing:border-box}
+  .qs-ht-formas{position:absolute; inset:0; z-index:0}
+  .qs-ht-formas span{position:absolute; display:block}
+  .qs-ht-f1{width:40%; aspect-ratio:1; border-radius:50%; background:var(--qs-forma-1); right:-6%; top:-16%}
+  .qs-ht-f2{width:26%; aspect-ratio:1/1.5; background:var(--qs-forma-2); right:16%; bottom:-14%}
+  .qs-ht-f3{width:10%; aspect-ratio:1; background:var(--qs-forma-3); left:50%; bottom:12%;
+            clip-path:polygon(50% 0%, 100% 100%, 0% 100%)}
+  .qs-ht-marco{position:relative; z-index:1; max-width:1080px; margin:0 auto}
+  .qs-ht-tarjeta{
+    background:#fff; border-radius:var(--qs-radio); padding:44px 44px 40px; max-width:520px;
+    box-shadow:0 24px 60px -34px rgba(20,18,15,.55);
+  }
+  .qs-ht-alto{
+    font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+    margin:0 0 18px; color:var(--qs-forma-1);
+  }
+  .qs-hero-tarjeta h2{
+    font-size:clamp(30px,4.4vw,46px); line-height:1.02; letter-spacing:-.035em;
+    font-weight:800; margin:0 0 16px; text-transform:uppercase; text-wrap:balance;
+  }
+  .qs-ht-tarjeta > p{font-size:15.5px; line-height:1.6; margin:0 0 28px; color:#4A463F; max-width:40ch}
+  .qs-ht-cta{
+    font:inherit; font-size:14.5px; font-weight:700; text-decoration:none; cursor:pointer;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:var(--qs-radio);
+    padding:15px 30px; display:inline-block; letter-spacing:.02em;
+  }
+  .qs-ht-lista{
+    list-style:none; margin:30px 0 0; padding:22px 0 0; border-top:2px solid var(--qs-tinta);
+    display:flex; flex-wrap:wrap; gap:10px 26px; font-size:12.5px; font-weight:600;
+    text-transform:uppercase; letter-spacing:.06em;
+  }
+  @media (max-width:720px){
+    .qs-hero-tarjeta{--qs-aire:44px}
+    .qs-ht-tarjeta{padding:30px 24px}
+    .qs-ht-f1{width:58%; right:-14%}
+    .qs-ht-f2{width:36%; right:4%}
+    .qs-ht-f3{display:none}   /* con la tarjeta a todo el ancho no le queda lugar */
+  }
+  </style>
+
+  <div class="qs-ht-formas" aria-hidden="true">
+    <span class="qs-ht-f1"></span>
+    <span class="qs-ht-f2"></span>
+    <span class="qs-ht-f3"></span>
+  </div>
+
+  <div class="qs-ht-marco">
+    <div class="qs-ht-tarjeta">
+      <p class="qs-ht-alto">Abrimos tienda en línea</p>
+      <h2>Lo mismo del mostrador, ahora a domicilio</h2>
+      <p>El mismo inventario, los mismos precios y la misma gente atendiendo. Lo que cambia es que ya no tienes que venir.</p>
+      <a class="qs-ht-cta" href="#">Empezar a comprar</a>
+      <ul class="qs-ht-lista">
+        <li>Pago con tarjeta</li>
+        <li>Entrega en 24 h</li>
+        <li>Factura electrónica</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 16 · LISTA COMPACTA ══════════════ -->
+<template id="tpl-lista-compacta">
+<!-- ============================================================
+     SECCIÓN · Lista compacta
+     Filas densas con miniatura, existencia y precio. Para catálogos
+     donde el cliente ya sabe qué quiere y la foto estorba: mayoreo,
+     repuestos, insumos.
+     ============================================================ -->
+<section class="qs-lista-compacta">
+  <style>
+  .qs-lista-compacta{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección            */
+    --qs-tinta:       #16181C;   /* color del nombre               */
+    --qs-tinta-suave: #6B7280;   /* código, unidad y existencia    */
+    --qs-linea:       #E7E9EE;   /* líneas entre filas             */
+    --qs-hay:         #0E7A57;   /* color de "en existencia"       */
+    --qs-poco:        #8B5905;   /* color de "quedan pocas"        */
+    --qs-acento:      #16181C;   /* fondo del botón agregar        */
+    --qs-aire:        60px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-lista-compacta *{box-sizing:border-box}
+  .qs-lc-marco{max-width:980px; margin:0 auto}
+  .qs-lc-cab{display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:20px}
+  .qs-lista-compacta h2{font-size:clamp(22px,2.8vw,28px); font-weight:700; letter-spacing:-.025em; margin:0}
+  .qs-lc-cab span{font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-lc-fila{
+    display:grid; grid-template-columns:52px 1fr auto auto; gap:16px; align-items:center;
+    padding:14px 0; border-top:1px solid var(--qs-linea);
+  }
+  .qs-lc-fila:last-child{border-bottom:1px solid var(--qs-linea)}
+  .qs-lc-mini{width:52px; height:52px; border-radius:9px; overflow:hidden; background:#F3F4F6; flex:none}
+  .qs-lc-mini svg, .qs-lc-mini img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-lc-datos{min-width:0}
+  .qs-lc-datos b{display:block; font-size:14.5px; font-weight:600; line-height:1.35}
+  .qs-lc-datos b a{color:inherit; text-decoration:none}
+  .qs-lc-datos b a:hover{text-decoration:underline}
+  .qs-lc-meta{
+    display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:3px;
+    font-size:12px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums;
+  }
+  .qs-lc-estado{font-weight:600}
+  .qs-lc-estado.qs-hay{color:var(--qs-hay)}
+  .qs-lc-estado.qs-poco{color:var(--qs-poco)}
+  .qs-lc-precio{font-size:15.5px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qs-lc-precio small{display:block; font-size:11.5px; font-weight:400; color:var(--qs-tinta-suave)}
+  .qs-lc-agregar{
+    font:inherit; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:9px; padding:10px 16px;
+  }
+  .qs-lc-pie{margin:22px 0 0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:640px){
+    .qs-lista-compacta{--qs-aire:40px}
+    .qs-lc-fila{grid-template-columns:44px 1fr auto; gap:12px; row-gap:10px}
+    .qs-lc-mini{width:44px; height:44px}
+    .qs-lc-agregar{grid-column:3; grid-row:1}
+    .qs-lc-precio{grid-column:2 / 4; text-align:left; display:flex; align-items:baseline; gap:8px}
+    .qs-lc-precio small{display:inline}
+  }
+  </style>
+
+  <div class="qs-lc-marco">
+    <div class="qs-lc-cab">
+      <h2>Insumos de ferretería</h2>
+      <span>18 de 240 productos · existencias de hoy</span>
+    </div>
+
+    <!-- Fila · duplicar por cada producto -->
+    <div class="qs-lc-fila">
+      <span class="qs-lc-mini"><!-- <img src="mini.jpg" alt=""> --><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#E8E4DA"/><rect x="18" y="10" width="16" height="32" rx="4" fill="#B3A68C"/></svg></span>
+      <div class="qs-lc-datos">
+        <b><a href="#">Cemento gris tipo UGC · saco 42.5 kg</a></b>
+        <div class="qs-lc-meta"><span>Cód. CEM-425</span><span class="qs-lc-estado qs-hay">124 en existencia</span></div>
+      </div>
+      <p class="qs-lc-precio">Q 78.50 <small>por saco</small></p>
+      <button class="qs-lc-agregar" type="button">Agregar</button>
+    </div>
+
+    <div class="qs-lc-fila">
+      <span class="qs-lc-mini"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#DFE6E4"/><circle cx="26" cy="26" r="15" fill="#93ABA5"/></svg></span>
+      <div class="qs-lc-datos">
+        <b><a href="#">Cable THHN calibre 12 · rollo 100 m</a></b>
+        <div class="qs-lc-meta"><span>Cód. THN-12</span><span class="qs-lc-estado qs-poco">quedan 6</span></div>
+      </div>
+      <p class="qs-lc-precio">Q 465.00 <small>por rollo</small></p>
+      <button class="qs-lc-agregar" type="button">Agregar</button>
+    </div>
+
+    <div class="qs-lc-fila">
+      <span class="qs-lc-mini"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#EDE3E6"/><rect x="12" y="16" width="28" height="22" rx="4" fill="#BC98A2"/></svg></span>
+      <div class="qs-lc-datos">
+        <b><a href="#">Pintura látex blanca · cubeta 5 galones</a></b>
+        <div class="qs-lc-meta"><span>Cód. PLB-5G</span><span class="qs-lc-estado qs-hay">31 en existencia</span></div>
+      </div>
+      <p class="qs-lc-precio">Q 640.00 <small>por cubeta</small></p>
+      <button class="qs-lc-agregar" type="button">Agregar</button>
+    </div>
+
+    <div class="qs-lc-fila">
+      <span class="qs-lc-mini"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#E4E7EF"/><path d="M26 12l12 20H14z" fill="#9AA4BE"/></svg></span>
+      <div class="qs-lc-datos">
+        <b><a href="#">Tornillo autorroscante 1" · caja 500 u</a></b>
+        <div class="qs-lc-meta"><span>Cód. TAR-100</span><span class="qs-lc-estado qs-hay">88 en existencia</span></div>
+      </div>
+      <p class="qs-lc-precio">Q 92.00 <small>por caja</small></p>
+      <button class="qs-lc-agregar" type="button">Agregar</button>
+    </div>
+
+    <p class="qs-lc-pie">Los precios de mayoreo se aplican solos desde 12 unidades del mismo código.</p>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 17 · PRODUCTO DESTACADO ══════════════ -->
+<template id="tpl-producto-destacado">
+<!-- ============================================================
+     SECCIÓN · Producto destacado
+     Un solo producto con galería, variantes y cantidad, dentro de
+     la portada. Para el producto estrella o el lanzamiento.
+     ============================================================ -->
+<section class="qs-producto-destacado">
+  <style>
+  .qs-producto-destacado{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF9F7;   /* fondo de la sección            */
+    --qs-tinta:       #191919;   /* color del texto                */
+    --qs-tinta-suave: #6D6B67;   /* color de la descripción        */
+    --qs-acento:      #1F4D3F;   /* botón y variante elegida       */
+    --qs-borde:       #E2DFD9;   /* bordes de miniaturas y campos  */
+    --qs-radio:       14px;      /* redondeo                       */
+    --qs-aire:        64px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-producto-destacado *{box-sizing:border-box}
+  .qs-pd-reja{max-width:1060px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start}
+  .qs-pd-galeria{display:grid; grid-template-columns:64px 1fr; gap:12px}
+  .qs-pd-minis{display:flex; flex-direction:column; gap:10px}
+  .qs-pd-minis button{
+    width:64px; height:64px; padding:0; cursor:pointer; overflow:hidden;
+    border:1.5px solid var(--qs-borde); border-radius:10px; background:#fff;
+  }
+  .qs-pd-minis button[aria-current="true"]{border-color:var(--qs-acento)}
+  .qs-pd-minis svg, .qs-pd-minis img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pd-grande{aspect-ratio:1/1; border-radius:var(--qs-radio); overflow:hidden; background:#EFECE6}
+  .qs-pd-grande svg, .qs-pd-grande img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pd-alto{font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 12px}
+  .qs-producto-destacado h2{font-size:clamp(24px,3.4vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px; line-height:1.15}
+  .qs-pd-precio{display:flex; align-items:baseline; gap:10px; margin:0 0 18px; font-variant-numeric:tabular-nums}
+  .qs-pd-precio b{font-size:26px; font-weight:700}
+  .qs-pd-precio s{font-size:15px; color:var(--qs-tinta-suave)}
+  .qs-pd-precio em{font-style:normal; font-size:12.5px; font-weight:600; color:#fff; background:var(--qs-acento); border-radius:6px; padding:3px 8px}
+  .qs-pd-texto{font-size:15px; line-height:1.6; color:var(--qs-tinta-suave); margin:0 0 26px; max-width:44ch}
+  .qs-pd-grupo{margin-bottom:22px}
+  .qs-pd-grupo > p{font-size:12.5px; font-weight:600; margin:0 0 9px; letter-spacing:.02em}
+  .qs-pd-grupo > p span{font-weight:400; color:var(--qs-tinta-suave)}
+  .qs-pd-ops{display:flex; flex-wrap:wrap; gap:8px}
+  .qs-pd-ops button{
+    font:inherit; font-size:13.5px; cursor:pointer; background:#fff; color:var(--qs-tinta);
+    border:1.5px solid var(--qs-borde); border-radius:9px; padding:9px 16px;
+  }
+  .qs-pd-ops button[aria-pressed="true"]{border-color:var(--qs-acento); background:var(--qs-acento); color:#fff; font-weight:600}
+  .qs-pd-compra{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .qs-pd-cantidad{display:flex; align-items:center; border:1.5px solid var(--qs-borde); border-radius:11px; background:#fff}
+  .qs-pd-cantidad button{font:inherit; font-size:17px; width:40px; height:46px; cursor:pointer; background:none; border:0; color:var(--qs-tinta)}
+  .qs-pd-cantidad output{min-width:34px; text-align:center; font-size:15px; font-weight:600; font-variant-numeric:tabular-nums}
+  .qs-pd-cta{
+    flex:1; min-width:180px; font:inherit; font-size:15px; font-weight:700; cursor:pointer;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:11px; padding:15px 24px;
+  }
+  .qs-pd-notas{list-style:none; margin:24px 0 0; padding:20px 0 0; border-top:1px solid var(--qs-borde); display:flex; flex-direction:column; gap:8px}
+  .qs-pd-notas li{font-size:13px; color:var(--qs-tinta-suave); display:flex; gap:9px; align-items:flex-start}
+  .qs-pd-notas svg{width:15px; height:15px; flex:none; margin-top:1px; color:var(--qs-acento)}
+  @media (max-width:820px){
+    .qs-producto-destacado{--qs-aire:44px}
+    .qs-pd-reja{grid-template-columns:1fr; gap:30px}
+    .qs-pd-galeria{grid-template-columns:1fr}
+    .qs-pd-minis{flex-direction:row; order:2}
+  }
+  </style>
+
+  <div class="qs-pd-reja">
+    <div class="qs-pd-galeria">
+      <div class="qs-pd-minis">
+        <button type="button" aria-current="true" aria-label="Vista 1"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E4DCCD"/><circle cx="32" cy="32" r="19" fill="#B9A987"/></svg></button>
+        <button type="button" aria-current="false" aria-label="Vista 2"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#DDE3DC"/><rect x="16" y="16" width="32" height="32" rx="6" fill="#93A794"/></svg></button>
+        <button type="button" aria-current="false" aria-label="Vista 3"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E7DEDE"/><path d="M32 14l16 36H16z" fill="#BC9C9C"/></svg></button>
+      </div>
+      <!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
+      <div class="qs-pd-grande"><svg viewBox="0 0 520 520" aria-hidden="true"><defs><linearGradient id="qspd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EDE5D6"/><stop offset="1" stop-color="#D5C8AC"/></linearGradient></defs><rect width="520" height="520" fill="url(#qspd1)"/><circle cx="260" cy="250" r="140" fill="#C0AE8A" opacity=".65"/><rect x="200" y="150" width="120" height="240" rx="24" fill="#8E7F60" opacity=".8"/><rect x="228" y="188" width="64" height="24" rx="12" fill="#F4EEE2"/></svg></div>
+    </div>
+
+    <div>
+      <p class="qs-pd-alto">Lo más vendido del mes</p>
+      <h2>Molino de café cónico · 40 niveles</h2>
+      <p class="qs-pd-precio"><b>Q 1,180.00</b><s>Q 1,450.00</s><em>-19%</em></p>
+      <p class="qs-pd-texto">Muelas cónicas de acero, cuerpo de aluminio y tolva de 250 g. Pensado para cafetería chica: aguanta turno completo sin calentarse.</p>
+
+      <div class="qs-pd-grupo">
+        <p>Color <span>· Negro mate</span></p>
+        <div class="qs-pd-ops">
+          <button type="button" aria-pressed="true">Negro mate</button>
+          <button type="button" aria-pressed="false">Acero</button>
+          <button type="button" aria-pressed="false">Crema</button>
+        </div>
+      </div>
+
+      <div class="qs-pd-compra">
+        <div class="qs-pd-cantidad">
+          <button type="button" aria-label="Quitar uno">−</button>
+          <output>1</output>
+          <button type="button" aria-label="Agregar uno">+</button>
+        </div>
+        <button class="qs-pd-cta" type="button">Agregar al carrito</button>
+      </div>
+
+      <ul class="qs-pd-notas">
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Entrega en 24 horas dentro de la capital</li>
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Un año de garantía del fabricante</li>
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Hasta 12 cuotas con tarjeta de crédito</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-producto-destacado').forEach(function(seccion){
+      var minis  = seccion.querySelectorAll('.qs-pd-minis button');
+      var grande = seccion.querySelector('.qs-pd-grande');
+      minis.forEach(function(b){
+        b.addEventListener('click', function(){
+          minis.forEach(function(o){ o.setAttribute('aria-current', String(o === b)); });
+          if(grande) grande.innerHTML = b.innerHTML;   /* la mini y la grande comparten contenido */
+        });
+      });
+
+      seccion.querySelectorAll('.qs-pd-ops').forEach(function(grupo){
+        var ops = grupo.querySelectorAll('button');
+        ops.forEach(function(b){
+          b.addEventListener('click', function(){
+            ops.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+            var rotulo = grupo.parentNode.querySelector('p span');
+            if(rotulo) rotulo.textContent = '· ' + b.textContent;
+          });
+        });
+      });
+
+      var caja = seccion.querySelector('.qs-pd-cantidad');
+      if(caja){
+        var salida = caja.querySelector('output');
+        var botones = caja.querySelectorAll('button');
+        botones[0].addEventListener('click', function(){
+          salida.textContent = Math.max(1, Number(salida.textContent) - 1);
+        });
+        botones[1].addEventListener('click', function(){
+          salida.textContent = Number(salida.textContent) + 1;
+        });
+      }
+    });
+  })();
+  </script>
+</section>
+</template>
+
+
+<!-- ══════════════ 18 · REJILLA DE REVISTA ══════════════ -->
+<template id="tpl-rejilla-revista">
+<!-- ============================================================
+     SECCIÓN · Rejilla de revista
+     Una pieza grande y cuatro chicas, con el texto encima de la
+     foto. Para colecciones donde manda la imagen, no el precio.
+     ============================================================ -->
+<section class="qs-rejilla-revista">
+  <style>
+  .qs-rejilla-revista{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #0F0F10;   /* fondo de la sección                */
+    --qs-tinta:   #F5F4F2;   /* color del texto                    */
+    --qs-velo:    .30;       /* oscurecido de la foto (0 a 1)      */
+    --qs-realce:  #E4FF5B;   /* color del precio y de la etiqueta  */
+    --qs-radio:   10px;      /* redondeo de las piezas             */
+    --qs-alto:    250px;     /* alto de una fila                   */
+    --qs-aire:    68px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rejilla-revista *{box-sizing:border-box}
+  .qs-rr-marco{max-width:1160px; margin:0 auto}
+  .qs-rr-cab{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:24px}
+  .qs-rejilla-revista h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.03em; margin:0}
+  .qs-rr-cab a{font-size:13.5px; font-weight:600; color:var(--qs-realce); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px}
+  .qs-rr-reja{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:var(--qs-alto); gap:12px}
+  .qs-rr-pieza{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio); isolation:isolate;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:18px;
+    text-decoration:none; color:var(--qs-tinta); background:#222;
+  }
+  .qs-rr-pieza:first-child{grid-column:span 2; grid-row:span 2}
+  .qs-rr-pieza svg, .qs-rr-pieza img{position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; transition:transform .5s ease}
+  .qs-rr-pieza::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .45)) 0%, rgba(0,0,0,var(--qs-velo)) 60%);
+  }
+  .qs-rr-pieza:hover svg, .qs-rr-pieza:hover img{transform:scale(1.05)}
+  .qs-rr-etiqueta{
+    position:absolute; top:14px; left:14px; z-index:1; font-size:10.5px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase; color:#111;
+    background:var(--qs-realce); border-radius:5px; padding:4px 8px;
+  }
+  .qs-rr-pieza b{display:block; font-size:16px; font-weight:700; letter-spacing:-.015em; line-height:1.25}
+  .qs-rr-pieza:first-child b{font-size:26px}
+  .qs-rr-precio{display:block; font-size:13px; margin-top:4px; color:var(--qs-realce); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){
+    .qs-rejilla-revista{--qs-aire:44px; --qs-alto:190px}
+    .qs-rr-reja{grid-template-columns:repeat(2,1fr)}
+    .qs-rr-pieza:first-child{grid-column:span 2; grid-row:span 1}
+    .qs-rr-pieza:first-child b{font-size:21px}
+  }
+  </style>
+
+  <div class="qs-rr-marco">
+    <div class="qs-rr-cab">
+      <h2>Colección de octubre</h2>
+      <a href="#">Ver las 32 piezas</a>
+    </div>
+    <div class="qs-rr-reja">
+      <!-- Pieza · la primera ocupa el doble. Reemplazar el <svg> por <img src="..." alt=""> -->
+      <a class="qs-rr-pieza" href="#">
+        <span class="qs-rr-etiqueta">Edición corta</span>
+        <svg viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="520" fill="#4A4038"/><circle cx="380" cy="180" r="170" fill="#6E6055" opacity=".85"/><path d="M0 380c150-60 290 40 430-30l170-40v210H0z" fill="#332C26"/></svg>
+        <b>Chaqueta de lona encerada</b><span class="qs-rr-precio">Q 890</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#3D4A42"/><circle cx="150" cy="110" r="80" fill="#5C6E62"/></svg>
+        <b>Pantalón de trabajo</b><span class="qs-rr-precio">Q 420</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#4C3E4A"/><rect x="70" y="50" width="160" height="150" rx="20" fill="#6B586A"/></svg>
+        <b>Camisa de franela</b><span class="qs-rr-precio">Q 310</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#40454F"/><path d="M150 40l90 170H60z" fill="#5C6472"/></svg>
+        <b>Gorra de lona</b><span class="qs-rr-precio">Q 145</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <span class="qs-rr-etiqueta">Última talla</span>
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#50463A"/><circle cx="110" cy="130" r="70" fill="#6E6150"/><circle cx="210" cy="90" r="45" fill="#7E7160" opacity=".8"/></svg>
+        <b>Cinturón de cuero</b><span class="qs-rr-precio">Q 265</span>
+      </a>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 19 · PRODUCTOS POR PESTAÑAS ══════════════ -->
+<template id="tpl-productos-pestanas">
+<!-- ============================================================
+     SECCIÓN · Productos por pestañas
+     Tres listas en el mismo espacio: más vendidos, nuevos y
+     ofertas. Evita tres secciones seguidas de rejilla.
+     ============================================================ -->
+<section class="qs-productos-pestanas">
+  <style>
+  .qs-productos-pestanas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección            */
+    --qs-tinta:       #18181B;   /* color del texto                */
+    --qs-tinta-suave: #71717A;   /* pestaña apagada y categoría    */
+    --qs-acento:      #7C2D5C;   /* pestaña elegida y subrayado    */
+    --qs-linea:       #E8E8EC;   /* línea bajo las pestañas        */
+    --qs-radio:       12px;      /* redondeo de la foto            */
+    --qs-aire:        64px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-productos-pestanas *{box-sizing:border-box}
+  .qs-pp-marco{max-width:1120px; margin:0 auto}
+  .qs-pp-barra{
+    display:flex; gap:26px; border-bottom:1px solid var(--qs-linea);
+    margin-bottom:26px; overflow-x:auto; scrollbar-width:none;
+  }
+  .qs-pp-barra::-webkit-scrollbar{display:none}
+  .qs-pp-barra button{
+    font:inherit; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap;
+    background:none; border:0; border-bottom:2px solid transparent;
+    color:var(--qs-tinta-suave); padding:0 0 13px;
+  }
+  .qs-pp-barra button[aria-selected="true"]{color:var(--qs-acento); border-bottom-color:var(--qs-acento)}
+  .qs-pp-panel[hidden]{display:none}
+  .qs-pp-reja{display:grid; grid-template-columns:repeat(4,minmax(min(190px,100%),1fr)); gap:22px 18px}
+  .qs-pp-art .qs-pp-foto{
+    display:block; aspect-ratio:4/5; border-radius:var(--qs-radio); overflow:hidden;
+    background:#F4F4F5; margin-bottom:11px; position:relative;
+  }
+  .qs-pp-art .qs-pp-foto svg, .qs-pp-art .qs-pp-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pp-cinta{
+    position:absolute; left:0; bottom:0; right:0; background:var(--qs-acento); color:#fff;
+    font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    padding:6px 10px; text-align:center;
+  }
+  .qs-pp-art p.qs-pp-cat{font-size:11.5px; color:var(--qs-tinta-suave); margin:0 0 4px}
+  .qs-pp-art h3{font-size:14px; font-weight:600; margin:0 0 5px; line-height:1.35}
+  .qs-pp-art h3 a{color:inherit; text-decoration:none}
+  .qs-pp-art .qs-pp-precio{margin:0; font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums}
+  @media (max-width:820px){
+    .qs-productos-pestanas{--qs-aire:44px}
+    .qs-pp-reja{grid-template-columns:repeat(2,minmax(min(150px,100%),1fr))}
+  }
+  </style>
+
+  <div class="qs-pp-marco">
+    <div class="qs-pp-barra" role="tablist" aria-label="Listas de productos">
+      <button type="button" role="tab" aria-selected="true"  aria-controls="qs-pp-1">Más vendidos</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="qs-pp-2">Recién llegados</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="qs-pp-3">En oferta</button>
+    </div>
+
+    <!-- Panel · uno por pestaña, en el mismo orden -->
+    <div class="qs-pp-panel" id="qs-pp-1" role="tabpanel">
+      <div class="qs-pp-reja">
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#F0E8EE"/><circle cx="150" cy="170" r="88" fill="#C39BB4"/></svg></a><p class="qs-pp-cat">Cuidado facial</p><h3><a href="#">Sérum de vitamina C 30 ml</a></h3><p class="qs-pp-precio">Q 245.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#EAEFEA"/><rect x="95" y="80" width="110" height="215" rx="20" fill="#9CB59E"/></svg></a><p class="qs-pp-cat">Cabello</p><h3><a href="#">Shampoo sin sulfatos 400 ml</a></h3><p class="qs-pp-precio">Q 118.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#F2EDE4"/><path d="M150 70l85 150-85 150-85-150z" fill="#C8B594"/></svg></a><p class="qs-pp-cat">Cuerpo</p><h3><a href="#">Aceite corporal de almendras</a></h3><p class="qs-pp-precio">Q 96.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#E9ECF3"/><rect x="80" y="120" width="140" height="140" rx="70" fill="#A2ADC4"/></svg></a><p class="qs-pp-cat">Barbería</p><h3><a href="#">Bálsamo para barba 60 g</a></h3><p class="qs-pp-precio">Q 135.00</p></article>
+      </div>
+    </div>
+
+    <div class="qs-pp-panel" id="qs-pp-2" role="tabpanel" hidden>
+      <div class="qs-pp-reja">
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#EDE6F2"/><circle cx="150" cy="150" r="75" fill="#A992C0"/><rect x="120" y="215" width="60" height="100" rx="14" fill="#8D74A8"/></svg><span class="qs-pp-cinta">Nuevo</span></a><p class="qs-pp-cat">Cuidado facial</p><h3><a href="#">Agua micelar 250 ml</a></h3><p class="qs-pp-precio">Q 88.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#E6F0EF"/><rect x="100" y="95" width="100" height="190" rx="16" fill="#8FB3B0"/></svg><span class="qs-pp-cinta">Nuevo</span></a><p class="qs-pp-cat">Manos</p><h3><a href="#">Crema de manos con urea</a></h3><p class="qs-pp-precio">Q 62.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#F3EAE6"/><circle cx="150" cy="185" r="95" fill="#CCA595"/></svg><span class="qs-pp-cinta">Nuevo</span></a><p class="qs-pp-cat">Cuerpo</p><h3><a href="#">Exfoliante de café 200 g</a></h3><p class="qs-pp-precio">Q 74.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#EAEDE4"/><path d="M150 85l80 200H70z" fill="#A8B394"/></svg><span class="qs-pp-cinta">Nuevo</span></a><p class="qs-pp-cat">Cabello</p><h3><a href="#">Mascarilla de reparación</a></h3><p class="qs-pp-precio">Q 152.00</p></article>
+      </div>
+    </div>
+
+    <div class="qs-pp-panel" id="qs-pp-3" role="tabpanel" hidden>
+      <div class="qs-pp-reja">
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#F1E7E9"/><rect x="90" y="100" width="120" height="180" rx="18" fill="#C39AA0"/></svg><span class="qs-pp-cinta">-25%</span></a><p class="qs-pp-cat">Cuidado facial</p><h3><a href="#">Protector solar FPS 50</a></h3><p class="qs-pp-precio">Q 168.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#E8EBF0"/><circle cx="150" cy="160" r="82" fill="#A3AEC0"/></svg><span class="qs-pp-cinta">-30%</span></a><p class="qs-pp-cat">Barbería</p><h3><a href="#">Cera de peinado mate</a></h3><p class="qs-pp-precio">Q 79.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#EFEDE3"/><rect x="105" y="85" width="90" height="205" rx="45" fill="#BDB88F"/></svg><span class="qs-pp-cinta">-20%</span></a><p class="qs-pp-cat">Cabello</p><h3><a href="#">Acondicionador sin enjuague</a></h3><p class="qs-pp-precio">Q 104.00</p></article>
+        <article class="qs-pp-art"><a class="qs-pp-foto" href="#"><svg viewBox="0 0 300 375" aria-hidden="true"><rect width="300" height="375" fill="#E7EFEA"/><path d="M150 95c50 0 80 40 80 90s-30 90-80 90-80-40-80-90 30-90 80-90z" fill="#96B8A5"/></svg><span class="qs-pp-cinta">-15%</span></a><p class="qs-pp-cat">Cuerpo</p><h3><a href="#">Jabón artesanal · 3 piezas</a></h3><p class="qs-pp-precio">Q 58.00</p></article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-productos-pestanas').forEach(function(seccion){
+      var pestanas = seccion.querySelectorAll('.qs-pp-barra button');
+      var paneles  = seccion.querySelectorAll('.qs-pp-panel');
+      pestanas.forEach(function(p, i){
+        p.addEventListener('click', function(){
+          pestanas.forEach(function(o, k){ o.setAttribute('aria-selected', String(k === i)); });
+          paneles.forEach(function(panel, k){ panel.hidden = (k !== i); });
+        });
+      });
+    });
+  })();
+  </script>
+</section>
+</template>
+
+
+<!-- ══════════════ 20 · CARRUSEL DE HISTORIAS ══════════════ -->
+<template id="tpl-carrusel-historias">
+<!-- ============================================================
+     SECCIÓN · Carrusel de historias
+     Círculos que se deslizan, como las historias de una red. Ocupa
+     poco alto y mete muchas colecciones arriba del catálogo.
+     ============================================================ -->
+<section class="qs-carrusel-historias">
+  <style>
+  .qs-carrusel-historias{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección            */
+    --qs-tinta:       #18181B;   /* color del nombre               */
+    --qs-tinta-suave: #71717A;   /* color del conteo               */
+    --qs-anillo-a:    #E0457B;   /* color inicial del anillo       */
+    --qs-anillo-b:    #F5A524;   /* color final del anillo         */
+    --qs-tamano:      84px;      /* diámetro del círculo           */
+    --qs-aire:        34px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0;
+  }
+  .qs-carrusel-historias *{box-sizing:border-box}
+  .qs-ch-pista{
+    display:flex; gap:20px; overflow-x:auto; padding:2px 24px 6px;
+    scroll-snap-type:x proximity; scrollbar-width:none;
+  }
+  .qs-ch-pista::-webkit-scrollbar{display:none}
+  .qs-ch-item{
+    flex:0 0 auto; width:var(--qs-tamano); text-align:center;
+    text-decoration:none; color:inherit; scroll-snap-align:start;
+  }
+  .qs-ch-anillo{
+    display:block;   /* es un <span> dentro de un <a>: sin esto ignora ancho y alto */
+    width:var(--qs-tamano); height:var(--qs-tamano); border-radius:50%; padding:2.5px;
+    background:linear-gradient(135deg, var(--qs-anillo-a), var(--qs-anillo-b));
+    margin-bottom:9px; transition:transform .18s ease;
+  }
+  .qs-ch-item:hover .qs-ch-anillo{transform:scale(1.05)}
+  .qs-ch-anillo > span{
+    display:block; width:100%; height:100%; border-radius:50%; overflow:hidden;
+    border:2.5px solid var(--qs-fondo); background:#F4F4F5;
+  }
+  .qs-ch-anillo svg, .qs-ch-anillo img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-ch-item b{display:block; font-size:12.5px; font-weight:600; line-height:1.3}
+  .qs-ch-item span.qs-ch-n{display:block; font-size:11px; color:var(--qs-tinta-suave); margin-top:2px; font-variant-numeric:tabular-nums}
+  @media (max-width:560px){ .qs-carrusel-historias{--qs-tamano:70px} .qs-ch-pista{gap:14px; padding-inline:16px} }
+  </style>
+
+  <div class="qs-ch-pista" role="region" aria-label="Colecciones">
+    <!-- Historia · duplicar. Reemplazar el <svg> por <img src="..." alt=""> -->
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#F3E3D3"/><circle cx="45" cy="45" r="26" fill="#D8A97C"/></svg></span></span><b>Novedades</b><span class="qs-ch-n">24</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#DFE9E4"/><path d="M45 20l24 42H21z" fill="#88AEA0"/></svg></span></span><b>Rebajas</b><span class="qs-ch-n">18</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#EAE3F2"/><rect x="24" y="24" width="42" height="42" rx="10" fill="#A48EC4"/></svg></span></span><b>Para regalo</b><span class="qs-ch-n">12</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#F2E4E7"/><circle cx="45" cy="38" r="20" fill="#CE95A2"/><rect x="33" y="52" width="24" height="24" rx="6" fill="#B87C8B"/></svg></span></span><b>Belleza</b><span class="qs-ch-n">52</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#E3E9F2"/><rect x="20" y="34" width="50" height="30" rx="8" fill="#8FA4C4"/></svg></span></span><b>Hogar</b><span class="qs-ch-n">37</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#EDEBDF"/><circle cx="36" cy="45" r="18" fill="#BDB88A"/><circle cx="58" cy="38" r="12" fill="#A9A374"/></svg></span></span><b>Abarrotes</b><span class="qs-ch-n">84</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#E5EDE9"/><path d="M28 62l17-34 17 34z" fill="#8CB39C"/></svg></span></span><b>Jardín</b><span class="qs-ch-n">21</span></a>
+    <a class="qs-ch-item" href="#"><span class="qs-ch-anillo"><span><svg viewBox="0 0 90 90" aria-hidden="true"><rect width="90" height="90" fill="#F0E8E2"/><rect x="28" y="22" width="34" height="46" rx="8" fill="#C4A38C"/></svg></span></span><b>Ferretería</b><span class="qs-ch-n">240</span></a>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 21 · CARRUSEL A PANTALLA ══════════════ -->
+<template id="tpl-carrusel-pantalla">
+<!-- ============================================================
+     SECCIÓN · Carrusel a pantalla
+     Una imagen por vez, con flechas encima y contador. Para
+     lookbook: la foto manda y el texto es una línea.
+     ============================================================ -->
+<section class="qs-carrusel-pantalla">
+  <style>
+  .qs-carrusel-pantalla{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-alto:   520px;    /* alto de la sección                   */
+    --qs-tinta:  #FFFFFF;  /* color del texto y las flechas        */
+    --qs-velo:   .22;      /* oscurecido de la foto (0 a 1)        */
+    --qs-radio:  0px;      /* redondeo; súbelo para despegarlo     */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; height:var(--qs-alto); overflow:hidden; border-radius:var(--qs-radio);
+    background:#151515; color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-carrusel-pantalla *{box-sizing:border-box}
+  .qs-cpa-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden; transition:opacity .55s ease;
+    display:flex; align-items:flex-end; padding:40px;
+  }
+  .qs-cpa-hoja.qs-activa{opacity:1; visibility:visible}
+  .qs-cpa-hoja svg, .qs-cpa-hoja img{position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover}
+  .qs-cpa-hoja::after{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .40)) 0%, rgba(0,0,0,var(--qs-velo)) 55%);
+  }
+  .qs-cpa-texto{position:relative; z-index:2; max-width:460px}
+  .qs-cpa-texto p.qs-cpa-alto{font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; opacity:.8; margin:0 0 10px}
+  .qs-cpa-texto h3{font-size:clamp(24px,3.6vw,36px); font-weight:700; letter-spacing:-.03em; margin:0 0 16px; line-height:1.1}
+  .qs-cpa-cta{
+    font-size:13.5px; font-weight:600; text-decoration:none; color:var(--qs-tinta);
+    border-bottom:1.5px solid currentColor; padding-bottom:3px;
+  }
+  .qs-cpa-flecha{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:4;
+    width:46px; height:46px; border-radius:50%; cursor:pointer; color:var(--qs-tinta);
+    background:rgba(0,0,0,.34); border:1px solid rgba(255,255,255,.34);
+    display:grid; place-items:center; transition:background .15s;
+  }
+  .qs-cpa-flecha:hover{background:rgba(0,0,0,.6)}
+  .qs-cpa-flecha svg{width:17px; height:17px}
+  .qs-cpa-flecha.qs-izq{left:20px}
+  .qs-cpa-flecha.qs-der{right:20px}
+  .qs-cpa-contador{
+    position:absolute; right:24px; bottom:24px; z-index:4;
+    font-size:13px; font-variant-numeric:tabular-nums; letter-spacing:.06em;
+    background:rgba(0,0,0,.34); border-radius:999px; padding:7px 15px;
+  }
+  .qs-cpa-contador b{font-weight:700}
+  @media (max-width:640px){
+    .qs-carrusel-pantalla{--qs-alto:440px}
+    .qs-cpa-hoja{padding:24px 20px 70px}
+    .qs-cpa-flecha{width:38px; height:38px}
+    .qs-cpa-flecha.qs-izq{left:12px} .qs-cpa-flecha.qs-der{right:12px}
+    .qs-cpa-contador{right:16px; bottom:16px}
+  }
+  </style>
+
+  <!-- Diapositiva · reemplazar el <svg> por <img src="..." alt=""> -->
+  <div class="qs-cpa-hoja qs-activa">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#5A4A3C"/><circle cx="860" cy="200" r="220" fill="#7A6652" opacity=".8"/><path d="M0 420c260-70 480 60 760-20l440-60v260H0z" fill="#3E3328"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 01</p><h3>Lona encerada para la lluvia de octubre</h3><a class="qs-cpa-cta" href="#">Ver las 4 piezas</a></div>
+  </div>
+  <div class="qs-cpa-hoja">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#37474A"/><rect x="620" y="80" width="460" height="440" rx="40" fill="#4E6367" opacity=".85"/><path d="M0 460c300-60 520 40 780-30l420-50v220H0z" fill="#23302F"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 02</p><h3>Capas de trabajo que aguantan el turno</h3><a class="qs-cpa-cta" href="#">Ver las 6 piezas</a></div>
+  </div>
+  <div class="qs-cpa-hoja">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#4B3B45"/><circle cx="360" cy="300" r="240" fill="#66505D" opacity=".75"/><path d="M0 480c340-40 560 30 840-40l360-40v200H0z" fill="#31262D"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 03</p><h3>Lo tejido a mano, en cantidades cortas</h3><a class="qs-cpa-cta" href="#">Ver las 9 piezas</a></div>
+  </div>
+
+  <button class="qs-cpa-flecha qs-izq" type="button" data-qs-cpa="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="qs-cpa-flecha qs-der" type="button" data-qs-cpa="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <p class="qs-cpa-contador"><b data-qs-cpa-n>1</b> / <span data-qs-cpa-total>3</span></p>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-pantalla').forEach(function(seccion){
+      var hojas = seccion.querySelectorAll('.qs-cpa-hoja');
+      var n     = seccion.querySelector('[data-qs-cpa-n]');
+      var total = seccion.querySelector('[data-qs-cpa-total]');
+      if(hojas.length < 2) return;
+      if(total) total.textContent = hojas.length;
+
+      var i = 0;
+      function muestra(k){
+        i = (k + hojas.length) % hojas.length;
+        hojas.forEach(function(h, j){ h.classList.toggle('qs-activa', j === i); });
+        if(n) n.textContent = i + 1;
+      }
+      seccion.querySelectorAll('[data-qs-cpa]').forEach(function(f){
+        f.addEventListener('click', function(){ muestra(i + Number(f.dataset.qsCpa)); });
+      });
+      muestra(0);
+    });
+  })();
+  </script>
+</section>
+</template>
+
+
+<!-- ══════════════ 22 · CARRUSEL DE VIDEOS ══════════════ -->
+<template id="tpl-carrusel-videos">
+<!-- ============================================================
+     SECCIÓN · Carrusel de videos
+     Tarjetas verticales 9:16 con su producto colgado abajo. Para
+     colgar los reels que ya se grabaron y que lleven a comprar.
+     ============================================================ -->
+<section class="qs-carrusel-videos">
+  <style>
+  .qs-carrusel-videos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBFAF9;   /* fondo de la sección            */
+    --qs-tinta:       #18181B;   /* color del texto                */
+    --qs-tinta-suave: #71717A;   /* color de la vista              */
+    --qs-tarjeta:     230px;     /* ancho de cada video            */
+    --qs-radio:       16px;      /* redondeo del video             */
+    --qs-aire:        60px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0;
+  }
+  .qs-carrusel-videos *{box-sizing:border-box}
+  .qs-cv-cab{max-width:1180px; margin:0 auto 20px; padding:0 24px}
+  .qs-carrusel-videos h2{font-size:clamp(22px,2.8vw,30px); font-weight:700; letter-spacing:-.025em; margin:0 0 5px}
+  .qs-cv-cab p{margin:0; font-size:14px; color:var(--qs-tinta-suave)}
+  .qs-cv-pista{display:flex; gap:16px; overflow-x:auto; padding:4px 24px 12px; scroll-snap-type:x proximity; scrollbar-width:none}
+  .qs-cv-pista::-webkit-scrollbar{display:none}
+  .qs-cv-art{flex:0 0 var(--qs-tarjeta); max-width:78vw; scroll-snap-align:start}
+  .qs-cv-video{
+    position:relative; display:block; aspect-ratio:9/16; border-radius:var(--qs-radio);
+    overflow:hidden; background:#26262A; margin-bottom:10px;
+  }
+  .qs-cv-video svg, .qs-cv-video img, .qs-cv-video video{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cv-play{
+    position:absolute; inset:0; display:grid; place-items:center; z-index:2;
+    color:#fff; transition:transform .18s ease;
+  }
+  .qs-cv-play span{
+    width:52px; height:52px; border-radius:50%; display:grid; place-items:center;
+    background:rgba(0,0,0,.42); border:1.5px solid rgba(255,255,255,.55); backdrop-filter:blur(4px);
+  }
+  .qs-cv-video:hover .qs-cv-play{transform:scale(1.08)}
+  .qs-cv-play svg{width:17px; height:17px; margin-left:2px}
+  .qs-cv-vista{
+    position:absolute; left:10px; top:10px; z-index:2; color:#fff; font-size:11.5px;
+    background:rgba(0,0,0,.45); border-radius:6px; padding:4px 8px; font-variant-numeric:tabular-nums;
+  }
+  .qs-cv-colgado{
+    position:absolute; left:8px; right:8px; bottom:8px; z-index:2;
+    display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.94);
+    border-radius:11px; padding:7px 9px; text-decoration:none; color:var(--qs-tinta);
+  }
+  .qs-cv-colgado i{width:34px; height:34px; border-radius:7px; overflow:hidden; flex:none; background:#EEE}
+  .qs-cv-colgado i svg, .qs-cv-colgado i img{width:100%; height:100%; object-fit:cover}
+  .qs-cv-colgado div{min-width:0; line-height:1.25}
+  .qs-cv-colgado b{display:block; font-size:11.5px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .qs-cv-colgado span{display:block; font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums}
+  .qs-cv-art > p{margin:0; font-size:13px; line-height:1.4}
+  @media (max-width:560px){ .qs-carrusel-videos{--qs-aire:40px; --qs-tarjeta:190px} .qs-cv-pista{padding-inline:16px} .qs-cv-cab{padding-inline:16px} }
+  </style>
+
+  <div class="qs-cv-cab">
+    <h2>Cómo se ve puesto</h2>
+    <p>Videos cortos de piezas que están en existencia hoy</p>
+  </div>
+
+  <div class="qs-cv-pista" role="region" aria-label="Videos de producto">
+    <!-- Tarjeta · para video real: <video src="clip.mp4" muted loop playsinline poster="portada.jpg"></video> -->
+    <article class="qs-cv-art">
+      <a class="qs-cv-video" href="#">
+        <svg viewBox="0 0 270 480" aria-hidden="true"><rect width="270" height="480" fill="#43423C"/><circle cx="135" cy="180" r="92" fill="#63604F"/><path d="M0 330c70-30 140 20 200-10l70-20v180H0z" fill="#2E2D28"/></svg>
+        <span class="qs-cv-vista">1,204 vistas</span>
+        <span class="qs-cv-play"><span><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5l9 5.5-9 5.5z"/></svg></span></span>
+        <span class="qs-cv-colgado"><i><svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" fill="#DDD5C4"/><circle cx="17" cy="17" r="9" fill="#A8977A"/></svg></i><div><b>Chaqueta de lona</b><span class="qs-rr-precio">Q 890</span></div></span>
+      </a>
+      <p>La talla M en tres cuerpos distintos</p>
+    </article>
+
+    <article class="qs-cv-art">
+      <a class="qs-cv-video" href="#">
+        <svg viewBox="0 0 270 480" aria-hidden="true"><rect width="270" height="480" fill="#37464A"/><rect x="55" y="110" width="160" height="230" rx="30" fill="#546A6F"/><path d="M0 370c80-20 150 30 200 0l70-30v140H0z" fill="#263134"/></svg>
+        <span class="qs-cv-vista">2,870 vistas</span>
+        <span class="qs-cv-play"><span><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5l9 5.5-9 5.5z"/></svg></span></span>
+        <span class="qs-cv-colgado"><i><svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" fill="#D5DEDC"/><rect x="9" y="9" width="16" height="16" rx="4" fill="#829894"/></svg></i><div><b>Botas impermeables</b><span>Q 645</span></div></span>
+      </a>
+      <p>Prueba de agua en la calle, sin edición</p>
+    </article>
+
+    <article class="qs-cv-art">
+      <a class="qs-cv-video" href="#">
+        <svg viewBox="0 0 270 480" aria-hidden="true"><rect width="270" height="480" fill="#4A3A43"/><circle cx="160" cy="220" r="110" fill="#6A5360" opacity=".9"/><path d="M0 350c60-10 130 40 190 10l80-40v160H0z" fill="#2F252B"/></svg>
+        <span class="qs-cv-vista">940 vistas</span>
+        <span class="qs-cv-play"><span><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5l9 5.5-9 5.5z"/></svg></span></span>
+        <span class="qs-cv-colgado"><i><svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" fill="#E2D6DA"/><path d="M17 8l8 18H9z" fill="#A98895"/></svg></i><div><b>Manta de telar</b><span>Q 640</span></div></span>
+      </a>
+      <p>El telar de doña Amalia, en Totonicapán</p>
+    </article>
+
+    <article class="qs-cv-art">
+      <a class="qs-cv-video" href="#">
+        <svg viewBox="0 0 270 480" aria-hidden="true"><rect width="270" height="480" fill="#3F4636"/><rect x="70" y="90" width="130" height="260" rx="20" fill="#5D6650"/><path d="M0 380c90-30 140 20 200-10l70-20v130H0z" fill="#2A3024"/></svg>
+        <span class="qs-cv-vista">1,655 vistas</span>
+        <span class="qs-cv-play"><span><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5l9 5.5-9 5.5z"/></svg></span></span>
+        <span class="qs-cv-colgado"><i><svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" fill="#DCDFD0"/><circle cx="17" cy="17" r="8" fill="#8E9778"/></svg></i><div><b>Mochila de lona</b><span>Q 395</span></div></span>
+      </a>
+      <p>Qué le cabe para un día de trabajo</p>
+    </article>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 23 · BANNER DE SUSCRIPCIÓN ══════════════ -->
+<template id="tpl-banner-newsletter">
+<!-- ============================================================
+     SECCIÓN · Banner de suscripción
+     Correo a cambio de algo concreto. El aviso de privacidad va
+     visible, no escondido en un enlace.
+     ============================================================ -->
+<section class="qs-banner-newsletter">
+  <style>
+  .qs-banner-newsletter{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #1C1C1F;   /* fondo del bloque               */
+    --qs-tinta:       #F4F4F5;   /* color del texto                */
+    --qs-tinta-suave: #A1A1AA;   /* color de la letra chica        */
+    --qs-acento:      #C9F24D;   /* fondo del botón                */
+    --qs-acento-txt:  #1C1C1F;   /* texto del botón                */
+    --qs-borde:       #3A3A40;   /* borde del campo                */
+    --qs-radio:       12px;      /* redondeo del campo y el botón  */
+    --qs-aire:        56px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-banner-newsletter *{box-sizing:border-box}
+  .qs-bn-reja{
+    max-width:1020px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr;
+    gap:40px; align-items:center;
+  }
+  .qs-banner-newsletter h2{font-size:clamp(22px,2.9vw,30px); font-weight:700; letter-spacing:-.025em; margin:0 0 10px; text-wrap:balance}
+  .qs-bn-reja > div:first-child p{margin:0; font-size:15px; line-height:1.6; color:var(--qs-tinta-suave); max-width:40ch}
+  .qs-bn-campo{display:flex; gap:9px; flex-wrap:wrap}
+  .qs-bn-campo input{
+    flex:1; min-width:200px; font:inherit; font-size:15px; color:var(--qs-tinta);
+    background:transparent; border:1.5px solid var(--qs-borde); border-radius:var(--qs-radio);
+    padding:14px 16px; outline:0;
+  }
+  .qs-bn-campo input::placeholder{color:var(--qs-tinta-suave)}
+  .qs-bn-campo input:focus{border-color:var(--qs-acento)}
+  .qs-bn-campo button{
+    font:inherit; font-size:15px; font-weight:700; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:var(--qs-radio); padding:14px 28px;
+  }
+  .qs-bn-aviso{margin:12px 0 0; font-size:11.5px; line-height:1.5; color:var(--qs-tinta-suave)}
+  .qs-bn-aviso a{color:var(--qs-tinta); text-decoration:underline}
+  @media (max-width:760px){
+    .qs-banner-newsletter{--qs-aire:40px}
+    .qs-bn-reja{grid-template-columns:1fr; gap:22px}
+    .qs-bn-campo button{width:100%}
+  }
+  </style>
+
+  <div class="qs-bn-reja">
+    <div>
+      <h2>Te avisamos cuando vuelva tu talla</h2>
+      <p>Un correo por semana con lo que entró a bodega y las rebajas antes de que salgan a la tienda.</p>
+    </div>
+    <div>
+      <form class="qs-bn-campo" onsubmit="return false">
+        <label for="qs-bn-correo" class="qs-bn-etiqueta" hidden>Correo electrónico</label>
+        <input id="qs-bn-correo" type="email" name="correo" required placeholder="tucorreo@ejemplo.com" autocomplete="email">
+        <button type="submit">Suscribirme</button>
+      </form>
+      <p class="qs-bn-aviso">Usamos tu correo solo para estos avisos. Te puedes dar de baja con un clic desde cualquiera de ellos. <a href="#">Aviso de privacidad</a></p>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 24 · BARRA DE ENVÍO GRATIS ══════════════ -->
+<template id="tpl-banner-progreso">
+<!-- ============================================================
+     SECCIÓN · Barra de envío gratis
+     Cuánto falta para el envío sin costo, con barra que avanza.
+     Va dentro del carrito o pegada abajo mientras se compra.
+     ============================================================ -->
+<div class="qs-banner-progreso" data-qs-meta="300" data-qs-lleva="214">
+  <!-- data-qs-meta: el monto que libera el envío · data-qs-lleva: lo que va en el carrito -->
+  <style>
+  .qs-banner-progreso{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo del bloque               */
+    --qs-tinta:       #18181B;   /* color del texto                */
+    --qs-tinta-suave: #71717A;   /* color de la línea de abajo     */
+    --qs-barra:       #EDEDF0;   /* canal de la barra              */
+    --qs-avance:      #1F7A4D;   /* color del avance               */
+    --qs-listo:       #1F7A4D;   /* color cuando ya se alcanzó     */
+    --qs-moneda:      "Q";       /* símbolo de la moneda           */
+    --qs-radio:       14px;      /* redondeo del bloque            */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    border:1px solid var(--qs-barra); border-radius:var(--qs-radio);
+    padding:18px 20px; max-width:560px; margin:24px auto;
+  }
+  .qs-banner-progreso *{box-sizing:border-box}
+  .qs-bp2-alto{display:flex; align-items:center; gap:10px; margin-bottom:12px}
+  .qs-bp2-alto svg{width:19px; height:19px; flex:none; color:var(--qs-avance)}
+  .qs-bp2-alto p{margin:0; font-size:14.5px; line-height:1.4}
+  .qs-bp2-alto b{font-weight:700}
+  .qs-bp2-canal{height:8px; border-radius:999px; background:var(--qs-barra); overflow:hidden}
+  .qs-bp2-avance{
+    height:100%; border-radius:999px; background:var(--qs-avance);
+    width:0; transition:width .6s cubic-bezier(.22,.9,.3,1);
+  }
+  .qs-bp2-pie{
+    display:flex; justify-content:space-between; gap:12px; margin:9px 0 0;
+    font-size:12px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums;
+  }
+  .qs-banner-progreso[data-qs-listo="si"] .qs-bp2-alto svg{color:var(--qs-listo)}
+  @media (prefers-reduced-motion: reduce){ .qs-bp2-avance{transition:none} }
+  </style>
+
+  <div class="qs-bp2-alto">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 6.5h11v8H2zM13 9.5h4l2 2.5v2.5h-6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="6" cy="16" r="1.7" stroke="currentColor" stroke-width="1.4"/><circle cx="15.5" cy="16" r="1.7" stroke="currentColor" stroke-width="1.4"/></svg>
+    <p data-qs-bp2-texto>Calculando…</p>
+  </div>
+  <div class="qs-bp2-canal"><div class="qs-bp2-avance" data-qs-bp2-barra></div></div>
+  <p class="qs-bp2-pie"><span data-qs-bp2-lleva></span><span data-qs-bp2-meta></span></p>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-banner-progreso').forEach(function(caja){
+      var meta  = Number(caja.dataset.qsMeta)  || 0;
+      var lleva = Number(caja.dataset.qsLleva) || 0;
+      if(meta <= 0) return;
+
+      var moneda = (getComputedStyle(caja).getPropertyValue('--qs-moneda') || 'Q').trim().replace(/["']/g, '');
+      function monto(n){ return moneda + ' ' + n.toFixed(2); }
+
+      var falta = Math.max(0, meta - lleva);
+      var pct   = Math.min(100, (lleva / meta) * 100);
+
+      caja.querySelector('[data-qs-bp2-texto]').innerHTML = falta > 0
+        ? 'Te faltan <b>' + monto(falta) + '</b> para el envío sin costo'
+        : '<b>Ya tienes envío sin costo</b> en este pedido';
+      caja.dataset.qsListo = falta > 0 ? 'no' : 'si';
+      caja.querySelector('[data-qs-bp2-lleva]').textContent = 'Llevas ' + monto(lleva);
+      caja.querySelector('[data-qs-bp2-meta]').textContent  = 'Meta ' + monto(meta);
+
+      /* se pinta en el siguiente cuadro para que la barra se vea avanzar */
+      requestAnimationFrame(function(){
+        caja.querySelector('[data-qs-bp2-barra]').style.width = pct + '%';
+      });
+    });
+  })();
+  </script>
+</div>
+</template>
+
+
+<!-- ══════════════ 25 · BANNER DE CITA ══════════════ -->
+<template id="tpl-banner-cita">
+<!-- ============================================================
+     SECCIÓN · Banner de cita
+     Para negocios de servicio: barbería, taller, clínica. Horario
+     visible y dos formas de contacto, sin formulario largo.
+     ============================================================ -->
+<section class="qs-banner-cita">
+  <style>
+  .qs-banner-cita{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F4F1EB;   /* fondo de la sección            */
+    --qs-panel:       #24211C;   /* fondo del panel del horario    */
+    --qs-tinta:       #1A1712;   /* color del texto                */
+    --qs-tinta-suave: #6B6459;   /* color del párrafo              */
+    --qs-acento:      #9C5B2E;   /* botón principal                */
+    --qs-radio:       18px;      /* redondeo                       */
+    --qs-aire:        60px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-banner-cita *{box-sizing:border-box}
+  .qs-bc-reja{max-width:1000px; margin:0 auto; display:grid; grid-template-columns:1.15fr .85fr; gap:34px; align-items:stretch}
+  .qs-bc-texto{display:flex; flex-direction:column; justify-content:center}
+  .qs-bc-alto{font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 14px}
+  .qs-banner-cita h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px; line-height:1.15; text-wrap:balance}
+  .qs-bc-texto > p{margin:0 0 26px; font-size:15px; line-height:1.6; color:var(--qs-tinta-suave); max-width:42ch}
+  .qs-bc-botones{display:flex; gap:10px; flex-wrap:wrap}
+  .qs-bc-cta{
+    font:inherit; font-size:14.5px; font-weight:600; text-decoration:none; cursor:pointer;
+    border-radius:11px; padding:14px 26px; display:inline-flex; align-items:center; gap:9px;
+    background:var(--qs-acento); color:#fff; border:1.5px solid var(--qs-acento);
+  }
+  .qs-bc-cta.qs-alterno{background:transparent; color:var(--qs-tinta); border-color:rgba(26,23,18,.22)}
+  .qs-bc-cta svg{width:16px; height:16px}
+  .qs-bc-panel{background:var(--qs-panel); color:#F2EEE6; border-radius:var(--qs-radio); padding:26px 28px}
+  .qs-bc-panel h3{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin:0 0 18px; opacity:.72}
+  .qs-bc-horario{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+  .qs-bc-horario li{
+    display:flex; justify-content:space-between; gap:14px; padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.10); font-size:13.5px; font-variant-numeric:tabular-nums;
+  }
+  .qs-bc-horario li:last-child{border-bottom:0}
+  .qs-bc-horario span{opacity:.72}
+  .qs-bc-horario li.qs-hoy{font-weight:700}
+  .qs-bc-horario li.qs-hoy span{opacity:1; color:#9ED8A8}
+  .qs-bc-lugar{margin:18px 0 0; padding-top:16px; border-top:1px solid rgba(255,255,255,.10); font-size:12.5px; line-height:1.5; opacity:.8}
+  @media (max-width:760px){
+    .qs-banner-cita{--qs-aire:42px}
+    .qs-bc-reja{grid-template-columns:1fr; gap:22px}
+    .qs-bc-cta{flex:1; justify-content:center}
+  }
+  </style>
+
+  <div class="qs-bc-reja">
+    <div class="qs-bc-texto">
+      <p class="qs-bc-alto">Barbería Norte</p>
+      <h2>Aparta tu turno y paga cuando llegues</h2>
+      <p>Corte, barba y afeitado clásico. Reservas hasta con dos semanas de anticipación; si no puedes llegar, cancelas desde el mismo enlace.</p>
+      <div class="qs-bc-botones">
+        <a class="qs-bc-cta" href="#"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="3.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M2 7h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Reservar turno</a>
+        <a class="qs-bc-cta qs-alterno" href="#"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5l1-3A6 6 0 118 14a6 6 0 01-3-.8l-2.5.3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Escribir por WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="qs-bc-panel">
+      <h3>Horario</h3>
+      <ul class="qs-bc-horario">
+        <li>Lunes a viernes <span>9:00 — 19:00</span></li>
+        <li class="qs-hoy">Sábado <span>8:00 — 18:00</span></li>
+        <li>Domingo <span>Cerrado</span></li>
+      </ul>
+      <p class="qs-bc-lugar">4a. avenida 12-40, zona 1 · Estacionamiento en la esquina</p>
+    </div>
+  </div>
+</section>
+</template>
+
 <script>
 (function(){
   "use strict";
@@ -1399,6 +2735,21 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       alto:1060, altoMovil:820,
       vars:[["--qs-fondo","fondo de la sección"],["--qs-tinta","color del texto"],["--qs-tinta-suave","párrafo y notas"],["--qs-linea","líneas divisorias"],["--qs-serif","tipografía del titular"],["--qs-aire","espacio arriba y abajo"]] },
 
+    { id:"hero-buscador", n:13, cat:"hero", nombre:"Hero con buscador",
+      para:"Centrado, con la búsqueda de protagonista y las categorías más pedidas debajo.",
+      alto:450, altoMovil:520,
+      vars:[["--qs-fondo-a","color de arriba del fondo"],["--qs-fondo-b","color de abajo del fondo"],["--qs-acento","botón de buscar"],["--qs-borde","borde del campo y los chips"],["--qs-radio","redondeo del campo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"hero-diapositivas", n:14, cat:"hero", nombre:"Hero de diapositivas",
+      para:"Tres mensajes que rotan, cada uno con su propio color de fondo.",
+      alto:460, altoMovil:420,
+      vars:[["--qs-segundos","cada cuánto cambia"],["--qs-alto","alto de la sección"],["--qs-radio","redondeo del botón"],["style de cada hoja","el color de esa diapositiva"]] },
+
+    { id:"hero-tarjeta", n:15, cat:"hero", nombre:"Hero con tarjeta flotante",
+      para:"Formas planas de color y una tarjeta blanca encima. Sin fotos.",
+      alto:550, altoMovil:620,
+      vars:[["--qs-forma-1","color de la forma grande"],["--qs-forma-2","color de la forma mediana"],["--qs-forma-3","color de la forma chica"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo; 0 lo deja recto"],["--qs-aire","espacio arriba y abajo"]] },
+
     { id:"rejilla-productos", n:4, cat:"productos", nombre:"Rejilla de productos",
       para:"Cuatro columnas con etiqueta de descuento, precio tachado y botón de agregar.",
       alto:580, altoMovil:720,
@@ -1414,6 +2765,26 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       alto:900, altoMovil:860,
       vars:[["--qs-alto","alto de una fila del mosaico"],["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-rotulo","color del texto sobre el bloque"],["--qs-radio","redondeo de los bloques"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
+    { id:"lista-compacta", n:16, cat:"productos", nombre:"Lista compacta",
+      para:"Filas densas con miniatura, existencia y precio. Para mayoreo, repuestos e insumos.",
+      alto:550, altoMovil:660,
+      vars:[["--qs-hay","color de «en existencia»"],["--qs-poco","color de «quedan pocas»"],["--qs-linea","líneas entre filas"],["--qs-acento","fondo del botón agregar"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"producto-destacado", n:17, cat:"productos", nombre:"Producto destacado",
+      para:"Un solo producto con galería, variantes y cantidad, dentro de la portada.",
+      alto:710, altoMovil:1080,
+      vars:[["--qs-acento","botón y variante elegida"],["--qs-borde","bordes de miniaturas y campos"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"rejilla-revista", n:18, cat:"productos", nombre:"Rejilla de revista",
+      para:"Una pieza grande y cuatro chicas, con el texto encima de la foto.",
+      alto:720, altoMovil:780,
+      vars:[["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-realce","precio y etiqueta"],["--qs-alto","alto de una fila"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo de las piezas"]] },
+
+    { id:"productos-pestanas", n:19, cat:"productos", nombre:"Productos por pestañas",
+      para:"Tres listas en el mismo espacio: más vendidos, recién llegados y en oferta.",
+      alto:570, altoMovil:720,
+      vars:[["--qs-acento","pestaña elegida y subrayado"],["--qs-linea","línea bajo las pestañas"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]] },
+
     { id:"carrusel-productos", n:7, cat:"carruseles", nombre:"Carrusel de productos",
       para:"Se desliza con el dedo, con la rueda o con las flechas, y los puntos dicen dónde va.",
       alto:680, altoMovil:560,
@@ -1423,6 +2794,21 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       para:"Testimonios que rotan solos y se detienen al pasar el mouse.",
       alto:500, altoMovil:520,
       vars:[["--qs-segundos","cada cuánto cambia"],["--qs-estrella","color de las estrellas"],["--qs-acento","punto activo"],["--qs-fondo","fondo de la sección"],["--qs-tinta","color de la reseña"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"carrusel-historias", n:20, cat:"carruseles", nombre:"Carrusel de historias",
+      para:"Círculos que se deslizan. Ocupa poco alto y mete muchas colecciones arriba del catálogo.",
+      alto:200, altoMovil:190,
+      vars:[["--qs-tamano","diámetro del círculo"],["--qs-anillo-a","color inicial del anillo"],["--qs-anillo-b","color final del anillo"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"carrusel-pantalla", n:21, cat:"carruseles", nombre:"Carrusel a pantalla",
+      para:"Una imagen por vez, con flechas encima y contador. Para lookbook.",
+      alto:520, altoMovil:440,
+      vars:[["--qs-alto","alto de la sección"],["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-tinta","texto y flechas"],["--qs-radio","redondeo; 0 lo deja a sangre"]] },
+
+    { id:"carrusel-videos", n:22, cat:"carruseles", nombre:"Carrusel de videos",
+      para:"Tarjetas verticales 9:16 con el producto colgado abajo. Para los reels ya grabados.",
+      alto:630, altoMovil:520,
+      vars:[["--qs-tarjeta","ancho de cada video"],["--qs-radio","redondeo del video"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"barra-anuncio", n:9, cat:"banners", nombre:"Barra de anuncio",
       para:"Barra superior con cuenta regresiva y botón de cerrar.",
@@ -1442,7 +2828,22 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     { id:"banner-promocion", n:12, cat:"banners", nombre:"Banner de promoción",
       para:"Una oferta con el porcentaje grande, el producto y el código de cupón.",
       alto:560, altoMovil:720,
-      vars:[["--qs-fondo-a","color inicial del degradado"],["--qs-fondo-b","color final del degradado"],["--qs-acento","el número grande y el cupón"],["--qs-boton","fondo del botón"],["--qs-radio","redondeo del banner"],["--qs-aire","espacio arriba y abajo"]] }
+      vars:[["--qs-fondo-a","color inicial del degradado"],["--qs-fondo-b","color final del degradado"],["--qs-acento","el número grande y el cupón"],["--qs-boton","fondo del botón"],["--qs-radio","redondeo del banner"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"banner-newsletter", n:23, cat:"banners", nombre:"Banner de suscripción",
+      para:"Correo a cambio de algo concreto, con el aviso de privacidad visible.",
+      alto:265, altoMovil:430,
+      vars:[["--qs-acento","fondo del botón"],["--qs-borde","borde del campo"],["--qs-fondo","fondo del bloque"],["--qs-radio","redondeo del campo y el botón"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"banner-progreso", n:24, cat:"banners", nombre:"Barra de envío gratis",
+      para:"Cuánto falta para el envío sin costo, con barra que avanza. Va dentro del carrito.",
+      alto:165, altoMovil:175,
+      vars:[["--qs-avance","color del avance"],["--qs-barra","canal de la barra"],["--qs-moneda","símbolo de la moneda"],["--qs-radio","redondeo del bloque"]] },
+
+    { id:"banner-cita", n:25, cat:"banners", nombre:"Banner de cita",
+      para:"Para negocios de servicio: horario visible y dos formas de contacto, sin formulario largo.",
+      alto:470, altoMovil:800,
+      vars:[["--qs-panel","fondo del panel del horario"],["--qs-acento","botón principal"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] }
   ];
 
   var ICONO_COPIA = '<svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="9" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 5.5v-2a1.5 1.5 0 00-1.5-1.5H4a1.5 1.5 0 00-1.5 1.5v6A1.5 1.5 0 004 11h1.5" stroke="currentColor" stroke-width="1.4"/></svg>';

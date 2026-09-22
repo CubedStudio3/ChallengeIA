@@ -1,0 +1,84 @@
+<!-- ============================================================
+     SECCIÓN · Hero con tarjeta flotante
+     Formas planas de color y una tarjeta blanca encima. Look
+     geométrico, sin fotos: sirve cuando el cliente todavía no
+     tiene fotografía de producto.
+     ============================================================ -->
+<section class="qs-hero-tarjeta">
+  <style>
+  .qs-hero-tarjeta{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #F0EAE2;   /* fondo de la sección                */
+    --qs-forma-1: #D9552F;   /* color de la forma grande           */
+    --qs-forma-2: #22436B;   /* color de la forma mediana          */
+    --qs-forma-3: #E8B93C;   /* color de la forma chica            */
+    --qs-tinta:   #14120F;   /* color del texto de la tarjeta      */
+    --qs-acento:  #14120F;   /* fondo del botón                    */
+    --qs-radio:   0px;       /* redondeo; súbelo para suavizarlo   */
+    --qs-aire:    72px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta); position:relative; overflow:hidden;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-tarjeta *{box-sizing:border-box}
+  .qs-ht-formas{position:absolute; inset:0; z-index:0}
+  .qs-ht-formas span{position:absolute; display:block}
+  .qs-ht-f1{width:40%; aspect-ratio:1; border-radius:50%; background:var(--qs-forma-1); right:-6%; top:-16%}
+  .qs-ht-f2{width:26%; aspect-ratio:1/1.5; background:var(--qs-forma-2); right:16%; bottom:-14%}
+  .qs-ht-f3{width:10%; aspect-ratio:1; background:var(--qs-forma-3); left:50%; bottom:12%;
+            clip-path:polygon(50% 0%, 100% 100%, 0% 100%)}
+  .qs-ht-marco{position:relative; z-index:1; max-width:1080px; margin:0 auto}
+  .qs-ht-tarjeta{
+    background:#fff; border-radius:var(--qs-radio); padding:44px 44px 40px; max-width:520px;
+    box-shadow:0 24px 60px -34px rgba(20,18,15,.55);
+  }
+  .qs-ht-alto{
+    font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+    margin:0 0 18px; color:var(--qs-forma-1);
+  }
+  .qs-hero-tarjeta h2{
+    font-size:clamp(30px,4.4vw,46px); line-height:1.02; letter-spacing:-.035em;
+    font-weight:800; margin:0 0 16px; text-transform:uppercase; text-wrap:balance;
+  }
+  .qs-ht-tarjeta > p{font-size:15.5px; line-height:1.6; margin:0 0 28px; color:#4A463F; max-width:40ch}
+  .qs-ht-cta{
+    font:inherit; font-size:14.5px; font-weight:700; text-decoration:none; cursor:pointer;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:var(--qs-radio);
+    padding:15px 30px; display:inline-block; letter-spacing:.02em;
+  }
+  .qs-ht-lista{
+    list-style:none; margin:30px 0 0; padding:22px 0 0; border-top:2px solid var(--qs-tinta);
+    display:flex; flex-wrap:wrap; gap:10px 26px; font-size:12.5px; font-weight:600;
+    text-transform:uppercase; letter-spacing:.06em;
+  }
+  @media (max-width:720px){
+    .qs-hero-tarjeta{--qs-aire:44px}
+    .qs-ht-tarjeta{padding:30px 24px}
+    .qs-ht-f1{width:58%; right:-14%}
+    .qs-ht-f2{width:36%; right:4%}
+    .qs-ht-f3{display:none}   /* con la tarjeta a todo el ancho no le queda lugar */
+  }
+  </style>
+
+  <div class="qs-ht-formas" aria-hidden="true">
+    <span class="qs-ht-f1"></span>
+    <span class="qs-ht-f2"></span>
+    <span class="qs-ht-f3"></span>
+  </div>
+
+  <div class="qs-ht-marco">
+    <div class="qs-ht-tarjeta">
+      <p class="qs-ht-alto">Abrimos tienda en línea</p>
+      <h2>Lo mismo del mostrador, ahora a domicilio</h2>
+      <p>El mismo inventario, los mismos precios y la misma gente atendiendo. Lo que cambia es que ya no tienes que venir.</p>
+      <a class="qs-ht-cta" href="#">Empezar a comprar</a>
+      <ul class="qs-ht-lista">
+        <li>Pago con tarjeta</li>
+        <li>Entrega en 24 h</li>
+        <li>Factura electrónica</li>
+      </ul>
+    </div>
+  </div>
+</section>

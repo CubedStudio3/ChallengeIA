@@ -1,0 +1,103 @@
+<!-- ============================================================
+     SECCIÓN · Carrusel a pantalla
+     Una imagen por vez, con flechas encima y contador. Para
+     lookbook: la foto manda y el texto es una línea.
+     ============================================================ -->
+<section class="qs-carrusel-pantalla">
+  <style>
+  .qs-carrusel-pantalla{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-alto:   520px;    /* alto de la sección                   */
+    --qs-tinta:  #FFFFFF;  /* color del texto y las flechas        */
+    --qs-velo:   .22;      /* oscurecido de la foto (0 a 1)        */
+    --qs-radio:  0px;      /* redondeo; súbelo para despegarlo     */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; height:var(--qs-alto); overflow:hidden; border-radius:var(--qs-radio);
+    background:#151515; color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-carrusel-pantalla *{box-sizing:border-box}
+  .qs-cpa-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden; transition:opacity .55s ease;
+    display:flex; align-items:flex-end; padding:40px;
+  }
+  .qs-cpa-hoja.qs-activa{opacity:1; visibility:visible}
+  .qs-cpa-hoja svg, .qs-cpa-hoja img{position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover}
+  .qs-cpa-hoja::after{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .40)) 0%, rgba(0,0,0,var(--qs-velo)) 55%);
+  }
+  .qs-cpa-texto{position:relative; z-index:2; max-width:460px}
+  .qs-cpa-texto p.qs-cpa-alto{font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; opacity:.8; margin:0 0 10px}
+  .qs-cpa-texto h3{font-size:clamp(24px,3.6vw,36px); font-weight:700; letter-spacing:-.03em; margin:0 0 16px; line-height:1.1}
+  .qs-cpa-cta{
+    font-size:13.5px; font-weight:600; text-decoration:none; color:var(--qs-tinta);
+    border-bottom:1.5px solid currentColor; padding-bottom:3px;
+  }
+  .qs-cpa-flecha{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:4;
+    width:46px; height:46px; border-radius:50%; cursor:pointer; color:var(--qs-tinta);
+    background:rgba(0,0,0,.34); border:1px solid rgba(255,255,255,.34);
+    display:grid; place-items:center; transition:background .15s;
+  }
+  .qs-cpa-flecha:hover{background:rgba(0,0,0,.6)}
+  .qs-cpa-flecha svg{width:17px; height:17px}
+  .qs-cpa-flecha.qs-izq{left:20px}
+  .qs-cpa-flecha.qs-der{right:20px}
+  .qs-cpa-contador{
+    position:absolute; right:24px; bottom:24px; z-index:4;
+    font-size:13px; font-variant-numeric:tabular-nums; letter-spacing:.06em;
+    background:rgba(0,0,0,.34); border-radius:999px; padding:7px 15px;
+  }
+  .qs-cpa-contador b{font-weight:700}
+  @media (max-width:640px){
+    .qs-carrusel-pantalla{--qs-alto:440px}
+    .qs-cpa-hoja{padding:24px 20px 70px}
+    .qs-cpa-flecha{width:38px; height:38px}
+    .qs-cpa-flecha.qs-izq{left:12px} .qs-cpa-flecha.qs-der{right:12px}
+    .qs-cpa-contador{right:16px; bottom:16px}
+  }
+  </style>
+
+  <!-- Diapositiva · reemplazar el <svg> por <img src="..." alt=""> -->
+  <div class="qs-cpa-hoja qs-activa">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#5A4A3C"/><circle cx="860" cy="200" r="220" fill="#7A6652" opacity=".8"/><path d="M0 420c260-70 480 60 760-20l440-60v260H0z" fill="#3E3328"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 01</p><h3>Lona encerada para la lluvia de octubre</h3><a class="qs-cpa-cta" href="#">Ver las 4 piezas</a></div>
+  </div>
+  <div class="qs-cpa-hoja">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#37474A"/><rect x="620" y="80" width="460" height="440" rx="40" fill="#4E6367" opacity=".85"/><path d="M0 460c300-60 520 40 780-30l420-50v220H0z" fill="#23302F"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 02</p><h3>Capas de trabajo que aguantan el turno</h3><a class="qs-cpa-cta" href="#">Ver las 6 piezas</a></div>
+  </div>
+  <div class="qs-cpa-hoja">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="600" fill="#4B3B45"/><circle cx="360" cy="300" r="240" fill="#66505D" opacity=".75"/><path d="M0 480c340-40 560 30 840-40l360-40v200H0z" fill="#31262D"/></svg>
+    <div class="qs-cpa-texto"><p class="qs-cpa-alto">Look 03</p><h3>Lo tejido a mano, en cantidades cortas</h3><a class="qs-cpa-cta" href="#">Ver las 9 piezas</a></div>
+  </div>
+
+  <button class="qs-cpa-flecha qs-izq" type="button" data-qs-cpa="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="qs-cpa-flecha qs-der" type="button" data-qs-cpa="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <p class="qs-cpa-contador"><b data-qs-cpa-n>1</b> / <span data-qs-cpa-total>3</span></p>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrusel-pantalla').forEach(function(seccion){
+      var hojas = seccion.querySelectorAll('.qs-cpa-hoja');
+      var n     = seccion.querySelector('[data-qs-cpa-n]');
+      var total = seccion.querySelector('[data-qs-cpa-total]');
+      if(hojas.length < 2) return;
+      if(total) total.textContent = hojas.length;
+
+      var i = 0;
+      function muestra(k){
+        i = (k + hojas.length) % hojas.length;
+        hojas.forEach(function(h, j){ h.classList.toggle('qs-activa', j === i); });
+        if(n) n.textContent = i + 1;
+      }
+      seccion.querySelectorAll('[data-qs-cpa]').forEach(function(f){
+        f.addEventListener('click', function(){ muestra(i + Number(f.dataset.qsCpa)); });
+      });
+      muestra(0);
+    });
+  })();
+  </script>
+</section>

@@ -1,0 +1,150 @@
+<!-- ============================================================
+     SECCIÓN · Producto destacado
+     Un solo producto con galería, variantes y cantidad, dentro de
+     la portada. Para el producto estrella o el lanzamiento.
+     ============================================================ -->
+<section class="qs-producto-destacado">
+  <style>
+  .qs-producto-destacado{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF9F7;   /* fondo de la sección            */
+    --qs-tinta:       #191919;   /* color del texto                */
+    --qs-tinta-suave: #6D6B67;   /* color de la descripción        */
+    --qs-acento:      #1F4D3F;   /* botón y variante elegida       */
+    --qs-borde:       #E2DFD9;   /* bordes de miniaturas y campos  */
+    --qs-radio:       14px;      /* redondeo                       */
+    --qs-aire:        64px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-producto-destacado *{box-sizing:border-box}
+  .qs-pd-reja{max-width:1060px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start}
+  .qs-pd-galeria{display:grid; grid-template-columns:64px 1fr; gap:12px}
+  .qs-pd-minis{display:flex; flex-direction:column; gap:10px}
+  .qs-pd-minis button{
+    width:64px; height:64px; padding:0; cursor:pointer; overflow:hidden;
+    border:1.5px solid var(--qs-borde); border-radius:10px; background:#fff;
+  }
+  .qs-pd-minis button[aria-current="true"]{border-color:var(--qs-acento)}
+  .qs-pd-minis svg, .qs-pd-minis img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pd-grande{aspect-ratio:1/1; border-radius:var(--qs-radio); overflow:hidden; background:#EFECE6}
+  .qs-pd-grande svg, .qs-pd-grande img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-pd-alto{font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 12px}
+  .qs-producto-destacado h2{font-size:clamp(24px,3.4vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px; line-height:1.15}
+  .qs-pd-precio{display:flex; align-items:baseline; gap:10px; margin:0 0 18px; font-variant-numeric:tabular-nums}
+  .qs-pd-precio b{font-size:26px; font-weight:700}
+  .qs-pd-precio s{font-size:15px; color:var(--qs-tinta-suave)}
+  .qs-pd-precio em{font-style:normal; font-size:12.5px; font-weight:600; color:#fff; background:var(--qs-acento); border-radius:6px; padding:3px 8px}
+  .qs-pd-texto{font-size:15px; line-height:1.6; color:var(--qs-tinta-suave); margin:0 0 26px; max-width:44ch}
+  .qs-pd-grupo{margin-bottom:22px}
+  .qs-pd-grupo > p{font-size:12.5px; font-weight:600; margin:0 0 9px; letter-spacing:.02em}
+  .qs-pd-grupo > p span{font-weight:400; color:var(--qs-tinta-suave)}
+  .qs-pd-ops{display:flex; flex-wrap:wrap; gap:8px}
+  .qs-pd-ops button{
+    font:inherit; font-size:13.5px; cursor:pointer; background:#fff; color:var(--qs-tinta);
+    border:1.5px solid var(--qs-borde); border-radius:9px; padding:9px 16px;
+  }
+  .qs-pd-ops button[aria-pressed="true"]{border-color:var(--qs-acento); background:var(--qs-acento); color:#fff; font-weight:600}
+  .qs-pd-compra{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .qs-pd-cantidad{display:flex; align-items:center; border:1.5px solid var(--qs-borde); border-radius:11px; background:#fff}
+  .qs-pd-cantidad button{font:inherit; font-size:17px; width:40px; height:46px; cursor:pointer; background:none; border:0; color:var(--qs-tinta)}
+  .qs-pd-cantidad output{min-width:34px; text-align:center; font-size:15px; font-weight:600; font-variant-numeric:tabular-nums}
+  .qs-pd-cta{
+    flex:1; min-width:180px; font:inherit; font-size:15px; font-weight:700; cursor:pointer;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:11px; padding:15px 24px;
+  }
+  .qs-pd-notas{list-style:none; margin:24px 0 0; padding:20px 0 0; border-top:1px solid var(--qs-borde); display:flex; flex-direction:column; gap:8px}
+  .qs-pd-notas li{font-size:13px; color:var(--qs-tinta-suave); display:flex; gap:9px; align-items:flex-start}
+  .qs-pd-notas svg{width:15px; height:15px; flex:none; margin-top:1px; color:var(--qs-acento)}
+  @media (max-width:820px){
+    .qs-producto-destacado{--qs-aire:44px}
+    .qs-pd-reja{grid-template-columns:1fr; gap:30px}
+    .qs-pd-galeria{grid-template-columns:1fr}
+    .qs-pd-minis{flex-direction:row; order:2}
+  }
+  </style>
+
+  <div class="qs-pd-reja">
+    <div class="qs-pd-galeria">
+      <div class="qs-pd-minis">
+        <button type="button" aria-current="true" aria-label="Vista 1"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E4DCCD"/><circle cx="32" cy="32" r="19" fill="#B9A987"/></svg></button>
+        <button type="button" aria-current="false" aria-label="Vista 2"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#DDE3DC"/><rect x="16" y="16" width="32" height="32" rx="6" fill="#93A794"/></svg></button>
+        <button type="button" aria-current="false" aria-label="Vista 3"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E7DEDE"/><path d="M32 14l16 36H16z" fill="#BC9C9C"/></svg></button>
+      </div>
+      <!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
+      <div class="qs-pd-grande"><svg viewBox="0 0 520 520" aria-hidden="true"><defs><linearGradient id="qspd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EDE5D6"/><stop offset="1" stop-color="#D5C8AC"/></linearGradient></defs><rect width="520" height="520" fill="url(#qspd1)"/><circle cx="260" cy="250" r="140" fill="#C0AE8A" opacity=".65"/><rect x="200" y="150" width="120" height="240" rx="24" fill="#8E7F60" opacity=".8"/><rect x="228" y="188" width="64" height="24" rx="12" fill="#F4EEE2"/></svg></div>
+    </div>
+
+    <div>
+      <p class="qs-pd-alto">Lo más vendido del mes</p>
+      <h2>Molino de café cónico · 40 niveles</h2>
+      <p class="qs-pd-precio"><b>Q 1,180.00</b><s>Q 1,450.00</s><em>-19%</em></p>
+      <p class="qs-pd-texto">Muelas cónicas de acero, cuerpo de aluminio y tolva de 250 g. Pensado para cafetería chica: aguanta turno completo sin calentarse.</p>
+
+      <div class="qs-pd-grupo">
+        <p>Color <span>· Negro mate</span></p>
+        <div class="qs-pd-ops">
+          <button type="button" aria-pressed="true">Negro mate</button>
+          <button type="button" aria-pressed="false">Acero</button>
+          <button type="button" aria-pressed="false">Crema</button>
+        </div>
+      </div>
+
+      <div class="qs-pd-compra">
+        <div class="qs-pd-cantidad">
+          <button type="button" aria-label="Quitar uno">−</button>
+          <output>1</output>
+          <button type="button" aria-label="Agregar uno">+</button>
+        </div>
+        <button class="qs-pd-cta" type="button">Agregar al carrito</button>
+      </div>
+
+      <ul class="qs-pd-notas">
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Entrega en 24 horas dentro de la capital</li>
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Un año de garantía del fabricante</li>
+        <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Hasta 12 cuotas con tarjeta de crédito</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-producto-destacado').forEach(function(seccion){
+      var minis  = seccion.querySelectorAll('.qs-pd-minis button');
+      var grande = seccion.querySelector('.qs-pd-grande');
+      minis.forEach(function(b){
+        b.addEventListener('click', function(){
+          minis.forEach(function(o){ o.setAttribute('aria-current', String(o === b)); });
+          if(grande) grande.innerHTML = b.innerHTML;   /* la mini y la grande comparten contenido */
+        });
+      });
+
+      seccion.querySelectorAll('.qs-pd-ops').forEach(function(grupo){
+        var ops = grupo.querySelectorAll('button');
+        ops.forEach(function(b){
+          b.addEventListener('click', function(){
+            ops.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+            var rotulo = grupo.parentNode.querySelector('p span');
+            if(rotulo) rotulo.textContent = '· ' + b.textContent;
+          });
+        });
+      });
+
+      var caja = seccion.querySelector('.qs-pd-cantidad');
+      if(caja){
+        var salida = caja.querySelector('output');
+        var botones = caja.querySelectorAll('button');
+        botones[0].addEventListener('click', function(){
+          salida.textContent = Math.max(1, Number(salida.textContent) - 1);
+        });
+        botones[1].addEventListener('click', function(){
+          salida.textContent = Number(salida.textContent) + 1;
+        });
+      }
+    });
+  })();
+  </script>
+</section>

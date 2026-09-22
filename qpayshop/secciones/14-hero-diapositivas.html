@@ -1,0 +1,147 @@
+<!-- ============================================================
+     SECCIÓN · Hero de diapositivas
+     Tres mensajes que rotan, cada uno con su propio color de
+     fondo. Sirve cuando hay tres campañas y ninguna cede el hero.
+     ============================================================ -->
+<section class="qs-hero-diapositivas">
+  <style>
+  .qs-hero-diapositivas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-segundos: 6s;        /* cada cuánto cambia                */
+    --qs-alto:     460px;     /* alto de la sección                */
+    --qs-radio:    999px;     /* redondeo del botón                */
+    /* El color de cada diapositiva va en su propio atributo style */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); overflow:hidden;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    background:#111;
+  }
+  .qs-hero-diapositivas *{box-sizing:border-box}
+  .qs-hd2-hoja{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .6s ease; display:grid; place-items:center;
+    text-align:center; padding:72px 68px;
+  }
+  .qs-hd2-hoja.qs-activa{opacity:1; visibility:visible}
+  .qs-hd2-caja{max-width:620px}
+  .qs-hd2-hoja p.qs-hd2-alto{
+    font-size:11.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+    opacity:.8; margin:0 0 16px;
+  }
+  .qs-hd2-hoja h2{
+    font-size:clamp(28px,5vw,48px); line-height:1.05; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 16px; text-wrap:balance;
+  }
+  .qs-hd2-hoja p.qs-hd2-bajada{font-size:16px; line-height:1.55; opacity:.85; margin:0 0 26px}
+  .qs-hd2-cta{
+    font:inherit; font-size:14.5px; font-weight:700; text-decoration:none;
+    border-radius:var(--qs-radio); padding:14px 30px; display:inline-block;
+    background:currentColor; transition:transform .15s ease;
+  }
+  .qs-hd2-cta span{color:inherit; mix-blend-mode:normal}
+  .qs-hd2-cta:hover{transform:translateY(-1px)}
+  .qs-hd2-mandos{
+    position:absolute; left:0; right:0; bottom:20px; z-index:3;
+    display:flex; align-items:center; justify-content:center; gap:14px;
+  }
+  .qs-hd2-puntos{display:flex; gap:7px}
+  .qs-hd2-puntos button{
+    width:9px; height:9px; padding:0; border:0; border-radius:50%; cursor:pointer;
+    background:#fff; opacity:.42; transition:opacity .2s, width .2s;
+  }
+  .qs-hd2-puntos button[aria-current="true"]{opacity:1; width:26px; border-radius:5px}
+  .qs-hd2-flecha{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:40px; height:40px; border-radius:50%; cursor:pointer;
+    background:rgba(255,255,255,.18); border:0; color:#fff; display:grid; place-items:center;
+    backdrop-filter:blur(6px); transition:background .15s;
+  }
+  .qs-hd2-flecha:hover{background:rgba(255,255,255,.34)}
+  .qs-hd2-flecha svg{width:16px; height:16px}
+  .qs-hd2-flecha.qs-izq{left:16px}
+  .qs-hd2-flecha.qs-der{right:16px}
+  @media (max-width:640px){
+    .qs-hero-diapositivas{--qs-alto:420px}
+    .qs-hd2-hoja{padding:56px 20px 70px}
+    .qs-hd2-flecha{display:none}
+  }
+  </style>
+
+  <!-- Diapositiva · el color de fondo y el del texto van en el style de cada una -->
+  <div class="qs-hd2-hoja qs-activa" style="background:#123A2E; color:#E7F5EF">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Temporada de lluvia</p>
+      <h2>Impermeables y botas, listos para despachar</h2>
+      <p class="qs-hd2-bajada">Existencias reforzadas hasta octubre. Entrega el mismo día en la capital.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#E7F5EF"><span style="color:#123A2E">Ver la categoría</span></a>
+    </div>
+  </div>
+
+  <div class="qs-hd2-hoja" style="background:#5B2333; color:#FBECEF">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Compra por volumen</p>
+      <h2>Precio de mayoreo desde 12 unidades</h2>
+      <p class="qs-hd2-bajada">Cotiza en línea y te confirmamos el mismo día con factura.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#FBECEF"><span style="color:#5B2333">Pedir cotización</span></a>
+    </div>
+  </div>
+
+  <div class="qs-hd2-hoja" style="background:#1D2A4D; color:#E8EDF9">
+    <div class="qs-hd2-caja">
+      <p class="qs-hd2-alto">Nuevo en la tienda</p>
+      <h2>Paga en 3, 6 o 12 cuotas con tarjeta</h2>
+      <p class="qs-hd2-bajada">Sin trámite extra: se elige al momento de pagar.</p>
+      <a class="qs-hd2-cta" href="#" style="color:#E8EDF9"><span style="color:#1D2A4D">Cómo funciona</span></a>
+    </div>
+  </div>
+
+  <button class="qs-hd2-flecha qs-izq" type="button" data-qs-hd2="-1" aria-label="Anterior"><svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="qs-hd2-flecha qs-der" type="button" data-qs-hd2="1" aria-label="Siguiente"><svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="qs-hd2-mandos"><div class="qs-hd2-puntos"></div></div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-hero-diapositivas').forEach(function(seccion){
+      var hojas  = seccion.querySelectorAll('.qs-hd2-hoja');
+      var puntos = seccion.querySelector('.qs-hd2-puntos');
+      if(hojas.length < 2 || !puntos) return;
+
+      var i = 0, reloj = null;
+      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var cada = (parseFloat(getComputedStyle(seccion).getPropertyValue('--qs-segundos')) || 6) * 1000;
+
+      hojas.forEach(function(_, n){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Diapositiva ' + (n + 1));
+        b.addEventListener('click', function(){ muestra(n); reinicia(); });
+        puntos.appendChild(b);
+      });
+      var botones = puntos.querySelectorAll('button');
+
+      function muestra(n){
+        i = (n + hojas.length) % hojas.length;
+        hojas.forEach(function(h, k){ h.classList.toggle('qs-activa', k === i); });
+        botones.forEach(function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      }
+      seccion.querySelectorAll('[data-qs-hd2]').forEach(function(f){
+        f.addEventListener('click', function(){ muestra(i + Number(f.dataset.qsHd2)); reinicia(); });
+      });
+
+      function arranca(){ if(!quieto) reloj = setInterval(function(){ muestra(i + 1); }, cada); }
+      function para(){ clearInterval(reloj); reloj = null; }
+      function reinicia(){ para(); arranca(); }
+
+      seccion.addEventListener('mouseenter', para);
+      seccion.addEventListener('mouseleave', arranca);
+      seccion.addEventListener('focusin', para);
+      seccion.addEventListener('focusout', arranca);
+
+      muestra(0);
+      arranca();
+    });
+  })();
+  </script>
+</section>

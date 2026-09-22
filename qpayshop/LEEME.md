@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-Biblioteca de **12 secciones** de tienda en línea para dar variedad a las
+Biblioteca de **25 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -23,6 +23,19 @@ para copiar.
 | 10 | `secciones/10-franja-confianza.html` | Banner | Envío, devolución, pago verificado, cuotas y medios de pago |
 | 11 | `secciones/11-marquesina.html` | Banner | Cinta que corre sin parar. Solo CSS |
 | 12 | `secciones/12-banner-promocion.html` | Banner | Una oferta con porcentaje grande y código de cupón |
+| 13 | `secciones/13-hero-buscador.html` | Hero | Búsqueda de protagonista, con las categorías más pedidas |
+| 14 | `secciones/14-hero-diapositivas.html` | Hero | Tres mensajes que rotan, cada uno con su color de fondo |
+| 15 | `secciones/15-hero-tarjeta.html` | Hero | Formas planas de color y tarjeta blanca encima. Sin fotos |
+| 16 | `secciones/16-lista-compacta.html` | Productos | Filas densas con existencia y precio. Mayoreo e insumos |
+| 17 | `secciones/17-producto-destacado.html` | Productos | Un producto con galería, variantes y cantidad |
+| 18 | `secciones/18-rejilla-revista.html` | Productos | Una pieza grande y cuatro chicas, texto sobre la foto |
+| 19 | `secciones/19-productos-pestanas.html` | Productos | Más vendidos, recién llegados y en oferta en un solo espacio |
+| 20 | `secciones/20-carrusel-historias.html` | Carrusel | Círculos que se deslizan. Ocupa poco alto |
+| 21 | `secciones/21-carrusel-pantalla.html` | Carrusel | Una imagen por vez con flechas encima y contador |
+| 22 | `secciones/22-carrusel-videos.html` | Carrusel | Tarjetas 9:16 con el producto colgado abajo |
+| 23 | `secciones/23-banner-newsletter.html` | Banner | Suscripción, con el aviso de privacidad visible |
+| 24 | `secciones/24-banner-progreso.html` | Banner | Cuánto falta para el envío sin costo, con barra |
+| 25 | `secciones/25-banner-cita.html` | Banner | Horario y dos formas de contacto, para servicios |
 
 ## Cómo se instala
 
@@ -71,7 +84,7 @@ servidor de imágenes para verse.
 
 ## Tipografías
 
-Solo la 03 carga una tipografía (una serif para el titular) con un `@import`
+Solo la 03 carga una tipografía propia (una serif para el titular) con un `@import`
 dentro de su propio bloque. Si la plantilla ya trae una serif, se borra esa
 línea y se cambia `--qs-serif`. Las demás usan la tipografía de la tienda con
 respaldo a la del sistema.

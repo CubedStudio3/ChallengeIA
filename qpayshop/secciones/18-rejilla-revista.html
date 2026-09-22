@@ -1,0 +1,88 @@
+<!-- ============================================================
+     SECCIÓN · Rejilla de revista
+     Una pieza grande y cuatro chicas, con el texto encima de la
+     foto. Para colecciones donde manda la imagen, no el precio.
+     ============================================================ -->
+<section class="qs-rejilla-revista">
+  <style>
+  .qs-rejilla-revista{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #0F0F10;   /* fondo de la sección                */
+    --qs-tinta:   #F5F4F2;   /* color del texto                    */
+    --qs-velo:    .30;       /* oscurecido de la foto (0 a 1)      */
+    --qs-realce:  #E4FF5B;   /* color del precio y de la etiqueta  */
+    --qs-radio:   10px;      /* redondeo de las piezas             */
+    --qs-alto:    250px;     /* alto de una fila                   */
+    --qs-aire:    68px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rejilla-revista *{box-sizing:border-box}
+  .qs-rr-marco{max-width:1160px; margin:0 auto}
+  .qs-rr-cab{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:24px}
+  .qs-rejilla-revista h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.03em; margin:0}
+  .qs-rr-cab a{font-size:13.5px; font-weight:600; color:var(--qs-realce); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px}
+  .qs-rr-reja{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:var(--qs-alto); gap:12px}
+  .qs-rr-pieza{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio); isolation:isolate;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:18px;
+    text-decoration:none; color:var(--qs-tinta); background:#222;
+  }
+  .qs-rr-pieza:first-child{grid-column:span 2; grid-row:span 2}
+  .qs-rr-pieza svg, .qs-rr-pieza img{position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; transition:transform .5s ease}
+  .qs-rr-pieza::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .45)) 0%, rgba(0,0,0,var(--qs-velo)) 60%);
+  }
+  .qs-rr-pieza:hover svg, .qs-rr-pieza:hover img{transform:scale(1.05)}
+  .qs-rr-etiqueta{
+    position:absolute; top:14px; left:14px; z-index:1; font-size:10.5px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase; color:#111;
+    background:var(--qs-realce); border-radius:5px; padding:4px 8px;
+  }
+  .qs-rr-pieza b{display:block; font-size:16px; font-weight:700; letter-spacing:-.015em; line-height:1.25}
+  .qs-rr-pieza:first-child b{font-size:26px}
+  .qs-rr-precio{display:block; font-size:13px; margin-top:4px; color:var(--qs-realce); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){
+    .qs-rejilla-revista{--qs-aire:44px; --qs-alto:190px}
+    .qs-rr-reja{grid-template-columns:repeat(2,1fr)}
+    .qs-rr-pieza:first-child{grid-column:span 2; grid-row:span 1}
+    .qs-rr-pieza:first-child b{font-size:21px}
+  }
+  </style>
+
+  <div class="qs-rr-marco">
+    <div class="qs-rr-cab">
+      <h2>Colección de octubre</h2>
+      <a href="#">Ver las 32 piezas</a>
+    </div>
+    <div class="qs-rr-reja">
+      <!-- Pieza · la primera ocupa el doble. Reemplazar el <svg> por <img src="..." alt=""> -->
+      <a class="qs-rr-pieza" href="#">
+        <span class="qs-rr-etiqueta">Edición corta</span>
+        <svg viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="520" fill="#4A4038"/><circle cx="380" cy="180" r="170" fill="#6E6055" opacity=".85"/><path d="M0 380c150-60 290 40 430-30l170-40v210H0z" fill="#332C26"/></svg>
+        <b>Chaqueta de lona encerada</b><span class="qs-rr-precio">Q 890</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#3D4A42"/><circle cx="150" cy="110" r="80" fill="#5C6E62"/></svg>
+        <b>Pantalón de trabajo</b><span class="qs-rr-precio">Q 420</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#4C3E4A"/><rect x="70" y="50" width="160" height="150" rx="20" fill="#6B586A"/></svg>
+        <b>Camisa de franela</b><span class="qs-rr-precio">Q 310</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#40454F"/><path d="M150 40l90 170H60z" fill="#5C6472"/></svg>
+        <b>Gorra de lona</b><span class="qs-rr-precio">Q 145</span>
+      </a>
+      <a class="qs-rr-pieza" href="#">
+        <span class="qs-rr-etiqueta">Última talla</span>
+        <svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="250" fill="#50463A"/><circle cx="110" cy="130" r="70" fill="#6E6150"/><circle cx="210" cy="90" r="45" fill="#7E7160" opacity=".8"/></svg>
+        <b>Cinturón de cuero</b><span class="qs-rr-precio">Q 265</span>
+      </a>
+    </div>
+  </div>
+</section>

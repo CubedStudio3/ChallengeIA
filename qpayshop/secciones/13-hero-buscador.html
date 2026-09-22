@@ -1,0 +1,86 @@
+<!-- ============================================================
+     SECCIÓN · Hero con buscador
+     Centrado, con la búsqueda como protagonista y las categorías
+     más pedidas debajo. Para tiendas con catálogo grande, donde
+     el cliente llega buscando algo puntual.
+     ============================================================ -->
+<section class="qs-hero-buscador">
+  <style>
+  .qs-hero-buscador{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo-a:     #EEF4FB;   /* color de arriba del fondo      */
+    --qs-fondo-b:     #FBFCFE;   /* color de abajo del fondo       */
+    --qs-tinta:       #12202E;   /* color del título               */
+    --qs-tinta-suave: #5C7184;   /* color del párrafo y las pistas */
+    --qs-acento:      #14527A;   /* botón de buscar                */
+    --qs-borde:       #D2E0EC;   /* borde del campo y de los chips */
+    --qs-radio:       14px;      /* redondeo del campo             */
+    --qs-aire:        84px;      /* espacio arriba y abajo         */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:linear-gradient(180deg, var(--qs-fondo-a), var(--qs-fondo-b));
+    color:var(--qs-tinta); text-align:center;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hero-buscador *{box-sizing:border-box}
+  .qs-hb-marco{max-width:680px; margin:0 auto}
+  .qs-hero-buscador h2{
+    font-size:clamp(28px,4.6vw,44px); line-height:1.08; letter-spacing:-.03em;
+    font-weight:800; margin:0 0 14px; text-wrap:balance;
+  }
+  .qs-hb-bajada{font-size:16px; color:var(--qs-tinta-suave); margin:0 0 30px}
+  .qs-hb-campo{
+    display:flex; gap:8px; background:#fff; border:1.5px solid var(--qs-borde);
+    border-radius:var(--qs-radio); padding:7px 7px 7px 16px; align-items:center;
+    box-shadow:0 8px 26px -18px rgba(18,32,46,.55);
+  }
+  .qs-hb-campo:focus-within{border-color:var(--qs-acento)}
+  .qs-hb-campo svg{width:19px; height:19px; color:var(--qs-tinta-suave); flex:none}
+  .qs-hb-campo input{
+    flex:1; min-width:0; border:0; outline:0; background:none;
+    font:inherit; font-size:15.5px; color:var(--qs-tinta); padding:11px 0;
+  }
+  .qs-hb-campo input::placeholder{color:var(--qs-tinta-suave); opacity:.75}
+  .qs-hb-campo button{
+    font:inherit; font-size:14.5px; font-weight:600; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:10px; padding:12px 22px;
+  }
+  .qs-hb-chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:22px}
+  .qs-hb-chips a{
+    font-size:13px; font-weight:500; text-decoration:none; color:var(--qs-tinta);
+    background:#fff; border:1px solid var(--qs-borde); border-radius:999px; padding:7px 15px;
+    transition:border-color .15s, color .15s;
+  }
+  .qs-hb-chips a:hover{border-color:var(--qs-acento); color:var(--qs-acento)}
+  .qs-hb-pista{margin:24px 0 0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hb-pista b{font-weight:600; color:var(--qs-tinta)}
+  @media (max-width:560px){
+    .qs-hero-buscador{--qs-aire:52px}
+    .qs-hb-campo{flex-wrap:wrap; padding:10px}
+    .qs-hb-campo input{padding:6px 4px}
+    .qs-hb-campo button{width:100%}
+  }
+  </style>
+
+  <div class="qs-hb-marco">
+    <h2>Busca entre 1,240 productos</h2>
+    <p class="qs-hb-bajada">Escribe la marca, el código o lo que necesitas. Si está en bodega, aparece con su existencia.</p>
+
+    <form class="qs-hb-campo" role="search" onsubmit="return false">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M13.6 13.6L18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="search" name="q" aria-label="Buscar productos" placeholder="Taladro, cemento, guantes de trabajo…">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <nav class="qs-hb-chips" aria-label="Categorías más buscadas">
+      <a href="#">Herramienta eléctrica</a>
+      <a href="#">Pintura</a>
+      <a href="#">Tornillería</a>
+      <a href="#">Protección</a>
+      <a href="#">Plomería</a>
+    </nav>
+
+    <p class="qs-hb-pista">Lo más buscado esta semana: <b>cemento</b>, <b>cable THHN</b>, <b>candado</b></p>
+  </div>
+</section>
