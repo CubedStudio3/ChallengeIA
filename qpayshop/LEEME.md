@@ -153,29 +153,26 @@ blanco— y uno era real: el logo en reposo del carrusel de marcas quedaba en
 
 ## Imágenes de ejemplo
 
-Dos secciones ya traen **fotografía real**: el hero inmersivo (02) y la rejilla
-de productos (04), con una panadería. Las imágenes viven en `img/` y las
-secciones las llaman con **ruta relativa**:
+Las 36 secciones traen **dibujos SVG**, no fotografías, y cada uno lleva al lado
+el comentario que dice con qué `<img>` reemplazarlo. Se hizo así para que cada
+bloque sea autosuficiente: se pega y funciona, sin depender de ninguna carpeta
+de imágenes ni de ningún servidor.
 
-```html
-<img src="img/pan-hogaza.jpg" alt="Hogaza redonda de masa madre con la corteza dorada">
-```
+Se probó poner fotos reales en dos secciones el 2026-09-23 y **se descartó**:
+con fotografía en dos y dibujos en las otras treinta y cuatro, el catálogo
+dejaba de leerse como un sistema. Si algún día se llenan, se llenan todas o
+ninguna. El camino quedó probado y funciona —las imágenes se publican junto a
+la página y las secciones las llaman con ruta relativa, así que el código que
+copia IT es el mismo que se ve—, solo hace falta el juego completo de fotos.
 
-Eso importa: el código que IT copia es **el mismo** que se ve en la vista
-previa. No hay una versión bonita y otra real. IT se lleva el bloque y la
-carpeta `img/`, y le funciona igual en la tienda.
+**Cómo entregar fotos, si se retoma.** Adjuntar imágenes sueltas al chat NO las
+deja en el disco de la sesión: se ven en la conversación pero no existen como
+archivo. **Un ZIP sí llega.** Medido: de ocho tandas de imágenes sueltas llegó
+solo la primera; los ZIP llegaron completos.
 
-Las otras 34 siguen con dibujos SVG y su comentario de con qué `<img>`
-reemplazarlos. Para llenarlas hacen falta más fotos.
-
-**Cómo entregar más fotos.** Adjuntar imágenes sueltas al chat NO las deja en
-el disco de la sesión —se ven en la conversación pero no existen como
-archivo—. **Un ZIP sí llega.** Medido el 2026-09-23: de ocho tandas de
-imágenes sueltas solo llegó la primera; los ZIP llegaron completos.
-
-Lo que hace falta, por proporción: 16:9 para heroes y banners, 1:1 para fichas
-de producto, 3:4 para rejillas y carrusel, 9:16 para el carrusel de videos y
-3:2 para categorías.
+Hacen falta, por proporción: 16:9 para heroes y banners, 1:1 para fichas de
+producto, 3:4 para rejillas y carrusel, 9:16 para el carrusel de videos y 3:2
+para categorías.
 
 ## De dónde salen los archivos
 
