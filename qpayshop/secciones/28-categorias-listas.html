@@ -1,0 +1,118 @@
+<!-- ============================================================
+     SECCIÓN · Categorías con listas
+     Cada tarjeta trae sus subcategorías escritas. Ahorra un clic
+     entero: el cliente entra directo a la subcategoría, no a la
+     categoría para después buscar adentro.
+     ============================================================ -->
+<section class="qs-categorias-listas">
+  <style>
+  .qs-categorias-listas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-tarjeta:     #FAFAF9;   /* fondo de cada tarjeta         */
+    --qs-tinta:       #18181B;   /* color del título              */
+    --qs-tinta-suave: #6B7280;   /* color de las subcategorías    */
+    --qs-acento:      #7A3E2A;   /* enlace "ver todo"             */
+    --qs-borde:       #ECECEA;   /* borde de la tarjeta           */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-categorias-listas *{box-sizing:border-box}
+  .qs-cl-marco{max-width:1160px; margin:0 auto}
+  .qs-cl-cab{display:flex; justify-content:space-between; align-items:baseline; gap:18px; flex-wrap:wrap; margin-bottom:24px}
+  .qs-categorias-listas h2{font-size:clamp(22px,2.9vw,30px); font-weight:700; letter-spacing:-.025em; margin:0}
+  .qs-cl-cab > a{font-size:13.5px; font-weight:600; color:var(--qs-acento); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px}
+  .qs-cl-reja{display:grid; grid-template-columns:repeat(4,minmax(min(230px,100%),1fr)); gap:16px}
+  .qs-cl-tarjeta{
+    background:var(--qs-tarjeta); border:1px solid var(--qs-borde); border-radius:var(--qs-radio);
+    padding:18px; display:flex; flex-direction:column;
+  }
+  .qs-cl-alto{display:flex; align-items:center; gap:13px; margin-bottom:14px}
+  .qs-cl-alto i{width:52px; height:52px; border-radius:11px; overflow:hidden; flex:none; background:#EEEEEC}
+  .qs-cl-alto i svg, .qs-cl-alto i img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cl-tarjeta h3{font-size:15px; font-weight:700; margin:0; letter-spacing:-.015em; line-height:1.25}
+  .qs-cl-tarjeta h3 small{display:block; font-size:11.5px; font-weight:400; color:var(--qs-tinta-suave); margin-top:3px; font-variant-numeric:tabular-nums}
+  .qs-cl-lista{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:7px; flex:1}
+  .qs-cl-lista a{font-size:13px; color:var(--qs-tinta-suave); text-decoration:none; transition:color .13s}
+  .qs-cl-lista a:hover{color:var(--qs-acento); text-decoration:underline}
+  .qs-cl-todo{
+    font-size:12.5px; font-weight:600; color:var(--qs-acento); text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px; padding-top:13px; border-top:1px solid var(--qs-borde);
+  }
+  .qs-cl-todo svg{width:12px; height:12px; transition:transform .16s ease}
+  .qs-cl-todo:hover svg{transform:translateX(3px)}
+  @media (max-width:900px){ .qs-cl-reja{grid-template-columns:repeat(2,minmax(min(200px,100%),1fr))} .qs-categorias-listas{--qs-aire:44px} }
+  @media (max-width:460px){ .qs-cl-reja{grid-template-columns:1fr} }
+  </style>
+
+  <div class="qs-cl-marco">
+    <div class="qs-cl-cab">
+      <h2>Entra directo a lo que buscas</h2>
+      <a href="#">Ver todos los departamentos</a>
+    </div>
+
+    <div class="qs-cl-reja">
+      <!-- Tarjeta · duplicar por cada categoría -->
+      <div class="qs-cl-tarjeta">
+        <div class="qs-cl-alto">
+          <i><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#E8E0D5"/><rect x="17" y="12" width="18" height="28" rx="4" fill="#B49C7C"/></svg></i>
+          <h3>Herramienta<small>240 productos</small></h3>
+        </div>
+        <ul class="qs-cl-lista">
+          <li><a href="#">Eléctrica</a></li>
+          <li><a href="#">Manual</a></li>
+          <li><a href="#">Medición</a></li>
+          <li><a href="#">Accesorios y brocas</a></li>
+        </ul>
+        <a class="qs-cl-todo" href="#">Ver herramienta <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
+      <div class="qs-cl-tarjeta">
+        <div class="qs-cl-alto">
+          <i><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#DEE6E2"/><circle cx="26" cy="26" r="15" fill="#8FAAA0"/></svg></i>
+          <h3>Construcción<small>118 productos</small></h3>
+        </div>
+        <ul class="qs-cl-lista">
+          <li><a href="#">Cemento y mezclas</a></li>
+          <li><a href="#">Block y ladrillo</a></li>
+          <li><a href="#">Varilla y alambre</a></li>
+          <li><a href="#">Impermeabilizantes</a></li>
+        </ul>
+        <a class="qs-cl-todo" href="#">Ver construcción <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
+      <div class="qs-cl-tarjeta">
+        <div class="qs-cl-alto">
+          <i><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#E6E3EE"/><path d="M26 12l14 28H12z" fill="#9A93B8"/></svg></i>
+          <h3>Eléctrico<small>86 productos</small></h3>
+        </div>
+        <ul class="qs-cl-lista">
+          <li><a href="#">Cable y conductores</a></li>
+          <li><a href="#">Iluminación</a></li>
+          <li><a href="#">Tableros y breakers</a></li>
+          <li><a href="#">Canalización</a></li>
+        </ul>
+        <a class="qs-cl-todo" href="#">Ver eléctrico <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
+      <div class="qs-cl-tarjeta">
+        <div class="qs-cl-alto">
+          <i><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" fill="#EFE6E0"/><rect x="13" y="18" width="26" height="18" rx="5" fill="#C39B84"/></svg></i>
+          <h3>Protección<small>44 productos</small></h3>
+        </div>
+        <ul class="qs-cl-lista">
+          <li><a href="#">Cascos y lentes</a></li>
+          <li><a href="#">Guantes</a></li>
+          <li><a href="#">Calzado de trabajo</a></li>
+          <li><a href="#">Arneses y alturas</a></li>
+        </ul>
+        <a class="qs-cl-todo" href="#">Ver protección <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>

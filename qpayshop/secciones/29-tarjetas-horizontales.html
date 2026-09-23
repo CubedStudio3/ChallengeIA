@@ -1,0 +1,120 @@
+<!-- ============================================================
+     SECCIÓN · Tarjetas horizontales
+     Rejilla de tres columnas con la foto al lado del texto. Cabe
+     el doble de productos que en una rejilla normal sin que se
+     vuelva una lista.
+     ============================================================ -->
+<section class="qs-tarjetas-horizontales">
+  <style>
+  .qs-tarjetas-horizontales{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F6F7;   /* fondo de la sección           */
+    --qs-tarjeta:     #FFFFFF;   /* fondo de cada tarjeta         */
+    --qs-tinta:       #18181B;   /* color del nombre              */
+    --qs-tinta-suave: #71717A;   /* marca y reseñas               */
+    --qs-estrella:    #E0A32B;   /* color de las estrellas        */
+    --qs-columnas:    3;         /* cuántas columnas              */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-tarjetas-horizontales *{box-sizing:border-box}
+  .qs-th-marco{max-width:1160px; margin:0 auto}
+  .qs-th-cab{display:flex; justify-content:space-between; align-items:baseline; gap:18px; flex-wrap:wrap; margin-bottom:22px}
+  .qs-tarjetas-horizontales h2{font-size:clamp(22px,2.9vw,30px); font-weight:700; letter-spacing:-.025em; margin:0}
+  .qs-th-cab a{font-size:13.5px; font-weight:600; color:var(--qs-tinta); text-decoration:none; border-bottom:1.5px solid currentColor; padding-bottom:2px}
+  .qs-th-reja{display:grid; grid-template-columns:repeat(var(--qs-columnas),minmax(min(280px,100%),1fr)); gap:14px}
+  .qs-th-art{
+    background:var(--qs-tarjeta); border-radius:var(--qs-radio); padding:12px;
+    display:flex; gap:14px; align-items:center; text-decoration:none; color:inherit;
+    transition:box-shadow .16s ease, transform .16s ease;
+  }
+  .qs-th-art:hover{box-shadow:0 10px 26px -18px rgba(24,24,27,.5); transform:translateY(-1px)}
+  .qs-th-foto{width:88px; height:88px; flex:none; border-radius:10px; overflow:hidden; background:#F1F1F2}
+  .qs-th-foto svg, .qs-th-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-th-datos{min-width:0; flex:1}
+  .qs-th-marca{font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-tinta-suave); margin:0 0 4px}
+  .qs-th-art h3{font-size:13.5px; font-weight:600; line-height:1.35; margin:0 0 6px}
+  .qs-th-estrellas{display:flex; align-items:center; gap:4px; margin-bottom:6px}
+  .qs-th-estrellas svg{width:12px; height:12px; color:var(--qs-estrella)}
+  .qs-th-estrellas span{font-size:11px; color:var(--qs-tinta-suave); margin-left:2px; font-variant-numeric:tabular-nums}
+  .qs-th-precio{margin:0; font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:7px}
+  .qs-th-precio s{font-size:12px; font-weight:400; color:var(--qs-tinta-suave)}
+  @media (max-width:1000px){ .qs-tarjetas-horizontales{--qs-columnas:2} }
+  @media (max-width:620px){ .qs-tarjetas-horizontales{--qs-columnas:1; --qs-aire:40px} }
+  </style>
+
+  <div class="qs-th-marco">
+    <div class="qs-th-cab">
+      <h2>Los mejor calificados</h2>
+      <a href="#">Ver los 84</a>
+    </div>
+
+    <div class="qs-th-reja">
+      <!-- Tarjeta · duplicar por cada producto -->
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><!-- <img src="p.jpg" alt=""> --><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#EAE3D8"/><rect x="30" y="20" width="28" height="48" rx="7" fill="#B7A385"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">Truper</p>
+          <h3>Taladro percutor 1/2" · 650 W</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>38 reseñas</span></div>
+          <p class="qs-th-precio">Q 1,240.00 <s>Q 1,480.00</s></p>
+        </div>
+      </a>
+
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#DFE7E5"/><circle cx="44" cy="44" r="24" fill="#8FADA7"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">Stanley</p>
+          <h3>Juego de llaves combinadas · 12 piezas</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor" opacity=".3"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>21 reseñas</span></div>
+          <p class="qs-th-precio">Q 310.00</p>
+        </div>
+      </a>
+
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#E6E9F1"/><path d="M44 20l22 46H22z" fill="#96A2BE"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">3M</p>
+          <h3>Casco de seguridad con barbiquejo</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>52 reseñas</span></div>
+          <p class="qs-th-precio">Q 98.00</p>
+        </div>
+      </a>
+
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#EDE6E9"/><rect x="22" y="30" width="44" height="30" rx="8" fill="#BE99A4"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">Bosch</p>
+          <h3>Nivel láser de líneas cruzadas</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor" opacity=".3"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>14 reseñas</span></div>
+          <p class="qs-th-precio">Q 880.00 <s>Q 1,050.00</s></p>
+        </div>
+      </a>
+
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#E4EAE3"/><rect x="26" y="18" width="36" height="52" rx="18" fill="#9BB194"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">Pretul</p>
+          <h3>Cubeta industrial graduada · 20 L</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>9 reseñas</span></div>
+          <p class="qs-th-precio">Q 72.00</p>
+        </div>
+      </a>
+
+      <a class="qs-th-art" href="#">
+        <span class="qs-th-foto"><svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" fill="#EFEADF"/><circle cx="36" cy="44" r="17" fill="#C0B38F"/><circle cx="57" cy="36" r="11" fill="#AEA179"/></svg></span>
+        <div class="qs-th-datos">
+          <p class="qs-th-marca">Sherwin</p>
+          <h3>Pintura látex mate · cubeta 5 galones</h3>
+          <div class="qs-th-estrellas"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor" opacity=".3"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><span>27 reseñas</span></div>
+          <p class="qs-th-precio">Q 640.00</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

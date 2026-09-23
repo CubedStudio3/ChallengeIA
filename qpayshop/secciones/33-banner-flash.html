@@ -1,0 +1,116 @@
+<!-- ============================================================
+     SECCIÓN · Banner de oferta relámpago
+     Foto a un lado y el reloj en cajas grandes al otro. Es el
+     formato que más aguanta una promoción con fecha de cierre.
+     ============================================================ -->
+<section class="qs-banner-flash" data-qs-hasta="">
+  <!-- En data-qs-hasta va la fecha de cierre: data-qs-hasta="2026-11-30T23:59:59".
+       Vacío cuenta hasta la medianoche de hoy, así que nunca se ve un reloj en cero. -->
+  <style>
+  .qs-banner-flash{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FDF3E3;   /* fondo de la sección           */
+    --qs-tinta:       #1C1710;   /* color del texto               */
+    --qs-tinta-suave: #6E6252;   /* color del párrafo             */
+    --qs-caja:        #1C1710;   /* fondo de cada caja del reloj  */
+    --qs-caja-txt:    #FDF3E3;   /* números del reloj             */
+    --qs-acento:      #C2410C;   /* título "oferta relámpago"     */
+    --qs-boton:       #1C1710;   /* fondo del botón               */
+    --qs-boton-txt:   #FDF3E3;   /* texto del botón               */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-banner-flash *{box-sizing:border-box}
+  .qs-bf-reja{max-width:1060px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center}
+  .qs-bf-foto{border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:3/2; background:#E9DCC6}
+  .qs-bf-foto svg, .qs-bf-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-bf-alto{
+    display:inline-flex; align-items:center; gap:8px; font-size:11.5px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 12px;
+  }
+  .qs-bf-alto svg{width:14px; height:14px}
+  .qs-banner-flash h2{font-size:clamp(28px,4vw,42px); font-weight:800; letter-spacing:-.035em; margin:0 0 10px; line-height:1.05; text-wrap:balance}
+  .qs-bf-texto > p{margin:0 0 24px; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave); max-width:38ch}
+  .qs-bf-reloj{display:flex; gap:10px; margin-bottom:26px; flex-wrap:wrap}
+  .qs-bf-caja{
+    background:var(--qs-caja); color:var(--qs-caja-txt); border-radius:12px;
+    padding:12px 8px; min-width:74px; text-align:center;
+  }
+  .qs-bf-caja b{
+    display:block; font-size:30px; font-weight:800; line-height:1; letter-spacing:-.04em;
+    font-variant-numeric:tabular-nums;
+  }
+  .qs-bf-caja span{display:block; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; opacity:.62; margin-top:6px}
+  .qs-bf-cta{
+    font:inherit; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer;
+    background:var(--qs-boton); color:var(--qs-boton-txt); border:0;
+    border-radius:11px; padding:15px 32px; display:inline-block;
+  }
+  .qs-bf-letra{margin:16px 0 0; font-size:11.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:800px){
+    .qs-banner-flash{--qs-aire:40px}
+    .qs-bf-reja{grid-template-columns:1fr; gap:24px}
+    .qs-bf-foto{order:-1; aspect-ratio:16/9}
+    .qs-bf-caja{min-width:0; flex:1}
+  }
+  </style>
+
+  <div class="qs-bf-reja">
+    <!-- Reemplazar el <svg> por: <img src="oferta.jpg" alt="Descripción"> -->
+    <div class="qs-bf-foto">
+      <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="qsbf1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E7D3AF"/><stop offset="1" stop-color="#C9AC7E"/></linearGradient></defs><rect width="600" height="400" fill="url(#qsbf1)"/><circle cx="420" cy="130" r="120" fill="#F2E4C9" opacity=".7"/><rect x="130" y="140" width="150" height="200" rx="20" fill="#A98E64" opacity=".8"/><rect x="163" y="180" width="84" height="26" rx="13" fill="#FBF3E2" opacity=".85"/></svg>
+    </div>
+
+    <div class="qs-bf-texto">
+      <p class="qs-bf-alto"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9 1L3 9h4l-1 6 6-8H8z"/></svg>Oferta relámpago</p>
+      <h2>25% menos en toda la herramienta eléctrica</h2>
+      <p>Solo mientras dure el reloj. Aplica en línea y en el mostrador, sobre el precio de lista.</p>
+
+      <div class="qs-bf-reloj" aria-label="Tiempo restante">
+        <div class="qs-bf-caja"><b data-qs-bf-d>00</b><span>días</span></div>
+        <div class="qs-bf-caja"><b data-qs-bf-h>00</b><span>horas</span></div>
+        <div class="qs-bf-caja"><b data-qs-bf-m>00</b><span>min</span></div>
+        <div class="qs-bf-caja"><b data-qs-bf-s>00</b><span>seg</span></div>
+      </div>
+
+      <a class="qs-bf-cta" href="#">Ver los 64 productos</a>
+      <p class="qs-bf-letra">No se acumula con otras promociones ni con precio de mayoreo.</p>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-banner-flash').forEach(function(seccion){
+      var d = seccion.querySelector('[data-qs-bf-d]');
+      var h = seccion.querySelector('[data-qs-bf-h]');
+      var m = seccion.querySelector('[data-qs-bf-m]');
+      var s = seccion.querySelector('[data-qs-bf-s]');
+      if(!d || !h || !m || !s) return;
+
+      function meta(){
+        var puesta = Date.parse(seccion.dataset.qsHasta || '');
+        if(puesta && puesta > Date.now()) return puesta;
+        var medianoche = new Date();     /* sin fecha puesta: hasta medianoche de hoy */
+        medianoche.setHours(24, 0, 0, 0);
+        return medianoche.getTime();
+      }
+      function dos(n){ return String(n).padStart(2, '0'); }
+
+      function tic(){
+        var t = Math.max(0, Math.floor((meta() - Date.now()) / 1000));
+        d.textContent = dos(Math.floor(t / 86400));
+        h.textContent = dos(Math.floor(t / 3600) % 24);
+        m.textContent = dos(Math.floor(t / 60) % 60);
+        s.textContent = dos(t % 60);
+      }
+      tic();
+      setInterval(tic, 1000);
+    });
+  })();
+  </script>
+</section>

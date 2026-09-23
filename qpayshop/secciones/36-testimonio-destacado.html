@@ -1,0 +1,69 @@
+<!-- ============================================================
+     SECCIÓN · Testimonio destacado
+     Una sola cita, grande, sobre foto. Distinta del carrusel de
+     reseñas: acá no se rota, se apuesta por una.
+     ============================================================ -->
+<section class="qs-testimonio-destacado">
+  <style>
+  /* Tipografía de la cita. Si la plantilla ya carga una serif, borra esta línea. */
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap');
+
+  .qs-testimonio-destacado{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-tinta:     #FFFFFF;   /* color de la cita                 */
+    --qs-velo:      .58;       /* oscurecido de la foto (0 a 1)    */
+    --qs-realce:    #F0C674;   /* comillas y estrellas             */
+    --qs-serif:     'Fraunces', Georgia, 'Times New Roman', serif;
+    --qs-alto-min:  420px;     /* alto mínimo                      */
+    --qs-aire:      76px;      /* espacio arriba y abajo           */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; isolation:isolate; overflow:hidden;
+    min-height:var(--qs-alto-min); display:grid; place-items:center; text-align:center;
+    color:var(--qs-tinta); background:#1A1A1A;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-testimonio-destacado *{box-sizing:border-box}
+  .qs-td-foto{position:absolute; inset:0; z-index:-2}
+  .qs-td-foto svg, .qs-td-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-testimonio-destacado::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:rgba(0,0,0,var(--qs-velo));
+  }
+  .qs-td-caja{max-width:760px}
+  .qs-td-comillas{
+    font-family:var(--qs-serif); font-size:64px; line-height:.5; color:var(--qs-realce);
+    display:block; margin:0 0 18px;
+  }
+  .qs-td-caja blockquote{
+    font-family:var(--qs-serif); font-weight:400;
+    font-size:clamp(22px,3.4vw,38px); line-height:1.28; letter-spacing:-.015em;
+    margin:0 0 28px; text-wrap:balance;
+  }
+  .qs-td-estrellas{display:flex; justify-content:center; gap:5px; margin-bottom:18px}
+  .qs-td-estrellas svg{width:16px; height:16px; color:var(--qs-realce)}
+  .qs-td-quien{display:flex; align-items:center; justify-content:center; gap:13px}
+  .qs-td-cara{width:48px; height:48px; border-radius:50%; overflow:hidden; flex:none; background:#333}
+  .qs-td-cara svg, .qs-td-cara img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-td-quien div{text-align:left; font-size:14px; line-height:1.4}
+  .qs-td-quien b{display:block; font-weight:600}
+  .qs-td-quien span{opacity:.72}
+  @media (max-width:600px){ .qs-testimonio-destacado{--qs-aire:52px; --qs-alto-min:380px} }
+  </style>
+
+  <!-- Reemplazar por: <div class="qs-td-foto"><img src="local.jpg" alt=""></div> -->
+  <div class="qs-td-foto" aria-hidden="true">
+    <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="qstd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4238"/><stop offset="1" stop-color="#26211B"/></linearGradient></defs><rect width="1200" height="500" fill="url(#qstd1)"/><circle cx="880" cy="140" r="200" fill="#5E5446" opacity=".55"/><path d="M0 340c260-60 480 60 760-20l440-60v240H0z" fill="#1C1814" opacity=".75"/></svg>
+  </div>
+
+  <div class="qs-td-caja">
+    <span class="qs-td-comillas" aria-hidden="true">&ldquo;</span>
+    <blockquote>Llevo catorce años comprando aquí. La diferencia ahora es que veo la existencia antes de salir de la casa.</blockquote>
+    <div class="qs-td-estrellas" aria-label="5 de 5"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></div>
+    <div class="qs-td-quien">
+      <span class="qs-td-cara"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#4A3F33"/><circle cx="24" cy="19" r="9" fill="#9B8871"/><path d="M6 48c2-11 9-16 18-16s16 5 18 16z" fill="#9B8871"/></svg></span>
+      <div><b>Don Rodolfo Xicay</b><span>Maestro de obra · Chimaltenango</span></div>
+    </div>
+  </div>
+</section>

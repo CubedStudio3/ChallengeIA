@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-Biblioteca de **25 secciones** de tienda en línea para dar variedad a las
+Biblioteca de **36 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -36,6 +36,17 @@ para copiar.
 | 23 | `secciones/23-banner-newsletter.html` | Banner | Suscripción, con el aviso de privacidad visible |
 | 24 | `secciones/24-banner-progreso.html` | Banner | Cuánto falta para el envío sin costo, con barra |
 | 25 | `secciones/25-banner-cita.html` | Banner | Horario y dos formas de contacto, para servicios |
+| 26 | `secciones/26-hero-departamentos.html` | Hero | Menú de categorías a la izquierda y el hero a la derecha |
+| 27 | `secciones/27-hero-mosaico.html` | Hero | El hero ES el mosaico: cuatro bloques con su botón |
+| 28 | `secciones/28-categorias-listas.html` | Productos | Tarjetas con las subcategorías escritas |
+| 29 | `secciones/29-tarjetas-horizontales.html` | Productos | Rejilla con la foto al lado del texto |
+| 30 | `secciones/30-compra-el-set.html` | Productos | Set con casillas y total que se recalcula |
+| 31 | `secciones/31-carrusel-logos.html` | Carrusel | Marcas en cinta continua. Solo CSS |
+| 32 | `secciones/32-comparador.html` | Carrusel | Antes y después con divisor arrastrable |
+| 33 | `secciones/33-banner-flash.html` | Banner | Foto y reloj en cajas grandes |
+| 34 | `secciones/34-notas-blog.html` | Contenido | Tres notas con categoría, autor y fecha |
+| 35 | `secciones/35-galeria-social.html` | Contenido | Fotos de la cuenta con el usuario encima |
+| 36 | `secciones/36-testimonio-destacado.html` | Contenido | Una sola cita, grande, sobre foto |
 
 ## Cómo se instala
 
@@ -95,6 +106,28 @@ Los textos, precios, nombres y reseñas son **de ejemplo**, escritos para que se
 vea la maquetación con contenido realista de los rubros que atiende Qpaypro
 (ferretería, abarrotes, barbería, taller). **Ninguno es un dato medido de un
 cliente real** y todos se reemplazan al instalar.
+
+## Lo que el catálogo hace por IT
+
+- **Buscador** por nombre, formato, archivo o variable.
+- **Ficha técnica derivada del código**, no escrita a mano: líneas, si lleva
+  JavaScript, si carga una tipografía externa, si tiene campos de formulario y
+  cuántas variables expone. Si a una sección se le agrega un `<script>`, la
+  ficha lo dice sola.
+- **Tres anchos** de vista previa: escritorio, tableta (768 px) y móvil (390 px).
+- **Selección múltiple.** El cliente elige sus secciones, y un solo botón copia
+  el código de todas juntas —en el orden del catálogo, no en el que se fueron
+  marcando— con un índice arriba que dice cuáles son y en qué orden pegarlas.
+  La selección se recuerda en el navegador de quien mira.
+
+## Sobre las referencias
+
+Las maquetaciones se estudiaron a partir de plantillas comerciales para ver qué
+formatos usan las tiendas (bento de colecciones, categorías con subcategorías
+listadas, compra del set, comparador antes/después, notas del blog). **Nada de
+ese código se copió:** cada sección está escrita desde cero con el sistema de
+variables de esta biblioteca, así que no arrastra la licencia de nadie. Los
+archivos de referencia no están en el repositorio.
 
 ## De dónde salen los archivos
 

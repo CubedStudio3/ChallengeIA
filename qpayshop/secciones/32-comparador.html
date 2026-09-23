@@ -1,0 +1,103 @@
+<!-- ============================================================
+     SECCIÓN · Comparador antes y después
+     Dos fotos con un divisor que se arrastra. Para lo que se
+     demuestra y no se explica: pintura, limpieza, tratamiento,
+     una remodelación.
+     ============================================================ -->
+<section class="qs-comparador">
+  <style>
+  .qs-comparador{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #101012;   /* fondo de la sección           */
+    --qs-tinta:       #F4F4F5;   /* color del texto               */
+    --qs-tinta-suave: #A1A1AA;   /* color del párrafo             */
+    --qs-mango:       #FFFFFF;   /* color del divisor y el mango  */
+    --qs-alto:        440px;     /* alto del comparador           */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-comparador *{box-sizing:border-box}
+  .qs-cmp-marco{max-width:900px; margin:0 auto}
+  .qs-cmp-alto{text-align:center; margin-bottom:26px}
+  .qs-comparador h2{font-size:clamp(23px,3.1vw,32px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-cmp-alto p{margin:0 auto; font-size:14.5px; color:var(--qs-tinta-suave); max-width:46ch}
+  .qs-cmp-caja{
+    position:relative; height:var(--qs-alto); border-radius:var(--qs-radio);
+    overflow:hidden; background:#26262A; touch-action:pan-y;
+  }
+  .qs-cmp-capa{position:absolute; inset:0}
+  .qs-cmp-capa svg, .qs-cmp-capa img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cmp-despues{clip-path:inset(0 0 0 var(--qs-pos, 50%))}
+  .qs-cmp-sello{
+    position:absolute; top:14px; z-index:3; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:#111;
+    background:rgba(255,255,255,.92); border-radius:6px; padding:5px 11px;
+  }
+  .qs-cmp-sello.qs-izq{left:14px}
+  .qs-cmp-sello.qs-der{right:14px}
+  .qs-cmp-linea{
+    position:absolute; top:0; bottom:0; z-index:4; width:2px; background:var(--qs-mango);
+    left:var(--qs-pos, 50%); transform:translateX(-1px); pointer-events:none;
+    box-shadow:0 0 14px rgba(0,0,0,.45);
+  }
+  .qs-cmp-mango{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:44px; height:44px; border-radius:50%; background:var(--qs-mango); color:#111;
+    display:grid; place-items:center; box-shadow:0 3px 14px rgba(0,0,0,.4);
+  }
+  .qs-cmp-mango svg{width:19px; height:19px}
+  /* El control real es un <input type=range>: se arrastra con el dedo, con el
+     mouse y con las flechas del teclado. Va invisible encima de todo. */
+  .qs-cmp-caja input[type="range"]{
+    position:absolute; inset:0; z-index:5; width:100%; height:100%;
+    margin:0; padding:0; opacity:0; cursor:ew-resize; -webkit-appearance:none; appearance:none; background:none;
+  }
+  .qs-cmp-caja input[type="range"]:focus-visible ~ .qs-cmp-linea .qs-cmp-mango{outline:3px solid #6EA8FF; outline-offset:3px}
+  .qs-cmp-pie{margin:16px 0 0; text-align:center; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:640px){ .qs-comparador{--qs-alto:320px; --qs-aire:44px} }
+  </style>
+
+  <div class="qs-cmp-marco">
+    <div class="qs-cmp-alto">
+      <h2>Una mano de látex mate, dos días de secado</h2>
+      <p>Misma pared, misma luz, misma hora. Arrastra el divisor para ver el antes y el después.</p>
+    </div>
+
+    <div class="qs-cmp-caja">
+      <!-- Capa ANTES · reemplazar el <svg> por <img src="antes.jpg" alt="Antes"> -->
+      <div class="qs-cmp-capa">
+        <svg viewBox="0 0 900 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="900" height="440" fill="#6E6A60"/><rect x="0" y="0" width="900" height="440" fill="#5E5A51"/><circle cx="220" cy="160" r="90" fill="#7A7568" opacity=".6"/><path d="M0 330c200-40 380 40 560-20l340-40v170H0z" fill="#4C483F"/><rect x="600" y="90" width="180" height="140" rx="8" fill="#837D6E" opacity=".55"/></svg>
+      </div>
+      <!-- Capa DESPUÉS · va encima y se recorta -->
+      <div class="qs-cmp-capa qs-cmp-despues">
+        <svg viewBox="0 0 900 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="900" height="440" fill="#EFE9DD"/><circle cx="220" cy="160" r="90" fill="#F7F3EA" opacity=".9"/><path d="M0 330c200-40 380 40 560-20l340-40v170H0z" fill="#DED6C6"/><rect x="600" y="90" width="180" height="140" rx="8" fill="#F7F3EA" opacity=".8"/></svg>
+      </div>
+
+      <span class="qs-cmp-sello qs-izq">Antes</span>
+      <span class="qs-cmp-sello qs-der">Después</span>
+
+      <input type="range" min="0" max="100" value="50" step="0.5" aria-label="Mover el divisor entre antes y después">
+      <div class="qs-cmp-linea"><span class="qs-cmp-mango"><svg viewBox="0 0 20 20" fill="none"><path d="M7.5 5L3 10l4.5 5M12.5 5L17 10l-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </div>
+
+    <p class="qs-cmp-pie">Cubeta de 5 galones · rinde 45 m² con dos manos</p>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-comparador').forEach(function(seccion){
+      var caja  = seccion.querySelector('.qs-cmp-caja');
+      var rango = caja && caja.querySelector('input[type="range"]');
+      if(!rango) return;
+      function pinta(){ caja.style.setProperty('--qs-pos', rango.value + '%'); }
+      rango.addEventListener('input', pinta);
+      pinta();
+    });
+  })();
+  </script>
+</section>

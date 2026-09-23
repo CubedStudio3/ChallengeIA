@@ -1,0 +1,80 @@
+<!-- ============================================================
+     SECCIÓN · Carrusel de logos
+     Las marcas que maneja la tienda, en cinta continua. Se detiene
+     al pasar el mouse. Solo CSS: no lleva JavaScript.
+     ============================================================ -->
+<section class="qs-carrusel-logos">
+  <style>
+  .qs-carrusel-logos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:     #FFFFFF;   /* fondo de la sección             */
+    --qs-tinta:     #9AA0A6;   /* color de los logos en reposo    */
+    --qs-activo:    #18181B;   /* color del logo al pasar encima  */
+    --qs-rotulo:    #A1A1AA;   /* color del rótulo de arriba      */
+    --qs-velocidad: 34s;       /* más segundos = más lento        */
+    --qs-alto:      38px;      /* alto de cada logo               */
+    --qs-aire:      44px;      /* espacio arriba y abajo          */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0; overflow:hidden;
+  }
+  .qs-carrusel-logos *{box-sizing:border-box}
+  .qs-clg-rotulo{
+    text-align:center; margin:0 0 24px; font-size:11.5px; font-weight:600;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--qs-rotulo);
+  }
+  .qs-clg-cinta{
+    position:relative;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .qs-clg-pista{display:flex; width:max-content; animation:qs-clg-correr var(--qs-velocidad) linear infinite}
+  .qs-carrusel-logos:hover .qs-clg-pista{animation-play-state:paused}
+  .qs-clg-grupo{display:flex; align-items:center; gap:58px; padding-right:58px; flex:none}
+  .qs-clg-logo{
+    height:var(--qs-alto); display:grid; place-items:center; color:var(--qs-tinta);
+    text-decoration:none; transition:color .18s ease; flex:none;
+  }
+  .qs-clg-logo:hover{color:var(--qs-activo)}
+  .qs-clg-logo span{
+    font-size:19px; font-weight:800; letter-spacing:-.04em; white-space:nowrap;
+    font-variant-caps:all-small-caps;
+  }
+  .qs-clg-logo span i{font-style:normal; font-weight:400}
+  @keyframes qs-clg-correr{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @media (prefers-reduced-motion: reduce){
+    .qs-clg-pista{animation:none; flex-wrap:wrap; justify-content:center; width:auto}
+    .qs-clg-grupo:last-child{display:none}
+  }
+  @media (max-width:560px){ .qs-carrusel-logos{--qs-aire:32px; --qs-alto:30px} .qs-clg-grupo{gap:36px; padding-right:36px} }
+  </style>
+
+  <p class="qs-clg-rotulo">Las marcas que manejamos</p>
+
+  <div class="qs-clg-cinta">
+    <!-- El grupo va DOS veces: es lo que hace que la vuelta no se note.
+         Para logos reales: <img src="marca.svg" alt="Marca" style="height:100%"> -->
+    <div class="qs-clg-pista" aria-label="Marcas disponibles">
+      <div class="qs-clg-grupo">
+        <a class="qs-clg-logo" href="#"><span>Truper</span></a>
+        <a class="qs-clg-logo" href="#"><span>Stanley</span></a>
+        <a class="qs-clg-logo" href="#"><span>Bosch</span></a>
+        <a class="qs-clg-logo" href="#"><span>3<i>M</i></span></a>
+        <a class="qs-clg-logo" href="#"><span>Pretul</span></a>
+        <a class="qs-clg-logo" href="#"><span>Sherwin</span></a>
+        <a class="qs-clg-logo" href="#"><span>Makita</span></a>
+      </div>
+      <div class="qs-clg-grupo" aria-hidden="true">
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Truper</span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Stanley</span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Bosch</span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>3<i>M</i></span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Pretul</span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Sherwin</span></a>
+        <a class="qs-clg-logo" href="#" tabindex="-1"><span>Makita</span></a>
+      </div>
+    </div>
+  </div>
+</section>

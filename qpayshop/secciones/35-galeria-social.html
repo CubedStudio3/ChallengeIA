@@ -1,0 +1,57 @@
+<!-- ============================================================
+     SECCIÓN · Galería social
+     Las fotos de la cuenta, con el usuario encima. Va cerca del
+     pie: es prueba de que la tienda está viva.
+     ============================================================ -->
+<section class="qs-galeria-social">
+  <style>
+  .qs-galeria-social{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:   #FAFAF9;   /* fondo de la sección                */
+    --qs-tinta:   #18181B;   /* color del texto                    */
+    --qs-usuario: #71717A;   /* color del usuario                  */
+    --qs-velo:    .40;       /* oscurecido al pasar el mouse       */
+    --qs-hueco:   6px;       /* separación entre fotos             */
+    --qs-aire:    56px;      /* espacio arriba y abajo             */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 0;
+  }
+  .qs-galeria-social *{box-sizing:border-box}
+  .qs-gs-alto{text-align:center; margin:0 auto 24px; padding:0 24px; max-width:640px}
+  .qs-galeria-social h2{font-size:clamp(21px,2.7vw,28px); font-weight:700; letter-spacing:-.025em; margin:0 0 7px}
+  .qs-gs-alto a{font-size:14px; color:var(--qs-usuario); text-decoration:none; font-weight:500}
+  .qs-gs-alto a:hover{color:var(--qs-tinta); text-decoration:underline}
+  .qs-gs-reja{display:grid; grid-template-columns:repeat(6,1fr); gap:var(--qs-hueco); padding:0 var(--qs-hueco)}
+  .qs-gs-foto{
+    position:relative; display:block; aspect-ratio:1/1; overflow:hidden; background:#EDEDEC;
+  }
+  .qs-gs-foto svg, .qs-gs-foto img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .45s ease}
+  .qs-gs-foto:hover svg, .qs-gs-foto:hover img{transform:scale(1.07)}
+  .qs-gs-capa{
+    position:absolute; inset:0; display:grid; place-items:center; color:#fff;
+    background:rgba(0,0,0,var(--qs-velo)); opacity:0; transition:opacity .2s ease;
+  }
+  .qs-gs-foto:hover .qs-gs-capa, .qs-gs-foto:focus-visible .qs-gs-capa{opacity:1}
+  .qs-gs-capa svg{width:26px; height:26px}
+  @media (max-width:900px){ .qs-gs-reja{grid-template-columns:repeat(3,1fr)} }
+  @media (max-width:480px){ .qs-gs-reja{grid-template-columns:repeat(2,1fr)} .qs-galeria-social{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-gs-alto">
+    <h2>Así se ve puesto en la calle</h2>
+    <a href="#">@laferreteriadelprogreso</a>
+  </div>
+
+  <div class="qs-gs-reja">
+    <!-- Foto · duplicar. Reemplazar el <svg> por <img src="..." alt=""> -->
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#DED5C6"/><circle cx="100" cy="95" r="55" fill="#B8A98F"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#D9E2DE"/><rect x="50" y="40" width="100" height="120" rx="16" fill="#93AAA2"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#E6DCDF"/><path d="M100 40l60 110H40z" fill="#BE9FA9"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#DFE3EC"/><circle cx="75" cy="110" r="48" fill="#9CA8C2"/><circle cx="140" cy="70" r="30" fill="#8994B0"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#E3E8DE"/><rect x="40" y="70" width="120" height="70" rx="14" fill="#9AAE8C"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+    <a class="qs-gs-foto" href="#"><svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#EDE6DA"/><circle cx="100" cy="100" r="40" fill="#C9B593"/><rect x="88" y="130" width="24" height="52" rx="12" fill="#AE9970"/></svg><span class="qs-gs-capa"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.7"/><circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="1.7"/><circle cx="18.6" cy="7.4" r="1.2" fill="currentColor"/></svg></span></a>
+  </div>
+</section>
