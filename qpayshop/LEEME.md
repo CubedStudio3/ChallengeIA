@@ -129,6 +129,43 @@ ese código se copió:** cada sección está escrita desde cero con el sistema d
 variables de esta biblioteca, así que no arrastra la licencia de nadie. Los
 archivos de referencia no están en el repositorio.
 
+## Colores
+
+Cada sección tiene su propia paleta, de una familia de doce: arcilla, pizarra,
+selva, ciruela, carbón y lima, óxido, hueso, mar, índigo, rosa, noche y
+mostaza. Se repartieron para que dos secciones seguidas no se parezcan y para
+que el catálogo alterne claro y oscuro.
+
+Antes, doce de las secciones usaban el mismo gris genérico
+(`#FFFFFF` / `#18181B` / `#71717A`); por eso se veían parecidas aunque la
+maquetación fuera distinta.
+
+Los dibujos de relleno se repintaron **conservando la claridad de cada forma**:
+lo que era claro sigue claro y lo que era oscuro sigue oscuro; lo único que
+cambia es el tono. Así la composición no se deforma al cambiar de paleta.
+
+**Compuerta de contraste.** Los 84 pares de texto sobre fondo de las 36
+secciones se miden contra WCAG (4.5:1 para texto, 3:1 para acentos). Al aplicar
+las paletas saltaron tres avisos: dos eran de la medición —comparaba contra la
+superficie equivocada, porque ese texto va sobre una foto o dentro de un panel
+blanco— y uno era real: el logo en reposo del carrusel de marcas quedaba en
+2.74:1. Se corrigió a 5.06:1, medido.
+
+## Imágenes de ejemplo
+
+Las secciones traen dibujos SVG, no fotografías. No es una preferencia: se
+midió el 2026-09-23 que el camino de una imagen generada **no llega**.
+
+- El conector de Higgsfield responde y hay créditos.
+- Su salida vive en `d8j0ntlcm91z4.cloudfront.net`, que la política de salida
+  de este entorno bloquea con 403. No se puede bajar ni verificar.
+- El visor de artefactos bloquea toda carga externa de imágenes, así que una
+  URL externa se vería como un hueco para quien abra el catálogo.
+
+Para tener fotos de verdad hay que **permitir ese dominio** en la configuración
+de red del entorno. Con eso, la imagen se baja acá, se sube como archivo del
+artefacto —mismo origen— y entonces sí la ve cualquiera que abra el enlace.
+
 ## De dónde salen los archivos
 
 `catalogo-secciones.html` es la fuente: cada sección vive en un `<template>`
