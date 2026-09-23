@@ -370,16 +370,16 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
   }
   </style>
 
-  <!-- Reemplazar por: <div class="qs-hi-foto"><img src="tu-foto.jpg" alt="Descripción"></div> -->
-  <div class="qs-hi-foto" aria-hidden="true">
-    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="qshi1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#596B87"/><stop offset=".55" stop-color="#465772"/><stop offset="1" stop-color="#3D4D67"/></linearGradient><radialGradient id="qshi2" cx=".7" cy=".25" r=".7"><stop offset="0" stop-color="#99AAC3" stop-opacity=".45"/><stop offset="1" stop-color="#99AAC3" stop-opacity="0"/></radialGradient></defs><rect width="1200" height="700" fill="url(#qshi1)"/><rect width="1200" height="700" fill="url(#qshi2)"/><circle cx="880" cy="200" r="150" fill="#ABBBD2" opacity=".18"/><path d="M0 520 C 260 440 420 560 700 470 C 900 410 1080 470 1200 430 L1200 700 L0 700 Z" fill="#394862" opacity=".55"/><path d="M0 600 C 300 540 500 640 820 570 C 1000 530 1120 570 1200 550 L1200 700 L0 700 Z" fill="#35445D" opacity=".7"/></svg>
+  <!-- La foto de fondo. Cambiar el src por la del cliente. -->
+  <div class="qs-hi-foto">
+    <img src="img/panaderia-mesa.jpg" alt="Mesa de madera enharinada con hogazas, baguettes, frascos de mermelada y mantequilla junto a una ventana">
   </div>
 
   <div class="qs-hi-caja">
-    <p class="qs-hi-linea">Colección de temporada</p>
-    <h2>Lo que se pone en el mostrador, se vende</h2>
-    <p class="qs-hi-bajada">Piezas hechas en taller guatemalteco, en cantidades cortas. Cuando se acaban, se acaban.</p>
-    <a class="qs-hi-cta" href="#">Ver la colección</a>
+    <p class="qs-hi-linea">Horneado esta mañana</p>
+    <h2>Masa madre que sale del horno a las seis</h2>
+    <p class="qs-hi-bajada">Fermentación lenta de dieciocho horas. Lo que no se vende en el día se dona el mismo día.</p>
+    <a class="qs-hi-cta" href="#">Ver el horneado de hoy</a>
   </div>
 
   <div class="qs-hi-pie">
@@ -523,10 +523,10 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     display:grid; gap:26px 20px;
     grid-template-columns:repeat(var(--qs-columnas), minmax(min(200px,100%),1fr));
   }
-  .qs-rp-art{position:relative}
+  .qs-rp-lienzo{position:relative; margin-bottom:13px}
   .qs-rp-foto{
     position:relative; aspect-ratio:1/1; border-radius:var(--qs-radio); overflow:hidden;
-    background:#F2F1EF; margin-bottom:13px; display:block;
+    background:#F2F1EF; display:block;
   }
   .qs-rp-foto svg, .qs-rp-foto img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease}
   .qs-rp-art:hover .qs-rp-foto svg, .qs-rp-art:hover .qs-rp-foto img{transform:scale(1.05)}
@@ -560,55 +560,62 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
   <div class="qs-rp-marco">
     <div class="qs-rp-cab">
       <div>
-        <h2>Lo que más sale este mes</h2>
-        <p>Abarrotes y limpieza · existencias al día de hoy</p>
+        <h2>Lo que salió del horno hoy</h2>
+        <p>Panadería y conservas · existencias al día de hoy</p>
       </div>
-      <a class="qs-rp-ver" href="#">Ver los 84 productos</a>
+      <a class="qs-rp-ver" href="#">Ver los 46 productos</a>
     </div>
 
     <div class="qs-rp-reja">
       <!-- Producto · duplicar este bloque completo por cada artículo -->
       <article class="qs-rp-art">
-        <a class="qs-rp-foto" href="#">
+        <div class="qs-rp-lienzo">
+          <a class="qs-rp-foto" href="#">
           <span class="qs-rp-tag">-20%</span>
-          <!-- Reemplazar el <svg> por: <img src="producto.jpg" alt="Nombre del producto"> -->
-          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#D5E7E3"/><rect x="95" y="60" width="110" height="180" rx="10" fill="#8AB2AA"/><rect x="95" y="105" width="110" height="52" fill="#DEECE9"/><circle cx="150" cy="131" r="17" fill="#8AB2AA"/></svg>
+          <img src="img/pan-hogaza.jpg" alt="Hogaza redonda de masa madre con la corteza dorada y marcada">
         </a>
-        <button class="qs-rp-agregar" type="button">Agregar</button>
-        <p class="qs-rp-cat">Despensa</p>
-        <h3><a href="#">Aceite vegetal 900 ml</a></h3>
-        <p class="qs-rp-precio"><b class="qs-rebaja">Q 18.40</b><s>Q 23.00</s></p>
+          <button class="qs-rp-agregar" type="button">Agregar</button>
+        </div>
+        <p class="qs-rp-cat">Panadería</p>
+        <h3><a href="#">Hogaza de masa madre · 900 g</a></h3>
+        <p class="qs-rp-precio"><b class="qs-rebaja">Q 30.40</b><s>Q 38.00</s></p>
       </article>
 
       <article class="qs-rp-art">
-        <a class="qs-rp-foto" href="#">
-          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#D6E7E3"/><circle cx="150" cy="150" r="88" fill="#87B0A8"/><path d="M110 150h80M150 110v80" stroke="#D6E7E3" stroke-width="14" stroke-linecap="round"/></svg>
+        <div class="qs-rp-lienzo">
+          <a class="qs-rp-foto" href="#">
+          <img src="img/pan-baguette.jpg" alt="Baguette tradicional entera, con los cortes diagonales de la hornada">
         </a>
-        <button class="qs-rp-agregar" type="button">Agregar</button>
-        <p class="qs-rp-cat">Limpieza</p>
-        <h3><a href="#">Desinfectante multiusos 1 L</a></h3>
-        <p class="qs-rp-precio"><b>Q 26.50</b></p>
+          <button class="qs-rp-agregar" type="button">Agregar</button>
+        </div>
+        <p class="qs-rp-cat">Panadería</p>
+        <h3><a href="#">Baguette tradicional</a></h3>
+        <p class="qs-rp-precio"><b>Q 18.00</b></p>
       </article>
 
       <article class="qs-rp-art">
-        <a class="qs-rp-foto" href="#">
+        <div class="qs-rp-lienzo">
+          <a class="qs-rp-foto" href="#">
           <span class="qs-rp-tag qs-neutro">Últimas 4</span>
-          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#D5E7E2"/><path d="M150 55l78 46v98l-78 46-78-46v-98z" fill="#89B2AA"/><path d="M150 55v190M72 101l78 46 78-46" stroke="#D5E7E2" stroke-width="7"/></svg>
+          <img src="img/mermelada-fresa.jpg" alt="Frasco de mermelada de fresa con la tapa cubierta de tela azul y cordel">
         </a>
-        <button class="qs-rp-agregar" type="button">Agregar</button>
-        <p class="qs-rp-cat">Despensa</p>
-        <h3><a href="#">Café molido de altura 454 g</a></h3>
-        <p class="qs-rp-precio"><b>Q 48.00</b></p>
+          <button class="qs-rp-agregar" type="button">Agregar</button>
+        </div>
+        <p class="qs-rp-cat">Conservas</p>
+        <h3><a href="#">Mermelada de fresa · 250 g</a></h3>
+        <p class="qs-rp-precio"><b>Q 45.00</b></p>
       </article>
 
       <article class="qs-rp-art">
-        <a class="qs-rp-foto" href="#">
-          <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#D2E5E1"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#6B978F"/><rect x="96" y="120" width="108" height="14" rx="7" fill="#D2E5E1" opacity=".9"/><rect x="96" y="146" width="70" height="14" rx="7" fill="#D2E5E1" opacity=".6"/></svg>
+        <div class="qs-rp-lienzo">
+          <a class="qs-rp-foto" href="#">
+          <img src="img/mantequilla-finca.jpg" alt="Barra de mantequilla sobre un plato blanco pequeno">
         </a>
-        <button class="qs-rp-agregar" type="button">Agregar</button>
-        <p class="qs-rp-cat">Hogar</p>
-        <h3><a href="#">Papel higiénico doble hoja · 12 u</a></h3>
-        <p class="qs-rp-precio"><b>Q 62.90</b></p>
+          <button class="qs-rp-agregar" type="button">Agregar</button>
+        </div>
+        <p class="qs-rp-cat">Lácteos</p>
+        <h3><a href="#">Mantequilla de finca · 250 g</a></h3>
+        <p class="qs-rp-precio"><b>Q 32.00</b></p>
       </article>
     </div>
   </div>
@@ -4109,7 +4116,8 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       lineas:  codigo.split("\n").length,
       js:      /<script/.test(codigo),
       fuente:  /@import\s+url/.test(codigo),
-      campos:  /<(input|form|textarea|select)\b/.test(codigo)
+      campos:  /<(input|form|textarea|select)\b/.test(codigo),
+      fotos:   (codigo.match(/<img\s[^>]*src="img\//g) || []).length
     };
   }
 
@@ -4246,6 +4254,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       if(alerta) li.className = "si";
       ul2.appendChild(li);
     }
+    if(h.fotos) hecho(h.fotos === 1 ? "foto de ejemplo" : "fotos de ejemplo", String(h.fotos), false);
     hecho("líneas", String(h.lineas), false);
     hecho("JavaScript", h.js ? "Lleva" : "Sin", h.js);
     hecho("tipografía externa", h.fuente ? "Carga" : "Sin", h.fuente);

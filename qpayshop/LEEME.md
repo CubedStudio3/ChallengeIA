@@ -153,18 +153,29 @@ blanco— y uno era real: el logo en reposo del carrusel de marcas quedaba en
 
 ## Imágenes de ejemplo
 
-Las secciones traen dibujos SVG, no fotografías. No es una preferencia: se
-midió el 2026-09-23 que el camino de una imagen generada **no llega**.
+Dos secciones ya traen **fotografía real**: el hero inmersivo (02) y la rejilla
+de productos (04), con una panadería. Las imágenes viven en `img/` y las
+secciones las llaman con **ruta relativa**:
 
-- El conector de Higgsfield responde y hay créditos.
-- Su salida vive en `d8j0ntlcm91z4.cloudfront.net`, que la política de salida
-  de este entorno bloquea con 403. No se puede bajar ni verificar.
-- El visor de artefactos bloquea toda carga externa de imágenes, así que una
-  URL externa se vería como un hueco para quien abra el catálogo.
+```html
+<img src="img/pan-hogaza.jpg" alt="Hogaza redonda de masa madre con la corteza dorada">
+```
 
-Para tener fotos de verdad hay que **permitir ese dominio** en la configuración
-de red del entorno. Con eso, la imagen se baja acá, se sube como archivo del
-artefacto —mismo origen— y entonces sí la ve cualquiera que abra el enlace.
+Eso importa: el código que IT copia es **el mismo** que se ve en la vista
+previa. No hay una versión bonita y otra real. IT se lleva el bloque y la
+carpeta `img/`, y le funciona igual en la tienda.
+
+Las otras 34 siguen con dibujos SVG y su comentario de con qué `<img>`
+reemplazarlos. Para llenarlas hacen falta más fotos.
+
+**Cómo entregar más fotos.** Adjuntar imágenes sueltas al chat NO las deja en
+el disco de la sesión —se ven en la conversación pero no existen como
+archivo—. **Un ZIP sí llega.** Medido el 2026-09-23: de ocho tandas de
+imágenes sueltas solo llegó la primera; los ZIP llegaron completos.
+
+Lo que hace falta, por proporción: 16:9 para heroes y banners, 1:1 para fichas
+de producto, 3:4 para rejillas y carrusel, 9:16 para el carrusel de videos y
+3:2 para categorías.
 
 ## De dónde salen los archivos
 
