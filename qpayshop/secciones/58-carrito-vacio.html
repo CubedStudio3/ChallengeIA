@@ -1,0 +1,87 @@
+<!-- ============================================================
+     SECCIÓN · Carrito vacío
+     El carrito sin nada no es un final: es el mejor lugar para
+     mostrar tres productos. El dibujo del carrito es SVG, no foto.
+     ============================================================ -->
+<section class="qs-carrito-vacio">
+  <style>
+  .qs-carrito-vacio{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-tinta:       #16151A;   /* color del texto               */
+    --qs-tinta-suave: #6C6A73;   /* explicaciones y precios        */
+    --qs-dibujo:      #D9D6CE;   /* color del carrito dibujado    */
+    --qs-acento:      #16151A;   /* botón principal               */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-lienzo:      #F2F0EA;   /* fondo de cada foto            */
+    --qs-linea:       #E6E4DD;   /* líneas divisorias             */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-carrito-vacio, .qs-carrito-vacio *{box-sizing:border-box}
+  .qs-cv-marco{max-width:880px; margin:0 auto}
+  .qs-cv-centro{text-align:center; padding-bottom:40px; border-bottom:1px solid var(--qs-linea)}
+  .qs-cv-dibujo{width:74px; height:74px; color:var(--qs-dibujo); margin:0 auto 18px; display:block}
+  .qs-carrito-vacio h2{font-size:clamp(20px,2.6vw,26px); font-weight:700; letter-spacing:-.026em; margin:0 0 8px}
+  .qs-cv-texto{margin:0 auto 22px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:390px}
+  .qs-cv-cta{
+    display:inline-block; font-size:14.5px; font-weight:600; text-decoration:none;
+    background:var(--qs-acento); color:var(--qs-acento-txt);
+    border-radius:var(--qs-radio); padding:13px 26px;
+  }
+  .qs-cv-rotulo{
+    margin:34px 0 16px; font-size:11.5px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--qs-tinta-suave);
+  }
+  .qs-cv-reja{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; list-style:none; margin:0; padding:0}
+  .qs-cv-pieza a{text-decoration:none; color:inherit; display:block}
+  .qs-cv-foto{
+    background:var(--qs-lienzo); border-radius:var(--qs-radio);
+    aspect-ratio:1/1; overflow:hidden; margin-bottom:10px;
+  }
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-cv-foto svg{width:100%; height:100%; display:block}
+  .qs-cv-pieza b{display:block; font-size:14px; font-weight:600; margin-bottom:3px}
+  .qs-cv-pieza span{display:block; font-size:13.5px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  @media (max-width:640px){
+    .qs-carrito-vacio{--qs-aire:48px}
+    .qs-cv-reja{grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
+    .qs-cv-pieza:last-child{display:none}
+  }
+  </style>
+
+  <div class="qs-cv-marco">
+    <div class="qs-cv-centro">
+      <svg class="qs-cv-dibujo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M5 8h6l5.6 20.4a3 3 0 0 0 2.9 2.2h14.9a3 3 0 0 0 2.9-2.2L41 14H13" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="20" cy="39" r="3" stroke="currentColor" stroke-width="2.6"/>
+        <circle cx="34" cy="39" r="3" stroke="currentColor" stroke-width="2.6"/>
+      </svg>
+      <h2>Tu carrito está vacío</h2>
+      <p class="qs-cv-texto">Nada de lo que viste quedó guardado acá. Si agregaste algo desde otro dispositivo, entra a tu cuenta y vuelve a verlo.</p>
+      <a class="qs-cv-cta" href="#">Ver el catálogo</a>
+    </div>
+
+    <p class="qs-cv-rotulo">Lo que más sale esta semana</p>
+    <ul class="qs-cv-reja">
+      <!-- Producto · duplicar -->
+      <li class="qs-cv-pieza"><a href="#">
+        <div class="qs-cv-foto"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#F2F0EA"/><circle cx="150" cy="128" r="62" fill="#DCD8CE"/><rect x="72" y="200" width="156" height="16" rx="8" fill="#DCD8CE"/></svg></div>
+        <b>Mochila de lona</b><span>Q 385.00</span>
+      </a></li>
+      <li class="qs-cv-pieza"><a href="#">
+        <div class="qs-cv-foto"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#EFEDE6"/><rect x="86" y="70" width="128" height="160" rx="14" fill="#D7D3C9"/><rect x="112" y="104" width="76" height="10" rx="5" fill="#EFEDE6"/></svg></div>
+        <b>Termo de acero</b><span>Q 210.00</span>
+      </a></li>
+      <li class="qs-cv-pieza"><a href="#">
+        <div class="qs-cv-foto"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#F0EEE7"/><path d="M60 214l52-76 38 50 30-36 60 62z" fill="#D9D5CB"/><circle cx="104" cy="92" r="24" fill="#D9D5CB"/></svg></div>
+        <b>Cuaderno cosido</b><span>Q 95.00</span>
+      </a></li>
+    </ul>
+  </div>
+</section>

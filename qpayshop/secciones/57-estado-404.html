@@ -1,0 +1,86 @@
+<!-- ============================================================
+     SECCIÓN · Página no encontrada
+     El 404 que no deja al cliente en un callejón: buscador y las
+     rutas que sí existen. El número grande es tipografía, no imagen.
+     ============================================================ -->
+<section class="qs-estado-404">
+  <style>
+  .qs-estado-404{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F3EC;   /* fondo de la sección           */
+    --qs-tinta:       #1C1A14;   /* color del título              */
+    --qs-tinta-suave: #6A6455;   /* explicaciones                 */
+    --qs-numero:      #8E7F5A;   /* color del 404 grande          */
+    --qs-acento:      #1C1A14;   /* botón y foco del buscador     */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-panel:       #FFFFFF;   /* fondo del buscador y atajos   */
+    --qs-linea:       #E0DACB;   /* bordes                        */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        72px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-estado-404, .qs-estado-404 *{box-sizing:border-box}
+  .qs-404-marco{max-width:560px; margin:0 auto}
+  .qs-404-numero{
+    font-size:clamp(88px,16vw,168px); font-weight:800; line-height:.85;
+    letter-spacing:-.05em; color:var(--qs-numero); margin:0 0 6px;
+    font-variant-numeric:tabular-nums; user-select:none;
+  }
+  .qs-estado-404 h2{font-size:clamp(21px,2.9vw,29px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-404-texto{margin:0 auto 26px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:400px}
+  .qs-404-busca{display:flex; gap:9px; max-width:420px; margin:0 auto 26px}
+  .qs-404-busca input{
+    flex:1; min-width:0; font:inherit; font-size:14.5px; color:var(--qs-tinta);
+    background:var(--qs-panel); border:1px solid var(--qs-linea);
+    border-radius:var(--qs-radio); padding:13px 15px; outline:0;
+  }
+  .qs-404-busca input:focus{border-color:var(--qs-acento)}
+  .qs-404-busca button{
+    font:inherit; font-size:14.5px; font-weight:600; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:var(--qs-radio); padding:13px 22px; flex:none;
+  }
+  .qs-404-rotulo{
+    margin:0 0 12px; font-size:11.5px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--qs-tinta-suave);
+  }
+  .qs-404-atajos{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+  .qs-404-atajos a{
+    display:block; background:var(--qs-panel); border:1px solid var(--qs-linea);
+    border-radius:99px; padding:9px 17px; font-size:13.5px; font-weight:500;
+    color:var(--qs-tinta); text-decoration:none;
+  }
+  .qs-404-atajos a:hover{border-color:var(--qs-acento)}
+  @media (max-width:520px){
+    .qs-estado-404{--qs-aire:54px}
+    .qs-404-busca{flex-direction:column}
+    .qs-404-busca button{width:100%}
+  }
+  </style>
+
+  <div class="qs-404-marco">
+    <p class="qs-404-numero">404</p>
+    <h2>Esta página ya no está</h2>
+    <p class="qs-404-texto">Puede que el producto se haya retirado o que el enlace esté mal copiado. Busca lo que necesitas o entra por una categoría.</p>
+
+    <form class="qs-404-busca" onsubmit="return false">
+      <label for="qs-404-q" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)">Buscar en la tienda</label>
+      <input id="qs-404-q" type="search" placeholder="Buscar en la tienda">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <p class="qs-404-rotulo">O entra por acá</p>
+    <ul class="qs-404-atajos">
+      <!-- Atajo · duplicar -->
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Novedades</a></li>
+      <li><a href="#">Ofertas</a></li>
+      <li><a href="#">Mis pedidos</a></li>
+      <li><a href="#">Ayuda</a></li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,123 @@
+<!-- ============================================================
+     SECCIÓN · Carrito en página
+     La versión de pantalla completa: tabla a la izquierda, resumen
+     pegado a la derecha. Para carritos de muchos artículos.
+     ============================================================ -->
+<section class="qs-carrito-pagina">
+  <style>
+  .qs-carrito-pagina{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F5F8;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de la tabla y el resumen*/
+    --qs-tinta:       #131A22;   /* color del texto               */
+    --qs-tinta-suave: #5A6B7B;   /* variantes y notas             */
+    --qs-acento:      #1E4E6B;   /* botón de pagar                */
+    --qs-linea:       #DDE6ED;   /* líneas                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        48px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-carrito-pagina, .qs-carrito-pagina *{box-sizing:border-box}
+  .qs-cp2-marco{max-width:1080px; margin:0 auto}
+  .qs-carrito-pagina h2{font-size:clamp(23px,3vw,30px); font-weight:700; letter-spacing:-.028em; margin:0 0 4px}
+  .qs-cp2-sub{margin:0 0 24px; font-size:14px; color:var(--qs-tinta-suave)}
+  .qs-cp2-reja{display:grid; grid-template-columns:1fr 348px; gap:22px; align-items:start}
+  .qs-cp2-tabla{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-cp2-fila{display:grid; grid-template-columns:86px 1fr auto auto; gap:16px; padding:18px; border-bottom:1px solid var(--qs-linea); align-items:center}
+  .qs-cp2-fila:last-child{border-bottom:0}
+  .qs-cp2-foto{width:86px; height:104px; border-radius:10px; overflow:hidden; background:#EDF2F5}
+  .qs-cp2-foto svg, .qs-cp2-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cp2-datos b{display:block; font-size:14.5px; font-weight:600; line-height:1.35}
+  .qs-cp2-datos span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:4px}
+  .qs-cp2-stock{display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:12px; color:#0E6B4F}
+  .qs-cp2-stock i{width:6px; height:6px; border-radius:50%; background:currentColor}
+  .qs-cp2-cant{display:inline-flex; align-items:center; border:1px solid var(--qs-linea); border-radius:9px}
+  .qs-cp2-cant button{font:inherit; font-size:15px; width:32px; height:34px; cursor:pointer; background:none; border:0; color:var(--qs-tinta)}
+  .qs-cp2-cant output{min-width:26px; text-align:center; font-size:13.5px; font-weight:600; font-variant-numeric:tabular-nums}
+  .qs-cp2-precio{text-align:right; min-width:96px; font-variant-numeric:tabular-nums}
+  .qs-cp2-precio b{display:block; font-size:15px; font-weight:700}
+  .qs-cp2-precio button{margin-top:7px; font-size:12px; color:var(--qs-tinta-suave); background:none; border:0; cursor:pointer; padding:0; font-family:inherit; text-decoration:underline}
+  .qs-cp2-resumen{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px; position:sticky; top:20px}
+  .qs-cp2-resumen h3{font-size:15px; font-weight:700; margin:0 0 16px}
+  .qs-cp2-linea{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:10px; font-variant-numeric:tabular-nums}
+  .qs-cp2-linea span:first-child{color:var(--qs-tinta-suave)}
+  .qs-cp2-total{display:flex; justify-content:space-between; align-items:baseline; padding-top:14px; border-top:1px solid var(--qs-linea); margin-bottom:16px; font-variant-numeric:tabular-nums}
+  .qs-cp2-total b{font-size:20px; font-weight:700}
+  .qs-cp2-cta{
+    display:block; text-align:center; font:inherit; font-size:15px; font-weight:700; cursor:pointer;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:11px; padding:15px; text-decoration:none; width:100%;
+  }
+  .qs-cp2-seguir{display:block; text-align:center; margin-top:12px; font-size:13.5px; color:var(--qs-acento); text-decoration:none}
+  .qs-cp2-sellos{display:flex; gap:6px; flex-wrap:wrap; margin-top:18px; padding-top:16px; border-top:1px solid var(--qs-linea)}
+  .qs-cp2-sellos span{font-size:10.5px; font-weight:600; color:var(--qs-tinta-suave); border:1px solid var(--qs-linea); border-radius:5px; padding:4px 8px}
+  @media (max-width:900px){
+    .qs-carrito-pagina{--qs-aire:36px}
+    .qs-cp2-reja{grid-template-columns:1fr}
+    .qs-cp2-resumen{position:static}
+    .qs-cp2-fila{grid-template-columns:70px 1fr; row-gap:12px}
+    .qs-cp2-foto{width:70px; height:84px}
+    .qs-cp2-cant{grid-column:1 / 2}
+    .qs-cp2-precio{grid-column:2 / 3; text-align:right}
+  }
+  </style>
+
+  <div class="qs-cp2-marco">
+    <h2>Tu carrito</h2>
+    <p class="qs-cp2-sub">3 productos · los precios incluyen IVA</p>
+
+    <div class="qs-cp2-reja">
+      <div class="qs-cp2-tabla">
+        <!-- Fila · duplicar por cada producto -->
+        <div class="qs-cp2-fila">
+          <span class="qs-cp2-foto"><svg viewBox="0 0 86 104" aria-hidden="true"><rect width="86" height="104" fill="#C4D4E0"/><rect x="24" y="20" width="38" height="64" rx="9" fill="#5D7F97"/></svg></span>
+          <div class="qs-cp2-datos">
+            <b>Chaqueta de lona encerada</b>
+            <span>Talla M · Arena · SKU CHQ-M-AR</span>
+            <span class="qs-cp2-stock"><i></i>En existencia</span>
+          </div>
+          <span class="qs-cp2-cant"><button type="button" aria-label="Quitar uno">−</button><output>1</output><button type="button" aria-label="Agregar uno">+</button></span>
+          <div class="qs-cp2-precio"><b>Q 890.00</b><button type="button">Quitar</button></div>
+        </div>
+        <div class="qs-cp2-fila">
+          <span class="qs-cp2-foto"><svg viewBox="0 0 86 104" aria-hidden="true"><rect width="86" height="104" fill="#E9EFF4"/><circle cx="43" cy="52" r="26" fill="#93AFC2"/></svg></span>
+          <div class="qs-cp2-datos">
+            <b>Cinturón de cuero trenzado</b>
+            <span>Talla 34 · Café · SKU CIN-34-CA</span>
+            <span class="qs-cp2-stock"><i></i>Quedan 4</span>
+          </div>
+          <span class="qs-cp2-cant"><button type="button" aria-label="Quitar uno">−</button><output>2</output><button type="button" aria-label="Agregar uno">+</button></span>
+          <div class="qs-cp2-precio"><b>Q 530.00</b><button type="button">Quitar</button></div>
+        </div>
+      </div>
+
+      <aside class="qs-cp2-resumen">
+        <h3>Resumen</h3>
+        <p class="qs-cp2-linea"><span>Subtotal</span><span>Q 1,420.00</span></p>
+        <p class="qs-cp2-linea"><span>Envío</span><span>Q 25.00</span></p>
+        <!-- Con cupón aplicado va acá otra línea:
+             <p class="qs-cp2-linea qs-cp2-ahorro"><span>Descuento OCTUBRE10</span><span>− Q 142.00</span></p> -->
+        <p class="qs-cp2-total"><span>Total</span><b>Q 1,445.00</b></p>
+        <a class="qs-cp2-cta" href="#">Ir a pagar</a>
+        <a class="qs-cp2-seguir" href="#">Seguir comprando</a>
+        <div class="qs-cp2-sellos"><span>Visa</span><span>Mastercard</span><span>3D Secure</span><span>Hasta 12 cuotas</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrito-pagina').forEach(function(s){
+      s.addEventListener('click', function(e){
+        var b = e.target.closest('.qs-cp2-cant button');
+        if(!b) return;
+        var o = b.parentElement.querySelector('output');
+        o.textContent = Math.max(1, Number(o.textContent) + (b.textContent.trim() === '+' ? 1 : -1));
+      });
+    });
+  })();
+  </script>
+</section>

@@ -1,0 +1,131 @@
+<!-- ============================================================
+     SECCIÓN · Métodos de pago
+     Las formas de pagar, cada una con lo que implica. El de cuotas
+     muestra cuánto sale cada una: es la duda que frena la compra.
+     ============================================================ -->
+<section class="qs-metodos-pago">
+  <style>
+  .qs-metodos-pago{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #0E241C;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada opción          */
+    --qs-tinta:       #E9F4EE;   /* color del título              */
+    --qs-tinta-panel: #101F19;   /* color dentro de la opción     */
+    --qs-tinta-suave: #5F7269;   /* explicaciones                 */
+    --qs-acento:      #0E7A57;   /* opción elegida                */
+    --qs-linea:       #E1EAE5;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-metodos-pago, .qs-metodos-pago *{box-sizing:border-box}
+  .qs-mp-marco{max-width:620px; margin:0 auto}
+  .qs-metodos-pago h2{font-size:clamp(21px,2.7vw,27px); font-weight:700; letter-spacing:-.026em; margin:0 0 6px}
+  .qs-mp-sub{margin:0 0 22px; font-size:14px; opacity:.8}
+  .qs-mp-op{
+    display:block; background:var(--qs-panel); color:var(--qs-tinta-panel);
+    border:1.5px solid var(--qs-panel); border-radius:var(--qs-radio);
+    padding:16px 18px; margin-bottom:10px; cursor:pointer;
+  }
+  /* El radio va ANTES de su etiqueta, no adentro: así la opción elegida
+     se pinta con `:checked + label`, que funciona en cualquier navegador.
+     `:has()` haría lo mismo con menos marcado, pero en uno viejo la opción
+     elegida no se marcaría —y las cuotas no se abrirían— en silencio. */
+  .qs-mp-radio{position:absolute; opacity:0; width:0; height:0}
+  .qs-mp-radio:checked + .qs-mp-op{border-color:var(--qs-acento)}
+  .qs-mp-radio:focus-visible + .qs-mp-op{outline:2px solid var(--qs-acento); outline-offset:2px}
+  .qs-mp-alto{display:flex; align-items:center; gap:12px}
+  .qs-mp-bolita{
+    width:17px; height:17px; border-radius:50%; flex:none;
+    border:1.5px solid var(--qs-linea); background:var(--qs-panel);
+  }
+  .qs-mp-radio:checked + .qs-mp-op .qs-mp-bolita{border-color:var(--qs-acento); border-width:5px}
+  .qs-mp-alto b{font-size:14.5px; font-weight:600; flex:1}
+  .qs-mp-sellos{display:flex; gap:5px}
+  .qs-mp-sellos span{
+    font-size:9.5px; font-weight:700; letter-spacing:.03em; color:var(--qs-tinta-suave);
+    border:1px solid var(--qs-linea); border-radius:4px; padding:3px 6px;
+  }
+  .qs-mp-op > p{margin:9px 0 0 29px; font-size:12.5px; line-height:1.5; color:var(--qs-tinta-suave)}
+  .qs-mp-cuotas{margin:14px 0 0 29px; display:none}
+  .qs-mp-radio:checked + .qs-mp-op .qs-mp-cuotas{display:block}
+  .qs-mp-cuotas table{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+  .qs-mp-cuotas th, .qs-mp-cuotas td{text-align:left; padding:7px 0; font-size:12.5px; border-bottom:1px solid var(--qs-linea)}
+  .qs-mp-cuotas th{font-weight:600; color:var(--qs-tinta-suave); font-size:11.5px}
+  .qs-mp-cuotas td:last-child, .qs-mp-cuotas th:last-child{text-align:right}
+  .qs-mp-cuotas tr:last-child td{border-bottom:0}
+  .qs-mp-cuotas b{font-weight:700}
+  .qs-mp-pie{margin:18px 0 0; font-size:12px; opacity:.72; display:flex; align-items:flex-start; gap:8px}
+  .qs-mp-pie svg{width:14px; height:14px; flex:none; margin-top:1px}
+  @media (max-width:480px){
+    .qs-metodos-pago{--qs-aire:38px}
+    .qs-mp-sellos{display:none}
+    .qs-mp-op > p, .qs-mp-cuotas{margin-left:0}
+  }
+  </style>
+
+  <div class="qs-mp-marco">
+    <h2>Cómo quieres pagar</h2>
+    <p class="qs-mp-sub">Todas las formas cobran lo mismo. No hay recargo por pagar en cuotas.</p>
+
+    <!-- Opción · duplicar -->
+    <input class="qs-mp-radio" type="radio" name="qs-mp" id="qs-mp-tar" checked>
+    <label class="qs-mp-op" for="qs-mp-tar">
+      <span class="qs-mp-alto">
+        <span class="qs-mp-bolita"></span>
+        <b>Tarjeta de crédito o débito</b>
+        <span class="qs-mp-sellos"><span>VISA</span><span>MC</span><span>3DS</span></span>
+      </span>
+      <p>El cobro se confirma con tu banco. La tienda no guarda el número de tu tarjeta.</p>
+    </label>
+
+    <input class="qs-mp-radio" type="radio" name="qs-mp" id="qs-mp-cuo">
+    <label class="qs-mp-op" for="qs-mp-cuo">
+      <span class="qs-mp-alto">
+        <span class="qs-mp-bolita"></span>
+        <b>Tarjeta en cuotas</b>
+        <span class="qs-mp-sellos"><span>CRÉDITO</span></span>
+      </span>
+      <p>Sobre Q 1,445.00, sin recargo. Lo eliges acá y tu banco lo aplica.</p>
+      <div class="qs-mp-cuotas">
+        <table>
+          <thead><tr><th>Plazo</th><th>Cada cuota</th></tr></thead>
+          <tbody>
+            <tr><td>3 meses</td><td><b>Q 481.67</b></td></tr>
+            <tr><td>6 meses</td><td><b>Q 240.83</b></td></tr>
+            <tr><td>12 meses</td><td><b>Q 120.42</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </label>
+
+    <input class="qs-mp-radio" type="radio" name="qs-mp" id="qs-mp-efe">
+    <label class="qs-mp-op" for="qs-mp-efe">
+      <span class="qs-mp-alto">
+        <span class="qs-mp-bolita"></span>
+        <b>Contra entrega</b>
+        <span class="qs-mp-sellos"><span>EFECTIVO</span></span>
+      </span>
+      <p>Solo dentro de la capital y hasta Q 2,000. Se paga al repartidor, en efectivo exacto.</p>
+    </label>
+
+    <input class="qs-mp-radio" type="radio" name="qs-mp" id="qs-mp-ach">
+    <label class="qs-mp-op" for="qs-mp-ach">
+      <span class="qs-mp-alto">
+        <span class="qs-mp-bolita"></span>
+        <b>Transferencia bancaria</b>
+        <span class="qs-mp-sellos"><span>ACH</span></span>
+      </span>
+      <p>Te damos los datos al confirmar. El pedido sale cuando el pago se refleja, normalmente el mismo día.</p>
+    </label>
+
+    <p class="qs-mp-pie">
+      <svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5l4.5 1.8v3.4c0 2.7-1.9 4.7-4.5 5.5-2.6-.8-4.5-2.8-4.5-5.5V3.3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      Los pagos con tarjeta pasan por 3D Secure. Si tu banco pide confirmación, te va a llegar por su app o por mensaje.
+    </p>
+  </div>
+</section>

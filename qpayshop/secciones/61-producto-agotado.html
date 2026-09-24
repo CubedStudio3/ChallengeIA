@@ -1,0 +1,129 @@
+<!-- ============================================================
+     SECCIÓN · Producto agotado
+     La ficha cuando no hay existencia. Las tallas sin stock se ven
+     apagadas pero siguen ahí: esconderlas hace creer que no existen.
+     ============================================================ -->
+<section class="qs-producto-agotado">
+  <style>
+  .qs-producto-agotado{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-lienzo:      #F1EFE9;   /* fondo de la foto              */
+    --qs-tinta:       #1A1814;   /* color del texto               */
+    --qs-tinta-suave: #6D6862;   /* explicaciones                 */
+    --qs-aviso:       #8A2F1F;   /* rótulo de agotado             */
+    --qs-aviso-suave: #FBEFEC;   /* fondo del rótulo              */
+    --qs-acento:      #1A1814;   /* botón de avisarme             */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E4E0D6;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-producto-agotado, .qs-producto-agotado *{box-sizing:border-box}
+  .qs-ag-marco{max-width:940px; margin:0 auto}
+  .qs-ag-reja{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:36px; align-items:start}
+  .qs-ag-lienzo{position:relative; background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:1/1}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-ag-lienzo svg{width:100%; height:100%; display:block}
+  .qs-ag-sello{
+    position:absolute; top:14px; left:14px; z-index:2;
+    background:var(--qs-aviso); color:#FFFFFF; border-radius:99px;
+    padding:6px 13px; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  }
+  .qs-ag-migas{font-size:12.5px; color:var(--qs-tinta-suave); margin:0 0 10px}
+  .qs-producto-agotado h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px; line-height:1.2}
+  .qs-ag-precio{font-size:19px; font-weight:700; margin:0 0 18px; font-variant-numeric:tabular-nums}
+  .qs-ag-franja{
+    display:flex; gap:11px; background:var(--qs-aviso-suave); border-radius:12px;
+    padding:14px 16px; margin-bottom:22px;
+  }
+  .qs-ag-franja svg{width:17px; height:17px; flex:none; color:var(--qs-aviso); margin-top:1px}
+  .qs-ag-franja p{margin:0; font-size:13px; line-height:1.55; color:var(--qs-tinta)}
+  .qs-ag-franja b{font-weight:600}
+  .qs-ag-rotulo{
+    margin:0 0 9px; font-size:11.5px; font-weight:700; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--qs-tinta-suave);
+  }
+  .qs-ag-tallas{display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0 0 24px; padding:0}
+  .qs-ag-tallas span{
+    display:block; min-width:46px; text-align:center; border:1px solid var(--qs-linea);
+    border-radius:10px; padding:10px 12px; font-size:13.5px; font-weight:500;
+  }
+  /* Sin existencia: se ve, se entiende, y no se puede elegir. */
+  .qs-ag-tallas .qs-ag-no{color:var(--qs-tinta-suave); background:var(--qs-lienzo); text-decoration:line-through}
+  .qs-ag-avisa{border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:18px}
+  .qs-ag-avisa h3{font-size:14px; font-weight:700; margin:0 0 5px}
+  .qs-ag-avisa p{margin:0 0 14px; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-ag-forma{display:flex; gap:9px}
+  .qs-ag-forma input{
+    flex:1; min-width:0; font:inherit; font-size:14px; color:var(--qs-tinta);
+    background:var(--qs-fondo); border:1px solid var(--qs-linea);
+    border-radius:11px; padding:12px 14px; outline:0;
+  }
+  .qs-ag-forma input:focus{border-color:var(--qs-acento)}
+  .qs-ag-forma button{
+    font:inherit; font-size:14px; font-weight:600; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:11px; padding:12px 20px;
+  }
+  .qs-ag-nota{margin:11px 0 0; font-size:11.5px; color:var(--qs-tinta-suave); line-height:1.5}
+  @media (max-width:760px){
+    .qs-producto-agotado{--qs-aire:42px}
+    .qs-ag-reja{grid-template-columns:1fr; gap:24px}
+  }
+  @media (max-width:440px){
+    .qs-ag-forma{flex-direction:column}
+    .qs-ag-forma button{width:100%}
+  }
+  </style>
+
+  <div class="qs-ag-marco">
+    <div class="qs-ag-reja">
+      <div class="qs-ag-lienzo">
+        <span class="qs-ag-sello">Agotado</span>
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="600" fill="#F1EFE9"/>
+          <path d="M170 210h260l-26 250a34 34 0 0 1-34 30H230a34 34 0 0 1-34-30z" fill="#DFDACE"/>
+          <path d="M240 210v-32a60 60 0 0 1 120 0v32" stroke="#C9C3B4" stroke-width="18" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <p class="qs-ag-migas">Zapatos · Botines</p>
+        <h2>Botín de cuero engrasado</h2>
+        <p class="qs-ag-precio">Q 745.00</p>
+
+        <div class="qs-ag-franja">
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.3" stroke="currentColor" stroke-width="1.6"/><path d="M9 5.4v4.2M9 12.4v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <p>Se acabó en todas las tallas. <b>Vuelve a entrar la primera semana de octubre</b>, con la misma horma y el mismo precio.</p>
+        </div>
+
+        <p class="qs-ag-rotulo">Tallas</p>
+        <ul class="qs-ag-tallas">
+          <!-- Talla · duplicar -->
+          <li><span class="qs-ag-no">38</span></li>
+          <li><span class="qs-ag-no">39</span></li>
+          <li><span class="qs-ag-no">40</span></li>
+          <li><span class="qs-ag-no">41</span></li>
+          <li><span class="qs-ag-no">42</span></li>
+        </ul>
+
+        <div class="qs-ag-avisa">
+          <h3>Te avisamos cuando entre</h3>
+          <p>Un solo correo, el día que llega. No entras a ninguna lista de promociones.</p>
+          <form class="qs-ag-forma" onsubmit="return false">
+            <label for="qs-ag-mail" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)">Tu correo</label>
+            <input id="qs-ag-mail" type="email" placeholder="tu@correo.com" autocomplete="email">
+            <button type="submit">Avisarme</button>
+          </form>
+          <p class="qs-ag-nota">Guardamos tu correo solo para este aviso. Puedes pedir que lo borremos escribiendo a la tienda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,143 @@
+<!-- ============================================================
+     SECCIÓN · Carrito lateral
+     El cajón que entra por la derecha al agregar algo. No saca al
+     cliente de donde estaba, que es su única razón de existir.
+     ============================================================ -->
+<div class="qs-carrito-lateral" data-qs-abierto="si">
+  <style>
+  .qs-carrito-lateral{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-panel:       #FFFFFF;   /* fondo del cajón               */
+    --qs-tinta:       #16151A;   /* color del texto               */
+    --qs-tinta-suave: #6C6A73;   /* variante y subtotales         */
+    --qs-acento:      #16151A;   /* botón de pagar                */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E6E4DD;   /* líneas divisorias             */
+    --qs-velo:        rgba(22,21,26,.42);  /* fondo detrás        */
+    --qs-ancho:       400px;     /* ancho del cajón               */
+    --qs-alto:        560px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; height:var(--qs-alto); overflow:hidden;
+    background:var(--qs-velo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-carrito-lateral, .qs-carrito-lateral *{box-sizing:border-box}
+  .qs-cl2-cajon{
+    position:absolute; top:0; right:0; bottom:0; width:min(var(--qs-ancho), 100%);
+    background:var(--qs-panel); color:var(--qs-tinta);
+    display:flex; flex-direction:column;
+    transform:translateX(100%); transition:transform .3s cubic-bezier(.22,.9,.3,1);
+    box-shadow:-18px 0 44px -22px rgba(0,0,0,.5);
+  }
+  .qs-carrito-lateral[data-qs-abierto="si"] .qs-cl2-cajon{transform:none}
+  @media (prefers-reduced-motion: reduce){ .qs-cl2-cajon{transition:none} }
+  .qs-cl2-alto{display:flex; align-items:center; gap:10px; padding:18px 20px; border-bottom:1px solid var(--qs-linea)}
+  .qs-cl2-alto h2{font-size:16px; font-weight:700; margin:0; letter-spacing:-.02em}
+  .qs-cl2-alto span{font-size:12.5px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-cl2-cerrar{
+    margin-left:auto; width:32px; height:32px; border-radius:9px; cursor:pointer;
+    background:none; border:0; color:var(--qs-tinta); display:grid; place-items:center;
+  }
+  .qs-cl2-cerrar:hover{background:var(--qs-linea)}
+  .qs-cl2-cerrar svg{width:14px; height:14px}
+  .qs-cl2-envio{
+    padding:12px 20px; border-bottom:1px solid var(--qs-linea);
+    font-size:12.5px; color:var(--qs-tinta-suave);
+  }
+  .qs-cl2-envio b{color:var(--qs-tinta); font-weight:600}
+  /* `display:block` porque es un <span>: inline ignora alto y ancho, y el
+     relleno de adentro se mediría contra el bloque de afuera. */
+  .qs-cl2-canal{display:block; height:5px; border-radius:999px; background:var(--qs-linea); margin-top:8px; overflow:hidden}
+  .qs-cl2-canal i{display:block; height:100%; border-radius:999px; background:var(--qs-acento)}
+  .qs-cl2-lista{flex:1; overflow-y:auto; padding:6px 20px}
+  .qs-cl2-fila{display:grid; grid-template-columns:62px 1fr auto; gap:13px; padding:15px 0; border-bottom:1px solid var(--qs-linea)}
+  .qs-cl2-fila:last-child{border-bottom:0}
+  .qs-cl2-foto{width:62px; height:74px; border-radius:9px; overflow:hidden; background:#F1F0EE}
+  .qs-cl2-foto svg, .qs-cl2-foto img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-cl2-datos b{display:block; font-size:13.5px; font-weight:600; line-height:1.35}
+  .qs-cl2-datos span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:3px}
+  .qs-cl2-cant{display:inline-flex; align-items:center; border:1px solid var(--qs-linea); border-radius:8px; margin-top:9px}
+  .qs-cl2-cant button{font:inherit; font-size:14px; width:26px; height:26px; cursor:pointer; background:none; border:0; color:var(--qs-tinta)}
+  .qs-cl2-cant output{min-width:22px; text-align:center; font-size:12.5px; font-weight:600; font-variant-numeric:tabular-nums}
+  .qs-cl2-precio{text-align:right; font-size:13.5px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qs-cl2-quitar{display:block; margin-top:8px; font-size:11.5px; color:var(--qs-tinta-suave); background:none; border:0; cursor:pointer; padding:0; font-family:inherit; text-decoration:underline}
+  .qs-cl2-pie{border-top:1px solid var(--qs-linea); padding:16px 20px 20px}
+  .qs-cl2-suma{display:flex; justify-content:space-between; font-size:13px; color:var(--qs-tinta-suave); margin-bottom:7px; font-variant-numeric:tabular-nums}
+  .qs-cl2-total{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; font-variant-numeric:tabular-nums}
+  .qs-cl2-total b{font-size:18px; font-weight:700}
+  .qs-cl2-cta{
+    display:block; width:100%; text-align:center; font:inherit; font-size:15px; font-weight:700;
+    cursor:pointer; background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:11px; padding:15px; text-decoration:none;
+  }
+  .qs-cl2-nota{margin:11px 0 0; text-align:center; font-size:11.5px; color:var(--qs-tinta-suave)}
+  </style>
+
+  <aside class="qs-cl2-cajon" role="dialog" aria-label="Carrito">
+    <div class="qs-cl2-alto">
+      <h2>Tu carrito</h2>
+      <span data-qs-cl2-n>3 productos</span>
+      <button class="qs-cl2-cerrar" type="button" aria-label="Cerrar el carrito">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="qs-cl2-envio">
+      <!-- El ancho del relleno y la cantidad que falta son el MISMO dato: con
+           Q 1,420.00 de subtotal y el envío gratis en Q 2,000.00, faltan
+           Q 580.00 y la barra va al 71%. Si se cambia uno, se cambia el otro. -->
+      Te faltan <b>Q 580.00</b> para el envío sin costo
+      <span class="qs-cl2-canal"><i style="width:71%"></i></span>
+    </div>
+
+    <div class="qs-cl2-lista">
+      <!-- Fila · duplicar por cada producto -->
+      <div class="qs-cl2-fila">
+        <span class="qs-cl2-foto"><svg viewBox="0 0 62 74" aria-hidden="true"><rect width="62" height="74" fill="#D6D2C5"/><rect x="18" y="14" width="26" height="46" rx="7" fill="#847E6D"/></svg></span>
+        <div class="qs-cl2-datos">
+          <b>Chaqueta de lona encerada</b>
+          <span>Talla M · Arena</span>
+          <span class="qs-cl2-cant"><button type="button" aria-label="Quitar uno">−</button><output>1</output><button type="button" aria-label="Agregar uno">+</button></span>
+        </div>
+        <div class="qs-cl2-precio">Q 890.00<button class="qs-cl2-quitar" type="button">Quitar</button></div>
+      </div>
+      <div class="qs-cl2-fila">
+        <span class="qs-cl2-foto"><svg viewBox="0 0 62 74" aria-hidden="true"><rect width="62" height="74" fill="#EFEDE6"/><circle cx="31" cy="37" r="20" fill="#B2AC9B"/></svg></span>
+        <div class="qs-cl2-datos">
+          <b>Cinturón de cuero</b>
+          <span>Talla 34 · Café</span>
+          <span class="qs-cl2-cant"><button type="button" aria-label="Quitar uno">−</button><output>2</output><button type="button" aria-label="Agregar uno">+</button></span>
+        </div>
+        <div class="qs-cl2-precio">Q 530.00<button class="qs-cl2-quitar" type="button">Quitar</button></div>
+      </div>
+    </div>
+
+    <div class="qs-cl2-pie">
+      <p class="qs-cl2-suma"><span>Subtotal</span><span>Q 1,420.00</span></p>
+      <p class="qs-cl2-suma"><span>Envío</span><span>Se calcula al pagar</span></p>
+      <p class="qs-cl2-total"><span>Total</span><b>Q 1,420.00</b></p>
+      <a class="qs-cl2-cta" href="#">Ir a pagar</a>
+      <p class="qs-cl2-nota">Los impuestos se calculan en el siguiente paso</p>
+    </div>
+  </aside>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-carrito-lateral').forEach(function(caja){
+      var cerrar = caja.querySelector('.qs-cl2-cerrar');
+      if(cerrar) cerrar.addEventListener('click', function(){
+        caja.dataset.qsAbierto = caja.dataset.qsAbierto === 'si' ? 'no' : 'si';
+      });
+      caja.addEventListener('click', function(e){
+        if(e.target === caja) caja.dataset.qsAbierto = 'no';   /* clic en el velo */
+        var mas = e.target.closest('.qs-cl2-cant button');
+        if(!mas) return;
+        var sal = mas.parentElement.querySelector('output');
+        var n = Number(sal.textContent) + (mas.textContent.trim() === '+' ? 1 : -1);
+        sal.textContent = Math.max(1, n);
+      });
+    });
+  })();
+  </script>
+</div>

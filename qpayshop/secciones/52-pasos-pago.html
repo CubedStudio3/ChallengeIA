@@ -1,0 +1,87 @@
+<!-- ============================================================
+     SECCIÓN · Pasos del pago
+     La barra que dice en qué punto del pago va el cliente. Los
+     pasos ya hechos se pueden volver a abrir; los que faltan no.
+     ============================================================ -->
+<nav class="qs-pasos-pago" aria-label="Avance del pago">
+  <style>
+  .qs-pasos-pago{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la barra             */
+    --qs-tinta:       #12142B;   /* paso actual                   */
+    --qs-tinta-suave: #5B6082;   /* pasos que faltan              */
+    --qs-hecho:       #2A3A8F;   /* pasos ya hechos               */
+    --qs-linea:       #E0E2F0;   /* línea entre pasos             */
+    --qs-borde:       #E0E2F0;   /* línea de abajo                */
+    --qs-aire:        22px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    display:block; background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; border-bottom:1px solid var(--qs-borde);
+  }
+  .qs-pasos-pago, .qs-pasos-pago *{box-sizing:border-box}
+  .qs-pp3-lista{
+    max-width:760px; margin:0 auto; list-style:none; padding:0;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  }
+  .qs-pp3-paso{position:relative; text-align:center; padding-top:34px}
+  /* la línea va DETRÁS de los círculos y no sobresale en los extremos */
+  .qs-pp3-paso::before{
+    content:""; position:absolute; top:12px; left:-50%; width:100%; height:2px;
+    background:var(--qs-linea); z-index:0;
+  }
+  .qs-pp3-paso:first-child::before{display:none}
+  .qs-pp3-paso[data-qs-estado="hecho"]::before,
+  .qs-pp3-paso[data-qs-estado="actual"]::before{background:var(--qs-hecho)}
+  .qs-pp3-globo{
+    position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:1;
+    width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+    background:var(--qs-fondo); border:2px solid var(--qs-linea); color:var(--qs-tinta-suave);
+    font-size:12px; font-weight:700; font-variant-numeric:tabular-nums;
+  }
+  .qs-pp3-paso[data-qs-estado="hecho"] .qs-pp3-globo{background:var(--qs-hecho); border-color:var(--qs-hecho); color:#fff}
+  .qs-pp3-paso[data-qs-estado="actual"] .qs-pp3-globo{border-color:var(--qs-hecho); color:var(--qs-hecho)}
+  .qs-pp3-globo svg{width:13px; height:13px}
+  .qs-pp3-paso a, .qs-pp3-paso span{
+    display:block; font-size:13px; font-weight:500; color:var(--qs-tinta-suave); text-decoration:none;
+  }
+  .qs-pp3-paso[data-qs-estado="hecho"] a{color:var(--qs-hecho); font-weight:600}
+  .qs-pp3-paso[data-qs-estado="hecho"] a:hover{text-decoration:underline}
+  .qs-pp3-paso[data-qs-estado="actual"] span{color:var(--qs-tinta); font-weight:700}
+  .qs-pp3-paso small{display:block; font-size:11px; color:var(--qs-tinta-suave); margin-top:3px}
+  @media (max-width:620px){
+    /* en celular solo se dice dónde va: cuatro rótulos no caben */
+    .qs-pp3-lista{grid-template-columns:1fr; gap:0}
+    .qs-pp3-paso{display:none; padding-top:0; text-align:left}
+    .qs-pp3-paso[data-qs-estado="actual"]{display:block; padding-left:36px; min-height:26px}
+    .qs-pp3-paso[data-qs-estado="actual"]::before{display:none}
+    .qs-pp3-globo{left:0; transform:none}
+    .qs-pp3-paso small{margin-top:1px}
+  }
+  </style>
+
+  <ol class="qs-pp3-lista">
+    <!-- Paso · data-qs-estado: hecho | actual | falta -->
+    <li class="qs-pp3-paso" data-qs-estado="hecho">
+      <span class="qs-pp3-globo"><svg viewBox="0 0 13 13" fill="none"><path d="M2.5 7l2.8 2.8L10.5 4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <a href="#">Carrito</a>
+      <small>3 productos</small>
+    </li>
+    <li class="qs-pp3-paso" data-qs-estado="hecho">
+      <span class="qs-pp3-globo"><svg viewBox="0 0 13 13" fill="none"><path d="M2.5 7l2.8 2.8L10.5 4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <a href="#">Entrega</a>
+      <small>Zona 1, capital</small>
+    </li>
+    <li class="qs-pp3-paso" data-qs-estado="actual" aria-current="step">
+      <span class="qs-pp3-globo">3</span>
+      <span>Pago</span>
+      <small>Paso 3 de 4</small>
+    </li>
+    <li class="qs-pp3-paso" data-qs-estado="falta">
+      <span class="qs-pp3-globo">4</span>
+      <span>Confirmación</span>
+      <small>Falta</small>
+    </li>
+  </ol>
+</nav>

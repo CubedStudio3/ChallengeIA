@@ -1,0 +1,147 @@
+<!-- ============================================================
+     SECCIÓN · Cupón y totales
+     El bloque de descuento con el desglose que se recalcula. El
+     cupón aplicado se puede quitar, y el total cambia de verdad.
+     ============================================================ -->
+<aside class="qs-cupon-totales" data-qs-subtotal="1420" data-qs-envio="25">
+  <style>
+  .qs-cupon-totales{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF7EC;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del bloque              */
+    --qs-tinta:       #1D1C10;   /* color del texto               */
+    --qs-tinta-suave: #6B6852;   /* rótulos                       */
+    --qs-acento:      #6B6320;   /* botón y cupón aplicado        */
+    --qs-ahorro:      #0E6B4F;   /* color del descuento           */
+    --qs-linea:       #E0DAC0;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-moneda:      "Q";       /* símbolo de la moneda          */
+    --qs-aire:        40px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    display:block; background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-cupon-totales, .qs-cupon-totales *{box-sizing:border-box}
+  .qs-ct-caja{max-width:420px; margin:0 auto; background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px}
+  .qs-ct-caja h2{font-size:15px; font-weight:700; margin:0 0 14px}
+  .qs-ct-forma{display:flex; gap:8px; margin-bottom:12px}
+  .qs-ct-forma input{
+    flex:1; min-width:0; font:inherit; font-size:14px; color:var(--qs-tinta); text-transform:uppercase;
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0;
+  }
+  .qs-ct-forma input:focus{border-color:var(--qs-acento)}
+  .qs-ct-forma button{
+    font:inherit; font-size:14px; font-weight:600; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:10px; padding:11px 20px;
+  }
+  .qs-ct-aviso{margin:0 0 12px; font-size:12.5px; min-height:1.2em}
+  .qs-ct-aviso.qs-malo{color:#A8341F}
+  .qs-ct-puestos{display:flex; flex-direction:column; gap:7px; margin-bottom:14px}
+  .qs-ct-cupon{
+    display:flex; align-items:center; gap:9px; font-size:12.5px; font-weight:600; color:var(--qs-ahorro);
+    background:color-mix(in srgb, var(--qs-ahorro) 9%, transparent); border-radius:9px; padding:9px 11px;
+  }
+  .qs-ct-cupon svg{width:13px; height:13px; flex:none}
+  .qs-ct-cupon span{flex:1}
+  .qs-ct-cupon button{background:none; border:0; cursor:pointer; color:inherit; padding:2px; font-family:inherit; display:grid; place-items:center}
+  .qs-ct-linea{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:9px; font-variant-numeric:tabular-nums}
+  .qs-ct-linea span:first-child{color:var(--qs-tinta-suave)}
+  .qs-ct-linea.qs-verde span:last-child{color:var(--qs-ahorro); font-weight:600}
+  /* `display:flex` de la clase le gana al `hidden` del navegador: sin esta
+     línea, la fila del descuento se veía siempre, con «− Q 0.00» en verde
+     y sin ningún cupón puesto. El JS sí la ocultaba; el CSS la devolvía. */
+  .qs-ct-linea[hidden]{display:none}
+  .qs-ct-total{display:flex; justify-content:space-between; align-items:baseline; padding-top:13px; border-top:1px solid var(--qs-linea); font-variant-numeric:tabular-nums}
+  .qs-ct-total b{font-size:20px; font-weight:700}
+  .qs-ct-pie{margin:12px 0 0; font-size:11.5px; color:var(--qs-tinta-suave)}
+  </style>
+
+  <div class="qs-ct-caja">
+    <h2>Descuentos</h2>
+
+    <form class="qs-ct-forma" onsubmit="return false">
+      <label for="qs-ct-cod" hidden>Código de descuento</label>
+      <input id="qs-ct-cod" type="text" placeholder="Escribe tu código" autocomplete="off">
+      <button type="submit">Aplicar</button>
+    </form>
+    <p class="qs-ct-aviso" data-qs-ct-aviso role="status"></p>
+
+    <div class="qs-ct-puestos" data-qs-ct-puestos></div>
+
+    <p class="qs-ct-linea"><span>Subtotal</span><span data-qs-ct-sub></span></p>
+    <p class="qs-ct-linea"><span>Envío</span><span data-qs-ct-envio></span></p>
+    <p class="qs-ct-linea qs-verde" data-qs-ct-fila-desc hidden><span>Descuento</span><span data-qs-ct-desc></span></p>
+    <p class="qs-ct-total"><span>Total</span><b data-qs-ct-total></b></p>
+
+    <p class="qs-ct-pie">Solo se puede usar un código por pedido.</p>
+  </div>
+
+  <script>
+  (function(){
+    // Los códigos de ejemplo. En la tienda esto lo contesta el servidor.
+    var CODIGOS = { OCTUBRE10: { texto: "10% de descuento", pct: 0.10 },
+                    ENVIOGRATIS: { texto: "Envío sin costo", envio: true } };
+
+    document.querySelectorAll('.qs-cupon-totales').forEach(function(s){
+      var sub   = Number(s.dataset.qsSubtotal) || 0;
+      var envio = Number(s.dataset.qsEnvio) || 0;
+      var moneda = (getComputedStyle(s).getPropertyValue('--qs-moneda') || 'Q').trim().replace(/["']/g, '');
+      var puesto = null;
+      var elSub = s.querySelector('[data-qs-ct-sub]'), elEnv = s.querySelector('[data-qs-ct-envio]');
+      var elDesc = s.querySelector('[data-qs-ct-desc]'), filaDesc = s.querySelector('[data-qs-ct-fila-desc]');
+      var elTot = s.querySelector('[data-qs-ct-total]'), aviso = s.querySelector('[data-qs-ct-aviso]');
+      var listaPuestos = s.querySelector('[data-qs-ct-puestos]');
+      var campo = s.querySelector('input[type="text"]');
+
+      function monto(n){ return moneda + ' ' + n.toLocaleString('es-GT', { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+
+      function pinta(){
+        var desc = 0, env = envio;
+        if(puesto){
+          if(puesto.dato.pct) desc = sub * puesto.dato.pct;
+          if(puesto.dato.envio) env = 0;
+        }
+        elSub.textContent = monto(sub);
+        elEnv.textContent = env === 0 ? 'Sin costo' : monto(env);
+        filaDesc.hidden = (desc === 0);
+        elDesc.textContent = '− ' + monto(desc);
+        elTot.textContent = monto(sub + env - desc);
+
+        listaPuestos.innerHTML = '';
+        if(puesto){
+          var fila = document.createElement('div');
+          fila.className = 'qs-ct-cupon';
+          fila.innerHTML = '<svg viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5l2.6 2.6 5.4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          var t = document.createElement('span');
+          t.textContent = puesto.codigo + ' · ' + puesto.dato.texto;
+          var x = document.createElement('button');
+          x.type = 'button'; x.setAttribute('aria-label', 'Quitar el código ' + puesto.codigo);
+          x.innerHTML = '<svg viewBox="0 0 11 11" fill="none" style="width:11px;height:11px"><path d="M2 2l7 7M9 2l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+          x.addEventListener('click', function(){ puesto = null; aviso.textContent = ''; aviso.className = 'qs-ct-aviso'; pinta(); });
+          fila.appendChild(t); fila.appendChild(x);
+          listaPuestos.appendChild(fila);
+        }
+      }
+
+      s.querySelector('form').addEventListener('submit', function(){
+        var cod = (campo.value || '').trim().toUpperCase();
+        if(!cod) return;
+        if(!CODIGOS[cod]){
+          aviso.textContent = 'Ese código no existe o ya venció.';
+          aviso.className = 'qs-ct-aviso qs-malo';
+          return;
+        }
+        puesto = { codigo: cod, dato: CODIGOS[cod] };
+        aviso.textContent = 'Código aplicado.';
+        aviso.className = 'qs-ct-aviso';
+        campo.value = '';
+        pinta();
+      });
+
+      pinta();   /* los totales salen del cálculo, no del HTML escrito */
+    });
+  })();
+  </script>
+</aside>

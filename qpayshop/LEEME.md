@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-Biblioteca de **48 secciones** de tienda en línea para dar variedad a las
+<!-- CUENTA -->Biblioteca de **63 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -9,56 +9,73 @@ para copiar.
 
 ## Qué hay
 
+<!-- TABLA · la escribe pruebas/extrae-secciones.py, no se edita a mano -->
 | # | Archivo | Tipo | Para qué |
 |---|---|---|---|
-| 01 | `secciones/01-hero-dividido.html` | Hero | Texto y producto lado a lado, con tres datos de confianza |
-| 02 | `secciones/02-hero-inmersivo.html` | Hero | Imagen a sangre con capa oscura y texto centrado |
-| 03 | `secciones/03-hero-editorial.html` | Hero | Titular serif grande y tira de tres piezas con precio |
-| 04 | `secciones/04-rejilla-productos.html` | Productos | Rejilla de 4 columnas con descuento y botón de agregar |
-| 05 | `secciones/05-productos-alternos.html` | Productos | Filas grandes que se voltean solas; pocos productos que se explican |
-| 06 | `secciones/06-mosaico-categorias.html` | Productos | Cinco bloques de distinto tamaño hacia las categorías |
-| 07 | `secciones/07-carrusel-productos.html` | Carrusel | Desplazamiento con dedo, rueda o flechas, con puntos |
-| 08 | `secciones/08-carrusel-resenas.html` | Carrusel | Testimonios que rotan solos y se detienen al pasar el mouse |
-| 09 | `secciones/09-barra-anuncio.html` | Banner | Barra superior con cuenta regresiva y botón de cerrar |
-| 10 | `secciones/10-franja-confianza.html` | Banner | Envío, devolución, pago verificado, cuotas y medios de pago |
-| 11 | `secciones/11-marquesina.html` | Banner | Cinta que corre sin parar. Solo CSS |
-| 12 | `secciones/12-banner-promocion.html` | Banner | Una oferta con porcentaje grande y código de cupón |
-| 13 | `secciones/13-hero-buscador.html` | Hero | Búsqueda de protagonista, con las categorías más pedidas |
-| 14 | `secciones/14-hero-diapositivas.html` | Hero | Tres mensajes que rotan, cada uno con su color de fondo |
-| 15 | `secciones/15-hero-tarjeta.html` | Hero | Formas planas de color y tarjeta blanca encima. Sin fotos |
-| 16 | `secciones/16-lista-compacta.html` | Productos | Filas densas con existencia y precio. Mayoreo e insumos |
-| 17 | `secciones/17-producto-destacado.html` | Productos | Un producto con galería, variantes y cantidad |
-| 18 | `secciones/18-rejilla-revista.html` | Productos | Una pieza grande y cuatro chicas, texto sobre la foto |
-| 19 | `secciones/19-productos-pestanas.html` | Productos | Más vendidos, recién llegados y en oferta en un solo espacio |
-| 20 | `secciones/20-carrusel-historias.html` | Carrusel | Círculos que se deslizan. Ocupa poco alto |
-| 21 | `secciones/21-carrusel-pantalla.html` | Carrusel | Una imagen por vez con flechas encima y contador |
-| 22 | `secciones/22-carrusel-videos.html` | Carrusel | Tarjetas 9:16 con el producto colgado abajo |
-| 23 | `secciones/23-banner-newsletter.html` | Banner | Suscripción, con el aviso de privacidad visible |
-| 24 | `secciones/24-banner-progreso.html` | Banner | Cuánto falta para el envío sin costo, con barra |
-| 25 | `secciones/25-banner-cita.html` | Banner | Horario y dos formas de contacto, para servicios |
-| 26 | `secciones/26-hero-departamentos.html` | Hero | Menú de categorías a la izquierda y el hero a la derecha |
-| 27 | `secciones/27-hero-mosaico.html` | Hero | El hero ES el mosaico: cuatro bloques con su botón |
-| 28 | `secciones/28-categorias-listas.html` | Productos | Tarjetas con las subcategorías escritas |
-| 29 | `secciones/29-tarjetas-horizontales.html` | Productos | Rejilla con la foto al lado del texto |
-| 30 | `secciones/30-compra-el-set.html` | Productos | Set con casillas y total que se recalcula |
-| 31 | `secciones/31-carrusel-logos.html` | Carrusel | Marcas en cinta continua. Solo CSS |
-| 32 | `secciones/32-comparador.html` | Carrusel | Antes y después con divisor arrastrable |
-| 33 | `secciones/33-banner-flash.html` | Banner | Foto y reloj en cajas grandes |
-| 34 | `secciones/34-notas-blog.html` | Contenido | Tres notas con categoría, autor y fecha |
-| 35 | `secciones/35-galeria-social.html` | Contenido | Fotos de la cuenta con el usuario encima |
-| 36 | `secciones/36-testimonio-destacado.html` | Contenido | Una sola cita, grande, sobre foto |
-| 37 | `secciones/37-encabezado-tienda.html` | Estructura | Logo, menú, buscador, cuenta y carrito. Se queda pegado arriba |
-| 38 | `secciones/38-pie-tienda.html` | Estructura | Cuatro columnas, suscripción, redes y medios de pago |
-| 39 | `secciones/39-barra-filtros.html` | Estructura | Conteo, orden y filtros puestos con su X |
-| 40 | `secciones/40-hero-video.html` | Hero | Video a sangre, en silencio y en bucle |
-| 41 | `secciones/41-tiles-mitad.html` | Productos | Dos bloques enormes por fila, con dos enlaces cada uno |
-| 42 | `secciones/42-lookbook-puntos.html` | Productos | Foto de ambiente con puntos que abren cada producto |
-| 43 | `secciones/43-metricas.html` | Contenido | Números grandes, cada uno con su fuente |
-| 44 | `secciones/44-pasos.html` | Contenido | Cómo funciona, en pasos numerados |
-| 45 | `secciones/45-preguntas.html` | Contenido | Acordeón de preguntas, con `<details>` nativo |
-| 46 | `secciones/46-planes-precios.html` | Contenido | Tres planes con lo que incluye cada uno |
-| 47 | `secciones/47-comparativa.html` | Contenido | Tabla comparativa que rueda de lado en celular |
-| 48 | `secciones/48-anuncio-app.html` | Banner | Descarga de la app, con el teléfono dibujado en CSS |
+| 01 | `secciones/01-hero-dividido.html` | Hero | Texto a la izquierda, producto a la derecha y tres datos de confianza abajo. |
+| 02 | `secciones/02-hero-inmersivo.html` | Hero | Imagen a sangre con una capa oscura y el texto centrado encima. |
+| 03 | `secciones/03-hero-editorial.html` | Hero | Titular serif grande, columnas desiguales y una tira de tres piezas con precio. |
+| 13 | `secciones/13-hero-buscador.html` | Hero | Centrado, con la búsqueda de protagonista y las categorías más pedidas debajo. |
+| 14 | `secciones/14-hero-diapositivas.html` | Hero | Tres mensajes que rotan, cada uno con su propio color de fondo. |
+| 15 | `secciones/15-hero-tarjeta.html` | Hero | Formas planas de color y una tarjeta blanca encima. Sin fotos. |
+| 26 | `secciones/26-hero-departamentos.html` | Hero | Menú de categorías fijo a la izquierda y el hero a la derecha. La maquetación de las tiendas con catálogo grande. |
+| 27 | `secciones/27-hero-mosaico.html` | Hero | El hero ES el mosaico: cuatro bloques con su botón. Cuando ninguna campaña sola merece el ancho completo. |
+| 40 | `secciones/40-hero-video.html` | Hero | Video a sangre, en silencio y en bucle. Sin archivo todavía, muestra un fondo animado en vez de romperse. |
+| 04 | `secciones/04-rejilla-productos.html` | Productos | Cuatro columnas con etiqueta de descuento, precio tachado y botón de agregar. |
+| 05 | `secciones/05-productos-alternos.html` | Productos | Filas grandes que se voltean solas. Para pocos productos que necesitan explicarse. |
+| 06 | `secciones/06-mosaico-categorias.html` | Productos | Cinco bloques de distinto tamaño: el más grande es la categoría que más vende. |
+| 16 | `secciones/16-lista-compacta.html` | Productos | Filas densas con miniatura, existencia y precio. Para mayoreo, repuestos e insumos. |
+| 17 | `secciones/17-producto-destacado.html` | Productos | Un solo producto con galería, variantes y cantidad, dentro de la portada. |
+| 18 | `secciones/18-rejilla-revista.html` | Productos | Una pieza grande y cuatro chicas, con el texto encima de la foto. |
+| 19 | `secciones/19-productos-pestanas.html` | Productos | Tres listas en el mismo espacio: más vendidos, recién llegados y en oferta. |
+| 28 | `secciones/28-categorias-listas.html` | Productos | Cada tarjeta trae sus subcategorías escritas. Ahorra un clic entero al que ya sabe qué busca. |
+| 29 | `secciones/29-tarjetas-horizontales.html` | Productos | Rejilla con la foto al lado del texto. Cabe el doble de productos sin volverse una lista. |
+| 30 | `secciones/30-compra-el-set.html` | Productos | Varios productos que se venden juntos, con casillas y total que se recalcula. Sube el ticket sin descontar nada. |
+| 41 | `secciones/41-tiles-mitad.html` | Productos | Dos bloques enormes por fila, cada uno con titular, bajada y dos enlaces. |
+| 42 | `secciones/42-lookbook-puntos.html` | Productos | Una foto de ambiente con puntos encima: cada uno abre la ficha del producto que aparece ahí. |
+| 07 | `secciones/07-carrusel-productos.html` | Carrusel | Se desliza con el dedo, con la rueda o con las flechas, y los puntos dicen dónde va. |
+| 08 | `secciones/08-carrusel-resenas.html` | Carrusel | Testimonios que rotan solos y se detienen al pasar el mouse. |
+| 20 | `secciones/20-carrusel-historias.html` | Carrusel | Círculos que se deslizan. Ocupa poco alto y mete muchas colecciones arriba del catálogo. |
+| 21 | `secciones/21-carrusel-pantalla.html` | Carrusel | Una imagen por vez, con flechas encima y contador. Para lookbook. |
+| 22 | `secciones/22-carrusel-videos.html` | Carrusel | Tarjetas verticales 9:16 con el producto colgado abajo. Para los reels ya grabados. |
+| 31 | `secciones/31-carrusel-logos.html` | Carrusel | Las marcas que maneja la tienda, en cinta continua. Se detiene al pasar el mouse. Solo CSS. |
+| 32 | `secciones/32-comparador.html` | Carrusel | Dos fotos con un divisor que se arrastra. Para lo que se demuestra y no se explica. |
+| 09 | `secciones/09-barra-anuncio.html` | Banner | Barra superior con cuenta regresiva y botón de cerrar. |
+| 10 | `secciones/10-franja-confianza.html` | Banner | Envío, cambios, pago verificado y cuotas, con los medios de pago aceptados. |
+| 11 | `secciones/11-marquesina.html` | Banner | Cinta que corre sin parar con las promesas de la tienda. Solo CSS. |
+| 12 | `secciones/12-banner-promocion.html` | Banner | Una oferta con el porcentaje grande, el producto y el código de cupón. |
+| 23 | `secciones/23-banner-newsletter.html` | Banner | Correo a cambio de algo concreto, con el aviso de privacidad visible. |
+| 24 | `secciones/24-banner-progreso.html` | Banner | Cuánto falta para el envío sin costo, con barra que avanza. Va dentro del carrito. |
+| 25 | `secciones/25-banner-cita.html` | Banner | Para negocios de servicio: horario visible y dos formas de contacto, sin formulario largo. |
+| 48 | `secciones/48-anuncio-app.html` | Banner | Bloque para bajar la aplicación, con la pantalla del teléfono dibujada en CSS: no hace falta captura. |
+| 33 | `secciones/33-banner-flash.html` | Banner | Foto a un lado y el reloj en cajas grandes al otro. El formato que más aguanta una promoción con fecha. |
+| 34 | `secciones/34-notas-blog.html` | Contenido | Tres notas con categoría, autor y fecha. Es lo que hace que la tienda aparezca en búsquedas que no son un producto. |
+| 35 | `secciones/35-galeria-social.html` | Contenido | Las fotos de la cuenta con el usuario encima. Va cerca del pie: es prueba de que la tienda está viva. |
+| 36 | `secciones/36-testimonio-destacado.html` | Contenido | Una sola cita, grande, sobre foto. Acá no se rota: se apuesta por una. |
+| 43 | `secciones/43-metricas.html` | Contenido | Números grandes, cada uno CON LA FUENTE de dónde salió. Un dato sin fuente no convence y sí expone. |
+| 44 | `secciones/44-pasos.html` | Contenido | Tres o cuatro pasos numerados con la línea que los une. Acá el número sí es información: es el orden. |
+| 45 | `secciones/45-preguntas.html` | Contenido | Acordeón hecho con <details>, que es HTML nativo: abre y cierra sin una línea de JavaScript. |
+| 46 | `secciones/46-planes-precios.html` | Contenido | Tres columnas con lo que incluye cada una. El plan sugerido se levanta y los demás no se achican. |
+| 47 | `secciones/47-comparativa.html` | Contenido | Fila por característica, columna por opción. En celular rueda de lado con la primera columna fija. |
+| 37 | `secciones/37-encabezado-tienda.html` | Estructura | Logo, menú, buscador, cuenta y carrito con su contador. Se queda pegado arriba al bajar. |
+| 38 | `secciones/38-pie-tienda.html` | Estructura | Cuatro columnas de enlaces, suscripción, redes y medios de pago. |
+| 39 | `secciones/39-barra-filtros.html` | Estructura | Cuántos productos hay, cómo ordenarlos y qué filtros están puestos, con su X para quitarlos. |
+| 49 | `secciones/49-carrito-lateral.html` | Carrito y pago | El cajón que entra por la derecha al agregar algo. No saca al cliente de donde estaba. |
+| 50 | `secciones/50-carrito-pagina.html` | Carrito y pago | La tabla completa con el resumen pegado al costado. Para carritos de varios productos. |
+| 51 | `secciones/51-resumen-compra.html` | Carrito y pago | El desglose plegable con el cupón. Va al lado del pago, y en teléfono se abre solo si lo piden. |
+| 52 | `secciones/52-pasos-pago.html` | Carrito y pago | Dónde va el cliente dentro del pago. En teléfono muestra solo el paso actual, que es lo que cabe. |
+| 53 | `secciones/53-pago-un-paso.html` | Carrito y pago | Todo el pago en una sola pantalla, con el resumen pegado al costado. El que menos abandona. |
+| 54 | `secciones/54-pago-acordeon.html` | Carrito y pago | Un paso a la vez. Los ya resueltos se resumen en una línea con su enlace para cambiarlos. |
+| 55 | `secciones/55-metodos-pago.html` | Carrito y pago | Tarjeta, cuotas, contra entrega y transferencia, cada una con lo que el cliente necesita saber antes de elegir. |
+| 56 | `secciones/56-cupon-totales.html` | Carrito y pago | El cupón se aplica y el total cambia de verdad: el desglose sale del cálculo, no está escrito. |
+| 57 | `secciones/57-estado-404.html` | Estados | El 404 que no deja al cliente en un callejón: buscador y las rutas que sí existen. |
+| 58 | `secciones/58-carrito-vacio.html` | Estados | El carrito sin nada no es un final: es el mejor lugar para mostrar tres productos. |
+| 59 | `secciones/59-sin-resultados.html` | Estados | Cero resultados casi nunca es «no lo tenemos»: es un filtro puesto. Se ven y se quitan de uno en uno. |
+| 60 | `secciones/60-gracias-compra.html` | Estados | La pantalla después de pagar: número de pedido, a dónde va y qué pasa después. |
+| 61 | `secciones/61-producto-agotado.html` | Estados | La ficha sin existencia. Las tallas agotadas se ven apagadas pero siguen ahí. |
+| 62 | `secciones/62-pedido-en-camino.html` | Estados | El seguimiento del paquete, con cada paso en su estado. La línea se pinta sola. |
+| 63 | `secciones/63-proximamente.html` | Estados | La tienda antes de abrir. No promete una fecha que no se sepa: dice en qué está. |
+<!-- /TABLA -->
 
 ## Cómo se instala
 
@@ -165,13 +182,13 @@ blanco— y uno era real: el logo en reposo del carrusel de marcas quedaba en
 
 ## Imágenes de ejemplo
 
-Las 36 secciones traen **dibujos SVG**, no fotografías, y cada uno lleva al lado
+Todas las secciones traen **dibujos SVG**, no fotografías, y cada uno lleva al lado
 el comentario que dice con qué `<img>` reemplazarlo. Se hizo así para que cada
 bloque sea autosuficiente: se pega y funciona, sin depender de ninguna carpeta
 de imágenes ni de ningún servidor.
 
 Se probó poner fotos reales en dos secciones el 2026-09-23 y **se descartó**:
-con fotografía en dos y dibujos en las otras treinta y cuatro, el catálogo
+con fotografía en dos y dibujos en todas las demás, el catálogo
 dejaba de leerse como un sistema. Si algún día se llenan, se llenan todas o
 ninguna. El camino quedó probado y funciona —las imágenes se publican junto a
 la página y las secciones las llaman con ruta relativa, así que el código que
@@ -188,9 +205,9 @@ para categorías.
 
 ## Cómo se navega el catálogo
 
-Con 48 secciones una lista plana dejó de servir. El catálogo tiene ahora:
+Con más de cincuenta secciones una lista plana dejó de servir. El catálogo tiene ahora:
 
-- **Índice lateral fijo** con las seis categorías y las 48 secciones numeradas.
+- **Índice lateral fijo** con las ocho categorías y todas las secciones numeradas.
   Sigue la lectura: la sección que estás viendo se marca sola y el índice se
   arrastra para que no la tengas que buscar.
 - **Grupos por categoría** en la lista, con su conteo. Al filtrar o buscar, el
@@ -200,9 +217,10 @@ Con 48 secciones una lista plana dejó de servir. El catálogo tiene ahora:
   verdad del dispositivo —1280, 768 o 390 px— y la escala para que quepa en la
   columna. Antes el marco medía lo que midiera la columna, así que «Escritorio»
   terminaba enseñando la maquetación de tableta.
-- **Los altos de cada vista previa están MEDIDOS**, no estimados: se renderizan
-  las 48 a los tres anchos y se lee su alto real. Los que había escritos a ojo
-  cortaban el contenido en cuanto el marco pasó a 1280 px.
+- **Los altos de cada vista previa están MEDIDOS**, no estimados: cada sección
+  se pinta en un marco de su ancho y se lee su alto real, repitiendo hasta que
+  el número deja de moverse. Los que había escritos a ojo cortaban el contenido
+  en cuanto el marco pasó a 1280 px.
 - **Selección múltiple** y copia conjunta, como antes.
 
 ## De dónde salieron los formatos
@@ -216,13 +234,62 @@ De ahí salen: los tiles a media pantalla (Apple), la franja de métricas con
 fuente (Shopify, Monzo), el lookbook con puntos, la tabla comparativa, los
 planes y los pasos numerados.
 
-## Prueba de las secciones
+## Pruebas de las secciones
 
-    bash qpayshop/pruebas/revisa-secciones.sh
+Todas se corren a 1280, 768 y 390 px, forzando el ancho con un iframe porque
+el navegador sin ventana no baja de 485 px.
 
-Revisa las 48 a 1280, 768 y 390 px y reporta solo defectos reales: elementos
-que desbordan sin que nadie los recorte, y elementos que tapan texto. Fuerza el
-ancho con un iframe porque el navegador sin ventana no baja de 485 px.
+| Qué revisa | Cómo se corre |
+|---|---|
+| Desbordes y elementos que tapan texto | `bash qpayshop/pruebas/revisa-secciones.sh` |
+| Que la vista previa no corte ni deje hueco | `bash qpayshop/pruebas/revisa-altos.sh` |
+| Contraste del texto sobre su fondo real | `bash qpayshop/pruebas/revisa-contraste.sh` |
+| Clases repetidas entre secciones, y lo que no se deja ocultar | `python3 qpayshop/pruebas/revisa-clases.py` |
+
+Y para volver a medir los altos de la vista previa después de tocar una
+sección —se itera hasta que el número deja de moverse, porque una sección con
+el alto en `vh` cambia de tamaño con el marco que la contiene:
+
+    bash qpayshop/pruebas/mide-altos.sh
+
+## Trampas de estas secciones
+
+Errores ya cometidos acá, con lo que los encontró. Cada uno tiene su prueba.
+
+- **Un `<span>` sin `display:block` ignora el alto y el ancho.** La barra de
+  envío gratis del carrito lateral salía llena: el relleno del 71% se medía
+  contra el bloque de afuera. Segunda vez en este catálogo — la primera fue el
+  anillo del carrusel de historias.
+- **El `*` de `.qs-x *` no incluye a `.qs-x`.** Cinco secciones con alto propio
+  y relleno quedaban midiendo alto + relleno, así que `--qs-alto` no era el
+  alto de la sección. Ahora la raíz se nombra: `.qs-x, .qs-x *`.
+- **Una clase con `display:` le gana al `hidden` del navegador.** El JS de
+  «Cupón y totales» sí ocultaba la fila del descuento y el CSS la devolvía:
+  se veía «− Q 0.00» en verde sin ningún cupón puesto. Va siempre su
+  `.clase[hidden]{display:none}`, y hay prueba que lo exige.
+- **Dos secciones no pueden compartir prefijo de clase.** `producto-agotado`
+  nació con el `.qs-pa-` de `productos-alternos` y le comió 136 px de alto a
+  una sección terminada, sin un solo error. IT pega varias en la misma
+  plantilla: la prueba de clases existe por esto.
+- **Medir el alto una sola vez no basta.** Una sección con el alto en `vh`
+  cambia de tamaño con el marco que la contiene, así que la medida y el marco
+  se persiguen. El hero inmersivo quedó cortado 92 px por medirlo una vez, y
+  después con 108 px en blanco por medirlo en un marco más alto del que iba a
+  tener. Se itera hasta el punto fijo.
+- **La barra de desplazamiento del marco cambia la medida.** Si el marco se
+  queda corto, la barra le quita ancho, el contenido se estira y la medida sale
+  más alta; a la vuelta siguiente sobra alto, no hay barra, y baja. Quince
+  secciones nunca se estabilizaban por esto.
+- **`color-mix()` no se devuelve como `rgb()`.** Sale `color(srgb .89 .91 .93)`,
+  con los canales de 0 a 1. Leerlos como si fueran de 0 a 255 daba casi negro:
+  la prueba de contraste acusaba a la tabla comparativa de tres defectos que no
+  tenía.
+- **El texto sobre foto no se aprueba en silencio.** La prueba de contraste no
+  puede medir lo que va encima de una imagen o un degradado, así que lo cuenta
+  aparte en vez de darlo por bueno.
+- **Un número escrito a mano en el catálogo se queda viejo.** El titular decía
+  «Cuarenta y ocho secciones» con sesenta y tres en pantalla, y esta misma
+  tabla decía 48. Los dos salen ahora del arreglo de secciones.
 
 ## De dónde salen los archivos
 

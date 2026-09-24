@@ -1,0 +1,151 @@
+<!-- ============================================================
+     SECCIÓN · Pago en acordeón
+     El mismo pago, un paso a la vez. Cada paso cerrado resume lo
+     que se eligió, con su enlace para volver. Es lo que mejor
+     funciona en celular.
+     ============================================================ -->
+<section class="qs-pago-acordeon">
+  <style>
+  .qs-pago-acordeon{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F5F8;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de los pasos            */
+    --qs-tinta:       #131A22;   /* color del texto               */
+    --qs-tinta-suave: #52616F;   /* resúmenes y rótulos           */
+    --qs-acento:      #1E4E6B;   /* paso abierto y botón          */
+    --qs-linea:       #DDE6ED;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pago-acordeon, .qs-pago-acordeon *{box-sizing:border-box}
+  .qs-pa2-marco{max-width:620px; margin:0 auto}
+  .qs-pago-acordeon h2{font-size:clamp(21px,2.7vw,27px); font-weight:700; letter-spacing:-.026em; margin:0 0 18px}
+  .qs-pa2-paso{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); margin-bottom:11px; overflow:hidden}
+  .qs-pa2-paso[data-qs-estado="abierto"]{border-color:var(--qs-acento)}
+  .qs-pa2-alto{display:flex; align-items:center; gap:12px; padding:16px 18px}
+  .qs-pa2-globo{
+    width:24px; height:24px; border-radius:50%; flex:none; display:grid; place-items:center;
+    font-size:11.5px; font-weight:700; background:var(--qs-linea); color:var(--qs-tinta-suave);
+    font-variant-numeric:tabular-nums;
+  }
+  .qs-pa2-paso[data-qs-estado="hecho"] .qs-pa2-globo{background:var(--qs-acento); color:#fff}
+  .qs-pa2-paso[data-qs-estado="abierto"] .qs-pa2-globo{background:var(--qs-acento); color:#fff}
+  .qs-pa2-globo svg{width:12px; height:12px}
+  .qs-pa2-alto > div{flex:1; min-width:0}
+  .qs-pa2-alto b{display:block; font-size:14.5px; font-weight:600}
+  .qs-pa2-alto span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .qs-pa2-cambiar{
+    font:inherit; font-size:13px; font-weight:600; color:var(--qs-acento); background:none;
+    border:0; cursor:pointer; padding:4px; text-decoration:underline; flex:none;
+  }
+  .qs-pa2-paso[data-qs-estado="abierto"] .qs-pa2-cambiar,
+  .qs-pa2-paso[data-qs-estado="falta"] .qs-pa2-cambiar{visibility:hidden}
+  .qs-pa2-cuerpo{padding:0 18px 18px; border-top:1px solid var(--qs-linea); margin-top:2px; padding-top:16px}
+  .qs-pa2-paso:not([data-qs-estado="abierto"]) .qs-pa2-cuerpo{display:none}
+  .qs-pa2-campos{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+  .qs-pa2-campo{display:flex; flex-direction:column; gap:5px}
+  .qs-pa2-campo.qs-ancho{grid-column:1 / -1}
+  .qs-pa2-campo label{font-size:12px; font-weight:500; color:var(--qs-tinta-suave)}
+  .qs-pa2-campo input, .qs-pa2-campo select{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-pa2-campo input:focus, .qs-pa2-campo select:focus{border-color:var(--qs-acento)}
+  .qs-pa2-cta{
+    font:inherit; font-size:14.5px; font-weight:700; cursor:pointer; margin-top:14px;
+    background:var(--qs-acento); color:#fff; border:0; border-radius:10px; padding:13px 26px;
+  }
+  .qs-pa2-nota{margin:12px 0 0; font-size:12px; color:var(--qs-tinta-suave); text-align:center}
+  @media (max-width:520px){ .qs-pago-acordeon{--qs-aire:32px} .qs-pa2-campos{grid-template-columns:1fr} }
+  </style>
+
+  <div class="qs-pa2-marco">
+    <h2>Terminar la compra</h2>
+
+    <!-- Paso · data-qs-estado: hecho | abierto | falta -->
+    <div class="qs-pa2-paso" data-qs-estado="hecho">
+      <div class="qs-pa2-alto">
+        <span class="qs-pa2-globo"><svg viewBox="0 0 12 12" fill="none"><path d="M2.2 6.3l2.6 2.6L9.8 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Contacto</b><span>marisol.chavez@ejemplo.com · 5555 5555</span></div>
+        <button class="qs-pa2-cambiar" type="button">Cambiar</button>
+      </div>
+      <div class="qs-pa2-cuerpo">
+        <div class="qs-pa2-campos">
+          <div class="qs-pa2-campo qs-ancho"><label for="qs-pa2-mail">Correo</label><input id="qs-pa2-mail" type="email" autocomplete="email"></div>
+          <div class="qs-pa2-campo qs-ancho"><label for="qs-pa2-tel">Teléfono</label><input id="qs-pa2-tel" type="tel" autocomplete="tel"></div>
+        </div>
+        <button class="qs-pa2-cta" type="button">Continuar</button>
+      </div>
+    </div>
+
+    <div class="qs-pa2-paso" data-qs-estado="hecho">
+      <div class="qs-pa2-alto">
+        <span class="qs-pa2-globo"><svg viewBox="0 0 12 12" fill="none"><path d="M2.2 6.3l2.6 2.6L9.8 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>Entrega</b><span>5a. avenida 8-42, zona 1 · Guatemala</span></div>
+        <button class="qs-pa2-cambiar" type="button">Cambiar</button>
+      </div>
+      <div class="qs-pa2-cuerpo">
+        <div class="qs-pa2-campos">
+          <div class="qs-pa2-campo qs-ancho"><label for="qs-pa2-dir">Dirección</label><input id="qs-pa2-dir" type="text" autocomplete="street-address"></div>
+          <div class="qs-pa2-campo"><label for="qs-pa2-dep">Departamento</label><select id="qs-pa2-dep"><option>Guatemala</option><option>Sacatepéquez</option></select></div>
+          <div class="qs-pa2-campo"><label for="qs-pa2-ref">Referencia</label><input id="qs-pa2-ref" type="text"></div>
+        </div>
+        <button class="qs-pa2-cta" type="button">Continuar</button>
+      </div>
+    </div>
+
+    <div class="qs-pa2-paso" data-qs-estado="abierto">
+      <div class="qs-pa2-alto">
+        <span class="qs-pa2-globo">3</span>
+        <div><b>Pago</b><span>Tarjeta de crédito o débito</span></div>
+        <button class="qs-pa2-cambiar" type="button">Cambiar</button>
+      </div>
+      <div class="qs-pa2-cuerpo">
+        <div class="qs-pa2-campos">
+          <div class="qs-pa2-campo qs-ancho"><label for="qs-pa2-tar">Número de tarjeta</label><input id="qs-pa2-tar" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000"></div>
+          <div class="qs-pa2-campo"><label for="qs-pa2-ven">Vence</label><input id="qs-pa2-ven" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA"></div>
+          <div class="qs-pa2-campo"><label for="qs-pa2-cvv">Código</label><input id="qs-pa2-cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123"></div>
+        </div>
+        <button class="qs-pa2-cta" type="button">Pagar Q 1,445.00</button>
+        <p class="qs-pa2-nota">Tu banco confirma el cobro con 3D Secure</p>
+      </div>
+    </div>
+
+    <div class="qs-pa2-paso" data-qs-estado="falta">
+      <div class="qs-pa2-alto">
+        <span class="qs-pa2-globo">4</span>
+        <div><b>Confirmación</b><span>Al terminar el pago</span></div>
+        <button class="qs-pa2-cambiar" type="button">Cambiar</button>
+      </div>
+      <div class="qs-pa2-cuerpo"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-pago-acordeon').forEach(function(s){
+      var pasos = s.querySelectorAll('.qs-pa2-paso');
+      function abre(paso){
+        pasos.forEach(function(p){
+          if(p === paso) p.dataset.qsEstado = 'abierto';
+          else if(p.dataset.qsEstado === 'abierto') p.dataset.qsEstado = 'hecho';
+        });
+      }
+      s.addEventListener('click', function(e){
+        if(e.target.closest('.qs-pa2-cambiar')){ abre(e.target.closest('.qs-pa2-paso')); return; }
+        var cta = e.target.closest('.qs-pa2-cta');
+        if(!cta) return;
+        var actual = cta.closest('.qs-pa2-paso');
+        actual.dataset.qsEstado = 'hecho';
+        var i = [].indexOf.call(pasos, actual);
+        if(pasos[i + 1]) abre(pasos[i + 1]);
+      });
+    });
+  })();
+  </script>
+</section>

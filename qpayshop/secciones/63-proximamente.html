@@ -1,0 +1,88 @@
+<!-- ============================================================
+     SECCIÓN · Próximamente
+     La tienda antes de abrir. No promete una fecha que no se
+     sepa: dice en qué está y deja una forma de avisar.
+     ============================================================ -->
+<section class="qs-proximamente">
+  <style>
+  .qs-proximamente{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #14161A;   /* fondo de la sección           */
+    --qs-tinta:       #F2F1EE;   /* color del texto               */
+    --qs-tinta-suave: #A7A9AE;   /* explicaciones                 */
+    --qs-acento:      #C9A227;   /* rótulo y botón                */
+    --qs-acento-txt:  #14161A;   /* texto del botón               */
+    --qs-campo:       #1E2127;   /* fondo del campo de correo     */
+    --qs-linea:       #2E323A;   /* bordes y separadores          */
+    --qs-trama:       #1B1E23;   /* líneas del fondo              */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-alto-min:    520px;     /* alto mínimo de la sección     */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    min-height:var(--qs-alto-min); display:grid; place-items:center;
+    padding:64px 24px; position:relative; overflow:hidden;
+  }
+  .qs-proximamente, .qs-proximamente *{box-sizing:border-box}
+  /* La trama diagonal es un degradado repetido: no hace falta imagen. */
+  .qs-px-trama{
+    position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(135deg, var(--qs-trama) 0 1px, transparent 1px 13px);
+  }
+  .qs-px-marco{position:relative; z-index:1; max-width:520px; text-align:center}
+  .qs-px-rotulo{
+    display:inline-block; border:1px solid var(--qs-acento); color:var(--qs-acento);
+    border-radius:99px; padding:6px 14px; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; margin:0 0 22px;
+  }
+  .qs-proximamente h2{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-.035em; line-height:1.08; margin:0 0 14px}
+  .qs-px-texto{margin:0 0 30px; font-size:15px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-px-forma{display:flex; gap:9px; margin-bottom:26px}
+  .qs-px-forma input{
+    flex:1; min-width:0; font:inherit; font-size:14.5px; color:var(--qs-tinta);
+    background:var(--qs-campo); border:1px solid var(--qs-linea);
+    border-radius:var(--qs-radio); padding:14px 16px; outline:0;
+  }
+  .qs-px-forma input::placeholder{color:var(--qs-tinta-suave)}
+  .qs-px-forma input:focus{border-color:var(--qs-acento)}
+  .qs-px-forma button{
+    font:inherit; font-size:14.5px; font-weight:700; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:var(--qs-radio); padding:14px 24px;
+  }
+  .qs-px-avance{
+    list-style:none; margin:0; padding:22px 0 0; border-top:1px solid var(--qs-linea);
+    display:flex; flex-wrap:wrap; justify-content:center; gap:10px 26px;
+  }
+  .qs-px-avance li{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--qs-tinta-suave)}
+  .qs-px-avance svg{width:14px; height:14px; flex:none; color:var(--qs-acento)}
+  .qs-px-avance li[data-qs-listo="no"] svg{color:var(--qs-linea)}
+  @media (max-width:480px){
+    .qs-proximamente{padding:48px 20px}
+    .qs-px-forma{flex-direction:column}
+    .qs-px-forma button{width:100%}
+  }
+  </style>
+
+  <div class="qs-px-trama" aria-hidden="true"></div>
+
+  <div class="qs-px-marco">
+    <p class="qs-px-rotulo">Abrimos en octubre</p>
+    <h2>Estamos terminando la tienda</h2>
+    <p class="qs-px-texto">Ya tenemos el catálogo y los envíos resueltos. Falta cerrar el inventario para no vender algo que no está. Déjanos tu correo y te avisamos el día que abra.</p>
+
+    <form class="qs-px-forma" onsubmit="return false">
+      <label for="qs-px-mail" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)">Tu correo</label>
+      <input id="qs-px-mail" type="email" placeholder="tu@correo.com" autocomplete="email">
+      <button type="submit">Avisarme</button>
+    </form>
+
+    <ul class="qs-px-avance">
+      <!-- Punto · duplicar. data-qs-listo: si · no -->
+      <li data-qs-listo="si"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.4 7.2l1.9 1.9L9.8 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Catálogo listo</li>
+      <li data-qs-listo="si"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.4 7.2l1.9 1.9L9.8 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Envíos a todo el país</li>
+      <li data-qs-listo="no"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/></svg>Inventario en línea</li>
+    </ul>
+  </div>
+</section>

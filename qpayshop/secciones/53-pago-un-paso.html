@@ -1,0 +1,129 @@
+<!-- ============================================================
+     SECCIÓN · Pago en un paso
+     Todo en una pantalla: entrega, envío y tarjeta, con el resumen
+     al lado. Menos clics, pero pide más pantalla.
+     ============================================================ -->
+<section class="qs-pago-un-paso">
+  <style>
+  .qs-pago-un-paso{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF9F6;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de los bloques          */
+    --qs-tinta:       #16151A;   /* color del texto               */
+    --qs-tinta-suave: #6C6A73;   /* rótulos y ayudas              */
+    --qs-acento:      #16151A;   /* botón y foco de los campos    */
+    --qs-linea:       #E6E4DD;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pago-un-paso, .qs-pago-un-paso *{box-sizing:border-box}
+  .qs-pu-reja{max-width:1020px; margin:0 auto; display:grid; grid-template-columns:1fr 330px; gap:22px; align-items:start}
+  .qs-pago-un-paso h2{font-size:clamp(21px,2.7vw,27px); font-weight:700; letter-spacing:-.026em; margin:0 0 18px}
+  .qs-pu-bloque{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px; margin-bottom:14px}
+  .qs-pu-bloque h3{font-size:14px; font-weight:700; margin:0 0 15px; display:flex; align-items:center; gap:9px}
+  .qs-pu-bloque h3 i{
+    width:21px; height:21px; border-radius:50%; background:var(--qs-acento); color:var(--qs-panel);
+    font-style:normal; font-size:11.5px; font-weight:700; display:grid; place-items:center; flex:none;
+  }
+  .qs-pu-campos{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+  .qs-pu-campo{display:flex; flex-direction:column; gap:5px}
+  .qs-pu-campo.qs-ancho{grid-column:1 / -1}
+  .qs-pu-campo label{font-size:12px; font-weight:500; color:var(--qs-tinta-suave)}
+  .qs-pu-campo input, .qs-pu-campo select{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-pu-campo input:focus, .qs-pu-campo select:focus{border-color:var(--qs-acento)}
+  .qs-pu-campo small{font-size:11.5px; color:var(--qs-tinta-suave)}
+  /* El radio va ANTES de su etiqueta, no adentro: así la opción elegida
+     se pinta con `:checked + label`, que funciona en cualquier navegador.
+     `:has()` haría lo mismo con menos marcado, pero en uno viejo la opción
+     elegida no se marcaría y nadie se entera. El círculo lo dibuja ::before. */
+  .qs-pu-radio{position:absolute; opacity:0; width:0; height:0}
+  .qs-pu-opcion{
+    display:flex; align-items:flex-start; gap:11px; padding:13px; border:1px solid var(--qs-linea);
+    border-radius:11px; cursor:pointer; margin-bottom:9px;
+  }
+  .qs-pu-opcion::before{
+    content:""; width:17px; height:17px; border-radius:50%; flex:none; margin-top:1px;
+    border:1.5px solid var(--qs-linea); background:var(--qs-panel);
+  }
+  .qs-pu-radio:checked + .qs-pu-opcion{border-color:var(--qs-acento); background:color-mix(in srgb, var(--qs-acento) 4%, transparent)}
+  .qs-pu-radio:checked + .qs-pu-opcion::before{border-color:var(--qs-acento); border-width:5px}
+  .qs-pu-radio:focus-visible + .qs-pu-opcion{outline:2px solid var(--qs-acento); outline-offset:2px}
+  .qs-pu-opcion b{display:block; font-size:13.5px; font-weight:600}
+  .qs-pu-opcion span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-pu-opcion em{margin-left:auto; font-style:normal; font-size:13.5px; font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums}
+  .qs-pu-cta{
+    display:block; width:100%; text-align:center; font:inherit; font-size:15px; font-weight:700;
+    cursor:pointer; background:var(--qs-acento); color:var(--qs-panel); border:0;
+    border-radius:11px; padding:15px; text-decoration:none; margin-top:4px;
+  }
+  .qs-pu-seguro{display:flex; align-items:center; justify-content:center; gap:7px; margin:12px 0 0; font-size:12px; color:var(--qs-tinta-suave)}
+  .qs-pu-seguro svg{width:13px; height:13px}
+  .qs-pu-lado{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px; position:sticky; top:20px}
+  .qs-pu-lado h3{font-size:14px; font-weight:700; margin:0 0 14px}
+  .qs-pu-linea{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:9px; font-variant-numeric:tabular-nums}
+  .qs-pu-linea span:first-child{color:var(--qs-tinta-suave)}
+  .qs-pu-total{display:flex; justify-content:space-between; align-items:baseline; padding-top:13px; border-top:1px solid var(--qs-linea); font-variant-numeric:tabular-nums}
+  .qs-pu-total b{font-size:19px; font-weight:700}
+  @media (max-width:880px){
+    .qs-pago-un-paso{--qs-aire:32px}
+    .qs-pu-reja{grid-template-columns:1fr}
+    .qs-pu-lado{position:static; order:-1}
+    .qs-pu-campos{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-pu-reja">
+    <div>
+      <h2>Terminar la compra</h2>
+
+      <div class="qs-pu-bloque">
+        <h3><i>1</i>A dónde lo llevamos</h3>
+        <div class="qs-pu-campos">
+          <div class="qs-pu-campo"><label for="qs-pu-nom">Nombre</label><input id="qs-pu-nom" type="text" autocomplete="given-name"></div>
+          <div class="qs-pu-campo"><label for="qs-pu-ape">Apellido</label><input id="qs-pu-ape" type="text" autocomplete="family-name"></div>
+          <div class="qs-pu-campo qs-ancho"><label for="qs-pu-dir">Dirección</label><input id="qs-pu-dir" type="text" autocomplete="street-address" placeholder="Calle, número, zona"><small>Si es zona 1 a 25 de la capital, llega en 24 horas</small></div>
+          <div class="qs-pu-campo"><label for="qs-pu-dep">Departamento</label><select id="qs-pu-dep"><option>Guatemala</option><option>Sacatepéquez</option><option>Quetzaltenango</option></select></div>
+          <div class="qs-pu-campo"><label for="qs-pu-tel">Teléfono</label><input id="qs-pu-tel" type="tel" autocomplete="tel" placeholder="5555 5555"></div>
+        </div>
+      </div>
+
+      <div class="qs-pu-bloque">
+        <h3><i>2</i>Cómo lo entregamos</h3>
+        <input class="qs-pu-radio" type="radio" name="qs-pu-envio" id="qs-pu-env1" checked>
+        <label class="qs-pu-opcion" for="qs-pu-env1"><span><b>Envío a domicilio</b><span>Llega mañana antes de las 6 p. m.</span></span><em>Q 25.00</em></label>
+        <input class="qs-pu-radio" type="radio" name="qs-pu-envio" id="qs-pu-env2">
+        <label class="qs-pu-opcion" for="qs-pu-env2"><span><b>Recoger en la tienda</b><span>Zona 1 · listo hoy mismo</span></span><em>Sin costo</em></label>
+      </div>
+
+      <div class="qs-pu-bloque">
+        <h3><i>3</i>Cómo pagas</h3>
+        <div class="qs-pu-campos">
+          <div class="qs-pu-campo qs-ancho"><label for="qs-pu-tar">Número de tarjeta</label><input id="qs-pu-tar" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000"></div>
+          <div class="qs-pu-campo"><label for="qs-pu-ven">Vence</label><input id="qs-pu-ven" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA"></div>
+          <div class="qs-pu-campo"><label for="qs-pu-cvv">Código</label><input id="qs-pu-cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123"></div>
+          <div class="qs-pu-campo qs-ancho"><label for="qs-pu-cuo">Cuotas</label><select id="qs-pu-cuo"><option>Un solo pago</option><option>3 cuotas de Q 481.67</option><option>6 cuotas de Q 240.83</option><option>12 cuotas de Q 120.42</option></select></div>
+        </div>
+        <a class="qs-pu-cta" href="#">Pagar Q 1,445.00</a>
+        <p class="qs-pu-seguro">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5l4.5 1.8v3.4c0 2.7-1.9 4.7-4.5 5.5-2.6-.8-4.5-2.8-4.5-5.5V3.3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          Tu banco confirma el cobro con 3D Secure
+        </p>
+      </div>
+    </div>
+
+    <aside class="qs-pu-lado">
+      <h3>Resumen</h3>
+      <p class="qs-pu-linea"><span>2 productos</span><span>Q 1,420.00</span></p>
+      <p class="qs-pu-linea"><span>Envío</span><span>Q 25.00</span></p>
+      <p class="qs-pu-total"><span>Total</span><b>Q 1,445.00</b></p>
+    </aside>
+  </div>
+</section>

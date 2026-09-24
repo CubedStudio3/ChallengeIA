@@ -1,0 +1,121 @@
+<!-- ============================================================
+     SECCIÓN · Resumen de compra
+     El bloque que acompaña al pago: qué llevas, cuánto es y con qué
+     desglose. Se puede plegar, porque en celular ocupa media
+     pantalla y estorba antes de que el cliente llene sus datos.
+     ============================================================ -->
+<aside class="qs-resumen-compra">
+  <style>
+  .qs-resumen-compra{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F6F5;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del resumen             */
+    --qs-tinta:       #0F211F;   /* color del texto               */
+    --qs-tinta-suave: #56706D;   /* rótulos y variantes           */
+    --qs-acento:      #0E6B63;   /* descuento y enlaces           */
+    --qs-linea:       #D9E7E4;   /* líneas                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        40px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    display:block; background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-resumen-compra, .qs-resumen-compra *{box-sizing:border-box}
+  .qs-rc-caja{max-width:420px; margin:0 auto; background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-rc-alto{
+    width:100%; display:flex; align-items:center; gap:10px; padding:16px 18px; cursor:pointer;
+    background:none; border:0; border-bottom:1px solid var(--qs-linea); font:inherit; color:inherit; text-align:left;
+  }
+  .qs-rc-alto b{font-size:14.5px; font-weight:600; flex:1}
+  .qs-rc-alto span{font-size:15px; font-weight:700; font-variant-numeric:tabular-nums}
+  .qs-rc-alto svg{width:13px; height:13px; transition:transform .2s ease; color:var(--qs-acento)}
+  .qs-resumen-compra[data-qs-abierto="no"] .qs-rc-alto svg{transform:rotate(-90deg)}
+  .qs-resumen-compra[data-qs-abierto="no"] .qs-rc-cuerpo{display:none}
+  .qs-rc-lista{padding:6px 18px}
+  .qs-rc-fila{display:grid; grid-template-columns:54px 1fr auto; gap:12px; padding:13px 0; border-bottom:1px solid var(--qs-linea); align-items:center}
+  .qs-rc-fila:last-child{border-bottom:0}
+  /* El recorte va en la imagen, no en el contenedor: con `overflow:hidden`
+     acá, el globo de cantidad —que sale por la esquina— quedaba cortado. */
+  .qs-rc-foto{position:relative; display:block; width:54px; height:64px; background:transparent}
+  .qs-rc-foto svg, .qs-rc-foto img{width:100%; height:100%; object-fit:cover; display:block; border-radius:9px; background:#E4F0ED}
+  .qs-rc-globo{
+    position:absolute; top:-6px; right:-6px; min-width:19px; height:19px; border-radius:10px;
+    background:var(--qs-tinta); color:var(--qs-panel); font-size:11px; font-weight:700;
+    display:grid; place-items:center; padding:0 5px; font-variant-numeric:tabular-nums;
+  }
+  .qs-rc-datos b{display:block; font-size:13px; font-weight:600; line-height:1.35}
+  .qs-rc-datos span{display:block; font-size:11.5px; color:var(--qs-tinta-suave); margin-top:3px}
+  .qs-rc-fila > span:last-child{font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qs-rc-cupon{display:flex; gap:8px; padding:14px 18px; border-block:1px solid var(--qs-linea)}
+  .qs-rc-cupon input{
+    flex:1; min-width:0; font:inherit; font-size:13.5px; color:var(--qs-tinta);
+    background:none; border:1px solid var(--qs-linea); border-radius:9px; padding:10px 12px; outline:0;
+  }
+  .qs-rc-cupon input:focus{border-color:var(--qs-acento)}
+  .qs-rc-cupon button{
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer; flex:none;
+    background:none; color:var(--qs-tinta); border:1px solid var(--qs-tinta); border-radius:9px; padding:10px 16px;
+  }
+  .qs-rc-sumas{padding:16px 18px}
+  .qs-rc-linea{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:9px; font-variant-numeric:tabular-nums}
+  .qs-rc-linea span:first-child{color:var(--qs-tinta-suave)}
+  .qs-rc-linea.qs-verde span:last-child{color:var(--qs-acento); font-weight:600}
+  .qs-rc-total{display:flex; justify-content:space-between; align-items:baseline; padding-top:13px; border-top:1px solid var(--qs-linea); font-variant-numeric:tabular-nums}
+  .qs-rc-total b{font-size:19px; font-weight:700}
+  .qs-rc-total small{display:block; font-size:11px; color:var(--qs-tinta-suave); font-weight:400; text-align:right; margin-top:2px}
+  </style>
+
+  <div class="qs-rc-caja">
+    <button class="qs-rc-alto" type="button" aria-expanded="true">
+      <svg viewBox="0 0 13 13" fill="none"><path d="M3 5l3.5 3.5L10 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>Ver el resumen del pedido</b>
+      <span>Q 1,303.00</span>
+    </button>
+
+    <div class="qs-rc-cuerpo">
+      <div class="qs-rc-lista">
+        <!-- Artículo · duplicar. El globo lleva la cantidad. -->
+        <div class="qs-rc-fila">
+          <span class="qs-rc-foto"><svg viewBox="0 0 54 64" aria-hidden="true"><rect width="54" height="64" fill="#BDD8D2"/><rect x="16" y="12" width="22" height="40" rx="6" fill="#58867E"/></svg><span class="qs-rc-globo">1</span></span>
+          <div class="qs-rc-datos"><b>Chaqueta de lona encerada</b><span>Talla M · Arena</span></div>
+          <span>Q 890.00</span>
+        </div>
+        <div class="qs-rc-fila">
+          <span class="qs-rc-foto"><svg viewBox="0 0 54 64" aria-hidden="true"><rect width="54" height="64" fill="#E4F0ED"/><circle cx="27" cy="32" r="16" fill="#8DB5AD"/></svg><span class="qs-rc-globo">2</span></span>
+          <div class="qs-rc-datos"><b>Cinturón de cuero</b><span>Talla 34 · Café</span></div>
+          <span>Q 530.00</span>
+        </div>
+      </div>
+
+      <form class="qs-rc-cupon" onsubmit="return false">
+        <label for="qs-rc-cod" hidden>Código de descuento</label>
+        <input id="qs-rc-cod" type="text" placeholder="Código de descuento">
+        <button type="submit">Aplicar</button>
+      </form>
+
+      <div class="qs-rc-sumas">
+        <p class="qs-rc-linea"><span>Subtotal</span><span>Q 1,420.00</span></p>
+        <p class="qs-rc-linea"><span>Envío a domicilio</span><span>Q 25.00</span></p>
+        <p class="qs-rc-linea qs-verde"><span>Descuento OCTUBRE10</span><span>− Q 142.00</span></p>
+        <p class="qs-rc-total"><span>Total</span><span><b>Q 1,303.00</b><small>IVA incluido</small></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-resumen-compra').forEach(function(s){
+      var alto = s.querySelector('.qs-rc-alto');
+      if(!alto) return;
+      s.dataset.qsAbierto = "si";
+      alto.addEventListener('click', function(){
+        var abierto = s.dataset.qsAbierto !== 'no';
+        s.dataset.qsAbierto = abierto ? 'no' : 'si';
+        alto.setAttribute('aria-expanded', String(!abierto));
+      });
+    });
+  })();
+  </script>
+</aside>

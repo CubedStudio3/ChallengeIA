@@ -1,0 +1,107 @@
+<!-- ============================================================
+     SECCIÓN · Pedido en camino
+     El seguimiento del paquete. Cada paso lleva su estado en
+     data-qs-estado: hecho, actual o falta. La línea se pinta sola.
+     ============================================================ -->
+<section class="qs-pedido-camino">
+  <style>
+  .qs-pedido-camino{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F5F4F0;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de la tarjeta           */
+    --qs-tinta:       #171613;   /* color del texto               */
+    --qs-tinta-suave: #6B6862;   /* fechas y explicaciones        */
+    --qs-hecho:       #14563E;   /* pasos ya cumplidos            */
+    --qs-actual:      #B4541C;   /* el paso de ahora              */
+    --qs-falta:       #D5D2C9;   /* pasos que faltan              */
+    --qs-linea:       #E5E2DA;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pedido-camino, .qs-pedido-camino *{box-sizing:border-box}
+  .qs-pc-marco{max-width:620px; margin:0 auto}
+  .qs-pc-tarjeta{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:24px}
+  .qs-pc-alto{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-bottom:6px}
+  .qs-pedido-camino h2{font-size:clamp(19px,2.5vw,24px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-pc-folio{font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-pc-cuando{margin:0 0 22px; font-size:14px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-pc-cuando b{color:var(--qs-tinta); font-weight:600}
+  .qs-pc-pasos{list-style:none; margin:0 0 22px; padding:0}
+  .qs-pc-paso{display:flex; gap:14px; position:relative; padding-bottom:22px}
+  .qs-pc-paso:last-child{padding-bottom:0}
+  .qs-pc-punto{
+    width:15px; height:15px; flex:none; margin-top:3px; border-radius:50%;
+    background:var(--qs-falta); position:relative; z-index:1;
+  }
+  /* La línea que une los pasos sale del punto de arriba, así que la
+     dibuja cada paso menos el último. */
+  .qs-pc-paso:not(:last-child)::before{
+    content:""; position:absolute; left:7px; top:18px; bottom:0; width:1.5px;
+    background:var(--qs-falta); transform:translateX(-50%);
+  }
+  .qs-pc-paso[data-qs-estado="hecho"] .qs-pc-punto{background:var(--qs-hecho)}
+  .qs-pc-paso[data-qs-estado="hecho"]::before{background:var(--qs-hecho)}
+  .qs-pc-paso[data-qs-estado="actual"] .qs-pc-punto{background:var(--qs-actual); box-shadow:0 0 0 4px rgba(180,84,28,.16)}
+  .qs-pc-paso b{display:block; font-size:14px; font-weight:600; margin-bottom:3px}
+  .qs-pc-paso[data-qs-estado="falta"] b{color:var(--qs-tinta-suave); font-weight:500}
+  .qs-pc-paso span{display:block; font-size:12.5px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-pc-paso[data-qs-estado="actual"] b{color:var(--qs-actual)}
+  .qs-pc-guia{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px;
+    border-top:1px solid var(--qs-linea); padding-top:18px;
+  }
+  .qs-pc-guia dt{font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-tinta-suave)}
+  .qs-pc-guia dd{margin:0; font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:.02em}
+  .qs-pc-guia a{margin-left:auto; font-size:13.5px; font-weight:600; color:var(--qs-tinta); text-decoration:underline}
+  .qs-pc-ayuda{margin:16px 0 0; font-size:12.5px; line-height:1.55; color:var(--qs-tinta-suave); text-align:center}
+  .qs-pc-ayuda a{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:520px){
+    .qs-pedido-camino{--qs-aire:42px}
+    .qs-pc-tarjeta{padding:20px}
+    .qs-pc-guia a{margin-left:0; width:100%}
+  }
+  </style>
+
+  <div class="qs-pc-marco">
+    <div class="qs-pc-tarjeta">
+      <div class="qs-pc-alto">
+        <h2>Tu pedido va en camino</h2>
+        <span class="qs-pc-folio">GT-10482</span>
+      </div>
+      <p class="qs-pc-cuando">Llega <b>hoy, entre las 2 y las 6 p. m.</b> El repartidor te llama antes de tocar.</p>
+
+      <ol class="qs-pc-pasos">
+        <!-- Paso · duplicar. Estados: hecho · actual · falta -->
+        <li class="qs-pc-paso" data-qs-estado="hecho">
+          <span class="qs-pc-punto"></span>
+          <span><b>Pago confirmado</b><span>Lunes 22, 9:14 a. m.</span></span>
+        </li>
+        <li class="qs-pc-paso" data-qs-estado="hecho">
+          <span class="qs-pc-punto"></span>
+          <span><b>Salió de la bodega</b><span>Martes 23, 7:40 a. m. · Zona 12</span></span>
+        </li>
+        <li class="qs-pc-paso" data-qs-estado="actual">
+          <span class="qs-pc-punto"></span>
+          <span><b>En reparto</b><span>Hoy, 11:05 a. m. · lleva 6 entregas antes que la tuya</span></span>
+        </li>
+        <li class="qs-pc-paso" data-qs-estado="falta">
+          <span class="qs-pc-punto"></span>
+          <span><b>Entregado</b><span>Te pedimos firma en la puerta</span></span>
+        </li>
+      </ol>
+
+      <dl class="qs-pc-guia">
+        <dt>Guía</dt>
+        <dd>884 2210 5573</dd>
+        <a href="#">Ver en la mensajería</a>
+      </dl>
+    </div>
+
+    <p class="qs-pc-ayuda">¿No llegó en la ventana de hoy? <a href="#">Repórtalo acá</a> y lo revisamos el mismo día.</p>
+  </div>
+</section>
