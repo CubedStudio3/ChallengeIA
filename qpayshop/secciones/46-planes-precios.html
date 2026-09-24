@@ -1,0 +1,122 @@
+<!-- ============================================================
+     SECCIÓN · Planes y precios
+     Tres columnas con lo que incluye cada una. El plan sugerido se
+     levanta; los demás no se achican, que es lo que hace ver el
+     precio alto como castigo.
+     ============================================================ -->
+<section class="qs-planes-precios">
+  <style>
+  .qs-planes-precios{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF5F8;   /* fondo de la sección           */
+    --qs-tarjeta:     #FFFFFF;   /* fondo de cada plan            */
+    --qs-tinta:       #24131E;   /* color del texto               */
+    --qs-tinta-suave: #6E5866;   /* color de la explicación       */
+    --qs-acento:      #8E2F63;   /* plan sugerido y palomitas     */
+    --qs-borde:       #EADCE4;   /* borde de las tarjetas         */
+    --qs-radio:       18px;      /* redondeo                      */
+    --qs-moneda:      "Q";       /* símbolo de la moneda          */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-planes-precios *{box-sizing:border-box}
+  .qs-pp2-marco{max-width:1060px; margin:0 auto}
+  .qs-pp2-alto{text-align:center; max-width:46ch; margin:0 auto 38px}
+  .qs-planes-precios h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-pp2-alto p{margin:0; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-pp2-reja{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; align-items:start}
+  .qs-pp2-plan{
+    background:var(--qs-tarjeta); border:1px solid var(--qs-borde); border-radius:var(--qs-radio);
+    padding:26px 24px; display:flex; flex-direction:column; position:relative;
+  }
+  .qs-pp2-plan.qs-sugerido{border-color:var(--qs-acento); box-shadow:0 14px 34px -20px rgba(142,47,99,.55)}
+  .qs-pp2-sello{
+    position:absolute; top:-11px; left:24px; font-size:11px; font-weight:700;
+    letter-spacing:.07em; text-transform:uppercase; color:#fff;
+    background:var(--qs-acento); border-radius:6px; padding:4px 10px;
+  }
+  .qs-pp2-plan h3{font-size:17px; font-weight:700; margin:0 0 5px; letter-spacing:-.018em}
+  .qs-pp2-para{margin:0 0 18px; font-size:13px; line-height:1.45; color:var(--qs-tinta-suave); min-height:2.9em}
+  .qs-pp2-precio{display:flex; align-items:baseline; gap:4px; margin:0 0 4px; font-variant-numeric:tabular-nums}
+  .qs-pp2-precio b{font-size:34px; font-weight:800; letter-spacing:-.04em; line-height:1}
+  .qs-pp2-precio i{font-style:normal; font-size:17px; font-weight:700}
+  .qs-pp2-precio span{font-size:13px; color:var(--qs-tinta-suave); margin-left:2px}
+  .qs-pp2-nota{margin:0 0 20px; font-size:12px; color:var(--qs-tinta-suave)}
+  .qs-pp2-cta{
+    font:inherit; font-size:14.5px; font-weight:700; cursor:pointer; text-align:center;
+    background:var(--qs-tarjeta); color:var(--qs-tinta); border:1.5px solid var(--qs-tinta);
+    border-radius:11px; padding:13px 18px; text-decoration:none; margin-bottom:22px;
+  }
+  .qs-pp2-plan.qs-sugerido .qs-pp2-cta{background:var(--qs-acento); color:#fff; border-color:var(--qs-acento)}
+  .qs-pp2-lista{list-style:none; margin:0; padding:20px 0 0; border-top:1px solid var(--qs-borde); display:flex; flex-direction:column; gap:11px}
+  .qs-pp2-lista li{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; line-height:1.45}
+  .qs-pp2-lista svg{width:14px; height:14px; flex:none; margin-top:2px; color:var(--qs-acento)}
+  .qs-pp2-lista li.qs-no{color:var(--qs-tinta-suave)}
+  .qs-pp2-lista li.qs-no svg{color:var(--qs-tinta-suave); opacity:.55}
+  .qs-pp2-pie{margin:26px 0 0; text-align:center; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:860px){
+    .qs-planes-precios{--qs-aire:44px}
+    .qs-pp2-reja{grid-template-columns:1fr; gap:22px}
+    .qs-pp2-para{min-height:0}
+  }
+  </style>
+
+  <div class="qs-pp2-marco">
+    <div class="qs-pp2-alto">
+      <h2>Tres formas de vender en línea</h2>
+      <p>Sin contrato de permanencia. Cambias de plan cuando quieras y se cobra la diferencia del mes.</p>
+    </div>
+
+    <div class="qs-pp2-reja">
+      <!-- Plan · duplicar. La clase qs-sugerido levanta el del medio. -->
+      <div class="qs-pp2-plan">
+        <h3>Empieza</h3>
+        <p class="qs-pp2-para">Para probar la tienda con un catálogo corto.</p>
+        <p class="qs-pp2-precio"><i>Q</i><b>0</b><span>al mes</span></p>
+        <p class="qs-pp2-nota">Solo pagas la comisión por venta</p>
+        <a class="qs-pp2-cta" href="#">Crear cuenta gratis</a>
+        <ul class="qs-pp2-lista">
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Hasta 20 productos</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Pago con tarjeta y links</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>1 usuario</li>
+          <li class="qs-no"><svg viewBox="0 0 14 14" fill="none"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Sin dominio propio</li>
+        </ul>
+      </div>
+
+      <div class="qs-pp2-plan qs-sugerido">
+        <span class="qs-pp2-sello">El que más eligen</span>
+        <h3>Crece</h3>
+        <p class="qs-pp2-para">Para la tienda que ya vende todos los días.</p>
+        <p class="qs-pp2-precio"><i>Q</i><b>295</b><span>al mes</span></p>
+        <p class="qs-pp2-nota">Dos meses sin costo si pagas el año</p>
+        <a class="qs-pp2-cta" href="#">Empezar ahora</a>
+        <ul class="qs-pp2-lista">
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Productos sin límite</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Dominio propio</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Un inventario con el local</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>5 usuarios y permisos</li>
+        </ul>
+      </div>
+
+      <div class="qs-pp2-plan">
+        <h3>Opera</h3>
+        <p class="qs-pp2-para">Para varias sucursales y equipo grande.</p>
+        <p class="qs-pp2-precio"><i>Q</i><b>690</b><span>al mes</span></p>
+        <p class="qs-pp2-nota">Incluye asesor asignado</p>
+        <a class="qs-pp2-cta" href="#">Hablar con ventas</a>
+        <ul class="qs-pp2-lista">
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Todo lo de Crece</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Sucursales y cortes por caja</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Usuarios sin límite</li>
+          <li><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Reportes por sucursal</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="qs-pp2-pie">Los precios no incluyen IVA · La comisión por venta se cobra aparte y se ve en cada pedido</p>
+  </div>
+</section>

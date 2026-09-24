@@ -1,0 +1,106 @@
+<!-- ============================================================
+     SECCIÓN · Tabla comparativa
+     Fila por característica, columna por opción. En celular no se
+     encoge: rueda de lado, con la primera columna fija.
+     ============================================================ -->
+<section class="qs-comparativa">
+  <style>
+  .qs-comparativa{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F5F8;   /* fondo de la sección           */
+    --qs-tabla:       #FFFFFF;   /* fondo de la tabla             */
+    --qs-tinta:       #131A22;   /* color del texto               */
+    --qs-tinta-suave: #5A6B7B;   /* color de la explicación       */
+    --qs-acento:      #1E4E6B;   /* columna destacada y palomitas */
+    --qs-linea:       #DDE6ED;   /* líneas de la tabla            */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-comparativa *{box-sizing:border-box}
+  .qs-cm-marco{max-width:980px; margin:0 auto}
+  .qs-cm-alto{max-width:48ch; margin:0 0 28px}
+  .qs-comparativa h2{font-size:clamp(23px,3vw,32px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-cm-alto p{margin:0; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-cm-rueda{overflow-x:auto; border-radius:var(--qs-radio); background:var(--qs-tabla); border:1px solid var(--qs-linea)}
+  .qs-comparativa table{border-collapse:collapse; width:100%; min-width:560px}
+  .qs-comparativa th, .qs-comparativa td{padding:15px 18px; text-align:left; border-bottom:1px solid var(--qs-linea); font-size:14px}
+  .qs-comparativa thead th{
+    font-size:13px; font-weight:700; letter-spacing:.01em; vertical-align:bottom;
+    background:var(--qs-tabla); position:sticky; top:0;
+  }
+  .qs-comparativa tbody th{font-weight:500; color:var(--qs-tinta)}
+  .qs-cm-fija{position:sticky; left:0; background:var(--qs-tabla); z-index:1; min-width:200px}
+  .qs-cm-destacada{background:color-mix(in srgb, var(--qs-acento) 7%, transparent)}
+  .qs-comparativa thead .qs-cm-destacada{background:color-mix(in srgb, var(--qs-acento) 12%, var(--qs-tabla))}
+  .qs-cm-marca{
+    display:block; font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--qs-acento); margin-bottom:4px;
+  }
+  .qs-comparativa tbody tr:last-child th, .qs-comparativa tbody tr:last-child td{border-bottom:0}
+  .qs-cm-si svg{width:16px; height:16px; color:var(--qs-acento)}
+  .qs-cm-no{color:var(--qs-tinta-suave)}
+  .qs-cm-no svg{width:14px; height:14px; opacity:.5}
+  .qs-cm-pie{margin:14px 0 0; font-size:12px; color:var(--qs-tinta-suave)}
+  @media (max-width:640px){ .qs-comparativa{--qs-aire:44px} .qs-comparativa th, .qs-comparativa td{padding:13px 14px; font-size:13.5px} }
+  </style>
+
+  <div class="qs-cm-marco">
+    <div class="qs-cm-alto">
+      <h2>Qué cambia entre recoger y que te lo lleven</h2>
+      <p>Las dos opciones aparecen al pagar. Esta tabla dice en qué se diferencian.</p>
+    </div>
+
+    <div class="qs-cm-rueda" tabindex="0" role="region" aria-label="Comparación de formas de entrega">
+      <table>
+        <thead>
+          <tr>
+            <th class="qs-cm-fija"></th>
+            <th class="qs-cm-destacada"><span class="qs-cm-marca">Recomendado</span>Recoger en tienda</th>
+            <th>Envío a domicilio</th>
+            <th>Envío al interior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Fila · duplicar por cada característica -->
+          <tr>
+            <th class="qs-cm-fija">Costo</th>
+            <td class="qs-cm-destacada">Sin costo</td>
+            <td>Q 25 · gratis arriba de Q 300</td>
+            <td>Q 45</td>
+          </tr>
+          <tr>
+            <th class="qs-cm-fija">Cuándo lo tienes</th>
+            <td class="qs-cm-destacada">El mismo día</td>
+            <td>24 horas</td>
+            <td>2 días hábiles</td>
+          </tr>
+          <tr>
+            <th class="qs-cm-fija">Te avisamos por WhatsApp</th>
+            <td class="qs-cm-destacada qs-cm-si"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+            <td class="qs-cm-si"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+            <td class="qs-cm-si"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <th class="qs-cm-fija">Puedes probártelo antes de llevártelo</th>
+            <td class="qs-cm-destacada qs-cm-si"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+            <td class="qs-cm-no"><svg viewBox="0 0 14 14" fill="none"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></td>
+            <td class="qs-cm-no"><svg viewBox="0 0 14 14" fill="none"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></td>
+          </tr>
+          <tr>
+            <th class="qs-cm-fija">Pago contra entrega</th>
+            <td class="qs-cm-destacada qs-cm-no"><svg viewBox="0 0 14 14" fill="none"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></td>
+            <td class="qs-cm-si"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+            <td class="qs-cm-no"><svg viewBox="0 0 14 14" fill="none"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="qs-cm-pie">En celular la tabla rueda de lado y la primera columna se queda fija.</p>
+  </div>
+</section>

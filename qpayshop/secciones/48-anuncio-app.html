@@ -1,0 +1,100 @@
+<!-- ============================================================
+     SECCIÓN · Anuncio de la app
+     Bloque para bajar la aplicación, con la pantalla del teléfono
+     dibujada en CSS: no hace falta ninguna captura.
+     ============================================================ -->
+<section class="qs-anuncio-app">
+  <style>
+  .qs-anuncio-app{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #0E241C;   /* fondo de la sección           */
+    --qs-tinta:       #E9F4EE;   /* color del texto               */
+    --qs-tinta-suave: #8CA89A;   /* color de la bajada            */
+    --qs-acento:      #C9E86B;   /* detalle y estrellas           */
+    --qs-boton:       #FFFFFF;   /* fondo de los botones          */
+    --qs-boton-txt:   #0E241C;   /* texto de los botones          */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta); overflow:hidden;
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px 0;
+  }
+  .qs-anuncio-app *{box-sizing:border-box}
+  .qs-aa-reja{max-width:1040px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:end}
+  .qs-aa-texto{padding-bottom:var(--qs-aire)}
+  .qs-aa-alto{font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 14px}
+  .qs-anuncio-app h2{font-size:clamp(25px,3.4vw,36px); font-weight:800; letter-spacing:-.032em; margin:0 0 12px; line-height:1.08; text-wrap:balance}
+  .qs-aa-texto > p{margin:0 0 24px; font-size:15px; line-height:1.6; color:var(--qs-tinta-suave); max-width:40ch}
+  .qs-aa-botones{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px}
+  .qs-aa-boton{
+    display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+    background:var(--qs-boton); color:var(--qs-boton-txt);
+    border-radius:12px; padding:11px 18px;
+  }
+  .qs-aa-boton svg{width:20px; height:20px; flex:none}
+  .qs-aa-boton small{display:block; font-size:10px; opacity:.7; line-height:1.2}
+  .qs-aa-boton b{display:block; font-size:14px; font-weight:700; line-height:1.25}
+  .qs-aa-nota{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-aa-estrellas{display:inline-flex; gap:2px}
+  .qs-aa-estrellas svg{width:13px; height:13px; color:var(--qs-acento)}
+  /* El teléfono va dibujado en CSS: no hace falta ninguna captura */
+  .qs-aa-tel{
+    width:236px; margin:0 auto -6px; border-radius:30px 30px 0 0;
+    border:9px solid #05110C; border-bottom:0; background:#F4F8F5;
+    padding:11px 11px 0; box-shadow:0 -14px 50px -18px rgba(0,0,0,.6);
+  }
+  .qs-aa-barra{display:flex; justify-content:space-between; align-items:center; margin-bottom:11px; padding:0 3px}
+  .qs-aa-barra span{font-size:9.5px; font-weight:700; color:#0E241C; font-variant-numeric:tabular-nums}
+  .qs-aa-barra i{width:36px; height:4px; border-radius:2px; background:#0E241C; opacity:.25}
+  .qs-aa-tarjeta{background:#fff; border-radius:12px; padding:11px; margin-bottom:9px; box-shadow:0 1px 3px rgba(0,0,0,.09)}
+  .qs-aa-tarjeta > i{display:block; height:66px; border-radius:8px; background:#D9E7DE; margin-bottom:8px}
+  .qs-aa-tarjeta b{display:block; font-size:10.5px; color:#0E241C; font-weight:600}
+  .qs-aa-tarjeta span{display:block; font-size:10.5px; color:#5F7269; margin-top:2px}
+  .qs-aa-fila{display:flex; gap:9px}
+  .qs-aa-fila .qs-aa-tarjeta{flex:1}
+  .qs-aa-fila .qs-aa-tarjeta > i{height:44px}
+  @media (max-width:800px){
+    .qs-anuncio-app{--qs-aire:44px}
+    .qs-aa-reja{grid-template-columns:1fr; gap:24px}
+    .qs-aa-texto{padding-bottom:0}
+    .qs-aa-tel{width:210px}
+  }
+  </style>
+
+  <div class="qs-aa-reja">
+    <div class="qs-aa-texto">
+      <p class="qs-aa-alto">Ya está en las tiendas</p>
+      <h2>Tu pedido, tu guía y tu factura en un solo lugar</h2>
+      <p>Avisos cuando el pedido cambia de estado, historial de compras y las devoluciones desde el mismo teléfono.</p>
+
+      <div class="qs-aa-botones">
+        <a class="qs-aa-boton" href="#">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M13.6 10.6c0-2 1.6-2.9 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .7 1 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6s1.6.6 2.6.6c1.1 0 1.8-1 2.5-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.1-.8-2.3-3.1zM11.8 4.6c.5-.7.9-1.6.8-2.6-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.1z"/></svg>
+          <span><small>Bájala en</small><b>App Store</b></span>
+        </a>
+        <a class="qs-aa-boton" href="#">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3.3 2.4c-.2.2-.3.5-.3.9v13.4c0 .4.1.7.3.9l.1.1 7.5-7.5v-.2L3.4 2.4zM14 12.5l-2.5-2.5 2.5-2.5 3 1.7c.8.5.8 1.3 0 1.7zM11.1 10.7L3.7 18c.3.3.7.3 1.2 0l8.7-4.9zM13.6 6.9L4.9 2c-.5-.3-.9-.2-1.2 0l7.4 7.4z"/></svg>
+          <span><small>Bájala en</small><b>Google Play</b></span>
+        </a>
+      </div>
+
+      <p class="qs-aa-nota">
+        <span class="qs-aa-estrellas" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 4.4 4.8.5-3.6 3.2 1 4.7L8 11.4 3.8 13.8l1-4.7L1.2 5.9 6 5.4z"/></svg></span>
+        4.7 de 5 · 1,204 calificaciones
+      </p>
+    </div>
+
+    <!-- El teléfono está dibujado con CSS. Para una captura real:
+         reemplazar todo el bloque .qs-aa-tel por <img src="app.png" alt="..."> -->
+    <div class="qs-aa-tel" aria-hidden="true">
+      <div class="qs-aa-barra"><span>9:41</span><i></i></div>
+      <div class="qs-aa-tarjeta"><i></i><b>Pedido #4821</b><span>En ruta · llega hoy</span></div>
+      <div class="qs-aa-fila">
+        <div class="qs-aa-tarjeta"><i></i><b>Q 890</b><span>Chaqueta</span></div>
+        <div class="qs-aa-tarjeta"><i></i><b>Q 420</b><span>Pantalón</span></div>
+      </div>
+    </div>
+  </div>
+</section>

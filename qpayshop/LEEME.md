@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-Biblioteca de **36 secciones** de tienda en línea para dar variedad a las
+Biblioteca de **48 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -47,6 +47,18 @@ para copiar.
 | 34 | `secciones/34-notas-blog.html` | Contenido | Tres notas con categoría, autor y fecha |
 | 35 | `secciones/35-galeria-social.html` | Contenido | Fotos de la cuenta con el usuario encima |
 | 36 | `secciones/36-testimonio-destacado.html` | Contenido | Una sola cita, grande, sobre foto |
+| 37 | `secciones/37-encabezado-tienda.html` | Estructura | Logo, menú, buscador, cuenta y carrito. Se queda pegado arriba |
+| 38 | `secciones/38-pie-tienda.html` | Estructura | Cuatro columnas, suscripción, redes y medios de pago |
+| 39 | `secciones/39-barra-filtros.html` | Estructura | Conteo, orden y filtros puestos con su X |
+| 40 | `secciones/40-hero-video.html` | Hero | Video a sangre, en silencio y en bucle |
+| 41 | `secciones/41-tiles-mitad.html` | Productos | Dos bloques enormes por fila, con dos enlaces cada uno |
+| 42 | `secciones/42-lookbook-puntos.html` | Productos | Foto de ambiente con puntos que abren cada producto |
+| 43 | `secciones/43-metricas.html` | Contenido | Números grandes, cada uno con su fuente |
+| 44 | `secciones/44-pasos.html` | Contenido | Cómo funciona, en pasos numerados |
+| 45 | `secciones/45-preguntas.html` | Contenido | Acordeón de preguntas, con `<details>` nativo |
+| 46 | `secciones/46-planes-precios.html` | Contenido | Tres planes con lo que incluye cada uno |
+| 47 | `secciones/47-comparativa.html` | Contenido | Tabla comparativa que rueda de lado en celular |
+| 48 | `secciones/48-anuncio-app.html` | Banner | Descarga de la app, con el teléfono dibujado en CSS |
 
 ## Cómo se instala
 
@@ -173,6 +185,44 @@ solo la primera; los ZIP llegaron completos.
 Hacen falta, por proporción: 16:9 para heroes y banners, 1:1 para fichas de
 producto, 3:4 para rejillas y carrusel, 9:16 para el carrusel de videos y 3:2
 para categorías.
+
+## Cómo se navega el catálogo
+
+Con 48 secciones una lista plana dejó de servir. El catálogo tiene ahora:
+
+- **Índice lateral fijo** con las seis categorías y las 48 secciones numeradas.
+  Sigue la lectura: la sección que estás viendo se marca sola y el índice se
+  arrastra para que no la tengas que buscar.
+- **Grupos por categoría** en la lista, con su conteo. Al filtrar o buscar, el
+  conteo dice «7 de 12» en vez de mentir con el total.
+- **Buscador** por nombre, formato, archivo o variable.
+- **Vistas previas a escala real.** El marco dibuja la sección al ancho de
+  verdad del dispositivo —1280, 768 o 390 px— y la escala para que quepa en la
+  columna. Antes el marco medía lo que midiera la columna, así que «Escritorio»
+  terminaba enseñando la maquetación de tableta.
+- **Los altos de cada vista previa están MEDIDOS**, no estimados: se renderizan
+  las 48 a los tres anchos y se lee su alto real. Los que había escritos a ojo
+  cortaban el contenido en cuanto el marco pasó a 1280 px.
+- **Selección múltiple** y copia conjunta, como antes.
+
+## De dónde salieron los formatos
+
+Se midió la estructura real de las portadas de **Shopify** y **Nike**, y de
+similares que sí respondieron: **Stripe, Allbirds, Monzo y Apple**. Revolut,
+Zara, Adidas y siteinspire están tras protección antibots y no se pudieron
+leer; queda dicho para que nadie suponga que se miraron.
+
+De ahí salen: los tiles a media pantalla (Apple), la franja de métricas con
+fuente (Shopify, Monzo), el lookbook con puntos, la tabla comparativa, los
+planes y los pasos numerados.
+
+## Prueba de las secciones
+
+    bash qpayshop/pruebas/revisa-secciones.sh
+
+Revisa las 48 a 1280, 768 y 390 px y reporta solo defectos reales: elementos
+que desbordan sin que nadie los recorte, y elementos que tapan texto. Fuerza el
+ancho con un iframe porque el navegador sin ventana no baja de 485 px.
 
 ## De dónde salen los archivos
 

@@ -1,0 +1,82 @@
+<!-- ============================================================
+     SECCIÓN · Tiles a media pantalla
+     Dos bloques enormes por fila, cada uno con su titular, su
+     bajada y dos enlaces. Es la maquetación de las portadas que
+     tienen pocos productos pero muy caros.
+     ============================================================ -->
+<section class="qs-tiles-mitad">
+  <style>
+  .qs-tiles-mitad{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F6F5;   /* fondo entre los tiles         */
+    --qs-tile:        #FFFFFF;   /* fondo de cada tile            */
+    --qs-tinta:       #0F211F;   /* color del titular             */
+    --qs-tinta-suave: #56706D;   /* color de la bajada            */
+    --qs-acento:      #0E6B63;   /* color de los enlaces          */
+    --qs-alto:        520px;     /* alto de cada tile             */
+    --qs-radio:       20px;      /* redondeo                      */
+    --qs-hueco:       12px;      /* separación entre tiles        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-hueco) var(--qs-hueco) 0;
+  }
+  .qs-tiles-mitad *{box-sizing:border-box}
+  .qs-tm-reja{display:grid; grid-template-columns:1fr 1fr; gap:var(--qs-hueco)}
+  .qs-tm-tile{
+    background:var(--qs-tile); border-radius:var(--qs-radio); overflow:hidden;
+    min-height:var(--qs-alto); display:flex; flex-direction:column;
+    align-items:center; text-align:center; padding:52px 32px 0; position:relative;
+  }
+  .qs-tm-tile.qs-oscuro{background:#0F211F; color:#EAF3F1}
+  .qs-tm-tile.qs-oscuro .qs-tm-bajada{color:#9BB5B1}
+  .qs-tm-tile.qs-oscuro .qs-tm-enlaces a{color:#7FD4C6}
+  .qs-tm-alto{font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; margin:0 0 14px; color:var(--qs-acento)}
+  .qs-tiles-mitad h3{font-size:clamp(26px,3.4vw,40px); font-weight:800; letter-spacing:-.035em; line-height:1.05; margin:0 0 12px; text-wrap:balance}
+  .qs-tm-bajada{font-size:16px; line-height:1.5; color:var(--qs-tinta-suave); margin:0 0 20px; max-width:34ch}
+  .qs-tm-enlaces{display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin-bottom:30px}
+  .qs-tm-enlaces a{
+    font-size:14.5px; font-weight:600; color:var(--qs-acento); text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .qs-tm-enlaces svg{width:13px; height:13px; transition:transform .16s ease}
+  .qs-tm-enlaces a:hover svg{transform:translateX(3px)}
+  .qs-tm-visual{
+    margin-top:auto; width:100%; max-width:420px; aspect-ratio:16/10;
+    border-radius:14px 14px 0 0; overflow:hidden;
+  }
+  .qs-tm-visual svg, .qs-tm-visual img{width:100%; height:100%; object-fit:cover; display:block}
+  @media (max-width:860px){
+    .qs-tiles-mitad{--qs-alto:420px}
+    .qs-tm-reja{grid-template-columns:1fr}
+    .qs-tm-tile{padding:40px 22px 0}
+  }
+  </style>
+
+  <div class="qs-tm-reja">
+    <!-- Tile · duplicar. La clase qs-oscuro lo invierte. -->
+    <div class="qs-tm-tile">
+      <p class="qs-tm-alto">Nuevo</p>
+      <h3>Línea Taller 26</h3>
+      <p class="qs-tm-bajada">Nueve piezas de lona encerada, cosidas para aguantar diez años de uso diario.</p>
+      <div class="qs-tm-enlaces">
+        <a href="#">Ver la línea <svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#">Cómo se hace <svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <!-- Reemplazar el <svg> por: <img src="tile.jpg" alt="Descripción"> -->
+      <div class="qs-tm-visual"><svg viewBox="0 0 420 262" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="420" height="262" fill="#BDD8D2"/><circle cx="300" cy="90" r="110" fill="#8DB5AD" opacity=".85"/><path d="M0 190c110-30 210 30 320-10l100-20v102H0z" fill="#58867E"/></svg></div>
+    </div>
+
+    <div class="qs-tm-tile qs-oscuro">
+      <p class="qs-tm-alto" style="color:#7FD4C6">Hecho por encargo</p>
+      <h3>Tu medida, en ocho días</h3>
+      <p class="qs-tm-bajada">Tomamos las medidas en la tienda o las mandas por chat. Un solo precio, sin recargo por talla.</p>
+      <div class="qs-tm-enlaces">
+        <a href="#">Pedir una cita <svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#">Ver ejemplos <svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="qs-tm-visual"><svg viewBox="0 0 420 262" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="420" height="262" fill="#2C554F"/><rect x="120" y="40" width="180" height="200" rx="26" fill="#58867E" opacity=".9"/><circle cx="210" cy="110" r="44" fill="#BDD8D2" opacity=".8"/></svg></div>
+    </div>
+  </div>
+</section>

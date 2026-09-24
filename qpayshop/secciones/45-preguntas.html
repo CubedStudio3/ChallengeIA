@@ -1,0 +1,97 @@
+<!-- ============================================================
+     SECCIÓN · Preguntas frecuentes
+     Acordeón hecho con <details>, que es HTML nativo: abre y
+     cierra sin una línea de JavaScript, y el buscador de Google
+     lo entiende.
+     ============================================================ -->
+<section class="qs-preguntas">
+  <style>
+  .qs-preguntas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF9F6;   /* fondo de la sección           */
+    --qs-tinta:       #16151A;   /* color de la pregunta          */
+    --qs-tinta-suave: #6C6A73;   /* color de la respuesta         */
+    --qs-acento:      #B0402F;   /* signo y enlaces               */
+    --qs-linea:       #E6E4DD;   /* líneas entre preguntas        */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-preguntas *{box-sizing:border-box}
+  .qs-pr-reja{max-width:1020px; margin:0 auto; display:grid; grid-template-columns:.8fr 1.2fr; gap:48px; align-items:start}
+  .qs-preguntas h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 12px; text-wrap:balance}
+  .qs-pr-lado p{margin:0 0 20px; font-size:15px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-pr-lado a{
+    font-size:14px; font-weight:600; color:var(--qs-acento); text-decoration:none;
+    border-bottom:1.5px solid currentColor; padding-bottom:2px;
+  }
+  .qs-pr-item{border-top:1px solid var(--qs-linea)}
+  .qs-pr-item:last-child{border-bottom:1px solid var(--qs-linea)}
+  .qs-pr-item summary{
+    list-style:none; cursor:pointer; padding:19px 38px 19px 0; position:relative;
+    font-size:15.5px; font-weight:600; line-height:1.4;
+  }
+  .qs-pr-item summary::-webkit-details-marker{display:none}
+  .qs-pr-item summary::after{
+    content:""; position:absolute; right:6px; top:50%; width:11px; height:11px;
+    margin-top:-6px; border-right:2px solid var(--qs-acento); border-bottom:2px solid var(--qs-acento);
+    transform:rotate(45deg); transition:transform .18s ease;
+  }
+  .qs-pr-item[open] summary::after{transform:rotate(-135deg); margin-top:-2px}
+  .qs-pr-item summary:focus-visible{outline:2px solid var(--qs-tinta); outline-offset:-3px; border-radius:6px}
+  .qs-pr-cuerpo{padding:0 32px 20px 0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-pr-cuerpo p{margin:0 0 10px}
+  .qs-pr-cuerpo p:last-child{margin:0}
+  .qs-pr-cuerpo strong{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:800px){
+    .qs-preguntas{--qs-aire:44px}
+    .qs-pr-reja{grid-template-columns:1fr; gap:24px}
+  }
+  </style>
+
+  <div class="qs-pr-reja">
+    <div class="qs-pr-lado">
+      <h2>Lo que más nos preguntan</h2>
+      <p>Si tu duda no está acá, escríbenos por WhatsApp: contestamos de lunes a sábado, de 8 a 18 horas.</p>
+      <a href="#">Escribir por WhatsApp</a>
+    </div>
+
+    <div>
+      <!-- Pregunta · duplicar. Es <details>: abre y cierra solo, sin JavaScript. -->
+      <details class="qs-pr-item" open>
+        <summary>¿Cuánto tarda el envío?</summary>
+        <div class="qs-pr-cuerpo">
+          <p><strong>24 horas dentro de la capital</strong> si el pedido entra antes de las 3 de la tarde. Al resto del país, dos días hábiles.</p>
+          <p>El envío no tiene costo en compras arriba de Q 300.</p>
+        </div>
+      </details>
+      <details class="qs-pr-item">
+        <summary>¿Puedo pagar en cuotas?</summary>
+        <div class="qs-pr-cuerpo">
+          <p>Sí, con tarjeta de crédito de bancos del país: <strong>3, 6 o 12 cuotas</strong>. Se elige al momento de pagar, sin trámite aparte.</p>
+        </div>
+      </details>
+      <details class="qs-pr-item">
+        <summary>¿Qué pasa si no me queda?</summary>
+        <div class="qs-pr-cuerpo">
+          <p>Tienes <strong>15 días</strong> para cambiarlo, con la etiqueta puesta y el comprobante. El primer cambio no tiene costo de envío.</p>
+        </div>
+      </details>
+      <details class="qs-pr-item">
+        <summary>¿Es seguro pagar aquí?</summary>
+        <div class="qs-pr-cuerpo">
+          <p>Cada compra con tarjeta pasa por <strong>3D Secure</strong>, que pide la confirmación de tu banco. La tienda nunca ve ni guarda el número de tu tarjeta.</p>
+        </div>
+      </details>
+      <details class="qs-pr-item">
+        <summary>¿Puedo recoger en la tienda?</summary>
+        <div class="qs-pr-cuerpo">
+          <p>Sí. Lo eliges al pagar y te avisamos cuando esté listo, normalmente <strong>el mismo día</strong>. Se guarda cinco días.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

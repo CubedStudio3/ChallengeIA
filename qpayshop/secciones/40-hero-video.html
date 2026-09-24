@@ -1,0 +1,86 @@
+<!-- ============================================================
+     SECCIÓN · Hero con video
+     Video a sangre, en silencio y en bucle, con el texto encima.
+     Mientras no haya archivo, el propio <video> muestra un fondo
+     animado: la sección nunca se ve rota.
+     ============================================================ -->
+<section class="qs-hero-video">
+  <style>
+  .qs-hero-video{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-alto:        560px;     /* alto de la sección            */
+    --qs-tinta:       #FFFFFF;   /* color del texto               */
+    --qs-velo:        .52;       /* oscurecido del video (0 a 1)  */
+    --qs-acento:      #FFFFFF;   /* fondo del botón               */
+    --qs-acento-txt:  #0C1220;   /* texto del botón               */
+    --qs-fondo-a:     #25324A;   /* color del fondo mientras carga*/
+    --qs-fondo-b:     #0C1220;   /* segundo color del fondo       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; isolation:isolate; overflow:hidden;
+    min-height:var(--qs-alto); display:grid; align-items:end;
+    color:var(--qs-tinta); background:var(--qs-fondo-b);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:56px 24px 40px;
+  }
+  .qs-hero-video *{box-sizing:border-box}
+  .qs-hv-video{
+    position:absolute; inset:0; z-index:-2; width:100%; height:100%;
+    object-fit:cover; display:block; border:0;
+    /* Fondo del propio <video>: es lo que se ve si el archivo aún no está */
+    background:linear-gradient(115deg, var(--qs-fondo-a), var(--qs-fondo-b), var(--qs-fondo-a));
+    background-size:220% 220%;
+    animation:qs-hv-mover 14s ease-in-out infinite;
+  }
+  @keyframes qs-hv-mover{ 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  @media (prefers-reduced-motion: reduce){ .qs-hv-video{animation:none} }
+  .qs-hero-video::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(0deg, rgba(0,0,0,calc(var(--qs-velo) + .25)) 0%, rgba(0,0,0,calc(var(--qs-velo) * .5)) 60%, rgba(0,0,0,calc(var(--qs-velo) * .3)) 100%);
+  }
+  .qs-hv-caja{max-width:1180px; margin:0 auto; width:100%; display:grid; grid-template-columns:1fr auto; gap:30px; align-items:end}
+  .qs-hv-alto{
+    display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; margin:0 0 16px; opacity:.9;
+  }
+  .qs-hv-alto i{width:7px; height:7px; border-radius:50%; background:#E0574F; animation:qs-hv-latir 2s ease-in-out infinite}
+  @keyframes qs-hv-latir{ 0%,100%{opacity:1} 50%{opacity:.35} }
+  .qs-hero-video h2{
+    font-size:clamp(30px,5.4vw,58px); line-height:1.02; letter-spacing:-.035em;
+    font-weight:800; margin:0 0 14px; max-width:16ch; text-wrap:balance;
+  }
+  .qs-hv-caja > div > p{margin:0; font-size:16px; line-height:1.55; opacity:.85; max-width:44ch}
+  .qs-hv-cta{
+    font:inherit; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:12px; padding:16px 32px; display:inline-block; white-space:nowrap;
+  }
+  .qs-hv-silencio{
+    display:inline-flex; align-items:center; gap:7px; margin-top:14px;
+    font-size:12px; opacity:.6;
+  }
+  .qs-hv-silencio svg{width:13px; height:13px}
+  @media (max-width:760px){
+    .qs-hero-video{--qs-alto:480px; padding:44px 20px 32px}
+    .qs-hv-caja{grid-template-columns:1fr; gap:22px; align-items:start}
+  }
+  </style>
+
+  <!-- Poner el archivo del cliente en src y poster. Mientras no estén, se ve el
+       fondo animado del propio <video> y la sección no se rompe. -->
+  <video class="qs-hv-video" autoplay muted loop playsinline preload="metadata"
+         src="video/taller.mp4" poster="video/taller.jpg" aria-hidden="true"></video>
+
+  <div class="qs-hv-caja">
+    <div>
+      <p class="qs-hv-alto"><i></i>En vivo desde el taller</p>
+      <h2>Cada pieza pasa por seis pares de manos</h2>
+      <p>Grabado un martes cualquiera en Totonicapán. Sin actores, sin guion, sin música.</p>
+      <p class="qs-hv-silencio">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2 5.5h2.2L7 3v8L4.2 8.5H2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9.5 5l3 4M12.5 5l-3 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        El video va en silencio y en bucle
+      </p>
+    </div>
+    <a class="qs-hv-cta" href="#">Ver cómo se hace</a>
+  </div>
+</section>

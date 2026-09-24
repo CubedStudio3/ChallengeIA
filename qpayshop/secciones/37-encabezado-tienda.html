@@ -1,0 +1,97 @@
+<!-- ============================================================
+     SECCIÓN · Encabezado de tienda
+     Logo, menú, buscador, cuenta y carrito con su contador. Se
+     queda pegado arriba al bajar. Es lo primero que ve el cliente
+     y lo primero que IT necesita.
+     ============================================================ -->
+<header class="qs-encabezado-tienda">
+  <style>
+  .qs-encabezado-tienda{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo del encabezado          */
+    --qs-tinta:       #16151A;   /* color del texto y el logo     */
+    --qs-tinta-suave: #6C6A73;   /* color del menú en reposo      */
+    --qs-acento:      #16151A;   /* subrayado del menú activo     */
+    --qs-globo:       #B0402F;   /* fondo del contador del carrito*/
+    --qs-borde:       #E6E4DD;   /* línea de abajo                */
+    --qs-aviso:       #16151A;   /* franja de aviso de arriba     */
+    --qs-alto:        64px;      /* alto de la barra              */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    border-bottom:1px solid var(--qs-borde);
+    position:sticky; top:0; z-index:50;
+  }
+  .qs-encabezado-tienda *{box-sizing:border-box}
+  .qs-et-aviso{
+    background:var(--qs-aviso); color:#fff; text-align:center;
+    font-size:12.5px; padding:9px 16px;
+  }
+  .qs-et-aviso b{font-weight:600}
+  .qs-et-barra{
+    max-width:1280px; margin:0 auto; min-height:var(--qs-alto);
+    display:flex; align-items:center; gap:22px; padding:0 24px;
+  }
+  .qs-et-logo{
+    font-size:19px; font-weight:800; letter-spacing:-.04em; text-decoration:none;
+    color:var(--qs-tinta); flex:none; white-space:nowrap;
+  }
+  .qs-et-menu{display:flex; gap:22px; list-style:none; margin:0; padding:0; flex:1; min-width:0}
+  .qs-et-menu a{
+    font-size:14px; font-weight:500; color:var(--qs-tinta-suave); text-decoration:none;
+    padding:6px 0; border-bottom:2px solid transparent; white-space:nowrap;
+  }
+  .qs-et-menu a:hover, .qs-et-menu a[aria-current="page"]{color:var(--qs-tinta); border-bottom-color:var(--qs-acento)}
+  .qs-et-util{display:flex; align-items:center; gap:6px; flex:none}
+  .qs-et-icono{
+    width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+    background:none; border:0; cursor:pointer; color:var(--qs-tinta); position:relative;
+  }
+  .qs-et-icono:hover{background:var(--qs-borde)}
+  .qs-et-icono svg{width:19px; height:19px}
+  .qs-et-globo{
+    position:absolute; top:4px; right:3px; min-width:17px; height:17px; border-radius:9px;
+    background:var(--qs-globo); color:#fff; font-size:10.5px; font-weight:700;
+    display:grid; place-items:center; padding:0 4px; font-variant-numeric:tabular-nums;
+  }
+  .qs-et-hamburguesa{display:none}
+  @media (max-width:860px){
+    .qs-et-menu{display:none}
+    .qs-et-hamburguesa{display:grid}
+    .qs-et-barra{gap:10px}
+    .qs-et-logo{flex:1}
+  }
+  </style>
+
+  <div class="qs-et-aviso"><b>Envío sin costo</b> en compras arriba de Q 300 · Entrega en 24 horas</div>
+
+  <div class="qs-et-barra">
+    <button class="qs-et-icono qs-et-hamburguesa" type="button" aria-label="Abrir el menú">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <a class="qs-et-logo" href="#">Qpayshop</a>
+
+    <ul class="qs-et-menu">
+      <li><a href="#" aria-current="page">Novedades</a></li>
+      <li><a href="#">Ropa</a></li>
+      <li><a href="#">Calzado</a></li>
+      <li><a href="#">Accesorios</a></li>
+      <li><a href="#">Rebajas</a></li>
+    </ul>
+
+    <div class="qs-et-util">
+      <button class="qs-et-icono" type="button" aria-label="Buscar">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M13.5 13.5L18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <button class="qs-et-icono" type="button" aria-label="Mi cuenta">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M3.6 17c.7-3.6 3.2-5.4 6.4-5.4s5.7 1.8 6.4 5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <button class="qs-et-icono" type="button" aria-label="Carrito, 3 productos">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M4 6h12l-1.2 9.2a1.5 1.5 0 01-1.5 1.3H6.7a1.5 1.5 0 01-1.5-1.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.4 6V4.8a2.6 2.6 0 015.2 0V6" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="qs-et-globo">3</span>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,83 @@
+<!-- ============================================================
+     SECCIÓN · Franja de métricas
+     Números grandes, cada uno CON LA FUENTE de dónde salió. Un
+     dato sin fuente no convence a nadie y sí expone a un reclamo.
+     ============================================================ -->
+<section class="qs-metricas">
+  <style>
+  .qs-metricas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F5F6FB;   /* fondo de la sección           */
+    --qs-tinta:       #12142B;   /* color de los números          */
+    --qs-tinta-suave: #5B6082;   /* rótulo y fuente               */
+    --qs-acento:      #2A3A8F;   /* signo y detalle               */
+    --qs-linea:       #E0E2F0;   /* líneas divisorias             */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-metricas *{box-sizing:border-box}
+  .qs-mt-marco{max-width:1120px; margin:0 auto}
+  .qs-mt-alto{max-width:46ch; margin:0 0 34px}
+  .qs-metricas h2{font-size:clamp(23px,3vw,32px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-mt-alto p{margin:0; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-mt-reja{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0}
+  .qs-mt-dato{padding:4px 26px; border-left:1px solid var(--qs-linea)}
+  .qs-mt-dato:first-child{border-left:0; padding-left:0}
+  .qs-mt-cifra{
+    display:flex; align-items:baseline; gap:3px; margin:0 0 7px;
+    font-weight:800; letter-spacing:-.045em; line-height:1; font-variant-numeric:tabular-nums;
+  }
+  .qs-mt-cifra b{font-size:clamp(34px,4.6vw,50px)}
+  .qs-mt-cifra span{font-size:clamp(18px,2.4vw,26px); color:var(--qs-acento)}
+  .qs-mt-dato p{margin:0 0 9px; font-size:14px; font-weight:600; line-height:1.35}
+  .qs-mt-fuente{
+    display:block; font-size:11.5px; font-weight:400; line-height:1.4; color:var(--qs-tinta-suave);
+    padding-top:9px; border-top:1px solid var(--qs-linea);
+  }
+  @media (max-width:860px){
+    .qs-mt-reja{grid-template-columns:1fr 1fr; gap:26px 0}
+    .qs-mt-dato{padding:4px 20px}
+    .qs-mt-dato:nth-child(odd){border-left:0; padding-left:0}
+  }
+  @media (max-width:460px){
+    .qs-metricas{--qs-aire:44px}
+    .qs-mt-reja{grid-template-columns:1fr; gap:24px}
+    .qs-mt-dato{border-left:0; padding:0}
+  }
+  </style>
+
+  <div class="qs-mt-marco">
+    <div class="qs-mt-alto">
+      <h2>Lo que cambió desde que abrimos en línea</h2>
+      <p>Cada número dice de dónde salió. Si no se puede citar, no se publica.</p>
+    </div>
+
+    <div class="qs-mt-reja">
+      <!-- Dato · duplicar. La fuente es obligatoria: sin ella, el número no va. -->
+      <div class="qs-mt-dato">
+        <p class="qs-mt-cifra"><b>2,480</b></p>
+        <p>Pedidos despachados</p>
+        <small class="qs-mt-fuente">Panel de Qpayshop · enero a septiembre de 2026</small>
+      </div>
+      <div class="qs-mt-dato">
+        <p class="qs-mt-cifra"><b>24</b><span>h</span></p>
+        <p>Entrega dentro de la capital</p>
+        <small class="qs-mt-fuente">Promedio de 2,480 envíos · mismo periodo</small>
+      </div>
+      <div class="qs-mt-dato">
+        <p class="qs-mt-cifra"><b>4.8</b><span>/5</span></p>
+        <p>Calificación de los clientes</p>
+        <small class="qs-mt-fuente">612 reseñas verificadas de compra</small>
+      </div>
+      <div class="qs-mt-dato">
+        <p class="qs-mt-cifra"><b>1.4</b><span>%</span></p>
+        <p>Pedidos con devolución</p>
+        <small class="qs-mt-fuente">35 devoluciones sobre 2,480 pedidos</small>
+      </div>
+    </div>
+  </div>
+</section>

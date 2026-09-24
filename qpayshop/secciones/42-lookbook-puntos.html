@@ -1,0 +1,128 @@
+<!-- ============================================================
+     SECCIÓN · Lookbook con puntos
+     Una foto de ambiente con puntos encima: cada uno abre la ficha
+     del producto que aparece ahí. Vende el conjunto, no la pieza.
+     ============================================================ -->
+<section class="qs-lookbook-puntos">
+  <style>
+  .qs-lookbook-puntos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBF4F1;   /* fondo de la sección           */
+    --qs-tinta:       #241714;   /* color del texto               */
+    --qs-tinta-suave: #75605A;   /* color de la bajada            */
+    --qs-punto:       #FFFFFF;   /* fondo del punto               */
+    --qs-punto-tinta: #241714;   /* signo del punto               */
+    --qs-radio:       18px;      /* redondeo de la foto           */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-lookbook-puntos *{box-sizing:border-box}
+  .qs-lp-marco{max-width:1060px; margin:0 auto}
+  .qs-lp-alto{margin-bottom:24px; max-width:50ch}
+  .qs-lookbook-puntos h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-lp-alto p{margin:0; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-lp-escena{position:relative; border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:16/10; background:#E4CDC2}
+  .qs-lp-escena svg, .qs-lp-escena img{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-lp-punto{
+    position:absolute; width:30px; height:30px; border-radius:50%; cursor:pointer; padding:0;
+    background:var(--qs-punto); color:var(--qs-punto-tinta); border:0;
+    display:grid; place-items:center; transform:translate(-50%,-50%);
+    box-shadow:0 2px 10px rgba(0,0,0,.30);
+    transition:transform .16s ease;
+  }
+  .qs-lp-punto::before{
+    content:""; position:absolute; inset:-7px; border-radius:50%;
+    border:1.5px solid var(--qs-punto); opacity:.55;
+    animation:qs-lp-pulso 2.4s ease-out infinite;
+  }
+  @keyframes qs-lp-pulso{ 0%{transform:scale(.8); opacity:.6} 70%,100%{transform:scale(1.5); opacity:0} }
+  @media (prefers-reduced-motion: reduce){ .qs-lp-punto::before{animation:none} }
+  .qs-lp-punto:hover, .qs-lp-punto[aria-expanded="true"]{transform:translate(-50%,-50%) scale(1.12)}
+  .qs-lp-punto svg{width:13px; height:13px}
+  .qs-lp-ficha{
+    position:absolute; z-index:3; width:212px; background:#fff; color:var(--qs-tinta);
+    border-radius:12px; padding:9px; display:flex; gap:10px; align-items:center;
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.42); transform:translate(-50%,14px);
+    text-decoration:none;
+  }
+  .qs-lp-ficha[hidden]{display:none}
+  .qs-lp-ficha i{width:46px; height:46px; border-radius:8px; overflow:hidden; flex:none; background:#EFE3DD}
+  .qs-lp-ficha i svg{width:100%; height:100%; object-fit:cover}
+  .qs-lp-ficha b{display:block; font-size:12.5px; font-weight:600; line-height:1.3}
+  .qs-lp-ficha span{display:block; font-size:12.5px; font-weight:700; margin-top:2px; font-variant-numeric:tabular-nums}
+  .qs-lp-pie{margin:14px 0 0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:620px){
+    .qs-lookbook-puntos{--qs-aire:44px}
+    .qs-lp-escena{aspect-ratio:4/5}
+    .qs-lp-ficha{width:178px}
+  }
+  </style>
+
+  <div class="qs-lp-marco">
+    <div class="qs-lp-alto">
+      <h2>Todo lo que trae puesto</h2>
+      <p>Aprieta un punto para ver la pieza y su precio. Las cinco están en existencia hoy.</p>
+    </div>
+
+    <div class="qs-lp-escena">
+      <!-- Reemplazar el <svg> por: <img src="ambiente.jpg" alt="Descripción de la escena"> -->
+      <svg viewBox="0 0 1000 625" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="qslp1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4CDC2"/><stop offset="1" stop-color="#C29D8D"/></linearGradient></defs><rect width="1000" height="625" fill="url(#qslp1)"/><circle cx="500" cy="220" r="150" fill="#DEC2B6" opacity=".8"/><rect x="400" y="250" width="200" height="330" rx="40" fill="#98725F" opacity=".75"/><path d="M0 470c200-50 400 50 640-20l360-40v215H0z" fill="#60443A" opacity=".55"/></svg>
+
+      <!-- Punto · x e y en porcentaje sobre la foto. Duplicar por cada pieza. -->
+      <button class="qs-lp-punto" type="button" aria-expanded="false" aria-label="Ver la chaqueta de lona" style="left:50%; top:34%">
+        <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 2v9M2 6.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <a class="qs-lp-ficha" href="#" hidden style="left:50%; top:34%">
+        <i><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" fill="#DEC2B6"/><rect x="13" y="9" width="20" height="28" rx="5" fill="#98725F"/></svg></i>
+        <div><b>Chaqueta de lona encerada</b><span>Q 890</span></div>
+      </a>
+
+      <button class="qs-lp-punto" type="button" aria-expanded="false" aria-label="Ver el pantalón" style="left:48%; top:66%">
+        <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 2v9M2 6.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <a class="qs-lp-ficha" href="#" hidden style="left:48%; top:66%">
+        <i><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" fill="#C29D8D"/><rect x="16" y="8" width="14" height="30" rx="4" fill="#60443A"/></svg></i>
+        <div><b>Pantalón de trabajo</b><span>Q 420</span></div>
+      </a>
+
+      <button class="qs-lp-punto" type="button" aria-expanded="false" aria-label="Ver el cinturón" style="left:75%; top:52%">
+        <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 2v9M2 6.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <a class="qs-lp-ficha" href="#" hidden style="left:75%; top:52%">
+        <i><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" fill="#EFE3DD"/><circle cx="23" cy="23" r="12" fill="#98725F"/></svg></i>
+        <div><b>Cinturón de cuero</b><span>Q 265</span></div>
+      </a>
+    </div>
+
+    <p class="qs-lp-pie">Fotografía de la tienda de la zona 1 · Los precios incluyen IVA</p>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-lookbook-puntos').forEach(function(seccion){
+      var puntos = seccion.querySelectorAll('.qs-lp-punto');
+      var fichas = seccion.querySelectorAll('.qs-lp-ficha');
+      function cierra(){
+        puntos.forEach(function(p){ p.setAttribute('aria-expanded', 'false'); });
+        fichas.forEach(function(f){ f.hidden = true; });
+      }
+      puntos.forEach(function(p, i){
+        function abre(e){
+          e.stopPropagation();
+          var abierto = p.getAttribute('aria-expanded') === 'true';
+          cierra();
+          if(!abierto){ p.setAttribute('aria-expanded', 'true'); fichas[i].hidden = false; }
+        }
+        p.addEventListener('click', abre);
+        p.addEventListener('mouseenter', function(){ cierra(); p.setAttribute('aria-expanded','true'); fichas[i].hidden = false; });
+      });
+      seccion.querySelector('.qs-lp-escena').addEventListener('mouseleave', cierra);
+      document.addEventListener('click', cierra);
+    });
+  })();
+  </script>
+</section>

@@ -1,0 +1,115 @@
+<!-- ============================================================
+     SECCIÓN · Barra de filtros
+     La cabecera de un listado: cuántos productos hay, cómo
+     ordenarlos y qué filtros están puestos, con su X para quitarlos.
+     ============================================================ -->
+<div class="qs-barra-filtros">
+  <style>
+  .qs-barra-filtros{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F1F5F8;   /* fondo de la barra             */
+    --qs-tinta:       #131A22;   /* color del texto               */
+    --qs-tinta-suave: #5A6B7B;   /* conteo y rótulos              */
+    --qs-acento:      #1E4E6B;   /* filtro puesto                 */
+    --qs-borde:       #D5E0E8;   /* bordes                        */
+    --qs-radio:       999px;     /* redondeo de los chips         */
+    --qs-aire:        22px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-barra-filtros *{box-sizing:border-box}
+  .qs-bf2-marco{max-width:1180px; margin:0 auto}
+  .qs-bf2-fila{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .qs-bf2-titulo{font-size:17px; font-weight:700; letter-spacing:-.02em; margin:0}
+  .qs-bf2-conteo{font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-bf2-sep{flex:1}
+  .qs-bf2-boton{
+    font:inherit; font-size:13.5px; font-weight:500; cursor:pointer; white-space:nowrap;
+    background:#fff; color:var(--qs-tinta); border:1px solid var(--qs-borde);
+    border-radius:var(--qs-radio); padding:9px 15px; display:inline-flex; align-items:center; gap:7px;
+  }
+  .qs-bf2-boton:hover{border-color:var(--qs-acento)}
+  .qs-bf2-boton svg{width:13px; height:13px; opacity:.6}
+  .qs-bf2-boton[aria-pressed="true"]{background:var(--qs-acento); color:#fff; border-color:var(--qs-acento)}
+  .qs-bf2-boton[aria-pressed="true"] svg{opacity:1}
+  .qs-bf2-orden{display:inline-flex; align-items:center; gap:8px; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-bf2-orden select{
+    font:inherit; font-size:13.5px; color:var(--qs-tinta); cursor:pointer;
+    background:#fff; border:1px solid var(--qs-borde); border-radius:10px; padding:9px 12px;
+  }
+  .qs-bf2-puestos{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:13px}
+  .qs-bf2-puestos > span{font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-bf2-chip{
+    font:inherit; font-size:12.5px; font-weight:500; cursor:pointer;
+    background:#fff; color:var(--qs-tinta); border:1px solid var(--qs-acento);
+    border-radius:var(--qs-radio); padding:6px 9px 6px 13px; display:inline-flex; align-items:center; gap:7px;
+  }
+  .qs-bf2-chip svg{width:11px; height:11px}
+  .qs-bf2-chip:hover{background:var(--qs-acento); color:#fff}
+  .qs-bf2-limpiar{font-size:12.5px; font-weight:600; color:var(--qs-acento); background:none; border:0; cursor:pointer; padding:6px 4px; font-family:inherit}
+  @media (max-width:640px){
+    .qs-bf2-sep{flex-basis:100%; height:0}
+    .qs-bf2-orden{width:100%}
+    .qs-bf2-orden select{flex:1}
+  }
+  </style>
+
+  <div class="qs-bf2-marco">
+    <div class="qs-bf2-fila">
+      <h2 class="qs-bf2-titulo">Calzado</h2>
+      <span class="qs-bf2-conteo" data-qs-bf2-conteo>168 productos</span>
+      <span class="qs-bf2-sep"></span>
+      <button class="qs-bf2-boton" type="button" aria-pressed="false">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M1.5 3h11M3.5 7h7M5.5 11h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Filtros
+      </button>
+      <label class="qs-bf2-orden">Ordenar
+        <select aria-label="Ordenar los productos">
+          <option>Lo más nuevo</option>
+          <option>Precio: de menor a mayor</option>
+          <option>Precio: de mayor a menor</option>
+          <option>Mejor calificados</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Filtros puestos · el botón los quita y recalcula el conteo -->
+    <div class="qs-bf2-puestos">
+      <span>Filtros puestos:</span>
+      <button class="qs-bf2-chip" type="button" data-qs-quita="24">Talla 40 <svg viewBox="0 0 11 11" fill="none"><path d="M2 2l7 7M9 2l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <button class="qs-bf2-chip" type="button" data-qs-quita="31">Color negro <svg viewBox="0 0 11 11" fill="none"><path d="M2 2l7 7M9 2l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <button class="qs-bf2-chip" type="button" data-qs-quita="18">Menos de Q 500 <svg viewBox="0 0 11 11" fill="none"><path d="M2 2l7 7M9 2l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <button class="qs-bf2-limpiar" type="button">Quitar todos</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    document.querySelectorAll('.qs-barra-filtros').forEach(function(barra){
+      var conteo = barra.querySelector('[data-qs-bf2-conteo]');
+      var base = 168;   /* el total sin filtros */
+      function pinta(){
+        var puestos = barra.querySelectorAll('.qs-bf2-chip');
+        var n = base;
+        puestos.forEach(function(c){ n -= Number(c.dataset.qsQuita) || 0; });
+        conteo.textContent = Math.max(0, n) + (n === 1 ? ' producto' : ' productos');
+        var limpiar = barra.querySelector('.qs-bf2-limpiar');
+        if(limpiar) limpiar.hidden = (puestos.length === 0);
+        var fila = barra.querySelector('.qs-bf2-puestos');
+        if(fila) fila.hidden = (puestos.length === 0);
+      }
+      barra.addEventListener('click', function(e){
+        var chip = e.target.closest('.qs-bf2-chip');
+        if(chip){ chip.remove(); pinta(); return; }
+        if(e.target.closest('.qs-bf2-limpiar')){
+          barra.querySelectorAll('.qs-bf2-chip').forEach(function(c){ c.remove(); });
+          pinta();
+        }
+      });
+      pinta();   /* el conteo sale de los chips, no del HTML escrito */
+    });
+  })();
+  </script>
+</div>

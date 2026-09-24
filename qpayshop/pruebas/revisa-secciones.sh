@@ -31,4 +31,9 @@ EOF
   echo "$r" | grep -q 'SIN DEFECTOS' || malo=1
 done
 rm -rf "$TMP"
-[ $malo -eq 0 ] && echo "✓ las 36 secciones limpias a los tres anchos" || { echo "✗ hay defectos"; exit 1; }
+n=$(ls "$RAIZ"/secciones/*.html | wc -l)
+if [ $malo -eq 0 ]; then
+  echo "✓ las $n secciones limpias a los tres anchos"
+else
+  echo "✗ hay defectos"; exit 1
+fi

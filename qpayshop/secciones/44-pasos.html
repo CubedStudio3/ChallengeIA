@@ -1,0 +1,101 @@
+<!-- ============================================================
+     SECCIÓN · Cómo funciona
+     Tres o cuatro pasos numerados, con una línea que los une. Acá
+     el número SÍ es información: es el orden en que pasan.
+     ============================================================ -->
+<section class="qs-pasos">
+  <style>
+  .qs-pasos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAF7EC;   /* fondo de la sección           */
+    --qs-tinta:       #1D1C10;   /* color del texto               */
+    --qs-tinta-suave: #6B6852;   /* color de la explicación       */
+    --qs-numero:      #6B6320;   /* color del número              */
+    --qs-globo:       #FFFFFF;   /* fondo del círculo del número  */
+    --qs-linea:       #E0DAC0;   /* línea que une los pasos       */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pasos *{box-sizing:border-box}
+  .qs-ps-marco{max-width:1080px; margin:0 auto}
+  .qs-ps-alto{text-align:center; max-width:46ch; margin:0 auto 42px}
+  .qs-pasos h2{font-size:clamp(24px,3.2vw,34px); font-weight:700; letter-spacing:-.028em; margin:0 0 9px}
+  .qs-ps-alto p{margin:0; font-size:15px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-ps-lista{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:26px; position:relative}
+  /* la línea que une · va detrás de los círculos */
+  .qs-ps-lista::before{
+    content:""; position:absolute; top:23px; left:12%; right:12%; height:2px;
+    background:var(--qs-linea); z-index:0;
+  }
+  .qs-ps-paso{position:relative; z-index:1; text-align:center}
+  .qs-ps-num{
+    width:46px; height:46px; border-radius:50%; margin:0 auto 16px;
+    background:var(--qs-globo); border:2px solid var(--qs-linea); color:var(--qs-numero);
+    display:grid; place-items:center; font-size:16px; font-weight:800;
+    font-variant-numeric:tabular-nums;
+  }
+  .qs-ps-paso h3{font-size:16px; font-weight:700; letter-spacing:-.018em; margin:0 0 8px; line-height:1.3}
+  .qs-ps-paso p{margin:0; font-size:13.5px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-ps-paso time{
+    display:inline-block; margin-top:10px; font-size:11.5px; font-weight:600;
+    color:var(--qs-numero); background:var(--qs-globo); border-radius:6px; padding:4px 9px;
+  }
+  @media (max-width:860px){
+    .qs-ps-lista{grid-template-columns:1fr 1fr; gap:32px 20px}
+    .qs-ps-lista::before{display:none}
+  }
+  @media (max-width:480px){
+    .qs-pasos{--qs-aire:44px}
+    .qs-ps-lista{grid-template-columns:1fr; gap:26px}
+    .qs-ps-paso{display:grid; grid-template-columns:46px 1fr; gap:16px; text-align:left; align-items:start}
+    .qs-ps-num{margin:0}
+  }
+  </style>
+
+  <div class="qs-ps-marco">
+    <div class="qs-ps-alto">
+      <h2>De tu pedido a tu puerta</h2>
+      <p>Cuatro pasos. Te avisamos por WhatsApp en cada uno.</p>
+    </div>
+
+    <ol class="qs-ps-lista">
+      <!-- Paso · duplicar. El número es el orden real, no un adorno. -->
+      <li class="qs-ps-paso">
+        <div class="qs-ps-num">1</div>
+        <div>
+          <h3>Eliges y pagas</h3>
+          <p>Con tarjeta, en cuotas o contra entrega dentro de la capital.</p>
+          <time>2 minutos</time>
+        </div>
+      </li>
+      <li class="qs-ps-paso">
+        <div class="qs-ps-num">2</div>
+        <div>
+          <h3>Lo preparamos</h3>
+          <p>Se aparta del inventario y se empaca el mismo día si pediste antes de las 3 p. m.</p>
+          <time>Mismo día</time>
+        </div>
+      </li>
+      <li class="qs-ps-paso">
+        <div class="qs-ps-num">3</div>
+        <div>
+          <h3>Sale a ruta</h3>
+          <p>Te llega el número de guía y el nombre de quien lo lleva.</p>
+          <time>24 horas</time>
+        </div>
+      </li>
+      <li class="qs-ps-paso">
+        <div class="qs-ps-num">4</div>
+        <div>
+          <h3>Lo recibes</h3>
+          <p>Si algo no es lo que esperabas, tienes 15 días para cambiarlo.</p>
+          <time>15 días de cambio</time>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>

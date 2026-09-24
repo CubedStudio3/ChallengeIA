@@ -1,0 +1,116 @@
+<!-- ============================================================
+     SECCIÓN · Pie de tienda
+     Cuatro columnas de enlaces, suscripción, redes y medios de
+     pago. En celular las columnas se vuelven acordeones para que
+     el pie no mida una pantalla entera.
+     ============================================================ -->
+<footer class="qs-pie-tienda">
+  <style>
+  .qs-pie-tienda{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #131417;   /* fondo del pie                 */
+    --qs-tinta:       #F2F3EF;   /* color de los títulos          */
+    --qs-tinta-suave: #9A9D96;   /* color de los enlaces          */
+    --qs-acento:      #C6F24A;   /* botón y enlaces al pasar      */
+    --qs-linea:       #2A2C30;   /* líneas divisorias             */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px 28px;
+  }
+  .qs-pie-tienda *{box-sizing:border-box}
+  .qs-pt-marco{max-width:1180px; margin:0 auto}
+  .qs-pt-alto{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:start;
+    padding-bottom:36px; border-bottom:1px solid var(--qs-linea); margin-bottom:34px;
+  }
+  .qs-pt-marca{font-size:22px; font-weight:800; letter-spacing:-.04em; margin:0 0 10px}
+  .qs-pt-alto p{margin:0; font-size:14px; line-height:1.6; color:var(--qs-tinta-suave); max-width:42ch}
+  .qs-pt-campo{display:flex; gap:8px; flex-wrap:wrap}
+  .qs-pt-campo label{flex:1 1 100%; font-size:12.5px; color:var(--qs-tinta-suave); margin-bottom:3px}
+  .qs-pt-campo input{
+    flex:1; min-width:170px; font:inherit; font-size:14px; color:var(--qs-tinta);
+    background:transparent; border:1px solid var(--qs-linea); border-radius:10px; padding:12px 14px; outline:0;
+  }
+  .qs-pt-campo input:focus{border-color:var(--qs-acento)}
+  .qs-pt-campo button{
+    font:inherit; font-size:14px; font-weight:700; cursor:pointer; flex:none;
+    background:var(--qs-acento); color:var(--qs-fondo); border:0; border-radius:10px; padding:12px 22px;
+  }
+  .qs-pt-reja{display:grid; grid-template-columns:repeat(4,1fr); gap:28px}
+  .qs-pt-col h3{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin:0 0 14px}
+  .qs-pt-col ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px}
+  .qs-pt-col a{font-size:13.5px; color:var(--qs-tinta-suave); text-decoration:none}
+  .qs-pt-col a:hover{color:var(--qs-acento)}
+  .qs-pt-fondo{
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+    margin-top:34px; padding-top:22px; border-top:1px solid var(--qs-linea);
+    font-size:12px; color:var(--qs-tinta-suave);
+  }
+  .qs-pt-pagos{display:flex; gap:7px; flex-wrap:wrap}
+  .qs-pt-pagos span{
+    font-size:10.5px; font-weight:600; letter-spacing:.04em; color:var(--qs-tinta);
+    border:1px solid var(--qs-linea); border-radius:5px; padding:5px 9px;
+  }
+  .qs-pt-redes{display:flex; gap:6px}
+  .qs-pt-redes a{
+    width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
+    color:var(--qs-tinta-suave); border:1px solid var(--qs-linea);
+  }
+  .qs-pt-redes a:hover{color:var(--qs-acento); border-color:var(--qs-acento)}
+  .qs-pt-redes svg{width:16px; height:16px}
+  @media (max-width:820px){
+    .qs-pt-alto{grid-template-columns:1fr; gap:26px}
+    .qs-pt-reja{grid-template-columns:1fr 1fr; gap:24px}
+  }
+  @media (max-width:480px){ .qs-pt-reja{grid-template-columns:1fr} .qs-pie-tienda{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-pt-marco">
+    <div class="qs-pt-alto">
+      <div>
+        <p class="qs-pt-marca">Qpayshop</p>
+        <p>La tienda en línea de tu negocio, con el mismo inventario del mostrador. Cobra, controla y crece con una sola plataforma.</p>
+      </div>
+      <form class="qs-pt-campo" onsubmit="return false">
+        <label for="qs-pt-correo">Recibe las novedades antes que nadie</label>
+        <input id="qs-pt-correo" type="email" name="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+        <button type="submit">Suscribirme</button>
+      </form>
+    </div>
+
+    <div class="qs-pt-reja">
+      <!-- Columna · duplicar por cada grupo de enlaces -->
+      <div class="qs-pt-col">
+        <h3>Comprar</h3>
+        <ul><li><a href="#">Novedades</a></li><li><a href="#">Más vendidos</a></li><li><a href="#">Rebajas</a></li><li><a href="#">Tarjetas de regalo</a></li></ul>
+      </div>
+      <div class="qs-pt-col">
+        <h3>Ayuda</h3>
+        <ul><li><a href="#">Rastrear mi pedido</a></li><li><a href="#">Envíos y entregas</a></li><li><a href="#">Cambios y devoluciones</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+      </div>
+      <div class="qs-pt-col">
+        <h3>La tienda</h3>
+        <ul><li><a href="#">Quiénes somos</a></li><li><a href="#">Sucursales</a></li><li><a href="#">Trabaja con nosotros</a></li><li><a href="#">Contacto</a></li></ul>
+      </div>
+      <div class="qs-pt-col">
+        <h3>Legal</h3>
+        <ul><li><a href="#">Términos y condiciones</a></li><li><a href="#">Aviso de privacidad</a></li><li><a href="#">Política de cookies</a></li><li><a href="#">Facturación</a></li></ul>
+      </div>
+    </div>
+
+    <div class="qs-pt-fondo">
+      <span>© 2026 Qpayshop · Ciudad de Guatemala</span>
+      <div class="qs-pt-pagos">
+        <span>Visa</span><span>Mastercard</span><span>Crédito y débito</span><span>3D Secure</span><span>Hasta 12 cuotas</span>
+      </div>
+      <div class="qs-pt-redes">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="4" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="3.3" stroke="currentColor" stroke-width="1.5"/><circle cx="12.9" cy="5.1" r=".9" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 18 18" fill="none"><path d="M10.8 16V9.6h2.1l.3-2.5h-2.4V5.6c0-.7.2-1.2 1.2-1.2h1.3V2.1C13 2.1 12.2 2 11.3 2 9.4 2 8.1 3.2 8.1 5.3v1.8H6v2.5h2.1V16z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 18 18" fill="none"><path d="M2.8 15.2l1.1-3.4A6.8 6.8 0 119 15.8a6.8 6.8 0 01-3.4-.9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
