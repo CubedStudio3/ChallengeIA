@@ -14,11 +14,14 @@
     --qs-inclina:   -1.2deg;   /* inclinación; 0deg la deja recta  */
     /* ═════════════════════════════════════════════════════════ */
 
-    background:var(--qs-fondo); color:var(--qs-tinta);
     font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    margin:22px 0; overflow:hidden;   /* recorta la inclinación: no desborda la página */
+  }
+  .qs-mq-inclina{
+    background:var(--qs-fondo); color:var(--qs-tinta);
     min-height:var(--qs-alto); display:flex; align-items:center;
-    overflow:hidden; transform:rotate(var(--qs-inclina)); margin:22px 0;
-    width:102%; margin-left:-1%;
+    transform:rotate(var(--qs-inclina));
+    width:106%; margin-left:-3%;      /* de sobra para que la inclinación no deje esquinas */
   }
   .qs-marquesina *{box-sizing:border-box}
   .qs-mq-pista{display:flex; flex:none; animation:qs-mq-correr var(--qs-velocidad) linear infinite}
@@ -35,6 +38,7 @@
   </style>
 
   <!-- El grupo va DOS veces: es lo que hace que la vuelta no se note. -->
+  <div class="qs-mq-inclina">
   <div class="qs-mq-pista" aria-hidden="true">
     <div class="qs-mq-grupo">
       <span>Envío sin costo arriba de Q 300</span>
@@ -48,5 +52,6 @@
       <span>Recoge en tienda el mismo día</span>
       <span>Cambios en 15 días</span>
     </div>
+  </div>
   </div>
 </div>
