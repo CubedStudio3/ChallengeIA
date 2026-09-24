@@ -1,0 +1,94 @@
+<!-- ============================================================
+     SECCIÓN · Últimas unidades
+     Con la existencia REAL, no con un reloj inventado. La barra y
+     el número salen del mismo dato, así que no se contradicen.
+     ============================================================ -->
+<section class="qs-ultimas-unidades">
+  <style>
+  .qs-ultimas-unidades, .qs-ultimas-unidades *{box-sizing:border-box}
+  .qs-ultimas-unidades{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #FBF9F7;   /* fondo de cada tarjeta         */
+    --qs-lienzo:      #F0EDE9;   /* fondo de cada foto            */
+    --qs-tinta:       #1C1917;   /* color del texto               */
+    --qs-tinta-suave: #6B6560;   /* variantes                     */
+    --qs-alerta:      #A33818;   /* barra y aviso de existencia   */
+    --qs-canal:       #EDE6E2;   /* canal de la barra             */
+    --qs-linea:       #E7E2DD;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-uu-marco{max-width:1100px; margin:0 auto}
+  .qs-uu-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px}
+  .qs-ultimas-unidades h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-uu-sub{margin:0 0 20px; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-uu-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-uu-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-uu-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-uu-foto{background:var(--qs-lienzo); aspect-ratio:1/1}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-uu-foto svg{width:100%; height:100%; display:block}
+  .qs-uu-cuerpo{padding:13px 14px 15px}
+  .qs-uu-cuerpo b{display:block; font-size:13.5px; font-weight:600; line-height:1.35}
+  .qs-uu-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-uu-precio{margin:8px 0 12px; font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums}
+  /* El ancho del relleno y el número son el MISMO dato: si se cambia uno,
+     se cambia el otro. Una barra al 80% junto a «quedan 2» no se cree. */
+  .qs-uu-canal{display:block; height:6px; border-radius:99px; background:var(--qs-canal); overflow:hidden}
+  .qs-uu-canal i{display:block; height:100%; border-radius:99px; background:var(--qs-alerta)}
+  .qs-uu-quedan{margin:7px 0 0; font-size:12px; font-weight:600; color:var(--qs-alerta); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){ .qs-uu-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){ .qs-ultimas-unidades{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-uu-marco">
+    <div class="qs-uu-alto"><h2>Últimas unidades</h2></div>
+    <p class="qs-uu-sub">Existencia real de la bodega, al día de hoy. Cuando se acaban, se acaban: estas piezas no se vuelven a producir.</p>
+
+    <ul class="qs-uu-reja">
+      <!-- Pieza · duplicar. El ancho de la barra = quedan ÷ lote inicial -->
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#F0EDE9"/><circle cx="130" cy="112" r="54" fill="#DCD5CE"/><rect x="66" y="180" width="128" height="14" rx="7" fill="#DCD5CE"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Mochila de lona</b><span>Verde olivo · única talla</span>
+          <p class="qs-uu-precio">Q 890.00</p>
+          <span class="qs-uu-canal"><i style="width:8%"></i></span>
+          <p class="qs-uu-quedan">Quedan 2 de 25</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#EEEBE6"/><rect x="92" y="54" width="76" height="152" rx="18" fill="#D9D2CA"/><rect x="112" y="86" width="36" height="9" rx="4.5" fill="#EEEBE6"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Termo de acero</b><span>750 ml · Negro</span>
+          <p class="qs-uu-precio">Q 210.00</p>
+          <span class="qs-uu-canal"><i style="width:20%"></i></span>
+          <p class="qs-uu-quedan">Quedan 8 de 40</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#F1EFEB"/><path d="M50 190l62-92 42 56 32-38 44 74z" fill="#DBD4CC"/><circle cx="92" cy="80" r="26" fill="#DBD4CC"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Cuaderno cosido</b><span>A5 · Papel crema</span>
+          <p class="qs-uu-precio">Q 95.00</p>
+          <span class="qs-uu-canal"><i style="width:5%"></i></span>
+          <p class="qs-uu-quedan">Queda 1 de 20</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#EFECE8"/><rect x="58" y="96" width="144" height="68" rx="16" fill="#D8D1C9"/><circle cx="96" cy="130" r="18" fill="#EFECE8"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Cartera de cuero</b><span>Café · 6 tarjetas</span>
+          <p class="qs-uu-precio">Q 265.00</p>
+          <span class="qs-uu-canal"><i style="width:30%"></i></span>
+          <p class="qs-uu-quedan">Quedan 9 de 30</p>
+        </div>
+      </a></li>
+    </ul>
+  </div>
+</section>

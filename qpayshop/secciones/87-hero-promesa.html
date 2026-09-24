@@ -1,0 +1,68 @@
+<!-- ============================================================
+     SECCIÓN · Hero de promesa
+     Sin foto. Un color plano, una frase y las tres cosas que la
+     tienda cumple. Para negocios que no tienen buena fotografía
+     todavía: es mejor eso que una foto de banco de imágenes.
+     ============================================================ -->
+<section class="qs-hero-promesa">
+  <style>
+  .qs-hero-promesa, .qs-hero-promesa *{box-sizing:border-box}
+  .qs-hero-promesa{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #133B2E;   /* fondo de la sección           */
+    --qs-tinta:       #F1F6F3;   /* color del texto               */
+    --qs-tinta-suave: #A7C0B5;   /* bajada y promesas             */
+    --qs-realce:      #E5B84B;   /* palabra destacada             */
+    --qs-boton:       #F1F6F3;   /* fondo del botón               */
+    --qs-boton-txt:   #133B2E;   /* texto del botón               */
+    --qs-linea:       #24523F;   /* líneas divisorias             */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    --qs-aire:        84px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-hp-marco{max-width:760px; margin:0 auto}
+  .qs-hp-linea{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--qs-tinta-suave); margin:0 0 20px;
+  }
+  .qs-hero-promesa h2{
+    font-size:clamp(30px,5.4vw,54px); font-weight:800; line-height:1.06;
+    letter-spacing:-.036em; margin:0 0 18px; text-wrap:balance;
+  }
+  .qs-hp-realce{color:var(--qs-realce)}
+  .qs-hp-bajada{margin:0 auto 30px; font-size:16px; line-height:1.65; color:var(--qs-tinta-suave); max-width:50ch}
+  .qs-hp-cta{
+    display:inline-block; font-size:15px; font-weight:700; text-decoration:none;
+    background:var(--qs-boton); color:var(--qs-boton-txt);
+    border-radius:var(--qs-radio); padding:15px 34px;
+  }
+  .qs-hp-promesas{
+    list-style:none; margin:44px 0 0; padding:26px 0 0; border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; text-align:left;
+  }
+  .qs-hp-promesas b{display:block; font-size:14.5px; font-weight:700; margin-bottom:5px}
+  .qs-hp-promesas span{display:block; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  @media (max-width:640px){
+    .qs-hero-promesa{--qs-aire:60px}
+    .qs-hp-promesas{grid-template-columns:1fr; gap:16px}
+  }
+  </style>
+
+  <div class="qs-hp-marco">
+    <p class="qs-hp-linea">Taller propio desde 2014</p>
+    <h2>Hecho acá, para que <span class="qs-hp-realce">dure acá</span></h2>
+    <p class="qs-hp-bajada">Cosemos cada pieza en Antigua con materiales que aguantan el invierno y el sol de la costa. Si algo se descose, lo arreglamos nosotros.</p>
+    <a class="qs-hp-cta" href="#">Ver el catálogo</a>
+
+    <ul class="qs-hp-promesas">
+      <!-- Promesa · duplicar -->
+      <li><b>Envío en 24 horas</b><span>Dentro de la capital. Dos días al resto del país.</span></li>
+      <li><b>Cambios en 30 días</b><span>Con la etiqueta puesta. La recolección la pagamos nosotros.</span></li>
+      <li><b>Arreglo de por vida</b><span>Costuras y herrajes, sin costo. Traes la pieza y la revisamos.</span></li>
+    </ul>
+  </div>
+</section>

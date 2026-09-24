@@ -1,0 +1,74 @@
+<!-- ============================================================
+     SECCIÓN · Banner de dos ofertas
+     Dos promociones lado a lado, cada una con su condición
+     escrita. Una oferta sin la letra chica visible es una queja
+     esperando su turno.
+     ============================================================ -->
+<section class="qs-banner-doble">
+  <style>
+  .qs-banner-doble, .qs-banner-doble *{box-sizing:border-box}
+  .qs-banner-doble{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-uno:         #17313F;   /* fondo de la primera oferta    */
+    --qs-dos:         #6B2033;   /* fondo de la segunda oferta    */
+    --qs-tinta:       #FFFFFF;   /* color del texto               */
+    --qs-tinta-suave: rgba(255,255,255,.78); /* condición         */
+    --qs-boton:       #FFFFFF;   /* fondo del botón               */
+    --qs-radio:       18px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-bdb-reja{max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .qs-bdb-oferta{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio);
+    color:var(--qs-tinta); padding:30px; display:flex; flex-direction:column;
+    min-height:220px; text-decoration:none;
+  }
+  .qs-bdb-oferta:first-child{background:var(--qs-uno)}
+  .qs-bdb-oferta:last-child{background:var(--qs-dos)}
+  /* El adorno es CSS, no imagen: un círculo grande recortado por el bloque. */
+  .qs-bdb-oferta::after{
+    content:""; position:absolute; right:-70px; top:-70px; width:230px; height:230px;
+    border-radius:50%; background:rgba(255,255,255,.07); pointer-events:none;
+  }
+  .qs-bdb-etiqueta{
+    align-self:flex-start; border:1px solid rgba(255,255,255,.44); border-radius:99px;
+    padding:5px 12px; font-size:10.5px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:auto;
+  }
+  .qs-bdb-oferta h3{font-size:clamp(20px,2.6vw,27px); font-weight:800; letter-spacing:-.03em; line-height:1.14; margin:20px 0 8px; max-width:20ch; text-wrap:balance}
+  .qs-bdb-condicion{margin:0 0 18px; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave); max-width:34ch}
+  .qs-bdb-cta{
+    align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+    background:var(--qs-boton); color:#16161A; border-radius:99px;
+    padding:11px 22px; font-size:13.5px; font-weight:700;
+  }
+  .qs-bdb-cta svg{width:12px; height:12px}
+  @media (max-width:760px){
+    .qs-bdb-reja{grid-template-columns:1fr}
+    .qs-bdb-oferta{min-height:0; padding:24px}
+  }
+  </style>
+
+  <div class="qs-bdb-reja">
+    <!-- Oferta · duplicar -->
+    <a class="qs-bdb-oferta" href="#">
+      <span class="qs-bdb-etiqueta">Hasta el domingo</span>
+      <h3>Segunda pieza al 40%</h3>
+      <p class="qs-bdb-condicion">El descuento se aplica a la pieza de menor precio. No se junta con otros cupones.</p>
+      <span class="qs-bdb-cta">Ver lo que aplica<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+
+    <a class="qs-bdb-oferta" href="#">
+      <span class="qs-bdb-etiqueta">Todo el mes</span>
+      <h3>Envío sin costo desde Q 500</h3>
+      <p class="qs-bdb-condicion">A todo el país. El monto se cuenta antes del envío y después de descuentos.</p>
+      <span class="qs-bdb-cta">Empezar a comprar<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </div>
+</section>

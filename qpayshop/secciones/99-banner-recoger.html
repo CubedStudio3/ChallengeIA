@@ -1,0 +1,83 @@
+<!-- ============================================================
+     SECCIÓN · Recoge en tienda
+     Con el plazo, el costo y las tiendas nombradas. «Recoge en
+     tienda» sin decir en cuál ni cuándo no ahorra ninguna duda.
+     ============================================================ -->
+<section class="qs-banner-recoger">
+  <style>
+  .qs-banner-recoger, .qs-banner-recoger *{box-sizing:border-box}
+  .qs-banner-recoger{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F3F1EA;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del bloque              */
+    --qs-tinta:       #1C1A12;   /* color del texto               */
+    --qs-tinta-suave: #6B6757;   /* explicaciones                 */
+    --qs-acento:      #4A5D22;   /* ícono y sin costo             */
+    --qs-boton:       #1C1A12;   /* fondo del botón               */
+    --qs-boton-txt:   #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E4E0D2;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rec-marco{
+    max-width:1060px; margin:0 auto; background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:26px; display:grid; grid-template-columns:auto 1fr auto; gap:24px; align-items:center;
+  }
+  .qs-rec-icono{
+    width:52px; height:52px; border-radius:14px; flex:none; display:grid; place-items:center;
+    background:var(--qs-fondo); color:var(--qs-acento);
+  }
+  .qs-rec-icono svg{width:26px; height:26px}
+  .qs-banner-recoger h2{font-size:clamp(18px,2.3vw,23px); font-weight:700; letter-spacing:-.024em; margin:0 0 6px}
+  .qs-rec-texto{margin:0 0 12px; font-size:14px; line-height:1.6; color:var(--qs-tinta-suave); max-width:56ch}
+  .qs-rec-texto b{color:var(--qs-acento); font-weight:700}
+  .qs-rec-donde{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .qs-rec-donde li{
+    font-size:12px; font-weight:600; color:var(--qs-tinta-suave);
+    background:var(--qs-fondo); border:1px solid var(--qs-linea);
+    border-radius:99px; padding:5px 11px;
+  }
+  .qs-rec-cta{
+    font-size:14px; font-weight:700; text-decoration:none; white-space:nowrap;
+    background:var(--qs-boton); color:var(--qs-boton-txt);
+    border-radius:11px; padding:13px 24px;
+  }
+  @media (max-width:820px){
+    .qs-rec-marco{grid-template-columns:auto 1fr; gap:18px}
+    .qs-rec-cta{grid-column:1 / -1; text-align:center}
+  }
+  @media (max-width:480px){
+    .qs-banner-recoger{--qs-aire:32px}
+    .qs-rec-marco{grid-template-columns:1fr; padding:20px}
+  }
+  </style>
+
+  <div class="qs-rec-marco">
+    <div class="qs-rec-icono">
+      <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <path d="M3.5 9.5h19v12a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M2.5 5.5h21v4h-21z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M10.5 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div>
+      <h2>Recoge en tienda y no pagas envío</h2>
+      <p class="qs-rec-texto">Compras en línea, lo dejamos listo en <b>2 horas</b> y lo recoges cuando puedas. Te avisamos por mensaje cuando esté apartado, y lo guardamos 7 días.</p>
+      <ul class="qs-rec-donde">
+        <!-- Tienda · duplicar -->
+        <li>Zona 10 · hasta las 6 p. m.</li>
+        <li>Antigua · hasta las 7 p. m.</li>
+        <li>Quetzaltenango · jueves a domingo</li>
+      </ul>
+    </div>
+
+    <a class="qs-rec-cta" href="#">Elegir tienda</a>
+  </div>
+</section>

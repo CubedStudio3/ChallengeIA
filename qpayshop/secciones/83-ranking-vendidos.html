@@ -1,0 +1,98 @@
+<!-- ============================================================
+     SECCIÓN · Los más vendidos
+     Con el número de posición grande y el periodo declarado.
+     Un «más vendido» sin decir de cuándo no se puede comprobar.
+     ============================================================ -->
+<section class="qs-ranking-vendidos">
+  <style>
+  .qs-ranking-vendidos, .qs-ranking-vendidos *{box-sizing:border-box}
+  .qs-ranking-vendidos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #17181C;   /* fondo de la sección           */
+    --qs-tinta:       #F2F3F5;   /* color del texto               */
+    --qs-tinta-suave: #9DA1A9;   /* variantes y explicaciones     */
+    --qs-numero:      #666973;   /* color del número de posición  */
+    --qs-acento:      #D8A33A;   /* primer puesto y precio        */
+    --qs-lienzo:      #23252B;   /* fondo de cada foto            */
+    --qs-linea:       #2C2E35;   /* líneas divisorias             */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rk-marco{max-width:820px; margin:0 auto}
+  .qs-ranking-vendidos h2{font-size:clamp(20px,2.6vw,26px); font-weight:700; letter-spacing:-.026em; margin:0 0 5px}
+  .qs-rk-periodo{margin:0 0 24px; font-size:13px; color:var(--qs-tinta-suave)}
+  .qs-rk-lista{list-style:none; margin:0; padding:0}
+  .qs-rk-fila{display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid var(--qs-linea)}
+  .qs-rk-fila:last-child{border-bottom:0}
+  .qs-rk-pos{
+    font-size:34px; font-weight:800; line-height:1; letter-spacing:-.04em;
+    color:var(--qs-numero); width:48px; flex:none; text-align:right;
+    font-variant-numeric:tabular-nums; user-select:none;
+  }
+  .qs-rk-fila:first-child .qs-rk-pos{color:var(--qs-acento)}
+  .qs-rk-foto{width:62px; height:62px; flex:none; border-radius:10px; overflow:hidden; background:var(--qs-lienzo)}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-rk-foto svg{width:100%; height:100%; display:block}
+  .qs-rk-datos{flex:1; min-width:0}
+  .qs-rk-datos a{font-size:14.5px; font-weight:600; color:inherit; text-decoration:none}
+  .qs-rk-datos a:hover{text-decoration:underline}
+  .qs-rk-datos span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:3px}
+  .qs-rk-precio{font-size:15px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qs-rk-pie{
+    margin:22px 0 0; padding-top:18px; border-top:1px solid var(--qs-linea);
+    font-size:12.5px; line-height:1.6; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-ranking-vendidos{--qs-aire:42px}
+    .qs-rk-pos{font-size:26px; width:32px}
+    .qs-rk-foto{width:52px; height:52px}
+    .qs-rk-fila{gap:11px}
+  }
+  </style>
+
+  <div class="qs-rk-marco">
+    <h2>Los más vendidos</h2>
+    <p class="qs-rk-periodo">Por unidades vendidas del 1 al 22 de septiembre. Se actualiza cada lunes.</p>
+
+    <ol class="qs-rk-lista">
+      <!-- Puesto · duplicar. El número lo pone el orden de la lista -->
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">1</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><circle cx="31" cy="26" r="13" fill="#3A3D46"/><rect x="15" y="43" width="32" height="5" rx="2.5" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Mochila de lona encerada</a><span>Verde olivo · 142 vendidas</span></span>
+        <span class="qs-rk-precio">Q 890.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">2</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#212329"/><rect x="21" y="12" width="20" height="38" rx="6" fill="#383B44"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Termo de acero 750 ml</a><span>Negro mate · 118 vendidos</span></span>
+        <span class="qs-rk-precio">Q 210.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">3</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><path d="M12 46l14-22 10 14 8-10 12 18z" fill="#3A3D46"/><circle cx="22" cy="19" r="6" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Cuaderno cosido A5</a><span>Hoja lisa · 97 vendidos</span></span>
+        <span class="qs-rk-precio">Q 95.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">4</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#212329"/><circle cx="31" cy="31" r="16" fill="#383B44"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Cartera de cuero</a><span>Café · 81 vendidas</span></span>
+        <span class="qs-rk-precio">Q 265.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">5</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><rect x="12" y="24" width="38" height="16" rx="6" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Barra de cera para lona</a><span>73 vendidas</span></span>
+        <span class="qs-rk-precio">Q 60.00</span>
+      </li>
+    </ol>
+
+    <p class="qs-rk-pie">Cuenta unidades vendidas, no visitas ni «me gusta». Los productos agotados salen de la lista aunque hayan vendido más: no sirve recomendar lo que no se puede comprar.</p>
+  </div>
+</section>

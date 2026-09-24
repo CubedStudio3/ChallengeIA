@@ -1,0 +1,96 @@
+<!-- ============================================================
+     SECCIÓN · Botón de WhatsApp
+     Flotante, con el horario al lado. Un botón que promete
+     respuesta inmediata a las 11 de la noche quema la confianza:
+     este dice cuándo hay alguien y cuándo no.
+     ============================================================ -->
+<div class="qs-banner-whatsapp" data-qs-horario="dentro">
+  <style>
+  .qs-banner-whatsapp, .qs-banner-whatsapp *{box-sizing:border-box}
+  .qs-banner-whatsapp{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-boton:       #1D7D4F;   /* fondo del botón               */
+    --qs-boton-txt:   #FFFFFF;   /* texto del botón               */
+    --qs-globo:       #FFFFFF;   /* fondo del mensaje             */
+    --qs-tinta:       #16201A;   /* color del texto del mensaje   */
+    --qs-tinta-suave: #5E6D64;   /* horario                       */
+    --qs-linea:       #E0E7E2;   /* bordes                        */
+    --qs-lienzo:      #F2F5F3;   /* fondo de la demostración      */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-alto:        320px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); background:var(--qs-lienzo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-wa-hueco{padding:40px 24px; text-align:center; color:var(--qs-tinta-suave); font-size:13.5px}
+  .qs-wa-nido{position:absolute; right:20px; bottom:20px; display:flex; align-items:flex-end; gap:12px}
+  .qs-wa-globo{
+    background:var(--qs-globo); color:var(--qs-tinta); border:1px solid var(--qs-linea);
+    border-radius:var(--qs-radio); padding:14px 16px; max-width:260px;
+    box-shadow:0 10px 26px -18px rgba(16,32,24,.5);
+  }
+  .qs-wa-globo b{display:block; font-size:13.5px; font-weight:700; margin-bottom:4px}
+  .qs-wa-globo p{margin:0; font-size:12.5px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-wa-estado{display:flex; align-items:center; gap:6px; margin-top:9px; font-size:11.5px; font-weight:600}
+  .qs-wa-estado i{width:7px; height:7px; border-radius:50%; background:currentColor; flex:none}
+  .qs-banner-whatsapp[data-qs-horario="dentro"] .qs-wa-estado{color:var(--qs-boton)}
+  .qs-banner-whatsapp[data-qs-horario="fuera"] .qs-wa-estado{color:var(--qs-tinta-suave)}
+  /* Lo que se promete cambia con el horario, no el botón. Fuera de hora se
+     dice cuándo contestamos en vez de callarlo. */
+  .qs-wa-dentro, .qs-wa-fuera{display:none}
+  .qs-banner-whatsapp[data-qs-horario="dentro"] .qs-wa-dentro{display:block}
+  .qs-banner-whatsapp[data-qs-horario="fuera"] .qs-wa-fuera{display:block}
+  .qs-wa-cerrar{
+    position:absolute; top:-8px; right:-8px; width:22px; height:22px; border-radius:50%;
+    background:var(--qs-globo); border:1px solid var(--qs-linea); cursor:pointer;
+    display:grid; place-items:center; color:var(--qs-tinta-suave); padding:0;
+  }
+  .qs-wa-cerrar svg{width:9px; height:9px}
+  .qs-wa-boton{
+    width:58px; height:58px; border-radius:50%; flex:none; display:grid; place-items:center;
+    background:var(--qs-boton); color:var(--qs-boton-txt); text-decoration:none;
+    box-shadow:0 10px 24px -12px rgba(29,125,79,.8);
+  }
+  .qs-wa-boton svg{width:29px; height:29px}
+  .qs-wa-nido[hidden]{display:none}
+  @media (max-width:520px){
+    .qs-wa-globo{max-width:200px; padding:12px 13px}
+    .qs-wa-nido{right:14px; bottom:14px; gap:9px}
+  }
+  </style>
+
+  <p class="qs-wa-hueco">Acá va el contenido de la página. El botón se queda abajo a la derecha.</p>
+
+  <div class="qs-wa-nido" id="qs-wa-nido">
+    <div class="qs-wa-globo" style="position:relative">
+      <button class="qs-wa-cerrar" type="button" id="qs-wa-cerrar" aria-label="Cerrar el mensaje">
+        <svg viewBox="0 0 9 9" fill="none"><path d="M1.5 1.5l6 6M7.5 1.5l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <b>¿Te ayudamos a elegir?</b>
+      <p class="qs-wa-dentro">Escríbenos y te contesta una persona del taller, no un robot.</p>
+      <p class="qs-wa-fuera">Ya cerramos. Déjanos el mensaje y te contestamos mañana a primera hora.</p>
+      <p class="qs-wa-estado">
+        <i></i>
+        <span class="qs-wa-dentro">Contestamos ahora · hasta las 6 p. m.</span>
+        <span class="qs-wa-fuera">Fuera de horario · lunes a viernes, 8 a. m. a 6 p. m.</span>
+      </p>
+    </div>
+
+    <a class="qs-wa-boton" href="#" aria-label="Escribirnos por WhatsApp">
+      <svg viewBox="0 0 29 29" fill="currentColor" aria-hidden="true"><path d="M14.5 3C8.2 3 3.1 8.1 3.1 14.4c0 2 .5 3.9 1.5 5.6L3 26l6.2-1.6c1.6.9 3.4 1.4 5.3 1.4 6.3 0 11.4-5.1 11.4-11.4S20.8 3 14.5 3zm0 20.8c-1.7 0-3.4-.5-4.8-1.3l-.4-.2-3.7 1 1-3.6-.2-.4a9.4 9.4 0 1 1 8.1 4.5zm5.2-7c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1a7.7 7.7 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.7.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+    </a>
+  </div>
+
+  <script>
+  /* Cerrar el mensaje deja el botón: quien lo cerró no quiere leer, pero
+     puede querer escribir. En la tienda, acá se guarda que ya lo cerró. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-banner-whatsapp");
+    var globo = raiz.querySelector(".qs-wa-globo");
+    raiz.querySelector("#qs-wa-cerrar").addEventListener("click", function(){
+      globo.remove();
+    });
+  })();
+  </script>
+</div>

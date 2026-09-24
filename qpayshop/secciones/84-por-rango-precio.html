@@ -1,0 +1,89 @@
+<!-- ============================================================
+     SECCIÓN · Compra por presupuesto
+     Bloques por rango de precio. Para regalos y para quien entra
+     con una cantidad en la cabeza, no con un producto.
+     ============================================================ -->
+<section class="qs-rango-precio">
+  <style>
+  .qs-rango-precio, .qs-rango-precio *{box-sizing:border-box}
+  .qs-rango-precio{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FDF8F0;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada bloque          */
+    --qs-tinta:       #211A10;   /* color del texto               */
+    --qs-tinta-suave: #6E6252;   /* explicaciones                 */
+    --qs-acento:      #9A5A16;   /* el monto y la flecha          */
+    --qs-linea:       #EDE1CE;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rgp-marco{max-width:1060px; margin:0 auto}
+  .qs-rgp-alto{text-align:center; margin-bottom:26px}
+  .qs-rango-precio h2{font-size:clamp(20px,2.7vw,27px); font-weight:700; letter-spacing:-.028em; margin:0 0 7px}
+  .qs-rgp-alto p{margin:0 auto; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:48ch}
+  .qs-rgp-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-rgp-bloque a{
+    display:flex; flex-direction:column; height:100%; gap:5px; text-decoration:none; color:inherit;
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:22px 20px 20px;
+  }
+  .qs-rgp-bloque a:hover{border-color:var(--qs-acento)}
+  .qs-rgp-monto{
+    font-size:clamp(22px,2.6vw,28px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); font-variant-numeric:tabular-nums; line-height:1.1;
+  }
+  .qs-rgp-monto small{display:block; font-size:12px; font-weight:600; letter-spacing:.02em; color:var(--qs-tinta-suave); margin-bottom:4px}
+  .qs-rgp-bloque b{font-size:14px; font-weight:600; margin-top:6px}
+  .qs-rgp-bloque span{font-size:12.5px; line-height:1.5; color:var(--qs-tinta-suave)}
+  .qs-rgp-cuantos{
+    margin-top:auto; padding-top:14px; display:flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:600; color:var(--qs-acento);
+  }
+  .qs-rgp-cuantos svg{width:12px; height:12px}
+  @media (max-width:880px){ .qs-rgp-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){
+    .qs-rango-precio{--qs-aire:42px}
+    .qs-rgp-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-rgp-marco">
+    <div class="qs-rgp-alto">
+      <h2>Compra por presupuesto</h2>
+      <p>Si ya sabes cuánto quieres gastar, empieza por acá. Los precios ya llevan IVA.</p>
+    </div>
+
+    <ul class="qs-rgp-reja">
+      <!-- Rango · duplicar -->
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>Menos de</small>Q 150</span>
+        <b>Para el intercambio</b>
+        <span>Lo que se regala en la oficina sin quedar mal.</span>
+        <span class="qs-rgp-cuantos">42 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>De Q 150 a</small>Q 400</span>
+        <b>Para un cumpleaños</b>
+        <span>Algo que se usa a diario y aguanta el año.</span>
+        <span class="qs-rgp-cuantos">78 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>De Q 400 a</small>Q 800</span>
+        <b>Para quedar bien</b>
+        <span>Las piezas que la gente conserva y vuelve a comprar.</span>
+        <span class="qs-rgp-cuantos">51 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>Arriba de</small>Q 800</span>
+        <b>Para una ocasión</b>
+        <span>Con envío sin costo y empaque de regalo incluido.</span>
+        <span class="qs-rgp-cuantos">19 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,106 @@
+<!-- ============================================================
+     SECCIÓN · Línea de tiempo
+     La historia del negocio por años. Cada hito con algo que
+     pasó, no con una frase de relleno.
+     ============================================================ -->
+<section class="qs-linea-tiempo">
+  <style>
+  .qs-linea-tiempo, .qs-linea-tiempo *{box-sizing:border-box}
+  .qs-linea-tiempo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBFAF6;   /* fondo de la sección           */
+    --qs-tinta:       #1B1A14;   /* color del texto               */
+    --qs-tinta-suave: #6B6858;   /* descripciones                 */
+    --qs-acento:      #8A6A16;   /* año y punto                   */
+    --qs-hilo:        #E1DCC7;   /* la línea vertical             */
+    --qs-linea:       #E7E2CF;   /* líneas divisorias             */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-lt-marco{max-width:720px; margin:0 auto}
+  .qs-lt-alto{margin-bottom:30px}
+  .qs-linea-tiempo h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-lt-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-lt-lista{list-style:none; margin:0; padding:0}
+  .qs-lt-hito{display:grid; grid-template-columns:76px 1fr; gap:20px; position:relative; padding-bottom:30px}
+  .qs-lt-hito:last-child{padding-bottom:0}
+  /* El hilo sale del punto de arriba, así que lo dibuja cada hito menos el
+     último: si lo dibujara la lista entera, sobraría por abajo. */
+  .qs-lt-hito:not(:last-child)::before{
+    content:""; position:absolute; left:85px; top:20px; bottom:0; width:1.5px;
+    background:var(--qs-hilo);
+  }
+  .qs-lt-ano{
+    font-size:16px; font-weight:800; letter-spacing:-.02em; color:var(--qs-acento);
+    text-align:right; font-variant-numeric:tabular-nums; padding-top:2px;
+  }
+  .qs-lt-cuerpo{position:relative; padding-left:22px}
+  .qs-lt-cuerpo::before{
+    content:""; position:absolute; left:-4.5px; top:7px; width:11px; height:11px;
+    border-radius:50%; background:var(--qs-acento);
+  }
+  .qs-lt-cuerpo b{display:block; font-size:15px; font-weight:700; margin-bottom:5px}
+  .qs-lt-cuerpo p{margin:0; font-size:14px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-lt-pie{
+    margin:30px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-linea-tiempo{--qs-aire:44px}
+    .qs-lt-hito{grid-template-columns:52px 1fr; gap:14px}
+    .qs-lt-hito:not(:last-child)::before{left:57px}
+  }
+  </style>
+
+  <div class="qs-lt-marco">
+    <div class="qs-lt-alto">
+      <h2>Cómo llegamos hasta acá</h2>
+      <p>Diez años, contados con lo que pasó de verdad. Los años sin nada que contar no están.</p>
+    </div>
+
+    <ol class="qs-lt-lista">
+      <!-- Hito · duplicar -->
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2014</span>
+        <div class="qs-lt-cuerpo">
+          <b>La primera mochila</b>
+          <p>Un cliente de la feria de Jocotenango pidió algo que aguantara la lluvia. La hicimos en dos semanas, con una máquina prestada.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2016</span>
+        <div class="qs-lt-cuerpo">
+          <b>Taller propio en Antigua</b>
+          <p>Dejamos de coser de noche en la casa. Con el taller entró Julio, que es quien corta el cuero desde entonces.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2019</span>
+        <div class="qs-lt-cuerpo">
+          <b>Encerado en frío</b>
+          <p>Cambiamos la cera caliente por la de frío. La tela dejó de ponerse pegajosa con el calor de la costa, que era la queja número uno.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2022</span>
+        <div class="qs-lt-cuerpo">
+          <b>Envíos a todo el país</b>
+          <p>Antes solo entregábamos en Antigua y la capital. Ese año llegamos a los 22 departamentos.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2024</span>
+        <div class="qs-lt-cuerpo">
+          <b>Arreglo de por vida</b>
+          <p>Llevábamos años arreglando piezas sin cobrar. Lo pusimos por escrito para que no dependiera de a quién le tocara contestar.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="qs-lt-pie">Lo que no logramos todavía: producir más de treinta piezas al mes sin bajar la calidad. Llevamos tres intentos y los tres se revirtieron.</p>
+  </div>
+</section>

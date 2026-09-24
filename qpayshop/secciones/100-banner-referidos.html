@@ -1,0 +1,113 @@
+<!-- ============================================================
+     SECCIÓN · Programa de referidos
+     Con el código a la vista, lo que gana cada lado y cuándo se
+     cobra. Un «invita y gana» sin decir cuánto no lo usa nadie.
+     ============================================================ -->
+<section class="qs-banner-referidos">
+  <style>
+  .qs-banner-referidos, .qs-banner-referidos *{box-sizing:border-box}
+  .qs-banner-referidos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #1D1B2E;   /* fondo de la sección           */
+    --qs-tinta:       #F2F1F7;   /* color del texto               */
+    --qs-tinta-suave: #A6A2BC;   /* explicaciones                 */
+    --qs-acento:      #F0C24B;   /* montos y código               */
+    --qs-panel:       #272441;   /* fondo del código              */
+    --qs-boton:       #F0C24B;   /* fondo del botón               */
+    --qs-boton-txt:   #1D1B2E;   /* texto del botón               */
+    --qs-linea:       #35314F;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-ref-marco{max-width:880px; margin:0 auto; text-align:center}
+  .qs-banner-referidos h2{font-size:clamp(22px,3vw,30px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin:0 0 10px; text-wrap:balance}
+  .qs-ref-bajada{margin:0 auto 26px; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-ref-dos{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:26px;
+    list-style:none; padding:0;
+  }
+  .qs-ref-dos li{border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px}
+  .qs-ref-dos b{
+    display:block; font-size:clamp(24px,3.2vw,32px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); line-height:1.05; font-variant-numeric:tabular-nums; margin-bottom:6px;
+  }
+  .qs-ref-dos span{display:block; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-ref-codigo{
+    display:flex; align-items:center; gap:10px; background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:10px 10px 10px 18px; max-width:440px; margin:0 auto 14px;
+  }
+  .qs-ref-codigo code{
+    flex:1; min-width:0; font-family:ui-monospace,Menlo,monospace; font-size:16px;
+    font-weight:700; letter-spacing:.1em; color:var(--qs-acento); text-align:left;
+    overflow:hidden; text-overflow:ellipsis;
+  }
+  .qs-ref-codigo button{
+    font:inherit; font-size:13.5px; font-weight:700; cursor:pointer; white-space:nowrap;
+    background:var(--qs-boton); color:var(--qs-boton-txt); border:0;
+    border-radius:10px; padding:11px 20px;
+  }
+  .qs-ref-aviso{min-height:18px; margin:0 0 20px; font-size:12.5px; font-weight:600; color:var(--qs-acento)}
+  .qs-ref-pie{
+    margin:0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:12.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-banner-referidos{--qs-aire:40px}
+    .qs-ref-dos{grid-template-columns:1fr}
+    .qs-ref-codigo{flex-direction:column; align-items:stretch; padding:14px}
+    .qs-ref-codigo code{text-align:center}
+  }
+  </style>
+
+  <div class="qs-ref-marco">
+    <h2>Invita a alguien y los dos ganan</h2>
+    <p class="qs-ref-bajada">Pásale tu código. Cuando haga su primera compra de Q 300 o más, se abona el crédito a las dos cuentas.</p>
+
+    <ul class="qs-ref-dos">
+      <!-- Lado · duplicar -->
+      <li><b>Q 75</b><span>para quien invita, cuando su invitado recibe el pedido</span></li>
+      <li><b>Q 75</b><span>para el invitado, desde su primera compra</span></li>
+    </ul>
+
+    <div class="qs-ref-codigo">
+      <code id="qs-ref-cod">MARISOL-4K2P</code>
+      <button type="button" id="qs-ref-copiar">Copiar el código</button>
+    </div>
+    <p class="qs-ref-aviso" id="qs-ref-aviso" role="status"></p>
+
+    <p class="qs-ref-pie">El crédito se abona cuando el pedido se entrega, no cuando se paga: así no hay que quitarlo si hay una devolución. No caduca y se puede juntar con cupones.</p>
+  </div>
+
+  <script>
+  /* Copiar de verdad, y decir si no se pudo. Un botón que dice «copiado»
+     sin haber copiado es peor que uno que no hace nada. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-banner-referidos");
+    var cod   = raiz.querySelector("#qs-ref-cod");
+    var aviso = raiz.querySelector("#qs-ref-aviso");
+    var reloj = null;
+    function di(txt){
+      aviso.textContent = txt;
+      clearTimeout(reloj);
+      reloj = setTimeout(function(){ aviso.textContent = ""; }, 2800);
+    }
+    raiz.querySelector("#qs-ref-copiar").addEventListener("click", function(){
+      var texto = cod.textContent.trim();
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(
+          function(){ di("Código copiado."); },
+          function(){ di("El navegador no dejó copiar. Selecciónalo a mano."); }
+        );
+      } else {
+        di("El navegador no dejó copiar. Selecciónalo a mano.");
+      }
+    });
+  })();
+  </script>
+</section>

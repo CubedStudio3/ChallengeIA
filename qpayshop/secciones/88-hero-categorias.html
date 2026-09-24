@@ -1,0 +1,94 @@
+<!-- ============================================================
+     SECCIÓN · Hero con categorías
+     Un mensaje corto arriba y las puertas de entrada abajo, en
+     círculos. Para tiendas donde la gente ya sabe qué busca.
+     ============================================================ -->
+<section class="qs-hero-categorias">
+  <style>
+  .qs-hero-categorias, .qs-hero-categorias *{box-sizing:border-box}
+  .qs-hero-categorias{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFF8F2;   /* fondo de la sección           */
+    --qs-tinta:       #241710;   /* color del texto               */
+    --qs-tinta-suave: #7A6353;   /* bajada                        */
+    --qs-lienzo:      #F2E3D6;   /* fondo de cada círculo         */
+    --qs-acento:      #B4470F;   /* botón y aro al pasar el mouse */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-circulo:     116px;     /* tamaño de cada círculo        */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-hc-marco{max-width:960px; margin:0 auto}
+  .qs-hero-categorias h2{
+    font-size:clamp(26px,4.4vw,42px); font-weight:800; line-height:1.1;
+    letter-spacing:-.034em; margin:0 auto 14px; max-width:18ch; text-wrap:balance;
+  }
+  .qs-hc-bajada{margin:0 auto 26px; font-size:15.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:48ch}
+  .qs-hc-cta{
+    display:inline-block; font-size:14.5px; font-weight:700; text-decoration:none;
+    background:var(--qs-acento); color:var(--qs-acento-txt);
+    border-radius:var(--qs-radio); padding:13px 28px; margin-bottom:44px;
+  }
+  .qs-hc-reja{
+    list-style:none; margin:0; padding:0; display:flex; justify-content:center;
+    flex-wrap:wrap; gap:26px 30px;
+  }
+  .qs-hc-reja a{display:flex; flex-direction:column; text-decoration:none; color:inherit; width:var(--qs-circulo)}
+  /* El nombre se estira para que el conteo quede alineado aunque una
+     etiqueta ocupe dos renglones. */
+  .qs-hc-reja b{flex:1}
+  .qs-hc-disco{
+    width:var(--qs-circulo); height:var(--qs-circulo); border-radius:50%;
+    overflow:hidden; background:var(--qs-lienzo); margin-bottom:11px;
+    border:2px solid transparent;
+  }
+  .qs-hc-reja a:hover .qs-hc-disco{border-color:var(--qs-acento)}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hc-disco svg{width:100%; height:100%; display:block}
+  .qs-hc-reja b{font-size:13.5px; font-weight:600}
+  .qs-hc-reja span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:2px; font-variant-numeric:tabular-nums}
+  @media (max-width:560px){
+    .qs-hero-categorias{--qs-circulo:86px; --qs-aire:46px}
+    .qs-hc-reja{gap:20px}
+  }
+  </style>
+
+  <div class="qs-hc-marco">
+    <h2>Todo para la cocina de tu negocio</h2>
+    <p class="qs-hc-bajada">Equipo, insumos y empaque, con existencia real y entrega en 24 horas dentro de la capital.</p>
+    <a class="qs-hc-cta" href="#">Ver todo el catálogo</a>
+
+    <ul class="qs-hc-reja">
+      <!-- Categoría · duplicar -->
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F2E3D6"/><rect x="34" y="30" width="52" height="60" rx="10" fill="#DEC6B2"/><rect x="46" y="44" width="28" height="8" rx="4" fill="#F2E3D6"/></svg></div>
+        <b>Refrigeración</b><span>64 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#EFDFD1"/><circle cx="60" cy="58" r="30" fill="#DCC3AE"/><rect x="44" y="88" width="32" height="8" rx="4" fill="#DCC3AE"/></svg></div>
+        <b>Cocción</b><span>92 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F3E5D8"/><path d="M28 86l26-44 18 26 14-16 22 34z" fill="#DFC8B4"/><circle cx="44" cy="36" r="12" fill="#DFC8B4"/></svg></div>
+        <b>Empaque</b><span>148 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F0E1D3"/><rect x="26" y="52" width="68" height="16" rx="8" fill="#DDC5B0"/><rect x="52" y="26" width="16" height="68" rx="8" fill="#DDC5B0"/></svg></div>
+        <b>Limpieza</b><span>77 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F2E4D7"/><circle cx="60" cy="60" r="34" fill="none" stroke="#DEC7B3" stroke-width="12"/></svg></div>
+        <b>Servicio de mesa</b><span>203 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#EFE0D2"/><rect x="30" y="34" width="60" height="52" rx="8" fill="#DCC4AF"/><rect x="42" y="50" width="36" height="6" rx="3" fill="#EFE0D2"/><rect x="42" y="62" width="24" height="6" rx="3" fill="#EFE0D2"/></svg></div>
+        <b>Papelería</b><span>51 productos</span>
+      </a></li>
+    </ul>
+  </div>
+</section>

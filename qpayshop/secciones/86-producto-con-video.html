@@ -1,0 +1,115 @@
+<!-- ============================================================
+     SECCIÓN · Producto con video
+     Tarjetas con el reel del producto. El video arranca en
+     silencio y solo al pasar el mouse; con el dedo, no arranca.
+     ============================================================ -->
+<section class="qs-producto-video">
+  <style>
+  .qs-producto-video, .qs-producto-video *{box-sizing:border-box}
+  .qs-producto-video{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F4FA;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada tarjeta         */
+    --qs-lienzo:      #E7E2F0;   /* fondo de cada video           */
+    --qs-tinta:       #1A1626;   /* color del texto               */
+    --qs-tinta-suave: #635C78;   /* variantes                     */
+    --qs-acento:      #5A3DA8;   /* sello de video y precio       */
+    --qs-linea:       #E2DDEE;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        54px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pcv-marco{max-width:1100px; margin:0 auto}
+  .qs-pcv-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+  .qs-producto-video h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-pcv-alto p{margin:0; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-pcv-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-pcv-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-pcv-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-pcv-marco-video{position:relative; background:var(--qs-lienzo); aspect-ratio:9/16}
+  /* Reemplazar el <svg> por:
+     <video src="…" muted loop playsinline preload="metadata"
+            poster="…" style="width:100%;height:100%;object-fit:cover"></video>
+     El JS de abajo lo arranca al pasar el mouse y lo detiene al salir. */
+  .qs-pcv-marco-video svg, .qs-pcv-marco-video video{width:100%; height:100%; display:block; object-fit:cover}
+  .qs-pcv-sello{
+    position:absolute; top:10px; left:10px; display:inline-flex; align-items:center; gap:5px;
+    background:var(--qs-acento); color:#fff; border-radius:99px; padding:4px 10px;
+    font-size:10.5px; font-weight:700; letter-spacing:.04em;
+  }
+  .qs-pcv-sello svg{width:9px; height:9px}
+  .qs-pcv-duracion{
+    position:absolute; right:10px; bottom:10px; background:rgba(20,16,32,.72); color:#fff;
+    border-radius:6px; padding:3px 7px; font-size:10.5px; font-weight:600; font-variant-numeric:tabular-nums;
+  }
+  .qs-pcv-cuerpo{padding:13px 14px 15px}
+  .qs-pcv-cuerpo b{display:block; font-size:13.5px; font-weight:600; line-height:1.35}
+  .qs-pcv-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-pcv-cuerpo p{margin:8px 0 0; font-size:14.5px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){ .qs-pcv-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){ .qs-producto-video{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-pcv-marco">
+    <div class="qs-pcv-alto">
+      <h2>Míralo en movimiento</h2>
+      <p>Grabado con el producto en la mano, no en estudio.</p>
+    </div>
+
+    <ul class="qs-pcv-reja">
+      <!-- Pieza · duplicar -->
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E7E2F0"/><circle cx="135" cy="200" r="72" fill="#CFC6E4"/><rect x="63" y="308" width="144" height="16" rx="8" fill="#CFC6E4"/></svg>
+          <span class="qs-pcv-duracion">0:18</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Mochila de lona</b><span>Cómo se carga llena</span><p>Q 890.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E4DEEE"/><rect x="95" y="120" width="80" height="240" rx="24" fill="#CBC1E1"/></svg>
+          <span class="qs-pcv-duracion">0:12</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Termo de acero</b><span>12 horas frío, medido</span><p>Q 210.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E8E3F1"/><path d="M40 360l80-124 54 74 40-50 56 100z" fill="#D0C7E5"/><circle cx="92" cy="150" r="34" fill="#D0C7E5"/></svg>
+          <span class="qs-pcv-duracion">0:24</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Cuaderno cosido</b><span>Cómo abre plano</span><p>Q 95.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E5E0EF"/><rect x="50" y="190" width="170" height="96" rx="20" fill="#CDC4E2"/><circle cx="95" cy="238" r="24" fill="#E5E0EF"/></svg>
+          <span class="qs-pcv-duracion">0:09</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Cartera de cuero</b><span>Cuántas tarjetas caben</span><p>Q 265.00</p></div>
+      </a></li>
+    </ul>
+  </div>
+
+  <script>
+  /* Arranca al pasar el mouse y se detiene al salir. Con el dedo no hay
+     `hover`, así que en teléfono no arranca nada: cuatro videos en
+     reproducción se comen los datos de quien está en la calle. */
+  (function(){
+    var raiz = document.currentScript.closest(".qs-producto-video");
+    if(!window.matchMedia || !matchMedia("(hover: hover)").matches) return;
+    raiz.querySelectorAll(".qs-pcv-marco-video").forEach(function(m){
+      var v = m.querySelector("video");
+      if(!v) return;
+      m.addEventListener("mouseenter", function(){ var p = v.play(); if(p && p.catch) p.catch(function(){}); });
+      m.addEventListener("mouseleave", function(){ v.pause(); v.currentTime = 0; });
+    });
+  })();
+  </script>
+</section>

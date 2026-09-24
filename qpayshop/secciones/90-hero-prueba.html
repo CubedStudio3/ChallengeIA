@@ -1,0 +1,95 @@
+<!-- ============================================================
+     SECCIÓN · Hero con prueba
+     El mensaje con la prueba pegada: calificación, cuántos la
+     sostienen y una cita corta. La nota nunca va sola.
+     ============================================================ -->
+<section class="qs-hero-prueba">
+  <style>
+  .qs-hero-prueba, .qs-hero-prueba *{box-sizing:border-box}
+  .qs-hero-prueba{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F7F5;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de la tarjeta de prueba */
+    --qs-lienzo:      #E7EAE5;   /* fondo de la foto              */
+    --qs-tinta:       #161A15;   /* color del texto               */
+    --qs-tinta-suave: #616A5E;   /* bajada y explicaciones        */
+    --qs-estrella:    #B5811C;   /* color de las estrellas        */
+    --qs-acento:      #1F4A2C;   /* botón principal               */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E1E5DE;   /* bordes                        */
+    --qs-radio:       18px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hpr-reja{max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center}
+  .qs-hero-prueba h2{
+    font-size:clamp(28px,4.4vw,44px); font-weight:800; line-height:1.08;
+    letter-spacing:-.034em; margin:0 0 16px; text-wrap:balance;
+  }
+  .qs-hpr-bajada{margin:0 0 26px; font-size:16px; line-height:1.65; color:var(--qs-tinta-suave); max-width:44ch}
+  .qs-hpr-botones{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px}
+  .qs-hpr-botones a{font-size:14.5px; font-weight:600; text-decoration:none; border-radius:11px; padding:13px 24px}
+  .qs-hpr-uno{background:var(--qs-acento); color:var(--qs-acento-txt)}
+  .qs-hpr-dos{background:var(--qs-panel); color:var(--qs-tinta); border:1px solid var(--qs-linea)}
+  .qs-hpr-nota{
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:18px 20px;
+  }
+  .qs-hpr-alto{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .qs-hpr-estrellas{display:flex; gap:2px}
+  .qs-hpr-estrellas svg{width:15px; height:15px; color:var(--qs-estrella)}
+  .qs-hpr-alto b{font-size:14px; font-weight:700; font-variant-numeric:tabular-nums}
+  /* La nota nunca va sola: al lado va cuántas opiniones la sostienen. */
+  .qs-hpr-alto span{font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hpr-nota p{margin:0 0 9px; font-size:14px; line-height:1.6}
+  .qs-hpr-quien{margin:0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hpr-foto{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hpr-foto svg{width:100%; height:100%; display:block}
+  @media (max-width:820px){
+    .qs-hero-prueba{--qs-aire:46px}
+    .qs-hpr-reja{grid-template-columns:1fr; gap:28px}
+    .qs-hpr-foto{aspect-ratio:16/10; order:-1}
+  }
+  </style>
+
+  <div class="qs-hpr-reja">
+    <div>
+      <h2>La mochila que no te deja botado a medio invierno</h2>
+      <p class="qs-hpr-bajada">Lona encerada en frío, cosida en Antigua, con los cuatro puntos de carga reforzados. Si se descose, la arreglamos nosotros.</p>
+      <div class="qs-hpr-botones">
+        <a class="qs-hpr-uno" href="#">Ver la mochila</a>
+        <a class="qs-hpr-dos" href="#">Leer las 87 opiniones</a>
+      </div>
+
+      <div class="qs-hpr-nota">
+        <div class="qs-hpr-alto">
+          <span class="qs-hpr-estrellas" aria-hidden="true">
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z" stroke="currentColor" stroke-width="1.2"/></svg>
+          </span>
+          <b>4.6</b>
+          <span>sobre 87 opiniones verificadas</span>
+        </div>
+        <p>«La uso a diario para ir al trabajo en moto. Aguantó el invierno completo y la laptop nunca se mojó.»</p>
+        <p class="qs-hpr-quien">Andrea M. · compra verificada, 12 de septiembre</p>
+      </div>
+    </div>
+
+    <div class="qs-hpr-foto">
+      <svg viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="480" height="600" fill="#E7EAE5"/>
+        <rect x="140" y="150" width="200" height="270" rx="34" fill="#CBD3C7"/>
+        <path d="M180 150v-32a60 60 0 0 1 120 0v32" stroke="#B9C3B4" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <rect x="176" y="250" width="128" height="18" rx="9" fill="#E7EAE5"/>
+      </svg>
+    </div>
+  </div>
+</section>

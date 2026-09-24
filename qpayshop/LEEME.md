@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-<!-- CUENTA -->Biblioteca de **80 secciones** de tienda en línea para dar variedad a las
+<!-- CUENTA -->Biblioteca de **100 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -92,6 +92,26 @@ para copiar.
 | 78 | `secciones/78-tabla-tallas.html` | ficha | Con centímetros y con cómo medirse. Una tabla sin el «cómo se mide» devuelve la mitad de los paquetes. |
 | 79 | `secciones/79-completa-el-look.html` | ficha | Lo que combina, cada uno con su botón. Sin paquete ni descuento: se agrega lo que se quiera y el pie lo cuenta. |
 | 80 | `secciones/80-envio-a-tu-zona.html` | ficha | El plazo y el costo salen de una tabla por departamento, no de una promesa general del país. |
+| 81 | `secciones/81-rejilla-densa.html` | Productos | Seis columnas y la tarjeta al mínimo. Para catálogos largos donde el cliente compara muchas cosas parecidas. |
+| 82 | `secciones/82-productos-con-filtro.html` | Productos | Los filtros filtran de verdad y el conteo sale de lo que queda. Con cero resultados lo dice, no deja el hueco. |
+| 83 | `secciones/83-ranking-vendidos.html` | Productos | Con la posición grande y el periodo declarado. Un «más vendido» sin decir de cuándo no se puede comprobar. |
+| 84 | `secciones/84-por-rango-precio.html` | Productos | Bloques por rango de precio. Para regalos y para quien entra con una cantidad en la cabeza, no con un producto. |
+| 85 | `secciones/85-ultimas-unidades.html` | Productos | Con la existencia real, no con un reloj inventado. La barra y el número salen del mismo dato. |
+| 86 | `secciones/86-producto-con-video.html` | Productos | Tarjetas con el reel del producto. Arranca al pasar el mouse; con el dedo no arranca, para no gastar datos. |
+| 87 | `secciones/87-hero-promesa.html` | Hero | Sin foto: un color plano, una frase y las tres cosas que la tienda cumple. Para quien no tiene buena fotografía todavía. |
+| 88 | `secciones/88-hero-categorias.html` | Hero | Un mensaje corto arriba y las puertas de entrada abajo, en círculos. Para tiendas donde ya se sabe qué se busca. |
+| 89 | `secciones/89-hero-doble.html` | Hero | La pantalla partida en dos, cada mitad para quien es. Para tiendas que venden al público y al negocio. |
+| 90 | `secciones/90-hero-prueba.html` | Hero | El mensaje con la prueba pegada: calificación, cuántas opiniones la sostienen y una cita corta. |
+| 91 | `secciones/91-hero-marca.html` | Hero | Tipografía grande y una sola idea. Para tiendas de autor, donde lo que se compra es de quién viene. |
+| 92 | `secciones/92-sobre-nosotros.html` | Contenido | La historia con los datos comprobables al lado. Una historia sin números es un texto que nadie termina. |
+| 93 | `secciones/93-equipo.html` | Contenido | Las personas con nombre y con qué hacen. Un equipo sin apellidos ni oficios es una foto de banco de imágenes. |
+| 94 | `secciones/94-sucursales.html` | Contenido | Dirección, horario y qué se puede hacer en cada una, con el estado de abierto o cerrado. Sin mapa incrustado. |
+| 95 | `secciones/95-certificaciones.html` | Contenido | Cada sello con lo que significa. Un logo sin explicación no genera confianza, genera preguntas. |
+| 96 | `secciones/96-linea-tiempo.html` | Contenido | La historia del negocio por años. Cada hito con algo que pasó, no con una frase de relleno. |
+| 97 | `secciones/97-banner-whatsapp.html` | Banner | Flotante, con el horario al lado. Fuera de hora dice cuándo se contesta en vez de prometer respuesta inmediata. |
+| 98 | `secciones/98-banner-doble.html` | Banner | Dos promociones lado a lado, cada una con su condición escrita. El adorno es CSS, no imagen. |
+| 99 | `secciones/99-banner-recoger.html` | Banner | Con el plazo, el costo y las tiendas nombradas. «Recoge en tienda» sin decir en cuál no ahorra ninguna duda. |
+| 100 | `secciones/100-banner-referidos.html` | Banner | Con el código a la vista, lo que gana cada lado y cuándo se cobra. El botón copia de verdad y avisa si no pudo. |
 <!-- /TABLA -->
 
 ## Cómo se instala
@@ -318,6 +338,15 @@ Errores ya cometidos acá, con lo que los encontró. Cada uno tiene su prueba.
 - **El texto sobre foto no se aprueba en silencio.** La prueba de contraste no
   puede medir lo que va encima de una imagen o un degradado, así que lo cuenta
   aparte en vez de darlo por bueno.
+- **Ensanchar la página no arregla una vista reducida.** El catálogo se abre
+  dentro de un panel, no a pantalla completa, así que el tope de ancho del
+  documento nunca se alcanza: con 900 px de panel, un escritorio de 1280 se
+  dibujaba al 60% por más ancho que tuviera la página. Lo que sirvió fue
+  dejar de reducir: «Ajustado» usa el ancho que haya.
+- **Un selector de descendencia se come hijos que no son suyos.** Tres veces
+  en este catálogo: `.qs-rr-pieza span`, `.qs-cel-cuerpo span` y el precio de
+  la rejilla de revista. Cuando el bloque tiene un botón adentro, el `span`
+  del botón también cuenta. Va con `>` o con clase propia.
 - **Un número escrito a mano en el catálogo se queda viejo.** El titular decía
   «Cuarenta y ocho secciones» con sesenta y tres en pantalla, y esta misma
   tabla decía 48. Los dos salen ahora del arreglo de secciones.

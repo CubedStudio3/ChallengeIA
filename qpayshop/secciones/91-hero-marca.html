@@ -1,0 +1,71 @@
+<!-- ============================================================
+     SECCIÓN · Hero de marca
+     Tipografía grande y una sola idea. Para tiendas de autor,
+     donde lo que se compra es de quién viene, no qué es.
+     ============================================================ -->
+<section class="qs-hero-marca">
+  <style>
+  .qs-hero-marca, .qs-hero-marca *{box-sizing:border-box}
+  .qs-hero-marca{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #EFEAE1;   /* fondo de la sección           */
+    --qs-tinta:       #1E1A14;   /* color del texto               */
+    --qs-tinta-suave: #6B6154;   /* bajada y pie                  */
+    --qs-serif:       Georgia, 'Times New Roman', serif; /* titular */
+    --qs-regla:       #C9BFAE;   /* líneas                        */
+    --qs-acento:      #8A4A16;   /* enlace                        */
+    --qs-aire:        86px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hmr-marco{max-width:1020px; margin:0 auto}
+  .qs-hmr-alto{
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding-bottom:16px; border-bottom:1px solid var(--qs-regla); margin-bottom:34px;
+    font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--qs-tinta-suave);
+  }
+  .qs-hero-marca h2{
+    font-family:var(--qs-serif); font-weight:400; font-style:normal;
+    font-size:clamp(34px,6.6vw,74px); line-height:1.02; letter-spacing:-.024em;
+    margin:0 0 30px; text-wrap:balance;
+  }
+  .qs-hmr-cursiva{font-style:italic}
+  .qs-hmr-pie{
+    display:grid; grid-template-columns:1.2fr .8fr; gap:34px; align-items:end;
+    padding-top:26px; border-top:1px solid var(--qs-regla);
+  }
+  .qs-hmr-pie p{margin:0; font-size:15px; line-height:1.7; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-hmr-enlace{
+    justify-self:end; display:inline-flex; align-items:center; gap:9px;
+    font-size:14.5px; font-weight:600; color:var(--qs-acento); text-decoration:none;
+    border-bottom:1px solid var(--qs-acento); padding-bottom:3px;
+  }
+  .qs-hmr-enlace svg{width:13px; height:13px}
+  @media (max-width:700px){
+    .qs-hero-marca{--qs-aire:58px}
+    .qs-hmr-pie{grid-template-columns:1fr; gap:22px; align-items:start}
+    .qs-hmr-enlace{justify-self:start}
+  }
+  </style>
+
+  <div class="qs-hmr-marco">
+    <div class="qs-hmr-alto">
+      <span>Taller en Antigua Guatemala</span>
+      <span>Desde 2014</span>
+    </div>
+
+    <h2>Cosemos despacio, para que <span class="qs-hmr-cursiva">no tengas que volver</span> a comprarlo</h2>
+
+    <div class="qs-hmr-pie">
+      <p>Somos tres personas y una máquina de coser de 1978. Hacemos entre veinte y treinta piezas al mes, todas con lona encerada en frío y cuero de curtiembre local. No producimos por temporada: producimos cuando se acaba lo anterior.</p>
+      <a class="qs-hmr-enlace" href="#">
+        Conocer el taller
+        <svg viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>

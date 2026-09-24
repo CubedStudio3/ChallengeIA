@@ -9169,6 +9169,1956 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 </section>
 </template>
 
+
+<!-- ══════════════ 81 · REJILLA DENSA ══════════════ -->
+<template id="tpl-rejilla-densa">
+<!-- ============================================================
+     SECCIÓN · Rejilla densa
+     Seis columnas y la tarjeta al mínimo. Para catálogos largos
+     —ferretería, insumos, repuestos— donde el cliente compara
+     muchas cosas parecidas y necesita verlas juntas.
+     ============================================================ -->
+<section class="qs-rejilla-densa">
+  <style>
+  .qs-rejilla-densa, .qs-rejilla-densa *{box-sizing:border-box}
+  .qs-rejilla-densa{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-columnas:    130px;     /* ancho mínimo de cada tarjeta  */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-lienzo:      #F2F3F1;   /* fondo de cada foto            */
+    --qs-tinta:       #171A17;   /* color del texto               */
+    --qs-tinta-suave: #666B66;   /* código y existencia           */
+    --qs-acento:      #1F5C3A;   /* precio                        */
+    --qs-alerta:      #8C3A16;   /* aviso de poca existencia      */
+    --qs-linea:       #E3E6E2;   /* bordes                        */
+    --qs-radio:       9px;       /* redondeo                      */
+    --qs-aire:        48px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rd-marco{max-width:1240px; margin:0 auto}
+  .qs-rd-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+  .qs-rejilla-densa h2{font-size:clamp(18px,2.3vw,23px); font-weight:700; letter-spacing:-.024em; margin:0}
+  .qs-rd-alto p{margin:0; font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-rd-reja{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(min(var(--qs-columnas),100%),1fr));
+    gap:10px; list-style:none; margin:0; padding:0;
+  }
+  .qs-rd-pieza a{
+    display:flex; flex-direction:column; height:100%; text-decoration:none; color:inherit;
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden; background:var(--qs-fondo);
+  }
+  .qs-rd-pieza a:hover{border-color:var(--qs-acento)}
+  .qs-rd-foto{background:var(--qs-lienzo); aspect-ratio:1/1}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-rd-foto svg{width:100%; height:100%; display:block}
+  .qs-rd-cuerpo{padding:9px 10px 11px; display:flex; flex-direction:column; gap:3px; flex:1}
+  .qs-rd-codigo{font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--qs-tinta-suave); letter-spacing:.02em}
+  .qs-rd-pieza b{font-size:12.5px; font-weight:500; line-height:1.3}
+  .qs-rd-precio{margin:5px 0 0; font-size:13.5px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  .qs-rd-stock{margin:2px 0 0; font-size:11px; color:var(--qs-tinta-suave)}
+  .qs-rd-stock[data-qs-poco]{color:var(--qs-alerta); font-weight:600}
+  @media (max-width:520px){
+    .qs-rejilla-densa{--qs-columnas:104px; --qs-aire:36px}
+    .qs-rd-reja{gap:8px}
+  }
+  </style>
+
+  <div class="qs-rd-marco">
+    <div class="qs-rd-alto">
+      <h2>Tornillería</h2>
+      <p>248 productos · precios con IVA</p>
+    </div>
+
+    <ul class="qs-rd-reja">
+      <!-- Pieza · duplicar -->
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F2F3F1"/><rect x="58" y="24" width="14" height="72" rx="3" fill="#C9CEC8"/><circle cx="65" cy="28" r="14" fill="#C9CEC8"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">TOR-1024</span><b>Tornillo hexagonal 1/4"</b><p class="qs-rd-precio">Q 1.75</p><p class="qs-rd-stock">1,240 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EFF1EE"/><circle cx="65" cy="65" r="32" fill="none" stroke="#C4C9C3" stroke-width="14"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">TUE-0810</span><b>Tuerca hexagonal 5/16"</b><p class="qs-rd-precio">Q 0.90</p><p class="qs-rd-stock">3,500 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F1F2F0"/><circle cx="65" cy="65" r="38" fill="none" stroke="#C7CCC6" stroke-width="9"/><circle cx="65" cy="65" r="13" fill="#C7CCC6"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ARA-0500</span><b>Arandela plana 1/2"</b><p class="qs-rd-precio">Q 0.45</p><p class="qs-rd-stock" data-qs-poco>Quedan 18</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EEF0ED"/><path d="M52 22h26l-4 84h-18z" fill="#C5CAC4"/><rect x="46" y="14" width="38" height="12" rx="4" fill="#C5CAC4"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">CLA-3000</span><b>Clavo de acero 3"</b><p class="qs-rd-precio">Q 28.00</p><p class="qs-rd-stock">Libra · 62 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F0F1EF"/><rect x="30" y="56" width="70" height="18" rx="6" fill="#C8CDC7"/><rect x="88" y="44" width="20" height="42" rx="6" fill="#C8CDC7"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">BIS-0204</span><b>Bisagra 2×2 pulgadas</b><p class="qs-rd-precio">Q 12.50</p><p class="qs-rd-stock">340 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EFF1EE"/><circle cx="65" cy="52" r="24" fill="#C6CBC5"/><rect x="58" y="70" width="14" height="42" rx="5" fill="#C6CBC5"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ANC-0620</span><b>Ancla de expansión 6 mm</b><p class="qs-rd-precio">Q 3.20</p><p class="qs-rd-stock" data-qs-poco>Quedan 7</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F1F2F0"/><rect x="24" y="58" width="82" height="14" rx="7" fill="#C9CEC8"/><circle cx="34" cy="65" r="13" fill="#C9CEC8"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">VAR-0938</span><b>Varilla roscada 3/8" × 1 m</b><p class="qs-rd-precio">Q 34.00</p><p class="qs-rd-stock">96 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EEF0ED"/><path d="M40 90l50-50M46 40h44v44" stroke="#C5CAC4" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ESQ-4040</span><b>Esquinero reforzado 40 mm</b><p class="qs-rd-precio">Q 8.75</p><p class="qs-rd-stock">210 en existencia</p></div>
+      </a></li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 82 · REJILLA CON FILTROS ══════════════ -->
+<template id="tpl-productos-con-filtro">
+<!-- ============================================================
+     SECCIÓN · Rejilla con filtros
+     Los filtros filtran de verdad y el conteo sale de lo que
+     queda. Un contador escrito a mano se desincroniza al primer
+     clic y nadie vuelve a confiar en él.
+     ============================================================ -->
+<section class="qs-productos-filtro">
+  <style>
+  .qs-productos-filtro, .qs-productos-filtro *{box-sizing:border-box}
+  .qs-productos-filtro{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAFAF8;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de las tarjetas         */
+    --qs-lienzo:      #F0EFEA;   /* fondo de cada foto            */
+    --qs-tinta:       #1A1A16;   /* color del texto               */
+    --qs-tinta-suave: #6A6960;   /* rótulos y conteo              */
+    --qs-acento:      #24405C;   /* filtro puesto                 */
+    --qs-acento-txt:  #FFFFFF;   /* texto del filtro puesto       */
+    --qs-linea:       #E4E3DC;   /* bordes                        */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pcf-marco{max-width:1120px; margin:0 auto}
+  .qs-productos-filtro h2{font-size:clamp(19px,2.4vw,24px); font-weight:700; letter-spacing:-.024em; margin:0 0 16px}
+  .qs-pcf-barra{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px}
+  .qs-pcf-barra button{
+    font:inherit; font-size:13px; font-weight:500; cursor:pointer;
+    background:var(--qs-panel); color:var(--qs-tinta);
+    border:1px solid var(--qs-linea); border-radius:99px; padding:8px 15px;
+  }
+  .qs-pcf-barra button[aria-pressed="true"]{background:var(--qs-acento); color:var(--qs-acento-txt); border-color:var(--qs-acento)}
+  .qs-pcf-cuenta{margin:0 0 18px; font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-pcf-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-pcf-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  /* `display:block` de la clase le ganaría al `hidden` del navegador. */
+  .qs-pcf-pieza[hidden]{display:none}
+  .qs-pcf-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-pcf-foto{background:var(--qs-lienzo); aspect-ratio:4/5}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-pcf-foto svg{width:100%; height:100%; display:block}
+  .qs-pcf-cuerpo{padding:13px 14px 15px}
+  .qs-pcf-cuerpo b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px; line-height:1.35}
+  .qs-pcf-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-pcf-cuerpo p{margin:7px 0 0; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums}
+  .qs-pcf-nada{
+    margin:0; padding:36px 16px; text-align:center; font-size:14px; color:var(--qs-tinta-suave);
+    border:1px dashed var(--qs-linea); border-radius:var(--qs-radio);
+  }
+  .qs-pcf-nada[hidden]{display:none}
+  @media (max-width:860px){ .qs-pcf-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:480px){ .qs-productos-filtro{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-pcf-marco">
+    <h2>Zapatos de hombre</h2>
+
+    <div class="qs-pcf-barra" id="qs-pcf-barra">
+      <!-- Filtro · duplicar. data-qs-filtro es el valor que busca en las piezas -->
+      <button type="button" data-qs-filtro="todo" aria-pressed="true">Todos</button>
+      <button type="button" data-qs-filtro="cuero" aria-pressed="false">Cuero</button>
+      <button type="button" data-qs-filtro="lona" aria-pressed="false">Lona</button>
+      <button type="button" data-qs-filtro="oferta" aria-pressed="false">En oferta</button>
+      <button type="button" data-qs-filtro="hoy" aria-pressed="false">Entrega hoy</button>
+    </div>
+    <p class="qs-pcf-cuenta" id="qs-pcf-cuenta"></p>
+
+    <ul class="qs-pcf-reja" id="qs-pcf-reja">
+      <!-- Pieza · duplicar. data-qs-tags: las etiquetas por las que se filtra -->
+      <li class="qs-pcf-pieza" data-qs-tags="cuero hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F0EFEA"/><path d="M52 200h120l18 44H52z" fill="#CFC9BA"/><path d="M62 200V96a34 34 0 0 1 68 0v104z" fill="#D8D2C4"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Botín engrasado</b><span>Cuero · Café</span><p>Q 745.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona oferta"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EDECE6"/><ellipse cx="120" cy="196" rx="76" ry="46" fill="#D2CCBE"/><rect x="74" y="120" width="92" height="70" rx="20" fill="#DCD6C9"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Tenis de lona</b><span>Lona · Blanco</span><p>Q 320.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero oferta hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F1F0EB"/><path d="M48 214h144l-12 34H60z" fill="#CDC7B8"/><path d="M70 214l16-92h68l16 92z" fill="#D7D1C3"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Zapato de vestir</b><span>Cuero · Negro</span><p>Q 580.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EFEEE8"/><path d="M56 206c28-14 60-18 128-10l-8 42H56z" fill="#D0CABC"/><rect x="88" y="128" width="64" height="76" rx="18" fill="#DAD4C7"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Alpargata</b><span>Lona · Azul</span><p>Q 245.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F0EFE9"/><path d="M50 210h140v38H50z" fill="#CEC8B9"/><path d="M66 210V132h108v78z" fill="#D9D3C5"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Mocasín</b><span>Cuero · Miel</span><p>Q 495.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EEEDE7"/><ellipse cx="120" cy="204" rx="80" ry="40" fill="#D1CBBD"/><path d="M80 164h80v40H80z" fill="#DBD5C8"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Tenis para correr</b><span>Lona · Gris</span><p>Q 410.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero oferta"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F1F0EA"/><path d="M54 212h132l-10 36H64z" fill="#CFC9BA"/><path d="M74 212V118h92v94z" fill="#D8D2C4"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Bota de trabajo</b><span>Cuero · Miel</span><p>Q 690.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona oferta hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EFEEE9"/><ellipse cx="120" cy="200" rx="74" ry="44" fill="#D3CDBF"/><rect x="82" y="124" width="76" height="72" rx="24" fill="#DDD7CA"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Sandalia de trekking</b><span>Lona · Verde</span><p>Q 285.00</p></div>
+      </a></li>
+    </ul>
+
+    <p class="qs-pcf-nada" id="qs-pcf-nada" hidden>Con esos filtros no queda ningún producto. Quita uno y vuelve a intentar.</p>
+  </div>
+
+  <script>
+  /* Un filtro a la vez, y el conteo sale de contar lo que quedó visible.
+     Escrito a mano se desincroniza en el primer clic. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-productos-filtro");
+    var barra = raiz.querySelector("#qs-pcf-barra");
+    var reja  = raiz.querySelector("#qs-pcf-reja");
+    var texto = raiz.querySelector("#qs-pcf-cuenta");
+    var nada  = raiz.querySelector("#qs-pcf-nada");
+    var total = reja.children.length;
+
+    function aplica(cual){
+      var vivas = 0;
+      for(var i = 0; i < reja.children.length; i++){
+        var pieza = reja.children[i];
+        var entra = cual === "todo" ||
+                    (" " + pieza.dataset.qsTags + " ").indexOf(" " + cual + " ") !== -1;
+        pieza.hidden = !entra;
+        if(entra) vivas++;
+      }
+      nada.hidden = vivas > 0;
+      texto.textContent = vivas === total
+        ? total + " productos"
+        : vivas + " de " + total + " productos";
+    }
+
+    barra.addEventListener("click", function(e){
+      var b = e.target.closest("button[data-qs-filtro]");
+      if(!b) return;
+      barra.querySelectorAll("button").forEach(function(o){
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      aplica(b.dataset.qsFiltro);
+    });
+    aplica("todo");
+  })();
+  </script>
+</section>
+</template>
+
+<!-- ══════════════ 83 · LOS MÁS VENDIDOS ══════════════ -->
+<template id="tpl-ranking-vendidos">
+<!-- ============================================================
+     SECCIÓN · Los más vendidos
+     Con el número de posición grande y el periodo declarado.
+     Un «más vendido» sin decir de cuándo no se puede comprobar.
+     ============================================================ -->
+<section class="qs-ranking-vendidos">
+  <style>
+  .qs-ranking-vendidos, .qs-ranking-vendidos *{box-sizing:border-box}
+  .qs-ranking-vendidos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #17181C;   /* fondo de la sección           */
+    --qs-tinta:       #F2F3F5;   /* color del texto               */
+    --qs-tinta-suave: #9DA1A9;   /* variantes y explicaciones     */
+    --qs-numero:      #666973;   /* color del número de posición  */
+    --qs-acento:      #D8A33A;   /* primer puesto y precio        */
+    --qs-lienzo:      #23252B;   /* fondo de cada foto            */
+    --qs-linea:       #2C2E35;   /* líneas divisorias             */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rk-marco{max-width:820px; margin:0 auto}
+  .qs-ranking-vendidos h2{font-size:clamp(20px,2.6vw,26px); font-weight:700; letter-spacing:-.026em; margin:0 0 5px}
+  .qs-rk-periodo{margin:0 0 24px; font-size:13px; color:var(--qs-tinta-suave)}
+  .qs-rk-lista{list-style:none; margin:0; padding:0}
+  .qs-rk-fila{display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid var(--qs-linea)}
+  .qs-rk-fila:last-child{border-bottom:0}
+  .qs-rk-pos{
+    font-size:34px; font-weight:800; line-height:1; letter-spacing:-.04em;
+    color:var(--qs-numero); width:48px; flex:none; text-align:right;
+    font-variant-numeric:tabular-nums; user-select:none;
+  }
+  .qs-rk-fila:first-child .qs-rk-pos{color:var(--qs-acento)}
+  .qs-rk-foto{width:62px; height:62px; flex:none; border-radius:10px; overflow:hidden; background:var(--qs-lienzo)}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-rk-foto svg{width:100%; height:100%; display:block}
+  .qs-rk-datos{flex:1; min-width:0}
+  .qs-rk-datos a{font-size:14.5px; font-weight:600; color:inherit; text-decoration:none}
+  .qs-rk-datos a:hover{text-decoration:underline}
+  .qs-rk-datos span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:3px}
+  .qs-rk-precio{font-size:15px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qs-rk-pie{
+    margin:22px 0 0; padding-top:18px; border-top:1px solid var(--qs-linea);
+    font-size:12.5px; line-height:1.6; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-ranking-vendidos{--qs-aire:42px}
+    .qs-rk-pos{font-size:26px; width:32px}
+    .qs-rk-foto{width:52px; height:52px}
+    .qs-rk-fila{gap:11px}
+  }
+  </style>
+
+  <div class="qs-rk-marco">
+    <h2>Los más vendidos</h2>
+    <p class="qs-rk-periodo">Por unidades vendidas del 1 al 22 de septiembre. Se actualiza cada lunes.</p>
+
+    <ol class="qs-rk-lista">
+      <!-- Puesto · duplicar. El número lo pone el orden de la lista -->
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">1</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><circle cx="31" cy="26" r="13" fill="#3A3D46"/><rect x="15" y="43" width="32" height="5" rx="2.5" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Mochila de lona encerada</a><span>Verde olivo · 142 vendidas</span></span>
+        <span class="qs-rk-precio">Q 890.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">2</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#212329"/><rect x="21" y="12" width="20" height="38" rx="6" fill="#383B44"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Termo de acero 750 ml</a><span>Negro mate · 118 vendidos</span></span>
+        <span class="qs-rk-precio">Q 210.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">3</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><path d="M12 46l14-22 10 14 8-10 12 18z" fill="#3A3D46"/><circle cx="22" cy="19" r="6" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Cuaderno cosido A5</a><span>Hoja lisa · 97 vendidos</span></span>
+        <span class="qs-rk-precio">Q 95.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">4</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#212329"/><circle cx="31" cy="31" r="16" fill="#383B44"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Cartera de cuero</a><span>Café · 81 vendidas</span></span>
+        <span class="qs-rk-precio">Q 265.00</span>
+      </li>
+      <li class="qs-rk-fila">
+        <span class="qs-rk-pos">5</span>
+        <span class="qs-rk-foto"><svg viewBox="0 0 62 62" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="62" height="62" fill="#23252B"/><rect x="12" y="24" width="38" height="16" rx="6" fill="#3A3D46"/></svg></span>
+        <span class="qs-rk-datos"><a href="#">Barra de cera para lona</a><span>73 vendidas</span></span>
+        <span class="qs-rk-precio">Q 60.00</span>
+      </li>
+    </ol>
+
+    <p class="qs-rk-pie">Cuenta unidades vendidas, no visitas ni «me gusta». Los productos agotados salen de la lista aunque hayan vendido más: no sirve recomendar lo que no se puede comprar.</p>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 84 · COMPRA POR PRESUPUESTO ══════════════ -->
+<template id="tpl-por-rango-precio">
+<!-- ============================================================
+     SECCIÓN · Compra por presupuesto
+     Bloques por rango de precio. Para regalos y para quien entra
+     con una cantidad en la cabeza, no con un producto.
+     ============================================================ -->
+<section class="qs-rango-precio">
+  <style>
+  .qs-rango-precio, .qs-rango-precio *{box-sizing:border-box}
+  .qs-rango-precio{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FDF8F0;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada bloque          */
+    --qs-tinta:       #211A10;   /* color del texto               */
+    --qs-tinta-suave: #6E6252;   /* explicaciones                 */
+    --qs-acento:      #9A5A16;   /* el monto y la flecha          */
+    --qs-linea:       #EDE1CE;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rgp-marco{max-width:1060px; margin:0 auto}
+  .qs-rgp-alto{text-align:center; margin-bottom:26px}
+  .qs-rango-precio h2{font-size:clamp(20px,2.7vw,27px); font-weight:700; letter-spacing:-.028em; margin:0 0 7px}
+  .qs-rgp-alto p{margin:0 auto; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:48ch}
+  .qs-rgp-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-rgp-bloque a{
+    display:flex; flex-direction:column; height:100%; gap:5px; text-decoration:none; color:inherit;
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:22px 20px 20px;
+  }
+  .qs-rgp-bloque a:hover{border-color:var(--qs-acento)}
+  .qs-rgp-monto{
+    font-size:clamp(22px,2.6vw,28px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); font-variant-numeric:tabular-nums; line-height:1.1;
+  }
+  .qs-rgp-monto small{display:block; font-size:12px; font-weight:600; letter-spacing:.02em; color:var(--qs-tinta-suave); margin-bottom:4px}
+  .qs-rgp-bloque b{font-size:14px; font-weight:600; margin-top:6px}
+  .qs-rgp-bloque span{font-size:12.5px; line-height:1.5; color:var(--qs-tinta-suave)}
+  .qs-rgp-cuantos{
+    margin-top:auto; padding-top:14px; display:flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:600; color:var(--qs-acento);
+  }
+  .qs-rgp-cuantos svg{width:12px; height:12px}
+  @media (max-width:880px){ .qs-rgp-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){
+    .qs-rango-precio{--qs-aire:42px}
+    .qs-rgp-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-rgp-marco">
+    <div class="qs-rgp-alto">
+      <h2>Compra por presupuesto</h2>
+      <p>Si ya sabes cuánto quieres gastar, empieza por acá. Los precios ya llevan IVA.</p>
+    </div>
+
+    <ul class="qs-rgp-reja">
+      <!-- Rango · duplicar -->
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>Menos de</small>Q 150</span>
+        <b>Para el intercambio</b>
+        <span>Lo que se regala en la oficina sin quedar mal.</span>
+        <span class="qs-rgp-cuantos">42 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>De Q 150 a</small>Q 400</span>
+        <b>Para un cumpleaños</b>
+        <span>Algo que se usa a diario y aguanta el año.</span>
+        <span class="qs-rgp-cuantos">78 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>De Q 400 a</small>Q 800</span>
+        <b>Para quedar bien</b>
+        <span>Las piezas que la gente conserva y vuelve a comprar.</span>
+        <span class="qs-rgp-cuantos">51 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+      <li class="qs-rgp-bloque"><a href="#">
+        <span class="qs-rgp-monto"><small>Arriba de</small>Q 800</span>
+        <b>Para una ocasión</b>
+        <span>Con envío sin costo y empaque de regalo incluido.</span>
+        <span class="qs-rgp-cuantos">19 productos<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 85 · ÚLTIMAS UNIDADES ══════════════ -->
+<template id="tpl-ultimas-unidades">
+<!-- ============================================================
+     SECCIÓN · Últimas unidades
+     Con la existencia REAL, no con un reloj inventado. La barra y
+     el número salen del mismo dato, así que no se contradicen.
+     ============================================================ -->
+<section class="qs-ultimas-unidades">
+  <style>
+  .qs-ultimas-unidades, .qs-ultimas-unidades *{box-sizing:border-box}
+  .qs-ultimas-unidades{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #FBF9F7;   /* fondo de cada tarjeta         */
+    --qs-lienzo:      #F0EDE9;   /* fondo de cada foto            */
+    --qs-tinta:       #1C1917;   /* color del texto               */
+    --qs-tinta-suave: #6B6560;   /* variantes                     */
+    --qs-alerta:      #A33818;   /* barra y aviso de existencia   */
+    --qs-canal:       #EDE6E2;   /* canal de la barra             */
+    --qs-linea:       #E7E2DD;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-uu-marco{max-width:1100px; margin:0 auto}
+  .qs-uu-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px}
+  .qs-ultimas-unidades h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-uu-sub{margin:0 0 20px; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-uu-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-uu-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-uu-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-uu-foto{background:var(--qs-lienzo); aspect-ratio:1/1}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-uu-foto svg{width:100%; height:100%; display:block}
+  .qs-uu-cuerpo{padding:13px 14px 15px}
+  .qs-uu-cuerpo b{display:block; font-size:13.5px; font-weight:600; line-height:1.35}
+  .qs-uu-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-uu-precio{margin:8px 0 12px; font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums}
+  /* El ancho del relleno y el número son el MISMO dato: si se cambia uno,
+     se cambia el otro. Una barra al 80% junto a «quedan 2» no se cree. */
+  .qs-uu-canal{display:block; height:6px; border-radius:99px; background:var(--qs-canal); overflow:hidden}
+  .qs-uu-canal i{display:block; height:100%; border-radius:99px; background:var(--qs-alerta)}
+  .qs-uu-quedan{margin:7px 0 0; font-size:12px; font-weight:600; color:var(--qs-alerta); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){ .qs-uu-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){ .qs-ultimas-unidades{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-uu-marco">
+    <div class="qs-uu-alto"><h2>Últimas unidades</h2></div>
+    <p class="qs-uu-sub">Existencia real de la bodega, al día de hoy. Cuando se acaban, se acaban: estas piezas no se vuelven a producir.</p>
+
+    <ul class="qs-uu-reja">
+      <!-- Pieza · duplicar. El ancho de la barra = quedan ÷ lote inicial -->
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#F0EDE9"/><circle cx="130" cy="112" r="54" fill="#DCD5CE"/><rect x="66" y="180" width="128" height="14" rx="7" fill="#DCD5CE"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Mochila de lona</b><span>Verde olivo · única talla</span>
+          <p class="qs-uu-precio">Q 890.00</p>
+          <span class="qs-uu-canal"><i style="width:8%"></i></span>
+          <p class="qs-uu-quedan">Quedan 2 de 25</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#EEEBE6"/><rect x="92" y="54" width="76" height="152" rx="18" fill="#D9D2CA"/><rect x="112" y="86" width="36" height="9" rx="4.5" fill="#EEEBE6"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Termo de acero</b><span>750 ml · Negro</span>
+          <p class="qs-uu-precio">Q 210.00</p>
+          <span class="qs-uu-canal"><i style="width:20%"></i></span>
+          <p class="qs-uu-quedan">Quedan 8 de 40</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#F1EFEB"/><path d="M50 190l62-92 42 56 32-38 44 74z" fill="#DBD4CC"/><circle cx="92" cy="80" r="26" fill="#DBD4CC"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Cuaderno cosido</b><span>A5 · Papel crema</span>
+          <p class="qs-uu-precio">Q 95.00</p>
+          <span class="qs-uu-canal"><i style="width:5%"></i></span>
+          <p class="qs-uu-quedan">Queda 1 de 20</p>
+        </div>
+      </a></li>
+      <li class="qs-uu-pieza"><a href="#">
+        <div class="qs-uu-foto"><svg viewBox="0 0 260 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="260" height="260" fill="#EFECE8"/><rect x="58" y="96" width="144" height="68" rx="16" fill="#D8D1C9"/><circle cx="96" cy="130" r="18" fill="#EFECE8"/></svg></div>
+        <div class="qs-uu-cuerpo">
+          <b>Cartera de cuero</b><span>Café · 6 tarjetas</span>
+          <p class="qs-uu-precio">Q 265.00</p>
+          <span class="qs-uu-canal"><i style="width:30%"></i></span>
+          <p class="qs-uu-quedan">Quedan 9 de 30</p>
+        </div>
+      </a></li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 86 · PRODUCTO CON VIDEO ══════════════ -->
+<template id="tpl-producto-con-video">
+<!-- ============================================================
+     SECCIÓN · Producto con video
+     Tarjetas con el reel del producto. El video arranca en
+     silencio y solo al pasar el mouse; con el dedo, no arranca.
+     ============================================================ -->
+<section class="qs-producto-video">
+  <style>
+  .qs-producto-video, .qs-producto-video *{box-sizing:border-box}
+  .qs-producto-video{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F4FA;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada tarjeta         */
+    --qs-lienzo:      #E7E2F0;   /* fondo de cada video           */
+    --qs-tinta:       #1A1626;   /* color del texto               */
+    --qs-tinta-suave: #635C78;   /* variantes                     */
+    --qs-acento:      #5A3DA8;   /* sello de video y precio       */
+    --qs-linea:       #E2DDEE;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        54px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pcv-marco{max-width:1100px; margin:0 auto}
+  .qs-pcv-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+  .qs-producto-video h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-pcv-alto p{margin:0; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-pcv-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-pcv-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  .qs-pcv-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-pcv-marco-video{position:relative; background:var(--qs-lienzo); aspect-ratio:9/16}
+  /* Reemplazar el <svg> por:
+     <video src="…" muted loop playsinline preload="metadata"
+            poster="…" style="width:100%;height:100%;object-fit:cover"></video>
+     El JS de abajo lo arranca al pasar el mouse y lo detiene al salir. */
+  .qs-pcv-marco-video svg, .qs-pcv-marco-video video{width:100%; height:100%; display:block; object-fit:cover}
+  .qs-pcv-sello{
+    position:absolute; top:10px; left:10px; display:inline-flex; align-items:center; gap:5px;
+    background:var(--qs-acento); color:#fff; border-radius:99px; padding:4px 10px;
+    font-size:10.5px; font-weight:700; letter-spacing:.04em;
+  }
+  .qs-pcv-sello svg{width:9px; height:9px}
+  .qs-pcv-duracion{
+    position:absolute; right:10px; bottom:10px; background:rgba(20,16,32,.72); color:#fff;
+    border-radius:6px; padding:3px 7px; font-size:10.5px; font-weight:600; font-variant-numeric:tabular-nums;
+  }
+  .qs-pcv-cuerpo{padding:13px 14px 15px}
+  .qs-pcv-cuerpo b{display:block; font-size:13.5px; font-weight:600; line-height:1.35}
+  .qs-pcv-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-pcv-cuerpo p{margin:8px 0 0; font-size:14.5px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  @media (max-width:860px){ .qs-pcv-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:440px){ .qs-producto-video{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-pcv-marco">
+    <div class="qs-pcv-alto">
+      <h2>Míralo en movimiento</h2>
+      <p>Grabado con el producto en la mano, no en estudio.</p>
+    </div>
+
+    <ul class="qs-pcv-reja">
+      <!-- Pieza · duplicar -->
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E7E2F0"/><circle cx="135" cy="200" r="72" fill="#CFC6E4"/><rect x="63" y="308" width="144" height="16" rx="8" fill="#CFC6E4"/></svg>
+          <span class="qs-pcv-duracion">0:18</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Mochila de lona</b><span>Cómo se carga llena</span><p>Q 890.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E4DEEE"/><rect x="95" y="120" width="80" height="240" rx="24" fill="#CBC1E1"/></svg>
+          <span class="qs-pcv-duracion">0:12</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Termo de acero</b><span>12 horas frío, medido</span><p>Q 210.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E8E3F1"/><path d="M40 360l80-124 54 74 40-50 56 100z" fill="#D0C7E5"/><circle cx="92" cy="150" r="34" fill="#D0C7E5"/></svg>
+          <span class="qs-pcv-duracion">0:24</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Cuaderno cosido</b><span>Cómo abre plano</span><p>Q 95.00</p></div>
+      </a></li>
+      <li class="qs-pcv-pieza"><a href="#">
+        <div class="qs-pcv-marco-video">
+          <span class="qs-pcv-sello"><svg viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><path d="M1.5 1l6.5 3.5L1.5 8z"/></svg>VIDEO</span>
+          <svg viewBox="0 0 270 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="270" height="480" fill="#E5E0EF"/><rect x="50" y="190" width="170" height="96" rx="20" fill="#CDC4E2"/><circle cx="95" cy="238" r="24" fill="#E5E0EF"/></svg>
+          <span class="qs-pcv-duracion">0:09</span>
+        </div>
+        <div class="qs-pcv-cuerpo"><b>Cartera de cuero</b><span>Cuántas tarjetas caben</span><p>Q 265.00</p></div>
+      </a></li>
+    </ul>
+  </div>
+
+  <script>
+  /* Arranca al pasar el mouse y se detiene al salir. Con el dedo no hay
+     `hover`, así que en teléfono no arranca nada: cuatro videos en
+     reproducción se comen los datos de quien está en la calle. */
+  (function(){
+    var raiz = document.currentScript.closest(".qs-producto-video");
+    if(!window.matchMedia || !matchMedia("(hover: hover)").matches) return;
+    raiz.querySelectorAll(".qs-pcv-marco-video").forEach(function(m){
+      var v = m.querySelector("video");
+      if(!v) return;
+      m.addEventListener("mouseenter", function(){ var p = v.play(); if(p && p.catch) p.catch(function(){}); });
+      m.addEventListener("mouseleave", function(){ v.pause(); v.currentTime = 0; });
+    });
+  })();
+  </script>
+</section>
+</template>
+
+<!-- ══════════════ 87 · HERO DE PROMESA ══════════════ -->
+<template id="tpl-hero-promesa">
+<!-- ============================================================
+     SECCIÓN · Hero de promesa
+     Sin foto. Un color plano, una frase y las tres cosas que la
+     tienda cumple. Para negocios que no tienen buena fotografía
+     todavía: es mejor eso que una foto de banco de imágenes.
+     ============================================================ -->
+<section class="qs-hero-promesa">
+  <style>
+  .qs-hero-promesa, .qs-hero-promesa *{box-sizing:border-box}
+  .qs-hero-promesa{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #133B2E;   /* fondo de la sección           */
+    --qs-tinta:       #F1F6F3;   /* color del texto               */
+    --qs-tinta-suave: #A7C0B5;   /* bajada y promesas             */
+    --qs-realce:      #E5B84B;   /* palabra destacada             */
+    --qs-boton:       #F1F6F3;   /* fondo del botón               */
+    --qs-boton-txt:   #133B2E;   /* texto del botón               */
+    --qs-linea:       #24523F;   /* líneas divisorias             */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    --qs-aire:        84px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-hp-marco{max-width:760px; margin:0 auto}
+  .qs-hp-linea{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--qs-tinta-suave); margin:0 0 20px;
+  }
+  .qs-hero-promesa h2{
+    font-size:clamp(30px,5.4vw,54px); font-weight:800; line-height:1.06;
+    letter-spacing:-.036em; margin:0 0 18px; text-wrap:balance;
+  }
+  .qs-hp-realce{color:var(--qs-realce)}
+  .qs-hp-bajada{margin:0 auto 30px; font-size:16px; line-height:1.65; color:var(--qs-tinta-suave); max-width:50ch}
+  .qs-hp-cta{
+    display:inline-block; font-size:15px; font-weight:700; text-decoration:none;
+    background:var(--qs-boton); color:var(--qs-boton-txt);
+    border-radius:var(--qs-radio); padding:15px 34px;
+  }
+  .qs-hp-promesas{
+    list-style:none; margin:44px 0 0; padding:26px 0 0; border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; text-align:left;
+  }
+  .qs-hp-promesas b{display:block; font-size:14.5px; font-weight:700; margin-bottom:5px}
+  .qs-hp-promesas span{display:block; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  @media (max-width:640px){
+    .qs-hero-promesa{--qs-aire:60px}
+    .qs-hp-promesas{grid-template-columns:1fr; gap:16px}
+  }
+  </style>
+
+  <div class="qs-hp-marco">
+    <p class="qs-hp-linea">Taller propio desde 2014</p>
+    <h2>Hecho acá, para que <span class="qs-hp-realce">dure acá</span></h2>
+    <p class="qs-hp-bajada">Cosemos cada pieza en Antigua con materiales que aguantan el invierno y el sol de la costa. Si algo se descose, lo arreglamos nosotros.</p>
+    <a class="qs-hp-cta" href="#">Ver el catálogo</a>
+
+    <ul class="qs-hp-promesas">
+      <!-- Promesa · duplicar -->
+      <li><b>Envío en 24 horas</b><span>Dentro de la capital. Dos días al resto del país.</span></li>
+      <li><b>Cambios en 30 días</b><span>Con la etiqueta puesta. La recolección la pagamos nosotros.</span></li>
+      <li><b>Arreglo de por vida</b><span>Costuras y herrajes, sin costo. Traes la pieza y la revisamos.</span></li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 88 · HERO CON CATEGORÍAS ══════════════ -->
+<template id="tpl-hero-categorias">
+<!-- ============================================================
+     SECCIÓN · Hero con categorías
+     Un mensaje corto arriba y las puertas de entrada abajo, en
+     círculos. Para tiendas donde la gente ya sabe qué busca.
+     ============================================================ -->
+<section class="qs-hero-categorias">
+  <style>
+  .qs-hero-categorias, .qs-hero-categorias *{box-sizing:border-box}
+  .qs-hero-categorias{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFF8F2;   /* fondo de la sección           */
+    --qs-tinta:       #241710;   /* color del texto               */
+    --qs-tinta-suave: #7A6353;   /* bajada                        */
+    --qs-lienzo:      #F2E3D6;   /* fondo de cada círculo         */
+    --qs-acento:      #B4470F;   /* botón y aro al pasar el mouse */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-circulo:     116px;     /* tamaño de cada círculo        */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px; text-align:center;
+  }
+  .qs-hc-marco{max-width:960px; margin:0 auto}
+  .qs-hero-categorias h2{
+    font-size:clamp(26px,4.4vw,42px); font-weight:800; line-height:1.1;
+    letter-spacing:-.034em; margin:0 auto 14px; max-width:18ch; text-wrap:balance;
+  }
+  .qs-hc-bajada{margin:0 auto 26px; font-size:15.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:48ch}
+  .qs-hc-cta{
+    display:inline-block; font-size:14.5px; font-weight:700; text-decoration:none;
+    background:var(--qs-acento); color:var(--qs-acento-txt);
+    border-radius:var(--qs-radio); padding:13px 28px; margin-bottom:44px;
+  }
+  .qs-hc-reja{
+    list-style:none; margin:0; padding:0; display:flex; justify-content:center;
+    flex-wrap:wrap; gap:26px 30px;
+  }
+  .qs-hc-reja a{display:flex; flex-direction:column; text-decoration:none; color:inherit; width:var(--qs-circulo)}
+  /* El nombre se estira para que el conteo quede alineado aunque una
+     etiqueta ocupe dos renglones. */
+  .qs-hc-reja b{flex:1}
+  .qs-hc-disco{
+    width:var(--qs-circulo); height:var(--qs-circulo); border-radius:50%;
+    overflow:hidden; background:var(--qs-lienzo); margin-bottom:11px;
+    border:2px solid transparent;
+  }
+  .qs-hc-reja a:hover .qs-hc-disco{border-color:var(--qs-acento)}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hc-disco svg{width:100%; height:100%; display:block}
+  .qs-hc-reja b{font-size:13.5px; font-weight:600}
+  .qs-hc-reja span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:2px; font-variant-numeric:tabular-nums}
+  @media (max-width:560px){
+    .qs-hero-categorias{--qs-circulo:86px; --qs-aire:46px}
+    .qs-hc-reja{gap:20px}
+  }
+  </style>
+
+  <div class="qs-hc-marco">
+    <h2>Todo para la cocina de tu negocio</h2>
+    <p class="qs-hc-bajada">Equipo, insumos y empaque, con existencia real y entrega en 24 horas dentro de la capital.</p>
+    <a class="qs-hc-cta" href="#">Ver todo el catálogo</a>
+
+    <ul class="qs-hc-reja">
+      <!-- Categoría · duplicar -->
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F2E3D6"/><rect x="34" y="30" width="52" height="60" rx="10" fill="#DEC6B2"/><rect x="46" y="44" width="28" height="8" rx="4" fill="#F2E3D6"/></svg></div>
+        <b>Refrigeración</b><span>64 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#EFDFD1"/><circle cx="60" cy="58" r="30" fill="#DCC3AE"/><rect x="44" y="88" width="32" height="8" rx="4" fill="#DCC3AE"/></svg></div>
+        <b>Cocción</b><span>92 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F3E5D8"/><path d="M28 86l26-44 18 26 14-16 22 34z" fill="#DFC8B4"/><circle cx="44" cy="36" r="12" fill="#DFC8B4"/></svg></div>
+        <b>Empaque</b><span>148 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F0E1D3"/><rect x="26" y="52" width="68" height="16" rx="8" fill="#DDC5B0"/><rect x="52" y="26" width="16" height="68" rx="8" fill="#DDC5B0"/></svg></div>
+        <b>Limpieza</b><span>77 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#F2E4D7"/><circle cx="60" cy="60" r="34" fill="none" stroke="#DEC7B3" stroke-width="12"/></svg></div>
+        <b>Servicio de mesa</b><span>203 productos</span>
+      </a></li>
+      <li><a href="#">
+        <div class="qs-hc-disco"><svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="120" height="120" fill="#EFE0D2"/><rect x="30" y="34" width="60" height="52" rx="8" fill="#DCC4AF"/><rect x="42" y="50" width="36" height="6" rx="3" fill="#EFE0D2"/><rect x="42" y="62" width="24" height="6" rx="3" fill="#EFE0D2"/></svg></div>
+        <b>Papelería</b><span>51 productos</span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 89 · HERO DE DOS PÚBLICOS ══════════════ -->
+<template id="tpl-hero-doble">
+<!-- ============================================================
+     SECCIÓN · Hero de dos públicos
+     La pantalla partida en dos, cada mitad para quien es. Para
+     tiendas que venden al público Y al negocio: un solo mensaje
+     para los dos termina sin servirle a ninguno.
+     ============================================================ -->
+<section class="qs-hero-doble">
+  <style>
+  .qs-hero-doble, .qs-hero-doble *{box-sizing:border-box}
+  .qs-hero-doble{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo-a:     #1B2D4F;   /* fondo de la mitad izquierda   */
+    --qs-fondo-b:     #6B2418;   /* fondo de la mitad derecha     */
+    --qs-tinta:       #FFFFFF;   /* color del texto               */
+    --qs-tinta-suave: rgba(255,255,255,.76); /* bajada            */
+    --qs-boton:       #FFFFFF;   /* fondo del botón               */
+    --qs-velo:        .28;       /* oscurecido de la foto, 0 a 1  */
+    --qs-alto:        420px;     /* alto de cada mitad            */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    /* ═════════════════════════════════════════════════════════ */
+
+    display:grid; grid-template-columns:1fr 1fr; color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-hdb-mitad{
+    position:relative; isolation:isolate; overflow:hidden; min-height:var(--qs-alto);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:36px 32px; text-decoration:none; color:inherit;
+  }
+  .qs-hdb-mitad:first-child{background:var(--qs-fondo-a)}
+  .qs-hdb-mitad:last-child{background:var(--qs-fondo-b)}
+  .qs-hdb-foto{position:absolute; inset:0; z-index:-2; opacity:.5}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hdb-foto svg{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-hdb-mitad::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,calc(var(--qs-velo) + .38)) 100%);
+  }
+  .qs-hdb-etiqueta{
+    display:inline-block; align-self:flex-start; border:1px solid rgba(255,255,255,.5);
+    border-radius:99px; padding:5px 12px; font-size:10.5px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; margin:0 0 auto;
+  }
+  .qs-hero-doble h2{font-size:clamp(23px,3vw,32px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin:0 0 10px}
+  .qs-hdb-bajada{margin:0 0 20px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:36ch}
+  .qs-hdb-cta{
+    align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+    font-size:14px; font-weight:700; background:var(--qs-boton); color:#16161A;
+    border-radius:var(--qs-radio); padding:12px 24px;
+  }
+  .qs-hdb-cta svg{width:12px; height:12px}
+  @media (max-width:760px){
+    .qs-hero-doble{grid-template-columns:1fr; --qs-alto:320px}
+  }
+  </style>
+
+  <!-- Mitad · duplicar para una tercera columna -->
+  <a class="qs-hdb-mitad" href="#">
+    <div class="qs-hdb-foto"><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="420" fill="#25406E"/><circle cx="420" cy="150" r="110" fill="#33518A"/><rect x="60" y="250" width="240" height="20" rx="10" fill="#33518A"/></svg></div>
+    <span class="qs-hdb-etiqueta">Para tu casa</span>
+    <h2>Compra una pieza</h2>
+    <p class="qs-hdb-bajada">Precio al público, envío en 24 horas y cambios en 30 días. Sin mínimo de compra.</p>
+    <span class="qs-hdb-cta">Ver la tienda<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+
+  <a class="qs-hdb-mitad" href="#">
+    <div class="qs-hdb-foto"><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="420" fill="#7D3020"/><rect x="330" y="90" width="200" height="200" rx="26" fill="#94402C"/><circle cx="140" cy="300" r="70" fill="#94402C"/></svg></div>
+    <span class="qs-hdb-etiqueta">Para tu negocio</span>
+    <h2>Compra por volumen</h2>
+    <p class="qs-hdb-bajada">Desde 12 unidades el precio cambia. Factura con NIT y crédito a 30 días para clientes recurrentes.</p>
+    <span class="qs-hdb-cta">Pedir cotización<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+</section>
+</template>
+
+<!-- ══════════════ 90 · HERO CON PRUEBA ══════════════ -->
+<template id="tpl-hero-prueba">
+<!-- ============================================================
+     SECCIÓN · Hero con prueba
+     El mensaje con la prueba pegada: calificación, cuántos la
+     sostienen y una cita corta. La nota nunca va sola.
+     ============================================================ -->
+<section class="qs-hero-prueba">
+  <style>
+  .qs-hero-prueba, .qs-hero-prueba *{box-sizing:border-box}
+  .qs-hero-prueba{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F6F7F5;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de la tarjeta de prueba */
+    --qs-lienzo:      #E7EAE5;   /* fondo de la foto              */
+    --qs-tinta:       #161A15;   /* color del texto               */
+    --qs-tinta-suave: #616A5E;   /* bajada y explicaciones        */
+    --qs-estrella:    #B5811C;   /* color de las estrellas        */
+    --qs-acento:      #1F4A2C;   /* botón principal               */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E1E5DE;   /* bordes                        */
+    --qs-radio:       18px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hpr-reja{max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center}
+  .qs-hero-prueba h2{
+    font-size:clamp(28px,4.4vw,44px); font-weight:800; line-height:1.08;
+    letter-spacing:-.034em; margin:0 0 16px; text-wrap:balance;
+  }
+  .qs-hpr-bajada{margin:0 0 26px; font-size:16px; line-height:1.65; color:var(--qs-tinta-suave); max-width:44ch}
+  .qs-hpr-botones{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px}
+  .qs-hpr-botones a{font-size:14.5px; font-weight:600; text-decoration:none; border-radius:11px; padding:13px 24px}
+  .qs-hpr-uno{background:var(--qs-acento); color:var(--qs-acento-txt)}
+  .qs-hpr-dos{background:var(--qs-panel); color:var(--qs-tinta); border:1px solid var(--qs-linea)}
+  .qs-hpr-nota{
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:18px 20px;
+  }
+  .qs-hpr-alto{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .qs-hpr-estrellas{display:flex; gap:2px}
+  .qs-hpr-estrellas svg{width:15px; height:15px; color:var(--qs-estrella)}
+  .qs-hpr-alto b{font-size:14px; font-weight:700; font-variant-numeric:tabular-nums}
+  /* La nota nunca va sola: al lado va cuántas opiniones la sostienen. */
+  .qs-hpr-alto span{font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hpr-nota p{margin:0 0 9px; font-size:14px; line-height:1.6}
+  .qs-hpr-quien{margin:0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-hpr-foto{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hpr-foto svg{width:100%; height:100%; display:block}
+  @media (max-width:820px){
+    .qs-hero-prueba{--qs-aire:46px}
+    .qs-hpr-reja{grid-template-columns:1fr; gap:28px}
+    .qs-hpr-foto{aspect-ratio:16/10; order:-1}
+  }
+  </style>
+
+  <div class="qs-hpr-reja">
+    <div>
+      <h2>La mochila que no te deja botado a medio invierno</h2>
+      <p class="qs-hpr-bajada">Lona encerada en frío, cosida en Antigua, con los cuatro puntos de carga reforzados. Si se descose, la arreglamos nosotros.</p>
+      <div class="qs-hpr-botones">
+        <a class="qs-hpr-uno" href="#">Ver la mochila</a>
+        <a class="qs-hpr-dos" href="#">Leer las 87 opiniones</a>
+      </div>
+
+      <div class="qs-hpr-nota">
+        <div class="qs-hpr-alto">
+          <span class="qs-hpr-estrellas" aria-hidden="true">
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z" stroke="currentColor" stroke-width="1.2"/></svg>
+          </span>
+          <b>4.6</b>
+          <span>sobre 87 opiniones verificadas</span>
+        </div>
+        <p>«La uso a diario para ir al trabajo en moto. Aguantó el invierno completo y la laptop nunca se mojó.»</p>
+        <p class="qs-hpr-quien">Andrea M. · compra verificada, 12 de septiembre</p>
+      </div>
+    </div>
+
+    <div class="qs-hpr-foto">
+      <svg viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="480" height="600" fill="#E7EAE5"/>
+        <rect x="140" y="150" width="200" height="270" rx="34" fill="#CBD3C7"/>
+        <path d="M180 150v-32a60 60 0 0 1 120 0v32" stroke="#B9C3B4" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <rect x="176" y="250" width="128" height="18" rx="9" fill="#E7EAE5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 91 · HERO DE MARCA ══════════════ -->
+<template id="tpl-hero-marca">
+<!-- ============================================================
+     SECCIÓN · Hero de marca
+     Tipografía grande y una sola idea. Para tiendas de autor,
+     donde lo que se compra es de quién viene, no qué es.
+     ============================================================ -->
+<section class="qs-hero-marca">
+  <style>
+  .qs-hero-marca, .qs-hero-marca *{box-sizing:border-box}
+  .qs-hero-marca{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #EFEAE1;   /* fondo de la sección           */
+    --qs-tinta:       #1E1A14;   /* color del texto               */
+    --qs-tinta-suave: #6B6154;   /* bajada y pie                  */
+    --qs-serif:       Georgia, 'Times New Roman', serif; /* titular */
+    --qs-regla:       #C9BFAE;   /* líneas                        */
+    --qs-acento:      #8A4A16;   /* enlace                        */
+    --qs-aire:        86px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-hmr-marco{max-width:1020px; margin:0 auto}
+  .qs-hmr-alto{
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding-bottom:16px; border-bottom:1px solid var(--qs-regla); margin-bottom:34px;
+    font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--qs-tinta-suave);
+  }
+  .qs-hero-marca h2{
+    font-family:var(--qs-serif); font-weight:400; font-style:normal;
+    font-size:clamp(34px,6.6vw,74px); line-height:1.02; letter-spacing:-.024em;
+    margin:0 0 30px; text-wrap:balance;
+  }
+  .qs-hmr-cursiva{font-style:italic}
+  .qs-hmr-pie{
+    display:grid; grid-template-columns:1.2fr .8fr; gap:34px; align-items:end;
+    padding-top:26px; border-top:1px solid var(--qs-regla);
+  }
+  .qs-hmr-pie p{margin:0; font-size:15px; line-height:1.7; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-hmr-enlace{
+    justify-self:end; display:inline-flex; align-items:center; gap:9px;
+    font-size:14.5px; font-weight:600; color:var(--qs-acento); text-decoration:none;
+    border-bottom:1px solid var(--qs-acento); padding-bottom:3px;
+  }
+  .qs-hmr-enlace svg{width:13px; height:13px}
+  @media (max-width:700px){
+    .qs-hero-marca{--qs-aire:58px}
+    .qs-hmr-pie{grid-template-columns:1fr; gap:22px; align-items:start}
+    .qs-hmr-enlace{justify-self:start}
+  }
+  </style>
+
+  <div class="qs-hmr-marco">
+    <div class="qs-hmr-alto">
+      <span>Taller en Antigua Guatemala</span>
+      <span>Desde 2014</span>
+    </div>
+
+    <h2>Cosemos despacio, para que <span class="qs-hmr-cursiva">no tengas que volver</span> a comprarlo</h2>
+
+    <div class="qs-hmr-pie">
+      <p>Somos tres personas y una máquina de coser de 1978. Hacemos entre veinte y treinta piezas al mes, todas con lona encerada en frío y cuero de curtiembre local. No producimos por temporada: producimos cuando se acaba lo anterior.</p>
+      <a class="qs-hmr-enlace" href="#">
+        Conocer el taller
+        <svg viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2.5 6.5h8M7 3l3.5 3.5L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 92 · SOBRE NOSOTROS ══════════════ -->
+<template id="tpl-sobre-nosotros">
+<!-- ============================================================
+     SECCIÓN · Sobre nosotros
+     La historia con los datos que se pueden comprobar al lado.
+     Una historia sin números es un texto que nadie termina.
+     ============================================================ -->
+<section class="qs-sobre-nosotros">
+  <style>
+  .qs-sobre-nosotros, .qs-sobre-nosotros *{box-sizing:border-box}
+  .qs-sobre-nosotros{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-lienzo:      #EFECE6;   /* fondo de la foto              */
+    --qs-tinta:       #1A1814;   /* color del texto               */
+    --qs-tinta-suave: #6A655C;   /* párrafos                      */
+    --qs-acento:      #7A4A1E;   /* los números                   */
+    --qs-linea:       #E5E1D8;   /* líneas divisorias             */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-sn-reja{max-width:1060px; margin:0 auto; display:grid; grid-template-columns:.9fr 1.1fr; gap:40px; align-items:start}
+  .qs-sn-foto{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5; position:sticky; top:24px}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-sn-foto svg{width:100%; height:100%; display:block}
+  .qs-sn-rotulo{
+    margin:0 0 10px; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--qs-acento);
+  }
+  .qs-sobre-nosotros h2{font-size:clamp(23px,3.2vw,33px); font-weight:700; letter-spacing:-.03em; line-height:1.15; margin:0 0 18px; text-wrap:balance}
+  .qs-sn-texto p{margin:0 0 15px; font-size:15px; line-height:1.75; color:var(--qs-tinta-suave); max-width:56ch}
+  .qs-sn-texto p:last-of-type{margin-bottom:0}
+  .qs-sn-datos{
+    list-style:none; margin:30px 0 0; padding:26px 0 0; border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px;
+  }
+  .qs-sn-datos b{
+    display:block; font-size:clamp(24px,3vw,32px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); line-height:1.05; font-variant-numeric:tabular-nums;
+  }
+  .qs-sn-datos span{display:block; font-size:12.5px; line-height:1.5; color:var(--qs-tinta-suave); margin-top:6px}
+  .qs-sn-firma{
+    margin:28px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.6; color:var(--qs-tinta-suave);
+  }
+  .qs-sn-firma b{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:820px){
+    .qs-sobre-nosotros{--qs-aire:46px}
+    .qs-sn-reja{grid-template-columns:1fr; gap:26px}
+    .qs-sn-foto{position:static; aspect-ratio:16/10}
+  }
+  @media (max-width:480px){ .qs-sn-datos{grid-template-columns:1fr; gap:16px} }
+  </style>
+
+  <div class="qs-sn-reja">
+    <div class="qs-sn-foto">
+      <svg viewBox="0 0 440 550" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="440" height="550" fill="#EFECE6"/>
+        <rect x="60" y="300" width="320" height="26" rx="13" fill="#D9D3C7"/>
+        <circle cx="160" cy="200" r="64" fill="#D9D3C7"/>
+        <circle cx="290" cy="228" r="48" fill="#E3DDD2"/>
+        <path d="M40 420h360v60H40z" fill="#D9D3C7"/>
+      </svg>
+    </div>
+
+    <div class="qs-sn-texto">
+      <p class="qs-sn-rotulo">Quiénes somos</p>
+      <h2>Empezamos vendiendo en la feria de Jocotenango</h2>
+      <p>En 2014 éramos dos personas y una mesa prestada. Cosíamos de noche y vendíamos los domingos. La primera mochila la hicimos porque un cliente nos pidió algo que aguantara la lluvia y no encontraba nada en el mercado.</p>
+      <p>Diez años después seguimos en Antigua, en un taller propio, y seguimos cosiendo pieza por pieza. Crecimos en clientes, no en velocidad: hacemos entre veinte y treinta piezas al mes y eso no va a cambiar.</p>
+      <p>Lo que sí cambió es que ahora podemos garantizar lo que antes solo prometíamos: si una costura se abre, la arreglamos sin costo, para siempre.</p>
+
+      <ul class="qs-sn-datos">
+        <!-- Dato · duplicar -->
+        <li><b>10</b><span>años cosiendo en el mismo taller</span></li>
+        <li><b>3</b><span>personas, todas con nombre y cara</span></li>
+        <li><b>4,200</b><span>piezas entregadas desde 2014</span></li>
+      </ul>
+
+      <p class="qs-sn-firma"><b>Los datos son verificables.</b> El conteo de piezas sale de las facturas emitidas; si alguna vez no lo podemos comprobar, lo quitamos de acá.</p>
+    </div>
+  </div>
+</section>
+</template>
+
+<!-- ══════════════ 93 · EL EQUIPO ══════════════ -->
+<template id="tpl-equipo">
+<!-- ============================================================
+     SECCIÓN · El equipo
+     Las personas con nombre y con qué hacen. Un equipo sin
+     apellidos ni oficios es una foto de banco de imágenes.
+     ============================================================ -->
+<section class="qs-equipo">
+  <style>
+  .qs-equipo, .qs-equipo *{box-sizing:border-box}
+  .qs-equipo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F7F6F3;   /* fondo de la sección           */
+    --qs-lienzo:      #E8E5DE;   /* fondo de cada retrato         */
+    --qs-tinta:       #1A1915;   /* color del texto               */
+    --qs-tinta-suave: #69665D;   /* oficio y descripción          */
+    --qs-acento:      #2F5B43;   /* el oficio                     */
+    --qs-linea:       #E3E0D7;   /* líneas divisorias             */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-eq-marco{max-width:1000px; margin:0 auto}
+  .qs-eq-alto{max-width:52ch; margin-bottom:28px}
+  .qs-equipo h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-eq-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-eq-reja{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; list-style:none; margin:0; padding:0}
+  .qs-eq-retrato{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:1/1; margin-bottom:13px}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-eq-retrato svg{width:100%; height:100%; display:block}
+  .qs-eq-persona b{display:block; font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .qs-eq-oficio{display:block; font-size:12.5px; font-weight:600; color:var(--qs-acento); margin:3px 0 8px}
+  .qs-eq-persona p{margin:0; font-size:13.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-eq-pie{
+    margin:30px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  .qs-eq-pie a{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:760px){ .qs-eq-reja{grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px} }
+  @media (max-width:460px){
+    .qs-equipo{--qs-aire:42px}
+    .qs-eq-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-eq-marco">
+    <div class="qs-eq-alto">
+      <h2>Quién cose tu pedido</h2>
+      <p>Somos tres. Si escribes por WhatsApp, te contesta una de estas personas, no un robot.</p>
+    </div>
+
+    <ul class="qs-eq-reja">
+      <!-- Persona · duplicar -->
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E8E5DE"/><circle cx="150" cy="118" r="54" fill="#D2CEC4"/><path d="M52 300c0-56 44-92 98-92s98 36 98 92z" fill="#D2CEC4"/></svg></div>
+        <b>Marisol Chávez</b>
+        <span class="qs-eq-oficio">Corte y costura</span>
+        <p>Lleva diez años en la máquina. Es quien decide si una lona sirve o no antes de que entre al taller.</p>
+      </li>
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E5E2DA"/><circle cx="150" cy="116" r="52" fill="#CFCBC1"/><path d="M56 300c0-54 42-90 94-90s94 36 94 90z" fill="#CFCBC1"/></svg></div>
+        <b>Julio Ramírez</b>
+        <span class="qs-eq-oficio">Cuero y herrajes</span>
+        <p>Corta y monta todas las piezas de cuero. Si pides un grabado, lo hace él, a mano.</p>
+      </li>
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E9E6DF"/><circle cx="150" cy="120" r="56" fill="#D4D0C6"/><path d="M50 300c0-58 45-94 100-94s100 36 100 94z" fill="#D4D0C6"/></svg></div>
+        <b>Ana Lucía Pérez</b>
+        <span class="qs-eq-oficio">Pedidos y envíos</span>
+        <p>Contesta los mensajes, arma los paquetes y persigue a la mensajería cuando algo se atrasa.</p>
+      </li>
+    </ul>
+
+    <p class="qs-eq-pie">¿Quieres trabajar con nosotros? No tenemos plazas abiertas ahora mismo, pero puedes <a href="#">dejar tus datos</a> y te escribimos cuando abramos una.</p>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 94 · NUESTRAS TIENDAS ══════════════ -->
+<template id="tpl-sucursales">
+<!-- ============================================================
+     SECCIÓN · Nuestras tiendas
+     Dirección, horario y qué se puede hacer en cada una. Sin mapa
+     incrustado: pesa, rastrea y un enlace lleva al mismo lugar.
+     ============================================================ -->
+<section class="qs-sucursales">
+  <style>
+  .qs-sucursales, .qs-sucursales *{box-sizing:border-box}
+  .qs-sucursales{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #F6F7F8;   /* fondo de cada tienda          */
+    --qs-tinta:       #141A20;   /* color del texto               */
+    --qs-tinta-suave: #5E6A75;   /* dirección y horario           */
+    --qs-acento:      #1B5E8A;   /* enlaces                       */
+    --qs-abierto:     #1B6B45;   /* rótulo de abierto             */
+    --qs-cerrado:     #8A3521;   /* rótulo de cerrado             */
+    --qs-linea:       #DFE5EA;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-suc-marco{max-width:1060px; margin:0 auto}
+  .qs-suc-alto{margin-bottom:24px; max-width:54ch}
+  .qs-sucursales h2{font-size:clamp(20px,2.6vw,26px); font-weight:700; letter-spacing:-.026em; margin:0 0 8px}
+  .qs-suc-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-suc-reja{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-suc-tienda{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px; display:flex; flex-direction:column}
+  .qs-suc-estado{
+    display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
+    font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+    border-radius:99px; padding:4px 10px; margin-bottom:12px;
+    background:var(--qs-fondo); border:1px solid var(--qs-linea);
+  }
+  .qs-suc-estado i{width:7px; height:7px; border-radius:50%; background:currentColor; flex:none}
+  .qs-suc-tienda[data-qs-abierta="si"] .qs-suc-estado{color:var(--qs-abierto)}
+  .qs-suc-tienda[data-qs-abierta="no"] .qs-suc-estado{color:var(--qs-cerrado)}
+  .qs-suc-tienda h3{font-size:15px; font-weight:700; margin:0 0 8px}
+  .qs-suc-dato{display:flex; gap:9px; margin:0 0 9px; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-suc-dato svg{width:14px; height:14px; flex:none; margin-top:2px; color:var(--qs-acento)}
+  .qs-suc-hace{
+    list-style:none; margin:4px 0 16px; padding:0; display:flex; flex-wrap:wrap; gap:5px;
+  }
+  .qs-suc-hace li{
+    font-size:11px; font-weight:600; color:var(--qs-tinta-suave);
+    background:var(--qs-fondo); border:1px solid var(--qs-linea);
+    border-radius:99px; padding:4px 9px;
+  }
+  .qs-suc-enlaces{margin-top:auto; display:flex; gap:14px; flex-wrap:wrap}
+  .qs-suc-enlaces a{font-size:13px; font-weight:600; color:var(--qs-acento); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px}
+  @media (max-width:820px){ .qs-suc-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:520px){
+    .qs-sucursales{--qs-aire:44px}
+    .qs-suc-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-suc-marco">
+    <div class="qs-suc-alto">
+      <h2>Dónde encontrarnos</h2>
+      <p>En las tres puedes recoger un pedido en línea sin costo. La de zona 10 es la única con taller, así que los arreglos se hacen ahí.</p>
+    </div>
+
+    <ul class="qs-suc-reja">
+      <!-- Tienda · duplicar. data-qs-abierta: si · no -->
+      <li class="qs-suc-tienda" data-qs-abierta="si">
+        <span class="qs-suc-estado"><i></i>Abierto ahora</span>
+        <h3>Zona 10 · Taller</h3>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 12.5s4.3-3.7 4.3-7A4.3 4.3 0 0 0 2.7 5.5c0 3.3 4.3 7 4.3 7z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.6" stroke="currentColor" stroke-width="1.3"/></svg>4a calle 12-30, zona 10<br>Ciudad de Guatemala</p>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 3.8V7l2.2 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Lunes a viernes, 8 a. m. a 6 p. m.<br>Sábado, 9 a. m. a 1 p. m.</p>
+        <ul class="qs-suc-hace"><li>Recoger pedidos</li><li>Arreglos</li><li>Cambios</li></ul>
+        <div class="qs-suc-enlaces"><a href="#">Cómo llegar</a><a href="#">Llamar</a></div>
+      </li>
+      <li class="qs-suc-tienda" data-qs-abierta="si">
+        <span class="qs-suc-estado"><i></i>Abierto ahora</span>
+        <h3>Antigua Guatemala</h3>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 12.5s4.3-3.7 4.3-7A4.3 4.3 0 0 0 2.7 5.5c0 3.3 4.3 7 4.3 7z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.6" stroke="currentColor" stroke-width="1.3"/></svg>5a avenida norte 22<br>Antigua Guatemala</p>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 3.8V7l2.2 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Todos los días, 10 a. m. a 7 p. m.</p>
+        <ul class="qs-suc-hace"><li>Recoger pedidos</li><li>Cambios</li></ul>
+        <div class="qs-suc-enlaces"><a href="#">Cómo llegar</a><a href="#">Llamar</a></div>
+      </li>
+      <li class="qs-suc-tienda" data-qs-abierta="no">
+        <span class="qs-suc-estado"><i></i>Cerrado · abre el jueves</span>
+        <h3>Quetzaltenango</h3>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 12.5s4.3-3.7 4.3-7A4.3 4.3 0 0 0 2.7 5.5c0 3.3 4.3 7 4.3 7z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.6" stroke="currentColor" stroke-width="1.3"/></svg>14 avenida 3-45, zona 1<br>Quetzaltenango</p>
+        <p class="qs-suc-dato"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 3.8V7l2.2 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Jueves a domingo, 10 a. m. a 6 p. m.</p>
+        <ul class="qs-suc-hace"><li>Recoger pedidos</li></ul>
+        <div class="qs-suc-enlaces"><a href="#">Cómo llegar</a><a href="#">Llamar</a></div>
+      </li>
+    </ul>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 95 · GARANTÍAS Y SELLOS ══════════════ -->
+<template id="tpl-certificaciones">
+<!-- ============================================================
+     SECCIÓN · Garantías y sellos
+     Cada sello con lo que significa. Un logo sin explicación no
+     genera confianza, genera preguntas.
+     ============================================================ -->
+<section class="qs-certificaciones">
+  <style>
+  .qs-certificaciones, .qs-certificaciones *{box-sizing:border-box}
+  .qs-certificaciones{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #10231C;   /* fondo de la sección           */
+    --qs-tinta:       #EAF3EE;   /* color del texto               */
+    --qs-tinta-suave: #9DB8AB;   /* explicaciones                 */
+    --qs-acento:      #6FCf9A;   /* íconos                        */
+    --qs-panel:       #17332A;   /* fondo de cada sello           */
+    --qs-linea:       #24463A;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-cert-marco{max-width:1060px; margin:0 auto}
+  .qs-cert-alto{text-align:center; max-width:52ch; margin:0 auto 28px}
+  .qs-certificaciones h2{font-size:clamp(20px,2.7vw,27px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-cert-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-cert-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-cert-sello{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px}
+  .qs-cert-icono{
+    width:40px; height:40px; border-radius:11px; display:grid; place-items:center;
+    background:var(--qs-fondo); border:1px solid var(--qs-linea); margin-bottom:14px;
+  }
+  .qs-cert-icono svg{width:20px; height:20px; color:var(--qs-acento)}
+  .qs-cert-sello b{display:block; font-size:14px; font-weight:700; margin-bottom:6px}
+  .qs-cert-sello p{margin:0; font-size:13px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-cert-pie{
+    margin:26px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:12.5px; line-height:1.65; color:var(--qs-tinta-suave); text-align:center;
+  }
+  @media (max-width:880px){ .qs-cert-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:460px){
+    .qs-certificaciones{--qs-aire:42px}
+    .qs-cert-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-cert-marco">
+    <div class="qs-cert-alto">
+      <h2>Con qué te respaldamos</h2>
+      <p>Cada sello dice exactamente qué cubre. Si algo no está acá, no lo estamos prometiendo.</p>
+    </div>
+
+    <ul class="qs-cert-reja">
+      <!-- Sello · duplicar -->
+      <li class="qs-cert-sello">
+        <div class="qs-cert-icono"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l6 2.4v4c0 3.5-2.5 6.4-6 7.3-3.5-.9-6-3.8-6-7.3v-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.4 9.8l1.9 1.9 3.9-4.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <b>Pago con 3D Secure</b>
+        <p>Tu banco confirma cada cobro con tarjeta. La tienda nunca ve ni guarda el número.</p>
+      </li>
+      <li class="qs-cert-sello">
+        <div class="qs-cert-icono"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10a6 6 0 1 1 1.8 4.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 6.5V10h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <b>30 días para cambios</b>
+        <p>Con la etiqueta puesta y en su empaque. La recolección la pagamos si es por talla o defecto.</p>
+      </li>
+      <li class="qs-cert-sello">
+        <div class="qs-cert-icono"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="6" width="11" height="8.5" rx="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 8.6h3.1l1.9 2.6v3.3h-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="6" cy="15.6" r="1.6" stroke="currentColor" stroke-width="1.4"/><circle cx="15.2" cy="15.6" r="1.6" stroke="currentColor" stroke-width="1.4"/></svg></div>
+        <b>Entrega en 24 horas</b>
+        <p>Zonas 1 a 25 de la capital, si compras antes de las 2 p. m. Al resto del país, 2 a 3 días hábiles.</p>
+      </li>
+      <li class="qs-cert-sello">
+        <div class="qs-cert-icono"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5l2.5 5.2 5.5.8-4 3.9.9 5.6-4.9-2.6-4.9 2.6.9-5.6-4-3.9 5.5-.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <b>Arreglo de por vida</b>
+        <p>Costuras y herrajes, sin costo y sin fecha límite. Traes la pieza al taller de zona 10.</p>
+      </li>
+    </ul>
+
+    <p class="qs-cert-pie">La garantía de arreglo no cubre el desgaste normal de la lona ni del cuero: eso es lo que se espera de una pieza con uso, y decirlo ahora evita un mal rato después.</p>
+  </div>
+</section>
+</template>
+
+<!-- ══════════════ 96 · LÍNEA DE TIEMPO ══════════════ -->
+<template id="tpl-linea-tiempo">
+<!-- ============================================================
+     SECCIÓN · Línea de tiempo
+     La historia del negocio por años. Cada hito con algo que
+     pasó, no con una frase de relleno.
+     ============================================================ -->
+<section class="qs-linea-tiempo">
+  <style>
+  .qs-linea-tiempo, .qs-linea-tiempo *{box-sizing:border-box}
+  .qs-linea-tiempo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBFAF6;   /* fondo de la sección           */
+    --qs-tinta:       #1B1A14;   /* color del texto               */
+    --qs-tinta-suave: #6B6858;   /* descripciones                 */
+    --qs-acento:      #8A6A16;   /* año y punto                   */
+    --qs-hilo:        #E1DCC7;   /* la línea vertical             */
+    --qs-linea:       #E7E2CF;   /* líneas divisorias             */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-lt-marco{max-width:720px; margin:0 auto}
+  .qs-lt-alto{margin-bottom:30px}
+  .qs-linea-tiempo h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-lt-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-lt-lista{list-style:none; margin:0; padding:0}
+  .qs-lt-hito{display:grid; grid-template-columns:76px 1fr; gap:20px; position:relative; padding-bottom:30px}
+  .qs-lt-hito:last-child{padding-bottom:0}
+  /* El hilo sale del punto de arriba, así que lo dibuja cada hito menos el
+     último: si lo dibujara la lista entera, sobraría por abajo. */
+  .qs-lt-hito:not(:last-child)::before{
+    content:""; position:absolute; left:85px; top:20px; bottom:0; width:1.5px;
+    background:var(--qs-hilo);
+  }
+  .qs-lt-ano{
+    font-size:16px; font-weight:800; letter-spacing:-.02em; color:var(--qs-acento);
+    text-align:right; font-variant-numeric:tabular-nums; padding-top:2px;
+  }
+  .qs-lt-cuerpo{position:relative; padding-left:22px}
+  .qs-lt-cuerpo::before{
+    content:""; position:absolute; left:-4.5px; top:7px; width:11px; height:11px;
+    border-radius:50%; background:var(--qs-acento);
+  }
+  .qs-lt-cuerpo b{display:block; font-size:15px; font-weight:700; margin-bottom:5px}
+  .qs-lt-cuerpo p{margin:0; font-size:14px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-lt-pie{
+    margin:30px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-linea-tiempo{--qs-aire:44px}
+    .qs-lt-hito{grid-template-columns:52px 1fr; gap:14px}
+    .qs-lt-hito:not(:last-child)::before{left:57px}
+  }
+  </style>
+
+  <div class="qs-lt-marco">
+    <div class="qs-lt-alto">
+      <h2>Cómo llegamos hasta acá</h2>
+      <p>Diez años, contados con lo que pasó de verdad. Los años sin nada que contar no están.</p>
+    </div>
+
+    <ol class="qs-lt-lista">
+      <!-- Hito · duplicar -->
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2014</span>
+        <div class="qs-lt-cuerpo">
+          <b>La primera mochila</b>
+          <p>Un cliente de la feria de Jocotenango pidió algo que aguantara la lluvia. La hicimos en dos semanas, con una máquina prestada.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2016</span>
+        <div class="qs-lt-cuerpo">
+          <b>Taller propio en Antigua</b>
+          <p>Dejamos de coser de noche en la casa. Con el taller entró Julio, que es quien corta el cuero desde entonces.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2019</span>
+        <div class="qs-lt-cuerpo">
+          <b>Encerado en frío</b>
+          <p>Cambiamos la cera caliente por la de frío. La tela dejó de ponerse pegajosa con el calor de la costa, que era la queja número uno.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2022</span>
+        <div class="qs-lt-cuerpo">
+          <b>Envíos a todo el país</b>
+          <p>Antes solo entregábamos en Antigua y la capital. Ese año llegamos a los 22 departamentos.</p>
+        </div>
+      </li>
+      <li class="qs-lt-hito">
+        <span class="qs-lt-ano">2024</span>
+        <div class="qs-lt-cuerpo">
+          <b>Arreglo de por vida</b>
+          <p>Llevábamos años arreglando piezas sin cobrar. Lo pusimos por escrito para que no dependiera de a quién le tocara contestar.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="qs-lt-pie">Lo que no logramos todavía: producir más de treinta piezas al mes sin bajar la calidad. Llevamos tres intentos y los tres se revirtieron.</p>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 97 · BOTÓN DE WHATSAPP ══════════════ -->
+<template id="tpl-banner-whatsapp">
+<!-- ============================================================
+     SECCIÓN · Botón de WhatsApp
+     Flotante, con el horario al lado. Un botón que promete
+     respuesta inmediata a las 11 de la noche quema la confianza:
+     este dice cuándo hay alguien y cuándo no.
+     ============================================================ -->
+<div class="qs-banner-whatsapp" data-qs-horario="dentro">
+  <style>
+  .qs-banner-whatsapp, .qs-banner-whatsapp *{box-sizing:border-box}
+  .qs-banner-whatsapp{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-boton:       #1D7D4F;   /* fondo del botón               */
+    --qs-boton-txt:   #FFFFFF;   /* texto del botón               */
+    --qs-globo:       #FFFFFF;   /* fondo del mensaje             */
+    --qs-tinta:       #16201A;   /* color del texto del mensaje   */
+    --qs-tinta-suave: #5E6D64;   /* horario                       */
+    --qs-linea:       #E0E7E2;   /* bordes                        */
+    --qs-lienzo:      #F2F5F3;   /* fondo de la demostración      */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-alto:        320px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); background:var(--qs-lienzo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-wa-hueco{padding:40px 24px; text-align:center; color:var(--qs-tinta-suave); font-size:13.5px}
+  .qs-wa-nido{position:absolute; right:20px; bottom:20px; display:flex; align-items:flex-end; gap:12px}
+  .qs-wa-globo{
+    background:var(--qs-globo); color:var(--qs-tinta); border:1px solid var(--qs-linea);
+    border-radius:var(--qs-radio); padding:14px 16px; max-width:260px;
+    box-shadow:0 10px 26px -18px rgba(16,32,24,.5);
+  }
+  .qs-wa-globo b{display:block; font-size:13.5px; font-weight:700; margin-bottom:4px}
+  .qs-wa-globo p{margin:0; font-size:12.5px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-wa-estado{display:flex; align-items:center; gap:6px; margin-top:9px; font-size:11.5px; font-weight:600}
+  .qs-wa-estado i{width:7px; height:7px; border-radius:50%; background:currentColor; flex:none}
+  .qs-banner-whatsapp[data-qs-horario="dentro"] .qs-wa-estado{color:var(--qs-boton)}
+  .qs-banner-whatsapp[data-qs-horario="fuera"] .qs-wa-estado{color:var(--qs-tinta-suave)}
+  /* Lo que se promete cambia con el horario, no el botón. Fuera de hora se
+     dice cuándo contestamos en vez de callarlo. */
+  .qs-wa-dentro, .qs-wa-fuera{display:none}
+  .qs-banner-whatsapp[data-qs-horario="dentro"] .qs-wa-dentro{display:block}
+  .qs-banner-whatsapp[data-qs-horario="fuera"] .qs-wa-fuera{display:block}
+  .qs-wa-cerrar{
+    position:absolute; top:-8px; right:-8px; width:22px; height:22px; border-radius:50%;
+    background:var(--qs-globo); border:1px solid var(--qs-linea); cursor:pointer;
+    display:grid; place-items:center; color:var(--qs-tinta-suave); padding:0;
+  }
+  .qs-wa-cerrar svg{width:9px; height:9px}
+  .qs-wa-boton{
+    width:58px; height:58px; border-radius:50%; flex:none; display:grid; place-items:center;
+    background:var(--qs-boton); color:var(--qs-boton-txt); text-decoration:none;
+    box-shadow:0 10px 24px -12px rgba(29,125,79,.8);
+  }
+  .qs-wa-boton svg{width:29px; height:29px}
+  .qs-wa-nido[hidden]{display:none}
+  @media (max-width:520px){
+    .qs-wa-globo{max-width:200px; padding:12px 13px}
+    .qs-wa-nido{right:14px; bottom:14px; gap:9px}
+  }
+  </style>
+
+  <p class="qs-wa-hueco">Acá va el contenido de la página. El botón se queda abajo a la derecha.</p>
+
+  <div class="qs-wa-nido" id="qs-wa-nido">
+    <div class="qs-wa-globo" style="position:relative">
+      <button class="qs-wa-cerrar" type="button" id="qs-wa-cerrar" aria-label="Cerrar el mensaje">
+        <svg viewBox="0 0 9 9" fill="none"><path d="M1.5 1.5l6 6M7.5 1.5l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <b>¿Te ayudamos a elegir?</b>
+      <p class="qs-wa-dentro">Escríbenos y te contesta una persona del taller, no un robot.</p>
+      <p class="qs-wa-fuera">Ya cerramos. Déjanos el mensaje y te contestamos mañana a primera hora.</p>
+      <p class="qs-wa-estado">
+        <i></i>
+        <span class="qs-wa-dentro">Contestamos ahora · hasta las 6 p. m.</span>
+        <span class="qs-wa-fuera">Fuera de horario · lunes a viernes, 8 a. m. a 6 p. m.</span>
+      </p>
+    </div>
+
+    <a class="qs-wa-boton" href="#" aria-label="Escribirnos por WhatsApp">
+      <svg viewBox="0 0 29 29" fill="currentColor" aria-hidden="true"><path d="M14.5 3C8.2 3 3.1 8.1 3.1 14.4c0 2 .5 3.9 1.5 5.6L3 26l6.2-1.6c1.6.9 3.4 1.4 5.3 1.4 6.3 0 11.4-5.1 11.4-11.4S20.8 3 14.5 3zm0 20.8c-1.7 0-3.4-.5-4.8-1.3l-.4-.2-3.7 1 1-3.6-.2-.4a9.4 9.4 0 1 1 8.1 4.5zm5.2-7c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1a7.7 7.7 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.7.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+    </a>
+  </div>
+
+  <script>
+  /* Cerrar el mensaje deja el botón: quien lo cerró no quiere leer, pero
+     puede querer escribir. En la tienda, acá se guarda que ya lo cerró. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-banner-whatsapp");
+    var globo = raiz.querySelector(".qs-wa-globo");
+    raiz.querySelector("#qs-wa-cerrar").addEventListener("click", function(){
+      globo.remove();
+    });
+  })();
+  </script>
+</div>
+</template>
+
+<!-- ══════════════ 98 · BANNER DE DOS OFERTAS ══════════════ -->
+<template id="tpl-banner-doble">
+<!-- ============================================================
+     SECCIÓN · Banner de dos ofertas
+     Dos promociones lado a lado, cada una con su condición
+     escrita. Una oferta sin la letra chica visible es una queja
+     esperando su turno.
+     ============================================================ -->
+<section class="qs-banner-doble">
+  <style>
+  .qs-banner-doble, .qs-banner-doble *{box-sizing:border-box}
+  .qs-banner-doble{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-uno:         #17313F;   /* fondo de la primera oferta    */
+    --qs-dos:         #6B2033;   /* fondo de la segunda oferta    */
+    --qs-tinta:       #FFFFFF;   /* color del texto               */
+    --qs-tinta-suave: rgba(255,255,255,.78); /* condición         */
+    --qs-boton:       #FFFFFF;   /* fondo del botón               */
+    --qs-radio:       18px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-bdb-reja{max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .qs-bdb-oferta{
+    position:relative; overflow:hidden; border-radius:var(--qs-radio);
+    color:var(--qs-tinta); padding:30px; display:flex; flex-direction:column;
+    min-height:220px; text-decoration:none;
+  }
+  .qs-bdb-oferta:first-child{background:var(--qs-uno)}
+  .qs-bdb-oferta:last-child{background:var(--qs-dos)}
+  /* El adorno es CSS, no imagen: un círculo grande recortado por el bloque. */
+  .qs-bdb-oferta::after{
+    content:""; position:absolute; right:-70px; top:-70px; width:230px; height:230px;
+    border-radius:50%; background:rgba(255,255,255,.07); pointer-events:none;
+  }
+  .qs-bdb-etiqueta{
+    align-self:flex-start; border:1px solid rgba(255,255,255,.44); border-radius:99px;
+    padding:5px 12px; font-size:10.5px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:auto;
+  }
+  .qs-bdb-oferta h3{font-size:clamp(20px,2.6vw,27px); font-weight:800; letter-spacing:-.03em; line-height:1.14; margin:20px 0 8px; max-width:20ch; text-wrap:balance}
+  .qs-bdb-condicion{margin:0 0 18px; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave); max-width:34ch}
+  .qs-bdb-cta{
+    align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+    background:var(--qs-boton); color:#16161A; border-radius:99px;
+    padding:11px 22px; font-size:13.5px; font-weight:700;
+  }
+  .qs-bdb-cta svg{width:12px; height:12px}
+  @media (max-width:760px){
+    .qs-bdb-reja{grid-template-columns:1fr}
+    .qs-bdb-oferta{min-height:0; padding:24px}
+  }
+  </style>
+
+  <div class="qs-bdb-reja">
+    <!-- Oferta · duplicar -->
+    <a class="qs-bdb-oferta" href="#">
+      <span class="qs-bdb-etiqueta">Hasta el domingo</span>
+      <h3>Segunda pieza al 40%</h3>
+      <p class="qs-bdb-condicion">El descuento se aplica a la pieza de menor precio. No se junta con otros cupones.</p>
+      <span class="qs-bdb-cta">Ver lo que aplica<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+
+    <a class="qs-bdb-oferta" href="#">
+      <span class="qs-bdb-etiqueta">Todo el mes</span>
+      <h3>Envío sin costo desde Q 500</h3>
+      <p class="qs-bdb-condicion">A todo el país. El monto se cuenta antes del envío y después de descuentos.</p>
+      <span class="qs-bdb-cta">Empezar a comprar<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 99 · RECOGE EN TIENDA ══════════════ -->
+<template id="tpl-banner-recoger">
+<!-- ============================================================
+     SECCIÓN · Recoge en tienda
+     Con el plazo, el costo y las tiendas nombradas. «Recoge en
+     tienda» sin decir en cuál ni cuándo no ahorra ninguna duda.
+     ============================================================ -->
+<section class="qs-banner-recoger">
+  <style>
+  .qs-banner-recoger, .qs-banner-recoger *{box-sizing:border-box}
+  .qs-banner-recoger{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F3F1EA;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del bloque              */
+    --qs-tinta:       #1C1A12;   /* color del texto               */
+    --qs-tinta-suave: #6B6757;   /* explicaciones                 */
+    --qs-acento:      #4A5D22;   /* ícono y sin costo             */
+    --qs-boton:       #1C1A12;   /* fondo del botón               */
+    --qs-boton-txt:   #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E4E0D2;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        44px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rec-marco{
+    max-width:1060px; margin:0 auto; background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:26px; display:grid; grid-template-columns:auto 1fr auto; gap:24px; align-items:center;
+  }
+  .qs-rec-icono{
+    width:52px; height:52px; border-radius:14px; flex:none; display:grid; place-items:center;
+    background:var(--qs-fondo); color:var(--qs-acento);
+  }
+  .qs-rec-icono svg{width:26px; height:26px}
+  .qs-banner-recoger h2{font-size:clamp(18px,2.3vw,23px); font-weight:700; letter-spacing:-.024em; margin:0 0 6px}
+  .qs-rec-texto{margin:0 0 12px; font-size:14px; line-height:1.6; color:var(--qs-tinta-suave); max-width:56ch}
+  .qs-rec-texto b{color:var(--qs-acento); font-weight:700}
+  .qs-rec-donde{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .qs-rec-donde li{
+    font-size:12px; font-weight:600; color:var(--qs-tinta-suave);
+    background:var(--qs-fondo); border:1px solid var(--qs-linea);
+    border-radius:99px; padding:5px 11px;
+  }
+  .qs-rec-cta{
+    font-size:14px; font-weight:700; text-decoration:none; white-space:nowrap;
+    background:var(--qs-boton); color:var(--qs-boton-txt);
+    border-radius:11px; padding:13px 24px;
+  }
+  @media (max-width:820px){
+    .qs-rec-marco{grid-template-columns:auto 1fr; gap:18px}
+    .qs-rec-cta{grid-column:1 / -1; text-align:center}
+  }
+  @media (max-width:480px){
+    .qs-banner-recoger{--qs-aire:32px}
+    .qs-rec-marco{grid-template-columns:1fr; padding:20px}
+  }
+  </style>
+
+  <div class="qs-rec-marco">
+    <div class="qs-rec-icono">
+      <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <path d="M3.5 9.5h19v12a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M2.5 5.5h21v4h-21z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M10.5 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div>
+      <h2>Recoge en tienda y no pagas envío</h2>
+      <p class="qs-rec-texto">Compras en línea, lo dejamos listo en <b>2 horas</b> y lo recoges cuando puedas. Te avisamos por mensaje cuando esté apartado, y lo guardamos 7 días.</p>
+      <ul class="qs-rec-donde">
+        <!-- Tienda · duplicar -->
+        <li>Zona 10 · hasta las 6 p. m.</li>
+        <li>Antigua · hasta las 7 p. m.</li>
+        <li>Quetzaltenango · jueves a domingo</li>
+      </ul>
+    </div>
+
+    <a class="qs-rec-cta" href="#">Elegir tienda</a>
+  </div>
+</section>
+</template>
+
+
+<!-- ══════════════ 100 · PROGRAMA DE REFERIDOS ══════════════ -->
+<template id="tpl-banner-referidos">
+<!-- ============================================================
+     SECCIÓN · Programa de referidos
+     Con el código a la vista, lo que gana cada lado y cuándo se
+     cobra. Un «invita y gana» sin decir cuánto no lo usa nadie.
+     ============================================================ -->
+<section class="qs-banner-referidos">
+  <style>
+  .qs-banner-referidos, .qs-banner-referidos *{box-sizing:border-box}
+  .qs-banner-referidos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #1D1B2E;   /* fondo de la sección           */
+    --qs-tinta:       #F2F1F7;   /* color del texto               */
+    --qs-tinta-suave: #A6A2BC;   /* explicaciones                 */
+    --qs-acento:      #F0C24B;   /* montos y código               */
+    --qs-panel:       #272441;   /* fondo del código              */
+    --qs-boton:       #F0C24B;   /* fondo del botón               */
+    --qs-boton-txt:   #1D1B2E;   /* texto del botón               */
+    --qs-linea:       #35314F;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-ref-marco{max-width:880px; margin:0 auto; text-align:center}
+  .qs-banner-referidos h2{font-size:clamp(22px,3vw,30px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin:0 0 10px; text-wrap:balance}
+  .qs-ref-bajada{margin:0 auto 26px; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave); max-width:52ch}
+  .qs-ref-dos{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:26px;
+    list-style:none; padding:0;
+  }
+  .qs-ref-dos li{border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:20px}
+  .qs-ref-dos b{
+    display:block; font-size:clamp(24px,3.2vw,32px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); line-height:1.05; font-variant-numeric:tabular-nums; margin-bottom:6px;
+  }
+  .qs-ref-dos span{display:block; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-ref-codigo{
+    display:flex; align-items:center; gap:10px; background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:10px 10px 10px 18px; max-width:440px; margin:0 auto 14px;
+  }
+  .qs-ref-codigo code{
+    flex:1; min-width:0; font-family:ui-monospace,Menlo,monospace; font-size:16px;
+    font-weight:700; letter-spacing:.1em; color:var(--qs-acento); text-align:left;
+    overflow:hidden; text-overflow:ellipsis;
+  }
+  .qs-ref-codigo button{
+    font:inherit; font-size:13.5px; font-weight:700; cursor:pointer; white-space:nowrap;
+    background:var(--qs-boton); color:var(--qs-boton-txt); border:0;
+    border-radius:10px; padding:11px 20px;
+  }
+  .qs-ref-aviso{min-height:18px; margin:0 0 20px; font-size:12.5px; font-weight:600; color:var(--qs-acento)}
+  .qs-ref-pie{
+    margin:0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:12.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  @media (max-width:520px){
+    .qs-banner-referidos{--qs-aire:40px}
+    .qs-ref-dos{grid-template-columns:1fr}
+    .qs-ref-codigo{flex-direction:column; align-items:stretch; padding:14px}
+    .qs-ref-codigo code{text-align:center}
+  }
+  </style>
+
+  <div class="qs-ref-marco">
+    <h2>Invita a alguien y los dos ganan</h2>
+    <p class="qs-ref-bajada">Pásale tu código. Cuando haga su primera compra de Q 300 o más, se abona el crédito a las dos cuentas.</p>
+
+    <ul class="qs-ref-dos">
+      <!-- Lado · duplicar -->
+      <li><b>Q 75</b><span>para quien invita, cuando su invitado recibe el pedido</span></li>
+      <li><b>Q 75</b><span>para el invitado, desde su primera compra</span></li>
+    </ul>
+
+    <div class="qs-ref-codigo">
+      <code id="qs-ref-cod">MARISOL-4K2P</code>
+      <button type="button" id="qs-ref-copiar">Copiar el código</button>
+    </div>
+    <p class="qs-ref-aviso" id="qs-ref-aviso" role="status"></p>
+
+    <p class="qs-ref-pie">El crédito se abona cuando el pedido se entrega, no cuando se paga: así no hay que quitarlo si hay una devolución. No caduca y se puede juntar con cupones.</p>
+  </div>
+
+  <script>
+  /* Copiar de verdad, y decir si no se pudo. Un botón que dice «copiado»
+     sin haber copiado es peor que uno que no hace nada. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-banner-referidos");
+    var cod   = raiz.querySelector("#qs-ref-cod");
+    var aviso = raiz.querySelector("#qs-ref-aviso");
+    var reloj = null;
+    function di(txt){
+      aviso.textContent = txt;
+      clearTimeout(reloj);
+      reloj = setTimeout(function(){ aviso.textContent = ""; }, 2800);
+    }
+    raiz.querySelector("#qs-ref-copiar").addEventListener("click", function(){
+      var texto = cod.textContent.trim();
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(
+          function(){ di("Código copiado."); },
+          function(){ di("El navegador no dejó copiar. Selecciónalo a mano."); }
+        );
+      } else {
+        di("El navegador no dejó copiar. Selecciónalo a mano.");
+      }
+    });
+  })();
+  </script>
+</section>
+</template>
+
 <script>
 (function(){
   "use strict";
@@ -9572,7 +11522,107 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     { id:"envio-a-tu-zona", n:80, cat:"ficha", nombre:"Cuándo llega a tu zona",
       para:"El plazo y el costo salen de una tabla por departamento, no de una promesa general del país.",
       alto:378, altoTableta:378, altoMovil:440,
-      vars:[["--qs-acento","resultado y botón"],["--qs-panel","fondo del bloque"],["--qs-linea","bordes"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] }
+      vars:[["--qs-acento","resultado y botón"],["--qs-panel","fondo del bloque"],["--qs-linea","bordes"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"rejilla-densa", n:81, cat:"productos", nombre:"Rejilla densa",
+      para:"Seis columnas y la tarjeta al mínimo. Para catálogos largos donde el cliente compara muchas cosas parecidas.",
+      alto:402, altoTableta:642, altoMovil:862,
+      vars:[["--qs-columnas","ancho mínimo de cada tarjeta"],["--qs-acento","precio"],["--qs-alerta","aviso de poca existencia"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"productos-con-filtro", n:82, cat:"productos", nombre:"Rejilla con filtros",
+      para:"Los filtros filtran de verdad y el conteo sale de lo que queda. Con cero resultados lo dice, no deja el hueco.",
+      alto:1090, altoTableta:2379, altoMovil:1470,
+      vars:[["--qs-acento","filtro puesto"],["--qs-panel","fondo de las tarjetas"],["--qs-lienzo","fondo de cada foto"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"ranking-vendidos", n:83, cat:"productos", nombre:"Los más vendidos",
+      para:"Con la posición grande y el periodo declarado. Un «más vendido» sin decir de cuándo no se puede comprobar.",
+      alto:729, altoTableta:723, altoMovil:746,
+      vars:[["--qs-numero","color del número de posición"],["--qs-acento","primer puesto y precio"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"por-rango-precio", n:84, cat:"productos", nombre:"Compra por presupuesto",
+      para:"Bloques por rango de precio. Para regalos y para quien entra con una cantidad en la cabeza, no con un producto.",
+      alto:423, altoTableta:605, altoMovil:974,
+      vars:[["--qs-acento","el monto y la flecha"],["--qs-panel","fondo de cada bloque"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"ultimas-unidades", n:85, cat:"productos", nombre:"Últimas unidades",
+      para:"Con la existencia real, no con un reloj inventado. La barra y el número salen del mismo dato.",
+      alto:573, altoTableta:1166, altoMovil:794,
+      vars:[["--qs-alerta","barra y aviso de existencia"],["--qs-canal","canal de la barra"],["--qs-panel","fondo de cada tarjeta"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"producto-con-video", n:86, cat:"productos", nombre:"Producto con video",
+      para:"Tarjetas con el reel del producto. Arranca al pasar el mouse; con el dedo no arranca, para no gastar datos.",
+      alto:717, altoTableta:1596, altoMovil:969,
+      vars:[["--qs-acento","sello de video y precio"],["--qs-lienzo","fondo de cada video"],["--qs-panel","fondo de cada tarjeta"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"hero-promesa", n:87, cat:"hero", nombre:"Hero de promesa",
+      para:"Sin foto: un color plano, una frase y las tres cosas que la tienda cumple. Para quien no tiene buena fotografía todavía.",
+      alto:636, altoTableta:566, altoMovil:698,
+      vars:[["--qs-fondo","fondo de la sección"],["--qs-realce","palabra destacada"],["--qs-boton","fondo del botón"],["--qs-linea","líneas divisorias"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"hero-categorias", n:88, cat:"hero", nombre:"Hero con categorías",
+      para:"Un mensaje corto arriba y las puertas de entrada abajo, en círculos. Para tiendas donde ya se sabe qué se busca.",
+      alto:571, altoTableta:738, altoMovil:680,
+      vars:[["--qs-circulo","tamaño de cada círculo"],["--qs-acento","botón y aro al pasar el mouse"],["--qs-lienzo","fondo de cada círculo"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"hero-doble", n:89, cat:"hero", nombre:"Hero de dos públicos",
+      para:"La pantalla partida en dos, cada mitad para quien es. Para tiendas que venden al público y al negocio.",
+      alto:428, altoTableta:428, altoMovil:648,
+      vars:[["--qs-fondo-a","fondo de la mitad izquierda"],["--qs-fondo-b","fondo de la mitad derecha"],["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-alto","alto de cada mitad"],["--qs-radio","redondeo del botón"]] },
+
+    { id:"hero-prueba", n:90, cat:"hero", nombre:"Hero con prueba",
+      para:"El mensaje con la prueba pegada: calificación, cuántas opiniones la sostienen y una cita corta.",
+      alto:746, altoTableta:994, altoMovil:923,
+      vars:[["--qs-estrella","color de las estrellas"],["--qs-acento","botón principal"],["--qs-lienzo","fondo de la foto"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"hero-marca", n:91, cat:"hero", nombre:"Hero de marca",
+      para:"Tipografía grande y una sola idea. Para tiendas de autor, donde lo que se compra es de quién viene.",
+      alto:554, altoTableta:532, altoMovil:574,
+      vars:[["--qs-serif","tipografía del titular"],["--qs-regla","líneas"],["--qs-acento","enlace"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"sobre-nosotros", n:92, cat:"contenido", nombre:"Sobre nosotros",
+      para:"La historia con los datos comprobables al lado. Una historia sin números es un texto que nadie termina.",
+      alto:790, altoTableta:1163, altoMovil:1241,
+      vars:[["--qs-acento","los números"],["--qs-lienzo","fondo de la foto"],["--qs-linea","líneas divisorias"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"equipo", n:93, cat:"contenido", nombre:"El equipo",
+      para:"Las personas con nombre y con qué hacen. Un equipo sin apellidos ni oficios es una foto de banco de imágenes.",
+      alto:751, altoTableta:694, altoMovil:1677,
+      vars:[["--qs-acento","el oficio"],["--qs-lienzo","fondo de cada retrato"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"sucursales", n:94, cat:"contenido", nombre:"Nuestras tiendas",
+      para:"Dirección, horario y qué se puede hacer en cada una, con el estado de abierto o cerrado. Sin mapa incrustado.",
+      alto:493, altoTableta:745, altoMovil:1004,
+      vars:[["--qs-abierto","rótulo de abierto"],["--qs-cerrado","rótulo de cerrado"],["--qs-acento","enlaces"],["--qs-panel","fondo de cada tienda"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"certificaciones", n:95, cat:"contenido", nombre:"Garantías y sellos",
+      para:"Cada sello con lo que significa. Un logo sin explicación no genera confianza, genera preguntas.",
+      alto:504, altoTableta:673, altoMovil:1058,
+      vars:[["--qs-acento","íconos"],["--qs-panel","fondo de cada sello"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"linea-tiempo", n:96, cat:"contenido", nombre:"Línea de tiempo",
+      para:"La historia del negocio por años. Cada hito con algo que pasó, no con una frase de relleno.",
+      alto:809, altoTableta:801, altoMovil:1045,
+      vars:[["--qs-acento","año y punto"],["--qs-hilo","la línea vertical"],["--qs-fondo","fondo de la sección"],["--qs-linea","líneas divisorias"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"banner-whatsapp", n:97, cat:"banners", nombre:"Botón de WhatsApp",
+      para:"Flotante, con el horario al lado. Fuera de hora dice cuándo se contesta en vez de prometer respuesta inmediata.",
+      alto:328, altoTableta:328, altoMovil:328,
+      vars:[["--qs-boton","fondo del botón"],["--qs-globo","fondo del mensaje"],["--qs-lienzo","fondo de la demostración"],["--qs-radio","redondeo"],["--qs-alto","alto de la demostración"]] },
+
+    { id:"banner-doble", n:98, cat:"banners", nombre:"Banner de dos ofertas",
+      para:"Dos promociones lado a lado, cada una con su condición escrita. El adorno es CSS, no imagen.",
+      alto:366, altoTableta:350, altoMovil:573,
+      vars:[["--qs-uno","fondo de la primera oferta"],["--qs-dos","fondo de la segunda oferta"],["--qs-boton","fondo del botón"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"banner-recoger", n:99, cat:"banners", nombre:"Recoge en tienda",
+      para:"Con el plazo, el costo y las tiendas nombradas. «Recoge en tienda» sin decir en cuál no ahorra ninguna duda.",
+      alto:288, altoTableta:375, altoMovil:484,
+      vars:[["--qs-acento","ícono y sin costo"],["--qs-boton","fondo del botón"],["--qs-panel","fondo del bloque"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
+
+    { id:"banner-referidos", n:100, cat:"banners", nombre:"Programa de referidos",
+      para:"Con el código a la vista, lo que gana cada lado y cuándo se cobra. El botón copia de verdad y avisa si no pudo.",
+      alto:532, altoTableta:536, altoMovil:747,
+      vars:[["--qs-acento","montos y código"],["--qs-boton","fondo del botón"],["--qs-panel","fondo del código"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] }
   ];
 
   var ICONO_COPIA = '<svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="9" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 5.5v-2a1.5 1.5 0 00-1.5-1.5H4a1.5 1.5 0 00-1.5 1.5v6A1.5 1.5 0 004 11h1.5" stroke="currentColor" stroke-width="1.4"/></svg>';
@@ -9616,6 +11666,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
                    21:"Veintiuno", 22:"Veintidós", 23:"Veintitrés", 24:"Veinticuatro", 25:"Veinticinco",
                    26:"Veintiséis", 27:"Veintisiete", 28:"Veintiocho", 29:"Veintinueve" };
   function enLetras(n){
+    if (n === 100) return "Cien";
     if (HASTA_29[n]) return HASTA_29[n];
     var d = Math.floor(n / 10) * 10, u = n % 10;
     if (DECENAS[d]) return DECENAS[d] + (u ? " y " + UNIDADES[u] : "");

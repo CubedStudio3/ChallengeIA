@@ -1,0 +1,73 @@
+<!-- ============================================================
+     SECCIÓN · Hero de dos públicos
+     La pantalla partida en dos, cada mitad para quien es. Para
+     tiendas que venden al público Y al negocio: un solo mensaje
+     para los dos termina sin servirle a ninguno.
+     ============================================================ -->
+<section class="qs-hero-doble">
+  <style>
+  .qs-hero-doble, .qs-hero-doble *{box-sizing:border-box}
+  .qs-hero-doble{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo-a:     #1B2D4F;   /* fondo de la mitad izquierda   */
+    --qs-fondo-b:     #6B2418;   /* fondo de la mitad derecha     */
+    --qs-tinta:       #FFFFFF;   /* color del texto               */
+    --qs-tinta-suave: rgba(255,255,255,.76); /* bajada            */
+    --qs-boton:       #FFFFFF;   /* fondo del botón               */
+    --qs-velo:        .28;       /* oscurecido de la foto, 0 a 1  */
+    --qs-alto:        420px;     /* alto de cada mitad            */
+    --qs-radio:       999px;     /* redondeo del botón            */
+    /* ═════════════════════════════════════════════════════════ */
+
+    display:grid; grid-template-columns:1fr 1fr; color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-hdb-mitad{
+    position:relative; isolation:isolate; overflow:hidden; min-height:var(--qs-alto);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:36px 32px; text-decoration:none; color:inherit;
+  }
+  .qs-hdb-mitad:first-child{background:var(--qs-fondo-a)}
+  .qs-hdb-mitad:last-child{background:var(--qs-fondo-b)}
+  .qs-hdb-foto{position:absolute; inset:0; z-index:-2; opacity:.5}
+  /* Reemplazar el <svg> por <img src="…" alt="" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-hdb-foto svg{width:100%; height:100%; object-fit:cover; display:block}
+  .qs-hdb-mitad::after{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,calc(var(--qs-velo) + .38)) 100%);
+  }
+  .qs-hdb-etiqueta{
+    display:inline-block; align-self:flex-start; border:1px solid rgba(255,255,255,.5);
+    border-radius:99px; padding:5px 12px; font-size:10.5px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; margin:0 0 auto;
+  }
+  .qs-hero-doble h2{font-size:clamp(23px,3vw,32px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin:0 0 10px}
+  .qs-hdb-bajada{margin:0 0 20px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:36ch}
+  .qs-hdb-cta{
+    align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+    font-size:14px; font-weight:700; background:var(--qs-boton); color:#16161A;
+    border-radius:var(--qs-radio); padding:12px 24px;
+  }
+  .qs-hdb-cta svg{width:12px; height:12px}
+  @media (max-width:760px){
+    .qs-hero-doble{grid-template-columns:1fr; --qs-alto:320px}
+  }
+  </style>
+
+  <!-- Mitad · duplicar para una tercera columna -->
+  <a class="qs-hdb-mitad" href="#">
+    <div class="qs-hdb-foto"><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="420" fill="#25406E"/><circle cx="420" cy="150" r="110" fill="#33518A"/><rect x="60" y="250" width="240" height="20" rx="10" fill="#33518A"/></svg></div>
+    <span class="qs-hdb-etiqueta">Para tu casa</span>
+    <h2>Compra una pieza</h2>
+    <p class="qs-hdb-bajada">Precio al público, envío en 24 horas y cambios en 30 días. Sin mínimo de compra.</p>
+    <span class="qs-hdb-cta">Ver la tienda<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+
+  <a class="qs-hdb-mitad" href="#">
+    <div class="qs-hdb-foto"><svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="600" height="420" fill="#7D3020"/><rect x="330" y="90" width="200" height="200" rx="26" fill="#94402C"/><circle cx="140" cy="300" r="70" fill="#94402C"/></svg></div>
+    <span class="qs-hdb-etiqueta">Para tu negocio</span>
+    <h2>Compra por volumen</h2>
+    <p class="qs-hdb-bajada">Desde 12 unidades el precio cambia. Factura con NIT y crédito a 30 días para clientes recurrentes.</p>
+    <span class="qs-hdb-cta">Pedir cotización<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2.5l3.5 3.5L4 9.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+</section>

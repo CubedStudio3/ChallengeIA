@@ -1,0 +1,86 @@
+<!-- ============================================================
+     SECCIÓN · Sobre nosotros
+     La historia con los datos que se pueden comprobar al lado.
+     Una historia sin números es un texto que nadie termina.
+     ============================================================ -->
+<section class="qs-sobre-nosotros">
+  <style>
+  .qs-sobre-nosotros, .qs-sobre-nosotros *{box-sizing:border-box}
+  .qs-sobre-nosotros{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-lienzo:      #EFECE6;   /* fondo de la foto              */
+    --qs-tinta:       #1A1814;   /* color del texto               */
+    --qs-tinta-suave: #6A655C;   /* párrafos                      */
+    --qs-acento:      #7A4A1E;   /* los números                   */
+    --qs-linea:       #E5E1D8;   /* líneas divisorias             */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-sn-reja{max-width:1060px; margin:0 auto; display:grid; grid-template-columns:.9fr 1.1fr; gap:40px; align-items:start}
+  .qs-sn-foto{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:4/5; position:sticky; top:24px}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-sn-foto svg{width:100%; height:100%; display:block}
+  .qs-sn-rotulo{
+    margin:0 0 10px; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--qs-acento);
+  }
+  .qs-sobre-nosotros h2{font-size:clamp(23px,3.2vw,33px); font-weight:700; letter-spacing:-.03em; line-height:1.15; margin:0 0 18px; text-wrap:balance}
+  .qs-sn-texto p{margin:0 0 15px; font-size:15px; line-height:1.75; color:var(--qs-tinta-suave); max-width:56ch}
+  .qs-sn-texto p:last-of-type{margin-bottom:0}
+  .qs-sn-datos{
+    list-style:none; margin:30px 0 0; padding:26px 0 0; border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px;
+  }
+  .qs-sn-datos b{
+    display:block; font-size:clamp(24px,3vw,32px); font-weight:800; letter-spacing:-.03em;
+    color:var(--qs-acento); line-height:1.05; font-variant-numeric:tabular-nums;
+  }
+  .qs-sn-datos span{display:block; font-size:12.5px; line-height:1.5; color:var(--qs-tinta-suave); margin-top:6px}
+  .qs-sn-firma{
+    margin:28px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.6; color:var(--qs-tinta-suave);
+  }
+  .qs-sn-firma b{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:820px){
+    .qs-sobre-nosotros{--qs-aire:46px}
+    .qs-sn-reja{grid-template-columns:1fr; gap:26px}
+    .qs-sn-foto{position:static; aspect-ratio:16/10}
+  }
+  @media (max-width:480px){ .qs-sn-datos{grid-template-columns:1fr; gap:16px} }
+  </style>
+
+  <div class="qs-sn-reja">
+    <div class="qs-sn-foto">
+      <svg viewBox="0 0 440 550" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="440" height="550" fill="#EFECE6"/>
+        <rect x="60" y="300" width="320" height="26" rx="13" fill="#D9D3C7"/>
+        <circle cx="160" cy="200" r="64" fill="#D9D3C7"/>
+        <circle cx="290" cy="228" r="48" fill="#E3DDD2"/>
+        <path d="M40 420h360v60H40z" fill="#D9D3C7"/>
+      </svg>
+    </div>
+
+    <div class="qs-sn-texto">
+      <p class="qs-sn-rotulo">Quiénes somos</p>
+      <h2>Empezamos vendiendo en la feria de Jocotenango</h2>
+      <p>En 2014 éramos dos personas y una mesa prestada. Cosíamos de noche y vendíamos los domingos. La primera mochila la hicimos porque un cliente nos pidió algo que aguantara la lluvia y no encontraba nada en el mercado.</p>
+      <p>Diez años después seguimos en Antigua, en un taller propio, y seguimos cosiendo pieza por pieza. Crecimos en clientes, no en velocidad: hacemos entre veinte y treinta piezas al mes y eso no va a cambiar.</p>
+      <p>Lo que sí cambió es que ahora podemos garantizar lo que antes solo prometíamos: si una costura se abre, la arreglamos sin costo, para siempre.</p>
+
+      <ul class="qs-sn-datos">
+        <!-- Dato · duplicar -->
+        <li><b>10</b><span>años cosiendo en el mismo taller</span></li>
+        <li><b>3</b><span>personas, todas con nombre y cara</span></li>
+        <li><b>4,200</b><span>piezas entregadas desde 2014</span></li>
+      </ul>
+
+      <p class="qs-sn-firma"><b>Los datos son verificables.</b> El conteo de piezas sale de las facturas emitidas; si alguna vez no lo podemos comprobar, lo quitamos de acá.</p>
+    </div>
+  </div>
+</section>

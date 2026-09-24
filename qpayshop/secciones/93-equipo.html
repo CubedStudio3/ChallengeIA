@@ -1,0 +1,78 @@
+<!-- ============================================================
+     SECCIÓN · El equipo
+     Las personas con nombre y con qué hacen. Un equipo sin
+     apellidos ni oficios es una foto de banco de imágenes.
+     ============================================================ -->
+<section class="qs-equipo">
+  <style>
+  .qs-equipo, .qs-equipo *{box-sizing:border-box}
+  .qs-equipo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F7F6F3;   /* fondo de la sección           */
+    --qs-lienzo:      #E8E5DE;   /* fondo de cada retrato         */
+    --qs-tinta:       #1A1915;   /* color del texto               */
+    --qs-tinta-suave: #69665D;   /* oficio y descripción          */
+    --qs-acento:      #2F5B43;   /* el oficio                     */
+    --qs-linea:       #E3E0D7;   /* líneas divisorias             */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-eq-marco{max-width:1000px; margin:0 auto}
+  .qs-eq-alto{max-width:52ch; margin-bottom:28px}
+  .qs-equipo h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-eq-alto p{margin:0; font-size:14.5px; line-height:1.65; color:var(--qs-tinta-suave)}
+  .qs-eq-reja{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; list-style:none; margin:0; padding:0}
+  .qs-eq-retrato{background:var(--qs-lienzo); border-radius:var(--qs-radio); overflow:hidden; aspect-ratio:1/1; margin-bottom:13px}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-eq-retrato svg{width:100%; height:100%; display:block}
+  .qs-eq-persona b{display:block; font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .qs-eq-oficio{display:block; font-size:12.5px; font-weight:600; color:var(--qs-acento); margin:3px 0 8px}
+  .qs-eq-persona p{margin:0; font-size:13.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-eq-pie{
+    margin:30px 0 0; padding-top:20px; border-top:1px solid var(--qs-linea);
+    font-size:13.5px; line-height:1.65; color:var(--qs-tinta-suave);
+  }
+  .qs-eq-pie a{color:var(--qs-tinta); font-weight:600}
+  @media (max-width:760px){ .qs-eq-reja{grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px} }
+  @media (max-width:460px){
+    .qs-equipo{--qs-aire:42px}
+    .qs-eq-reja{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-eq-marco">
+    <div class="qs-eq-alto">
+      <h2>Quién cose tu pedido</h2>
+      <p>Somos tres. Si escribes por WhatsApp, te contesta una de estas personas, no un robot.</p>
+    </div>
+
+    <ul class="qs-eq-reja">
+      <!-- Persona · duplicar -->
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E8E5DE"/><circle cx="150" cy="118" r="54" fill="#D2CEC4"/><path d="M52 300c0-56 44-92 98-92s98 36 98 92z" fill="#D2CEC4"/></svg></div>
+        <b>Marisol Chávez</b>
+        <span class="qs-eq-oficio">Corte y costura</span>
+        <p>Lleva diez años en la máquina. Es quien decide si una lona sirve o no antes de que entre al taller.</p>
+      </li>
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E5E2DA"/><circle cx="150" cy="116" r="52" fill="#CFCBC1"/><path d="M56 300c0-54 42-90 94-90s94 36 94 90z" fill="#CFCBC1"/></svg></div>
+        <b>Julio Ramírez</b>
+        <span class="qs-eq-oficio">Cuero y herrajes</span>
+        <p>Corta y monta todas las piezas de cuero. Si pides un grabado, lo hace él, a mano.</p>
+      </li>
+      <li class="qs-eq-persona">
+        <div class="qs-eq-retrato"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="300" fill="#E9E6DF"/><circle cx="150" cy="120" r="56" fill="#D4D0C6"/><path d="M50 300c0-58 45-94 100-94s100 36 100 94z" fill="#D4D0C6"/></svg></div>
+        <b>Ana Lucía Pérez</b>
+        <span class="qs-eq-oficio">Pedidos y envíos</span>
+        <p>Contesta los mensajes, arma los paquetes y persigue a la mensajería cuando algo se atrasa.</p>
+      </li>
+    </ul>
+
+    <p class="qs-eq-pie">¿Quieres trabajar con nosotros? No tenemos plazas abiertas ahora mismo, pero puedes <a href="#">dejar tus datos</a> y te escribimos cuando abramos una.</p>
+  </div>
+</section>

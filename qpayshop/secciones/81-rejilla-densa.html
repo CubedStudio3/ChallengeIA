@@ -1,0 +1,98 @@
+<!-- ============================================================
+     SECCIÓN · Rejilla densa
+     Seis columnas y la tarjeta al mínimo. Para catálogos largos
+     —ferretería, insumos, repuestos— donde el cliente compara
+     muchas cosas parecidas y necesita verlas juntas.
+     ============================================================ -->
+<section class="qs-rejilla-densa">
+  <style>
+  .qs-rejilla-densa, .qs-rejilla-densa *{box-sizing:border-box}
+  .qs-rejilla-densa{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-columnas:    130px;     /* ancho mínimo de cada tarjeta  */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-lienzo:      #F2F3F1;   /* fondo de cada foto            */
+    --qs-tinta:       #171A17;   /* color del texto               */
+    --qs-tinta-suave: #666B66;   /* código y existencia           */
+    --qs-acento:      #1F5C3A;   /* precio                        */
+    --qs-alerta:      #8C3A16;   /* aviso de poca existencia      */
+    --qs-linea:       #E3E6E2;   /* bordes                        */
+    --qs-radio:       9px;       /* redondeo                      */
+    --qs-aire:        48px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-rd-marco{max-width:1240px; margin:0 auto}
+  .qs-rd-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+  .qs-rejilla-densa h2{font-size:clamp(18px,2.3vw,23px); font-weight:700; letter-spacing:-.024em; margin:0}
+  .qs-rd-alto p{margin:0; font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-rd-reja{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(min(var(--qs-columnas),100%),1fr));
+    gap:10px; list-style:none; margin:0; padding:0;
+  }
+  .qs-rd-pieza a{
+    display:flex; flex-direction:column; height:100%; text-decoration:none; color:inherit;
+    border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden; background:var(--qs-fondo);
+  }
+  .qs-rd-pieza a:hover{border-color:var(--qs-acento)}
+  .qs-rd-foto{background:var(--qs-lienzo); aspect-ratio:1/1}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-rd-foto svg{width:100%; height:100%; display:block}
+  .qs-rd-cuerpo{padding:9px 10px 11px; display:flex; flex-direction:column; gap:3px; flex:1}
+  .qs-rd-codigo{font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--qs-tinta-suave); letter-spacing:.02em}
+  .qs-rd-pieza b{font-size:12.5px; font-weight:500; line-height:1.3}
+  .qs-rd-precio{margin:5px 0 0; font-size:13.5px; font-weight:700; color:var(--qs-acento); font-variant-numeric:tabular-nums}
+  .qs-rd-stock{margin:2px 0 0; font-size:11px; color:var(--qs-tinta-suave)}
+  .qs-rd-stock[data-qs-poco]{color:var(--qs-alerta); font-weight:600}
+  @media (max-width:520px){
+    .qs-rejilla-densa{--qs-columnas:104px; --qs-aire:36px}
+    .qs-rd-reja{gap:8px}
+  }
+  </style>
+
+  <div class="qs-rd-marco">
+    <div class="qs-rd-alto">
+      <h2>Tornillería</h2>
+      <p>248 productos · precios con IVA</p>
+    </div>
+
+    <ul class="qs-rd-reja">
+      <!-- Pieza · duplicar -->
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F2F3F1"/><rect x="58" y="24" width="14" height="72" rx="3" fill="#C9CEC8"/><circle cx="65" cy="28" r="14" fill="#C9CEC8"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">TOR-1024</span><b>Tornillo hexagonal 1/4"</b><p class="qs-rd-precio">Q 1.75</p><p class="qs-rd-stock">1,240 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EFF1EE"/><circle cx="65" cy="65" r="32" fill="none" stroke="#C4C9C3" stroke-width="14"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">TUE-0810</span><b>Tuerca hexagonal 5/16"</b><p class="qs-rd-precio">Q 0.90</p><p class="qs-rd-stock">3,500 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F1F2F0"/><circle cx="65" cy="65" r="38" fill="none" stroke="#C7CCC6" stroke-width="9"/><circle cx="65" cy="65" r="13" fill="#C7CCC6"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ARA-0500</span><b>Arandela plana 1/2"</b><p class="qs-rd-precio">Q 0.45</p><p class="qs-rd-stock" data-qs-poco>Quedan 18</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EEF0ED"/><path d="M52 22h26l-4 84h-18z" fill="#C5CAC4"/><rect x="46" y="14" width="38" height="12" rx="4" fill="#C5CAC4"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">CLA-3000</span><b>Clavo de acero 3"</b><p class="qs-rd-precio">Q 28.00</p><p class="qs-rd-stock">Libra · 62 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F0F1EF"/><rect x="30" y="56" width="70" height="18" rx="6" fill="#C8CDC7"/><rect x="88" y="44" width="20" height="42" rx="6" fill="#C8CDC7"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">BIS-0204</span><b>Bisagra 2×2 pulgadas</b><p class="qs-rd-precio">Q 12.50</p><p class="qs-rd-stock">340 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EFF1EE"/><circle cx="65" cy="52" r="24" fill="#C6CBC5"/><rect x="58" y="70" width="14" height="42" rx="5" fill="#C6CBC5"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ANC-0620</span><b>Ancla de expansión 6 mm</b><p class="qs-rd-precio">Q 3.20</p><p class="qs-rd-stock" data-qs-poco>Quedan 7</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#F1F2F0"/><rect x="24" y="58" width="82" height="14" rx="7" fill="#C9CEC8"/><circle cx="34" cy="65" r="13" fill="#C9CEC8"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">VAR-0938</span><b>Varilla roscada 3/8" × 1 m</b><p class="qs-rd-precio">Q 34.00</p><p class="qs-rd-stock">96 en existencia</p></div>
+      </a></li>
+      <li class="qs-rd-pieza"><a href="#">
+        <div class="qs-rd-foto"><svg viewBox="0 0 130 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="130" height="130" fill="#EEF0ED"/><path d="M40 90l50-50M46 40h44v44" stroke="#C5CAC4" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="qs-rd-cuerpo"><span class="qs-rd-codigo">ESQ-4040</span><b>Esquinero reforzado 40 mm</b><p class="qs-rd-precio">Q 8.75</p><p class="qs-rd-stock">210 en existencia</p></div>
+      </a></li>
+    </ul>
+  </div>
+</section>

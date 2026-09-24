@@ -1,0 +1,148 @@
+<!-- ============================================================
+     SECCIÓN · Rejilla con filtros
+     Los filtros filtran de verdad y el conteo sale de lo que
+     queda. Un contador escrito a mano se desincroniza al primer
+     clic y nadie vuelve a confiar en él.
+     ============================================================ -->
+<section class="qs-productos-filtro">
+  <style>
+  .qs-productos-filtro, .qs-productos-filtro *{box-sizing:border-box}
+  .qs-productos-filtro{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FAFAF8;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de las tarjetas         */
+    --qs-lienzo:      #F0EFEA;   /* fondo de cada foto            */
+    --qs-tinta:       #1A1A16;   /* color del texto               */
+    --qs-tinta-suave: #6A6960;   /* rótulos y conteo              */
+    --qs-acento:      #24405C;   /* filtro puesto                 */
+    --qs-acento-txt:  #FFFFFF;   /* texto del filtro puesto       */
+    --qs-linea:       #E4E3DC;   /* bordes                        */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pcf-marco{max-width:1120px; margin:0 auto}
+  .qs-productos-filtro h2{font-size:clamp(19px,2.4vw,24px); font-weight:700; letter-spacing:-.024em; margin:0 0 16px}
+  .qs-pcf-barra{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px}
+  .qs-pcf-barra button{
+    font:inherit; font-size:13px; font-weight:500; cursor:pointer;
+    background:var(--qs-panel); color:var(--qs-tinta);
+    border:1px solid var(--qs-linea); border-radius:99px; padding:8px 15px;
+  }
+  .qs-pcf-barra button[aria-pressed="true"]{background:var(--qs-acento); color:var(--qs-acento-txt); border-color:var(--qs-acento)}
+  .qs-pcf-cuenta{margin:0 0 18px; font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  .qs-pcf-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0}
+  .qs-pcf-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden}
+  /* `display:block` de la clase le ganaría al `hidden` del navegador. */
+  .qs-pcf-pieza[hidden]{display:none}
+  .qs-pcf-pieza a{display:block; text-decoration:none; color:inherit}
+  .qs-pcf-foto{background:var(--qs-lienzo); aspect-ratio:4/5}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-pcf-foto svg{width:100%; height:100%; display:block}
+  .qs-pcf-cuerpo{padding:13px 14px 15px}
+  .qs-pcf-cuerpo b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px; line-height:1.35}
+  .qs-pcf-cuerpo span{display:block; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-pcf-cuerpo p{margin:7px 0 0; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums}
+  .qs-pcf-nada{
+    margin:0; padding:36px 16px; text-align:center; font-size:14px; color:var(--qs-tinta-suave);
+    border:1px dashed var(--qs-linea); border-radius:var(--qs-radio);
+  }
+  .qs-pcf-nada[hidden]{display:none}
+  @media (max-width:860px){ .qs-pcf-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:480px){ .qs-productos-filtro{--qs-aire:40px} }
+  </style>
+
+  <div class="qs-pcf-marco">
+    <h2>Zapatos de hombre</h2>
+
+    <div class="qs-pcf-barra" id="qs-pcf-barra">
+      <!-- Filtro · duplicar. data-qs-filtro es el valor que busca en las piezas -->
+      <button type="button" data-qs-filtro="todo" aria-pressed="true">Todos</button>
+      <button type="button" data-qs-filtro="cuero" aria-pressed="false">Cuero</button>
+      <button type="button" data-qs-filtro="lona" aria-pressed="false">Lona</button>
+      <button type="button" data-qs-filtro="oferta" aria-pressed="false">En oferta</button>
+      <button type="button" data-qs-filtro="hoy" aria-pressed="false">Entrega hoy</button>
+    </div>
+    <p class="qs-pcf-cuenta" id="qs-pcf-cuenta"></p>
+
+    <ul class="qs-pcf-reja" id="qs-pcf-reja">
+      <!-- Pieza · duplicar. data-qs-tags: las etiquetas por las que se filtra -->
+      <li class="qs-pcf-pieza" data-qs-tags="cuero hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F0EFEA"/><path d="M52 200h120l18 44H52z" fill="#CFC9BA"/><path d="M62 200V96a34 34 0 0 1 68 0v104z" fill="#D8D2C4"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Botín engrasado</b><span>Cuero · Café</span><p>Q 745.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona oferta"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EDECE6"/><ellipse cx="120" cy="196" rx="76" ry="46" fill="#D2CCBE"/><rect x="74" y="120" width="92" height="70" rx="20" fill="#DCD6C9"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Tenis de lona</b><span>Lona · Blanco</span><p>Q 320.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero oferta hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F1F0EB"/><path d="M48 214h144l-12 34H60z" fill="#CDC7B8"/><path d="M70 214l16-92h68l16 92z" fill="#D7D1C3"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Zapato de vestir</b><span>Cuero · Negro</span><p>Q 580.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EFEEE8"/><path d="M56 206c28-14 60-18 128-10l-8 42H56z" fill="#D0CABC"/><rect x="88" y="128" width="64" height="76" rx="18" fill="#DAD4C7"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Alpargata</b><span>Lona · Azul</span><p>Q 245.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F0EFE9"/><path d="M50 210h140v38H50z" fill="#CEC8B9"/><path d="M66 210V132h108v78z" fill="#D9D3C5"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Mocasín</b><span>Cuero · Miel</span><p>Q 495.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EEEDE7"/><ellipse cx="120" cy="204" rx="80" ry="40" fill="#D1CBBD"/><path d="M80 164h80v40H80z" fill="#DBD5C8"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Tenis para correr</b><span>Lona · Gris</span><p>Q 410.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="cuero oferta"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#F1F0EA"/><path d="M54 212h132l-10 36H64z" fill="#CFC9BA"/><path d="M74 212V118h92v94z" fill="#D8D2C4"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Bota de trabajo</b><span>Cuero · Miel</span><p>Q 690.00</p></div>
+      </a></li>
+      <li class="qs-pcf-pieza" data-qs-tags="lona oferta hoy"><a href="#">
+        <div class="qs-pcf-foto"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="300" fill="#EFEEE9"/><ellipse cx="120" cy="200" rx="74" ry="44" fill="#D3CDBF"/><rect x="82" y="124" width="76" height="72" rx="24" fill="#DDD7CA"/></svg></div>
+        <div class="qs-pcf-cuerpo"><b>Sandalia de trekking</b><span>Lona · Verde</span><p>Q 285.00</p></div>
+      </a></li>
+    </ul>
+
+    <p class="qs-pcf-nada" id="qs-pcf-nada" hidden>Con esos filtros no queda ningún producto. Quita uno y vuelve a intentar.</p>
+  </div>
+
+  <script>
+  /* Un filtro a la vez, y el conteo sale de contar lo que quedó visible.
+     Escrito a mano se desincroniza en el primer clic. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-productos-filtro");
+    var barra = raiz.querySelector("#qs-pcf-barra");
+    var reja  = raiz.querySelector("#qs-pcf-reja");
+    var texto = raiz.querySelector("#qs-pcf-cuenta");
+    var nada  = raiz.querySelector("#qs-pcf-nada");
+    var total = reja.children.length;
+
+    function aplica(cual){
+      var vivas = 0;
+      for(var i = 0; i < reja.children.length; i++){
+        var pieza = reja.children[i];
+        var entra = cual === "todo" ||
+                    (" " + pieza.dataset.qsTags + " ").indexOf(" " + cual + " ") !== -1;
+        pieza.hidden = !entra;
+        if(entra) vivas++;
+      }
+      nada.hidden = vivas > 0;
+      texto.textContent = vivas === total
+        ? total + " productos"
+        : vivas + " de " + total + " productos";
+    }
+
+    barra.addEventListener("click", function(e){
+      var b = e.target.closest("button[data-qs-filtro]");
+      if(!b) return;
+      barra.querySelectorAll("button").forEach(function(o){
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      aplica(b.dataset.qsFiltro);
+    });
+    aplica("todo");
+  })();
+  </script>
+</section>
