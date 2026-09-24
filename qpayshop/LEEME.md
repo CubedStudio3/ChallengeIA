@@ -230,10 +230,14 @@ Con más de cincuenta secciones una lista plana dejó de servir. El catálogo ti
 - **Grupos por categoría** en la lista, con su conteo. Al filtrar o buscar, el
   conteo dice «7 de 12» en vez de mentir con el total.
 - **Buscador** por nombre, formato, archivo o variable.
-- **Vistas previas a escala real.** El marco dibuja la sección al ancho de
-  verdad del dispositivo —1280, 768 o 390 px— y la escala para que quepa en la
-  columna. Antes el marco medía lo que midiera la columna, así que «Escritorio»
-  terminaba enseñando la maquetación de tableta.
+- **La vista entra en «Ajustado».** La sección se dibuja al ancho que haya y
+  **sin reducir**: es la única forma de verla a tamaño real cuando el catálogo
+  se abre en un panel angosto, que es donde lo abre la mesa. El rótulo de la
+  esquina dice el ancho exacto («791 px · tamaño real»).
+- **Y los tres anchos de dispositivo siguen ahí** —1280, 768 y 390 px— para
+  revisar los cortes. Ahí sí se reduce para caber, y el rótulo lo dice. El
+  marco dibuja el ancho de verdad y lo escala; antes medía lo que midiera la
+  columna, así que «Escritorio» terminaba enseñando la maquetación de tableta.
 - **Botón «Ampliar»** en cada sección: la abre usando el ancho entero de la
   ventana, que es lo más grande que hay. En una pantalla de 1700 px o más, un
   escritorio de 1280 se ve a tamaño real. El rótulo de la esquina dice siempre

@@ -9665,7 +9665,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     var marco  = visor.querySelector(".marco");
     var vista  = visor.querySelector("iframe");
     var medida = visor.querySelector(".medida");
-    var altos  = [s.alto, s.altoTableta, s.altoMovil];
+    var altos  = [0, s.alto, s.altoTableta, s.altoMovil];   // 0 = ajustado, se mide
     var elegido = cual;
 
     titulo.textContent = s.nombre;
@@ -9679,7 +9679,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     };
     vista.srcdoc = paginaPara(codigo);
     grupo.textContent = "";
-    var botones = ["Escritorio", "Tableta", "Móvil"].map(function(t, i){
+    var botones = ROTULOS_ANCHO.map(function(t, i){
       var b = document.createElement("button");
       b.type = "button"; b.textContent = t;
       b.addEventListener("click", function(){
@@ -9694,9 +9694,11 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       grupo.appendChild(b); return b;
     });
     function acomoda(){
-      var objetivo = ANCHOS_REALES[elegido], alto = medido || altos[elegido];
       var hueco = visor.querySelector(".visor-cuerpo").clientWidth - 36;
       if(hueco <= 0) return;
+      var fijo = ANCHOS_REALES[elegido];              // 0 en «ajustado»
+      var objetivo = fijo || Math.max(320, Math.round(hueco));
+      var alto = medido || altos[elegido] || s.alto;
       var afuera = Math.max(200, Math.min(objetivo, hueco));
       var escala = afuera / objetivo;
       vista.style.width = objetivo + "px";
@@ -9741,7 +9743,12 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
   var selAviso = document.getElementById("sel-aviso");
   var fichas   = [];
   var acomodadores = [];
-  var ANCHOS_REALES = [1280, 768, 390];
+  // 0 = «ajustado»: la sección se dibuja al ancho que haya, sin reducir.
+  // Es la vista de entrada porque es la única que se lee a tamaño real
+  // cuando el catálogo vive en un panel angosto —que es donde lo abre
+  // la mesa—. Los otros tres siguen ahí para revisar los cortes.
+  var ANCHOS_REALES = [0, 1280, 768, 390];
+  var ROTULOS_ANCHO = ["Ajustado", "Escritorio", "Tableta", "Móvil"];
   var grupos   = {};
 
   // ---------- un grupo por categoría, en el orden declarado ----------
@@ -9795,7 +9802,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     var marcaTxt = document.createElement("span"); marcaTxt.textContent = "Elegir";
     marca.appendChild(casilla); marca.appendChild(marcaTxt);
 
-    var anchos = [["Escritorio","escritorio",s.alto], ["Tableta","tableta",s.altoTableta], ["Móvil","movil",s.altoMovil]];
+    var anchos = [["Ajustado","ajustado",0], ["Escritorio","escritorio",s.alto], ["Tableta","tableta",s.altoTableta], ["Móvil","movil",s.altoMovil]];
     var caja = document.createElement("div"); caja.className = "grupo";
     var botonesAncho = anchos.map(function(a, i){
       var b = document.createElement("button");
@@ -9830,11 +9837,13 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     var medida = document.createElement("span"); medida.className = "medida";
     marco.appendChild(vista); marco.appendChild(medida); escenario.appendChild(marco);
 
-    var elegido = 0;
+    var elegido = 0, medidoFit = null, vueltas = 0;
     function acomoda(){
-      var objetivo = ANCHOS_REALES[elegido];          // el ancho del dispositivo
-      var alto = anchos[elegido][2];
       var hueco = escenario.clientWidth - 36;         // menos el aire del escenario
+      if(hueco <= 0) return;
+      var fijo = ANCHOS_REALES[elegido];              // 0 en «ajustado»
+      var objetivo = fijo || Math.max(320, Math.round(hueco));
+      var alto = fijo ? anchos[elegido][2] : (medidoFit || s.alto);
       var afuera = Math.max(200, Math.min(objetivo, hueco));
       var escala = afuera / objetivo;
       vista.style.width = objetivo + "px";
@@ -9842,17 +9851,33 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       vista.style.transform = escala < 1 ? "scale(" + escala + ")" : "none";
       marco.style.width = Math.round(afuera) + "px";
       marco.style.height = Math.round(alto * escala) + "px";
-      medida.textContent = objetivo + " px" + (escala < 1 ? " · al " + Math.round(escala * 100) + "%" : "");
+      medida.textContent = objetivo + " px" +
+        (escala < 1 ? " · al " + Math.round(escala * 100) + "%" : " · tamaño real");
     }
+    // En «ajustado» el ancho lo pone la columna de quien mira, así que el alto
+    // no puede venir del catálogo: se mide acá. Se repite un par de veces
+    // porque una sección con el alto en `vh` cambia al cambiar el marco, y se
+    // corta a las tres vueltas para que no se persigan sin fin.
+    function remide(){
+      if(ANCHOS_REALES[elegido]) return;
+      requestAnimationFrame(function(){
+        var m = mideSeccion(vista);
+        if(m && Math.abs(m - (medidoFit || 0)) > 2 && vueltas < 3){
+          medidoFit = m; vueltas++; acomoda(); remide();
+        }
+      });
+    }
+    vista.addEventListener("load", function(){ vueltas = 0; remide(); });
     botonesAncho.forEach(function(b, i){
       b.addEventListener("click", function(){
         elegido = i;
         escenario.dataset.ancho = anchos[i][1];
         botonesAncho.forEach(function(o, k){ o.setAttribute("aria-pressed", String(k === i)); });
-        acomoda();
+        medidoFit = null; vueltas = 0;
+        acomoda(); remide();
       });
     });
-    acomodadores.push(acomoda);
+    acomodadores.push(function(){ medidoFit = null; vueltas = 0; acomoda(); remide(); });
 
     var pie = document.createElement("div"); pie.className = "pie";
     var ul2 = document.createElement("ul"); ul2.className = "hechos";
