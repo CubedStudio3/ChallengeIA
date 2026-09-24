@@ -217,6 +217,15 @@ Con más de cincuenta secciones una lista plana dejó de servir. El catálogo ti
   verdad del dispositivo —1280, 768 o 390 px— y la escala para que quepa en la
   columna. Antes el marco medía lo que midiera la columna, así que «Escritorio»
   terminaba enseñando la maquetación de tableta.
+- **Botón «Ampliar»** en cada sección: la abre usando el ancho entero de la
+  ventana, que es lo más grande que hay. En una pantalla de 1700 px o más, un
+  escritorio de 1280 se ve a tamaño real. El rótulo de la esquina dice siempre
+  a qué escala está la vista, para que «se ve chiquito» no se confunda con «la
+  sección es chiquita».
+- **El marco se ajusta a la sección.** Hubo un piso de 608 px para que una
+  barra de 60 px no dejara media pantalla en blanco; con la columna ancha el
+  remedio era peor, así que se quitó. La medida incluye los márgenes de la
+  sección: sin ellos la marquesina medía 52 px, ocupaba 96 y salía cortada.
 - **Los altos de cada vista previa están MEDIDOS**, no estimados: cada sección
   se pinta en un marco de su ancho y se lee su alto real, repitiendo hasta que
   el número deja de moverse. Los que había escritos a ojo cortaban el contenido
@@ -245,6 +254,7 @@ el navegador sin ventana no baja de 485 px.
 | Que la vista previa no corte ni deje hueco | `bash qpayshop/pruebas/revisa-altos.sh` |
 | Contraste del texto sobre su fondo real | `bash qpayshop/pruebas/revisa-contraste.sh` |
 | Clases repetidas entre secciones, y lo que no se deja ocultar | `python3 qpayshop/pruebas/revisa-clases.py` |
+| Que el catálogo cargue, se arme entero y no tire errores | `node qpayshop/pruebas/revisa-catalogo.js` |
 
 Y para volver a medir los altos de la vista previa después de tocar una
 sección —se itera hasta que el número deja de moverse, porque una sección con

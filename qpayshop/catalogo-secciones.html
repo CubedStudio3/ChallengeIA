@@ -21,7 +21,12 @@ body{
   font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
 }
 *{box-sizing:border-box}
-.envoltura{max-width:1120px; margin:0 auto; padding-inline:20px}
+/* La vista previa manda el ancho de la página. Con 1120 px la columna daba
+   772 px de hueco y un escritorio de 1280 se dibujaba al 60%: se veía todo
+   chiquito. Con este ancho cabe a tamaño real en una pantalla grande, y en
+   una chica queda el botón «Ampliar». Los bloques de texto llevan su propio
+   tope en ch, así que no se estiran. */
+.envoltura{max-width:1660px; margin:0 auto; padding-inline:20px}
 
 /* ---------- cabecera ---------- */
 .portada{padding-block:52px 34px}
@@ -104,8 +109,11 @@ button:focus-visible, a:focus-visible{outline:2px solid var(--tinta); outline-of
   position:absolute; right:8px; top:8px; z-index:2; pointer-events:none;
   font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; font-size:10px;
   background:color-mix(in srgb, var(--tinta) 78%, transparent); color:var(--superficie);
-  border-radius:5px; padding:3px 7px; opacity:0; transition:opacity .2s;
+  border-radius:5px; padding:3px 7px; opacity:.45; transition:opacity .2s;
 }
+/* Siempre visible: si la vista está reducida, hay que poder enterarse sin
+   pasar el mouse — es la diferencia entre «la sección es chiquita» y «la
+   vista está al 85%». */
 .escenario:hover .medida{opacity:1}
 
 .pie{padding:15px 20px 18px}
@@ -156,6 +164,26 @@ button:focus-visible, a:focus-visible{outline:2px solid var(--tinta); outline-of
 .hechos li.si b{color:var(--falta)}
 
 .escenario[data-ancho="tableta"] .marco{max-width:768px}
+
+/* ---------- visor ampliado ---------- */
+dialog.visor{
+  width:100vw; max-width:100vw; height:100dvh; max-height:100dvh;
+  margin:0; padding:0; border:0; background:var(--lienzo); color:var(--tinta);
+  display:flex; flex-direction:column;
+}
+dialog.visor::backdrop{background:rgba(20,19,31,.6)}
+.visor-cab{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:12px 18px; background:var(--superficie); border-bottom:1px solid var(--borde);
+}
+.visor-cab h2{font-size:15px; font-weight:700; margin:0; letter-spacing:-.01em}
+.visor-cab .sep{flex:1}
+.visor-cuerpo{flex:1; overflow:auto; padding:18px; display:flex; justify-content:center; align-items:flex-start}
+.visor-cuerpo .marco{
+  background:#fff; border-radius:var(--r-m); overflow:hidden; position:relative;
+  box-shadow:0 2px 16px rgba(20,19,31,.16);
+}
+.visor-cuerpo iframe{display:block; border:0; background:#fff; transform-origin:top left}
 .nada{padding:44px 4px; text-align:center; color:var(--tinta-suave); font-size:14px}
 .nada b{display:block; color:var(--tinta); font-size:15px; margin-bottom:5px}
 
@@ -7126,7 +7154,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"hero-inmersivo", n:2, cat:"hero", nombre:"Hero inmersivo",
       para:"Imagen a sangre con una capa oscura y el texto centrado encima.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:597, altoTableta:495, altoMovil:548,
       vars:[["--qs-alto","alto de la sección"],["--qs-velo","qué tan oscura la capa, de 0 a 1"],["--qs-tinta","color del texto"],["--qs-acento","fondo del botón"],["--qs-acento-texto","texto del botón"],["--qs-radio","redondeo del botón"]] },
 
     { id:"hero-editorial", n:3, cat:"hero", nombre:"Hero editorial",
@@ -7136,12 +7164,12 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"hero-buscador", n:13, cat:"hero", nombre:"Hero con buscador",
       para:"Centrado, con la búsqueda de protagonista y las categorías más pedidas debajo.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:454, altoTableta:445, altoMovil:520,
       vars:[["--qs-fondo-a","color de arriba del fondo"],["--qs-fondo-b","color de abajo del fondo"],["--qs-acento","botón de buscar"],["--qs-borde","borde del campo y los chips"],["--qs-radio","redondeo del campo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"hero-diapositivas", n:14, cat:"hero", nombre:"Hero de diapositivas",
       para:"Tres mensajes que rotan, cada uno con su propio color de fondo.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:468, altoTableta:468, altoMovil:428,
       vars:[["--qs-segundos","cada cuánto cambia"],["--qs-alto","alto de la sección"],["--qs-radio","redondeo del botón"],["style de cada hoja","el color de esa diapositiva"]] },
 
     { id:"hero-tarjeta", n:15, cat:"hero", nombre:"Hero con tarjeta flotante",
@@ -7151,7 +7179,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"hero-departamentos", n:26, cat:"hero", nombre:"Hero con departamentos",
       para:"Menú de categorías fijo a la izquierda y el hero a la derecha. La maquetación de las tiendas con catálogo grande.",
-      alto:608, altoTableta:819, altoMovil:953,
+      alto:549, altoTableta:819, altoMovil:953,
       vars:[["--qs-ancho-menu","ancho del menú lateral"],["--qs-menu","fondo del menú"],["--qs-hero-a","color inicial del hero"],["--qs-hero-b","color final del hero"],["--qs-acento","enlace activo y botón"],["--qs-radio","redondeo"]] },
 
     { id:"hero-mosaico", n:27, cat:"hero", nombre:"Hero mosaico",
@@ -7161,12 +7189,12 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"hero-video", n:40, cat:"hero", nombre:"Hero con video",
       para:"Video a sangre, en silencio y en bucle. Sin archivo todavía, muestra un fondo animado en vez de romperse.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:568, altoTableta:568, altoMovil:488,
       vars:[["--qs-alto","alto de la sección"],["--qs-velo","oscurecido del video, de 0 a 1"],["--qs-fondo-a","color mientras carga"],["--qs-acento","fondo del botón"],["--qs-acento-txt","texto del botón"]] },
 
     { id:"rejilla-productos", n:4, cat:"productos", nombre:"Rejilla de productos",
       para:"Cuatro columnas con etiqueta de descuento, precio tachado y botón de agregar.",
-      alto:608, altoTableta:1104, altoMovil:822,
+      alto:607, altoTableta:1104, altoMovil:822,
       vars:[["--qs-columnas","cuántas columnas en escritorio"],["--qs-fondo","fondo de la sección"],["--qs-acento","fondo del botón agregar"],["--qs-oferta","color del precio rebajado"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"productos-alternos", n:5, cat:"productos", nombre:"Productos alternos",
@@ -7181,7 +7209,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"lista-compacta", n:16, cat:"productos", nombre:"Lista compacta",
       para:"Filas densas con miniatura, existencia y precio. Para mayoreo, repuestos e insumos.",
-      alto:608, altoTableta:608, altoMovil:853,
+      alto:586, altoTableta:578, altoMovil:853,
       vars:[["--qs-hay","color de «en existencia»"],["--qs-poco","color de «quedan pocas»"],["--qs-linea","líneas entre filas"],["--qs-acento","fondo del botón agregar"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"producto-destacado", n:17, cat:"productos", nombre:"Producto destacado",
@@ -7196,17 +7224,17 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"productos-pestanas", n:19, cat:"productos", nombre:"Productos por pestañas",
       para:"Tres listas en el mismo espacio: más vendidos, recién llegados y en oferta.",
-      alto:608, altoTableta:1194, altoMovil:759,
+      alto:599, altoTableta:1194, altoMovil:759,
       vars:[["--qs-acento","pestaña elegida y subrayado"],["--qs-linea","línea bajo las pestañas"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"categorias-listas", n:28, cat:"productos", nombre:"Categorías con listas",
       para:"Cada tarjeta trae sus subcategorías escritas. Ahorra un clic entero al que ya sabe qué busca.",
-      alto:608, altoTableta:651, altoMovil:1231,
+      alto:439, altoTableta:651, altoMovil:1231,
       vars:[["--qs-tarjeta","fondo de cada tarjeta"],["--qs-acento","enlace «ver todo»"],["--qs-borde","borde de la tarjeta"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"tarjetas-horizontales", n:29, cat:"productos", nombre:"Tarjetas horizontales",
       para:"Rejilla con la foto al lado del texto. Cabe el doble de productos sin volverse una lista.",
-      alto:608, altoTableta:608, altoMovil:953,
+      alto:436, altoTableta:561, altoMovil:953,
       vars:[["--qs-columnas","cuántas columnas"],["--qs-tarjeta","fondo de cada tarjeta"],["--qs-estrella","color de las estrellas"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"compra-el-set", n:30, cat:"productos", nombre:"Compra el set",
@@ -7216,7 +7244,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"tiles-mitad", n:41, cat:"productos", nombre:"Tiles a media pantalla",
       para:"Dos bloques enormes por fila, cada uno con titular, bajada y dos enlaces.",
-      alto:608, altoTableta:1024, altoMovil:929,
+      alto:555, altoTableta:1024, altoMovil:929,
       vars:[["--qs-alto","alto de cada tile"],["--qs-tile","fondo de cada tile"],["--qs-hueco","separación entre tiles"],["--qs-acento","color de los enlaces"],["--qs-radio","redondeo"]] },
 
     { id:"lookbook-puntos", n:42, cat:"productos", nombre:"Lookbook con puntos",
@@ -7226,82 +7254,82 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"carrusel-productos", n:7, cat:"carruseles", nombre:"Carrusel de productos",
       para:"Se desliza con el dedo, con la rueda o con las flechas, y los puntos dicen dónde va.",
-      alto:653, altoTableta:653, altoMovil:608,
+      alto:653, altoTableta:653, altoMovil:551,
       vars:[["--qs-tarjeta","ancho de cada tarjeta"],["--qs-acento","flechas y punto activo"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo de la foto"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrusel-resenas", n:8, cat:"carruseles", nombre:"Carrusel de reseñas",
       para:"Testimonios que rotan solos y se detienen al pasar el mouse.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:470, altoTableta:470, altoMovil:476,
       vars:[["--qs-segundos","cada cuánto cambia"],["--qs-estrella","color de las estrellas"],["--qs-acento","punto activo"],["--qs-fondo","fondo de la sección"],["--qs-tinta","color de la reseña"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrusel-historias", n:20, cat:"carruseles", nombre:"Carrusel de historias",
       para:"Círculos que se deslizan. Ocupa poco alto y mete muchas colecciones arriba del catálogo.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:209, altoTableta:209, altoMovil:211,
       vars:[["--qs-tamano","diámetro del círculo"],["--qs-anillo-a","color inicial del anillo"],["--qs-anillo-b","color final del anillo"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrusel-pantalla", n:21, cat:"carruseles", nombre:"Carrusel a pantalla",
       para:"Una imagen por vez, con flechas encima y contador. Para lookbook.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:528, altoTableta:528, altoMovil:448,
       vars:[["--qs-alto","alto de la sección"],["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-tinta","texto y flechas"],["--qs-radio","redondeo; 0 lo deja a sangre"]] },
 
     { id:"carrusel-videos", n:22, cat:"carruseles", nombre:"Carrusel de videos",
       para:"Tarjetas verticales 9:16 con el producto colgado abajo. Para los reels ya grabados.",
-      alto:676, altoTableta:666, altoMovil:608,
+      alto:676, altoTableta:666, altoMovil:571,
       vars:[["--qs-tarjeta","ancho de cada video"],["--qs-radio","redondeo del video"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrusel-logos", n:31, cat:"carruseles", nombre:"Carrusel de logos",
       para:"Las marcas que maneja la tienda, en cinta continua. Se detiene al pasar el mouse. Solo CSS.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:172, altoTableta:172, altoMovil:140,
       vars:[["--qs-velocidad","más segundos, más lento"],["--qs-alto","alto de cada logo"],["--qs-tinta","color en reposo"],["--qs-activo","color al pasar encima"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"comparador", n:32, cat:"carruseles", nombre:"Comparador antes y después",
       para:"Dos fotos con un divisor que se arrastra. Para lo que se demuestra y no se explica.",
-      alto:712, altoTableta:702, altoMovil:608,
+      alto:712, altoTableta:702, altoMovil:566,
       vars:[["--qs-alto","alto del comparador"],["--qs-mango","color del divisor y el mango"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"barra-anuncio", n:9, cat:"banners", nombre:"Barra de anuncio",
       para:"Barra superior con cuenta regresiva y botón de cerrar.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:54, altoTableta:54, altoMovil:70,
       vars:[["--qs-fondo","fondo de la barra"],["--qs-tinta","color del texto"],["--qs-acento","números del reloj y el enlace"],["--qs-alto","alto de la barra"]] },
 
     { id:"franja-confianza", n:10, cat:"banners", nombre:"Franja de confianza",
       para:"Envío, cambios, pago verificado y cuotas, con los medios de pago aceptados.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:239, altoTableta:290, altoMovil:484,
       vars:[["--qs-fondo","fondo de la franja"],["--qs-icono","color del ícono"],["--qs-linea","líneas divisorias"],["--qs-tinta-suave","color de la explicación"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"marquesina", n:11, cat:"banners", nombre:"Marquesina",
       para:"Cinta que corre sin parar con las promesas de la tienda. Solo CSS.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:104, altoTableta:104, altoMovil:96,
       vars:[["--qs-velocidad","más segundos, más lento"],["--qs-fondo","fondo de la cinta"],["--qs-tinta","color del texto"],["--qs-inclina","inclinación; 0deg la deja recta"],["--qs-alto","alto de la cinta"]] },
 
     { id:"banner-promocion", n:12, cat:"banners", nombre:"Banner de promoción",
       para:"Una oferta con el porcentaje grande, el producto y el código de cupón.",
-      alto:608, altoTableta:676, altoMovil:727,
+      alto:589, altoTableta:676, altoMovil:727,
       vars:[["--qs-fondo-a","color inicial del degradado"],["--qs-fondo-b","color final del degradado"],["--qs-acento","el número grande y el cupón"],["--qs-boton","fondo del botón"],["--qs-radio","redondeo del banner"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"banner-newsletter", n:23, cat:"banners", nombre:"Banner de suscripción",
       para:"Correo a cambio de algo concreto, con el aviso de privacidad visible.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:248, altoTableta:287, altoMovil:409,
       vars:[["--qs-acento","fondo del botón"],["--qs-borde","borde del campo"],["--qs-fondo","fondo del bloque"],["--qs-radio","redondeo del campo y el botón"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"banner-progreso", n:24, cat:"banners", nombre:"Barra de envío gratis",
       para:"Cuánto falta para el envío sin costo, con barra que avanza. Va dentro del carrito.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:158, altoTableta:158, altoMovil:158,
       vars:[["--qs-avance","color del avance"],["--qs-barra","canal de la barra"],["--qs-moneda","símbolo de la moneda"],["--qs-radio","redondeo del bloque"]] },
 
     { id:"banner-cita", n:25, cat:"banners", nombre:"Banner de cita",
       para:"Para negocios de servicio: horario visible y dos formas de contacto, sin formulario largo.",
-      alto:608, altoTableta:608, altoMovil:682,
+      alto:413, altoTableta:447, altoMovil:682,
       vars:[["--qs-panel","fondo del panel del horario"],["--qs-acento","botón principal"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"anuncio-app", n:48, cat:"banners", nombre:"Anuncio de la app",
       para:"Bloque para bajar la aplicación, con la pantalla del teléfono dibujada en CSS: no hace falta captura.",
-      alto:608, altoTableta:656, altoMovil:682,
+      alto:482, altoTableta:656, altoMovil:682,
       vars:[["--qs-acento","detalle y estrellas"],["--qs-boton","fondo de los botones"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"banner-flash", n:33, cat:"banners", nombre:"Banner de oferta relámpago",
       para:"Foto a un lado y el reloj en cajas grandes al otro. El formato que más aguanta una promoción con fecha.",
-      alto:608, altoTableta:925, altoMovil:707,
+      alto:552, altoTableta:925, altoMovil:707,
       vars:[["--qs-caja","fondo de cada caja del reloj"],["--qs-acento","rótulo de la oferta"],["--qs-boton","fondo del botón"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"]] },
 
     { id:"notas-blog", n:34, cat:"contenido", nombre:"Notas del blog",
@@ -7311,27 +7339,27 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"galeria-social", n:35, cat:"contenido", nombre:"Galería social",
       para:"Las fotos de la cuenta con el usuario encima. Va cerca del pie: es prueba de que la tienda está viva.",
-      alto:608, altoTableta:696, altoMovil:732,
+      alto:410, altoTableta:696, altoMovil:732,
       vars:[["--qs-hueco","separación entre fotos"],["--qs-velo","oscurecido al pasar el mouse"],["--qs-usuario","color del usuario"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"testimonio-destacado", n:36, cat:"contenido", nombre:"Testimonio destacado",
       para:"Una sola cita, grande, sobre foto. Acá no se rota: se apuesta por una.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:466, altoTableta:428, altoMovil:388,
       vars:[["--qs-velo","oscurecido de la foto, de 0 a 1"],["--qs-realce","comillas y estrellas"],["--qs-serif","tipografía de la cita"],["--qs-alto-min","alto mínimo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"metricas", n:43, cat:"contenido", nombre:"Franja de métricas",
       para:"Números grandes, cada uno CON LA FUENTE de dónde salió. Un dato sin fuente no convence y sí expone.",
-      alto:608, altoTableta:608, altoMovil:745,
+      alto:449, altoTableta:533, altoMovil:745,
       vars:[["--qs-acento","signo y detalle"],["--qs-linea","líneas divisorias"],["--qs-tinta","color de los números"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"pasos", n:44, cat:"contenido", nombre:"Cómo funciona",
       para:"Tres o cuatro pasos numerados con la línea que los une. Acá el número sí es información: es el orden.",
-      alto:608, altoTableta:608, altoMovil:711,
+      alto:436, altoTableta:601, altoMovil:711,
       vars:[["--qs-numero","color del número"],["--qs-globo","fondo del círculo"],["--qs-linea","línea que une los pasos"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"preguntas", n:45, cat:"contenido", nombre:"Preguntas frecuentes",
       para:"Acordeón hecho con <details>, que es HTML nativo: abre y cierra sin una línea de JavaScript.",
-      alto:608, altoTableta:655, altoMovil:754,
+      alto:543, altoTableta:655, altoMovil:754,
       vars:[["--qs-acento","signo y enlaces"],["--qs-linea","líneas entre preguntas"],["--qs-tinta-suave","color de la respuesta"],["--qs-fondo","fondo de la sección"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"planes-precios", n:46, cat:"contenido", nombre:"Planes y precios",
@@ -7346,37 +7374,37 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"encabezado-tienda", n:37, cat:"estructura", nombre:"Encabezado de tienda",
       para:"Logo, menú, buscador, cuenta y carrito con su contador. Se queda pegado arriba al bajar.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:106, altoTableta:106, altoMovil:121,
       vars:[["--qs-alto","alto de la barra"],["--qs-globo","fondo del contador del carrito"],["--qs-aviso","franja de aviso de arriba"],["--qs-acento","subrayado del menú activo"],["--qs-borde","línea de abajo"]] },
 
     { id:"pie-tienda", n:38, cat:"estructura", nombre:"Pie de tienda",
       para:"Cuatro columnas de enlaces, suscripción, redes y medios de pago.",
-      alto:608, altoTableta:758, altoMovil:1127,
+      alto:475, altoTableta:758, altoMovil:1127,
       vars:[["--qs-fondo","fondo del pie"],["--qs-acento","botón y enlaces al pasar"],["--qs-linea","líneas divisorias"],["--qs-tinta-suave","color de los enlaces"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"barra-filtros", n:39, cat:"estructura", nombre:"Barra de filtros",
       para:"Cuántos productos hay, cómo ordenarlos y qué filtros están puestos, con su X para quitarlos.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:132, altoTableta:132, altoMovil:261,
       vars:[["--qs-acento","filtro puesto"],["--qs-borde","bordes"],["--qs-radio","redondeo de los chips"],["--qs-fondo","fondo de la barra"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrito-lateral", n:49, cat:"carrito", nombre:"Carrito lateral",
       para:"El cajón que entra por la derecha al agregar algo. No saca al cliente de donde estaba.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:568, altoTableta:568, altoMovil:568,
       vars:[["--qs-ancho","ancho del cajón"],["--qs-velo","oscurecido del fondo"],["--qs-acento","botón de pagar"],["--qs-alto","alto de la demostración"],["--qs-linea","líneas divisorias"]] },
 
     { id:"carrito-pagina", n:50, cat:"carrito", nombre:"Carrito en página",
       para:"La tabla completa con el resumen pegado al costado. Para carritos de varios productos.",
-      alto:608, altoTableta:845, altoMovil:873,
+      alto:537, altoTableta:845, altoMovil:873,
       vars:[["--qs-lienzo","fondo de cada foto"],["--qs-acento","botón de pagar"],["--qs-linea","líneas de la tabla"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"resumen-compra", n:51, cat:"carrito", nombre:"Resumen de compra",
       para:"El desglose plegable con el cupón. Va al lado del pago, y en teléfono se abre solo si lo piden.",
-      alto:608, altoTableta:608, altoMovil:620,
+      alto:606, altoTableta:606, altoMovil:620,
       vars:[["--qs-panel","fondo del bloque"],["--qs-acento","botón del cupón"],["--qs-globo","contador de cada producto"],["--qs-linea","bordes"],["--qs-radio","redondeo"]] },
 
     { id:"pasos-pago", n:52, cat:"carrito", nombre:"Pasos del pago",
       para:"Dónde va el cliente dentro del pago. En teléfono muestra solo el paso actual, que es lo que cabe.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:118, altoTableta:118, altoMovil:82,
       vars:[["--qs-hecho","pasos ya cumplidos"],["--qs-actual","el paso de ahora"],["--qs-falta","pasos que faltan"],["--qs-fondo","fondo de la barra"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"pago-un-paso", n:53, cat:"carrito", nombre:"Pago en un paso",
@@ -7391,17 +7419,17 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"metodos-pago", n:55, cat:"carrito", nombre:"Métodos de pago",
       para:"Tarjeta, cuotas, contra entrega y transferencia, cada una con lo que el cliente necesita saber antes de elegir.",
-      alto:608, altoTableta:608, altoMovil:667,
+      alto:605, altoTableta:598, altoMovil:667,
       vars:[["--qs-acento","opción elegida"],["--qs-panel","fondo de cada opción"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"cupon-totales", n:56, cat:"carrito", nombre:"Cupón y totales",
       para:"El cupón se aplica y el total cambia de verdad: el desglose sale del cálculo, no está escrito.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:385, altoTableta:385, altoMovil:385,
       vars:[["--qs-acento","botón y cupón aplicado"],["--qs-ahorro","color del descuento"],["--qs-moneda","símbolo de la moneda"],["--qs-panel","fondo del bloque"],["--qs-radio","redondeo"]] },
 
     { id:"estado-404", n:57, cat:"estados", nombre:"Página no encontrada",
       para:"El 404 que no deja al cliente en un callejón: buscador y las rutas que sí existen.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:572, altoTableta:525, altoMovil:553,
       vars:[["--qs-numero","color del 404 grande"],["--qs-acento","botón y foco del buscador"],["--qs-fondo","fondo de la sección"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"carrito-vacio", n:58, cat:"estados", nombre:"Carrito vacío",
@@ -7411,7 +7439,7 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"sin-resultados", n:59, cat:"estados", nombre:"Búsqueda sin resultados",
       para:"Cero resultados casi nunca es «no lo tenemos»: es un filtro puesto. Se ven y se quitan de uno en uno.",
-      alto:608, altoTableta:608, altoMovil:612,
+      alto:554, altoTableta:514, altoMovil:612,
       vars:[["--qs-acento","lo que se buscó y los enlaces"],["--qs-panel","fondo del bloque"],["--qs-chip","fondo de cada filtro puesto"],["--qs-radio","redondeo"],["--qs-aire","espacio arriba y abajo"]] },
 
     { id:"gracias-compra", n:60, cat:"estados", nombre:"Gracias por tu compra",
@@ -7426,16 +7454,17 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
 
     { id:"pedido-en-camino", n:62, cat:"estados", nombre:"Pedido en camino",
       para:"El seguimiento del paquete, con cada paso en su estado. La línea se pinta sola.",
-      alto:608, altoTableta:608, altoMovil:664,
+      alto:599, altoTableta:594, altoMovil:664,
       vars:[["--qs-hecho","pasos ya cumplidos"],["--qs-actual","el paso de ahora"],["--qs-falta","pasos que faltan"],["--qs-panel","fondo de la tarjeta"],["--qs-radio","redondeo"]] },
 
     { id:"proximamente", n:63, cat:"estados", nombre:"Próximamente",
       para:"La tienda antes de abrir. No promete una fecha que no se sepa: dice en qué está.",
-      alto:608, altoTableta:608, altoMovil:608,
+      alto:528, altoTableta:528, altoMovil:545,
       vars:[["--qs-acento","rótulo y botón"],["--qs-fondo","fondo de la sección"],["--qs-trama","líneas del fondo"],["--qs-alto-min","alto mínimo"],["--qs-radio","redondeo"]] }
   ];
 
   var ICONO_COPIA = '<svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="9" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 5.5v-2a1.5 1.5 0 00-1.5-1.5H4a1.5 1.5 0 00-1.5 1.5v6A1.5 1.5 0 004 11h1.5" stroke="currentColor" stroke-width="1.4"/></svg>';
+  var ICONO_AMPLIA = '<svg viewBox="0 0 16 16" fill="none"><path d="M6 2H2v4M10 14h4v-4M14 6V2h-4M2 10v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICONO_CODIGO = '<svg viewBox="0 0 16 16" fill="none"><path d="M5.5 4L2 8l3.5 4M10.5 4L14 8l-3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var TITULO_CAT = { hero:"Hero", productos:"Productos", carruseles:"Carrusel", banners:"Banner", contenido:"Contenido", carrito:"Carrito y pago", estados:"Estados", estructura:"Estructura" };
   // El orden de los grupos en la página y en el índice. Estructura al final
@@ -7484,6 +7513,100 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
     var h = document.getElementById("titulo");
     if (h) h.textContent = enLetras(SECCIONES.length) + " secciones para armar tiendas";
   })();
+
+  // ---------- visor ampliado ----------
+  // La tarjeta dibuja la sección al ancho real del dispositivo y la reduce
+  // para caber en la columna. En una pantalla mediana eso es un 85% o menos,
+  // y una sección de tarjeta centrada se lee chiquita. Acá se usa el ancho
+  // entero de la ventana, que es lo más grande que hay.
+  var SIRVE_VISOR = typeof HTMLDialogElement === "function" &&
+                    typeof document.createElement("dialog").showModal === "function";
+  // El alto de la sección CON sus márgenes: `getBoundingClientRect` no los
+  // cuenta y hay secciones que los usan. Sin ellos el marco sale corto y
+  // aparece una barra de desplazamiento donde no debería haber ninguna.
+  function mideSeccion(marco){
+    try{
+      var d = marco.contentDocument, sec = d && d.body.firstElementChild;
+      if(!sec) return null;
+      var cs = d.defaultView.getComputedStyle(sec);
+      return Math.ceil(sec.getBoundingClientRect().height +
+                       parseFloat(cs.marginTop) + parseFloat(cs.marginBottom)) + 2;
+    }catch(e){ return null; }
+  }
+  var visor = null, acomodaVisor = null;
+  function abreVisor(s, codigo, cual){
+    if(!SIRVE_VISOR) return;
+    if(!visor){
+      visor = document.createElement("dialog");
+      visor.className = "visor";
+      visor.innerHTML =
+        '<div class="visor-cab"><h2></h2><span class="grupo"></span><span class="sep"></span>' +
+        '<button type="button" class="boton suave" data-cerrar>Cerrar</button></div>' +
+        '<div class="visor-cuerpo"><div class="marco"><iframe title="Vista ampliada"></iframe>' +
+        '<span class="medida"></span></div></div>';
+      document.body.appendChild(visor);
+      visor.querySelector("[data-cerrar]").addEventListener("click", function(){ visor.close(); });
+      visor.addEventListener("close", function(){ visor.querySelector("iframe").srcdoc = ""; });
+    }
+    var titulo = visor.querySelector("h2");
+    var grupo  = visor.querySelector(".grupo");
+    var marco  = visor.querySelector(".marco");
+    var vista  = visor.querySelector("iframe");
+    var medida = visor.querySelector(".medida");
+    var altos  = [s.alto, s.altoTableta, s.altoMovil];
+    var elegido = cual;
+
+    titulo.textContent = s.nombre;
+    // Acá el alto se MIDE al vuelo en vez de usar el del catálogo: ese lleva
+    // un piso de 608 px para que la lista tenga ritmo, y en el visor ese piso
+    // se ve como una franja blanca debajo de una sección corta.
+    var medido = null;
+    vista.onload = function(){
+      medido = mideSeccion(vista);
+      acomoda();
+    };
+    vista.srcdoc = paginaPara(codigo);
+    grupo.textContent = "";
+    var botones = ["Escritorio", "Tableta", "Móvil"].map(function(t, i){
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = t;
+      b.addEventListener("click", function(){
+        elegido = i;
+        medido = null;          // otro ancho, otro alto: se vuelve a medir
+        acomoda();
+        requestAnimationFrame(function(){
+          var m = mideSeccion(vista);
+          if(m){ medido = m; acomoda(); }
+        });
+      });
+      grupo.appendChild(b); return b;
+    });
+    function acomoda(){
+      var objetivo = ANCHOS_REALES[elegido], alto = medido || altos[elegido];
+      var hueco = visor.querySelector(".visor-cuerpo").clientWidth - 36;
+      if(hueco <= 0) return;
+      var afuera = Math.max(200, Math.min(objetivo, hueco));
+      var escala = afuera / objetivo;
+      vista.style.width = objetivo + "px";
+      vista.style.height = alto + "px";
+      vista.style.transform = escala < 1 ? "scale(" + escala + ")" : "none";
+      marco.style.width = Math.round(afuera) + "px";
+      marco.style.height = Math.round(alto * escala) + "px";
+      medida.textContent = objetivo + " px" + (escala < 1 ? " · al " + Math.round(escala * 100) + "%" : " · tamaño real");
+      botones.forEach(function(b, i){ b.setAttribute("aria-pressed", String(i === elegido)); });
+    }
+    visor.showModal();
+    acomoda();
+    // el ancho útil solo se sabe con el diálogo ya abierto
+    requestAnimationFrame(acomoda);
+    // El oyente vive una sola vez y llama al acomodo de la sección ABIERTA:
+    // atarlo a `acomoda` dejaría redimensionando la primera que se abrió.
+    acomodaVisor = acomoda;
+    if(!visor.dataset.atado){
+      visor.dataset.atado = "si";
+      window.addEventListener("resize", function(){ if(visor.open && acomodaVisor) acomodaVisor(); });
+    }
+  }
 
   function archivoDe(s){ return "secciones/" + (s.n < 10 ? "0" : "") + s.n + "-" + s.id + ".html"; }
   function copia(texto, aviso, ok){
@@ -7569,10 +7692,20 @@ footer.cierre code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace; fon
       caja.appendChild(b); return b;
     });
 
+    var bAmplia = null;
+    if(SIRVE_VISOR){
+      bAmplia = document.createElement("button");
+      bAmplia.type = "button"; bAmplia.className = "boton suave";
+      bAmplia.innerHTML = ICONO_AMPLIA + "<span>Ampliar</span>";
+      bAmplia.addEventListener("click", function(){ abreVisor(s, codigo, elegido); });
+    }
+
     var bCodigo = document.createElement("button");
     bCodigo.type = "button"; bCodigo.className = "boton suave";
     bCodigo.innerHTML = ICONO_CODIGO + "<span>Ver código</span>";
-    acc.appendChild(marca); acc.appendChild(caja); acc.appendChild(bCodigo);
+    acc.appendChild(marca); acc.appendChild(caja);
+    if(bAmplia) acc.appendChild(bAmplia);
+    acc.appendChild(bCodigo);
     cab.appendChild(idB); cab.appendChild(acc);
 
     var escenario = document.createElement("div");

@@ -39,7 +39,7 @@ for par in txt.split("|"):
     d = declarado[ident]
     if alto < 0: malas.append("%s no cargó" % ident)
     elif alto > d: malas.append("%s corta %d px" % (ident, alto - d))
-    elif d > max(608, alto + holgura): malas.append("%s sobra %d px" % (ident, d - alto - holgura))
+    elif d > alto + holgura: malas.append("%s sobra %d px" % (ident, d - alto - holgura))
 print("\n".join(malas) if malas else "SIN CORTES NI HUECOS")
 sys.exit(1 if malas else 0)
 PY

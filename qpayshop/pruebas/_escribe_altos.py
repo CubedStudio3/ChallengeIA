@@ -2,7 +2,10 @@
 """Escribe en el catálogo los altos que midió mide-altos.sh."""
 import io, os, re, sys
 
-PISO = 608   # alto del escenario de la vista previa
+# Sin piso: el marco se ajusta a la sección. Hubo uno de 608 px para que una
+# barra de 60 px no dejara media pantalla en blanco, pero con la columna ancha
+# el remedio era peor — la sección quedaba perdida dentro de un marco vacío.
+PISO = 0
 AIRE = 8     # holgura: un redondeo de menos deja una franja cortada
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

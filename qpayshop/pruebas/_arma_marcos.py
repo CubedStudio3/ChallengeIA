@@ -35,7 +35,16 @@ setTimeout(function(){
        documento nunca baja del alto del marco, así que medirlo hacía
        crecer el número 8 px por ronda sin llegar nunca a un punto fijo. */
     var sec = d && d.body.firstElementChild;
-    sal.push(f.dataset.sec + "=" + (sec ? Math.ceil(sec.getBoundingClientRect().height) : -1));
+    var alto = -1;
+    if (sec) {
+      // Con los MÁRGENES de la raíz: `getBoundingClientRect` no los cuenta, y
+      // dos secciones los tienen. La marquesina medía 52 px y ocupaba 96, así
+      // que el marco le salía con barra de desplazamiento y la cinta cortada.
+      var cs = d.defaultView.getComputedStyle(sec);
+      alto = Math.ceil(sec.getBoundingClientRect().height +
+                       parseFloat(cs.marginTop) + parseFloat(cs.marginBottom));
+    }
+    sal.push(f.dataset.sec + "=" + alto);
   });
   document.title = sal.join("|");
 }, 3500);
