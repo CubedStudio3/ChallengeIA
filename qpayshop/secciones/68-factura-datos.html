@@ -1,0 +1,127 @@
+<!-- ============================================================
+     SECCIÓN · Datos de factura
+     NIT o consumidor final, sin que el cliente tenga que saber
+     cuál le toca. Lo que elige cambia los campos que se le piden.
+     ============================================================ -->
+<section class="qs-factura-datos">
+  <style>
+  .qs-factura-datos, .qs-factura-datos *{box-sizing:border-box}
+  .qs-factura-datos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #F7F8F6;   /* fondo del bloque              */
+    --qs-tinta:       #161A16;   /* color del texto               */
+    --qs-tinta-suave: #5F6A5F;   /* rótulos y explicaciones       */
+    --qs-acento:      #2E6B3E;   /* lo elegido y el botón         */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #DFE5DE;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-fd-marco{max-width:560px; margin:0 auto}
+  .qs-factura-datos h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0 0 8px}
+  .qs-fd-intro{margin:0 0 22px; font-size:14px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-fd-bloque{background:var(--qs-panel); border-radius:var(--qs-radio); padding:22px}
+  .qs-fd-rotulo{margin:0 0 11px; font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-tinta-suave)}
+  .qs-fd-opciones{display:grid; grid-template-columns:1fr 1fr; gap:10px; list-style:none; margin:0 0 20px; padding:0}
+  /* El radio va antes de su etiqueta: `:checked + label` funciona en
+     cualquier navegador y no hace falta JavaScript para pintar lo elegido. */
+  .qs-fd-radio{position:absolute; opacity:0; width:0; height:0}
+  .qs-fd-op{
+    display:block; cursor:pointer; background:var(--qs-fondo);
+    border:1.5px solid var(--qs-linea); border-radius:12px; padding:13px 15px;
+  }
+  .qs-fd-op b{display:block; font-size:13.5px; font-weight:600}
+  .qs-fd-op span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:3px; line-height:1.45}
+  .qs-fd-radio:checked + .qs-fd-op{border-color:var(--qs-acento)}
+  .qs-fd-radio:focus-visible + .qs-fd-op{outline:2px solid var(--qs-acento); outline-offset:2px}
+  .qs-fd-campos{display:grid; gap:13px}
+  .qs-fd-campo{display:flex; flex-direction:column; gap:6px}
+  .qs-fd-campo label{font-size:12.5px; font-weight:600}
+  .qs-fd-campo input{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-fondo);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-fd-campo input:focus{border-color:var(--qs-acento)}
+  .qs-fd-campo small{font-size:11.5px; color:var(--qs-tinta-suave); line-height:1.5}
+  /* `display:grid` de la clase le ganaría al `hidden` del navegador: sin esta
+     línea los campos escondidos se seguirían viendo, sin ningún error. */
+  .qs-fd-campos[hidden]{display:none}
+  .qs-fd-guardar{display:flex; align-items:flex-start; gap:9px; margin:16px 0 0; font-size:13px; line-height:1.45; cursor:pointer}
+  .qs-fd-guardar input{width:16px; height:16px; accent-color:var(--qs-acento); flex:none; margin:1px 0 0}
+  .qs-fd-cta{
+    font:inherit; font-size:14.5px; font-weight:700; cursor:pointer; width:100%;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:11px; padding:13px; margin-top:18px;
+  }
+  .qs-fd-nota{margin:12px 0 0; font-size:11.5px; color:var(--qs-tinta-suave); line-height:1.55}
+  @media (max-width:480px){
+    .qs-factura-datos{--qs-aire:44px}
+    .qs-fd-opciones{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-fd-marco">
+    <h2>Datos de tu factura</h2>
+    <p class="qs-fd-intro">La factura llega a tu correo el mismo día. Si no pones NIT, sale a consumidor final, que es lo normal para una compra personal.</p>
+
+    <form class="qs-fd-bloque" onsubmit="return false">
+      <p class="qs-fd-rotulo">A nombre de quién</p>
+      <ul class="qs-fd-opciones">
+        <li>
+          <input class="qs-fd-radio" type="radio" name="qs-fd-tipo" id="qs-fd-cf" value="cf" checked>
+          <label class="qs-fd-op" for="qs-fd-cf"><b>Consumidor final</b><span>Para una compra personal. No pedimos nada más.</span></label>
+        </li>
+        <li>
+          <input class="qs-fd-radio" type="radio" name="qs-fd-tipo" id="qs-fd-nit" value="nit">
+          <label class="qs-fd-op" for="qs-fd-nit"><b>Con NIT</b><span>Para gastos de empresa o deducibles.</span></label>
+        </li>
+      </ul>
+
+      <div class="qs-fd-campos" id="qs-fd-datos-nit" hidden>
+        <div class="qs-fd-campo">
+          <label for="qs-fd-num">NIT</label>
+          <input id="qs-fd-num" type="text" inputmode="numeric" placeholder="1234567-8">
+          <small>Con guion o sin guion, los dos sirven.</small>
+        </div>
+        <div class="qs-fd-campo">
+          <label for="qs-fd-raz">Nombre o razón social</label>
+          <input id="qs-fd-raz" type="text" placeholder="Como aparece en el registro">
+        </div>
+        <div class="qs-fd-campo">
+          <label for="qs-fd-dir">Dirección fiscal</label>
+          <input id="qs-fd-dir" type="text">
+        </div>
+      </div>
+
+      <div class="qs-fd-campos">
+        <div class="qs-fd-campo">
+          <label for="qs-fd-mail">A qué correo la mandamos</label>
+          <input id="qs-fd-mail" type="email" autocomplete="email" placeholder="tu@correo.com">
+        </div>
+      </div>
+
+      <label class="qs-fd-guardar"><input type="checkbox" checked>Guardar estos datos para mis próximas compras</label>
+
+      <button class="qs-fd-cta" type="submit">Guardar y seguir</button>
+      <p class="qs-fd-nota">Si el NIT está mal escrito, la factura sale igual pero no se puede corregir después. Revísalo antes de seguir.</p>
+    </form>
+  </div>
+
+  <script>
+  /* Los campos del NIT solo aparecen si hacen falta. Pedirlos siempre
+     y dejarlos en blanco es la forma más rápida de que alguien los llene mal. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-factura-datos");
+    var datos = raiz.querySelector("#qs-fd-datos-nit");
+    raiz.querySelectorAll('input[name="qs-fd-tipo"]').forEach(function(r){
+      r.addEventListener("change", function(){ datos.hidden = (r.value !== "nit"); });
+    });
+  })();
+  </script>
+</section>

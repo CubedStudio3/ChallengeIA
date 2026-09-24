@@ -1,0 +1,98 @@
+<!-- ============================================================
+     SECCIÓN · Contacto con datos
+     El formulario a un lado y a dónde ir al otro. Sin mapa
+     incrustado: un mapa cuesta carga y un enlace hace lo mismo.
+     ============================================================ -->
+<section class="qs-contacto-datos">
+  <style>
+  .qs-contacto-datos, .qs-contacto-datos *{box-sizing:border-box}
+  .qs-contacto-datos{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #F5F4F0;   /* fondo de la columna de datos  */
+    --qs-tinta:       #191713;   /* color del texto               */
+    --qs-tinta-suave: #6C6862;   /* rótulos y explicaciones       */
+    --qs-acento:      #1F4E3D;   /* botón y foco de los campos    */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #E3E0D8;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        64px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-fco-reja{max-width:1020px; margin:0 auto; display:grid; grid-template-columns:1.25fr .85fr; gap:34px; align-items:start}
+  .qs-contacto-datos h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-fco-intro{margin:0 0 26px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); max-width:46ch}
+  .qs-fco-campos{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .qs-fco-campo{display:flex; flex-direction:column; gap:6px}
+  .qs-fco-campo.qs-fco-ancho{grid-column:1 / -1}
+  .qs-fco-campo label{font-size:12.5px; font-weight:600}
+  .qs-fco-campo label i{font-style:normal; font-weight:400; color:var(--qs-tinta-suave)}
+  .qs-fco-campo input, .qs-fco-campo select, .qs-fco-campo textarea{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-fondo);
+    border:1px solid var(--qs-linea); border-radius:11px; padding:12px 14px; outline:0; width:100%;
+  }
+  .qs-fco-campo textarea{resize:vertical; min-height:110px; line-height:1.55}
+  .qs-fco-campo :focus{border-color:var(--qs-acento)}
+  .qs-fco-pie{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:18px}
+  .qs-fco-cta{
+    font:inherit; font-size:14.5px; font-weight:600; cursor:pointer;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:11px; padding:13px 26px;
+  }
+  .qs-fco-nota{margin:0; font-size:12px; color:var(--qs-tinta-suave); line-height:1.5; flex:1 1 220px}
+  .qs-fco-lado{background:var(--qs-panel); border-radius:var(--qs-radio); padding:24px}
+  .qs-fco-lado h3{font-size:14px; font-weight:700; margin:0 0 16px}
+  .qs-fco-dato{display:flex; gap:12px; padding-bottom:16px; margin-bottom:16px; border-bottom:1px solid var(--qs-linea)}
+  .qs-fco-dato:last-of-type{border-bottom:0; padding-bottom:0; margin-bottom:0}
+  .qs-fco-dato svg{width:17px; height:17px; flex:none; color:var(--qs-acento); margin-top:2px}
+  .qs-fco-dato b{display:block; font-size:13px; font-weight:600; margin-bottom:3px}
+  .qs-fco-dato span{display:block; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-fco-dato a{color:var(--qs-tinta); font-weight:500}
+  @media (max-width:820px){
+    .qs-contacto-datos{--qs-aire:48px}
+    .qs-fco-reja{grid-template-columns:1fr; gap:26px}
+  }
+  @media (max-width:520px){ .qs-fco-campos{grid-template-columns:1fr} }
+  </style>
+
+  <div class="qs-fco-reja">
+    <div>
+      <h2>Escríbenos</h2>
+      <p class="qs-fco-intro">Contestamos el mismo día hábil. Si es sobre un pedido en curso, pon el número y lo revisamos antes de responder.</p>
+
+      <form class="qs-fco-campos" onsubmit="return false">
+        <!-- Campo · duplicar -->
+        <div class="qs-fco-campo"><label for="qs-fco-nom">Nombre</label><input id="qs-fco-nom" type="text" autocomplete="name"></div>
+        <div class="qs-fco-campo"><label for="qs-fco-tel">Teléfono</label><input id="qs-fco-tel" type="tel" autocomplete="tel" placeholder="5555 5555"></div>
+        <div class="qs-fco-campo qs-fco-ancho"><label for="qs-fco-mail">Correo</label><input id="qs-fco-mail" type="email" autocomplete="email" placeholder="tu@correo.com"></div>
+        <div class="qs-fco-campo qs-fco-ancho"><label for="qs-fco-ped">Número de pedido <i>· si aplica</i></label><input id="qs-fco-ped" type="text" placeholder="GT-00000"></div>
+        <div class="qs-fco-campo qs-fco-ancho"><label for="qs-fco-msj">Cuéntanos</label><textarea id="qs-fco-msj"></textarea></div>
+        <div class="qs-fco-ancho qs-fco-pie">
+          <button class="qs-fco-cta" type="submit">Enviar</button>
+          <p class="qs-fco-nota">Usamos tus datos solo para contestarte este mensaje.</p>
+        </div>
+      </form>
+    </div>
+
+    <aside class="qs-fco-lado">
+      <h3>Dónde estamos</h3>
+      <!-- Dato · duplicar -->
+      <div class="qs-fco-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 16s5.5-4.7 5.5-9A5.5 5.5 0 0 0 3.5 7c0 4.3 5.5 9 5.5 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="9" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span><b>Tienda y bodega</b>4a calle 12-30, zona 10<br>Ciudad de Guatemala<br><a href="#">Cómo llegar</a></span>
+      </div>
+      <div class="qs-fco-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 4.8V9l2.8 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span><b>Horario</b>Lunes a viernes, 8 a. m. a 6 p. m.<br>Sábado, 9 a. m. a 1 p. m.</span>
+      </div>
+      <div class="qs-fco-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2.5" y="4" width="13" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 5.5l6 4.2 6-4.2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span><b>Directo</b><a href="#">tienda@ejemplo.com</a><br><a href="#">2222 3344</a></span>
+      </div>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<!-- ============================================================
+     SECCIÓN · Migas de pan
+     Dónde está parado el cliente, con el título de la categoría y
+     cuántos productos hay. En teléfono se colapsa al nivel de arriba.
+     ============================================================ -->
+<section class="qs-migas-pan">
+  <style>
+  .qs-migas-pan, .qs-migas-pan *{box-sizing:border-box}
+  .qs-migas-pan{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F7F6F2;   /* fondo de la franja            */
+    --qs-tinta:       #1A1915;   /* color del título              */
+    --qs-tinta-suave: #6B6960;   /* migas y conteo                */
+    --qs-acento:      #7A4A1E;   /* enlaces al pasar el mouse     */
+    --qs-linea:       #E4E1D8;   /* línea de abajo                */
+    --qs-aire:        26px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    border-bottom:1px solid var(--qs-linea);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-mig-marco{max-width:1160px; margin:0 auto}
+  .qs-mig-ruta{display:flex; align-items:center; flex-wrap:wrap; gap:6px; list-style:none; margin:0 0 10px; padding:0; font-size:12.5px}
+  .qs-mig-ruta a{color:var(--qs-tinta-suave); text-decoration:none}
+  .qs-mig-ruta a:hover{color:var(--qs-acento); text-decoration:underline}
+  .qs-mig-ruta li{display:flex; align-items:center; gap:6px}
+  .qs-mig-ruta svg{width:10px; height:10px; color:var(--qs-tinta-suave); flex:none}
+  .qs-mig-ruta [aria-current]{color:var(--qs-tinta); font-weight:600}
+  /* En teléfono solo el nivel de arriba, con flecha de vuelta: una ruta de
+     cuatro niveles partida en tres renglones ocupa más que el catálogo. */
+  .qs-mig-atras{display:none; align-items:center; gap:7px; font-size:13px; color:var(--qs-tinta-suave); text-decoration:none}
+  .qs-mig-atras svg{width:12px; height:12px}
+  .qs-migas-pan h1{font-size:clamp(21px,2.8vw,29px); font-weight:700; letter-spacing:-.028em; margin:0 0 6px}
+  .qs-mig-pie{margin:0; font-size:13px; color:var(--qs-tinta-suave); font-variant-numeric:tabular-nums}
+  @media (max-width:560px){
+    .qs-mig-ruta{display:none}
+    .qs-mig-atras{display:inline-flex; margin-bottom:10px}
+  }
+  </style>
+
+  <div class="qs-mig-marco">
+    <ol class="qs-mig-ruta">
+      <!-- Nivel · duplicar -->
+      <li><a href="#">Inicio</a></li>
+      <li><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M3.5 2l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><a href="#">Zapatos</a></li>
+      <li><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M3.5 2l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><a href="#">Hombre</a></li>
+      <li><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M3.5 2l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-current="page">Botines</span></li>
+    </ol>
+    <a class="qs-mig-atras" href="#">
+      <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 2.5l-3.5 3.5L7 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Volver a Hombre
+    </a>
+
+    <h1>Botines</h1>
+    <p class="qs-mig-pie">34 productos · 12 llegan mañana</p>
+  </div>
+</section>

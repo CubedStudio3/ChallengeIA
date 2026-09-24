@@ -1,0 +1,122 @@
+<!-- ============================================================
+     SECCIÓN · Aviso de cookies
+     Aceptar y rechazar con el MISMO peso visual. Un «rechazar»
+     escondido en letra gris no es una elección, es un trámite.
+     ============================================================ -->
+<div class="qs-aviso-cookies" data-qs-estado="aviso">
+  <style>
+  .qs-aviso-cookies, .qs-aviso-cookies *{box-sizing:border-box}
+  .qs-aviso-cookies{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-panel:       #FFFFFF;   /* fondo del aviso               */
+    --qs-tinta:       #16151A;   /* color del texto               */
+    --qs-tinta-suave: #66646D;   /* explicaciones                 */
+    --qs-acento:      #16151A;   /* botón de aceptar              */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón de aceptar    */
+    --qs-linea:       #E1DFD9;   /* bordes                        */
+    --qs-lienzo:      #EFEDE8;   /* fondo de la demostración      */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-alto:        300px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); background:var(--qs-lienzo);
+    color:var(--qs-tinta); font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    display:flex; align-items:flex-end; padding:20px;
+  }
+  .qs-ck-caja{
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    box-shadow:0 10px 30px -18px rgba(20,19,31,.45);
+    padding:20px; width:100%; max-width:760px; margin:0 auto;
+  }
+  .qs-ck-caja h2{font-size:14.5px; font-weight:700; margin:0 0 7px}
+  .qs-ck-caja p{margin:0 0 16px; font-size:13px; line-height:1.6; color:var(--qs-tinta-suave); max-width:70ch}
+  .qs-ck-caja a{color:var(--qs-tinta); font-weight:500}
+  /* Los dos botones con el mismo tamaño y el mismo peso: aceptar no se pone
+     grande y rechazar chiquito. La elección tiene que verse como elección. */
+  .qs-ck-botones{display:flex; gap:9px; flex-wrap:wrap}
+  .qs-ck-botones button{
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
+    border-radius:10px; padding:11px 20px; border:1px solid var(--qs-linea);
+    background:var(--qs-panel); color:var(--qs-tinta);
+  }
+  .qs-ck-botones .qs-ck-si{background:var(--qs-acento); color:var(--qs-acento-txt); border-color:var(--qs-acento)}
+  .qs-ck-botones .qs-ck-mas{margin-left:auto; border-color:transparent; text-decoration:underline; padding-inline:6px}
+  .qs-ck-detalle{margin-top:18px; padding-top:16px; border-top:1px solid var(--qs-linea); display:grid; gap:12px}
+  /* `display:grid` de la clase le ganaría al `hidden` del navegador. */
+  .qs-ck-detalle[hidden]{display:none}
+  .qs-ck-fila{display:flex; align-items:flex-start; gap:11px; font-size:13px; line-height:1.5}
+  .qs-ck-fila input{width:17px; height:17px; accent-color:var(--qs-acento); flex:none; margin:1px 0 0}
+  .qs-ck-fila b{display:block; font-weight:600; margin-bottom:2px}
+  .qs-ck-fila span{display:block; color:var(--qs-tinta-suave)}
+  .qs-ck-fija{color:var(--qs-tinta-suave); font-size:11.5px; margin-top:3px}
+  .qs-ck-listo{
+    background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio);
+    padding:16px 20px; width:100%; max-width:760px; margin:0 auto; font-size:13.5px;
+  }
+  .qs-ck-listo[hidden]{display:none}
+  .qs-aviso-cookies[data-qs-estado="listo"] .qs-ck-caja{display:none}
+  .qs-ck-listo button{
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer; background:none;
+    border:0; padding:0; color:var(--qs-tinta); text-decoration:underline; margin-left:6px;
+  }
+  @media (max-width:520px){
+    .qs-ck-botones button{flex:1 1 100%}
+    .qs-ck-botones .qs-ck-mas{margin-left:0; text-align:center}
+  }
+  </style>
+
+  <div class="qs-ck-caja">
+    <h2>Cookies</h2>
+    <p>Las que hacen funcionar el carrito y el pago siempre están puestas. Las de medición nos dicen qué se ve y qué no; puedes dejarlas fuera y la tienda funciona igual. <a href="#">Cómo las usamos</a>.</p>
+
+    <div class="qs-ck-botones">
+      <button class="qs-ck-si" type="button" data-qs-ck="todas">Aceptar todas</button>
+      <button type="button" data-qs-ck="minimas">Solo las necesarias</button>
+      <button class="qs-ck-mas" type="button" data-qs-ck="detalle" aria-expanded="false">Elegir una por una</button>
+    </div>
+
+    <div class="qs-ck-detalle" id="qs-ck-detalle" hidden>
+      <!-- Tipo · duplicar -->
+      <label class="qs-ck-fila">
+        <input type="checkbox" checked disabled>
+        <span><b>Necesarias</b><span>El carrito, el inicio de sesión y el pago. Sin estas la tienda no funciona.</span><span class="qs-ck-fija">Siempre puestas</span></span>
+      </label>
+      <label class="qs-ck-fila">
+        <input type="checkbox">
+        <span><b>Medición</b><span>Cuántas personas entran y qué páginas ven. No identifican a nadie.</span></span>
+      </label>
+      <label class="qs-ck-fila">
+        <input type="checkbox">
+        <span><b>Publicidad</b><span>Para mostrarte anuncios de lo que viste acá en otros sitios.</span></span>
+      </label>
+      <div class="qs-ck-botones"><button class="qs-ck-si" type="button" data-qs-ck="guardar">Guardar lo que elegí</button></div>
+    </div>
+  </div>
+
+  <p class="qs-ck-listo" id="qs-ck-listo" hidden>Listo, guardamos tu decisión.<button type="button" data-qs-ck="volver">Cambiarla</button></p>
+
+  <script>
+  /* Las tres salidas dejan el mismo rastro: una decisión guardada. Acá solo
+     se cambia el estado; en la tienda, este es el punto donde se escribe la
+     preferencia y se cargan (o no) los medidores. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-aviso-cookies");
+    var det   = raiz.querySelector("#qs-ck-detalle");
+    var listo = raiz.querySelector("#qs-ck-listo");
+    var mas   = raiz.querySelector('[data-qs-ck="detalle"]');
+    raiz.addEventListener("click", function(e){
+      var b = e.target.closest("[data-qs-ck]");
+      if(!b) return;
+      var q = b.dataset.qsCk;
+      if(q === "detalle"){
+        det.hidden = !det.hidden;
+        mas.setAttribute("aria-expanded", String(!det.hidden));
+      } else if(q === "volver"){
+        raiz.dataset.qsEstado = "aviso"; listo.hidden = true;
+      } else {
+        raiz.dataset.qsEstado = "listo"; listo.hidden = false;
+      }
+    });
+  })();
+  </script>
+</div>

@@ -1,0 +1,146 @@
+<!-- ============================================================
+     SECCIÓN · Completa el look
+     Lo que combina, cada uno con su botón. A diferencia del set,
+     acá no hay paquete ni descuento: se agrega lo que se quiera.
+     ============================================================ -->
+<section class="qs-completa-look">
+  <style>
+  .qs-completa-look, .qs-completa-look *{box-sizing:border-box}
+  .qs-completa-look{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBFAF7;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de cada tarjeta         */
+    --qs-lienzo:      #F0EDE6;   /* fondo de cada foto            */
+    --qs-tinta:       #1B1913;   /* color del texto               */
+    --qs-tinta-suave: #6C6759;   /* variantes y precios tachados  */
+    --qs-acento:      #2F4F3A;   /* botón de agregar              */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-listo:       #2F4F3A;   /* color de «agregado»           */
+    --qs-linea:       #E6E1D6;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-cel-marco{max-width:1120px; margin:0 auto}
+  .qs-cel-alto{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:20px}
+  .qs-completa-look h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0}
+  .qs-cel-alto p{margin:0; font-size:13.5px; color:var(--qs-tinta-suave)}
+  .qs-cel-reja{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:18px; list-style:none; margin:0; padding:0}
+  .qs-cel-pieza{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); overflow:hidden; display:flex; flex-direction:column}
+  .qs-cel-foto{background:var(--qs-lienzo); aspect-ratio:4/5; position:relative}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;height:100%;object-fit:cover"> */
+  .qs-cel-foto svg{width:100%; height:100%; display:block}
+  .qs-cel-sello{
+    position:absolute; top:10px; left:10px; background:var(--qs-panel); border-radius:99px;
+    padding:4px 10px; font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  }
+  .qs-cel-cuerpo{padding:14px; display:flex; flex-direction:column; gap:4px; flex:1}
+  .qs-cel-cuerpo b{font-size:13.5px; font-weight:600; line-height:1.35}
+  /* `>` a propósito: sin él este color alcanza también al <span> que va
+     DENTRO del botón y lo deja gris sobre verde. */
+  .qs-cel-cuerpo > span{font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-cel-precio{margin:6px 0 12px; font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums}
+  .qs-cel-boton{
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer; width:100%;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:1px solid var(--qs-acento);
+    border-radius:10px; padding:10px; margin-top:auto;
+    display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  }
+  .qs-cel-boton svg{width:13px; height:13px}
+  .qs-cel-boton[data-qs-puesto="si"]{background:var(--qs-panel); color:var(--qs-listo); border-color:var(--qs-listo)}
+  .qs-cel-pie{margin:20px 0 0; font-size:13px; color:var(--qs-tinta-suave)}
+  @media (max-width:900px){ .qs-cel-reja{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  @media (max-width:520px){
+    .qs-completa-look{--qs-aire:42px}
+    .qs-cel-reja{gap:12px}
+  }
+  </style>
+
+  <div class="qs-cel-marco">
+    <div class="qs-cel-alto">
+      <h2>Completa el look</h2>
+      <p>Lo que más se lleva junto con la mochila.</p>
+    </div>
+
+    <ul class="qs-cel-reja">
+      <!-- Pieza · duplicar -->
+      <li class="qs-cel-pieza">
+        <div class="qs-cel-foto">
+          <span class="qs-cel-sello">Combina</span>
+          <svg viewBox="0 0 320 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="400" fill="#F0EDE6"/><rect x="96" y="80" width="128" height="200" rx="16" fill="#D8D1C2"/><rect x="132" y="120" width="56" height="12" rx="6" fill="#F0EDE6"/></svg>
+        </div>
+        <div class="qs-cel-cuerpo">
+          <b>Termo de acero</b><span>750 ml · Negro mate</span>
+          <p class="qs-cel-precio">Q 210.00</p>
+          <button class="qs-cel-boton" type="button" data-qs-puesto="no"><span>Agregar</span></button>
+        </div>
+      </li>
+      <li class="qs-cel-pieza">
+        <div class="qs-cel-foto">
+          <svg viewBox="0 0 320 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="400" fill="#EDEAE1"/><circle cx="160" cy="170" r="76" fill="#D3CCBB"/><rect x="88" y="290" width="144" height="18" rx="9" fill="#D3CCBB"/></svg>
+        </div>
+        <div class="qs-cel-cuerpo">
+          <b>Cartera de cuero</b><span>Café · 6 tarjetas</span>
+          <p class="qs-cel-precio">Q 265.00</p>
+          <button class="qs-cel-boton" type="button" data-qs-puesto="no"><span>Agregar</span></button>
+        </div>
+      </li>
+      <li class="qs-cel-pieza">
+        <div class="qs-cel-foto">
+          <svg viewBox="0 0 320 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="400" fill="#EFECE4"/><path d="M70 300l70-120 50 70 40-46 60 96z" fill="#D6CFBF"/><circle cx="118" cy="122" r="32" fill="#D6CFBF"/></svg>
+        </div>
+        <div class="qs-cel-cuerpo">
+          <b>Cuaderno cosido</b><span>A5 · Hoja lisa</span>
+          <p class="qs-cel-precio">Q 95.00</p>
+          <button class="qs-cel-boton" type="button" data-qs-puesto="no"><span>Agregar</span></button>
+        </div>
+      </li>
+      <li class="qs-cel-pieza">
+        <div class="qs-cel-foto">
+          <svg viewBox="0 0 320 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="400" fill="#F1EEE7"/><rect x="60" y="150" width="200" height="90" rx="14" fill="#D9D2C3"/><circle cx="110" cy="195" r="22" fill="#F1EEE7"/></svg>
+        </div>
+        <div class="qs-cel-cuerpo">
+          <b>Barra de cera</b><span>Para volver a encerar</span>
+          <p class="qs-cel-precio">Q 60.00</p>
+          <button class="qs-cel-boton" type="button" data-qs-puesto="no"><span>Agregar</span></button>
+        </div>
+      </li>
+    </ul>
+
+    <p class="qs-cel-pie" id="qs-cel-pie">Ninguno agregado todavía.</p>
+  </div>
+
+  <script>
+  /* Agregar y quitar de verdad, y el pie cuenta lo que hay. Un botón que
+     dice «Agregado» sin que nada lo confirme se prueba una sola vez. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-completa-look");
+    var pie   = raiz.querySelector("#qs-cel-pie");
+    var VISTO = '<svg viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2.5 6.8l2.6 2.6 5.4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function moneda(n){ return "Q " + n.toLocaleString("es-GT", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+    function cuenta(){
+      var puestos = raiz.querySelectorAll('[data-qs-puesto="si"]');
+      if(!puestos.length){ pie.textContent = "Ninguno agregado todavía."; return; }
+      var suma = 0;
+      puestos.forEach(function(b){
+        var t = b.closest(".qs-cel-cuerpo").querySelector(".qs-cel-precio").textContent;
+        suma += parseFloat(t.replace(/[^\d.]/g, "")) || 0;
+      });
+      pie.textContent = puestos.length + (puestos.length === 1 ? " agregado · " : " agregados · ") + moneda(suma);
+    }
+    raiz.addEventListener("click", function(e){
+      var b = e.target.closest(".qs-cel-boton");
+      if(!b) return;
+      var puesto = b.dataset.qsPuesto === "si";
+      b.dataset.qsPuesto = puesto ? "no" : "si";
+      b.innerHTML = puesto ? "<span>Agregar</span>" : VISTO + "<span>Agregado</span>";
+      cuenta();
+    });
+    cuenta();
+  })();
+  </script>
+</section>

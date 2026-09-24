@@ -1,0 +1,121 @@
+<!-- ============================================================
+     SECCIÓN · Tabla de tallas
+     Con centímetros y con cómo medirse. Una tabla de tallas sin
+     el «cómo se mide» devuelve la mitad de los paquetes.
+     ============================================================ -->
+<section class="qs-tabla-tallas">
+  <style>
+  .qs-tabla-tallas, .qs-tabla-tallas *{box-sizing:border-box}
+  .qs-tabla-tallas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-cabeza:      #1B2430;   /* fondo del encabezado          */
+    --qs-cabeza-txt:  #F2F5F8;   /* texto del encabezado          */
+    --qs-tinta:       #16202B;   /* color del texto               */
+    --qs-tinta-suave: #5C6B7A;   /* explicaciones                 */
+    --qs-acento:      #1C5E8C;   /* fila destacada y enlaces      */
+    --qs-raya:        #F2F5F8;   /* fondo de las filas pares      */
+    --qs-linea:       #DDE4EA;   /* líneas de la tabla            */
+    --qs-radio:       12px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-tll-marco{max-width:880px; margin:0 auto}
+  .qs-tabla-tallas h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0 0 8px}
+  .qs-tll-intro{margin:0 0 22px; font-size:14px; line-height:1.6; color:var(--qs-tinta-suave); max-width:60ch}
+  .qs-tll-rueda{overflow-x:auto; border:1px solid var(--qs-linea); border-radius:var(--qs-radio); margin-bottom:26px}
+  .qs-tll-tabla{width:100%; border-collapse:collapse; min-width:520px; font-variant-numeric:tabular-nums}
+  .qs-tll-tabla th, .qs-tll-tabla td{text-align:left; padding:12px 16px; font-size:13.5px; white-space:nowrap}
+  .qs-tll-tabla thead th{background:var(--qs-cabeza); color:var(--qs-cabeza-txt); font-weight:600; font-size:12.5px}
+  .qs-tll-tabla tbody tr:nth-child(even){background:var(--qs-raya)}
+  .qs-tll-tabla tbody th{font-weight:700}
+  .qs-tll-tabla tbody tr[data-qs-tuya] th{color:var(--qs-acento)}
+  .qs-tll-tabla tbody tr[data-qs-tuya]{box-shadow:inset 3px 0 0 var(--qs-acento)}
+  .qs-tll-tuya{
+    display:inline-block; margin-left:8px; font-size:10.5px; font-weight:700;
+    letter-spacing:.05em; text-transform:uppercase; color:var(--qs-acento);
+  }
+  .qs-tll-reja{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px}
+  .qs-tll-como h3{font-size:13.5px; font-weight:700; margin:0 0 8px}
+  .qs-tll-como p{margin:0; font-size:13px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-tll-dibujo{
+    background:var(--qs-raya); border-radius:10px; aspect-ratio:3/2;
+    display:grid; place-items:center; margin-bottom:11px;
+  }
+  .qs-tll-dibujo svg{width:100%; height:100%; display:block}
+  .qs-tll-pie{
+    margin:24px 0 0; padding-top:18px; border-top:1px solid var(--qs-linea);
+    font-size:13px; line-height:1.6; color:var(--qs-tinta-suave);
+  }
+  .qs-tll-pie a{color:var(--qs-acento); font-weight:600}
+  @media (max-width:640px){
+    .qs-tabla-tallas{--qs-aire:44px}
+    .qs-tll-reja{grid-template-columns:1fr; gap:16px}
+    .qs-tll-dibujo{aspect-ratio:16/7}
+  }
+  </style>
+
+  <div class="qs-tll-marco">
+    <h2>Guía de tallas</h2>
+    <p class="qs-tll-intro">Las medidas son del cuerpo, no de la prenda. Mídete encima de la ropa interior y con la cinta pegada sin apretar.</p>
+
+    <div class="qs-tll-rueda">
+      <table class="qs-tll-tabla">
+        <thead>
+          <tr><th>Talla</th><th>Pecho</th><th>Cintura</th><th>Cadera</th><th>Equivale a</th></tr>
+        </thead>
+        <tbody>
+          <!-- Fila · duplicar. La talla del cliente lleva data-qs-tuya -->
+          <tr><th>XS</th><td>82 – 86 cm</td><td>66 – 70 cm</td><td>90 – 94 cm</td><td>US 2</td></tr>
+          <tr><th>S</th><td>87 – 91 cm</td><td>71 – 75 cm</td><td>95 – 99 cm</td><td>US 4 – 6</td></tr>
+          <tr data-qs-tuya><th>M<span class="qs-tll-tuya">Tu talla</span></th><td>92 – 97 cm</td><td>76 – 81 cm</td><td>100 – 105 cm</td><td>US 8 – 10</td></tr>
+          <tr><th>L</th><td>98 – 104 cm</td><td>82 – 88 cm</td><td>106 – 112 cm</td><td>US 12 – 14</td></tr>
+          <tr><th>XL</th><td>105 – 112 cm</td><td>89 – 96 cm</td><td>113 – 120 cm</td><td>US 16</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="qs-tll-reja">
+      <!-- Medida · duplicar -->
+      <div class="qs-tll-como">
+        <div class="qs-tll-dibujo">
+          <svg viewBox="0 0 150 100" aria-hidden="true">
+            <path d="M60 18a15 15 0 1 0 30 0 15 15 0 1 0-30 0" fill="none" stroke="#B9C6D1" stroke-width="3"/>
+            <path d="M52 40h46l6 44H46z" fill="none" stroke="#B9C6D1" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M40 52h70" stroke="#1C5E8C" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Pecho</h3>
+        <p>Por la parte más ancha, con los brazos abajo y sin inflar el pecho.</p>
+      </div>
+      <div class="qs-tll-como">
+        <div class="qs-tll-dibujo">
+          <svg viewBox="0 0 150 100" aria-hidden="true">
+            <path d="M60 18a15 15 0 1 0 30 0 15 15 0 1 0-30 0" fill="none" stroke="#B9C6D1" stroke-width="3"/>
+            <path d="M52 40h46l6 44H46z" fill="none" stroke="#B9C6D1" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M44 66h62" stroke="#1C5E8C" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Cintura</h3>
+        <p>Por la parte más angosta, arriba del ombligo. No metas la panza.</p>
+      </div>
+      <div class="qs-tll-como">
+        <div class="qs-tll-dibujo">
+          <svg viewBox="0 0 150 100" aria-hidden="true">
+            <path d="M60 18a15 15 0 1 0 30 0 15 15 0 1 0-30 0" fill="none" stroke="#B9C6D1" stroke-width="3"/>
+            <path d="M52 40h46l6 44H46z" fill="none" stroke="#B9C6D1" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M42 80h66" stroke="#1C5E8C" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Cadera</h3>
+        <p>Por la parte más ancha, con los pies juntos.</p>
+      </div>
+    </div>
+
+    <p class="qs-tll-pie">¿Quedaste entre dos tallas? Sube a la más grande: esta prenda no es de corte holgado. Si aun así no queda, <a href="#">el cambio de talla es sin costo</a> dentro de los 30 días.</p>
+  </div>
+</section>

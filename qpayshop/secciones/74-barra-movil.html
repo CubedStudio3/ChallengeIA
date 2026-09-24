@@ -1,0 +1,73 @@
+<!-- ============================================================
+     SECCIÓN · Barra inferior de teléfono
+     Cuatro destinos al alcance del pulgar. En escritorio no se
+     muestra: ahí ya está el encabezado y estorbaría.
+     ============================================================ -->
+<div class="qs-barra-movil">
+  <style>
+  .qs-barra-movil, .qs-barra-movil *{box-sizing:border-box}
+  .qs-barra-movil{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-barra:       #FFFFFF;   /* fondo de la barra             */
+    --qs-tinta:       #16151A;   /* destino activo                */
+    --qs-tinta-suave: #6A6871;   /* los demás destinos            */
+    --qs-acento:      #B23A2B;   /* contador del carrito          */
+    --qs-linea:       #E6E4DD;   /* línea de arriba               */
+    --qs-lienzo:      #F4F2EE;   /* fondo de la demostración      */
+    --qs-alto:        260px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); background:var(--qs-lienzo);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-bmv-hueco{padding:34px 24px; text-align:center; color:var(--qs-tinta-suave); font-size:13.5px; line-height:1.6}
+  .qs-bmv-barra{
+    position:absolute; left:0; right:0; bottom:0;
+    background:var(--qs-barra); border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    /* deja libre la franja del gesto de los teléfonos sin botón */
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  .qs-bmv-barra a{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:9px 4px 10px; text-decoration:none; color:var(--qs-tinta-suave);
+    font-size:10.5px; font-weight:500; position:relative;
+  }
+  .qs-bmv-barra a[aria-current]{color:var(--qs-tinta); font-weight:600}
+  .qs-bmv-barra svg{width:21px; height:21px}
+  .qs-bmv-globo{
+    position:absolute; top:5px; left:calc(50% + 6px);
+    background:var(--qs-acento); color:#fff; border-radius:99px;
+    min-width:16px; height:16px; padding:0 4px; font-size:10px; font-weight:700;
+    display:grid; place-items:center; font-variant-numeric:tabular-nums;
+  }
+  /* En pantalla grande no va: el encabezado ya tiene estos cuatro destinos. */
+  @media (min-width:700px){
+    .qs-bmv-barra{display:none}
+    .qs-bmv-hueco::after{content:" En pantalla grande esta barra no se muestra."}
+  }
+  </style>
+
+  <p class="qs-bmv-hueco">Acá va el contenido de la página.</p>
+
+  <nav class="qs-bmv-barra" aria-label="Accesos rápidos">
+    <!-- Destino · duplicar -->
+    <a href="#" aria-current="page">
+      <svg viewBox="0 0 21 21" fill="none" aria-hidden="true"><path d="M3 9l7.5-6L18 9v8.5a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      Inicio
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 21 21" fill="none" aria-hidden="true"><circle cx="9.5" cy="9.5" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M13.9 13.9L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Buscar
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 21 21" fill="none" aria-hidden="true"><path d="M3 3.5h2.6l2.4 10.2h8.2l2-7.6H6.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.4" cy="17.2" r="1.4" fill="currentColor"/><circle cx="15.6" cy="17.2" r="1.4" fill="currentColor"/></svg>
+      <span class="qs-bmv-globo">3</span>
+      Carrito
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 21 21" fill="none" aria-hidden="true"><path d="M3.5 17c0-3.3 3.1-5.4 7-5.4s7 2.1 7 5.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="6.6" r="3.4" stroke="currentColor" stroke-width="1.5"/></svg>
+      Cuenta
+    </a>
+  </nav>
+</div>

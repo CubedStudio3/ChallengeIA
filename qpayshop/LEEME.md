@@ -1,6 +1,6 @@
 # Secciones para Qpayshop
 
-<!-- CUENTA -->Biblioteca de **63 secciones** de tienda en línea para dar variedad a las
+<!-- CUENTA -->Biblioteca de **80 secciones** de tienda en línea para dar variedad a las
 plantillas de Qpayshop. El cliente elige las que quiere; IT las pega.
 
 **Catálogo visual:** `catalogo-secciones.html` — abrir en el navegador. Cada
@@ -75,6 +75,23 @@ para copiar.
 | 61 | `secciones/61-producto-agotado.html` | Estados | La ficha sin existencia. Las tallas agotadas se ven apagadas pero siguen ahí. |
 | 62 | `secciones/62-pedido-en-camino.html` | Estados | El seguimiento del paquete, con cada paso en su estado. La línea se pinta sola. |
 | 63 | `secciones/63-proximamente.html` | Estados | La tienda antes de abrir. No promete una fecha que no se sepa: dice en qué está. |
+| 64 | `secciones/64-contacto-datos.html` | formularios | El formulario a un lado y a dónde ir al otro. Sin mapa incrustado: un mapa cuesta carga y un enlace hace lo mismo. |
+| 65 | `secciones/65-cotizacion.html` | formularios | Venta por volumen: una línea por producto, y se agregan o se quitan de verdad. Pide NIT y empresa. |
+| 66 | `secciones/66-reserva-cita.html` | formularios | Servicio, día y hora en una sola pantalla. Los días y las horas sin cupo se ven, tachados, en vez de desaparecer. |
+| 67 | `secciones/67-pedido-especial.html` | formularios | Lo que se hace a la medida. Pregunta la fecha primero, que es lo que decide si se puede. |
+| 68 | `secciones/68-factura-datos.html` | formularios | NIT o consumidor final. Lo que elige el cliente cambia los campos que se le piden, en vez de pedirlos todos siempre. |
+| 69 | `secciones/69-devolucion.html` | formularios | Las reglas arriba del formulario: quien no califica se entera antes de llenarlo, no después de mandarlo. |
+| 70 | `secciones/70-menu-mega.html` | Estructura | Todo el catálogo en un panel. Abre al pasar el mouse y también con el teclado. |
+| 71 | `secciones/71-encabezado-minimo.html` | Estructura | Logo al centro y un cajón lateral con todo lo demás. Cierra con el velo, con la equis y con Escape. |
+| 72 | `secciones/72-pie-minimo.html` | Estructura | Una franja con lo que la ley y el cliente piden, sin cuatro columnas de enlaces. |
+| 73 | `secciones/73-migas-pan.html` | Estructura | Dónde está parado el cliente, con el título y el conteo. En teléfono se colapsa al nivel de arriba. |
+| 74 | `secciones/74-barra-movil.html` | Estructura | Cuatro destinos al alcance del pulgar. En escritorio no se muestra: ahí estorbaría. |
+| 75 | `secciones/75-aviso-cookies.html` | Estructura | Aceptar y rechazar con el mismo peso visual, y un detalle por tipo. Las tres salidas guardan una decisión. |
+| 76 | `secciones/76-ficha-pestanas.html` | ficha | Descripción, medidas y envíos sin tres pantallas de scroll. Se navega también con las flechas. |
+| 77 | `secciones/77-ficha-resenas.html` | ficha | El promedio nunca va solo: al lado van cuántas opiniones lo sostienen y el desglose por estrella. |
+| 78 | `secciones/78-tabla-tallas.html` | ficha | Con centímetros y con cómo medirse. Una tabla sin el «cómo se mide» devuelve la mitad de los paquetes. |
+| 79 | `secciones/79-completa-el-look.html` | ficha | Lo que combina, cada uno con su botón. Sin paquete ni descuento: se agrega lo que se quiera y el pie lo cuenta. |
+| 80 | `secciones/80-envio-a-tu-zona.html` | ficha | El plazo y el costo salen de una tabla por departamento, no de una promesa general del país. |
 <!-- /TABLA -->
 
 ## Cómo se instala
@@ -207,7 +224,7 @@ para categorías.
 
 Con más de cincuenta secciones una lista plana dejó de servir. El catálogo tiene ahora:
 
-- **Índice lateral fijo** con las ocho categorías y todas las secciones numeradas.
+- **Índice lateral fijo** con las categorías y todas las secciones numeradas.
   Sigue la lectura: la sección que estás viendo se marca sola y el índice se
   arrastra para que no la tengas que buscar.
 - **Grupos por categoría** en la lista, con su conteo. Al filtrar o buscar, el

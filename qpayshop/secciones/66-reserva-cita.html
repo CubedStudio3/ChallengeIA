@@ -1,0 +1,127 @@
+<!-- ============================================================
+     SECCIÓN · Reservar una cita
+     Para servicios: salón, taller, clínica. Servicio, día y hora
+     en tres pasos que caben en una pantalla, sin calendario pesado.
+     ============================================================ -->
+<section class="qs-reserva-cita">
+  <style>
+  .qs-reserva-cita, .qs-reserva-cita *{box-sizing:border-box}
+  .qs-reserva-cita{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FBF6F3;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo de la tarjeta           */
+    --qs-tinta:       #241A16;   /* color del texto               */
+    --qs-tinta-suave: #705C56;   /* rótulos y explicaciones       */
+    --qs-acento:      #9C3D2E;   /* lo elegido y el botón         */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-elegido:     #F6E7E3;   /* fondo de la opción elegida    */
+    --qs-linea:       #EADED8;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-cit-marco{max-width:680px; margin:0 auto}
+  .qs-reserva-cita h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px; text-align:center}
+  .qs-cit-intro{margin:0 auto 26px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave); text-align:center; max-width:44ch}
+  .qs-cit-tarjeta{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:26px}
+  .qs-cit-paso{margin-bottom:24px}
+  .qs-cit-paso:last-of-type{margin-bottom:0}
+  .qs-cit-paso > p{
+    margin:0 0 12px; font-size:11.5px; font-weight:700; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--qs-tinta-suave);
+  }
+  .qs-cit-opciones{display:flex; flex-wrap:wrap; gap:9px; list-style:none; margin:0; padding:0}
+  /* El radio va ANTES de su etiqueta para pintar lo elegido con
+     `:checked + label`, que funciona en cualquier navegador. */
+  .qs-cit-radio{position:absolute; opacity:0; width:0; height:0}
+  .qs-cit-op{
+    display:block; cursor:pointer; border:1.5px solid var(--qs-linea); border-radius:11px;
+    padding:11px 15px; font-size:13.5px; line-height:1.35;
+  }
+  .qs-cit-op b{display:block; font-weight:600}
+  .qs-cit-op span{display:block; font-size:12px; color:var(--qs-tinta-suave); margin-top:2px}
+  .qs-cit-radio:checked + .qs-cit-op{border-color:var(--qs-acento); background:var(--qs-elegido)}
+  .qs-cit-radio:focus-visible + .qs-cit-op{outline:2px solid var(--qs-acento); outline-offset:2px}
+  .qs-cit-radio:disabled + .qs-cit-op{
+    cursor:not-allowed; color:var(--qs-tinta-suave); background:var(--qs-fondo);
+    border-style:dashed; text-decoration:line-through;
+  }
+  .qs-cit-horas{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(92px,100%),1fr)); gap:9px; list-style:none; margin:0; padding:0}
+  .qs-cit-horas .qs-cit-op{text-align:center; font-variant-numeric:tabular-nums}
+  .qs-cit-campos{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .qs-cit-campo{display:flex; flex-direction:column; gap:6px}
+  .qs-cit-campo.qs-cit-ancho{grid-column:1 / -1}
+  .qs-cit-campo label{font-size:12.5px; font-weight:600}
+  .qs-cit-campo input{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-cit-campo input:focus{border-color:var(--qs-acento)}
+  .qs-cit-cta{
+    font:inherit; font-size:15px; font-weight:700; cursor:pointer; width:100%;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:12px; padding:15px; margin-top:22px;
+  }
+  .qs-cit-nota{margin:12px 0 0; font-size:12px; color:var(--qs-tinta-suave); text-align:center; line-height:1.55}
+  @media (max-width:520px){
+    .qs-reserva-cita{--qs-aire:46px}
+    .qs-cit-tarjeta{padding:20px}
+    .qs-cit-campos{grid-template-columns:1fr}
+  }
+  </style>
+
+  <div class="qs-cit-marco">
+    <h2>Reserva tu cita</h2>
+    <p class="qs-cit-intro">Elige el servicio, el día y la hora. Te confirmamos por mensaje en menos de una hora.</p>
+
+    <form class="qs-cit-tarjeta" onsubmit="return false">
+      <div class="qs-cit-paso">
+        <p>1 · Servicio</p>
+        <ul class="qs-cit-opciones">
+          <!-- Servicio · duplicar -->
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-serv" id="qs-cit-s1" checked><label class="qs-cit-op" for="qs-cit-s1"><b>Corte</b><span>45 min · Q 120</span></label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-serv" id="qs-cit-s2"><label class="qs-cit-op" for="qs-cit-s2"><b>Corte y barba</b><span>70 min · Q 180</span></label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-serv" id="qs-cit-s3"><label class="qs-cit-op" for="qs-cit-s3"><b>Color</b><span>2 h · desde Q 350</span></label></li>
+        </ul>
+      </div>
+
+      <div class="qs-cit-paso">
+        <p>2 · Día</p>
+        <ul class="qs-cit-opciones">
+          <!-- Día · duplicar. Un día sin cupo va con `disabled` -->
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-dia" id="qs-cit-d1" checked><label class="qs-cit-op" for="qs-cit-d1"><b>Jue 25</b><span>6 horas libres</span></label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-dia" id="qs-cit-d2"><label class="qs-cit-op" for="qs-cit-d2"><b>Vie 26</b><span>2 horas libres</span></label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-dia" id="qs-cit-d3" disabled><label class="qs-cit-op" for="qs-cit-d3"><b>Sáb 27</b><span>Sin cupo</span></label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-dia" id="qs-cit-d4"><label class="qs-cit-op" for="qs-cit-d4"><b>Lun 29</b><span>8 horas libres</span></label></li>
+        </ul>
+      </div>
+
+      <div class="qs-cit-paso">
+        <p>3 · Hora</p>
+        <ul class="qs-cit-horas">
+          <!-- Hora · duplicar -->
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-hora" id="qs-cit-h1"><label class="qs-cit-op" for="qs-cit-h1">9:00</label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-hora" id="qs-cit-h2" checked><label class="qs-cit-op" for="qs-cit-h2">10:30</label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-hora" id="qs-cit-h3" disabled><label class="qs-cit-op" for="qs-cit-h3">12:00</label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-hora" id="qs-cit-h4"><label class="qs-cit-op" for="qs-cit-h4">2:30</label></li>
+          <li><input class="qs-cit-radio" type="radio" name="qs-cit-hora" id="qs-cit-h5"><label class="qs-cit-op" for="qs-cit-h5">4:00</label></li>
+        </ul>
+      </div>
+
+      <div class="qs-cit-paso">
+        <p>4 · A nombre de quién</p>
+        <div class="qs-cit-campos">
+          <div class="qs-cit-campo"><label for="qs-cit-nom">Nombre</label><input id="qs-cit-nom" type="text" autocomplete="name"></div>
+          <div class="qs-cit-campo"><label for="qs-cit-tel">Teléfono</label><input id="qs-cit-tel" type="tel" autocomplete="tel" placeholder="5555 5555"></div>
+        </div>
+      </div>
+
+      <button class="qs-cit-cta" type="submit">Reservar</button>
+      <p class="qs-cit-nota">Si no puedes venir, avísanos con 3 horas de anticipación y movemos la cita sin costo.</p>
+    </form>
+  </div>
+</section>

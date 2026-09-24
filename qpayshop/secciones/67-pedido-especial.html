@@ -1,0 +1,122 @@
+<!-- ============================================================
+     SECCIÓN · Pedido especial
+     Lo que se hace a la medida: pastel, arreglo, rótulo, grabado.
+     Pregunta la fecha primero, que es lo que decide si se puede.
+     ============================================================ -->
+<section class="qs-pedido-especial">
+  <style>
+  .qs-pedido-especial, .qs-pedido-especial *{box-sizing:border-box}
+  .qs-pedido-especial{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F4F1FA;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del formulario          */
+    --qs-tinta:       #1D1830;   /* color del texto               */
+    --qs-tinta-suave: #635C7D;   /* rótulos y explicaciones       */
+    --qs-acento:      #4B3B96;   /* botón y foco                  */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-aviso:       #F3EEFC;   /* fondo de la franja de plazo   */
+    --qs-linea:       #E1DCF0;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pe-marco{max-width:640px; margin:0 auto}
+  .qs-pedido-especial h2{font-size:clamp(21px,2.8vw,28px); font-weight:700; letter-spacing:-.028em; margin:0 0 8px}
+  .qs-pe-intro{margin:0 0 22px; font-size:14.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  .qs-pe-plazo{
+    display:flex; gap:11px; background:var(--qs-aviso); border-radius:12px;
+    padding:14px 16px; margin-bottom:22px;
+  }
+  .qs-pe-plazo svg{width:17px; height:17px; flex:none; color:var(--qs-acento); margin-top:1px}
+  .qs-pe-plazo p{margin:0; font-size:13px; line-height:1.55}
+  .qs-pe-plazo b{font-weight:600}
+  .qs-pe-forma{background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:24px}
+  .qs-pe-campos{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .qs-pe-campo{display:flex; flex-direction:column; gap:6px}
+  .qs-pe-campo.qs-pe-ancho{grid-column:1 / -1}
+  .qs-pe-campo label{font-size:12.5px; font-weight:600}
+  .qs-pe-campo label i{font-style:normal; font-weight:400; color:var(--qs-tinta-suave)}
+  .qs-pe-campo input, .qs-pe-campo select, .qs-pe-campo textarea{
+    font:inherit; font-size:14px; color:var(--qs-tinta); background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-pe-campo textarea{resize:vertical; min-height:100px; line-height:1.55}
+  .qs-pe-campo :focus{border-color:var(--qs-acento)}
+  .qs-pe-campo small{font-size:11.5px; color:var(--qs-tinta-suave); line-height:1.5}
+  /* La caja de archivo se dibuja acá; el <input file> real va escondido
+     pero sigue siendo el que recibe el clic, por la etiqueta. */
+  .qs-pe-archivo input{position:absolute; opacity:0; width:0; height:0}
+  .qs-pe-caja{
+    display:flex; align-items:center; gap:11px; cursor:pointer;
+    border:1.5px dashed var(--qs-linea); border-radius:11px; padding:15px;
+    font-size:13.5px; color:var(--qs-tinta-suave);
+  }
+  .qs-pe-caja:hover{border-color:var(--qs-acento); color:var(--qs-tinta)}
+  .qs-pe-archivo input:focus-visible + .qs-pe-caja{outline:2px solid var(--qs-acento); outline-offset:2px}
+  .qs-pe-caja svg{width:17px; height:17px; flex:none; color:var(--qs-acento)}
+  .qs-pe-cta{
+    font:inherit; font-size:15px; font-weight:700; cursor:pointer; width:100%;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:12px; padding:14px; margin-top:20px;
+  }
+  .qs-pe-nota{margin:11px 0 0; font-size:12px; color:var(--qs-tinta-suave); text-align:center}
+  @media (max-width:520px){
+    .qs-pedido-especial{--qs-aire:46px}
+    .qs-pe-campos{grid-template-columns:1fr}
+    .qs-pe-forma{padding:20px}
+  }
+  </style>
+
+  <div class="qs-pe-marco">
+    <h2>Pide algo a la medida</h2>
+    <p class="qs-pe-intro">Lo hacemos desde cero: tamaño, color y texto los eliges tú. Te mandamos el precio y un boceto antes de empezar.</p>
+
+    <div class="qs-pe-plazo">
+      <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 4.8V9l2.8 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <p><b>Necesitamos cinco días hábiles.</b> Si lo quieres antes, escríbenos: a veces se puede, y es mejor saberlo ahora que el día de la entrega.</p>
+    </div>
+
+    <form class="qs-pe-forma" onsubmit="return false">
+      <div class="qs-pe-campos">
+        <div class="qs-pe-campo qs-pe-ancho">
+          <label for="qs-pe-fecha">Para cuándo lo necesitas</label>
+          <input id="qs-pe-fecha" type="date">
+          <small>Es lo primero que revisamos. Sin fecha no podemos contestar si se puede.</small>
+        </div>
+        <div class="qs-pe-campo">
+          <label for="qs-pe-tipo">Qué es</label>
+          <select id="qs-pe-tipo">
+            <option>Pastel</option><option>Arreglo floral</option><option>Rótulo</option>
+            <option>Grabado en producto</option><option>Otra cosa</option>
+          </select>
+        </div>
+        <div class="qs-pe-campo">
+          <label for="qs-pe-cant">Cuántos</label>
+          <input id="qs-pe-cant" type="number" min="1" value="1">
+        </div>
+        <div class="qs-pe-campo qs-pe-ancho">
+          <label for="qs-pe-det">Cómo lo quieres</label>
+          <textarea id="qs-pe-det" placeholder="Tamaño, colores, el texto que lleva, para qué ocasión…"></textarea>
+        </div>
+        <div class="qs-pe-campo qs-pe-ancho qs-pe-archivo">
+          <label for="qs-pe-img">Una referencia <i>· opcional</i></label>
+          <input id="qs-pe-img" type="file" accept="image/*">
+          <label class="qs-pe-caja" for="qs-pe-img">
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 12.5V3.5M5.5 7L9 3.5 12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5v1.2A1.3 1.3 0 0 0 4.3 15h9.4a1.3 1.3 0 0 0 1.3-1.3v-1.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Sube una foto de lo que tienes en mente
+          </label>
+          <small>Una foto ahorra tres mensajes. JPG o PNG, hasta 5 MB.</small>
+        </div>
+        <div class="qs-pe-campo"><label for="qs-pe-nom">Tu nombre</label><input id="qs-pe-nom" type="text" autocomplete="name"></div>
+        <div class="qs-pe-campo"><label for="qs-pe-tel">Teléfono</label><input id="qs-pe-tel" type="tel" autocomplete="tel" placeholder="5555 5555"></div>
+      </div>
+
+      <button class="qs-pe-cta" type="submit">Mandar el pedido</button>
+      <p class="qs-pe-nota">Todavía no estás comprando. Te contestamos con precio y fecha.</p>
+    </form>
+  </div>
+</section>

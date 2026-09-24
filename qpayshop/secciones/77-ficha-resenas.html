@@ -1,0 +1,125 @@
+<!-- ============================================================
+     SECCIÓN · Reseñas del producto
+     El promedio NO va solo: al lado va cuántas lo sostienen y el
+     desglose por estrella. Un 4.8 sobre 3 opiniones no es un 4.8.
+     ============================================================ -->
+<section class="qs-ficha-resenas">
+  <style>
+  .qs-ficha-resenas, .qs-ficha-resenas *{box-sizing:border-box}
+  .qs-ficha-resenas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-panel:       #F7F6F3;   /* fondo del resumen             */
+    --qs-tinta:       #191814;   /* color del texto               */
+    --qs-tinta-suave: #6B6960;   /* fechas y explicaciones        */
+    --qs-estrella:    #B8801A;   /* color de las estrellas        */
+    --qs-barra:       #E5E2DA;   /* canal de las barras           */
+    --qs-linea:       #E5E2DA;   /* líneas divisorias             */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-fre-marco{max-width:880px; margin:0 auto}
+  .qs-ficha-resenas h2{font-size:clamp(19px,2.5vw,25px); font-weight:700; letter-spacing:-.026em; margin:0 0 20px}
+  .qs-fre-resumen{
+    display:grid; grid-template-columns:190px minmax(0,1fr); gap:28px; align-items:center;
+    background:var(--qs-panel); border-radius:var(--qs-radio); padding:22px; margin-bottom:26px;
+  }
+  .qs-fre-nota{text-align:center}
+  .qs-fre-nota b{display:block; font-size:42px; font-weight:800; line-height:1; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+  .qs-fre-estrellas{display:flex; justify-content:center; gap:2px; margin:8px 0 6px}
+  .qs-fre-estrellas svg{width:15px; height:15px; color:var(--qs-estrella)}
+  .qs-fre-nota span{display:block; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-fre-desglose{display:grid; gap:7px}
+  .qs-fre-fila{display:grid; grid-template-columns:52px minmax(0,1fr) 40px; gap:11px; align-items:center; font-size:12.5px; color:var(--qs-tinta-suave)}
+  .qs-fre-canal{height:7px; border-radius:99px; background:var(--qs-barra); overflow:hidden; display:block}
+  .qs-fre-canal i{display:block; height:100%; border-radius:99px; background:var(--qs-estrella)}
+  .qs-fre-fila em{font-style:normal; text-align:right; font-variant-numeric:tabular-nums}
+  .qs-fre-lista{list-style:none; margin:0; padding:0}
+  .qs-fre-op{padding:20px 0; border-bottom:1px solid var(--qs-linea)}
+  .qs-fre-op:last-child{border-bottom:0}
+  .qs-fre-alto{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px}
+  .qs-fre-alto b{font-size:13.5px; font-weight:600}
+  .qs-fre-alto .qs-fre-estrellas{margin:0}
+  .qs-fre-verif{
+    display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600;
+    color:var(--qs-tinta-suave); border:1px solid var(--qs-linea); border-radius:99px; padding:3px 9px;
+  }
+  .qs-fre-verif svg{width:10px; height:10px}
+  .qs-fre-fecha{margin-left:auto; font-size:12px; color:var(--qs-tinta-suave)}
+  .qs-fre-op p{margin:0 0 8px; font-size:14px; line-height:1.65}
+  .qs-fre-talla{margin:0; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:620px){
+    .qs-ficha-resenas{--qs-aire:44px}
+    .qs-fre-resumen{grid-template-columns:1fr; gap:20px}
+    .qs-fre-fecha{margin-left:0; width:100%}
+  }
+  </style>
+
+  <div class="qs-fre-marco">
+    <h2>Lo que dicen quienes la compraron</h2>
+
+    <div class="qs-fre-resumen">
+      <div class="qs-fre-nota">
+        <b>4.6</b>
+        <span class="qs-fre-estrellas" aria-hidden="true">
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+          <svg viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+          <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </span>
+        <span>sobre 87 opiniones</span>
+      </div>
+
+      <div class="qs-fre-desglose">
+        <!-- Fila · duplicar. El ancho del relleno y el número son el MISMO dato -->
+        <p class="qs-fre-fila"><span>5 ★</span><span class="qs-fre-canal"><i style="width:64%"></i></span><em>56</em></p>
+        <p class="qs-fre-fila"><span>4 ★</span><span class="qs-fre-canal"><i style="width:23%"></i></span><em>20</em></p>
+        <p class="qs-fre-fila"><span>3 ★</span><span class="qs-fre-canal"><i style="width:8%"></i></span><em>7</em></p>
+        <p class="qs-fre-fila"><span>2 ★</span><span class="qs-fre-canal"><i style="width:3%"></i></span><em>3</em></p>
+        <p class="qs-fre-fila"><span>1 ★</span><span class="qs-fre-canal"><i style="width:1%"></i></span><em>1</em></p>
+      </div>
+    </div>
+
+    <ul class="qs-fre-lista">
+      <!-- Opinión · duplicar -->
+      <li class="qs-fre-op">
+        <div class="qs-fre-alto">
+          <b>Andrea M.</b>
+          <span class="qs-fre-estrellas" aria-label="5 de 5">
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+          </span>
+          <span class="qs-fre-verif"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Compra verificada</span>
+          <span class="qs-fre-fecha">12 de septiembre</span>
+        </div>
+        <p>La uso a diario para ir al trabajo en moto. Aguantó el invierno completo y la laptop nunca se mojó. La cera se gastó en las esquinas, que es lo que advierten en la ficha.</p>
+        <p class="qs-fre-talla">Color: Verde olivo</p>
+      </li>
+      <li class="qs-fre-op">
+        <div class="qs-fre-alto">
+          <b>Julio R.</b>
+          <span class="qs-fre-estrellas" aria-label="4 de 5">
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            <svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 1l1.9 4 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z" stroke="currentColor" stroke-width="1.2"/></svg>
+          </span>
+          <span class="qs-fre-verif"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Compra verificada</span>
+          <span class="qs-fre-fecha">3 de septiembre</span>
+        </div>
+        <p>Buena mochila, pero es más pequeña de lo que se ve en la foto. Medí antes de comprar: las medidas de la ficha están bien, el que no las leyó fui yo.</p>
+        <p class="qs-fre-talla">Color: Café</p>
+      </li>
+    </ul>
+  </div>
+</section>

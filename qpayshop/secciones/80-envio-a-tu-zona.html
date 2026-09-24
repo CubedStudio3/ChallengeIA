@@ -1,0 +1,106 @@
+<!-- ============================================================
+     SECCIÓN · Cuándo llega a tu zona
+     La pregunta que se hace antes de comprar. El plazo y el costo
+     salen de una tabla, no de una promesa general.
+     ============================================================ -->
+<section class="qs-envio-zona">
+  <style>
+  .qs-envio-zona, .qs-envio-zona *{box-sizing:border-box}
+  .qs-envio-zona{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #F4F7F6;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del bloque              */
+    --qs-tinta:       #13211C;   /* color del texto               */
+    --qs-tinta-suave: #5B7069;   /* rótulos y explicaciones       */
+    --qs-acento:      #14684C;   /* resultado y botón             */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #DCE7E3;   /* bordes                        */
+    --qs-radio:       14px;      /* redondeo                      */
+    --qs-aire:        52px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-eza-marco{max-width:620px; margin:0 auto; background:var(--qs-panel); border:1px solid var(--qs-linea); border-radius:var(--qs-radio); padding:24px}
+  .qs-eza-alto{display:flex; gap:11px; margin-bottom:16px}
+  .qs-eza-alto svg{width:19px; height:19px; flex:none; color:var(--qs-acento); margin-top:2px}
+  .qs-envio-zona h2{font-size:17px; font-weight:700; letter-spacing:-.02em; margin:0 0 4px}
+  .qs-eza-alto p{margin:0; font-size:13px; line-height:1.55; color:var(--qs-tinta-suave)}
+  .qs-eza-fila{display:flex; gap:10px; flex-wrap:wrap}
+  .qs-eza-fila label{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+  .qs-eza-fila select{
+    flex:1 1 200px; min-width:0; font:inherit; font-size:14px; color:var(--qs-tinta);
+    background:var(--qs-panel); border:1px solid var(--qs-linea);
+    border-radius:11px; padding:12px 14px; outline:0;
+  }
+  .qs-eza-fila select:focus{border-color:var(--qs-acento)}
+  .qs-eza-resultado{
+    margin-top:18px; padding-top:18px; border-top:1px solid var(--qs-linea);
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px;
+  }
+  .qs-eza-dato dt{font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-tinta-suave); margin-bottom:5px}
+  .qs-eza-dato dd{margin:0; font-size:15px; font-weight:700; line-height:1.35}
+  .qs-eza-dato dd.qs-eza-verde{color:var(--qs-acento)}
+  .qs-eza-nota{margin:16px 0 0; font-size:12.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  @media (max-width:520px){
+    .qs-envio-zona{--qs-aire:40px}
+    .qs-eza-marco{padding:20px}
+    .qs-eza-resultado{grid-template-columns:1fr 1fr}
+  }
+  </style>
+
+  <div class="qs-eza-marco">
+    <div class="qs-eza-alto">
+      <svg viewBox="0 0 19 19" fill="none" aria-hidden="true"><rect x="1.5" y="5" width="11" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M12.5 7.8h3.1l1.9 2.6v3.1h-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="5.3" cy="14.6" r="1.5" stroke="currentColor" stroke-width="1.4"/><circle cx="14.2" cy="14.6" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+      <div>
+        <h2>¿Cuándo llega a tu zona?</h2>
+        <p>Elige a dónde va y te decimos el plazo real, no el promedio del país.</p>
+      </div>
+    </div>
+
+    <div class="qs-eza-fila">
+      <label for="qs-eza-dep">Departamento</label>
+      <select id="qs-eza-dep">
+        <!-- Zona · duplicar. Los tres datos viajan en el propio option -->
+        <option data-qs-dias="1" data-qs-costo="25" data-qs-nota="Zonas 1 a 25. Si compras antes de las 2 p. m., sale hoy.">Guatemala · capital</option>
+        <option data-qs-dias="2" data-qs-costo="35" data-qs-nota="Entrega en la cabecera. A las aldeas llega un día después.">Sacatepéquez</option>
+        <option data-qs-dias="2" data-qs-costo="45" data-qs-nota="Entrega en la cabecera y en Xela centro.">Quetzaltenango</option>
+        <option data-qs-dias="3" data-qs-costo="55" data-qs-nota="Por la ruta del Atlántico. No hay entrega en domingo.">Izabal</option>
+        <option data-qs-dias="4" data-qs-costo="65" data-qs-nota="Dos salidas por semana: martes y viernes.">Petén</option>
+      </select>
+    </div>
+
+    <dl class="qs-eza-resultado">
+      <div class="qs-eza-dato"><dt>Llega en</dt><dd data-qs-eza-dias>—</dd></div>
+      <div class="qs-eza-dato"><dt>Costo del envío</dt><dd data-qs-eza-costo>—</dd></div>
+      <div class="qs-eza-dato"><dt>Sin costo desde</dt><dd class="qs-eza-verde">Q 2,000.00</dd></div>
+    </dl>
+
+    <p class="qs-eza-nota" data-qs-eza-nota></p>
+  </div>
+
+  <script>
+  /* El plazo y el costo salen del <option> elegido. Escribirlos en el texto
+     los dejaría diciendo lo de la capital para todo el país. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-envio-zona");
+    var sel   = raiz.querySelector("#qs-eza-dep");
+    var dias  = raiz.querySelector("[data-qs-eza-dias]");
+    var costo = raiz.querySelector("[data-qs-eza-costo]");
+    var nota  = raiz.querySelector("[data-qs-eza-nota]");
+    function pinta(){
+      var o = sel.options[sel.selectedIndex];
+      var d = Number(o.dataset.qsDias);
+      dias.textContent  = d === 1 ? "24 horas" : d + " días hábiles";
+      costo.textContent = "Q " + Number(o.dataset.qsCosto).toLocaleString("es-GT", { minimumFractionDigits:2, maximumFractionDigits:2 });
+      nota.textContent  = o.dataset.qsNota;
+    }
+    sel.addEventListener("change", pinta);
+    pinta();
+  })();
+  </script>
+</section>

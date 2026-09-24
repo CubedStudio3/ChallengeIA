@@ -1,0 +1,75 @@
+<!-- ============================================================
+     SECCIÓN · Pie compacto
+     Una franja con lo que la ley y el cliente piden, sin cuatro
+     columnas de enlaces. Para tiendas de catálogo corto.
+     ============================================================ -->
+<footer class="qs-pie-minimo">
+  <style>
+  .qs-pie-minimo, .qs-pie-minimo *{box-sizing:border-box}
+  .qs-pie-minimo{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #16151A;   /* fondo del pie                 */
+    --qs-tinta:       #EDEBE6;   /* color del texto               */
+    --qs-tinta-suave: #A3A0A8;   /* enlaces y letra chica         */
+    --qs-acento:      #C9A227;   /* enlaces al pasar el mouse     */
+    --qs-linea:       #2C2A33;   /* líneas divisorias             */
+    --qs-aire:        34px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-pm-marco{max-width:1160px; margin:0 auto}
+  .qs-pm-alto{display:flex; align-items:center; gap:18px 26px; flex-wrap:wrap; padding-bottom:20px; border-bottom:1px solid var(--qs-linea)}
+  .qs-pm-logo{font-size:16px; font-weight:800; letter-spacing:-.02em}
+  .qs-pm-nav{display:flex; gap:20px; flex-wrap:wrap; list-style:none; margin:0; padding:0}
+  .qs-pm-nav a{font-size:13.5px; color:var(--qs-tinta-suave); text-decoration:none}
+  .qs-pm-nav a:hover{color:var(--qs-acento)}
+  .qs-pm-redes{display:flex; gap:8px; margin-left:auto}
+  .qs-pm-redes a{
+    width:32px; height:32px; border-radius:50%; border:1px solid var(--qs-linea);
+    display:grid; place-items:center; color:var(--qs-tinta-suave);
+  }
+  .qs-pm-redes a:hover{color:var(--qs-acento); border-color:var(--qs-acento)}
+  .qs-pm-redes svg{width:15px; height:15px}
+  .qs-pm-bajo{display:flex; align-items:center; gap:14px 24px; flex-wrap:wrap; padding-top:18px; font-size:12px; color:var(--qs-tinta-suave)}
+  .qs-pm-bajo p{margin:0; line-height:1.55}
+  .qs-pm-pagos{display:flex; gap:6px; margin-left:auto; flex-wrap:wrap}
+  .qs-pm-pagos span{
+    border:1px solid var(--qs-linea); border-radius:5px; padding:4px 8px;
+    font-size:9.5px; font-weight:700; letter-spacing:.04em;
+  }
+  @media (max-width:700px){
+    .qs-pm-redes, .qs-pm-pagos{margin-left:0; width:100%}
+  }
+  </style>
+
+  <div class="qs-pm-marco">
+    <div class="qs-pm-alto">
+      <span class="qs-pm-logo">Tienda</span>
+      <ul class="qs-pm-nav">
+        <!-- Enlace · duplicar -->
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Cambios</a></li>
+        <li><a href="#">Preguntas</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Privacidad</a></li>
+      </ul>
+      <div class="qs-pm-redes">
+        <!-- Red · duplicar -->
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 15 15" fill="none"><rect x="2" y="2" width="11" height="11" rx="3.4" stroke="currentColor" stroke-width="1.4"/><circle cx="7.5" cy="7.5" r="2.7" stroke="currentColor" stroke-width="1.4"/><circle cx="10.9" cy="4.1" r=".8" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 15 15" fill="none"><path d="M9.4 13.5V8.3h1.8l.3-2.1H9.4V4.9c0-.6.2-1 1-1h1.1V2c-.2 0-.9-.1-1.6-.1-1.6 0-2.7 1-2.7 2.8v1.5H5.4v2.1h1.8v5.2z" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 15 15" fill="none"><path d="M9.1 1.8v7.6a2.2 2.2 0 1 1-1.8-2.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.1 1.8c.3 1.6 1.4 2.6 3 2.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+
+    <div class="qs-pm-bajo">
+      <p>© 2026 Tienda · NIT 1234567-8 · Ciudad de Guatemala</p>
+      <div class="qs-pm-pagos">
+        <!-- Medio de pago · duplicar -->
+        <span>VISA</span><span>MASTERCARD</span><span>3D SECURE</span><span>CONTRA ENTREGA</span>
+      </div>
+    </div>
+  </div>
+</footer>

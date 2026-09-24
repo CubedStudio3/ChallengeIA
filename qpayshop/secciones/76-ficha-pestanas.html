@@ -1,0 +1,141 @@
+<!-- ============================================================
+     SECCIÓN · Ficha por pestañas
+     Descripción, medidas y envíos sin tres pantallas de scroll.
+     En teléfono se vuelve acordeón: las pestañas no caben.
+     ============================================================ -->
+<section class="qs-ficha-pestanas">
+  <style>
+  .qs-ficha-pestanas, .qs-ficha-pestanas *{box-sizing:border-box}
+  .qs-ficha-pestanas{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #FFFFFF;   /* fondo de la sección           */
+    --qs-tinta:       #17160F;   /* color del texto               */
+    --qs-tinta-suave: #6A675B;   /* explicaciones                 */
+    --qs-acento:      #6B5B1F;   /* pestaña activa                */
+    --qs-linea:       #E4E0D2;   /* líneas divisorias             */
+    --qs-lienzo:      #F8F6EF;   /* fondo de la tabla             */
+    --qs-aire:        56px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-fpe-marco{max-width:860px; margin:0 auto}
+  .qs-fpe-barra{display:flex; gap:4px; border-bottom:1px solid var(--qs-linea); margin-bottom:24px; overflow-x:auto; scrollbar-width:none}
+  .qs-fpe-barra::-webkit-scrollbar{display:none}
+  .qs-fpe-barra button{
+    font:inherit; font-size:14px; font-weight:600; cursor:pointer; white-space:nowrap;
+    background:none; border:0; padding:13px 16px; color:var(--qs-tinta-suave);
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+  }
+  .qs-fpe-barra button[aria-selected="true"]{color:var(--qs-acento); border-bottom-color:var(--qs-acento)}
+  .qs-fpe-hoja{display:block}
+  /* `display:block` de la clase le ganaría al `hidden` del navegador. */
+  .qs-fpe-hoja[hidden]{display:none}
+  .qs-fpe-hoja h3{font-size:15px; font-weight:700; margin:0 0 10px}
+  .qs-fpe-hoja p{margin:0 0 14px; font-size:14.5px; line-height:1.7; color:var(--qs-tinta-suave); max-width:68ch}
+  .qs-fpe-hoja p:last-child{margin-bottom:0}
+  .qs-fpe-hoja ul{margin:0 0 14px; padding-left:20px; font-size:14.5px; line-height:1.7; color:var(--qs-tinta-suave)}
+  .qs-fpe-tabla{width:100%; border-collapse:collapse; background:var(--qs-lienzo); border-radius:12px; overflow:hidden}
+  .qs-fpe-tabla th, .qs-fpe-tabla td{text-align:left; padding:12px 16px; font-size:13.5px; border-bottom:1px solid var(--qs-linea)}
+  .qs-fpe-tabla th{font-weight:600; color:var(--qs-tinta-suave); width:40%}
+  .qs-fpe-tabla tr:last-child th, .qs-fpe-tabla tr:last-child td{border-bottom:0}
+  .qs-fpe-dato{display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--qs-linea)}
+  .qs-fpe-dato:last-child{border-bottom:0}
+  .qs-fpe-dato svg{width:17px; height:17px; flex:none; color:var(--qs-acento); margin-top:2px}
+  .qs-fpe-dato b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px}
+  .qs-fpe-dato span{display:block; font-size:13.5px; line-height:1.6; color:var(--qs-tinta-suave)}
+  @media (max-width:560px){
+    .qs-ficha-pestanas{--qs-aire:42px}
+    .qs-fpe-barra button{padding:11px 12px; font-size:13.5px}
+  }
+  </style>
+
+  <div class="qs-fpe-marco">
+    <div class="qs-fpe-barra" role="tablist">
+      <!-- Pestaña · duplicar, y agregar su hoja abajo con el mismo id -->
+      <button type="button" role="tab" aria-selected="true" aria-controls="qs-fpe-1" id="qs-fpe-t1">Descripción</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="qs-fpe-2" id="qs-fpe-t2">Medidas y materiales</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="qs-fpe-3" id="qs-fpe-t3">Envíos y cambios</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="qs-fpe-4" id="qs-fpe-t4">Cuidado</button>
+    </div>
+
+    <div class="qs-fpe-hoja" role="tabpanel" id="qs-fpe-1" aria-labelledby="qs-fpe-t1">
+      <h3>Mochila de lona encerada</h3>
+      <p>Lona de algodón encerada en frío, cosida en taller en Antigua. El encerado repele la lluvia sin sellar la tela: la mochila respira y no se pone pegajosa con el calor de la costa.</p>
+      <p>Cabe una laptop de 15 pulgadas con su cargador, una muda y un termo. Los tirantes van reforzados con cuero vegetal en los cuatro puntos de carga, que es donde primero se rompe una mochila.</p>
+      <ul>
+        <li>Bolsa acolchada para laptop, hasta 15"</li>
+        <li>Dos bolsas laterales para termo o sombrilla</li>
+        <li>Bolsa interior con cierre para pasaporte</li>
+      </ul>
+    </div>
+
+    <div class="qs-fpe-hoja" role="tabpanel" id="qs-fpe-2" aria-labelledby="qs-fpe-t2" hidden>
+      <table class="qs-fpe-tabla">
+        <tbody>
+          <!-- Fila · duplicar -->
+          <tr><th>Alto</th><td>46 cm</td></tr>
+          <tr><th>Ancho</th><td>30 cm</td></tr>
+          <tr><th>Fondo</th><td>14 cm</td></tr>
+          <tr><th>Capacidad</th><td>22 litros</td></tr>
+          <tr><th>Peso vacía</th><td>860 g</td></tr>
+          <tr><th>Tela</th><td>Lona de algodón 18 oz, encerada</td></tr>
+          <tr><th>Herrajes</th><td>Latón macizo</td></tr>
+          <tr><th>Hecho en</th><td>Antigua Guatemala</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="qs-fpe-hoja" role="tabpanel" id="qs-fpe-3" aria-labelledby="qs-fpe-t3" hidden>
+      <!-- Dato · duplicar -->
+      <div class="qs-fpe-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="1.5" y="5" width="10" height="8" rx="1.4" stroke="currentColor" stroke-width="1.5"/><path d="M11.5 7.5h3l2 2.5V13h-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="5" cy="14" r="1.4" stroke="currentColor" stroke-width="1.4"/><circle cx="13.5" cy="14" r="1.4" stroke="currentColor" stroke-width="1.4"/></svg>
+        <span><b>Envío</b>Zonas 1 a 25 de la capital: 24 horas, Q 25. Resto del país: 2 a 3 días hábiles, Q 45. Sin costo arriba de Q 2,000.</span>
+      </div>
+      <div class="qs-fpe-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9a6 6 0 1 1 1.8 4.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 5.5V9h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><b>Cambios</b>30 días con la etiqueta puesta. La recolección la pagamos nosotros si el cambio es por un defecto o por talla.</span>
+      </div>
+      <div class="qs-fpe-dato">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 1.8l5.5 2.2v3.6c0 3.1-2.2 5.6-5.5 6.4-3.3-.8-5.5-3.3-5.5-6.4V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span><b>Garantía</b>Un año en costuras y herrajes. El desgaste del encerado no entra: es lo que se espera de una lona con uso.</span>
+      </div>
+    </div>
+
+    <div class="qs-fpe-hoja" role="tabpanel" id="qs-fpe-4" aria-labelledby="qs-fpe-t4" hidden>
+      <h3>Cómo cuidarla</h3>
+      <p>Cepilla en seco. Si se ensucia, un trapo húmedo con agua fría y nada más: el jabón se lleva la cera y la tela deja de repeler el agua.</p>
+      <p>Cuando empiece a mojarse por dentro, vuelve a encerarla. Vendemos la barra de cera y el instructivo va en la caja; toma media hora y le da otros dos años.</p>
+      <p>No la metas a la lavadora ni a la secadora.</p>
+    </div>
+  </div>
+
+  <script>
+  /* Una sola hoja a la vista. Con las flechas también, que es como se navega
+     un grupo de pestañas con el teclado. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-ficha-pestanas");
+    var botones = [].slice.call(raiz.querySelectorAll('[role="tab"]'));
+    function muestra(i){
+      botones.forEach(function(b, k){
+        b.setAttribute("aria-selected", String(k === i));
+        b.tabIndex = k === i ? 0 : -1;
+        raiz.querySelector("#" + b.getAttribute("aria-controls")).hidden = (k !== i);
+      });
+    }
+    botones.forEach(function(b, i){
+      b.addEventListener("click", function(){ muestra(i); });
+      b.addEventListener("keydown", function(e){
+        var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if(!d) return;
+        e.preventDefault();
+        var j = (i + d + botones.length) % botones.length;
+        muestra(j); botones[j].focus();
+      });
+    });
+    muestra(0);
+  })();
+  </script>
+</section>

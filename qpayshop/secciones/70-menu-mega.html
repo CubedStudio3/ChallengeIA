@@ -1,0 +1,110 @@
+<!-- ============================================================
+     SECCIÓN · Menú desplegable grande
+     Todo el catálogo en un panel. Se abre al pasar el mouse y con
+     el teclado, porque un menú que solo abre con mouse deja gente
+     fuera. El panel de la demostración empieza abierto.
+     ============================================================ -->
+<div class="qs-menu-mega" data-qs-abierto="si">
+  <style>
+  .qs-menu-mega, .qs-menu-mega *{box-sizing:border-box}
+  .qs-menu-mega{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-barra:       #FFFFFF;   /* fondo de la barra             */
+    --qs-panel:       #FFFFFF;   /* fondo del panel               */
+    --qs-tinta:       #16151A;   /* color del texto               */
+    --qs-tinta-suave: #6C6A73;   /* enlaces del panel             */
+    --qs-acento:      #7A2E1E;   /* subrayado y destacados        */
+    --qs-lienzo:      #F3F1EC;   /* fondo de la pieza destacada   */
+    --qs-linea:       #E6E4DD;   /* líneas divisorias             */
+    --qs-alto:        360px;     /* alto de la demostración       */
+    /* ═════════════════════════════════════════════════════════ */
+
+    position:relative; min-height:var(--qs-alto); background:var(--qs-lienzo);
+    color:var(--qs-tinta); font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+  }
+  .qs-mm-barra{
+    display:flex; align-items:center; gap:28px; background:var(--qs-barra);
+    border-bottom:1px solid var(--qs-linea); padding:0 24px; position:relative; z-index:2;
+  }
+  .qs-mm-logo{font-size:16px; font-weight:800; letter-spacing:-.02em; padding:17px 0; text-decoration:none; color:inherit}
+  .qs-mm-nav{display:flex; gap:4px; list-style:none; margin:0; padding:0}
+  .qs-mm-nav > li > a{
+    display:block; padding:19px 13px; font-size:14px; font-weight:500;
+    color:var(--qs-tinta); text-decoration:none; position:relative;
+  }
+  .qs-mm-nav > li > a::after{
+    content:""; position:absolute; left:13px; right:13px; bottom:0; height:2px;
+    background:var(--qs-acento); transform:scaleX(0); transition:transform .18s;
+  }
+  .qs-mm-con:hover > a::after,
+  .qs-mm-con:focus-within > a::after,
+  .qs-menu-mega[data-qs-abierto="si"] .qs-mm-con > a::after{transform:scaleX(1)}
+  /* El panel se abre al pasar el mouse Y al llegar con el teclado. Solo con
+     :hover, quien navega con tabulador nunca lo ve. */
+  .qs-mm-panel{
+    position:absolute; left:0; right:0; top:100%; z-index:1;
+    background:var(--qs-panel); border-bottom:1px solid var(--qs-linea);
+    box-shadow:0 18px 30px -22px rgba(20,19,31,.5);
+    padding:26px 24px 30px; display:none;
+  }
+  .qs-mm-con:hover .qs-mm-panel,
+  .qs-mm-con:focus-within .qs-mm-panel,
+  .qs-menu-mega[data-qs-abierto="si"] .qs-mm-panel{display:block}
+  .qs-mm-reja{max-width:1160px; margin:0 auto; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)) 280px; gap:26px}
+  .qs-mm-col h3{font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-acento); margin:0 0 12px}
+  .qs-mm-col ul{list-style:none; margin:0; padding:0; display:grid; gap:9px}
+  .qs-mm-col a{font-size:13.5px; color:var(--qs-tinta-suave); text-decoration:none}
+  .qs-mm-col a:hover{color:var(--qs-tinta); text-decoration:underline}
+  .qs-mm-pieza{background:var(--qs-lienzo); border-radius:12px; overflow:hidden; text-decoration:none; color:inherit; display:block}
+  /* Reemplazar el <svg> por <img src="…" alt="…" style="width:100%;display:block"> */
+  .qs-mm-pieza svg{width:100%; display:block}
+  .qs-mm-pieza div{padding:13px 15px 15px}
+  .qs-mm-pieza b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px}
+  .qs-mm-pieza span{display:block; font-size:12.5px; color:var(--qs-tinta-suave)}
+  @media (max-width:1040px){
+    .qs-mm-reja{grid-template-columns:repeat(3, minmax(0,1fr))}
+    .qs-mm-pieza{display:none}
+  }
+  @media (max-width:720px){
+    .qs-mm-nav > li:nth-child(n+3){display:none}
+    .qs-mm-reja{grid-template-columns:repeat(2, minmax(0,1fr))}
+  }
+  </style>
+
+  <nav class="qs-mm-barra">
+    <a class="qs-mm-logo" href="#">Tienda</a>
+    <ul class="qs-mm-nav">
+      <li class="qs-mm-con">
+        <a href="#" aria-expanded="true">Catálogo</a>
+        <div class="qs-mm-panel">
+          <div class="qs-mm-reja">
+            <!-- Columna · duplicar -->
+            <div class="qs-mm-col">
+              <h3>Para la casa</h3>
+              <ul><li><a href="#">Cocina</a></li><li><a href="#">Baño</a></li><li><a href="#">Limpieza</a></li><li><a href="#">Organización</a></li></ul>
+            </div>
+            <div class="qs-mm-col">
+              <h3>Para el negocio</h3>
+              <ul><li><a href="#">Punto de venta</a></li><li><a href="#">Empaque</a></li><li><a href="#">Papelería</a></li><li><a href="#">Mayoreo</a></li></ul>
+            </div>
+            <div class="qs-mm-col">
+              <h3>Marcas</h3>
+              <ul><li><a href="#">Las 12 que manejamos</a></li><li><a href="#">Hecho en Guatemala</a></li><li><a href="#">Importado</a></li></ul>
+            </div>
+            <div class="qs-mm-col">
+              <h3>Rápido</h3>
+              <ul><li><a href="#">Novedades</a></li><li><a href="#">Ofertas</a></li><li><a href="#">Recoger hoy</a></li><li><a href="#">Últimas piezas</a></li></ul>
+            </div>
+            <a class="qs-mm-pieza" href="#">
+              <svg viewBox="0 0 280 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="280" height="150" fill="#E7E2D8"/><circle cx="140" cy="74" r="44" fill="#CFC8B9"/><rect x="88" y="120" width="104" height="10" rx="5" fill="#CFC8B9"/></svg>
+              <div><b>Lo nuevo de temporada</b><span>28 piezas que entraron esta semana</span></div>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li><a href="#">Ofertas</a></li>
+      <li><a href="#">Mayoreo</a></li>
+      <li><a href="#">Ayuda</a></li>
+    </ul>
+  </nav>
+</div>

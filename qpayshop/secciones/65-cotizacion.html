@@ -1,0 +1,140 @@
+<!-- ============================================================
+     SECCIÓN · Pedir cotización
+     Para venta por volumen: lo que el vendedor necesita saber
+     antes de contestar, y nada más. Cada línea se puede quitar.
+     ============================================================ -->
+<section class="qs-cotizacion">
+  <style>
+  .qs-cotizacion, .qs-cotizacion *{box-sizing:border-box}
+  .qs-cotizacion{
+    /* ═══ EDITA AQUÍ ═══════════════════════════════════════════ */
+    --qs-fondo:       #101820;   /* fondo de la sección           */
+    --qs-panel:       #FFFFFF;   /* fondo del formulario          */
+    --qs-tinta:       #F3F6F8;   /* texto sobre el fondo oscuro   */
+    --qs-tinta-panel: #121A21;   /* texto dentro del formulario   */
+    --qs-tinta-suave: #667887;   /* rótulos del formulario        */
+    --qs-acento:      #B84C16;   /* botón                         */
+    --qs-acento-txt:  #FFFFFF;   /* texto del botón               */
+    --qs-linea:       #DDE4E9;   /* bordes                        */
+    --qs-radio:       16px;      /* redondeo                      */
+    --qs-aire:        60px;      /* espacio arriba y abajo        */
+    /* ═════════════════════════════════════════════════════════ */
+
+    background:var(--qs-fondo); color:var(--qs-tinta);
+    font-family:'Inter',-apple-system,'Segoe UI',system-ui,sans-serif;
+    padding:var(--qs-aire) 24px;
+  }
+  .qs-cot-reja{max-width:1000px; margin:0 auto; display:grid; grid-template-columns:.8fr 1.2fr; gap:40px; align-items:start}
+  .qs-cotizacion h2{font-size:clamp(23px,3.2vw,33px); font-weight:800; letter-spacing:-.032em; line-height:1.12; margin:0 0 14px}
+  .qs-cot-bajada{margin:0 0 22px; font-size:14.5px; line-height:1.65; opacity:.82}
+  .qs-cot-puntos{list-style:none; margin:0; padding:0; display:grid; gap:11px}
+  .qs-cot-puntos li{display:flex; gap:10px; font-size:13.5px; line-height:1.5; opacity:.82}
+  .qs-cot-puntos svg{width:15px; height:15px; flex:none; margin-top:2px; color:var(--qs-acento)}
+  .qs-cot-forma{background:var(--qs-panel); color:var(--qs-tinta-panel); border-radius:var(--qs-radio); padding:26px}
+  .qs-cot-forma h3{font-size:15px; font-weight:700; margin:0 0 4px}
+  .qs-cot-forma > p{margin:0 0 20px; font-size:13px; color:var(--qs-tinta-suave)}
+  .qs-cot-rotulo{font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--qs-tinta-suave); margin:0 0 10px}
+  .qs-cot-linea{display:grid; grid-template-columns:1fr 112px 34px; gap:9px; margin-bottom:9px; align-items:center}
+  .qs-cot-linea input, .qs-cot-campo input, .qs-cot-campo textarea{
+    font:inherit; font-size:14px; color:var(--qs-tinta-panel); background:var(--qs-panel);
+    border:1px solid var(--qs-linea); border-radius:10px; padding:11px 13px; outline:0; width:100%;
+  }
+  .qs-cot-linea :focus, .qs-cot-campo :focus{border-color:var(--qs-acento)}
+  .qs-cot-quita{
+    font:inherit; cursor:pointer; background:none; border:1px solid var(--qs-linea);
+    border-radius:10px; width:34px; height:40px; color:var(--qs-tinta-suave);
+    display:grid; place-items:center;
+  }
+  .qs-cot-quita:hover{border-color:var(--qs-acento); color:var(--qs-acento)}
+  .qs-cot-quita svg{width:12px; height:12px}
+  .qs-cot-mas{
+    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer; background:none;
+    border:0; padding:0; color:var(--qs-acento); text-decoration:underline; margin-bottom:22px;
+  }
+  .qs-cot-campos{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px}
+  .qs-cot-campo{display:flex; flex-direction:column; gap:6px}
+  .qs-cot-campo.qs-cot-ancho{grid-column:1 / -1}
+  .qs-cot-campo label{font-size:12.5px; font-weight:600}
+  .qs-cot-campo textarea{resize:vertical; min-height:80px; line-height:1.5}
+  .qs-cot-cta{
+    font:inherit; font-size:14.5px; font-weight:700; cursor:pointer; width:100%;
+    background:var(--qs-acento); color:var(--qs-acento-txt); border:0;
+    border-radius:11px; padding:14px;
+  }
+  .qs-cot-nota{margin:12px 0 0; font-size:11.5px; color:var(--qs-tinta-suave); text-align:center}
+  @media (max-width:860px){
+    .qs-cotizacion{--qs-aire:46px}
+    .qs-cot-reja{grid-template-columns:1fr; gap:26px}
+  }
+  @media (max-width:480px){
+    .qs-cot-campos{grid-template-columns:1fr}
+    .qs-cot-linea{grid-template-columns:1fr 96px 34px}
+  }
+  </style>
+
+  <div class="qs-cot-reja">
+    <div>
+      <h2>Cotiza por volumen</h2>
+      <p class="qs-cot-bajada">A partir de 12 unidades el precio cambia. Dinos qué necesitas y te mandamos la cotización con existencia confirmada.</p>
+      <ul class="qs-cot-puntos">
+        <!-- Punto · duplicar -->
+        <li><svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 8l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Respuesta en un día hábil, con existencia verificada</li>
+        <li><svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 8l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Factura con NIT y crédito a 30 días para clientes recurrentes</li>
+        <li><svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 8l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Entrega en la capital sin costo desde Q 2,500</li>
+      </ul>
+    </div>
+
+    <form class="qs-cot-forma" onsubmit="return false">
+      <h3>Qué necesitas</h3>
+      <p>Agrega una línea por producto.</p>
+
+      <p class="qs-cot-rotulo">Productos</p>
+      <div id="qs-cot-lista">
+        <!-- Línea · la duplica el botón de abajo -->
+        <div class="qs-cot-linea">
+          <input type="text" aria-label="Producto" placeholder="Producto o código">
+          <input type="number" aria-label="Cantidad" placeholder="Cantidad" min="1">
+          <button class="qs-cot-quita" type="button" aria-label="Quitar esta línea"><svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        </div>
+      </div>
+      <button class="qs-cot-mas" type="button" id="qs-cot-mas">Agregar otra línea</button>
+
+      <div class="qs-cot-campos">
+        <div class="qs-cot-campo"><label for="qs-cot-emp">Empresa</label><input id="qs-cot-emp" type="text" autocomplete="organization"></div>
+        <div class="qs-cot-campo"><label for="qs-cot-nit">NIT</label><input id="qs-cot-nit" type="text" placeholder="1234567-8"></div>
+        <div class="qs-cot-campo"><label for="qs-cot-per">Quién pide</label><input id="qs-cot-per" type="text" autocomplete="name"></div>
+        <div class="qs-cot-campo"><label for="qs-cot-tel">Teléfono</label><input id="qs-cot-tel" type="tel" autocomplete="tel"></div>
+        <div class="qs-cot-campo qs-cot-ancho"><label for="qs-cot-obs">Algo que debamos saber</label><textarea id="qs-cot-obs" placeholder="Fecha en que lo necesitas, grabado, empaque…"></textarea></div>
+      </div>
+
+      <button class="qs-cot-cta" type="submit">Pedir la cotización</button>
+      <p class="qs-cot-nota">No es una compra. Te mandamos el precio y tú decides.</p>
+    </form>
+  </div>
+
+  <script>
+  /* Agregar y quitar líneas de verdad. La última no se puede quitar: un
+     formulario de cotización sin una sola línea no tiene qué preguntar. */
+  (function(){
+    var raiz  = document.currentScript.closest(".qs-cotizacion");
+    var lista = raiz.querySelector("#qs-cot-lista");
+    var molde = lista.firstElementChild.cloneNode(true);
+    function revisa(){
+      var filas = lista.children;
+      for (var i = 0; i < filas.length; i++)
+        filas[i].querySelector(".qs-cot-quita").disabled = (filas.length === 1);
+    }
+    raiz.querySelector("#qs-cot-mas").addEventListener("click", function(){
+      var nueva = molde.cloneNode(true);
+      nueva.querySelectorAll("input").forEach(function(i){ i.value = ""; });
+      lista.appendChild(nueva); revisa();
+      nueva.querySelector("input").focus();
+    });
+    lista.addEventListener("click", function(e){
+      var b = e.target.closest(".qs-cot-quita");
+      if (b && lista.children.length > 1) { b.parentElement.remove(); revisa(); }
+    });
+    revisa();
+  })();
+  </script>
+</section>
