@@ -176,7 +176,7 @@
       <section id="qp-ideabox" class="qp-card p-5 sm:p-6" hidden>
         <div class="mb-3.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span class="qp-pill" data-tono="azul">Tu idea</span>
-          <span class="text-[12px] text-[var(--tinta-tenue)]">escribila en español, sale en inglés</span>
+          <span class="text-[12px] text-[var(--tinta-tenue)]">escribila en español · es una instrucción, no se copia al prompt</span>
         </div>
         <textarea id="qp-idea" rows="4"
           class="qp-campo w-full resize-y leading-relaxed"
@@ -250,6 +250,10 @@
           class="max-h-[320px] overflow-y-auto rounded-[14px] border border-[var(--linea)] bg-[#f6f9fe] p-4 text-[12.5px] leading-[1.75] text-[var(--tinta)] [overflow-wrap:anywhere] whitespace-pre-wrap"></div>
 
         <button id="qp-copy" type="button" class="qp-cta mt-4">Copiar prompt</button>
+
+        <p id="qp-sinanalizar" class="m-0 mt-3 rounded-[12px] bg-[var(--t-azul)] px-3.5 py-2.5 text-[12px] leading-relaxed text-[var(--navy)]" hidden>
+          Este texto sale solo de las opciones de abajo. Tu idea y tus referencias todavía no están en él — dale a «Analizar y armar el prompt» para que las incorpore.
+        </p>
 
         <p id="qp-desfasado" class="m-0 mt-3 rounded-[12px] bg-[var(--t-celeste)] px-3.5 py-2.5 text-[12px] leading-relaxed text-[var(--navy)]" hidden>
           Cambiaste opciones después de analizar. El texto de abajo todavía es el anterior — volvé a analizar para que las incluya.
@@ -723,14 +727,17 @@
 
   /* El CUERPO descriptivo, sin reglas ni formato. Es lo que se le manda a
      Claude como base y lo que Claude devuelve reemplazado. */
-  function cuerpoBase(panelId, st, ex, idea) {
+  /* La idea escrita NO entra acá. Es una instrucción para el análisis, no
+     texto que se pegue al prompt: concatenar español crudo en un prompt en
+     inglés hace que el generador lo lea como descripción literal. Solo llega
+     a la imagen después de pasar por `analiza()`. */
+  function cuerpoBase(panelId, st, ex) {
     const v = function (gid) { return valor(panelId, st, gid); };
     const parts = [];
     parts.push(v('angulo') + ' ' + v('producto') + ' ' + v('superficie') + ' ' + v('escenario') + '.');
     if (v('contenido')) parts.push(v('contenido'));
     if (v('temporada')) parts.push(v('temporada') + '.');
     if (v('manos')) parts.push(v('manos') + '.');
-    if ((idea || '').trim()) parts.push(frase(idea));
     if ((ex || '').trim()) parts.push(frase(ex));
     parts.push(v('luz') + '.');
     parts.push(v('paleta') + '.');
@@ -742,16 +749,16 @@
   /* El prompt completo. Las reglas y la relación de aspecto se pegan SIEMPRE
      aquí, en código: aunque el cuerpo lo haya escrito Claude, las reglas no
      quedan a su criterio. */
-  function buildPrompt(panelId, st, ex, idea, aiBody) {
+  function buildPrompt(panelId, st, ex, aiBody) {
     const v = function (gid) { return valor(panelId, st, gid); };
-    const cuerpo = (aiBody && aiBody.trim()) ? frase(aiBody) : cuerpoBase(panelId, st, ex, idea);
+    const cuerpo = (aiBody && aiBody.trim()) ? frase(aiBody) : cuerpoBase(panelId, st, ex);
     return [cuerpo, reglasDe(st), v('formato') + '.'].join(' ').replace(/\s+/g, ' ').trim();
   }
 
   function promptActual() {
     const e = E();
     const usaIA = panel === 'personalizado' && e.aiBody && !e.verBase;
-    return buildPrompt(panel, e.state, e.extra, panel === 'personalizado' ? e.idea : '', usaIA ? e.aiBody : '');
+    return buildPrompt(panel, e.state, e.extra, usaIA ? e.aiBody : '');
   }
 
   /* -------- pintar las categorías del panel activo -------- */
@@ -1074,9 +1081,13 @@
                            .map(function (t) { return '- ' + t.en; }).join('\n');
     const bloques = [];
     bloques.push('You are a photography director writing prompts for an image generator. You work for Qpaypro, a payments platform for small businesses in Guatemala and El Salvador.');
-    bloques.push('BASE — already decided by the designer. Keep every concrete choice in it (product, surface, setting, camera angle, light, palette and the empty space reserved for copy). Do not contradict it:\n' + base);
+    bloques.push('THE SELECTIONS the designer made with the controls. This is the starting point for everything her idea does not mention:\n' + base);
     if ((idea || '').trim()) {
-      bloques.push('THE DESIGNER\'S IDEA, in Spanish. Honour its intent, translate it into the photograph:\n' + idea.trim());
+      bloques.push('HER IDEA, written in Spanish. This is an INSTRUCTION, not text to copy: read it, understand what she wants the photograph to say, and build the photograph from it. Never carry any of its Spanish words into your answer.\n\n' +
+        idea.trim() + '\n\n' +
+        'The idea OUTRANKS the selections. Where it contradicts one — she asks for night and the selection says window light, she asks for a phone and the selection says a terminal — follow the idea and drop the selection. Two things it may never change, because they are layout decisions and not description: the empty space reserved for copy, and what is shown inside the device screens.');
+    } else {
+      bloques.push('She wrote no idea this time: work from the selections and the references alone.');
     }
     if (cuantasImg) {
       bloques.push('VISUAL REFERENCES: ' + cuantasImg + ' image' + (cuantasImg === 1 ? '' : 's') +
@@ -1084,7 +1095,7 @@
         'Take ONLY these attributes from them:\n' + (atributos || '- the general feel') + '\n' +
         'Never reproduce a reference\'s subject, its exact framing or any recognisable photograph. Never name a photographer, a brand, a campaign or a named style.');
     }
-    bloques.push('WRITE: one single paragraph in ENGLISH describing the photograph to generate, considerably more detailed than the base, above all in:\n' +
+    bloques.push('WRITE: one single paragraph in ENGLISH — the idea, the selections and the references resolved into ONE photograph, considerably more detailed than the selections alone, above all in:\n' +
       '- materials and surface texture (grain, weave, brushed metal, wear, fingerprints, condensation)\n' +
       '- the quality and direction of the light and how it falls on each material\n' +
       '- depth of field, focal length, and what falls out of focus\n' +
@@ -1097,7 +1108,7 @@
       'It is a real photograph: never a 3D render, never CGI, never an illustration.');
     bloques.push('Reply with ONLY this JSON, nothing else:\n' +
       '{"prompt": "…the English paragraph…", "lectura": ["…", "…", "…"]}\n' +
-      'where "lectura" is 3 to 5 SHORT bullets IN SPANISH saying what you took from the references (or from the idea, if there are none).');
+      'where "lectura" is 3 to 5 SHORT bullets IN SPANISH saying what you took from her idea and from the references — and naming any selection you overrode because the idea asked for something else.');
     return bloques.join('\n\n');
   }
 
@@ -1142,7 +1153,7 @@
   async function analiza() {
     if (!sample) return;
     const e = E();
-    const base = cuerpoBase(panel, e.state, e.extra, '');
+    const base = cuerpoBase(panel, e.state, e.extra);
     const permiteTexto = e.state.contenido === 'real';
     /* Si hay referencias se mandan. Antes se descartaban cuando `limits()` no
        reportaba imagenes, y el analisis salia sin ellas sin avisar: peor que
@@ -1211,8 +1222,14 @@
     document.getElementById('qp-ver-base').hidden = !(esP && e.aiBody);
     document.getElementById('qp-ver-base').textContent = e.verBase ? 'Ver el prompt con IA' : 'Ver el prompt sin IA';
 
-    const desfasado = esP && e.aiBody && !e.verBase && e.aiBase !== cuerpoBase(panel, e.state, e.extra, '');
+    const desfasado = esP && e.aiBody && !e.verBase && e.aiBase !== cuerpoBase(panel, e.state, e.extra);
     document.getElementById('qp-desfasado').hidden = !desfasado;
+
+    /* Mientras no se haya analizado, el prompt visible sale SOLO de las
+       opciones. Decirlo evita que alguien lo copie creyendo que ya trae su
+       idea adentro. */
+    const pendiente = esP && !(e.aiBody && !e.verBase) && ((e.idea || '').trim() || refs.length);
+    document.getElementById('qp-sinanalizar').hidden = !pendiente;
 
     if (!esP) return;
 
@@ -1621,7 +1638,7 @@
     catch (e) { s = null; }
 
     if (!s) {
-      sinIA('La lectura con IA solo funciona en la versión publicada en claude.ai. Acá el panel sirve igual: tu idea se suma al prompt tal como la escribiste.');
+      sinIA('La lectura con IA solo funciona en la versión publicada en claude.ai. Acá el prompt se arma con las opciones de abajo; tu idea y tus referencias NO se incorporan, porque no hay quien las lea.');
       estadoReferencias('Podés subirlas y verlas acá, pero en esta versión no hay quien las analice. Para eso, abrí el link publicado.');
       document.getElementById('qp-ref-limite').textContent = 'hasta 4 imágenes';
       return;
